@@ -1,0 +1,63 @@
+body {
+    overflow-x: hidden;
+}
+
+/*#font*/
+.font-robot {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.font-100 {
+    font-weight: 100 !important;
+}
+
+.font-300 {
+    font-weight: 300 !important;
+}
+
+.font-400 {
+    font-weight: 400 !important;
+}
+
+.font-400 {
+    font-weight: 500 !important;
+}
+
+.font-700 {
+    font-weight: 700 !important;
+}
+
+.font-900 {
+    font-weight: 900 !important;
+}
+
+a {
+    font-family: 'Roboto', sans-serif;
+}
+
+.side-menu {
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.font-gry-500 > span {
+    color: #615f5f !important;
+}
+
+.nav_menu {
+    background: #fbfbfb;
+    border-bottom: 0px solid #D9DEE4;
+    height: 61px;
+}
+
+.main_menu_side {
+    padding-left: 10px;
+}
+
+.nav.side-menu > li.current-page, .nav.side-menu > li.active {
+    border-right: 5px solid #949494;
+}
+
+.nav-md .container.body .right_col {
+    padding-bottom: 10px;
+}
