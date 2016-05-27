@@ -61,3 +61,11 @@ a {
 .nav-md .container.body .right_col {
     padding-bottom: 10px;
 }
+
+.real-time-chart {
+    height: 180px !important;
+}
+
+.p-0{
+    padding: 0;
+}

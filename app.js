@@ -3,7 +3,8 @@
  */
 
 
-var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap', 'ui.router']);
+var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
+    'ui.router', "chart.js"]);
 
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider) {
