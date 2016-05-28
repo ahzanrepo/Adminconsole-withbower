@@ -4,11 +4,12 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
-    'ui.router', 'chart.js', 'ngecharts', 'angular-flot',
+    'ui.router', 'chart.js', 'angular-flot', 'angularMoment', 'ngecharts',
     'resourceServiceModule', 'authServiceModule']);
 
 mainApp.constant('resourceServiceBaseUrl', 'http://localhost:8831/DVP/API/6.0/ResourceManager/');
 mainApp.constant('ardsmonitoringBaseUrl', 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/');
+
 
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider) {
@@ -19,15 +20,12 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 url: "/console",
                 templateUrl: "views/main-home.html"
             }).state('console.dashboard', {
-                url: "/dashboard",
-                templateUrl: "views/dashboard/dashboard-1.html"
-            }).state('console.productivity', {
-                url: "/productivity",
-                templateUrl: "agent_productivity/view/agentProductivity.html"
-            }).state('login', {
-                url: "/login",
-                templateUrl: "views/login.html"
-            });
+            url: "/dashboard",
+            templateUrl: "views/dashboard/dashboard-1.html"
+        }).state('login', {
+            url: "/login",
+            templateUrl: "views/login.html"
+        });
     }]);
 
 //main console directive
