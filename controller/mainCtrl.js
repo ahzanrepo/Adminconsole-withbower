@@ -3,7 +3,8 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $state, $interval) {
+mainApp.controller('mainCtrl', function ($scope, $state, $interval,
+                                         dashboardService, moment) {
 
     $scope.clickDirective = {
         goDashboard: function () {
@@ -11,77 +12,153 @@ mainApp.controller('mainCtrl', function ($scope, $state, $interval) {
         }
     };
 
-    $scope.data = [];
-    $scope.dataset = [{
-        data: [], lines: {
-            fill: true
+    //#services call handler
+    $scope.total = {
+        calls: 0,
+        queued: 0,
+        queueAnswered: 0,
+        queueDropped: 0,
+        waiting: 0,
+        briged: 0
+    };
+    var ServerHandler = (function () {
+        $scope.data = [];
+        $scope.dataSetAll = [{
+            data: [], lines: {
+                fill: true
+            }
+        }];
+        $scope.dataSetQueued = [{
+            data: [], lines: {
+                fill: true
+            }
+        }];
+        $scope.dataSetBriged = [{
+            data: [], lines: {
+                fill: true
+            }
+        }];
+        $scope.dataSetChannels = [{
+            data: [], lines: {
+                fill: true
+            }
+        }];
+        return {
+            getDataAll: function () {
+                dashboardService.GetAll().then(function (response) {
+                    response.pop();
+                    $scope.dataSetAll[0].data = response.map(function (c, index) {
+                        var item = [];
+                        item[0] = c[1];
+                        item[1] = c[0];
+                        return item;
+                    });
+                });
+            }, getAllQueued: function () {
+                dashboardService.GetAllQueued().then(function (response) {
+                    response.pop();
+                    $scope.dataSetQueued[0].data = response.map(function (c, index) {
+                        var item = [];
+                        item[0] = c[1];
+                        item[1] = c[0];
+                        return item;
+                    });
+                });
+            }, getAllBriged: function () {
+                dashboardService.GetAllBriged().then(function (response) {
+                    response.pop();
+                    $scope.dataSetBriged[0].data = response.map(function (c, index) {
+                        var item = [];
+                        item[0] = c[1];
+                        item[1] = c[0];
+                        return item;
+                    });
+                });
+            }, getAllChannels: function () {
+                dashboardService.GetAllChannels().then(function (response) {
+                    response.pop();
+                    $scope.dataSetChannels[0].data = response.map(function (c, index) {
+                        var item = [];
+                        item[0] = c[1];
+                        item[1] = c[0];
+                        return item;
+                    });
+                });
+            },
+            getTotalCall: function () {
+                dashboardService.GetTotalCalls().then(function (response) {
+                    $scope.total.calls = response;
+                });
+            },
+            getTotalQueued: function () {
+                dashboardService.GetTotalQueued().then(function (response) {
+                    $scope.total.queued = response;
+                });
+            },
+            getTotalQueueAnswered: function () {
+                dashboardService.GetTotalQueueAnswered().then(function (response) {
+                    $scope.total.queueAnswered = response;
+                });
+            },
+            getCurrentWaiting: function () {
+                dashboardService.GetCurrentWaiting().then(function (response) {
+                    $scope.total.waiting = response;
+                });
+            },
+            getTotalQueueDropped: function () {
+                dashboardService.GetTotalQueueDropped().then(function (response) {
+                    $scope.total.queueDropped = response;
+                });
+            },
+            getTotalBriged: function () {
+                dashboardService.GetTotalBriged().then(function (response) {
+                    $scope.total.briged = response;
+                });
+            },
+            callAllServices: function () {
+                ServerHandler.getDataAll();
+                ServerHandler.getAllQueued();
+                ServerHandler.getAllBriged();
+                ServerHandler.getAllChannels();
+            },
+            getAllNumTotal: function () {
+                ServerHandler.getTotalCall();
+                ServerHandler.getTotalQueueAnswered();
+                ServerHandler.getTotalQueued();
+                ServerHandler.getCurrentWaiting();
+                ServerHandler.getTotalQueueDropped();
+                ServerHandler.getTotalBriged();
+            }
         }
-    }];
-    $scope.dataset2 = [{
-        data: [], lines: {
-            fill: false
-        }
-    }];
+    })();
+    ServerHandler.callAllServices();
+    ServerHandler.getAllNumTotal();
 
-
-    var i = 0;
-
-    function getRandomData() {
-        if ($scope.data.length) {
-            $scope.data = $scope.data.slice(1);
-        }
-        var max = 600;
-
-        while ($scope.data.length < max) {
-            var previous = $scope.data.length ? $scope.data[$scope.data.length - 1] : 50;
-            var y = previous + Math.random() * 10 - 5;
-            $scope.data.push(y < 0 ? 0 : y > 100 ? 100 : y);
-        }
-        var res = [];
-        for (i = 0; i < $scope.data.length; ++i) {
-            res.push([i, $scope.data[i]])
-        }
-        i++;
-        return res;
-    }
-
-    function getRandomData2() {
-        if ($scope.data.length) {
-            $scope.data = $scope.data.slice(1);
-        }
-        var max = 5;
-        while ($scope.data.length < max) {
-            var previous = $scope.data.length ? $scope.data[$scope.data.length - 1] : 50;
-            var y = previous + Math.random() * 10 - 5;
-            $scope.data.push(y < 0 ? 0 : y > 100 ? 100 : y);
-        }
-        var res = [];
-        for (i = 0; i < $scope.data.length; ++i) {
-            res.push([i, $scope.data[i]])
-        }
-        i++;
-        return res;
-    }
-
+    //loop request
     var t = $interval(function updateRandom() {
-        $scope.dataset[0].data = getRandomData();
-    }, 100);
+        ServerHandler.callAllServices();
+    }, 1000);
+    var tt = $interval(function updateRandom() {
+        ServerHandler.getAllNumTotal();
+    }, 60000);
 
-    var t = $interval(function updateRandom() {
-        $scope.dataset2[0].data = getRandomData2();
-    }, 500);
 
     $scope.myChartOptions = {
         grid: {borderColor: '#fff'},
-        series: {shadowSize: 0, color: "#f18f53"},
+        series: {shadowSize: 0, color: "#db4114"},
         color: {color: '#5566ff'},
         legend: {
             container: '#legend',
             show: true
         },
         yaxis: {
-            min: 10,
-            max: 110
+            min: 0,
+            max: 10
+        },
+        xaxis: {
+            tickFormatter: function (val, axis) {
+                return moment.unix(val).minute() + ":" + moment.unix(val).second();
+            }
         }
     };
 
@@ -94,40 +171,50 @@ mainApp.controller('mainCtrl', function ($scope, $state, $interval) {
             show: true
         },
         yaxis: {
-            min: 10,
-            max: 110
+            min: 0,
+            max: 10
+        }, xaxis: {
+            tickFormatter: function (val, axis) {
+                return moment.unix(val).minute() + ":" + moment.unix(val).second();
+            }
         }
+
     };
 
     $scope.myChartOptions3 = {
         grid: {borderColor: '#fff'},
-        series: {shadowSize: 0, color: "#dca557"},
+        series: {shadowSize: 0, color: "#114858"},
         color: {color: '#63a5a2'},
         legend: {
             container: '#legend',
             show: true
         },
         yaxis: {
-            min: 10,
-            max: 110
-        },
-        xaxis: 500
+            min: 0,
+            max: 10
+        }, xaxis: {
+            tickFormatter: function (val, axis) {
+                return moment.unix(val).minute() + ":" + moment.unix(val).second();
+            }
+        }
     };
     $scope.myChartOptions4 = {
         grid: {borderColor: '#fff'},
-        series: {shadowSize: 0, color: "#9B59B6"},
+        series: {shadowSize: 0, color: "#f8b01d"},
         color: {color: '#63a5a2'},
         legend: {
             container: '#legend',
             show: true
         },
         yaxis: {
-            min: 10,
-            max: 110
+            min: 0,
+            max: 20
+        }, xaxis: {
+            tickFormatter: function (val, axis) {
+                return moment.unix(val).minute() + ":" + moment.unix(val).second();
+            }
         }
     };
-
     //chart js
-
 });
 
