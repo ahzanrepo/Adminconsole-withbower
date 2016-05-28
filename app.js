@@ -4,7 +4,7 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
-    'ui.router', "chart.js"]);
+    'ui.router', 'chart.js', 'angular-flot']);
 
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider) {
@@ -13,13 +13,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         $stateProvider
             .state("console", {
                 url: "/console",
-                templateUrl: "views/main-home.html",
+                templateUrl: "views/main-home.html"
             }).state('console.dashboard', {
             url: "/dashboard",
-            templateUrl: "views/test-app/test.html",
+            templateUrl: "views/dashboard/dashboard-1.html"
         }).state('login', {
             url: "/login",
-            templateUrl: "views/login.html",
+            templateUrl: "views/login.html"
         });
     }]);
 

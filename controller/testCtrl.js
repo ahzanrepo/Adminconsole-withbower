@@ -4,7 +4,7 @@
 
 'use strict';
 
-mainApp.controller('testCtrl', function ($scope,$interval) {
+mainApp.controller('testCtrl', function ($scope, $interval) {
 
     // Update the dataset at 25FPS for a smoothly-animating chart
     var maximum = 500;
@@ -33,6 +33,7 @@ mainApp.controller('testCtrl', function ($scope,$interval) {
         while ($scope.data[0].length < maximum) {
             $scope.labels.push('');
             $scope.data[0].push(getRandomValue($scope.data[0]));
+            console.log(getRandomValue($scope.data[0]));
         }
     }
 
