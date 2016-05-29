@@ -9,30 +9,35 @@
                 <div class="x_content">
                     <div class="row">
                         <div class="animated flipInY col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                            <div class="tile-stats text-center">
+                            <div class="tile-stats text-center bg-green100">
                                 <div class="count">179</div>
-                                <h3>New Sign ups</h3>
+                                <h3 class="font-robot font-700 font-yellow800">New Sign ups</h3>
+                                <p class="font-robot font-200">total answer call</p>
                             </div>
                         </div>
                         <div class="animated flipInY col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                            <div class="tile-stats text-center">
+                            <div class="tile-stats text-center bg-blue700">
                                 <div class="count">179</div>
-                                <h3>New Sign ups</h3>
+                                <h3 class="font-robot font-700 font-orange800">New Sign ups</h3>
+                                <p class="font-robot font-200">total answer call</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class=" col-xs-12 queued-pie-chart">
+                <div class=" col-xs-12">
                     <div class="row">
-                        <div easypiechart options="options" percent="percent"></div>
+                        <div class="queued-pie-chart">
+                            <div id="pie-text">50%</div>
+                            <div easypiechart options="options" percent="percent"></div>
+                        </div>
                     </div>
 
 
                     <div class="col-xs-12">
                         <div class="row">
                             <!--<div class="col-md-6">-->
-                            <div class="demo-container m-top15" style="height:150px">
+                            <div class="demo-container m-top20" style="height:150px">
                                 <flot id="engilshQueued" dataset="dataSetQueued"
                                       options="optionEnglishQue"></flot>
                             </div>
@@ -41,18 +46,18 @@
                     </div>
 
                     <div class="col-xs-12">
-                        <ul class="list-inline">
+                        <ul class="list-inline queued-footer-list m-top20 text-center m-bottom20">
                             <li>
-                                <h3>123</h3>
-                                <span>Articles</span>
+                                <h3 class="font-robot font-700 font-green-light500 ">123</h3>
+                                <span class="font-robot font-700">Total Call</span>
                             </li>
                             <li>
-                                <h3>1234</h3>
-                                <span>Followers</span>
+                                <h3 class="font-robot font-700 font-blue500 ">123</h3>
+                                <span class="font-robot font-700">Max Waiting</span>
                             </li>
                             <li>
-                                <h3>123</h3>
-                                <span>Following</span>
+                                <h3 class="font-robot font-700 font-yellow900">123</h3>
+                                <span class="font-robot font-700">Average</span>
                             </li>
                         </ul>
                     </div>

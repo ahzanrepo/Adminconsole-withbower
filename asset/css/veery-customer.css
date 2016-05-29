@@ -147,6 +147,10 @@ a {
     color: #f2b146 !important;
 }
 
+.font-yellow900 {
+    color: #f8b01d !important;
+}
+
 .font-orange800 {
     color: #db4114 !important;
 }
@@ -157,6 +161,10 @@ a {
 
 .font-blue500 {
     color: #365267 !important;
+}
+
+.font-green-light500 {
+    color: #2ba89c !important;
 }
 
 /*#padding*/
@@ -171,6 +179,10 @@ a {
 /*#margin */
 .m-top15 {
     margin-top: 15px;
+}
+
+.m-top20 {
+    margin-top: 20px;
 }
 
 .m-bottom20 {
@@ -277,11 +289,24 @@ a {
 /*realtime queued */
 .queued-pie-chart {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 45px;
     margin-bottom: 30px;
+    overflow: hidden;
+    position: relative;
 }
-.list-inline>li {
-    display: inline-block;
+
+#pie-text {
+    position: absolute;
+    font-family: 'Roboto', sans-serif;
+    font-size: 35px;
+    font-weight: 200;
+    text-align: center;
+    margin: 70px auto;
+    width: 100%;
+
+}
+
+.queued-footer-list > li {
     padding-right: 50px;
     padding-left: 5px;
 }
