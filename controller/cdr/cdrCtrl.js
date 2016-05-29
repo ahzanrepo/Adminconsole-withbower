@@ -9,6 +9,8 @@
     {
         $scope.cdrList = [];
 
+        $scope.searchCriteria = "";
+
         $scope.recLimit = "10";
 
         $scope.startDate = new Date();
