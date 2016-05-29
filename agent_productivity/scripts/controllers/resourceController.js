@@ -36,20 +36,26 @@ app.controller("resourceController", function ($scope, $filter, $location, $log,
 
     $scope.Productivitys = [];
     var calculateProductivity = function () {
-        angular.forEach($scope.OnlineAgents, function (agent) {
-
-            var ids = $filter('filter')($scope.productivity, {ResourceId: agent.Obj.ResourceId});//"ResourceId":"1"
-
-            var agentProductivity = {
-                "data": [ids[0].AcwTime,ids[0].BreakTime,ids[0].OnCallTime,ids[0].IdleTime],
-                "ResourceId": agent.Obj.ResourceId,
-                "ResourceName": agent.Obj.ResourceName,
-                "IncomingCallCount":ids[0].IncomingCallCount,
-                "MissCallCount":ids[0].MissCallCount
-            };
-            $scope.Productivitys.push(agentProductivity);
-
-        });
+        if ($scope.OnlineAgents) {
+            angular.forEach($scope.OnlineAgents, function (agent) {
+                try {
+                    if (agent) {
+                        var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
+//<span>{{isLarge ? 'video.large' : 'video.small'}}</span>
+                        var agentProductivity = {
+                            "data": [ids[0].AcwTime?ids[0].AcwTime:0, ids[0].BreakTime?ids[0].BreakTime:0, ids[0].OnCallTime?ids[0].OnCallTime:0, ids[0].IdleTime?ids[0].IdleTime:0],
+                            "ResourceId": agent.ResourceId,
+                            "ResourceName": agent.ResourceName,
+                            "IncomingCallCount": ids[0].IncomingCallCount?ids[0].IncomingCallCount:0,
+                            "MissCallCount": ids[0].MissCallCount?ids[0].MissCallCount:0
+                        };
+                        $scope.Productivitys.push(agentProductivity);
+                    }
+                } catch (ex) {
+                    console.log(ex);
+                }
+            });
+        }
     };
 
     $scope.labels = ["After work", "Break", "On Call", "Idle"];
