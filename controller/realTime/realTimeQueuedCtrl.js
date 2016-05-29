@@ -92,8 +92,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $interval
         }
     };
 
-});
-mainApp.directive('queued', function (queueMonitorService, $interval) {
+}).directive('queued', function (queueMonitorService, $interval) {
     return {
 
         restrict: 'EA',
