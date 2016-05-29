@@ -22,7 +22,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             }).state('console.dashboard', {
             url: "/dashboard",
             templateUrl: "views/dashboard/dashboard-1.html"
-        }).state('login', {
+        }).state('console.productivity', {
+                url: "/productivity",
+                templateUrl: "agent_productivity/view/agentProductivity.html"
+            }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
         }).state('console.callmonitor', {
