@@ -186,6 +186,12 @@ a {
     padding-right: 15px;
 
 }
+.veery-tbl-clmn-hdr > th.selectedTpcs
+{
+    text-align: justify;
+
+
+}
 
 .veery-tbl-body > td.lstCol {
     text-align: right;
@@ -249,6 +255,12 @@ a {
 .reserved > .media-body > p > small {
     font-family: 'Roboto', sans-serif;
     font-weight: bold !important;
+}
+.veery-tbl-body > td.valAlgn
+{
+    text-align: justify;
+
+
 }
 
 
