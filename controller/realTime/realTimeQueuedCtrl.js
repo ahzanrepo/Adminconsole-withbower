@@ -14,10 +14,12 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, queueMonitorService) 
         queueMonitorService.GetAllQueueStats().then(function (response) {
 
             $scope.queues = response.map(function (c, index) {
-                var item = c;
+                var item = c.QueueInfo;
+
+                item.id = c.QueueId;
 
                 if(c.TotalQueued > 0) {
-                    item.presentage = Math.round(c.TotalAnswered / c.TotalQueued) * 100;
+                    item.presentage = Math.round(c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100;
                 }
 
                 return item;
