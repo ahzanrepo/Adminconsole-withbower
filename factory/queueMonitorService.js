@@ -13,7 +13,7 @@ mainApp.factory("queueMonitorService", function ($http) {
         //dashboard.104.131.67.21.xip.io
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/Calls/5",
+            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/ConcurrentQueued/"+queue+"/5",
             headers: {
                 'authorization': authToken
             }
@@ -31,16 +31,16 @@ mainApp.factory("queueMonitorService", function ($http) {
         //dashboard.104.131.67.21.xip.io
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/ConcurrentQueued/"+queue+"/5",
+            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/QueueDetails",
             headers: {
                 'authorization': authToken
             }
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data ) {
+                return response.data;
             } else {
 
-                return {};
+                return [];
             }
         });
 
