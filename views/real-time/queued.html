@@ -1,11 +1,7 @@
 <div ng-controller="realTimeQueuedCtrl">
     <div class="row">
         <div ng-repeat="que in queues">
-            <queued name="{{que.id}}" ></queued>
+            <queued name="{{que.id}}" queueoption="queueoption" pieoption="pieoption"></queued>
         </div>
-
     </div>
 </div>
-
-
-
