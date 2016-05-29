@@ -4,7 +4,7 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
-    'ui.router', 'chart.js', 'angular-flot', 'angularMoment', 'ngecharts',
+    'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceServiceModule', 'authServiceModule']);
 
 mainApp.constant('resourceServiceBaseUrl', 'http://localhost:8831/DVP/API/6.0/ResourceManager/');
