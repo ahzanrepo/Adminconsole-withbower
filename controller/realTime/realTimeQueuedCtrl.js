@@ -2,24 +2,19 @@
  * Created by Damith on 5/29/2016.
  */
 
-mainApp.controller('realTimeQueuedCtrl', function ($scope, queueMonitorService) {
+mainApp.controller('realTimeQueuedCtrl', function ($scope,$interval, queueMonitorService) {
 
     //$scope.percent = 65;
 
     $scope.queues = [];
 
     $scope.GetAllQueueStatistics = function() {
-
-
         queueMonitorService.GetAllQueueStats().then(function (response) {
-
             $scope.queues = response.map(function (c, index) {
                 var item = c;
-
                 if(c.TotalQueued > 0) {
                     item.presentage = Math.round(c.TotalAnswered / c.TotalQueued) * 100;
                 }
-
                 return item;
             });
         });
@@ -50,7 +45,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, queueMonitorService) 
 
 
 
-
+    $scope.GetAllQueueStatistics();
     $interval(function updateRandom() {
         $scope.GetAllQueueStatistics();
     }, 30000);
