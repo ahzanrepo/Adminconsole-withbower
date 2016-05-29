@@ -178,11 +178,23 @@ a {
     padding-right: 15px;
 
 }
+.veery-tbl-clmn-hdr > th.selectedTpcs
+{
+    text-align: justify;
+
+
+}
 
 .veery-tbl-body > td.lstCol
 {
     text-align: right;
     padding-right: 15px;
+
+}
+.veery-tbl-body > td.valAlgn
+{
+    text-align: justify;
+
 
 }
 

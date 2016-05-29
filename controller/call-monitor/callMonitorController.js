@@ -84,6 +84,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
         var FromID="";
         var ToID="";
         var Direction ="";
+        var Receiver ="";
         var Bridged=false;
         var newKeyObj={};
 
@@ -102,6 +103,11 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
                 bargeID=objKey[j]['Caller-Unique-ID'];
 
             }
+            else if(objKey[j]['Call-Direction']=="outbound")
+            {
+                Receiver=objKey[j]['Caller-Destination-Number'];
+            }
+
             if(objKey[j]['Bridge-State']=="Bridged")
             {
                 Bridged=true;
@@ -115,6 +121,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
                     newKeyObj.ToID=ToID;
                     newKeyObj.BargeID=bargeID;
                     newKeyObj.Direction=Direction;
+                    newKeyObj.Receiver=Receiver;
 
                     return newKeyObj;
                 }
