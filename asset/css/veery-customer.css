@@ -172,5 +172,18 @@ a {
 .small-chat-header {
 
 }
+.veery-tbl-clmn-hdr > th.lstCol
+{
+    text-align: right;
+    padding-right: 15px;
+
+}
+
+.veery-tbl-body > td.lstCol
+{
+    text-align: right;
+    padding-right: 15px;
+
+}
 
 
