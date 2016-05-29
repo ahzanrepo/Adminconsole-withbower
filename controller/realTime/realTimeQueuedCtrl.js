@@ -99,7 +99,8 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $interval
 
 
 
-}).directive('queued', function (queueMonitorService, $interval) {
+});
+mainApp.directive('queued', function (queueMonitorService, $interval) {
     return {
 
         restrict: 'EA',
