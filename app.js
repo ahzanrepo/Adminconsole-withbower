@@ -6,11 +6,14 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceServiceModule', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart','mgcrea.ngStrap','angular.filter']);
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload", "download"]);
+
+// "fileServiceModule","angularFileUpload","download"
 
 mainApp.constant('resourceServiceBaseUrl', 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/');
 mainApp.constant('ardsmonitoringBaseUrl', 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/');
-
+mainApp.constant('fileServiceUrl', 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/');
+mainApp.constant('fileServiceInternalUrl', 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/');
 
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider) {
@@ -23,9 +26,17 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/dashboard",
             templateUrl: "views/dashboard/dashboard-1.html"
         }).state('console.productivity', {
-                url: "/productivity",
-                templateUrl: "agent_productivity/view/agentProductivity.html"
-            }).state('login', {
+            url: "/productivity",
+            templateUrl: "agent_productivity/view/agentProductivity.html"
+        }).state('console.filegallery', {
+            url: "/filegallery",
+            templateUrl: "file_gallery/view/fileList.html",
+            controller: "FileListController"
+        }).state('console.fileupload', {
+            url: "/fileupload",
+            templateUrl: "file_gallery/view/fileAdd.html",
+            controller: "FileEditController"
+        }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
         }).state("console.cdr", {

@@ -38,6 +38,9 @@
     "angular-pnotify": "^0.0.6",
     "jquery.easy-pie-chart": "^2.1.6",
     "angular-strap": "^2.3.8",
-    "angular-filter": "^0.5.8"
+    "angular-filter": "^0.5.8",
+    "angular-download": "~0.0.2",
+    "angular-file-upload": "~2.2.0",
+    "angular-file-saver": "^1.1.1"
   }
 }

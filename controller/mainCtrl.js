@@ -12,6 +12,12 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         goProductivity: function () {
             $state.go('console.productivity');
         },
+        goFilegallery: function () {
+            $state.go('console.filegallery');
+        },
+        goFileupload: function () {
+            $state.go('console.fileupload');
+        },
         goRealTimeQueued: function () {
             $state.go('console.productivity');
         }
