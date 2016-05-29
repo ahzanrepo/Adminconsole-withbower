@@ -1,0 +1,68 @@
+<div ng-controller="realTimeQueuedCtrl">
+    <div class="row">
+        <div class="col-md-4 col-xs-12 ">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Queued - English</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="animated flipInY col-lg-6 col-lg-6 col-sm-6 col-xs-12">
+                            <div class="tile-stats text-center">
+                                <div class="count">179</div>
+                                <h3>New Sign ups</h3>
+                            </div>
+                        </div>
+                        <div class="animated flipInY col-lg-6 col-lg-6 col-sm-6 col-xs-12">
+                            <div class="tile-stats text-center">
+                                <div class="count">179</div>
+                                <h3>New Sign ups</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" col-xs-12 queued-pie-chart">
+                    <div class="row">
+                        <div easypiechart options="options" percent="percent"></div>
+                    </div>
+
+
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <!--<div class="col-md-6">-->
+                            <div class="demo-container m-top15" style="height:150px">
+                                <flot id="engilshQueued" dataset="dataSetQueued"
+                                      options="optionEnglishQue"></flot>
+                            </div>
+                            <!--</div>-->
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <ul class="list-inline">
+                            <li>
+                                <h3>123</h3>
+                                <span>Articles</span>
+                            </li>
+                            <li>
+                                <h3>1234</h3>
+                                <span>Followers</span>
+                            </li>
+                            <li>
+                                <h3>123</h3>
+                                <span>Following</span>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>

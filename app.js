@@ -5,9 +5,10 @@
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
-    'resourceServiceModule', 'authServiceModule','jlareau.pnotify']);
+    'resourceServiceModule', 'authServiceModule', 'jlareau.pnotify',
+    'easypiechart','mgcrea.ngStrap','angular.filter']);
 
-mainApp.constant('resourceServiceBaseUrl', 'http://localhost:8831/DVP/API/6.0/ResourceManager/');
+mainApp.constant('resourceServiceBaseUrl', 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/');
 mainApp.constant('ardsmonitoringBaseUrl', 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/');
 
 
@@ -15,11 +16,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise('/login');
-        $stateProvider
-            .state("console", {
-                url: "/console",
-                templateUrl: "views/main-home.html"
-            }).state('console.dashboard', {
+        $stateProvider.state("console", {
+            url: "/console",
+            templateUrl: "views/main-home.html"
+        }).state('console.dashboard', {
             url: "/dashboard",
             templateUrl: "views/dashboard/dashboard-1.html"
         }).state('console.productivity', {
@@ -28,11 +28,17 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
+        }).state("console.cdr", {
+            url: "/cdr",
+            templateUrl: "views/cdr/call-cdr.html"
         }).state('console.callmonitor', {
-                url: "/call-monitor",
-                templateUrl: "views/call-monitor/callMonitor.html",
-                controller: "callmonitorcntrl"
-            });;
+            url: "/call-monitor",
+            templateUrl: "views/call-monitor/callMonitor.html",
+            controller: "callmonitorcntrl"
+        }).state('console.realtime-queued', {
+            url: "/realtime-queued",
+            templateUrl: "views/real-time/queued.html"
+        });
     }]);
 
 //main console directive
