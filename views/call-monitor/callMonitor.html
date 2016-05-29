@@ -1,0 +1,139 @@
+<div class="row" >
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Call Monitor<small>ongoing call viewer</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+
+                    <li> <button class="btn btn-round btn-default" ng-click="LoadCurrentCalls()"> <span class="fa fa-refresh" aria-hidden="true"></span></button></li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+
+
+
+                <div class="">
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                        <tr class="headings veery-tbl-clmn-hdr">
+                            <th class="column-title" >Direction </th>
+                            <th class="column-title selectedTpcs">From </th>
+                            <th class="column-title selectedTpcs">To </th>
+                            <th class="column-title selectedTpcs">Receiver </th>
+                            <th class="column-title lstCol">Actions </th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr class="even pointer veery-tbl-body" ng-repeat="call in CallObj" >
+
+                            <td class="valAlgn">{{call.Direction}}</td>
+                            <td class="valAlgn">{{call.FromID}} </td>
+                            <td class="valAlgn">{{call.ToID}} </td>
+                            <td class="valAlgn">{{call.Receiver}} </td>
+
+                            <td class="lstCol">
+                                <button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
+                            </td>
+
+
+
+                        </tr>
+
+
+                        <!--<tr class="odd pointer">
+                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
+                            <td class=" ">0776589080 </td>
+                            <td class=" ">user1 </td>
+                            <td class=" ">
+                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
+                            </td>
+                        </tr>
+                        <tr class="even pointer">
+                            <td class="  "> <i class="fa fa-arrow-up"></i></td>
+                            <td class=" ">0776589080 </td>
+                            <td class=" ">user1 </td>
+                            <td class=" ">
+                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
+                            </td>
+                        </tr>
+                        <tr class="odd pointer">
+                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
+                            <td class=" ">0776589080 </td>
+                            <td class=" ">user1 </td>
+                            <td class=" ">
+                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
+                            </td>
+                        </tr>
+                        <tr class="even pointer">
+                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
+                            <td class=" ">0776589080 </td>
+                            <td class=" ">user1 </td>
+                            <td class=" ">
+                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
+                            </td>
+                        </tr>
+                        <tr class="odd pointer">
+                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
+                            <td class=" ">0776589080 </td>
+                            <td class=" ">user1 </td>
+                            <td class=" ">
+                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
+                            </td>
+                        </tr>
+                        <tr class="even pointer">
+                            <td class="  "> <i class="fa fa-arrow-up"></i></td>
+                            <td class=" ">0776589080 </td>
+                            <td class=" ">user1 </td>
+                            <td class=" ">
+                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
+                            </td>
+                        </tr>
+                        <tr class="odd pointer">
+                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
+                            <td class=" ">0776589080 </td>
+                            <td class=" ">user1 </td>
+                            <td class=" "> </td>
+                            <td class=" ">
+                                <button type="submit" class="btn btn-primary"> Listen</button>
+                                <button type="submit" class="btn btn-primary"> Barge</button>
+                            </td>
+                        </tr>
+
+                        <tr class="even pointer">
+                            <td class="  "> <i class="fa fa-arrow-up "></i></td>
+                            <td class=" ">0776589080 </td>
+                            <td class=" ">user1 </td>
+                            <td class=" ">
+                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
+                            </td>
+                        </tr>
+                        <tr class="odd pointer">
+                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
+                            <td class=" ">0776589080 </td>
+                            <td class=" ">user1 </td>
+                            <td class=" ">
+                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
+                            </td>
+                        </tr>-->
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

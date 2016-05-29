@@ -174,15 +174,12 @@ mainApp.factory("dashboardService", function ($http) {
     };
 
     var getTotalBriged = function () {
-
-
         return $http({
             method: 'GET',
             url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/TotalCount/BRIDGE/*/*",
             headers: {
                 'authorization': authToken
             }
-
         }).then(function (response) {
             if (response.data) {
 
@@ -199,6 +196,47 @@ mainApp.factory("dashboardService", function ($http) {
 
 
     };
+
+    var getTotalOnGoing = function () {
+        return $http({
+            method: 'GET',
+            url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Calls/Count",
+            headers: {
+                'authorization': authToken
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess && response.data.Result
+                && response.data.Result.length > 0) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+
+        });
+
+
+    };
+
+    var getProfileDetails = function () {
+        return $http({
+            method: 'GET',
+            url: "http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/MONITORING/resources",
+            headers: {
+                'authorization': authToken
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+
+        });
+
+
+    };
+
+
     return {
         GetAll: getAllCalls,
         GetAllQueued: getAllQueued,
@@ -209,7 +247,9 @@ mainApp.factory("dashboardService", function ($http) {
         GetTotalQueueAnswered: getTotalQueueAnswered,
         GetTotalQueueDropped: getTotalQueueDropped,
         GetCurrentWaiting: getCurrentWaiting,
-        GetTotalBriged: getTotalBriged
+        GetTotalBriged: getTotalBriged,
+        GetTotalOnGoing: getTotalOnGoing,
+        GetProfileDetails: getProfileDetails
 
     }
 });
