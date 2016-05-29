@@ -5,7 +5,7 @@
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
-    'resourceServiceModule', 'authServiceModule']);
+    'resourceServiceModule', 'authServiceModule','jlareau.pnotify']);
 
 mainApp.constant('resourceServiceBaseUrl', 'http://localhost:8831/DVP/API/6.0/ResourceManager/');
 mainApp.constant('ardsmonitoringBaseUrl', 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/');
@@ -25,7 +25,11 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
-        });
+        }).state('console.callmonitor', {
+                url: "/call-monitor",
+                templateUrl: "views/call-monitor/callMonitor.html",
+                controller: "callmonitorcntrl"
+            });;
     }]);
 
 //main console directive
