@@ -62,12 +62,13 @@ app.controller("resourceController", function ($scope, $filter, $location, $log,
                         };
 
                         $scope.Productivitys.push(agentProductivity);
-                        $scope.echartDonutSetOption(agentProductivity);
                     }
                 } catch (ex) {
                     console.log(ex);
                 }
             });
+
+            $scope.echartDonutSetOption();
         }
     };
 
@@ -302,72 +303,76 @@ app.controller("resourceController", function ($scope, $filter, $location, $log,
     //-----------------------------------------------
 
     var myObject = {}
-    $scope.echartDonutSetOption = function (productivity) {
-        var t = document.getElementById(productivity.ResourceId);
-        myObject[productivity.Chatid]  = echarts.init(document.getElementById(productivity.ResourceId), theme);
-        myObject[productivity.Chatid].setOption({
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
-            },
-            calculable: true,
-            legend: {
-                x: 'center',
-                y: 'bottom',
-                data: ['After work', 'Break', 'On Call', 'Idle']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    magicType: {
-                        show: true,
-                        type: ['pie', 'funnel'],
-                        option: {
-                            funnel: {
-                                x: '25%',
-                                width: '50%',
-                                funnelAlign: 'center',
-                                max: 1548
-                            }
-                        }
-                    },
-                    restore: {
-                        show: true,
-                        title: "Restore"
-                    },
-                    saveAsImage: {
-                        show: true,
-                        title: "Save Image"
-                    }
-                }
-            },
-            series: [{
-                name: 'Productivity',
-                type: 'pie',
-                radius: ['35%', '55%'],
-                itemStyle: {
-                    normal: {
-                        label: {
-                            show: true
-                        },
-                        labelLine: {
-                            show: true
-                        }
-                    },
-                    emphasis: {
-                        label: {
+    $scope.echartDonutSetOption = function () {
+        angular.forEach($scope.Productivitys, function (productivity) {
+            myObject[productivity.Chatid]  = echarts.init(document.getElementById(productivity.ResourceId), theme);
+            myObject[productivity.Chatid].setOption({
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                calculable: true,
+                legend: {
+                    x: 'center',
+                    y: 'bottom',
+                    data: ['After work', 'Break', 'On Call', 'Idle']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        magicType: {
                             show: true,
-                            position: 'center',
-                            textStyle: {
-                                fontSize: '14',
-                                fontWeight: 'normal'
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    x: '10%',
+                                    width: '50%',
+                                    funnelAlign: 'center',
+                                    max: 1548
+                                }
                             }
+                        },
+                        restore: {
+                            show: false,
+                            title: "Restore"
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: "Save As Image"
                         }
                     }
                 },
-                data: productivity.data
-            }]
+                series: [{
+                    name: 'Productivity',
+                    type: 'pie',
+                    radius: ['35%', '55%'],
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true
+                            },
+                            labelLine: {
+                                show: true
+                            }
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                position: 'center',
+                                textStyle: {
+                                    fontSize: '14',
+                                    fontWeight: 'normal'
+                                }
+                            }
+                        }
+                    },
+                    data: productivity.data
+                }]
+            });
+
         });
+
+
 
     };
 
