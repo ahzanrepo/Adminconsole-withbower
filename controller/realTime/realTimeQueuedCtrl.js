@@ -2,7 +2,7 @@
  * Created by Damith on 5/29/2016.
  */
 
-mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $interval, queueMonitorService) {
+mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, queueMonitorService) {
 
     //$scope.percent = 65;
 
@@ -100,7 +100,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $interval
 
 
 });
-mainApp.directive('queued', function (queueMonitorService, $interval) {
+mainApp.directive('queued', function (queueMonitorService, $timeout) {
     return {
 
         restrict: 'EA',
@@ -208,12 +208,29 @@ mainApp.directive('queued', function (queueMonitorService, $interval) {
 
             qData();
             qStats();
+
+
+            var updateRealtime = function () {
+
+                qData();
+                qStats();
+
+                $timeout(updateRealtime, 2000);
+
+            }
+
+            updateRealtime();
+
+            /*
+
             $interval(function updateRandom() {
                 qData();
                 qStats();
 
 
             }, 10000);
+
+            */
 
 
         },

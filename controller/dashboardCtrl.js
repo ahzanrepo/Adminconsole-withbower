@@ -2,7 +2,7 @@
  * Created by Damith on 5/29/2016.
  */
 
-mainApp.controller('dashboardCtrl', function ($scope, $state, $interval,
+mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                          dashboardService, moment) {
 
 
@@ -279,6 +279,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $interval,
     ServerHandler.getProfiles();
 
 
+    /*
     //loop request
     var t = $interval(function updateRandom() {
         ServerHandler.callAllServices();
@@ -290,6 +291,28 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $interval,
         ServerHandler.updateRelaTimeFuntion();
         ServerHandler.getProfiles();
     }, 1000);
+
+*/
+
+    var countAllCallServices = function() {
+        ServerHandler.callAllServices();
+        $timeout(countAllCallServices, 30000);
+    }
+
+    var getAllNumTotal = function() {
+        ServerHandler.getAllNumTotal();
+        $timeout(getAllNumTotal, 60000);
+    }
+
+    var getAllRealTime = function() {
+        ServerHandler.updateRelaTimeFuntion();
+        $timeout(getAllRealTime, 1000);
+    }
+
+
+    countAllCallServices();
+    getAllNumTotal();
+    getAllRealTime();
 
 
     $scope.myChartOptions = {
