@@ -132,7 +132,7 @@ a {
 }
 
 .main-dashboard-wrap {
-    height: 700px;
+    overflow: hidden;
 }
 
 .m-top45 {
