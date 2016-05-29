@@ -1,73 +1,7 @@
 <div ng-controller="realTimeQueuedCtrl">
     <div class="row">
-        <div class="col-md-4 col-xs-12 " ng-repeat="que in queues">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Queued - English</h2>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <div class="row">
-                        <div class="animated flipInY col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                            <div class="tile-stats text-center bg-green100">
-                                <div class="count">179</div>
-                                <h3 class="font-robot font-700 font-yellow800">New Sign ups</h3>
-                                <p class="font-robot font-200">total answer call</p>
-                            </div>
-                        </div>
-                        <div class="animated flipInY col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                            <div class="tile-stats text-center bg-blue700">
-                                <div class="count">179</div>
-                                <h3 class="font-robot font-700 font-orange800">New Sign ups</h3>
-                                <p class="font-robot font-200">total answer call</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class=" col-xs-12">
-                    <div class="row">
-                        <div class="queued-pie-chart">
-                            <div id="pie-text">50%</div>
-                            <div easypiechart options="options" percent="percent"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <!--<div class="col-md-6">-->
-                            <div class="demo-container m-top20" style="height:150px">
-                                <flot id="engilshQueued" dataset="dataSetQueued"
-                                      options="optionEnglishQue"></flot>
-                            </div>
-                            <!--</div>-->
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12">
-                        <ul class="list-inline queued-footer-list m-top20 text-center m-bottom20">
-                            <li>
-                                <h3 class="font-robot font-700 font-green-light500 ">123</h3>
-                                <span class="font-robot font-700">Total Call</span>
-                            </li>
-                            <li>
-                                <h3 class="font-robot font-700 font-blue500 ">123</h3>
-                                <span class="font-robot font-700">Max Waiting</span>
-                            </li>
-                            <li>
-                                <h3 class="font-robot font-700 font-yellow900">123</h3>
-                                <span class="font-robot font-700">Average</span>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                </div>
-            </div>
+        <div ng-repeat="que in queues">
+            <queued name="{{que.id}}" optionEnglishQue></queued>
         </div>
-
-
     </div>
-</div>
 </div>

@@ -13,7 +13,7 @@ mainApp.factory("queueMonitorService", function ($http) {
         //dashboard.104.131.67.21.xip.io
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/ConcurrentQueued/"+queue+"/5",
+            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/ConcurrentQueued/" + queue + "/5",
             headers: {
                 'authorization': authToken
             }
@@ -27,7 +27,7 @@ mainApp.factory("queueMonitorService", function ($http) {
     };
 
 
-    var getAllQueueStats = function (queue) {
+    var getAllQueueStats = function () {
         //dashboard.104.131.67.21.xip.io
         return $http({
             method: 'GET',
@@ -36,7 +36,7 @@ mainApp.factory("queueMonitorService", function ($http) {
                 'authorization': authToken
             }
         }).then(function (response) {
-            if (response.data ) {
+            if (response.data) {
                 return response.data;
             } else {
 
@@ -46,10 +46,29 @@ mainApp.factory("queueMonitorService", function ($http) {
 
     };
 
+    var getSingleQueueStats = function (queue) {
+        //dashboard.104.131.67.21.xip.io
+        return $http({
+            method: 'GET',
+            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/QueueSingleDetail/" + queue,
+            headers: {
+                'authorization': authToken
+            }
+        }).then(function (response) {
+            if (response.data) {
+                return response.data;
+            } else {
+                return {};
+            }
+        });
+
+    };
+
 
     return {
         GetAllQueueStats: getAllQueueStats,
-        GetAllConcurrentQueue: getAllConcurrentQueue
+        GetAllConcurrentQueue: getAllConcurrentQueue,
+        GetSingleQueueStats: getSingleQueueStats
 
     }
 });
