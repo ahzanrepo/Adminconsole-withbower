@@ -4,11 +4,11 @@
 
 var clusterModule = angular.module("resourceServiceModule", []);
 
-clusterModule.factory("resourceService", function ($http, $log,authService,resourceServiceBaseUrl,ardsmonitoringBaseUrl) {
+clusterModule.factory("resourceService", function ($http, $log,authService,baseUrls) {
 
  var getProductivity = function () {
 
-    return $http.get(resourceServiceBaseUrl+ "Resources/Productivity",
+    return $http.get(baseUrls.resourceServiceBaseUrl+ "Resources/Productivity",
       {
         headers:{authorization:authService.Token}
       }).then(function (response) {
@@ -22,7 +22,7 @@ clusterModule.factory("resourceService", function ($http, $log,authService,resou
 
     var getOnlineAgents = function () {
 
-        return $http.get(ardsmonitoringBaseUrl+ "MONITORING/resources",
+        return $http.get(baseUrls.ardsmonitoringBaseUrl+ "MONITORING/resources",
             {
                 headers:{authorization:authService.Token}
             }).then(function (response) {

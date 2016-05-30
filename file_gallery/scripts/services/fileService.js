@@ -4,13 +4,13 @@
 
 var fileModule = angular.module("fileServiceModule", ["download"]);
 
-fileModule.factory("clusterService", function ($http, download,authService,fileServiceUrl) {
+fileModule.factory("fileService", function ($http, download,authService,baseUrls) {
 
 
 
   var downloadFile = function (id, fileName) {
     $http({
-      url: fileServiceUrl+ "File/Download/" + id + "/" + fileName,
+      url: baseUrls.fileServiceUrl+ "File/Download/" + id + "/" + fileName,
       method: "get",
       //data: json, //this is your json data string
       headers: {
@@ -42,7 +42,7 @@ fileModule.factory("clusterService", function ($http, download,authService,fileS
   var getFiles = function (pageNo) {
     return $http({
       method: 'get',
-      url: fileServiceUrl+ 'Files/20/'+pageNo,
+      url: baseUrls.fileServiceUrl+ 'Files/50/'+pageNo,
       headers: {
         'authorization': authService.Token
       }
@@ -51,10 +51,10 @@ fileModule.factory("clusterService", function ($http, download,authService,fileS
     });
   };
 
-  var getFilesCategoryID = function (categoryId,pageNo) {
+  var getFilesCategoryID = function (categoryId,pageSize,pageNo) {
     return $http({
       method: 'get',
-      url: fileServiceUrl+ 'FilesInfo/Category/'+categoryId+'/50/'+pageNo,
+      url: baseUrls.fileServiceUrl+ 'FilesInfo/Category/'+categoryId+'/'+pageSize+'/'+pageNo,
       headers: {
         'authorization': authService.Token
       }
@@ -66,7 +66,7 @@ fileModule.factory("clusterService", function ($http, download,authService,fileS
   var getFileCountCategoryID = function (categoryId) {
     return $http({
       method: 'get',
-      url: fileServiceUrl+ 'File/Count/Category/'+categoryId,
+      url: baseUrls.fileServiceUrl+ 'File/Count/Category/'+categoryId,
       headers: {
         'authorization': authService.Token
       }
@@ -78,7 +78,7 @@ fileModule.factory("clusterService", function ($http, download,authService,fileS
   var deleteFile = function (file) {
     return $http({
       method: 'delete',
-      url: fileServiceUrl+'File/' + file.UniqueId,
+      url: baseUrls.fileServiceUrl+'File/' + file.UniqueId,
       headers: {'authorization': authService.Token}
     }).then(function (response) {
       return response.data.IsSuccess;
@@ -87,7 +87,7 @@ fileModule.factory("clusterService", function ($http, download,authService,fileS
 
   var getCatagories = function (token) {
 
-    return $http.get(fileServiceUrl+'FileCategories',
+    return $http.get(baseUrls.fileServiceUrl+'FileCategories',
       {
         headers: {'authorization':  authService.Token}
       }
@@ -106,7 +106,7 @@ fileModule.factory("clusterService", function ($http, download,authService,fileS
     GetCatagories: getCatagories,
     GetFilesCategoryID:getFilesCategoryID,
     GetFileCountCategoryID:getFileCountCategoryID,
-    UploadUrl: fileServiceUrl+ "File/Upload",
+    UploadUrl: baseUrls.fileServiceUrl+ "File/Upload",
     File: {},
     Headers: {'Authorization':  authService.Token}
   }
