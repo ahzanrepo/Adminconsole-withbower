@@ -7,8 +7,7 @@
                 <ul class="nav navbar-right panel_toolbox">
 
                     <li> <button class="btn btn-round btn-default" ng-click="LoadCurrentCalls()"> <span class="fa fa-refresh" aria-hidden="true"></span></button></li>
-                    <li> <button class="btn btn-round btn-default" ng-click=""> <span class="fa fa-car" aria-hidden="true"></span></button></li>
-                    <li> <button class="btn btn-round btn-default" ng-click="AnzMe()"> <span class="fa fa-phone" aria-hidden="true"></span></button></li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -25,7 +24,6 @@
                             <th class="column-title selectedTpcs">From </th>
                             <th class="column-title selectedTpcs">To </th>
                             <th class="column-title selectedTpcs">Receiver </th>
-                            <th class="column-title selectedTpcs">Actions </th>
                             <th class="column-title lstCol">Actions </th>
 
                         </tr>
@@ -38,111 +36,33 @@
                             <td class="valAlgn">{{call.FromID}} </td>
                             <td class="valAlgn">{{call.ToID}} </td>
                             <td class="valAlgn">{{call.Receiver}} </td>
-                            <td class="valAlgn"> <span class="fa fa-mute" aria-hidden="true"></span>
-                                <button class="btn btn-round btn-default" ng-click=""><span id="micID" class="fa fa-microphone-slash" aria-hidden="true"></span></button>
-                                <button class="btn btn-round btn-default" ng-click="cancleCall()"><span class="fa fa-phone" aria-hidden="true"></span></button>
-                                <button class="btn btn-round btn-default" ng-click="ThreeWayCall(call.BargeID)"><span class="fa fa-group" aria-hidden="true"></span></button>
-                                <!--<button class="btn btn-round btn-default" ng-click=""><span class="fa fa-group" aria-hidden="true"></span></button>-->
-                            </td>
 
                             <td class="lstCol">
-                                <button type="submit" class="btn btn-primary" ng-click="ListenCall(call.BargeID)"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
+                                <button type="submit" class="btn btn-primary" ng-click="ListenCall(call)"> <span class="" aria-hidden="true"></span> Listen</button>
                                 <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->
-                                <button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>
+                                <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->
                             </td>
 
 
 
                         </tr>
 
-
-                        <!--<tr class="odd pointer">
-                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
-                            <td class=" ">0776589080 </td>
-                            <td class=" ">user1 </td>
-                            <td class=" ">
-                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
-                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
-                            </td>
-                        </tr>
-                        <tr class="even pointer">
-                            <td class="  "> <i class="fa fa-arrow-up"></i></td>
-                            <td class=" ">0776589080 </td>
-                            <td class=" ">user1 </td>
-                            <td class=" ">
-                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
-                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
-                            </td>
-                        </tr>
-                        <tr class="odd pointer">
-                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
-                            <td class=" ">0776589080 </td>
-                            <td class=" ">user1 </td>
-                            <td class=" ">
-                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
-                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
-                            </td>
-                        </tr>
-                        <tr class="even pointer">
-                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
-                            <td class=" ">0776589080 </td>
-                            <td class=" ">user1 </td>
-                            <td class=" ">
-                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
-                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
-                            </td>
-                        </tr>
-                        <tr class="odd pointer">
-                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
-                            <td class=" ">0776589080 </td>
-                            <td class=" ">user1 </td>
-                            <td class=" ">
-                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
-                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
-                            </td>
-                        </tr>
-                        <tr class="even pointer">
-                            <td class="  "> <i class="fa fa-arrow-up"></i></td>
-                            <td class=" ">0776589080 </td>
-                            <td class=" ">user1 </td>
-                            <td class=" ">
-                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
-                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
-                            </td>
-                        </tr>
-                        <tr class="odd pointer">
-                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
-                            <td class=" ">0776589080 </td>
-                            <td class=" ">user1 </td>
-                            <td class=" "> </td>
-                            <td class=" ">
-                                <button type="submit" class="btn btn-primary"> Listen</button>
-                                <button type="submit" class="btn btn-primary"> Barge</button>
-                            </td>
-                        </tr>
-
-                        <tr class="even pointer">
-                            <td class="  "> <i class="fa fa-arrow-up "></i></td>
-                            <td class=" ">0776589080 </td>
-                            <td class=" ">user1 </td>
-                            <td class=" ">
-                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
-                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
-                            </td>
-                        </tr>
-                        <tr class="odd pointer">
-                            <td class="  "> <i class="fa fa-arrow-down"></i></td>
-                            <td class=" ">0776589080 </td>
-                            <td class=" ">user1 </td>
-                            <td class=" ">
-                                <button type="submit" class="btn btn-primary"> <span class="fa fa-bullhorn" aria-hidden="true"></span> Listen</button>
-                                <button type="submit" class="btn btn-primary"><span class="fa fa-phone" aria-hidden="true"></span> Listen</button>
-                            </td>
-                        </tr>-->
                         <audio id="audio_remote" autoplay="autoplay"></audio>
 
                         </tbody>
                     </table>
+                    <div ng-if="phoneSatus">
+
+                        <button class="btn btn-round btn-default" ng-click=""><span class="fa fa-microphone-slash" aria-hidden="true"></span></button>
+                        <button class="btn btn-round btn-default" ng-click="HangUpCall()"><span class="fa fa-phone" aria-hidden="true"></span></button>
+                        <button class="btn btn-round btn-default" ng-click="ThreeWayCall()"><span class="fa fa-group" aria-hidden="true"></span></button>
+                        <button class="btn btn-round btn-default" ng-click="BargeCall()" ng-disabled="(CallStatus=='BARGED' || CallStatus=='THREEWAY' || CallStatus==null)"><span class="fa fa-bullhorn" aria-hidden="true"></span></button>
+                        <button class="btn btn-round btn-default" ng-click="ReturnToListen()" ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)"><span class="fa fa-mail-reply" aria-hidden="true"></span></button>
+                        <button class="btn btn-round btn-default" ng-click="SwapUser()" ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null )"><span class="" aria-hidden="true">1</span></button>
+                        <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->
+
+
+                    </div>
                 </div>
             </div>
         </div>

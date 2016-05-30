@@ -14,6 +14,7 @@ var registerSession;
 var callSession;
 var incomingCallSession;
 var onRegCompleted;
+var onDisconnection;
 
 function EventListener(e) {
 
@@ -98,13 +99,7 @@ function EventListener(e) {
         }
 
     } else if(e.type == 'terminated') {
-       // alert(e);
-        /*
-         * e.getSipResponseCode()=603 ; call declined without any answer
-         * e.getSipResponseCode()=487 ; caller terminated the call
-         * e.getSipResponseCode()=-1 ; call answered and hanguped by caller/callee
-         * e.getSipResponseCode()=200 ; user unregistered
-         */
+
 
         if(e.session == registerSession) {
             // client unregistered
@@ -115,6 +110,8 @@ function EventListener(e) {
             //outgoing call terminated.
         } else if(e.session == incomingCallSession) {
             incomingCallSession = null;
+            onDisconnection();
+
             // incoming call terminated
         }
 
@@ -177,10 +174,11 @@ function makeCall(ext) {
 }
 
 
-function Initiate(onRegistrationCompleted)
+function Initiate(onRegistrationCompleted,onCallDisconnected)
 {
     SIPml.init(readyCallback, errorCallback);
     onRegCompleted=onRegistrationCompleted;
+    onDisconnection=onCallDisconnected;
 }
 
 
