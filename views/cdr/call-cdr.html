@@ -1,126 +1,193 @@
 <div ng-controller="cdrCtrl">
-
-    <div class="row">
-
-
-            <!--<div class="control-group">
-                <div class="controls">
-                    <div class="col-md-11 xdisplay_inputx form-group has-feedback">
-                        <input type="text" class="form-control has-feedback-left active" id="single_cal1" placeholder="First Name" aria-describedby="inputSuccess2Status">
-                        <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                        <span id="inputSuccess2Status" class="sr-only">(success)</span>
-                    </div>
-                </div>
-            </div>-->
-
-            <div class="col-sm-6">
-                <label>Start Date</label>
-                <input type="text" class="form-control" ng-model="startDate" name="startDate" data-date-format="yyyy-MM-dd" data-date-type="number" bs-datepicker>
-            </div>
-
-            <div class="col-sm-6">
-                <label>End Date</label>
-                <input type="text" class="form-control" ng-model="endDate" name="endDate" data-date-format="yyyy-MM-dd" data-date-type="number" bs-datepicker>
-            </div>
+    <div class="page-title">
+        <div class="title_left">
+            <h3 class="font-robot font-600 ">Call CDR Report</h3>
+        </div>
     </div>
 
-    <br>
 
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>Call CDR Report</h2>
-
-                <ul class="nav navbar-right panel_toolbox">
-
-                    <li> <button class="btn btn-round btn-default" ng-click="getProcessedCDR(-1, true)"> <span class="fa fa-refresh" aria-hidden="true"></span></button></li>
-
-                </ul>
-
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-
-                <div id="datatable-responsive_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="dataTables_length" id="datatable-responsive_length">
-                                <label>Show
-                                    <select name="datatable-responsive_length" ng-model="recLimit" aria-controls="datatable-responsive" class="form-control input-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> entries</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div id="datatable-responsive_filter" class="dataTables_filter">
-                                <label>Search:
-                                    <input type="search" ng-model="searchCriteria" class="form-control input-sm" placeholder="" aria-controls="datatable-responsive">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
-                    <thead>
-                    <tr role="row">
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="Call Direction">Call Direction</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="From">From</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="To">To</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="ReceivedBy">ReceivedBy</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="Answered">Answered</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="Call Time">Call Time</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="Total Duration">Total Duration</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="Bill Duration">Bill Duration</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="Answer Duration">Answer Duration</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="Hold Duration">Hold Duration</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="Call Type">Call Type</th>
-                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" style="width: 67px;" aria-label="Call Category">Call Category</th>
-                    </thead>
-                    <tbody>
-                    <tr role="row" class="odd" ng-repeat="cdr in cdrList | filterBy: ['SipFromUser', 'SipToUser', 'RecievedBy']: searchCriteria">
-                        <td>{{cdr.DVPCallDirection}}</td>
-                        <td>{{cdr.SipFromUser}}</td>
-                        <td>{{cdr.SipToUser}}</td>
-                        <td>{{cdr.RecievedBy}}</td>
-                        <td>{{cdr.IsAnswered}}</td>
-                        <td>{{cdr.CreatedTime}}</td>
-                        <td>{{cdr.Duration}}</td>
-                        <td>{{cdr.BillSec}}</td>
-                        <td>{{cdr.AnswerSec}}</td>
-                        <td>{{cdr.HoldSec}}</td>
-                        <td>{{cdr.ObjType}}</td>
-                        <td>{{cdr.ObjCategory}}</td>
-                        <td>
-                            <span ng-show="cdr.ShowButton">
-                                <i class="fa fa-stop" ng-if="cdr.Uuid == currentPlayingFile && fileToPlay.progress > 0 && fileToPlay.progress < 1" ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || (fileToPlay.progress == '' || fileToPlay.progress == 0 || fileToPlay.progress == 1)), (cdr.Uuid == currentPlayingFile && fileToPlay.progress > 0 && fileToPlay.progress < 1))"></i>
-
-                                <i class="fa fa-play" ng-if="!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || (fileToPlay.progress == '' || fileToPlay.progress == 0 || fileToPlay.progress == 1)" ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || (fileToPlay.progress == '' || fileToPlay.progress == 0 || fileToPlay.progress == 1)), (cdr.Uuid == currentPlayingFile && fileToPlay.progress > 0 && fileToPlay.progress < 1))"></i>
-
-                            </span>
-
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+        <div class="row">
+            <div class="x_panel">
+                <div class="x_title bottom-gray-200 m-bottom20">
+                    <h4 class="font-robot font-300 text-uppercase font-15">Search option
+                    </h4>
+                    <div class="clearfix"></div>
                 </div>
+
+                <div class="col-sm-3">
+                    <label>Start Date</label>
+                    <input type="text" class="form-control" ng-model="startDate" name="startDate"
+                           data-date-format="yyyy-MM-dd"
+                           data-date-type="number" bs-datepicker>
                 </div>
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <button class="btn btn-primary" ng-click="loadPreviousPage()">Previous</button>
-                            <button class="btn btn-success" ng-click="loadNextPage()">Next</button>
-                        </div>
+                <div class="col-sm-3">
+                    <label>End Date</label>
+                    <input type="text" class="form-control" ng-model="endDate" name="endDate"
+                           data-date-format="yyyy-MM-dd"
+                           data-date-type="number" bs-datepicker>
+                </div>
+                <div class="col-sm-3">
+                    <div class="dataTables_length" id="datatable-responsive_length">
+                        <label>Show
+                            <select name="datatable-responsive_length" ng-model="recLimit"
+                                    aria-controls="datatable-responsive" class="form-control select-limit">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> </label>
                     </div>
                 </div>
-
+                <div class="col-sm-3">
+                    <div class="x_content btn-wrap-header">
+                        <button type="button" class="btn btn-success" ng-click="getProcessedCDR(-1, true)">
+                            Search
+                        </button>
+                        <button type="button" class="btn btn-primary">Refresh</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="row" ng-if="isTableLoading==0">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="data-state-wrap">
+                        Please Wait...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="row" ng-if="isTableLoading==1">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" ng-model="searchCriteria" class="form-control"
+                                   placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                        </div>
+                    </div>
+
+                    <div id="datatable-responsive_wrapper"
+                         class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="datatable-responsive"
+                                       class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
+                                       cellspacing="0" width="100%" role="grid"
+                                       aria-describedby="datatable-responsive_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Call Direction">Call Direction
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="From">From
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="To">To
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">ReceivedBy
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Answered">Answered
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Call Time">Call Time
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Total Duration">Total Duration
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Bill Duration">Bill Duration
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Answer Duration">Answer Duration
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Hold Duration">Hold Duration
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Call Type">Call Type
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Call Category">Call Category
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                    <tr role="row" class="odd"
+                                        ng-repeat="cdr in cdrList | filterBy: ['SipFromUser', 'SipToUser', 'RecievedBy']: searchCriteria">
+                                        <td>{{cdr.DVPCallDirection}}</td>
+                                        <td>{{cdr.SipFromUser}}</td>
+                                        <td>{{cdr.SipToUser}}</td>
+                                        <td>{{cdr.RecievedBy}}</td>
+                                        <td>{{cdr.IsAnswered}}</td>
+                                        <td>{{cdr.CreatedTime}}</td>
+                                        <td>{{cdr.Duration}}</td>
+                                        <td>{{cdr.BillSec}}</td>
+                                        <td>{{cdr.AnswerSec}}</td>
+                                        <td>{{cdr.HoldSec}}</td>
+                                        <td>{{cdr.ObjType}}</td>
+                                        <td>{{cdr.ObjCategory}}</td>
+                                        <td>
+                            <span ng-show="cdr.ShowButton">
+                                <i class="fa fa-stop"
+                                   ng-if="cdr.Uuid == currentPlayingFile && fileToPlay.progress > 0 && fileToPlay.progress < 1"
+                                   ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) ||
+                                    (fileToPlay.progress == '' || fileToPlay.progress == 0 || fileToPlay.progress == 1)),
+                                     (cdr.Uuid == currentPlayingFile && fileToPlay.progress > 0 && fileToPlay.progress < 1))"></i>
+
+                                <i class="fa fa-play"
+                                   ng-if="!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || (fileToPlay.progress == '' ||
+                                    fileToPlay.progress == 0 || fileToPlay.progress == 1)"
+                                   ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) ||
+                                   (fileToPlay.progress == '' || fileToPlay.progress == 0 || fileToPlay.progress == 1)),
+                                   (cdr.Uuid == currentPlayingFile && fileToPlay.progress > 0 && fileToPlay.progress < 1))"></i>
+
+                            </span>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <button class="btn btn-primary" ng-click="loadPreviousPage()">Previous</button>
+                                <button class="btn btn-success" ng-click="loadNextPage()">Next</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--</div>-->
+    </div>
+
+
 </div>
-
-
-
-

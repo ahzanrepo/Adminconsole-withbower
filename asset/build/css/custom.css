@@ -2619,11 +2619,12 @@ a.btn-success, a.btn-primary, a.btn-warning, a.btn-danger {
 
 .btn-success {
     background: #26B99A;
-    border: 1px solid #169F85;
+    border: 1px solid #40bcb0;
 }
 
 .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open .dropdown-toggle.btn-success {
-    background: #169F85;
+    background: #40bcb0;
+    border: 1px solid #40bcb0 !important;
 }
 
 .btn-dark {
