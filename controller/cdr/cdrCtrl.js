@@ -66,8 +66,12 @@
             var endMonth = ($scope.startDate.getMonth()+1).toString();
             var endDay  = $scope.startDate.getDate().toString();
 
-            var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00%2b05:30';
-            var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59%2b05:30';
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            //var encodedTz = encodeURI(momentTz);
+            momentTz = momentTz.replace("+", "%2B");
+
+            var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
+            var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
 
             //var offset = $scope.offset;
 
@@ -116,14 +120,17 @@
                                 cdrAppendObj.SipToUser = currCdrLeg.SipToUser;
                                 cdrAppendObj.IsAnswered = currCdrLeg.IsAnswered;
                                 cdrAppendObj.HangupCause = currCdrLeg.HangupCause;
-                                cdrAppendObj.CreatedTime = currCdrLeg.CreatedTime;
+
+                                var localTime = moment(currCdrLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
+
+                                cdrAppendObj.CreatedTime = localTime;
                                 cdrAppendObj.Duration = currCdrLeg.Duration;
                                 cdrAppendObj.BillSec = currCdrLeg.BillSec;
                                 cdrAppendObj.HoldSec = currCdrLeg.HoldSec;
                                 cdrAppendObj.DVPCallDirection = currCdrLeg.DVPCallDirection;
 
 
-                                if(outLegProcessed)
+                                if(!outLegProcessed)
                                 {
                                     cdrAppendObj.AnswerSec = currCdrLeg.AnswerSec;
                                 }
