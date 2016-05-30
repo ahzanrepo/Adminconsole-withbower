@@ -6,7 +6,7 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceServiceModule', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload","bw.paging", "download"]);
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload", "download", "ngAudio","bw.paging"]);
 
 // "fileServiceModule","angularFileUpload","download"
 var baseUrls = {
@@ -17,7 +17,6 @@ var baseUrls = {
 };
 
 mainApp.constant('baseUrls', baseUrls);
-
 
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider) {
@@ -53,6 +52,9 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('console.realtime-queued', {
             url: "/realtime-queued",
             templateUrl: "views/real-time/queued.html"
+        }).state('console.phone', {
+            url: "/call-phone",
+            templateUrl: "views/call-monitor/phoneWidget.html"
         });
     }]);
 

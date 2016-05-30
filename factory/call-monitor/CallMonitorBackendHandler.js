@@ -19,19 +19,61 @@ mainApp.factory('callMonitorSrv', function ($http) {
             });
         },
 
-        bargeCalls: function (bargeID,destination,protocol) {
+        bargeCalls: function (bargeID,protocol) {
+
             return $http({
                 method: 'POST',
                 url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/barge",
                 headers: {
                     'authorization':authToken
                 },
-                data:{
-                    destination:destination,
-                    protocol:protocol
+                data:
+                {
+                    protocol:protocol,
+                    destination:"2003"
                 }
             }).then(function(response)
             {
+                console.log(JSON.stringify(response));
+                return response;
+            });
+        },
+
+        listenCall: function (bargeID,protocol) {
+
+            return $http({
+                method: 'POST',
+                url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/listen",
+                headers: {
+                    'authorization':authToken
+                },
+                data:
+                {
+                    protocol:protocol,
+                    destination:"2003"
+                }
+            }).then(function(response)
+            {
+                console.log(JSON.stringify(response));
+                return response;
+            });
+        },
+        threeWayCall: function (bargeID,protocol) {
+
+            return $http({
+                method: 'POST',
+                url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/threeway",
+                headers: {
+                    'authorization':authToken
+                },
+                data:
+                {
+                    protocol:protocol,
+                    destination:"2003"
+                }
+            }).then(function(response)
+            {
+                console.log(JSON.stringify(response));
                 return response;
             });
         }

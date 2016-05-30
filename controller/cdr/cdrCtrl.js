@@ -5,8 +5,30 @@
 (function() {
     var app = angular.module("veeryConsoleApp");
 
-    var cdrCtrl = function ($scope, cdrApiHandler)
+    var cdrCtrl = function ($scope, cdrApiHandler, ngAudio)
     {
+        $scope.currentPlayingFile = null;
+
+        $scope.playStopFile = function(uuid, playState, stopState)
+        {
+            if(playState)
+            {
+                $scope.currentPlayingFile = uuid;
+
+                $scope.fileToPlay = ngAudio.load('http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/DownloadLatest/1/3/' + uuid + '.wav');
+
+                $scope.fileToPlay.play();
+            }
+            else if(stopState)
+            {
+                $scope.currentPlayingFile = null;
+
+                $scope.fileToPlay.stop();
+            }
+
+
+        };
+
         $scope.cdrList = [];
 
         var pageStack = [];
@@ -66,8 +88,12 @@
             var endMonth = ($scope.startDate.getMonth()+1).toString();
             var endDay  = $scope.startDate.getDate().toString();
 
-            var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00%2b05:30';
-            var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59%2b05:30';
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            //var encodedTz = encodeURI(momentTz);
+            momentTz = momentTz.replace("+", "%2B");
+
+            var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
+            var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
 
             //var offset = $scope.offset;
 
@@ -89,6 +115,7 @@
                         var cdrAppendObj = {};
                         var outLegProcessed = false;
                         var curCdr = cdrResp.Result[cdr];
+                        var isInboundHTTAPI = false;
 
                         var len = curCdr.length;
 
@@ -112,20 +139,29 @@
                                     bottomSet = true;
                                 }
 
+                                cdrAppendObj.Uuid = currCdrLeg.Uuid;
                                 cdrAppendObj.SipFromUser = currCdrLeg.SipFromUser;
                                 cdrAppendObj.SipToUser = currCdrLeg.SipToUser;
                                 cdrAppendObj.IsAnswered = currCdrLeg.IsAnswered;
                                 cdrAppendObj.HangupCause = currCdrLeg.HangupCause;
-                                cdrAppendObj.CreatedTime = currCdrLeg.CreatedTime;
+
+                                var localTime = moment(currCdrLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
+
+                                cdrAppendObj.CreatedTime = localTime;
                                 cdrAppendObj.Duration = currCdrLeg.Duration;
                                 cdrAppendObj.BillSec = currCdrLeg.BillSec;
                                 cdrAppendObj.HoldSec = currCdrLeg.HoldSec;
                                 cdrAppendObj.DVPCallDirection = currCdrLeg.DVPCallDirection;
 
 
-                                if(outLegProcessed)
+                                if(!outLegProcessed)
                                 {
                                     cdrAppendObj.AnswerSec = currCdrLeg.AnswerSec;
+                                }
+
+                                if(currCdrLeg.ObjType === 'HTTAPI')
+                                {
+                                    isInboundHTTAPI = true;
                                 }
 
                                 if(len === 1)
@@ -159,6 +195,12 @@
                                 outLegProcessed = true;
                             }
                         }
+
+                        if(isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec)
+                        {
+                            cdrAppendObj.ShowButton = true;
+                        }
+
 
                         $scope.cdrList.push(cdrAppendObj);
                     }
