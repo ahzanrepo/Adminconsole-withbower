@@ -1,212 +1,136 @@
-<div class>
-    <div class="row top_tiles">
-        <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
-            <div class="tile-stats bg-red50">
-                <div class="icon">
-                    <i class="fa fa-phone font-gray800"></i>
+<div ng-controller="dashboardCtrl">
+    <div class>
+        <div class="row top_tiles">
+            <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="tile-stats bg-red50">
+                    <div class="icon">
+                        <i class="fa fa-phone font-gray800"></i>
+                    </div>
+                    <div class="count">{{total.calls}}</div>
+                    <h3 class="font-robot font-700 font-gray800">
+                        Total Call
+                    </h3>
+                    <p class="font-robot font-200">total answer call</p>
                 </div>
-                <div class="count">{{total.calls}}</div>
-                <h3 class="font-robot font-700 font-gray800">
-                    Total Call
-                </h3>
-                <p class="font-robot font-200">total answer word</p>
             </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
-            <div class="tile-stats bg-green100">
-                <div class="icon">
-                    <i class="fa fa-coffee font-yellow800"></i></div>
-                <div class="count">{{total.queued}}</div>
-                <h3 class="font-robot font-700 font-yellow800">Queued</h3>
-                <p class="font-robot font-200"> ipsum psdea itgum rixt.</p>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
-            <div class="tile-stats bg-blue700">
-                <div class="icon">
-                    <i class="fa fa-smile-o font-orange800"></i>
+            <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="tile-stats bg-green100">
+                    <div class="icon">
+                        <i class="fa fa-coffee font-yellow800"></i></div>
+                    <div class="count">{{total.queued}}</div>
+                    <h3 class="font-robot font-700 font-yellow800">Queued</h3>
+                    <p class="font-robot font-200"> total queued</p>
                 </div>
-                <div class="count">{{total.queueAnswered}}</div>
-                <h3 class="font-robot font-700 font-orange800">Q Answered</h3>
-                <p class="font-robot font-200">Lorem ipsum psdea itgum rixt.</p>
             </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
-            <div class="tile-stats bg-yellow300">
-                <div class="icon"><i class="fa  fa-frown-o font-black500"></i></div>
-                <div class="count">{{total.queueDropped}}</div>
-                <h3 class="font-robot font-700 font-black500"> Q Dropped</h3>
-                <p class="font-robot font-200">Lorem ipsum psdea itgum rixt.</p>
+            <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="tile-stats bg-blue700">
+                    <div class="icon">
+                        <i class="fa fa-smile-o font-orange800"></i>
+                    </div>
+                    <div class="count">{{total.queueAnswered}}</div>
+                    <h3 class="font-robot font-700 font-orange800">Q Answered</h3>
+                    <p class="font-robot font-200">total queued Answered</p>
+                </div>
             </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
-            <div class="tile-stats bg-green100">
-                <div class="icon"><i class="fa fa-hourglass-start font-yellow800"></i></div>
-                <div class="count">{{total.waiting}}</div>
-                <h3 class="font-robot font-700 font-yellow800"> Waiting</h3>
-                <p class="font-robot font-200">Lorem ipsum psdea itgum rixt.</p>
+            <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="tile-stats bg-yellow300">
+                    <div class="icon"><i class="fa  fa-frown-o font-black500"></i></div>
+                    <div class="count">{{total.queueDropped}}</div>
+                    <h3 class="font-robot font-700 font-black500"> Q Dropped</h3>
+                    <p class="font-robot font-200">total queued dropped</p>
+                </div>
             </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
-            <div class="tile-stats bg-blue700">
-                <div class="icon"><i class="fa fa-diamond font-orange800"></i></div>
-                <div class="count">{{total.briged}}</div>
-                <h3 class="font-robot font-700 font-orange800"> Briged</h3>
-                <p class="font-robot font-700 font-orange800">Lorem ipsum psdea itgum rixt.</p>
+            <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="tile-stats bg-green100">
+                    <div class="icon"><i class="fa fa-hourglass-start font-yellow800"></i></div>
+                    <div class="count">{{total.waiting}}</div>
+                    <h3 class="font-robot font-700 font-yellow800"> Waiting</h3>
+                    <p class="font-robot font-200">total waiting</p>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="tile-stats bg-blue700">
+                    <div class="icon"><i class="fa fa-rocket font-orange800"></i></div>
+                    <div class="count">{{total.onGoing}}</div>
+                    <h3 class="font-robot font-700 font-orange800"> Ongoing</h3>
+                    <p class="font-robot font-200 ">current Ongoing</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="x_panel main-dashboard-wrap">
-            <div class="x_title">
-                <h2>Center status
-                    <small>Last 5min</small>
-                </h2>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content ">
-                <div class="col-md-9 col-sm-12 col-xs-12">
-                    <span class="font-robot small-chat-header"> Briged</span>
-                    <div class="demo-container m-top15" style="height:280px">
-                        <flot id="callHit" dataset="dataSetAll"
-                              options="myChartOptions"></flot>
-                    </div>
-                    <div class="tiles">
-                        <div class="col-md-4 tile m-top45 p-top-10">
-                            <span class="font-robot small-chat-header"> Queued</span>
-                            <div class="sparkline11 demo-container m-top15" style="height:160px">
-                                <flot dataset="dataSetQueued"
-                                      options="myChartOptions2"></flot>
-                            </div>
-                        </div>
-                        <div class="col-md-4 tile m-top45 p-top-10">
-                            <span class="font-robot small-chat-header"> Briged</span>
-                            <div class="sparkline11 demo-container m-top15" style="height:160px">
-                                <flot dataset="dataSetBriged"
-                                      options="myChartOptions3"></flot>
-                            </div>
-                        </div>
-                        <div class="col-md-4 tile m-top45 p-top-10">
-                            <span class="font-robot small-chat-header"> Channels</span>
-                            <div class="demo-container m-top15" style="height:160px">
-                                <flot dataset="dataSetChannels"
-                                      options="myChartOptions4"></flot>
-                            </div>
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel main-dashboard-wrap">
+                <div class="x_title">
+                    <h2>Center status
+                        <small>Last 5min</small>
+                    </h2>
+                    <div class="clearfix"></div>
                 </div>
-
-                <div class="col-md-3 col-sm-12 col-xs-12">
-                    <div>
-                        <div class="x_title">
-                            <h2>Top Profiles</h2>
-                            <div class="clearfix"></div>
+                <div class="x_content m-bottom20">
+                    <div class="col-md-9 col-sm-12 col-xs-12">
+                        <span class="font-robot small-chat-header"> Call List</span>
+                        <div class="demo-container m-top15" style="height:280px">
+                            <flot id="callHit" dataset="dataSetAll"
+                                  options="myChartOptions"></flot>
                         </div>
-                        <ul class="list-unstyled top_profiles scroll-view">
-                            <li class="media event">
-                                <a class="pull-left border-aero profile_thumb">
-                                    <i class="fa fa-user aero"></i>
-                                </a>
-                                <div class="media-body">
-                                    <a class="title" href="#">Ms. Mary Jane</a>
-                                    <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                                    <p>
-                                        <small>12 Sales Today</small>
-                                    </p>
+                        <div class="tiles">
+                            <div class="col-md-4  tile m-top45 p-top-10">
+                                <span class="font-robot small-chat-header"> Queued</span>
+                                <div class="sparkline11 demo-container m-top15" style="height:160px">
+                                    <flot dataset="dataSetQueued"
+                                          options="myChartOptions2"></flot>
                                 </div>
-                            </li>
-                            <li class="media event">
-                                <a class="pull-left border-green profile_thumb">
-                                    <i class="fa fa-user green"></i>
-                                </a>
-                                <div class="media-body">
-                                    <a class="title" href="#">Ms. Mary Jane</a>
-                                    <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                                    <p>
-                                        <small>12 Sales Today</small>
-                                    </p>
+                            </div>
+                            <div class="col-md-4  tile m-top45 p-top-10">
+                                <span class="font-robot small-chat-header"> Briged</span>
+                                <div class="sparkline11 demo-container m-top15" style="height:160px">
+                                    <flot dataset="dataSetBriged"
+                                          options="myChartOptions3"></flot>
                                 </div>
-                            </li>
-                            <li class="media event">
-                                <a class="pull-left border-blue profile_thumb">
-                                    <i class="fa fa-user blue"></i>
-                                </a>
-                                <div class="media-body">
-                                    <a class="title" href="#">Ms. Mary Jane</a>
-                                    <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                                    <p>
-                                        <small>12 Sales Today</small>
-                                    </p>
+                            </div>
+                            <div class="col-md-4  tile m-top45 p-top-10">
+                                <span class="font-robot small-chat-header"> Channels</span>
+                                <div class="demo-container m-top15" style="height:160px">
+                                    <flot dataset="dataSetChannels"
+                                          options="myChartOptions4"></flot>
                                 </div>
-                            </li>
-                            <li class="media event">
-                                <a class="pull-left border-aero profile_thumb">
-                                    <i class="fa fa-user aero"></i>
-                                </a>
-                                <div class="media-body">
-                                    <a class="title" href="#">Ms. Mary Jane</a>
-                                    <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                                    <p>
-                                        <small>12 Sales Today</small>
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="media event">
-                                <a class="pull-left border-green profile_thumb">
-                                    <i class="fa fa-user green"></i>
-                                </a>
-                                <div class="media-body">
-                                    <a class="title" href="#">Ms. Mary Jane</a>
-                                    <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                                    <p>
-                                        <small>12 Sales Today</small>
-                                    </p>
-                                </div>
-                            </li>
-
-                            <li class="media event">
-                                <a class="pull-left border-green profile_thumb">
-                                    <i class="fa fa-user green"></i>
-                                </a>
-                                <div class="media-body">
-                                    <a class="title" href="#">Ms. Mary Jane</a>
-                                    <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                                    <p>
-                                        <small>12 Sales Today</small>
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="media event">
-                                <a class="pull-left border-green profile_thumb">
-                                    <i class="fa fa-user green"></i>
-                                </a>
-                                <div class="media-body">
-                                    <a class="title" href="#">Ms. Mary Jane</a>
-                                    <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                                    <p>
-                                        <small>12 Sales Today</small>
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="media event">
-                                <a class="pull-left border-green profile_thumb">
-                                    <i class="fa fa-user green"></i>
-                                </a>
-                                <div class="media-body">
-                                    <a class="title" href="#">Ms. Mary Jane</a>
-                                    <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                                    <p>
-                                        <small>12 Sales Today</small>
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div>
+                            <div class="x_title">
+                                <h2>Top Profiles</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <ul class="list-unstyled top_profiles scroll-view">
+                                <li class="media event "
+                                    ng-class="{'reserved':resource.slotState=='Reserved',
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                                'break':resource.slotState=='Break'}"
+                                    ng-repeat="resource in profile">
+                                    <a class="pull-left border-aero profile_thumb">
+                                        <i class="ti-user font-yellow800"></i>
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="javascript:void(0)">{{resource.name}}</a>
+                                        <p>{{resource.LastReservedTime}} </p>
+                                        <p>
+                                            <small>
+                                                {{resource.slotState}}
+                                            </small>
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

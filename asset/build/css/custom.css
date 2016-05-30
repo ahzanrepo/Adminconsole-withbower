@@ -1947,7 +1947,7 @@ ul.top_profiles li {
 }
 
 ul.top_profiles li:nth-child(odd) {
-    background-color: #eee;
+    background-color: #fbfbfb;
 }
 
 .media .profile_thumb {
