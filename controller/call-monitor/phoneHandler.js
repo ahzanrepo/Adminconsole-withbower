@@ -33,7 +33,7 @@ function EventListener(e) {
 
     }else if(e.type == 'stopped'){
         // successfully started the stack.
-
+        onDisconnection();
         //alert(JSON.stringify(e));
 
     } else if(e.type == 'i_new_call'){
@@ -45,6 +45,7 @@ function EventListener(e) {
         {
             console.log("In call, cannot answer");
             e.newSession.hangup();
+            onDisconnection();
         }
         else
         {
@@ -100,7 +101,7 @@ function EventListener(e) {
 
     } else if(e.type == 'terminated') {
 
-
+        onDisconnection();
         if(e.session == registerSession) {
             // client unregistered
             console.log("Registration terminated");
@@ -110,7 +111,7 @@ function EventListener(e) {
             //outgoing call terminated.
         } else if(e.session == incomingCallSession) {
             incomingCallSession = null;
-            onDisconnection();
+
 
             // incoming call terminated
         }
