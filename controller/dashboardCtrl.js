@@ -229,20 +229,28 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                     resonseStatus = response[i].Status.Reason;
                                 }
 
-                                if (resonseAvailability == "NotAvailable") {
-                                    profile.slotState = "Break";
-                                } else {
-                                    profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
-                                }
 
                                 var reservedDate = response[i].ConcurrencyInfo[0].
-                                    SlotInfo[0].LastReservedTime;
+                                    SlotInfo[0].StateChangeTime;
+
+                                if (resonseAvailability == "NotAvailable") {
+                                    profile.slotState = resonseStatus;
+                                    reservedDate = response[i].Status.StateChangeTime;
+                                } else {
+                                    profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
+
+                                    if(response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available"){
+
+                                        reservedDate = response[i].Status.StateChangeTime;
+                                    }
+                                }
+
+
 
                                 if (reservedDate == "") {
                                     profile.LastReservedTime = null;
                                 } else {
-                                    profile.LastReservedTime = moment(response[i].ConcurrencyInfo[0].
-                                        SlotInfo[0].LastReservedTime).format('lll');
+                                    profile.LastReservedTime = moment(reservedDate).format('lll');
                                 }
 
 
@@ -306,9 +314,14 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     var getAllRealTime = function() {
         ServerHandler.updateRelaTimeFuntion();
+        ServerHandler.getProfiles();
         getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
     }
 
+
+    ServerHandler.callAllServices();
+    ServerHandler.getAllNumTotal();
+    ServerHandler.updateRelaTimeFuntion();
 
 
 
