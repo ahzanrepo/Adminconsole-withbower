@@ -13,6 +13,8 @@ var sipStack;
 var registerSession;
 var callSession;
 var incomingCallSession;
+var onRegCompleted;
+var onDisconnection;
 
 function EventListener(e) {
 
@@ -25,23 +27,25 @@ function EventListener(e) {
 
     if(e.type == 'started'){
         // successfully started the stack.
-        alert("Connected");
+        //alert("Connected");
         console.log("YES");
         register();
 
     }else if(e.type == 'stopped'){
         // successfully started the stack.
-
+        onDisconnection();
         //alert(JSON.stringify(e));
 
     } else if(e.type == 'i_new_call'){
         // when new incoming call comes.
         // incoming call Id ; e.newSession.getRemoteFriendlyName()
 
+        //alert("incoming call........");
         if(incomingCallSession)
         {
             console.log("In call, cannot answer");
             e.newSession.hangup();
+            onDisconnection();
         }
         else
         {
@@ -88,6 +92,7 @@ function EventListener(e) {
         if(e.session == registerSession) {
             // successfully registed.
             console.log("Successfully registered");
+            onRegCompleted("Done");
         } else if(e.session == callSession) {
             // successfully connected call
         } else if(e.session == incomingCallSession) {
@@ -95,14 +100,8 @@ function EventListener(e) {
         }
 
     } else if(e.type == 'terminated') {
-        alert(e);
-        /*
-         * e.getSipResponseCode()=603 ; call declined without any answer
-         * e.getSipResponseCode()=487 ; caller terminated the call
-         * e.getSipResponseCode()=-1 ; call answered and hanguped by caller/callee
-         * e.getSipResponseCode()=200 ; user unregistered
-         */
 
+        onDisconnection();
         if(e.session == registerSession) {
             // client unregistered
             console.log("Registration terminated");
@@ -112,6 +111,8 @@ function EventListener(e) {
             //outgoing call terminated.
         } else if(e.session == incomingCallSession) {
             incomingCallSession = null;
+
+
             // incoming call terminated
         }
 
@@ -136,7 +137,7 @@ function createSipStack() {
 
 
 function register() { // register function
-    alert("Registering....");
+   // alert("Registering....");
     registerSession = sipStack.newSession('register', {
         expires: 300, // expire time, optional
         events_listener: { events: '*', listener: EventListener } /* optional, '*' means all events. */
@@ -154,7 +155,13 @@ function hangupCall() { // call this function to hangup /reject a call.
 function acceptCall() {
     // accept incoming call.
 
-    incomingCallSession.accept();
+    if(incomingCallSession)
+    {
+        incomingCallSession.accept();
+    }
+
+
+
     //incomingCallSession.accept();
 }
 function makeCall(ext) {
@@ -167,7 +174,20 @@ function makeCall(ext) {
     callSession.call(ext);
 }
 
-function Initiate()
+
+function Initiate(onRegistrationCompleted,onCallDisconnected)
 {
     SIPml.init(readyCallback, errorCallback);
+    onRegCompleted=onRegistrationCompleted;
+    onDisconnection=onCallDisconnected;
+}
+
+
+function sendDTMF(digit)
+{
+    if(incomingCallSession)
+    {
+
+        incomingCallSession.dtmf(digit);
+    }
 }

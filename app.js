@@ -6,14 +6,17 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceServiceModule', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload", "download", 'ngAudio']);
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload", "download", "ngAudio","bw.paging"]);
 
 // "fileServiceModule","angularFileUpload","download"
+var baseUrls = {
+    'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
+    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
+    'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
+    'fileServiceInternalUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/'
+};
 
-mainApp.constant('resourceServiceBaseUrl', 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/');
-mainApp.constant('ardsmonitoringBaseUrl', 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/');
-mainApp.constant('fileServiceUrl', 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/');
-mainApp.constant('fileServiceInternalUrl', 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/');
+mainApp.constant('baseUrls', baseUrls);
 
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider) {

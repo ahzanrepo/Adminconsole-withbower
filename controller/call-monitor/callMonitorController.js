@@ -8,6 +8,10 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
 
     // Update the dataset at 25FPS for a smoothly-animating chart
     $scope.CallObj={};
+    $scope.CallStatus=null;
+    $scope.phoneSatus=false;
+    $scope.currentSessionID=null;
+
     var onBargeComplete = function (response) {
 
         console.log(JSON.stringify(response));
@@ -19,7 +23,9 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
         else
         {
             console.log("Barge success");
-            acceptCall();
+            $scope.CallStatus="BARGED";
+            $scope.phoneSatus=true;
+            //acceptCall();
         }
     };
     var onListenComplete = function (response) {
@@ -32,8 +38,10 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
         }
         else
         {
-            console.log("Barge success");
-            acceptCall();
+            console.log("Listen success");
+            $scope.CallStatus="LISTEN";
+            $scope.phoneSatus=true;
+            //acceptCall();
         }
     };
     var onThreeWayComplete = function (response) {
@@ -47,7 +55,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
         else
         {
             console.log("Barge success");
-            acceptCall();
+            //acceptCall();
         }
     };
     var onCallsDataReceived = function (response) {
@@ -66,13 +74,26 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
             //var callObj=JSON.stringify('{"Exception":null,"CustomMessage":"Operation Successfull","IsSuccess":true,"Result":{"cc392087-76f0-4bac-aebb-caff14d2de6c":[{"Channel-State":"CS_EXCHANGE_MEDIA","FreeSWITCH-Switchname":"1","Channel-Name":"sofia/internal/dave@124.43.64.26:13776","Call-Direction":"outbound","Caller-Destination-Number":"dave","Caller-Unique-ID":"cc392087-76f0-4bac-aebb-caff14d2de6c","variable_sip_auth_realm":"null","variable_dvp_app_id":"3","Caller-Caller-ID-Number":"charlie","Other-Leg-Unique-ID":"dd64403b-35ef-400a-bf36-2d7ef7607dc7","Channel-Call-State":"ACTIVE"},{"Channel-State":"CS_EXECUTE","FreeSWITCH-Switchname":"1","Channel-Name":"sofia/internal/charlie@159.203.160.47","Call-Direction":"inbound","Caller-Destination-Number":"2004","Caller-Unique-ID":"dd64403b-35ef-400a-bf36-2d7ef7607dc7","variable_sip_auth_realm":"159.203.160.47","variable_dvp_app_id":"null","Caller-Caller-ID-Number":"charlie","Channel-Call-State":"ACTIVE","Application-Type":"EXTENDED","Other-Leg-Unique-ID":"cc392087-76f0-4bac-aebb-caff14d2de6c","Bridge-State":"Bridged"}],"d453d7a7-3c19-48e8-9047-e347287a1474":[{"Channel-State":"CS_EXECUTE","FreeSWITCH-Switchname":"1","Channel-Name":"sofia/internal/eve@159.203.160.47","Call-Direction":"inbound","Caller-Destination-Number":"2002","Caller-Unique-ID":"d453d7a7-3c19-48e8-9047-e347287a1474","variable_sip_auth_realm":"159.203.160.47","variable_dvp_app_id":"null","Caller-Caller-ID-Number":"eve","Channel-Call-State":"ACTIVE","Application-Type":"EXTENDED","Other-Leg-Unique-ID":"d3808e91-a5e0-456c-a4bd-39a0003d81e6","Bridge-State":"Bridged"},{"Channel-State":"CS_EXCHANGE_MEDIA","FreeSWITCH-Switchname":"1","Channel-Name":"sofia/internal/bob@124.43.64.26:14490","Call-Direction":"outbound","Caller-Destination-Number":"bob","Caller-Unique-ID":"d3808e91-a5e0-456c-a4bd-39a0003d81e6","variable_sip_auth_realm":"null","variable_dvp_app_id":"3","Caller-Caller-ID-Number":"eve","Other-Leg-Unique-ID":"d453d7a7-3c19-48e8-9047-e347287a1474","Channel-Call-State":"ACTIVE"}],"5fedd42a-7f44-4548-8b18-19613c1fe24b":[{"Channel-State":"CS_EXECUTE","FreeSWITCH-Switchname":"1","Channel-Name":"sofia/external/18705056540@45.55.184.114","Call-Direction":"inbound","Caller-Destination-Number":"94777400400","Caller-Unique-ID":"5fedd42a-7f44-4548-8b18-19613c1fe24b","variable_sip_auth_realm":"null","variable_dvp_app_id":"null","Caller-Caller-ID-Number":"18705056540","Channel-Call-State":"ACTIVE","Application-Type":"HTTAPI"}]}}');
             console.log(JSON.stringify(response.data));
             ValidCallsPicker(response.data);
-            Initiate();
+
         }
 
     };
 
     var onError = function (error) {
         console.log(error);
+    };
+
+    var onRegistrationCompleted = function (response) {
+        console.log(response);
+    };
+
+    var onCallDisconnected = function () {
+        //console.log(response);
+
+        $scope.phoneSatus=false;
+        $scope.CallStatus=null;
+        $scope.currentSessionID=null;
+
     };
 
 
@@ -84,18 +105,44 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
 
     var protocol="user";
 
-    $scope.BargeCall = function (bargeID) {
-        alert("barged: "+bargeID);
-        callMonitorSrv.bargeCalls(bargeID,protocol).then(onBargeComplete,onError);
+    $scope.BargeCall = function () {
+        //alert("barged: "+bargeID);
+
+        //callMonitorSrv.bargeCalls($scope.currentSessionID,protocol).then(onBargeComplete,onError);
+        sendDTMF('2');
+        $scope.CallStatus="BARGED";
+        $scope.phoneSatus=true;
     };
 
-    $scope.ListenCall = function (bargeID) {
-        alert("barged: "+bargeID);
-        callMonitorSrv.listenCall(bargeID,protocol).then(onListenComplete,onError);
+    $scope.ListenCall = function (callData) {
+        //alert("barged: "+bargeID);
+        $scope.currentSessionID=callData.BargeID;
+        callMonitorSrv.listenCall(callData.BargeID,protocol).then(onListenComplete,onError);
+
     };
-    $scope.ThreeWayCall = function (bargeID) {
-        alert("barged: "+bargeID);
-        callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
+    $scope.ThreeWayCall = function () {
+        //alert("barged: "+bargeID);
+        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
+
+        sendDTMF('3');
+        $scope.CallStatus='THREEWAY';
+    };
+
+    $scope.SwapUser = function () {
+        //alert("barged: "+bargeID);
+        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
+
+        sendDTMF('1');
+        $scope.CallStatus="SWAPED";
+
+    };
+
+    $scope.ReturnToListen = function () {
+        //alert("barged: "+bargeID);
+        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
+
+        sendDTMF('0');
+        $scope.CallStatus='LISTEN';
     };
 
 
@@ -207,32 +254,17 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
     $scope.AnzMe= function () {
         acceptCall();
     };
-    $scope.cancleCall= function () {
-        hangupCall();
-    };
-    $scope.MutePhone = function () {
-        var audElement = document.getElementById("audio_remote");
-        var micElement = document.getElementById("micID");
-        micElement.toggleClass('');
-        if(audElement)
-        {
-            audElement.muted = false;
-        }
-        else
-        {
-            audElement.muted = true;
-        }
 
+    $scope.HangUpCall= function () {
+        hangupCall();
+        $scope.CallStatus=null;
+        $scope.phoneSatus=false;
     };
+
 
     $scope.LoadCurrentCalls();
-
-
-
-
-
-
-
-
+    Initiate(onRegistrationCompleted,onCallDisconnected);
 
 });
+
+
