@@ -115,6 +115,7 @@
                         var cdrAppendObj = {};
                         var outLegProcessed = false;
                         var curCdr = cdrResp.Result[cdr];
+                        var isInboundHTTAPI = false;
 
                         var len = curCdr.length;
 
@@ -158,6 +159,11 @@
                                     cdrAppendObj.AnswerSec = currCdrLeg.AnswerSec;
                                 }
 
+                                if(currCdrLeg.ObjType === 'HTTAPI')
+                                {
+                                    isInboundHTTAPI = true;
+                                }
+
                                 if(len === 1)
                                 {
                                     cdrAppendObj.ObjType = currCdrLeg.ObjType;
@@ -189,6 +195,12 @@
                                 outLegProcessed = true;
                             }
                         }
+
+                        if(isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec)
+                        {
+                            cdrAppendObj.ShowButton = true;
+                        }
+
 
                         $scope.cdrList.push(cdrAppendObj);
                     }
