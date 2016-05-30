@@ -215,11 +215,22 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
                 qData();
                 qStats();
 
-                $timeout(updateRealtime, 2000);
+                updatetimer = $timeout(updateRealtime, 2000);
 
             }
 
+            var updatetimer = $timeout(updateRealtime, 2000);
+
             updateRealtime();
+
+
+            $scope.$on("$destroy", function() {
+                if (updatetimer) {
+                    $timeout.cancel(updatetimer);
+                }
+            })
+
+
 
             /*
 
