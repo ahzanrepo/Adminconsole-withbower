@@ -5,8 +5,30 @@
 (function() {
     var app = angular.module("veeryConsoleApp");
 
-    var cdrCtrl = function ($scope, cdrApiHandler)
+    var cdrCtrl = function ($scope, cdrApiHandler, ngAudio)
     {
+        $scope.currentPlayingFile = null;
+
+        $scope.playStopFile = function(uuid, playState, stopState)
+        {
+            if(playState)
+            {
+                $scope.currentPlayingFile = uuid;
+
+                $scope.fileToPlay = ngAudio.load('http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/DownloadLatest/1/3/' + uuid + '.wav');
+
+                $scope.fileToPlay.play();
+            }
+            else if(stopState)
+            {
+                $scope.currentPlayingFile = null;
+
+                $scope.fileToPlay.stop();
+            }
+
+
+        };
+
         $scope.cdrList = [];
 
         var pageStack = [];
@@ -116,6 +138,7 @@
                                     bottomSet = true;
                                 }
 
+                                cdrAppendObj.Uuid = currCdrLeg.Uuid;
                                 cdrAppendObj.SipFromUser = currCdrLeg.SipFromUser;
                                 cdrAppendObj.SipToUser = currCdrLeg.SipToUser;
                                 cdrAppendObj.IsAnswered = currCdrLeg.IsAnswered;
