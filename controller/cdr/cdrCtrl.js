@@ -9,6 +9,11 @@
     {
         $scope.cdrList = [];
 
+        var pageStack = [];
+
+        var pageInfo = {
+        };
+
         $scope.searchCriteria = "";
 
         $scope.recLimit = "10";
@@ -24,25 +29,33 @@
 
         $scope.loadNextPage = function()
         {
-            if($scope.bottom)
-            {
-                $scope.offset = $scope.bottom;
-                $scope.prevOffset = $scope.top;
-                $scope.getProcessedCDR($scope.offset);
-            }
+            var pageInfo = {
+                top: $scope.top,
+                bottom: $scope.bottom
+            };
+            pageStack.push(pageInfo);
+            $scope.getProcessedCDR(pageInfo.bottom, false);
+
+        };
+
+        $scope.loadPreviousPage = function()
+        {
+            var prevPage = pageStack.pop();
+
+            $scope.getProcessedCDR(prevPage.top - 1, false);
 
         };
 
 
-        $scope.getProcessedCDR = function(offset)
+        $scope.getProcessedCDR = function(offset, reset)
         {
-            if(!offset)
+            if(reset)
             {
+                pageStack = [];
                 $scope.top = -1;
                 $scope.bottom = -1;
-
-                $scope.offset = -1;
-                $scope.prevOffset = -1;
+                pageInfo.top = -1;
+                pageInfo.bottom = -1;
             }
             $scope.cdrList = [];
             var startYear = $scope.startDate.getFullYear().toString();
@@ -53,10 +66,14 @@
             var endMonth = ($scope.startDate.getMonth()+1).toString();
             var endDay  = $scope.startDate.getDate().toString();
 
-            var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00%2b05:30';
-            var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59%2b05:30';
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            //var encodedTz = encodeURI(momentTz);
+            momentTz = momentTz.replace("+", "%2B");
 
-            var offset = $scope.offset;
+            var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
+            var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+
+            //var offset = $scope.offset;
 
             var lim = parseInt($scope.recLimit);
 
@@ -103,14 +120,17 @@
                                 cdrAppendObj.SipToUser = currCdrLeg.SipToUser;
                                 cdrAppendObj.IsAnswered = currCdrLeg.IsAnswered;
                                 cdrAppendObj.HangupCause = currCdrLeg.HangupCause;
-                                cdrAppendObj.CreatedTime = currCdrLeg.CreatedTime;
+
+                                var localTime = moment(currCdrLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
+
+                                cdrAppendObj.CreatedTime = localTime;
                                 cdrAppendObj.Duration = currCdrLeg.Duration;
                                 cdrAppendObj.BillSec = currCdrLeg.BillSec;
                                 cdrAppendObj.HoldSec = currCdrLeg.HoldSec;
                                 cdrAppendObj.DVPCallDirection = currCdrLeg.DVPCallDirection;
 
 
-                                if(outLegProcessed)
+                                if(!outLegProcessed)
                                 {
                                     cdrAppendObj.AnswerSec = currCdrLeg.AnswerSec;
                                 }
@@ -150,7 +170,7 @@
                         $scope.cdrList.push(cdrAppendObj);
                     }
 
-                    var dd = 3;
+
                 }
                 else
                 {
