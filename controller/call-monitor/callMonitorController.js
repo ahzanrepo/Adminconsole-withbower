@@ -47,7 +47,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
         callMonitorSrv.getCurrentCalls().then(onCallsDataReceived,onError);
     };
 
-    var dest = "2004@159.203.160.47";
+
     var protocol="user";
 
     $scope.BargeCall = function (bargeID) {
@@ -113,12 +113,13 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
             {
                 FromID=objKey[j]['Caller-Caller-ID-Number'];
                 ToID=objKey[j]['Caller-Destination-Number'];
-                bargeID=objKey[j]['Caller-Unique-ID'];
+
 
             }
             else if(objKey[j]['Call-Direction']=="outbound")
             {
                 Receiver=objKey[j]['Caller-Destination-Number'];
+                bargeID=objKey[j]['Caller-Unique-ID'];
             }
 
             if(objKey[j]['Bridge-State']=="Bridged")

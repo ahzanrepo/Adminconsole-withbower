@@ -19,15 +19,16 @@ mainApp.factory('callMonitorSrv', function ($http) {
             });
         },
 
-        bargeCalls: function (bargeID,destination,protocol) {
+        bargeCalls: function (bargeID,protocol) {
             return $http({
                 method: 'POST',
                 url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/barge",
                 headers: {
                     'authorization':authToken
                 },
-                data:{
-                    destination:destination,
+                data:
+                {
+
                     protocol:protocol
                 }
             }).then(function(response)
