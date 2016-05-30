@@ -49,6 +49,9 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('console.realtime-queued', {
             url: "/realtime-queued",
             templateUrl: "views/real-time/queued.html"
+        }).state('console.phone', {
+            url: "/call-phone",
+            templateUrl: "views/call-monitor/phoneWidget.html"
         });
     }]);
 
