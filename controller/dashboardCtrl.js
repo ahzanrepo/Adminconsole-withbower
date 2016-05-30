@@ -296,23 +296,44 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     var countAllCallServices = function() {
         ServerHandler.callAllServices();
-        $timeout(countAllCallServices, 30000);
+        countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
     }
 
     var getAllNumTotal = function() {
         ServerHandler.getAllNumTotal();
-        $timeout(getAllNumTotal, 60000);
+        getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
     }
 
     var getAllRealTime = function() {
         ServerHandler.updateRelaTimeFuntion();
-        $timeout(getAllRealTime, 1000);
+        getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
     }
 
 
-    countAllCallServices();
-    getAllNumTotal();
-    getAllRealTime();
+
+
+
+
+    var countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
+    var getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
+    var getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+
+
+    $scope.$on("$destroy", function() {
+        if (countAllCallServicesTimer) {
+            $timeout.cancel(countAllCallServicesTimer);
+        }
+
+        if (getAllNumTotalTimer) {
+            $timeout.cancel(getAllNumTotalTimer);
+        }
+
+
+        if (getAllRealTimeTimer) {
+            $timeout.cancel(getAllRealTimeTimer);
+        }
+    })
+
 
 
     $scope.myChartOptions = {
