@@ -34,7 +34,7 @@ mainApp.controller('phonecontroller', function ($scope,callMonitorSrv,notificati
 
         if(e.type == 'started'){
             // successfully started the stack.
-            login();
+            login
 
             //alert(e.type);
         } else if(e.type == 'i_new_call'){
