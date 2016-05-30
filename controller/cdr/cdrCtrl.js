@@ -9,6 +9,11 @@
     {
         $scope.cdrList = [];
 
+        var pageStack = [];
+
+        var pageInfo = {
+        };
+
         $scope.searchCriteria = "";
 
         $scope.recLimit = "10";
@@ -24,25 +29,33 @@
 
         $scope.loadNextPage = function()
         {
-            if($scope.bottom)
-            {
-                $scope.offset = $scope.bottom;
-                $scope.prevOffset = $scope.top;
-                $scope.getProcessedCDR($scope.offset);
-            }
+            var pageInfo = {
+                top: $scope.top,
+                bottom: $scope.bottom
+            };
+            pageStack.push(pageInfo);
+            $scope.getProcessedCDR(pageInfo.bottom, false);
+
+        };
+
+        $scope.loadPreviousPage = function()
+        {
+            var prevPage = pageStack.pop();
+
+            $scope.getProcessedCDR(prevPage.top - 1, false);
 
         };
 
 
-        $scope.getProcessedCDR = function(offset)
+        $scope.getProcessedCDR = function(offset, reset)
         {
-            if(!offset)
+            if(reset)
             {
+                pageStack = [];
                 $scope.top = -1;
                 $scope.bottom = -1;
-
-                $scope.offset = -1;
-                $scope.prevOffset = -1;
+                pageInfo.top = -1;
+                pageInfo.bottom = -1;
             }
             $scope.cdrList = [];
             var startYear = $scope.startDate.getFullYear().toString();
@@ -56,7 +69,7 @@
             var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00%2b05:30';
             var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59%2b05:30';
 
-            var offset = $scope.offset;
+            //var offset = $scope.offset;
 
             var lim = parseInt($scope.recLimit);
 
@@ -150,7 +163,7 @@
                         $scope.cdrList.push(cdrAppendObj);
                     }
 
-                    var dd = 3;
+
                 }
                 else
                 {

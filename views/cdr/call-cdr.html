@@ -21,7 +21,7 @@
 
                 <ul class="nav navbar-right panel_toolbox">
 
-                    <li> <button class="btn btn-round btn-default" ng-click="getProcessedCDR(-1)"> <span class="fa fa-refresh" aria-hidden="true"></span></button></li>
+                    <li> <button class="btn btn-round btn-default" ng-click="getProcessedCDR(-1, true)"> <span class="fa fa-refresh" aria-hidden="true"></span></button></li>
 
                 </ul>
 
@@ -65,7 +65,7 @@
                 </div>
                     <div class="row">
                         <div class="col-sm-7">
-                            <button class="btn btn-primary">Previous</button>
+                            <button class="btn btn-primary" ng-click="loadPreviousPage()">Previous</button>
                             <button class="btn btn-success" ng-click="loadNextPage()">Next</button>
                         </div>
                     </div>
