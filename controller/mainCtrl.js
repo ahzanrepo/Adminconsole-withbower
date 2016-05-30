@@ -19,7 +19,13 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
             $state.go('console.fileupload');
         },
         goRealTimeQueued: function () {
-            $state.go('console.productivity');
+            $state.go('console.realtime-queued');
+        },
+        goCdrReport: function () {
+            $state.go('console.cdr');
+        },
+        goCallMonitor: function () {
+            $state.go('console.callmonitor');
         }
     };
 

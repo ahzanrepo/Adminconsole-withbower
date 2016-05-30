@@ -363,6 +363,7 @@ label {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     letter-spacing: 1px;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -372,16 +373,29 @@ label {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.search-main-wrap {
+    position: absolute;
+    width: 85%;
+    top: 300px;
+    text-align: center;
+    margin: 0 auto;
 }
 
 .data-state-wrap {
-    text-align: center;
+    margin: 0 auto;
+    position: relative;
     font-family: 'Roboto', sans-serif;
     font-weight: 200;
     font-size: 30px;
     padding-top: 20px;
     padding-bottom: 20px;
     color: #40BCB0;
+    background: #fff;
+    width: 350px;
+    text-align: center;
 }
 
 .table-bordered {
@@ -418,7 +432,7 @@ label {
     background-color: rgba(17, 72, 88, 0.11);
 }
 
-.table-striped > tbody > tr{
+.table-striped > tbody > tr {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 13px;
