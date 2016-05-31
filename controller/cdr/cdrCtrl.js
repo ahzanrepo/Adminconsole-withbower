@@ -73,13 +73,17 @@
                 pageInfo.bottom = -1;
             }
             $scope.cdrList = [];
-            var startYear = $scope.startDate.getFullYear().toString();
-            var startMonth = ($scope.startDate.getMonth() + 1).toString();
-            var startDay = $scope.startDate.getDate().toString();
 
-            var endYear = $scope.startDate.getFullYear().toString();
-            var endMonth = ($scope.startDate.getMonth() + 1).toString();
-            var endDay = $scope.startDate.getDate().toString();
+            var startDateMoment = moment($scope.startDate);
+            var endDateMoment = moment($scope.endDate);
+
+            var startYear = startDateMoment.year().toString();
+            var startMonth = (startDateMoment.month() + 1).toString();
+            var startDay = startDateMoment.date().toString();
+
+            var endYear = endDateMoment.year().toString();
+            var endMonth = (endDateMoment.month() + 1).toString();
+            var endDay = endDateMoment.date().toString();
 
             var momentTz = moment.parseZone(new Date()).format('Z');
             //var encodedTz = encodeURI(momentTz);
@@ -88,7 +92,6 @@
             var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
             var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
 
-            //var offset = $scope.offset;
 
             var lim = parseInt($scope.recLimit);
             $scope.isTableLoading = 0;
