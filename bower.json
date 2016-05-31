@@ -44,6 +44,7 @@
     "angular-file-saver": "^1.1.1",
     "angular-bootstrap": "^1.3.3",
     "angular-audio": "^1.7.2",
-    "angular-paging": "^2.2.1"
+    "angular-paging": "^2.2.1",
+    "angular-bootstrap-affix": "^0.2.2"
   }
 }

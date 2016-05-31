@@ -6,7 +6,7 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceServiceModule', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload", "download", "ngAudio","bw.paging"]);
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload", "download", "ngAudio","bw.paging","mgcrea.bootstrap.affix"]);
 
 // "fileServiceModule","angularFileUpload","download"
 var baseUrls = {

@@ -438,3 +438,8 @@ label {
     font-size: 13px;
     text-transform: uppercase;
 }
+
+.veery-phone-widget
+{
+    float:right;
+}
