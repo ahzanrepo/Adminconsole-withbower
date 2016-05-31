@@ -439,7 +439,29 @@ label {
     text-transform: uppercase;
 }
 
-.veery-phone-widget
-{
-    float:right;
+.veery-phone-widget {
+    float: right;
+}
+
+/*#call monitor*/
+.call-monitor-wrap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    top: 0;
+    left: 0px;
+    text-align: center;
+}
+
+.call-monitor-wrap > div.call-monitor {
+    min-width: 450px;
+    max-width: 550px;
+    height: 250px;
+    background: #fff;
+    position: relative;
+    z-index: 99999;
+    text-align: center;
+    margin: 50px auto;
 }
