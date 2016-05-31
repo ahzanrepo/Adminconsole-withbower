@@ -22,7 +22,6 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
         else {
             console.log("Barge success");
             $scope.CallStatus = "BARGED";
-            $scope.phoneSatus = true;
             //acceptCall();
         }
     };
@@ -34,10 +33,10 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
             onError(response.data.Exception.Message);
         }
         else {
-            console.log("Listen success");
-            $scope.CallStatus = "LISTEN";
-            $scope.phoneSatus = true;
-            $scope.clickBtnStateName = "Listen"
+            /*console.log("Listen success");
+             $scope.CallStatus = "LISTEN";
+             $scope.phoneSatus = true;
+             $scope.clickBtnStateName = "Listen"*/
             //acceptCall();
         }
     };
@@ -76,8 +75,13 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
         console.log(error);
     };
 
+
+    //#is check listen function OK
     var onRegistrationCompleted = function (response) {
         console.log(response);
+        $scope.$apply(function () {
+            $scope.phoneSatus = true;
+        });
     };
 
     var onCallDisconnected = function () {
@@ -87,12 +91,22 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
             $scope.isCallMonitorOption = 0;
         });
 
-        $scope.phoneSatus = false;
         $scope.CallStatus = null;
         $scope.currentSessionID = null;
 
     };
 
+    var onCallConnected = function () {
+        $scope.$apply(function () {
+            console.log("onCallConnected");
+            console.log($scope.isCallMonitorOption);
+            $scope.CallStatus = "LISTEN";
+            $scope.clickBtnStateName = "Listen"
+            $scope.isCallMonitorOption = 1;
+            console.log($scope.isCallMonitorOption);
+        });
+
+    };
 
     $scope.LoadCurrentCalls = function () {
         callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
@@ -109,7 +123,6 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
         sendDTMF('2');
         $scope.CallStatus = "BARGED";
         $scope.clickBtnStateName = "Barged";
-        $scope.phoneSatus = true;
     };
 
 
@@ -119,7 +132,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
         //alert("barged: "+bargeID);
         $scope.currentSessionID = callData.BargeID;
         callMonitorSrv.listenCall(callData.BargeID, protocol).then(onListenComplete, onError);
-        $scope.isCallMonitorOption = 1;
+
 
     };
     $scope.ThreeWayCall = function () {
@@ -249,13 +262,12 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
     $scope.HangUpCall = function () {
         hangupCall();
         $scope.CallStatus = null;
-        $scope.phoneSatus = false;
         $scope.clickBtnStateName = "waiting";
     };
 
 
     $scope.LoadCurrentCalls();
-    Initiate(onRegistrationCompleted, onCallDisconnected);
+    Initiate(onRegistrationCompleted, onCallDisconnected, onCallConnected);
 
 });
 

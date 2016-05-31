@@ -15,6 +15,7 @@ var callSession;
 var incomingCallSession;
 var onRegCompleted;
 var onDisconnection;
+var onCallConnect;
 
 function EventListener(e) {
 
@@ -97,6 +98,8 @@ function EventListener(e) {
             // successfully connected call
         } else if(e.session == incomingCallSession) {
             // incoming call connected
+            console.log("Successfully onCallConnected");
+            onCallConnect();
         }
 
     } else if(e.type == 'terminated') {
@@ -175,11 +178,12 @@ function makeCall(ext) {
 }
 
 
-function Initiate(onRegistrationCompleted,onCallDisconnected)
+function Initiate(onRegistrationCompleted,onCallDisconnected,onCallConnected)
 {
     SIPml.init(readyCallback, errorCallback);
     onRegCompleted=onRegistrationCompleted;
     onDisconnection=onCallDisconnected;
+    onCallConnect=onCallConnected;
 }
 
 
