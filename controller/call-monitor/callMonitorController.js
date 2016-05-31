@@ -4,68 +4,61 @@
 
 'use strict';
 
-mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificationService) {
+mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notificationService) {
 
     // Update the dataset at 25FPS for a smoothly-animating chart
-    $scope.CallObj={};
-    $scope.CallStatus=null;
-    $scope.phoneSatus=false;
-    $scope.currentSessionID=null;
+    $scope.CallObj = {};
+    $scope.CallStatus = null;
+    $scope.phoneSatus = false;
+    $scope.currentSessionID = null;
 
     var onBargeComplete = function (response) {
 
         console.log(JSON.stringify(response));
-        if(response.data.Exception)
-        {
+        if (response.data.Exception) {
             console.log("Barge Error");
             onError(response.data.Exception.Message);
         }
-        else
-        {
+        else {
             console.log("Barge success");
-            $scope.CallStatus="BARGED";
-            $scope.phoneSatus=true;
+            $scope.CallStatus = "BARGED";
+            $scope.phoneSatus = true;
             //acceptCall();
         }
     };
     var onListenComplete = function (response) {
 
         console.log(JSON.stringify(response));
-        if(response.data.Exception)
-        {
+        if (response.data.Exception) {
             console.log("Barge Error");
             onError(response.data.Exception.Message);
         }
-        else
-        {
+        else {
             console.log("Listen success");
-            $scope.CallStatus="LISTEN";
-            $scope.phoneSatus=true;
+            $scope.CallStatus = "LISTEN";
+            $scope.phoneSatus = true;
+            $scope.clickBtnStateName = "Listen"
             //acceptCall();
         }
     };
     var onThreeWayComplete = function (response) {
 
         console.log(JSON.stringify(response));
-        if(response.data.Exception)
-        {
+        if (response.data.Exception) {
             console.log("Barge Error");
             onError(response.data.Exception.Message);
         }
-        else
-        {
+        else {
             console.log("Barge success");
             //acceptCall();
         }
     };
     var onCallsDataReceived = function (response) {
 
-        if(response.data.Exception)
-        {
+        if (response.data.Exception) {
             onError(response.data.Exception.Message);
         }
-        else
-        {
+        else {
             /*notificationService.success({
              title: 'ok',
              text: "ok",
@@ -89,35 +82,44 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
 
     var onCallDisconnected = function () {
         //console.log(response);
+        $scope.clickBtnStateName = "Waiting";
+        $scope.$apply(function () {
+            $scope.isCallMonitorOption = 0;
+        });
 
-        $scope.phoneSatus=false;
-        $scope.CallStatus=null;
-        $scope.currentSessionID=null;
+        $scope.phoneSatus = false;
+        $scope.CallStatus = null;
+        $scope.currentSessionID = null;
 
     };
 
 
-    $scope.LoadCurrentCalls = function()
-    {
-        callMonitorSrv.getCurrentCalls().then(onCallsDataReceived,onError);
+    $scope.LoadCurrentCalls = function () {
+        callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
     };
 
 
-    var protocol="user";
+    var protocol = "user";
+
 
     $scope.BargeCall = function () {
         //alert("barged: "+bargeID);
 
         //callMonitorSrv.bargeCalls($scope.currentSessionID,protocol).then(onBargeComplete,onError);
         sendDTMF('2');
-        $scope.CallStatus="BARGED";
-        $scope.phoneSatus=true;
+        $scope.CallStatus = "BARGED";
+        $scope.clickBtnStateName = "Barged";
+        $scope.phoneSatus = true;
     };
 
+
+    $scope.isCallMonitorOption = 0;
+    $scope.clickBtnStateName = "waiting";
     $scope.ListenCall = function (callData) {
         //alert("barged: "+bargeID);
-        $scope.currentSessionID=callData.BargeID;
-        callMonitorSrv.listenCall(callData.BargeID,protocol).then(onListenComplete,onError);
+        $scope.currentSessionID = callData.BargeID;
+        callMonitorSrv.listenCall(callData.BargeID, protocol).then(onListenComplete, onError);
+        $scope.isCallMonitorOption = 1;
 
     };
     $scope.ThreeWayCall = function () {
@@ -125,7 +127,8 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
         //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
 
         sendDTMF('3');
-        $scope.CallStatus='THREEWAY';
+        $scope.CallStatus = 'THREEWAY';
+        $scope.clickBtnStateName = "Conference ";
     };
 
     $scope.SwapUser = function () {
@@ -133,7 +136,8 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
         //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
 
         sendDTMF('1');
-        $scope.CallStatus="SWAPED";
+        $scope.CallStatus = "SWAPED";
+        $scope.clickBtnStateName = "Client";
 
     };
 
@@ -142,98 +146,85 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
         //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
 
         sendDTMF('0');
-        $scope.CallStatus='LISTEN';
+        $scope.CallStatus = 'LISTEN';
+        $scope.clickBtnStateName = "Listen";
     };
 
 
     var ValidCallsPicker = function (callObj) {
 
-        var curCallArr=[];
-        $scope.CallObj={};
+        var curCallArr = [];
+        $scope.CallObj = {};
 
         var callObjLen = Object.keys(callObj.Result).length;
-        console.log("DB Call count "+callObjLen);
+        console.log("DB Call count " + callObjLen);
 
-        for(var i=0;i<callObjLen;i++)
-        {
-            var keyObj=callObj.Result[Object.keys(callObj.Result)[i]];
+        for (var i = 0; i < callObjLen; i++) {
+            var keyObj = callObj.Result[Object.keys(callObj.Result)[i]];
 
-            if(keyObj.length>1)
-            {
-                var callObject=CallObjectCreator(keyObj);
-                if(callObject)
-                {
+            if (keyObj.length > 1) {
+                var callObject = CallObjectCreator(keyObj);
+                if (callObject) {
 
                     curCallArr.push(callObject);
-                    $scope.CallObj=curCallArr;
-                    console.log("Call Object "+$scope.CallObj);
+                    $scope.CallObj = curCallArr;
+                    console.log("Call Object " + $scope.CallObj);
                 }
-                else
-                {
-                    $scope.CallObj={}
+                else {
+                    $scope.CallObj = {}
                 }
 
             }
 
 
-            if(i==callObjLen-1)
-            {
+            if (i == callObjLen - 1) {
                 console.log(curCallArr);
             }
         }
 
     };
 
-    var CallObjectCreator= function(objKey)
-    {
-        var bargeID="";
-        var FromID="";
-        var ToID="";
-        var Direction ="";
-        var Receiver ="";
-        var Bridged=false;
-        var newKeyObj={};
+    var CallObjectCreator = function (objKey) {
+        var bargeID = "";
+        var FromID = "";
+        var ToID = "";
+        var Direction = "";
+        var Receiver = "";
+        var Bridged = false;
+        var newKeyObj = {};
 
-        for(var j=0;j<objKey.length;j++)
-        {
+        for (var j = 0; j < objKey.length; j++) {
 
-            if(objKey[j]["DVP-Call-Direction"])
-            {
+            if (objKey[j]["DVP-Call-Direction"]) {
                 Direction = objKey[j]["DVP-Call-Direction"];
             }
 
-            if(objKey[j]['Call-Direction']=="inbound")
-            {
-                FromID=objKey[j]['Caller-Caller-ID-Number'];
-                ToID=objKey[j]['Caller-Destination-Number'];
+            if (objKey[j]['Call-Direction'] == "inbound") {
+                FromID = objKey[j]['Caller-Caller-ID-Number'];
+                ToID = objKey[j]['Caller-Destination-Number'];
 
 
             }
-            else if(objKey[j]['Call-Direction']=="outbound")
-            {
-                Receiver=objKey[j]['Caller-Destination-Number'];
-                bargeID=objKey[j]['Caller-Unique-ID'];
+            else if (objKey[j]['Call-Direction'] == "outbound") {
+                Receiver = objKey[j]['Caller-Destination-Number'];
+                bargeID = objKey[j]['Caller-Unique-ID'];
             }
 
-            if(objKey[j]['Bridge-State']=="Bridged")
-            {
-                Bridged=true;
+            if (objKey[j]['Bridge-State'] == "Bridged") {
+                Bridged = true;
             }
 
-            if(j==objKey.length-1)
-            {
-                if(Bridged)
-                {
-                    newKeyObj.FromID=FromID;
-                    newKeyObj.ToID=ToID;
-                    newKeyObj.BargeID=bargeID;
-                    newKeyObj.Direction=Direction;
-                    newKeyObj.Receiver=Receiver;
+            if (j == objKey.length - 1) {
+                if (Bridged) {
+                    newKeyObj.FromID = FromID;
+                    newKeyObj.ToID = ToID;
+                    newKeyObj.BargeID = bargeID;
+                    newKeyObj.Direction = Direction;
+                    newKeyObj.Receiver = Receiver;
 
                     return newKeyObj;
                 }
-                else
-                {
+                else {
                     return false;
                 }
 
@@ -242,28 +233,29 @@ mainApp.controller('callmonitorcntrl', function ($scope,callMonitorSrv,notificat
         }
     };
 
-    $scope.answerMe= function () {
+    $scope.answerMe = function () {
         acceptCall();
     };
-    $scope.CallMe= function () {
+    $scope.CallMe = function () {
         makeCall('eve');
     };
-    $scope.RegMe= function () {
+    $scope.RegMe = function () {
         register();
     };
-    $scope.AnzMe= function () {
+    $scope.AnzMe = function () {
         acceptCall();
     };
 
-    $scope.HangUpCall= function () {
+    $scope.HangUpCall = function () {
         hangupCall();
-        $scope.CallStatus=null;
-        $scope.phoneSatus=false;
+        $scope.CallStatus = null;
+        $scope.phoneSatus = false;
+        $scope.clickBtnStateName = "waiting";
     };
 
 
     $scope.LoadCurrentCalls();
-    Initiate(onRegistrationCompleted,onCallDisconnected);
+    Initiate(onRegistrationCompleted, onCallDisconnected);
 
 });
 

@@ -286,8 +286,11 @@ a {
 }
 
 .veery-tbl-body > td.valAlgn {
-    text-align: justify;
-    font-size: medium;
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    padding-top: 20px;
 
 }
 
@@ -458,10 +461,80 @@ label {
 .call-monitor-wrap > div.call-monitor {
     min-width: 450px;
     max-width: 550px;
-    height: 250px;
+    height: 320px;
     background: #fff;
     position: relative;
     z-index: 99999;
     text-align: center;
-    margin: 50px auto;
+    margin: 10% auto;
+    border-radius: 5px;
 }
+
+.center-icon {
+    padding-top: 20px;
+    padding-bottom: 50px;
+    position: relative;
+
+}
+
+.call-monitor > .center-icon > span {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 6px solid #40BCB0;
+    position: absolute;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.call-monitor > .center-icon > span > img {
+    border-radius: 50px;
+    border: 6px solid #40BCB0;
+}
+
+.call-monitor > .monitor-header {
+    padding-top: 27px;
+
+}
+
+.call-monitor > .monitor-header > small {
+    font-size: 14px;
+    text-space: 1px;
+    color: #f8b01d;
+
+}
+
+.call-monitor > img {
+    margin-bottom: 10px;
+}
+
+.call-monitor > .monitor-header > h2 {
+    font-size: 25px;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+.center-icon > div > small {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 23px;
+    margin-top: 5px;
+}
+
+.center-icon > div {
+    margin-top: 10px;
+}
+
+.center-icon > img {
+
+}
+
+.round-btn {
+    border-radius: 50px;
+    padding: 10px;
+}
+
+.btn.bg-blue700:hover {
+    color: #f8b01d;
+}
+

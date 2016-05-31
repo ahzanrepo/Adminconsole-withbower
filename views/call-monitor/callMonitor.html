@@ -1,22 +1,65 @@
-<div class="call-monitor-wrap">
+<!-- #modal -->
+<div class="call-monitor-wrap" ng-if="isCallMonitorOption==1">
     <div class="call-monitor">
+        <div class="monitor-header">
+            <small>INBOUND...</small>
+            <h2 class="font-robot font-100">0778957456</h2>
 
+        </div>
+        <div class="center-icon">
+            <img src="images/call_center.png" width="50px"
+                 height="50px;"/>
+            <div>
+                <small>{{clickBtnStateName}}</small>
+            </div>
+        </div>
+
+        <div class="call-moitor-btn-wrap">
+            <div ng-if="phoneSatus">
+                <button class="btn bg-blue700 hvr-pop" ng-click=""><span class="fa fa-microphone-slash "
+                                                                         aria-hidden="true"></span></button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span class="fa fa-phone"
+                                                                                     aria-hidden="true"></span>
+                </button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span class="fa fa-group"
+                                                                                       aria-hidden="true"></span>
+                </button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="BargeCall()"
+                        ng-disabled="(CallStatus=='BARGED' || CallStatus=='THREEWAY' || CallStatus==null)"><span
+                        class="fa fa-bullhorn" aria-hidden="true"></span></button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
+                        ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)"><span class="fa fa-mail-reply"
+                                                                                       aria-hidden="true"></span>
+                </button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
+                        ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )">
+                    <span class="fa fa-user" aria-hidden="true"></span></button>
+                <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->
+
+
+            </div>
+        </div>
     </div>
-
 </div>
+<!-- end modal -->
+
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="page-title">
+            <div class="title_left">
+                <h3 class="font-robot font-600 ">Call Monitor</h3>
+            </div>
+        </div>
         <div class="x_panel">
             <div class="x_title">
-                <h2>Call Monitor
-                    <small>ongoing call viewer</small>
+                <h2 class="font-robot font-300 text-uppercase font-15">ongoing call viewer
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
-
                     <li>
-                        <button class="btn btn-round btn-default" ng-click="LoadCurrentCalls()"><span
-                                class="fa fa-refresh" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-success" ng-click="LoadCurrentCalls()">
+                            Refresh
+                        </button>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -47,7 +90,7 @@
                             <td class="valAlgn">{{call.Receiver}}</td>
 
                             <td class="lstCol">
-                                <button type="submit" class="btn btn-primary" ng-click="ListenCall(call)"
+                                <button type="submit" class="btn btn-primary btn-sm" ng-click="ListenCall(call)"
                                         ng-disabled="phoneSatus"><span class="" aria-hidden="true"></span> Listen
                                 </button>
                                 <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->
@@ -70,27 +113,7 @@
 
 </div>
 
-<div ng-if="phoneSatus">
 
-    <button class="btn btn-round btn-default" ng-click=""><span class="fa fa-microphone-slash"
-                                                                aria-hidden="true"></span></button>
-    <button class="btn btn-round btn-default" ng-click="HangUpCall()"><span class="fa fa-phone"
-                                                                            aria-hidden="true"></span></button>
-    <button class="btn btn-round btn-default" ng-click="ThreeWayCall()"><span class="fa fa-group"
-                                                                              aria-hidden="true"></span></button>
-    <button class="btn btn-round btn-default" ng-click="BargeCall()"
-            ng-disabled="(CallStatus=='BARGED' || CallStatus=='THREEWAY' || CallStatus==null)"><span
-            class="fa fa-bullhorn" aria-hidden="true"></span></button>
-    <button class="btn btn-round btn-default" ng-click="ReturnToListen()"
-            ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)"><span class="fa fa-mail-reply"
-                                                                           aria-hidden="true"></span></button>
-    <button class="btn btn-round btn-default" ng-click="SwapUser()"
-            ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )">
-        <span class="fa fa-user" aria-hidden="true"></span></button>
-    <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->
-
-
-</div>
 
 
 
