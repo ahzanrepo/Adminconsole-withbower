@@ -10,6 +10,12 @@
 
         $scope.playStopFile = function (uuid, playState, stopState) {
             if (playState) {
+
+                
+                if($scope.currentPlayingFile)
+                {
+                    $scope.fileToPlay.stop();
+                }
                 $scope.currentPlayingFile = uuid;
 
                 $scope.fileToPlay = ngAudio.load('http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/DownloadLatest/1/3/' + uuid + '.wav');
