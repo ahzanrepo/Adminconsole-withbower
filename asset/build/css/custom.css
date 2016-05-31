@@ -4110,11 +4110,12 @@ a.hiddenanchor {
 
 .login_content {
     margin: 0 auto;
-    padding: 25px 0 0;
     position: relative;
     text-align: center;
-    text-shadow: 0 1px 0 #fff;
     min-width: 280px;
+    padding: 52px 37px 100px 29px;
+    background: #fff;
+    border-radius: 10px;
 }
 
 .login_content a,
@@ -4128,7 +4129,7 @@ a.hiddenanchor {
 
 .login_content h1 {
     font: normal 25px Helvetica, Arial, sans-serif;
-    letter-spacing: -0.05em;
+    letter-spacing: 1px;
     line-height: 20px;
     margin: 10px 0 30px;
 }
@@ -4200,12 +4201,6 @@ a.hiddenanchor {
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
     border-radius: 3px;
-    -webkit-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
-    -moz-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
-    -ms-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
-    -o-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
-    box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
-    border: 1px solid #c8c8c8;
     color: #777;
     margin: 0 0 20px;
     width: 100%;
