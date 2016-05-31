@@ -11,7 +11,7 @@
         $scope.playStopFile = function (uuid, playState, stopState) {
             if (playState) {
 
-                
+
                 if($scope.currentPlayingFile)
                 {
                     $scope.fileToPlay.stop();
