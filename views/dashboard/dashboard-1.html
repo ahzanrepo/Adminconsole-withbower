@@ -111,10 +111,10 @@
                                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
-                                                'break':resource.slotState=='Break'}"
+                                                'break':resource.other=='Break'}"
                                     ng-repeat="resource in profile">
                                     <a class="pull-left border-aero profile_thumb">
-                                        <i class="ti-user font-yellow800"></i>
+                                        <i class="fa fa-user font-blue500"></i>
                                     </a>
                                     <div class="media-body">
                                         <a class="title" href="javascript:void(0)">{{resource.name}}</a>

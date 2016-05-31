@@ -3,7 +3,7 @@
  */
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
-                                         dashboardService, moment) {
+                                              dashboardService, moment) {
 
 
     //#services call handler
@@ -215,8 +215,10 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             var profile = {
                                 name: '',
                                 slotState: null,
-                                LastReservedTime: 0
+                                LastReservedTime: 0,
+                                other: null
                             };
+
                             profile.name = response[i].ResourceName;
                             if (response[i].ConcurrencyInfo.length > 0 &&
                                 response[i].ConcurrencyInfo[0].SlotInfo.length > 0) {
@@ -235,16 +237,16 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                 if (resonseAvailability == "NotAvailable") {
                                     profile.slotState = resonseStatus;
+                                    profile.other = "Break";
                                     reservedDate = response[i].Status.StateChangeTime;
                                 } else {
                                     profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
 
-                                    if(response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available"){
+                                    if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
 
                                         reservedDate = response[i].Status.StateChangeTime;
                                     }
                                 }
-
 
 
                                 if (reservedDate == "") {
@@ -288,31 +290,31 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
 
     /*
-    //loop request
-    var t = $interval(function updateRandom() {
-        ServerHandler.callAllServices();
-    }, 30000);
-    var tt = $interval(function updateRandom() {
-        ServerHandler.getAllNumTotal();
-    }, 60000);
-    var t = $interval(function updateRandom() {
-        ServerHandler.updateRelaTimeFuntion();
-        ServerHandler.getProfiles();
-    }, 1000);
+     //loop request
+     var t = $interval(function updateRandom() {
+     ServerHandler.callAllServices();
+     }, 30000);
+     var tt = $interval(function updateRandom() {
+     ServerHandler.getAllNumTotal();
+     }, 60000);
+     var t = $interval(function updateRandom() {
+     ServerHandler.updateRelaTimeFuntion();
+     ServerHandler.getProfiles();
+     }, 1000);
 
-*/
+     */
 
-    var countAllCallServices = function() {
+    var countAllCallServices = function () {
         ServerHandler.callAllServices();
         countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
     }
 
-    var getAllNumTotal = function() {
+    var getAllNumTotal = function () {
         ServerHandler.getAllNumTotal();
         getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
     }
 
-    var getAllRealTime = function() {
+    var getAllRealTime = function () {
         ServerHandler.updateRelaTimeFuntion();
         ServerHandler.getProfiles();
         getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
@@ -324,15 +326,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     ServerHandler.updateRelaTimeFuntion();
 
 
-
-
-
     var countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
     var getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
     var getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
 
 
-    $scope.$on("$destroy", function() {
+    $scope.$on("$destroy", function () {
         if (countAllCallServicesTimer) {
             $timeout.cancel(countAllCallServicesTimer);
         }
@@ -346,7 +345,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             $timeout.cancel(getAllRealTimeTimer);
         }
     })
-
 
 
     $scope.myChartOptions = {
