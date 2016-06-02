@@ -6,9 +6,22 @@
     var app = angular.module("veeryConsoleApp");
 
     var cdrCtrl = function ($scope, cdrApiHandler, ngAudio) {
+
+
+        $scope.showAlert = function (tittle, type, content) {
+
+            new PNotify({
+                title: tittle,
+                text: content,
+                type: type,
+                styling: 'bootstrap3'
+            });
+        };
+
         $scope.currentPlayingFile = null;
 
-        $scope.playStopFile = function (uuid, playState, stopState) {
+        $scope.playStopFile = function (uuid, playState, stopState)
+        {
             if (playState) {
 
 
@@ -43,6 +56,9 @@
 
         $scope.recLimit = "10";
 
+        $scope.isPreviousDisabled = true;
+        $scope.isNextDisabled = true;
+
         $scope.top = -1;
         $scope.bottom = -1;
 
@@ -69,140 +85,196 @@
 
         };
 
-
-        $scope.getProcessedCDR = function (offset, reset) {
-            if (reset) {
-                pageStack = [];
-                $scope.top = -1;
-                $scope.bottom = -1;
-                pageInfo.top = -1;
-                pageInfo.bottom = -1;
+        var isEmpty = function(map) {
+            for(var key in map) {
+                if (map.hasOwnProperty(key)) {
+                    return false;
+                }
             }
-            $scope.cdrList = [];
-
-            var startDateMoment = moment($scope.startDate);
-            var endDateMoment = moment($scope.endDate);
-
-            var startYear = startDateMoment.year().toString();
-            var startMonth = (startDateMoment.month() + 1).toString();
-            var startDay = startDateMoment.date().toString();
-
-            var endYear = endDateMoment.year().toString();
-            var endMonth = (endDateMoment.month() + 1).toString();
-            var endDay = endDateMoment.date().toString();
-
-            var momentTz = moment.parseZone(new Date()).format('Z');
-            //var encodedTz = encodeURI(momentTz);
-            momentTz = momentTz.replace("+", "%2B");
-
-            var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
-            var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+            return true;
+        };
 
 
-            var lim = parseInt($scope.recLimit);
-            $scope.isTableLoading = 0;
-            cdrApiHandler.getCDRForTimeRange(startTime, endTime, lim, offset).then(function (cdrResp) {
-                if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
-                    var topSet = false;
-                    var bottomSet = false;
+        $scope.getProcessedCDR = function (offset, reset)
+        {
 
-                    var count = 0;
-                    var cdrLen = Object.keys(cdrResp.Result).length;
+            try
+            {
+                if (reset) {
+                    pageStack = [];
+                    $scope.top = -1;
+                    $scope.bottom = -1;
+                    pageInfo.top = -1;
+                    pageInfo.bottom = -1;
+                }
+                $scope.cdrList = [];
 
-                    for (cdr in cdrResp.Result) {
-                        count++;
-                        var cdrAppendObj = {};
-                        var outLegProcessed = false;
-                        var curCdr = cdrResp.Result[cdr];
-                        var isInboundHTTAPI = false;
-
-                        var len = curCdr.length;
+                $scope.isNextDisabled = true;
+                $scope.isPreviousDisabled = true;
 
 
-                        for (i = 0; i < curCdr.length; i++) {
-                            var currCdrLeg = curCdr[i];
-                            var legDirection = currCdrLeg.Direction;
+                var startDateMoment = moment($scope.startDate);
+                var endDateMoment = moment($scope.endDate);
 
-                            if (legDirection === 'inbound') {
-                                if (!topSet) {
-                                    $scope.top = currCdrLeg.id;
-                                    topSet = true;
+                var startYear = startDateMoment.year().toString();
+                var startMonth = (startDateMoment.month() + 1).toString();
+                var startDay = startDateMoment.date().toString();
+
+                var endYear = endDateMoment.year().toString();
+                var endMonth = (endDateMoment.month() + 1).toString();
+                var endDay = endDateMoment.date().toString();
+
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                //var encodedTz = encodeURI(momentTz);
+                momentTz = momentTz.replace("+", "%2B");
+
+                var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
+                var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+
+
+                var lim = parseInt($scope.recLimit);
+                $scope.isTableLoading = 0;
+                cdrApiHandler.getCDRForTimeRange(startTime, endTime, lim, offset).then(function (cdrResp)
+                {
+                    if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
+                    {
+                        if(!isEmpty(cdrResp.Result))
+                        {
+                            var topSet = false;
+                            var bottomSet = false;
+
+                            var count = 0;
+                            var cdrLen = Object.keys(cdrResp.Result).length;
+
+                            for (cdr in cdrResp.Result) {
+                                count++;
+                                var cdrAppendObj = {};
+                                var outLegProcessed = false;
+                                var curCdr = cdrResp.Result[cdr];
+                                var isInboundHTTAPI = false;
+
+                                var len = curCdr.length;
+
+
+                                for (i = 0; i < curCdr.length; i++) {
+                                    var currCdrLeg = curCdr[i];
+                                    var legDirection = currCdrLeg.Direction;
+
+                                    if (legDirection === 'inbound') {
+                                        if (!topSet) {
+                                            $scope.top = currCdrLeg.id;
+                                            topSet = true;
+                                        }
+
+                                        if (!bottomSet && count === cdrLen) {
+                                            $scope.bottom = currCdrLeg.id;
+                                            bottomSet = true;
+                                        }
+
+                                        cdrAppendObj.Uuid = currCdrLeg.Uuid;
+                                        cdrAppendObj.SipFromUser = currCdrLeg.SipFromUser;
+                                        cdrAppendObj.SipToUser = currCdrLeg.SipToUser;
+                                        cdrAppendObj.IsAnswered = currCdrLeg.IsAnswered;
+                                        cdrAppendObj.HangupCause = currCdrLeg.HangupCause;
+
+                                        var localTime = moment(currCdrLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
+
+                                        cdrAppendObj.CreatedTime = localTime;
+                                        cdrAppendObj.Duration = currCdrLeg.Duration;
+                                        cdrAppendObj.BillSec = currCdrLeg.BillSec;
+                                        cdrAppendObj.HoldSec = currCdrLeg.HoldSec;
+                                        cdrAppendObj.DVPCallDirection = currCdrLeg.DVPCallDirection;
+
+
+                                        if (!outLegProcessed) {
+                                            cdrAppendObj.AnswerSec = currCdrLeg.AnswerSec;
+                                        }
+
+                                        if (currCdrLeg.ObjType === 'HTTAPI') {
+                                            isInboundHTTAPI = true;
+                                        }
+
+                                        if (len === 1) {
+                                            cdrAppendObj.ObjType = currCdrLeg.ObjType;
+                                            cdrAppendObj.ObjCategory = currCdrLeg.ObjCategory;
+                                        }
+
+                                    }
+                                    else {
+                                        if (!bottomSet && count === cdrLen) {
+                                            $scope.bottom = currCdrLeg.id;
+                                            bottomSet = true;
+                                        }
+
+                                        cdrAppendObj.RecievedBy = currCdrLeg.SipToUser;
+                                        cdrAppendObj.AnswerSec = currCdrLeg.AnswerSec;
+
+                                        if (!cdrAppendObj.ObjType) {
+                                            cdrAppendObj.ObjType = currCdrLeg.ObjType;
+                                        }
+
+                                        if (!cdrAppendObj.ObjCategory) {
+                                            cdrAppendObj.ObjCategory = currCdrLeg.ObjCategory;
+                                        }
+
+                                        outLegProcessed = true;
+                                    }
                                 }
 
-                                if (!bottomSet && count === cdrLen) {
-                                    $scope.bottom = currCdrLeg.id;
-                                    bottomSet = true;
+                                if (isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec) {
+                                    cdrAppendObj.ShowButton = true;
                                 }
 
-                                cdrAppendObj.Uuid = currCdrLeg.Uuid;
-                                cdrAppendObj.SipFromUser = currCdrLeg.SipFromUser;
-                                cdrAppendObj.SipToUser = currCdrLeg.SipToUser;
-                                cdrAppendObj.IsAnswered = currCdrLeg.IsAnswered;
-                                cdrAppendObj.HangupCause = currCdrLeg.HangupCause;
 
-                                var localTime = moment(currCdrLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
-
-                                cdrAppendObj.CreatedTime = localTime;
-                                cdrAppendObj.Duration = currCdrLeg.Duration;
-                                cdrAppendObj.BillSec = currCdrLeg.BillSec;
-                                cdrAppendObj.HoldSec = currCdrLeg.HoldSec;
-                                cdrAppendObj.DVPCallDirection = currCdrLeg.DVPCallDirection;
-
-
-                                if (!outLegProcessed) {
-                                    cdrAppendObj.AnswerSec = currCdrLeg.AnswerSec;
-                                }
-
-                                if (currCdrLeg.ObjType === 'HTTAPI') {
-                                    isInboundHTTAPI = true;
-                                }
-
-                                if (len === 1) {
-                                    cdrAppendObj.ObjType = currCdrLeg.ObjType;
-                                    cdrAppendObj.ObjCategory = currCdrLeg.ObjCategory;
-                                }
-
+                                $scope.cdrList.push(cdrAppendObj);
                             }
-                            else {
-                                if (!bottomSet && count === cdrLen) {
-                                    $scope.bottom = currCdrLeg.id;
-                                    bottomSet = true;
-                                }
 
-                                cdrAppendObj.RecievedBy = currCdrLeg.SipToUser;
-                                cdrAppendObj.AnswerSec = currCdrLeg.AnswerSec;
-
-                                if (!cdrAppendObj.ObjType) {
-                                    cdrAppendObj.ObjType = currCdrLeg.ObjType;
-                                }
-
-                                if (!cdrAppendObj.ObjCategory) {
-                                    cdrAppendObj.ObjCategory = currCdrLeg.ObjCategory;
-                                }
-
-                                outLegProcessed = true;
+                            if(pageStack.length === 0)
+                            {
+                                $scope.isNextDisabled = false;
+                                $scope.isPreviousDisabled = true;
                             }
+                            else if(pageStack.length > 0)
+                            {
+                                $scope.isPreviousDisabled = false;
+                                $scope.isNextDisabled = false;
+                            }
+
+                            $scope.isTableLoading = 1;
+                        }
+                        else
+                        {
+                            $scope.showAlert('Info', 'info', 'No records to load');
+
+                            if(pageStack.length > 0)
+                            {
+                                $scope.isPreviousDisabled = false;
+                                $scope.isNextDisabled = true;
+                            }
+                            $scope.isNextDisabled = true;
+                            $scope.isTableLoading = 1;
                         }
 
-                        if (isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec) {
-                            cdrAppendObj.ShowButton = true;
-                        }
 
-
-                        $scope.cdrList.push(cdrAppendObj);
                     }
+                    else
+                    {
+                        $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                        $scope.isTableLoading = 1;
+                    }
+
+
+                }, function (err)
+                {
+                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                     $scope.isTableLoading = 1;
-
-                }
-                else {
-
-                }
-
-
-            }, function (err) {
-
-            })
-
+                })
+            }
+            catch(ex)
+            {
+                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
+                $scope.isTableLoading = 1;
+            }
         }
 
 

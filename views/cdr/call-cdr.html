@@ -177,8 +177,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-7">
-                            <button class="btn btn-primary" ng-click="loadPreviousPage()">Previous</button>
-                            <button class="btn btn-success" ng-click="loadNextPage()">Next</button>
+                            <button class="btn btn-primary" ng-click="loadPreviousPage()" ng-disabled="isPreviousDisabled">Previous</button>
+                            <button class="btn btn-success" ng-click="loadNextPage()" ng-disabled="isNextDisabled">Next</button>
                         </div>
                     </div>
                 </div>
