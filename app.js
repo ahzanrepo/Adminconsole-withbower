@@ -45,6 +45,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state("console.cdr", {
             url: "/cdr",
             templateUrl: "views/cdr/call-cdr.html"
+        }).state("console.sipuser", {
+            url: "/sipuser",
+            templateUrl: "views/sipuser/sipuser.html",
+            controller: "SipUserController"
         }).state('console.callmonitor', {
             url: "/call-monitor",
             templateUrl: "views/call-monitor/callMonitor.html",
