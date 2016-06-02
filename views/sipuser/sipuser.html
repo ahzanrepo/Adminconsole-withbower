@@ -1,1 +1,33 @@
-<div>sdgfdshgfk</div>
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="font-robot font-600 ">Sip User Configuration</h3>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="col-md-6">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Current sip users</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <ul class="list-unstyled msg_list">
+                <li ng-repeat="item in sipUsrList | filter : item.Enabled : true">
+                    <a>
+                        <span class="image">
+                          <img src="images/img.jpg" alt="img">
+                        </span>
+                        <span>
+                          <span>{{item.SipUsername}}</span>
+                        </span>
+                        <span class="message">
+                          {{item.EmailAddress}}
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

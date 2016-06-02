@@ -48,7 +48,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state("console.sipuser", {
             url: "/sipuser",
             templateUrl: "views/sipuser/sipuser.html",
-            controller: "SipUserController"
+            controller: "sipUserCtrl"
         }).state('console.callmonitor', {
             url: "/call-monitor",
             templateUrl: "views/call-monitor/callMonitor.html",
