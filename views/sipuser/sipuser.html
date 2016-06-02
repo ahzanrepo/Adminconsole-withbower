@@ -6,16 +6,17 @@
 
 <div class="clearfix"></div>
 
-<div class="col-md-6">
-    <div class="x_panel">
-        <div class="x_title">
-            <h2>Current sip users</h2>
-            <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-            <ul class="list-unstyled msg_list">
-                <li ng-repeat="item in sipUsrList | filter : item.Enabled : true">
-                    <a>
+<div class="row">
+    <div class="col-md-6">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Current sip users</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <ul class="list-unstyled msg_list">
+                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true">
+                        <a>
                         <span class="image">
                           <img src="images/img.jpg" alt="img">
                         </span>
@@ -25,9 +26,39 @@
                         <span class="message">
                           {{item.EmailAddress}}
                         </span>
-                    </a>
-                </li>
-            </ul>
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
+
+    <div class="col-md-6">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Edit User</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <ul class="list-unstyled msg_list">
+                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true">
+                        <a>
+                        <span class="image">
+                          <img src="images/img.jpg" alt="img">
+                        </span>
+                        <span>
+                          <span>{{item.SipUsername}}</span>
+                        </span>
+                        <span class="message">
+                          {{item.EmailAddress}}
+                        </span>
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 </div>
