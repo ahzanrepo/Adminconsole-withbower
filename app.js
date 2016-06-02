@@ -39,6 +39,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/fileupload",
             templateUrl: "file_gallery/view/fileAdd.html",
             controller: "FileEditController"
+        }).state('console.attributes', {
+            url: "/attributes",
+            templateUrl: "attribute_application/attributeList.html",
+            controller: "attributeListController"
         }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"

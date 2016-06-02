@@ -28,6 +28,8 @@
                 <br>
 
                 <!-- sidebar menu -->
+
+
                 <div id="sidebar-menu" menu-collapse class="main_menu_side hidden-print main_menu">
                     <div class="menu_section active">
                         <h3 class="font-gry-200">General</h3>
@@ -45,6 +47,13 @@
                                 </ul>
                             </li>
                             <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Utility <span
+                                    class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a ng-click="clickDirective.goFilegallery()">File Gallery </a></li>
+                                    <li><a ng-click="clickDirective.goFileupload()">File Upload</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Request Router <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a ng-click="clickDirective.goFilegallery()">File Gallery </a></li>
