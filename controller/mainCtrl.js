@@ -18,6 +18,9 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         goFileupload: function () {
             $state.go('console.fileupload');
         },
+        goAttributeList: function () {
+            $state.go('console.attributes');
+        },
         goRealTimeQueued: function () {
             $state.go('console.realtime-queued');
         },

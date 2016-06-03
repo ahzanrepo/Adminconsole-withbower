@@ -10,7 +10,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
 
 // "fileServiceModule","angularFileUpload","download"
 var baseUrls = {
-    'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
+    'resourceServiceBaseUrl': 'http://localhost:8831/DVP/API/6.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/'
@@ -41,7 +41,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "FileEditController"
         }).state('console.attributes', {
             url: "/attributes",
-            templateUrl: "attribute_application/attributeList.html",
+            templateUrl: "attribute_application/partials/attributeList.html",
             controller: "attributeListController"
         }).state('login', {
             url: "/login",
