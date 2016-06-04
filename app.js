@@ -4,7 +4,7 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
-    'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
+    'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceServiceModule', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload", "download", "ngMessages", "ngAudio","bw.paging"]);
 
