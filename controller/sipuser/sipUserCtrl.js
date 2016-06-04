@@ -20,9 +20,12 @@
             });
         };
 
+        $scope.searchCriteria = "";
+
 
         $scope.reloadUserList = function()
         {
+            $scope.searchCriteria = "";
             sipUserApiHandler.getSIPUsers().then(function(data)
             {
                 if(data.IsSuccess)
@@ -127,6 +130,7 @@
                     if(data1.IsSuccess)
                     {
                         $scope.showAlert('Success', 'info', 'User updated successfully');
+                        $scope.reloadUserList();
 
                         if($scope.basicConfig.UsePublic)
                         {
@@ -162,6 +166,7 @@
                 {
                     if(data1.IsSuccess)
                     {
+                        $scope.reloadUserList();
 
                         var extObj = {
                             Extension: $scope.basicConfig.Extension,

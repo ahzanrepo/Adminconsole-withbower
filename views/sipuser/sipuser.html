@@ -20,8 +20,20 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+
+                <div class="search-main-wrap" ng-if="!dataReady">
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-state-wrap">
+                                Please Wait...
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
                 <ul class="list-unstyled msg_list">
-                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true" ng-click="onEditPressed(item.SipUsername)">
+                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true | filterBy: ['SipUsername']: searchCriteria" ng-click="onEditPressed(item.SipUsername)">
                         <a>
                         <span class="image">
                           <img src="images/img.jpg" alt="img">
