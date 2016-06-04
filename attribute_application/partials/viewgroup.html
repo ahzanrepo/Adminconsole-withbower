@@ -1,0 +1,49 @@
+
+<md-data-table-toolbar>
+    <h2 class="md-title">Group Details</h2>
+
+</md-data-table-toolbar>
+<md-data-table-container>
+
+    <table md-data-table  md-progress="deferred">
+
+        <tbody>
+        <tr>
+            <td><h3 >Group Details</h3></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Group ID</td>
+            <td >{{DataObj.GroupId}}</td>
+        </tr>
+        <tr>
+            <td>GroupName</td>
+            <td >{{DataObj.GroupName}}</td>
+        </tr>
+        <tr>
+            <td>OtherData</td>
+            <td >{{DataObj.OtherData}}</td>
+        </tr>
+        <tr>
+            <td>Percentage</td>
+            <td >{{DataObj.Percentage}}</td>
+        </tr>
+        <tr>
+
+            <td ><md-button class="md-raised md-primary" ng-click="ShowEdit()">EDIT</md-button></td>
+        </tr>
+        <tr>
+
+            <td ><md-button class="md-raised md-primary" ng-click="AssignAttributes()">ADD ATTRIBUTES</md-button></td><td ><md-button class="md-raised md-primary" ng-click="ShowAssignedAttributes(DataObj.GroupId)">ASSIGNED ATTRIBUTES</md-button></td>
+        </tr>
+        <tr>
+
+
+        </tr>
+        </tbody>
+    </table>
+
+</md-data-table-container>
+
+
+

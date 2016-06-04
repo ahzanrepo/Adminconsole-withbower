@@ -1,0 +1,99 @@
+
+<div layout="column"  flex-lt-md="80%">
+  <md-content layout-padding style="background-color: lightgrey"  >
+
+    <form name="newAttribForm" >
+
+
+      <md-toolbar class="md-table-toolbar md-default">
+        <label style="padding:2% 0% 0% 5% ;  background-color: darkgray"><h4 style="color: #ffffff">New Attribute</h4></label>
+      </md-toolbar>
+
+
+      <div  layout-gt-sm="row">
+        <md-input-container  class="md-block" flex-gt-sm>
+          <label style="color: blue" >Attribute</label>
+          <input type="text"  name = "Attribute" ng-model="newAtrib.Attribute"required/>
+
+          <span style="color:red" ng-show="newAttribForm.Attribute.$dirty && newAttribForm.Attribute.$invalid">
+
+</span>
+        </md-input-container>
+
+        <div flex="5" hide-xs hide-sm>
+          <!-- Spacer //-->
+        </div>
+<!--
+        <md-input-container class="md-block" flex-gt-sm>
+          <label style="color: blue" >Attribute Class</label>
+          <input type="text"  name = "AttClass" ng-model="newAtrib.AttClass" required />
+
+          <span style="color:red" ng-show="newAttribForm.AttClass.$dirty && newAttribForm.AttClass.$invalid">
+
+</span>
+          </md-input-container>
+
+      </div>
+      -->
+        <!--
+            <div layout-gt-sm="row">
+
+           <!--     <md-input-container class="md-block" flex-gt-sm>
+                <label style="color: blue" >Attribute Type</label>
+                <input type="text"  name = "AttType" ng-model="newAtrib.AttType"   required />
+
+                <span style="color:red" ng-show="newAttribForm.AttType.$dirty && newAttribForm.AttType.$invalid">
+
+      </span>
+              </md-input-container>
+                <div flex="5" hide-xs hide-sm>
+                  <!-- Spacer //-->
+      <!--    </div>
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <label style="color: blue" >Attribute Category</label>
+            <input type="text"  name = "AttCategory" ng-model="newAtrib.AttCategory"  required />
+
+          <span style="color:red" ng-show="newAttribForm.AttCategory.$dirty && newAttribForm.AttCategory.$invalid">
+
+</span>
+
+          </md-input-container>
+
+
+
+      </div>
+
+      <div layout-gt-sm="row">-->
+        <md-input-container  class="md-block" flex-gt-sm>
+          <label style="color: blue">OtherData</label>
+          <input type="text" name="otherData" ng-model="newAtrib.OtherData" required/>
+
+          <span style="color:red" ng-show="newAttribForm.otherData.$dirty && newAttribForm.otherData.$invalid"></span>
+
+        </md-input-container>
+      </div>
+    <!--    </div>-->
+
+      <div >
+        <md-input-container style="background-color: lightgrey ;padding: 0% 0% 0% 70%">
+          <div layout="row">
+            <md-button class="md-icon-button" class="md-raised md-primary" ng-click="AddNew(newAtrib)" ng-disabled="isDisabled || newAttribForm.$invalid "><md-icon md-svg-src="../img/ic_save_24px.svg"></md-icon>
+            </md-button><md-button class="md-icon-button"  class="md-raised md-primary" ng-click="HideDialog()" ng-disabled="isDisabled"><md-icon md-svg-src="../img/ic_arrow_back_24px.svg"></md-button></td>
+          </div>
+
+
+        </md-input-container>
+      </div>
+
+
+
+
+
+    </form>
+
+  </md-content>
+
+</div>
+
+

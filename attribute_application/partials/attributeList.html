@@ -1,0 +1,85 @@
+<div class="row">
+
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Attribute <small>Viewer</small></h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <ul class="list-unstyled timeline">
+                    <li ng-repeat="attrib in attribData">
+                        <div class="block">
+                            <div class="tags">
+                                <a class="tag">
+                                    <span>{{attrib.AttributeId}}</span>
+                                </a>
+                            </div>
+                            <div class="block_content">
+                                <h2 class="title">
+                                    <a>{{attrib.Attribute}}</a>
+                                    <a ng-click="DeleteAttribute(attrib)"style="cursor: pointer"><i class="fa fa-trash-o"></i></a>
+                                    <a ng-click="editAttribute(attrib)"style="cursor: pointer"><i class="fa fa-edit"></i></a>
+                                </h2>
+                                <div id="{{attrib.AttributeId}}"></div>
+                                <editattribute attribute="attrib" update-attribute="toggleInBasket(item)"></editattribute>
+
+
+                                <div class="byline">
+                                    <span>{{attrib.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
+                                </div>
+                                <p class="excerpt">{{attrib.OtherData}}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+
+
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Attribute <small>Viewer</small></h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <ul class="list-unstyled timeline">
+                    <li ng-repeat="attrib in attribData">
+                        <div class="block">
+                            <div class="tags">
+                                <a class="tag">
+                                    <span>{{attrib.AttributeId}}</span>
+                                </a>
+                            </div>
+                            <div class="block_content">
+                                <h2 class="title">
+                                    <a>{{attrib.Attribute}}</a>
+                                    <a ng-click="editAttribute(attrib)"style="cursor: pointer"><i class="fa fa-trash-o"></i></a>
+                                    <a ng-click="DeleteAttribute(attrib)"style="cursor: pointer"><i class="fa fa-edit"></i></a>
+                                </h2>
+                                <div class="byline">
+                                    <span>{{attrib.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
+                                </div>
+                                <p class="excerpt">{{attrib.OtherData}}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+
+
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
