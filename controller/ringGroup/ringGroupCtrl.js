@@ -292,6 +292,8 @@
 
                     }
 
+                    var ss = $scope.currentGroupUsers;
+
                 }
                 else
                 {

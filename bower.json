@@ -48,6 +48,6 @@
     "angular-bootstrap-affix": "^0.2.2",
     "angular-messages": "^1.5.6",
     "angular-bootstrap-checkbox": "^0.5.0",
-    "ng-tags-input": "^3.1.1"
+    "ng-tags-input": "3.1.1"
   }
 }
