@@ -9,13 +9,31 @@
 <div class="row">
     <div class="col-md-6">
         <div class="x_panel">
-            <div class="x_title">
-                <h2>Current sip users</h2>
+            <div class="x_title row">
+                <h2 class="col-md-6">Current sip users</h2>
+                <div class="input-group col-md-6">
+                    <input type="text" ng-model="searchCriteria" class="form-control ng-pristine ng-valid ng-empty ng-touched" placeholder="Search for..." style="">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                </div>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+
+                <div class="search-main-wrap" ng-if="!dataReady">
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-state-wrap">
+                                Please Wait...
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
                 <ul class="list-unstyled msg_list">
-                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true">
+                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true | filterBy: ['SipUsername']: searchCriteria" ng-click="onEditPressed(item.SipUsername)">
                         <a>
                         <span class="image">
                           <img src="images/img.jpg" alt="img">
@@ -26,7 +44,7 @@
                         <span class="message">
                           {{item.EmailAddress}}
                         </span>
-                            <i class="fa fa-remove"></i>
+                            <i class="fa fa-remove" ng-click="onDeleteUser(item.SipUsername)"></i>
                         </a>
                     </li>
                 </ul>
@@ -37,26 +55,108 @@
     <div class="col-md-6">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Edit User</h2>
+                <h2 class="col-md-6">Edit User</h2>
+                <div class="input-group col-md-6">
+                    <button type="button" class="btn btn-round btn-primary" ng-click="clearFormOnSave()">New</button>
+                </div>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <ul class="list-unstyled msg_list">
-                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true">
-                        <a>
-                        <span class="image">
-                          <img src="images/img.jpg" alt="img">
-                        </span>
-                        <span>
-                          <span>{{item.SipUsername}}</span>
-                        </span>
-                        <span class="message">
-                          {{item.EmailAddress}}
-                        </span>
-                            <i class="fa fa-remove"></i>
-                        </a>
-                    </li>
-                </ul>
+                <form name="sipUserConfForm">
+
+                    <div class="item form-group bad">
+                        <label>Sip Username * :</label>
+                        <input type="text" class="form-control parsley-error" name="sipUsrName" ng-disabled="IsEdit" ng-model="basicConfig.SipUsername" ng-model-options="{ updateOn: 'blur' }" usernamecheck required>
+                        <div ng-messages="sipUserConfForm.sipUsrName.$error">
+                            <div class="alert" ng-message="required">This field is required</div>
+                            <div class="alert" ng-message="usernamecheck">Username already taken</div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="item form-group bad">
+                        <label>Password * :</label>
+                        <input type="password" class="form-control parsley-error" name="password" ng-model="basicConfig.Password" required>
+                        <div ng-messages="sipUserConfForm.password.$error">
+                            <div class="alert" ng-message="required">This field is required</div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="item form-group bad">
+                        <label>Email Address * :</label>
+                        <input type="text" class="form-control parsley-error" name="emailAddr" ng-model="basicConfig.EmailAddress" required>
+                        <div ng-messages="sipUserConfForm.emailAddr.$error">
+                            <div class="alert" ng-message="required">This field is required</div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <label>Reference Id :</label>
+                    <input name="guRefId" class="form-control parsley-error" ng-model="basicConfig.GuRefId">
+
+                    <div class="clearfix"></div>
+
+                    <div class="item form-group bad">
+                        <label>Extension * :</label>
+                        <input name="ext" class="form-control parsley-error" ng-model="basicConfig.Extension" ng-model-options="{ updateOn: 'blur' }" ng-disabled="IsEdit" extcheck required>
+                        <div ng-messages="sipUserConfForm.ext.$error">
+                            <div class="alert" ng-message="required">This field is required</div>
+                            <div class="alert" ng-message="extcheck">Extension number already in use</div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="item form-group bad">
+                        <label>PIN :</label>
+                        <input name="pin" class="form-control parsley-error" ng-model="basicConfig.Pin">
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+                        <label>Domain :</label>
+                        <select class="select2_single form-control select2-hidden-accessible parsley-error" tabindex="-1" aria-hidden="true" name="domain" ng-model="basicConfig.CloudEndUserId" ng-model-options="{trackBy: '$value'}">
+                            <option ng-repeat="eu in endUserList" value="{{eu.id}}">{{eu.Domain}}</option>
+                        </select>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+                        <label>Context :</label>
+                        <select class="select2_single form-control select2-hidden-accessible parsley-error" tabindex="-1" aria-hidden="true" name="context" ng-model="basicConfig.ContextId" ng-model-options="{trackBy: '$value'}">
+                            <option ng-repeat="ctxt in contextList" value="{{ctxt.Context}}">{{ctxt.Context}}</option>
+                        </select>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <checkbox class="btn-primary" ng-model="basicConfig.UsePublic" ng-disabled="!IsEdit" ng-init="basicConfig.UsePublic=false"></checkbox><label>Use Public</label>
+
+                    <div class="clearfix"></div>
+
+                    <br>
+
+                    <label>Attendant Transfer Configuration</label>
+
+                    <div class="clearfix"></div>
+
+                    <checkbox class="btn-success" ng-model="basicConfig.TransInternalEnable" ng-init="basicConfig.TransInternalEnable=false"></checkbox><label>Internal</label>
+                    <checkbox class="btn-success" ng-model="basicConfig.TransExternalEnable" ng-init="basicConfig.TransExternalEnable=false"></checkbox><label>External</label>
+                    <checkbox class="btn-success" ng-model="basicConfig.TransConferenceEnable" ng-init="basicConfig.TransConferenceEnable=false"></checkbox><label>Conference</label>
+                    <checkbox class="btn-success" ng-model="basicConfig.TransGroupEnable" ng-init="basicConfig.TransGroupEnable=false"></checkbox><label>Group</label>
+
+                    <div class="clearfix"></div>
+                    <br>
+
+                    <span class="btn btn-primary" ng-click="onSavePressed()" ng-disabled="sipUserConfForm.$invalid">Save</span>
+
+                </form>
             </div>
         </div>
     </div>

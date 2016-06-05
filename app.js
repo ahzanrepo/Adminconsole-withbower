@@ -4,9 +4,9 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
-    'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
-    'resourceServiceModule', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngAudio','bw.paging']);
+    'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
+    'resourceServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload", "download", "ngMessages", "ngAudio","bw.paging"]);
 
 // "fileServiceModule","angularFileUpload","download"
 var baseUrls = {
@@ -53,6 +53,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/sipuser",
             templateUrl: "views/sipuser/sipuser.html",
             controller: "sipUserCtrl"
+        }).state("console.ringGroup", {
+            url: "/ringGroup",
+            templateUrl: "views/ringGroup/ringGroup.html",
+            controller: "ringGroupCtrl"
         }).state('console.callmonitor', {
             url: "/call-monitor",
             templateUrl: "views/call-monitor/callMonitor.html",
@@ -65,6 +69,8 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "views/call-monitor/phoneWidget.html"
         });
     }]);
+
+
 
 //main console directive
 //menu Collapse
