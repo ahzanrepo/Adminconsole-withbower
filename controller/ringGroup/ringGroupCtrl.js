@@ -317,12 +317,12 @@
             });
         }
 
-        $scope.onGroupChange = function()
+        $scope.onGroupChange = function(grpId)
         {
-            reloadUsersInGroup($scope.basicConfig.id);
+            reloadUsersInGroup(grpId);
 
 
-            sipUserApiHandler.getGroup($scope.basicConfig.id).then(function(data)
+            sipUserApiHandler.getGroup(grpId).then(function(data)
             {
                 if(data.IsSuccess)
                 {
