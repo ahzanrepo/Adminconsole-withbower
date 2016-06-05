@@ -1,17 +1,40 @@
-<div class="col-xs-12">
-    <div class="tile-stats">
-        <form class="form-horizontal form-label-left input_mask">
-            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                <input type="text" class="form-control has-feedback-left" ng-model="attribute.Attribute" id="AttributeId" placeholder="Attribute">
-                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-            </div>
+<div class="block" >
+    <div class="tags">
+        <a class="tag">
+            <span>{{attribute.AttributeId}}</span>
+        </a>
+    </div>
+    <div class="block_content" >
+        <h2 class="title">
+            <a>{{attribute.Attribute}}</a>
+            <a ng-disabled="true" ng-click="deleteAttribute(attribute)"style="cursor: pointer"><i class="fa fa-trash-o"></i></a>
+            <a ng-disabled="true" ng-click="editAttribute()"style="cursor: pointer"><i class="fa fa-edit"></i></a>
+        </h2>
+        <div id="{{attribute.AttributeId}}"></div>
 
-            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                <input type="text" class="form-control has-feedback-left" ng-model="attribute.OtherData"style=""  id="OtherData" placeholder="Other">
-                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
-            </div>
+        <div class="col-xs-12" ng-show="editMode">
+            <div class="tile-stats">
+                <form class="form-horizontal form-label-left input_mask">
+                    <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                        <input type="text" class="form-control has-feedback-left" ng-model="attribute.Attribute" id="AttributeId" placeholder="Attribute">
+                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                    </div>
 
-            <button type="button" class="btn btn-success btn-xs " ng-click="updateAttributes(attribute)">Update</button>
-        </form>
+                    <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                        <input type="text" class="form-control has-feedback-left" ng-model="attribute.OtherData"style=""  id="OtherData" placeholder="Other">
+                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                    </div>
+
+                    <button type="button" class="btn btn-success btn-xs " ng-click="updateAttributes(attribute)">Update</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="byline">
+            <span>{{attribute.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
+        </div>
+        <p class="excerpt">{{attribute.OtherData}}
+        </p>
     </div>
 </div>

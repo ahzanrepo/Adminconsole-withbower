@@ -1,28 +1,35 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("editattribute", function (attributeService) {
+mainApp.directive("editgroups", function (attributeService) {
 
     return {
         restrict: "EA",
         scope: {
-            attribute: "=",
-            'updateAttribute': '&'
+            groupinfo: "=",
+            'updateGroups': '&'
         },
 
-        templateUrl: 'attribute_application/partials/template/editAttribute.html',
+        templateUrl: 'attribute_application/partials/template/editGroups.html',
         /*template: '<span class="count_top"  ><i class="fa fa-user" ></i> {{fileCount.Category| uppercase}}</span><div class="count green">{{fileCount.Count}}</div><span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Total Number of Files</i></span>',*/
 
         link: function (scope, element, attributes) {
 
-            scope.editAttribute = function(){
+            scope.list_of_string = ['tag1', 'tag2']
+            scope.select2Options = {
+                'multiple': true,
+                'simple_tags': true,
+                'tags': ['tag1', 'tag2', 'tag3', 'tag4']  // Can be empty list.
+            };
+
+            scope.editGroup = function(){
                 scope.editMode=!scope.editMode;
             };
             scope.editMode=false;
 
-            scope.updateAttributes = function(item) {
+            scope.updateGroup = function(item) {
 
-                attributeService.UpdateAttribute(item).then(function (response) {
+                attributeService.UpdateGroup(item).then(function (response) {
                     if (response) {
                         console.info("UpdateAttributes : " + response);
                         scope.editMode=false;
@@ -32,14 +39,14 @@ mainApp.directive("editattribute", function (attributeService) {
                 });
             };
 
-            scope.deleteAttribute = function(item) {
+            scope.deleteGroup = function(item) {
 
-                scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete " + item.Attribute, function (obj) {
+                scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete " + item.GroupName, function (obj) {
 
-                    attributeService.DeleteAttribute(item, scope.Headers).then(function (response) {
+                    attributeService.DeleteGroup(item).then(function (response) {
                         if (response) {
-                            scope.updateAttribute(item);
-                            scope.showAlert("Deleted", "Deleted", "ok", "File " + item.Attribute + " Deleted successfully");
+                            scope.updateGroups(item);
+                            scope.showAlert("Deleted", "Deleted", "ok", "File " + item.GroupName + " Deleted successfully");
                         }
                         else
                             scope.showAlert("Error", "Error", "ok", "There is an error ");
@@ -88,7 +95,7 @@ mainApp.directive("editattribute", function (attributeService) {
                     styling: 'bootstrap3'
                 });
             };
-        }
+        },
 
     }
 });

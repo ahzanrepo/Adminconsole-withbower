@@ -18,7 +18,21 @@ mainApp.factory("attributeService", function ($http, $log, authService, baseUrls
             });
     };
 
-    var updateAttributes = function (item) {
+    var saveAttribute = function (item) {
+
+        return $http({
+            method: 'post',
+            url: baseUrls.resourceServiceBaseUrl+ 'Attribute',
+            headers: {
+                'authorization': authService.Token
+            },
+            data:item
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var updateAttribute = function (item) {
 
         return $http({
             method: 'put',
@@ -28,7 +42,7 @@ mainApp.factory("attributeService", function ($http, $log, authService, baseUrls
             },
             data:item
         }).then(function (response) {
-            return response.data.Result;
+            return response.data.IsSuccess;
         });
     };
 
@@ -46,10 +60,85 @@ mainApp.factory("attributeService", function ($http, $log, authService, baseUrls
             });
     };
 
+    var deleteAttribute = function (item) {
+
+        return $http({
+            method: 'delete',
+            url: baseUrls.resourceServiceBaseUrl+ 'Attribute/'+item.AttributeId,
+            headers: {
+                'authorization': authService.Token
+            },
+            data:item
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
+    var getGroups = function () {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl+ 'Groups',
+            headers: {
+                'authorization': authService.Token
+            }
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
+    var saveGroup = function (item) {
+
+        return $http({
+            method: 'post',
+            url: baseUrls.resourceServiceBaseUrl+ 'Group',
+            headers: {
+                'authorization': authService.Token
+            },
+            data:item
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var updateGroup = function (item) {
+
+        return $http({
+            method: 'put',
+            url: baseUrls.resourceServiceBaseUrl+ 'Group/'+item.GroupId,
+            headers: {
+                'authorization': authService.Token
+            },
+            data:item
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
+    var deleteGroup = function (item) {
+
+        return $http({
+            method: 'delete',
+            url: baseUrls.resourceServiceBaseUrl+ 'Group/'+item.GroupId,
+            headers: {
+                'authorization': authService.Token
+            },
+            data:item
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
     return {
         GetAttributes: getattributes,
         GetAttributeCount:getattributeCount,
-        UpdateAttributes:updateAttributes
+        SaveAttribute:saveAttribute,
+        UpdateAttribute:updateAttribute,
+        DeleteAttribute:deleteAttribute,
+        GetGroups:getGroups,
+        UpdateGroup:updateGroup,
+        SaveGroup:saveGroup,
+        DeleteGroup:deleteGroup
     }
 
 });
