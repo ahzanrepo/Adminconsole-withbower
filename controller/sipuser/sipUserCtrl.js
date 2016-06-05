@@ -59,6 +59,44 @@
             });
         };
 
+        $scope.onDeleteUser = function(username)
+        {
+            var usrObj = {SipUsername: username, Enabled: false};
+
+            sipUserApiHandler.updateUser(usrObj)
+                .then(function(data)
+                {
+                    if(data.IsSuccess)
+                    {
+                        $scope.reloadUserList();
+                    }
+                    else
+                    {
+                        var errMsg = data.CustomMessage;
+
+                        if(data.Exception)
+                        {
+                            errMsg = data.Exception.Message;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                        $scope.dataReady = true;
+
+                    }
+
+                },
+                function(err)
+                {
+                    var errMsg = "Error occurred while deleting user";
+                    if(err.statusText)
+                    {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+
+                })
+
+        };
+
         $scope.onEditPressed = function(username)
         {
             $scope.IsEdit = true;
