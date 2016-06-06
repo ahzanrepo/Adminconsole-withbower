@@ -1,4 +1,7 @@
-<div class="row" ng-controller="rulelistcontroller">
+
+
+
+<div class="row" >
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="page-title">
             <div class="title_left">
@@ -7,16 +10,19 @@
         </div>
         <div class="x_panel">
             <div class="x_title">
-                <h2 class="font-robot font-300 text-uppercase font-15">All available rules
+                <h2 class="font-robot font-300 text-uppercase font-15">
+                    <button type="button" class="btn btn-success" ng-click="addNewRule()">
+                        New
+                    </button>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <button type="button" class="btn btn-success" ng-click="onBtnPressed('IN')">
+                        <button id="btn_in" type="button" class="btn btn-success" ng-click="onBtnPressed('IN')">
                             Inbound
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="btn btn-success" ng-click="onBtnPressed('OUT')">
+                        <button id="btn_out" type="button" class="btn btn-success" ng-click="onBtnPressed('OUT')">
                             Outbound
                         </button>
                     </li>
@@ -52,9 +58,10 @@
                             <td class="valAlgn">{{rule.TrunkNumber}}</td>
 
                             <td class="lstCol">
-                                <span class="fa fa-edit"
-                                        ng-click="ListenCall(rule)">
-                                </span>
+                                <button type="submit" class="btn btn-primary" ng-click="editRule(rule)"><span class="fa fa-edit" aria-hidden="true"></span>Edit</button>
+                                <button type="submit" class="btn btn-primary" ng-click="deleteRule(rule)"><span class="fa fa-remove" aria-hidden="true"></span>Delete</button>
+
+
                                 <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->
                                 <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->
                             </td>
@@ -62,7 +69,6 @@
 
                         </tr>
 
-                        <audio id="audio_remote" autoplay="autoplay"></audio>
 
                         </tbody>
                     </table>
