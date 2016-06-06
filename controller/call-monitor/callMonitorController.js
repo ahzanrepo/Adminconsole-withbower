@@ -99,11 +99,9 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
     var onCallConnected = function () {
         $scope.$apply(function () {
             console.log("onCallConnected");
-            console.log($scope.isCallMonitorOption);
             $scope.CallStatus = "LISTEN";
             $scope.clickBtnStateName = "Listen"
             $scope.isCallMonitorOption = 1;
-            console.log($scope.isCallMonitorOption);
         });
 
     };

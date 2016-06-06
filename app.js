@@ -4,13 +4,13 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
-    'ui.router', 'chart.js', 'angular-flot', 'angularMoment',
-    'resourceServiceModule', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', "fileServiceModule", "angularFileUpload", "download", "ngAudio","bw.paging"]);
+    'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
+    'resourceServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio','bw.paging']);
 
-// "fileServiceModule","angularFileUpload","download"
+
 var baseUrls = {
-    'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
+    'resourceServiceBaseUrl': 'http://localhost:8831/DVP/API/6.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/'
@@ -39,6 +39,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/fileupload",
             templateUrl: "file_gallery/view/fileAdd.html",
             controller: "FileEditController"
+        }).state('console.attributes', {
+            url: "/attributes",
+            templateUrl: "attribute_application/partials/attributeList.html",
+            controller: "attributeListController"
         }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
@@ -49,6 +53,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/sipuser",
             templateUrl: "views/sipuser/sipuser.html",
             controller: "sipUserCtrl"
+        }).state("console.ringGroup", {
+            url: "/ringGroup",
+            templateUrl: "views/ringGroup/ringGroup.html",
+            controller: "ringGroupCtrl"
         }).state('console.callmonitor', {
             url: "/call-monitor",
             templateUrl: "views/call-monitor/callMonitor.html",
@@ -65,6 +73,8 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller : "rulelistcontroller"
         });
     }]);
+
+
 
 //main console directive
 //menu Collapse
