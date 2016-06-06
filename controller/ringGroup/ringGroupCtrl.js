@@ -184,8 +184,34 @@
 
         $scope.onChipDelete = function(chip)
         {
-            var ss = chip;
-            return null;
+            $scope.dataLoaded = false;
+            sipUserApiHandler.removeUserFromGroup(chip.id, $scope.basicConfig.id).then(function(data)
+            {
+                if(data.IsSuccess)
+                {
+                    reloadUsersInGroup($scope.basicConfig.id);
+                }
+                else
+                {
+                    var errMsg = data.CustomMessage;
+
+                    if(data.Exception)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                }
+
+            }, function(err)
+            {
+                var errMsg = "Error occurred while getting users for group";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+            return chip;
         };
 
         $scope.onNewPressed = function()
@@ -238,9 +264,75 @@
                 {
                     if(data.IsSuccess)
                     {
-                        $scope.showAlert('Success', 'info', 'Group saved successfully');
-                        clearFormOnSave();
-                        $scope.reloadGroupList();
+                        var extObj = {
+                            Extension: $scope.basicConfig.Extension.Extension,
+                            ExtensionName: $scope.basicConfig.GroupName,
+                            ExtraData: "",
+                            AddUser: "",
+                            UpdateUser: "",
+                            Enabled: true,
+                            ExtRefId: $scope.basicConfig.GroupName,
+                            ObjCategory: "GROUP"
+                        };
+
+                        sipUserApiHandler.addNewExtension(extObj).then(function(data2)
+                        {
+                            if(data2.IsSuccess)
+                            {
+
+                                sipUserApiHandler.assignExtensionToGroup(extObj.Extension, data.Result.id).then(function(data3)
+                                {
+                                    if(data3.IsSuccess)
+                                    {
+                                        clearFormOnSave();
+                                        $scope.reloadGroupList();
+                                        $scope.showAlert('Success', 'info', 'Group Saved Successfully');
+                                    }
+                                    else
+                                    {
+                                        var errMsg = data3.CustomMessage;
+
+                                        if(data3.Exception)
+                                        {
+                                            errMsg = 'Assign group to extension error : ' + data3.Exception.Message;
+                                        }
+                                        clearFormOnSave();
+                                        $scope.reloadGroupList();
+
+                                        $scope.showAlert('Saved with errors', 'error', errMsg);
+                                    }
+                                }, function(err)
+                                {
+                                    clearFormOnSave();
+                                    $scope.reloadGroupList();
+                                    $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while assigning extension');
+
+                                })
+                            }
+                            else
+                            {
+                                var errMsg = data2.CustomMessage;
+
+                                if(data2.Exception)
+                                {
+                                    errMsg = 'Create extension error : ' + data2.Exception.Message;
+                                }
+
+                                clearFormOnSave();
+                                $scope.reloadGroupList();
+
+                                $scope.showAlert('Saved with errors', 'error', errMsg);
+                            }
+                        }, function(err)
+                        {
+                            clearFormOnSave();
+                            $scope.reloadGroupList();
+                            $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while creating extension');
+                        })
+
+
+
+
                     }
                     else
                     {
@@ -268,6 +360,65 @@
 
             }
         }
+
+        $scope.onDeletePressed = function(grpId, extension)
+        {
+            sipUserApiHandler.deleteGroup(grpId).then(function(data)
+            {
+                if(data.IsSuccess)
+                {
+                    if(extension)
+                    {
+                        sipUserApiHandler.deleteExtension(extension).then(function(data2)
+                        {
+                            if(data2.IsSuccess)
+                            {
+                                $scope.showAlert('SUCCESS', 'info', 'Group deleted successfully');
+                                clearFormOnSave();
+                                $scope.reloadGroupList();
+                            }
+                            else
+                            {
+                                $scope.showAlert('SUCCESS', 'notify', 'Group deleted successfully - Unable to remove extension, please remove it manually');
+                                clearFormOnSave();
+                                $scope.reloadGroupList();
+                            }
+
+                        });
+                    }
+                    else
+                    {
+                        $scope.showAlert('SUCCESS', 'info', 'Group deleted successfully');
+                        clearFormOnSave();
+                        $scope.reloadGroupList();
+                    }
+
+
+                }
+                else
+                {
+                    var errMsg = data.CustomMessage;
+
+                    if(data.Exception)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                }
+
+                $scope.dataReady = true;
+
+            }, function(err)
+            {
+                var errMsg = "Error occurred while deleting group";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
 
         var reloadUsersInGroup = function(grpId)
         {

@@ -33,18 +33,20 @@
                 </div>
 
                 <ul class="list-unstyled msg_list">
-                    <li ng-repeat="grp in groupList | filterBy: ['GroupName']: searchCriteria" ng-click="onGroupChange(grp.id)">
+                    <li ng-repeat="grp in groupList | filterBy: ['GroupName']: searchCriteria">
                         <a>
-                        <span class="image">
-                          <img src="images/img.jpg" alt="img">
-                        </span>
-                        <span>
-                          <span>{{grp.GroupName}}</span>
-                        </span>
-                        <span class="message">
-                          {{grp.GroupName}}
-                        </span>
-                            <i class="fa fa-remove"></i>
+                        <div ng-click="onGroupChange(grp.id)">
+                            <span class="image">
+                                <img src="images/img.jpg" alt="img">
+                            </span>
+                            <span>{{grp.GroupName}}</span>
+                            <span></span>
+                            <span class="message" ng-if="grp.Extension">
+                                {{grp.Extension.Extension}}
+                            </span>
+                        </div>
+
+                            <i class="fa fa-remove" ng-click="onDeletePressed(grp.id, grp.Extension.Extension)"></i>
                         </a>
                     </li>
                 </ul>
@@ -85,7 +87,7 @@
 
                     <div class="item form-group bad">
                         <label>Extension * :</label>
-                        <input name="ext" class="form-control parsley-error" ng-model="basicConfig.Extension" ng-model-options="{ updateOn: 'blur' }" ng-disabled="IsEdit" extcheck required>
+                        <input name="ext" class="form-control parsley-error" ng-model="basicConfig.Extension.Extension" ng-model-options="{ updateOn: 'blur' }" ng-disabled="IsEdit" extcheck required>
                         <div ng-messages="groupConfForm.ext.$error">
                             <div class="alert" ng-message="required">This field is required</div>
                             <div class="alert" ng-message="extcheck">Extension number already in use</div>
@@ -96,8 +98,8 @@
 
                     <div class="form-group">
                         <label>Users :</label>
-                        <tags-input ng-model="currentGroupUsers" display-property="SipUsername" add-from-autocomplete-only="true">
-                            <auto-complete source="querySearch($query)"></auto-complete>
+                        <tags-input ng-model="currentGroupUsers" display-property="SipUsername" add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)" on-tag-removed="onChipDelete($tag)" ng-disabled="!IsEdit" min-length="1">
+                            <auto-complete source="querySearch($query)" min-length="1"></auto-complete>
                         </tags-input>
                     </div>
 
