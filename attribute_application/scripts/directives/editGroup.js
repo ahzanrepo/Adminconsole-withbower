@@ -1,12 +1,13 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("editgroups", function (attributeService) {
+mainApp.directive("editgroups", function ($filter,attributeService) {
 
     return {
         restrict: "EA",
         scope: {
             groupinfo: "=",
+            attribinfo:"=",
             'updateGroups': '&'
         },
 
@@ -15,31 +16,72 @@ mainApp.directive("editgroups", function (attributeService) {
 
         link: function (scope, element, attributes) {
 
-            scope.list_of_string = ['tag1', 'tag2']
-            scope.select2Options = {
-                'multiple': true,
-                'simple_tags': true,
-                'tags': ['tag1', 'tag2', 'tag3', 'tag4']  // Can be empty list.
+
+
+            scope.attachedAttributes = [];
+            $(document).ready(function () {
+                angular.forEach(scope.groupinfo.ResAttributeGroups, function(item){
+                    if(item){
+                      if(item.ResAttribute){
+                          scope.attachedAttributes.push(item.ResAttribute);
+                      }
+                    }
+                });
+
+                scope.groupinfo.Attributes = scope.attachedAttributes;
+
+
+                $(".select2_multiple").select2({
+                    placeholder: "Selection Attributes",
+                    allowClear: true
+                });
+            });
+
+
+            scope.selectionsChanged = function (attributes) {
+
             };
 
-            scope.editGroup = function(){
-                scope.editMode=!scope.editMode;
+            scope.editGroup = function () {
+                scope.editMode = !scope.editMode;
             };
-            scope.editMode=false;
+            scope.editMode = false;
 
-            scope.updateGroup = function(item) {
+            scope.updateGroup = function (item) {
 
-                attributeService.UpdateGroup(item).then(function (response) {
+               /* //remove existing attachments
+                angular.forEach(scope.attachedAttributes, function(a){
+                    var index = item.Attributes.indexOf(a);
+                    if (index != -1) {
+                        item.Attributes.splice(index, 1);
+                    }
+                });
+
+                // find deleted attachments
+                angular.forEach(item.Attributes, function(a){
+
+                    var index = scope.attachedAttributes.indexOf(a);
+                    if (index != -1) {
+                        scope.attachedAttributes.splice(index, 1);
+                    }
+                });*/
+
+                scope.tempOld=[];
+                angular.copy(scope.attachedAttributes,scope.tempOld );
+                attributeService.DeleteAttributeFrmGroup(item.Attributes,scope.tempOld,item.GroupId);
+
+                attributeService.UpdateGroup(item,scope.attachedAttributes,item.GroupId).then(function (response) {
+
                     if (response) {
                         console.info("UpdateAttributes : " + response);
-                        scope.editMode=false;
+                        scope.editMode = false;
                     }
                 }, function (error) {
                     console.info("UpdateAttributes err" + error);
                 });
             };
 
-            scope.deleteGroup = function(item) {
+            scope.deleteGroup = function (item) {
 
                 scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete " + item.GroupName, function (obj) {
 
@@ -95,7 +137,17 @@ mainApp.directive("editgroups", function (attributeService) {
                     styling: 'bootstrap3'
                 });
             };
-        },
+
+            /*scope.attribData = [];
+            scope.GetAttributes = function () {
+                attributeService.GetAttributes().then(function (response) {
+                    scope.attribData = response;
+                }, function (error) {
+                    scope.showAlert("Error", "Error", "ok", "There is an error ");
+                });
+                scope.GetAttributes();
+            };*/
+        }
 
     }
 });

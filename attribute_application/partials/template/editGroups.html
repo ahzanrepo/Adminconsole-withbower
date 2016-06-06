@@ -1,37 +1,60 @@
-
-<div class="block" >
+<div class="block">
     <div class="tags">
         <a class="tag">
             <span>{{groupinfo.GroupId}}</span>
         </a>
     </div>
-    <div class="block_content" >
+    <div class="block_content">
         <h2 class="title">
             <a>{{groupinfo.GroupName}}</a>
-            <a ng-disabled="true" ng-click="deleteGroup(groupinfo)"style="cursor: pointer"><i class="fa fa-trash-o"></i></a>
-            <a ng-disabled="true" ng-click="editGroup()"style="cursor: pointer"><i class="fa fa-edit"></i></a>
+            <a ng-disabled="true" ng-click="deleteGroup(groupinfo)" style="cursor: pointer"><i
+                    class="fa fa-trash-o"></i></a>
+            <a ng-disabled="true" ng-click="editGroup()" style="cursor: pointer"><i class="fa fa-edit"></i></a>
         </h2>
+
         <div id="{{groupinfo.AttributeId}}"></div>
 
         <div class="col-xs-12" ng-show="editMode">
             <div class="tile-stats">
                 <form class="form-horizontal form-label-left input_mask">
                     <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                        <input type="text" class="form-control has-feedback-left" ng-model="groupinfo.GroupName"  placeholder="groupinfo">
+                        <input type="text" class="form-control has-feedback-left" ng-model="groupinfo.GroupName"
+                               placeholder="groupinfo">
                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                     </div>
 
                     <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                        <input type="text" class="form-control has-feedback-left" ng-model="groupinfo.OtherData" placeholder="Other">
+                        <input type="text" class="form-control has-feedback-left" ng-model="groupinfo.OtherData"
+                               placeholder="Other">
                         <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                     </div>
 
+                    <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                        <input type="text" class="form-control has-feedback-left" ng-model="groupinfo.Percentage"
+                               placeholder="Percentage">
+                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                    </div>
                     <!--<div class="col-md-2">
                         <p>Percentage</p>
                         <input class="knob" data-width="110" data-height="120" data-displayPrevious=true data-fgColor="#26B99A" data-skin="tron" data-thickness=".2" value="75">
                     </div>-->
 
-                    <button type="button" class="btn btn-success btn-xs " ng-click="updateGroup(groupinfo)">Update</button>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Multiple</label>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <!--<select class="select2_multiple form-control" multiple="multiple" >
+                                <option ng-repeat="attr in attribinfo">{{attr.Attribute}}</option>
+
+                            </select>-->
+
+                            <select class="select2_multiple form-control" multiple="multiple" ng-model="groupinfo.Attributes"
+                                    ng-change="selectionsChanged(groupinfo.Attributes)"     ng-options="attr.Attribute for attr in attribinfo track by attr.AttributeId"  ></select>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-success btn-xs " ng-click="updateGroup(groupinfo)">Update
+                    </button>
                 </form>
             </div>
         </div>
@@ -40,7 +63,8 @@
         <div class="byline">
             <span>{{groupinfo.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>
-        <p class="excerpt">{{groupinfo.OtherData}}
-        </p>
+        <p class="excerpt">{{groupinfo.OtherData}} </p>
+        <p class="excerpt">{{groupinfo.Percentage}}% </p>
+
     </div>
 </div>
