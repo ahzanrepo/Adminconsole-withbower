@@ -34,6 +34,20 @@
       })
     };
 
+    var deleteGroup = function(grpId)
+    {
+      return $http({
+        method: 'DELETE',
+        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Group/' + grpId,
+        headers: {
+          'authorization': authToken
+        }
+      }).then(function(resp)
+      {
+        return resp.data;
+      })
+    };
+
     var getGroup = function(id)
     {
       return $http({
@@ -96,6 +110,20 @@
       return $http({
         method: 'POST',
         url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/' + usrId + '/AssignToGroup/' + grpId,
+        headers: {
+          'authorization': authToken
+        }
+      }).then(function(resp)
+      {
+        return resp.data;
+      })
+    };
+
+    var removeUserFromGroup = function(usrId, grpId)
+    {
+      return $http({
+        method: 'POST',
+        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/' + usrId + '/RemoveFromGroup/' + grpId,
         headers: {
           'authorization': authToken
         }
@@ -197,7 +225,7 @@
     var updateGroup = function(grpObj)
     {
       return $http({
-        method: 'POST',
+        method: 'PUT',
         url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Group/' + grpObj.id,
         headers: {
           'authorization': authToken
@@ -237,6 +265,20 @@
       })
     };
 
+    var assignExtensionToGroup = function(ext, grpId)
+    {
+      return $http({
+        method: 'POST',
+        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/' + ext + '/AssignToGroup/' + grpId,
+        headers: {
+          'authorization': authToken
+        }
+      }).then(function(resp)
+      {
+        return resp.data;
+      })
+    };
+
     var addNewExtension = function(extObj)
     {
       return $http({
@@ -246,6 +288,20 @@
           'authorization': authToken
         },
         data:extObj
+      }).then(function(resp)
+      {
+        return resp.data;
+      })
+    };
+
+    var deleteExtension = function(ext)
+    {
+      return $http({
+        method: 'DELETE',
+        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
+        headers: {
+          'authorization': authToken
+        }
       }).then(function(resp)
       {
         return resp.data;
@@ -331,7 +387,11 @@
       getTransferCodes: getTransferCodes,
       setPublicUser: setPublicUser,
       updateUser: updateUser,
-      getDomains: getDomains
+      getDomains: getDomains,
+      removeUserFromGroup: removeUserFromGroup,
+      deleteGroup: deleteGroup,
+      assignExtensionToGroup: assignExtensionToGroup,
+      deleteExtension: deleteExtension
     };
   };
 

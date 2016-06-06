@@ -33,17 +33,25 @@
                 </div>
 
                 <ul class="list-unstyled msg_list">
-                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true | filterBy: ['SipUsername']: searchCriteria" ng-click="onEditPressed(item.SipUsername)">
+                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true | filterBy: ['SipUsername']: searchCriteria">
                         <a>
-                        <span class="image">
-                          <img src="images/img.jpg" alt="img">
-                        </span>
-                        <span>
-                          <span>{{item.SipUsername}}</span>
-                        </span>
-                        <span class="message">
-                          {{item.EmailAddress}}
-                        </span>
+                            <div ng-click="onEditPressed(item.SipUsername)">
+                                <span class="image">
+                                    <img src="images/img.jpg" alt="img">
+                                </span>
+                                <span>
+                                    <span>{{item.SipUsername}}</span>
+                                </span>
+                                <div class="clearfix"></div>
+                                <span ng-if="item.Extension">
+                                    <span>{{item.Extension.Extension}}</span>
+                                </span>
+                                <span class="message">
+                                    {{item.EmailAddress}}
+                                </span>
+
+                            </div>
+
                             <i class="fa fa-remove" ng-click="onDeleteUser(item.SipUsername)"></i>
                         </a>
                     </li>
