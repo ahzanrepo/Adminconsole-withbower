@@ -59,6 +59,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('console.phone', {
             url: "/call-phone",
             templateUrl: "views/call-monitor/phoneWidget.html"
+        }).state('console.rule', {
+            url: "/rule-conf",
+            templateUrl: "views/rule/ruleList.html",
+            controller : "rulelistcontroller"
         });
     }]);
 
