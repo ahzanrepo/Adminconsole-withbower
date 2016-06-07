@@ -15,9 +15,6 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
         /*template: '<span class="count_top"  ><i class="fa fa-user" ></i> {{fileCount.Category| uppercase}}</span><div class="count green">{{fileCount.Count}}</div><span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Total Number of Files</i></span>',*/
 
         link: function (scope, element, attributes) {
-
-
-
             scope.attachedAttributes = [];
             $(document).ready(function () {
                 angular.forEach(scope.groupinfo.ResAttributeGroups, function(item){

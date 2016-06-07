@@ -1,66 +1,101 @@
-<div class="block" >
+<div class="block">
     <div class="tags">
         <a class="tag">
             <span>{{resource.ResourceId}}</span>
         </a>
     </div>
-    <div class="block_content" >
+    <div class="block_content">
         <h2 class="title">
-            <a>Name : {{resource.ResourceName}}</a>
-            <a ng-disabled="true" ng-click="deleteResource(resource)"style="cursor: pointer"><i class="fa fa-trash-o"></i></a>
-            <a ng-disabled="true" ng-click="editResource()"style="cursor: pointer"><i class="fa fa-edit"></i></a>
+            <a ng-hide="editMode">Name : {{resource.ResourceName}}</a>
+            <a ng-disabled="true" ng-click="deleteResource(resource)" style="cursor: pointer"><i
+                    class="fa fa-trash-o"></i></a>
+            <a ng-disabled="true" ng-click="editResource()" style="cursor: pointer"><i class="fa fa-edit"></i></a>
         </h2>
 
-        <div class="col-xs-12" ng-show="editMode">
-            <div class="tile-stats">
-                <form class="form-horizontal form-label-left input_mask">
-                    <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                        <input type="text" class="form-control has-feedback-left" ng-model="resource.ResourceName"
-                               placeholder="Resource Name">
-                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                    </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" ng-show="editMode">
+            <br>
 
-                    <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
-                        <input type="text" class="form-control has-feedback-left" ng-model="resource.ResClass"
-                               placeholder="Resource Class">
-                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
-                    </div>
+            <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                <div class="tile-stats">
 
-                    <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
-                        <input type="text" class="form-control has-feedback-left" ng-model="resource.ResType"
-                               placeholder="Resource Type">
-                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
-                    </div>
+                    <form class="form-horizontal form-label-left input_mask">
+                        <br>
 
-                    <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
-                        <input type="text" class="form-control has-feedback-left" ng-model="resource.ResCategory"
-                               placeholder="Resource Category">
-                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
-                    </div>
+                        <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="resource.ResourceName"
+                                   placeholder="Resource Name">
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                        </div>
 
-                    <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                        <input type="text" class="form-control has-feedback-left" ng-model="resource.OtherData"
-                               placeholder="Other Data">
-                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
-                    </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="resource.ResClass"
+                                   placeholder="Resource Class">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
 
-                    <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                        <button type="button" class="btn btn-success btn-xs " ng-click="saveResource(resource)">
-                            Add
-                        </button></div>
-                </form>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="resource.ResType"
+                                   placeholder="Resource Type">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="resource.ResCategory"
+                                   placeholder="Resource Category">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="resource.OtherData"
+                                   placeholder="Other Data">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="col-md-9 col-sm-6 col-xs-12 form-group has-feedback">
+                            <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Tasks</label>-->
+                            <div class="col-md-12 col-sm-9 col-xs-12">
+                                <select class="select2_multiple form-control" multiple="multiple"
+                                        ng-model="resource.tasks"
+                                        ng-change="selectionsChanged(resource.tasks)"
+                                        ng-options="task.ResTaskInfo.TaskName for task in tasks track by task.TaskInfoId"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                            <button type="button" class="btn btn-success btn-xs " ng-click="UpdateResource(resource)">
+                                Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-caret-square-o-right"></i>
+                    </div>
+                    <div class="count">179</div>
+
+                    <h3>New Sign ups</h3>
+
+                    <p>Lorem ipsum psdea itgum rixt.</p>
+                </div>
             </div>
         </div>
 
 
-        <div class="byline">
+        <div class="byline" ng-hide="editMode">
             <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>
-        <p class="excerpt col-md-4"> Class : {{resource.ResClass}} </p>
-        <p class="excerpt col-md-4"> Type : {{resource.ResType}} </p>
-        <p class="excerpt col-md-4"> Category: {{resource.ResCategory}} </p>
-        <p class="excerpt col-md-12"> Other Data : {{resource.OtherData}} </p>
+        <div ng-hide="editMode">
+            <p class="excerpt col-md-4"> Class : {{resource.ResClass}} </p>
 
+            <p class="excerpt col-md-4"> Type : {{resource.ResType}} </p>
+
+            <p class="excerpt col-md-4"> Category: {{resource.ResCategory}} </p>
+
+            <p class="excerpt col-md-12"> Other Data : {{resource.OtherData}} </p>
+        </div>
         <div class="clearfix"></div>
     </div>
 </div>

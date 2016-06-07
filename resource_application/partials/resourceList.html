@@ -58,7 +58,7 @@
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="res in resources">
-                        <editresource resource="res" update-recource="removeDeleted(res)"></editresource>
+                        <editresource resource="res" tasks="tasksList" update-recource="removeDeleted(res)"></editresource>
                     </li>
 
                     <paging ng-show="showPaging"

@@ -60,6 +60,16 @@ mainApp.controller("resourceController", function ($scope, $compile, $filter, $l
 
     };
 
+    $scope.tasksList = [];
+    $scope.GetTasks = function () {
+        resourceService.GetTasks().then(function (response) {
+            $scope.tasksList = response
+        }, function (error) {
+            console.info("GetTasks err" + error);
+        });
+    };
+    $scope.GetTasks();
+
     $scope.showAlert = function (tittle, label, button, content) {
 
         new PNotify({

@@ -1,24 +1,65 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("editresource", function (resourceService) {
+mainApp.directive("editresource", function ($filter,resourceService) {
 
     return {
         restrict: "EAA",
         scope: {
             resource: "=",
+            tasks: "=",
             'updateRecource': '&'
         },
 
         templateUrl: 'resource_application/partials/template/editResource.html',
 
         link: function (scope, element, attributes) {
-            scope.editMode=false;
-            scope.editResource = function(){
-                scope.editMode=!scope.editMode;
+
+            scope.attachedTasks=[];
+            $(document).ready(function () {
+                angular.forEach(scope.resource.ResResourceTask, function(item){
+                    if(item){
+
+                        var items = $filter('filter')(scope.tasks, {TaskId: item.TaskId})
+                        if (items) {
+                            var index = scope.tasks.indexOf(items[0]);
+                            scope.attachedTasks.push(scope.tasks[index]);
+                        }
+                    }
+                });
+
+                scope.resource.tasks = scope.attachedTasks;
+
+                $(".select2_multiple").select2({
+                    placeholder: "Select Tasks",
+                    allowClear: true
+                });
+            });
+
+            scope.editMode = false;
+            scope.editResource = function () {
+                scope.editMode = !scope.editMode;
             };
 
-            scope.deleteResource = function(item) {
+            scope.UpdateResource = function (item) {
+                resourceService.UpdateResource(item).then(function (response) {
+                    if (response) {
+                        console.info("UpdateAttributes : " + response);
+                        scope.editMode = false;
+                    }
+                }, function (error) {
+                    console.info("UpdateAttributes err" + error);
+                });
+
+                scope.tempOld=[];
+                angular.copy(scope.attachedTasks,scope.tempOld );
+                resourceService.DeleteTaskToResource(item.tasks,scope.tempOld,item);
+                resourceService.AssignTaskToResource(item.tasks,scope.attachedTasks,item);
+
+            };
+
+
+            scope.deleteResource = function (item) {
 
                 scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete " + item.ResourceName, function (obj) {
 
