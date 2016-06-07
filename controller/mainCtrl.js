@@ -32,6 +32,12 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         },
         goCallMonitor: function () {
             $state.go('console.callmonitor');
+        },
+        goSipUser: function () {
+            $state.go('console.sipuser');
+        },
+        goRingGroup: function () {
+            $state.go('console.ringGroup');
         }
     };
 
