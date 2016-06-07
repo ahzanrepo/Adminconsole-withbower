@@ -76,7 +76,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "views/rule/newRule.html",
             controller : "newrulecontroller"
         }).state('console.editrule', {
-            url: "/edit-rule",
+            url: "/edit-rule?id",
             params:{id:null},
             templateUrl: "views/rule/newRule.html",
             controller : "newrulecontroller"

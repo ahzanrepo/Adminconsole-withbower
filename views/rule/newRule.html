@@ -1,9 +1,9 @@
 <form name="frm_newRule" class="form-horizontal form-label-left input_mask">
 
-    <div class="form-group">
+    <div class="form-group" >
         <label class="control-label col-md-3 col-sm-3 col-xs-12">DIRECTION</label>
         <div class="col-md-9 col-sm-9 col-xs-12">
-            <select class="form-control" ng-model="newObj.Direction">
+            <select class="form-control" ng-model="newObj.Direction" ng-disabled="editMode">
                 <option ng-selected="true">INBOUND</option>
                 <option>OUTBOUND</option>
 
@@ -24,7 +24,7 @@
 
     <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
         <div class="col-md-9 col-sm-9 col-xs-12">
-            <select class="form-control" ng-model="newObj.RegExPattern" ng-selected="$first">
+            <select class="form-control" ng-model="newObj.RegExPattern" ng-selected="$first"ng-change="setEnableStatus()">
                 <option ng-selected="true">STARTWITH</option>
                 <option>EXTENDED</option>
                 <option>ANY</option>
@@ -39,7 +39,7 @@
     <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
         <label class="control-label col-md-3 col-sm-3 col-xs-12">DNIS</label>
         <div class="col-md-9 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" name="txt_dnis" ng-model="newObj.DNIS" required>
+            <input type="text" class="form-control" name="txt_dnis" ng-model="newObj.DNIS" ng-required="DNISRequired" ng-disabled="!DNISRequired">
             <div ng-messages="frm_newRule.txt_dnis.$error">
                 <div class="alert" ng-message="required">This field is required</div>
             </div>
@@ -49,7 +49,7 @@
 
     <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
         <div class="col-md-9 col-sm-9 col-xs-12">
-            <select class="form-control" ng-model="newObj.ANIRegExPattern" ng-selected="$first">
+            <select class="form-control" ng-model="newObj.ANIRegExPattern" ng-selected="$first" ng-change="setEnableStatus()">
                 <option ng-selected="true">STARTWITH</option>
                 <option>EXTENDED</option>
                 <option>ANY</option>
@@ -64,7 +64,7 @@
     <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
         <label class="control-label col-md-3 col-sm-3 col-xs-12">ANI</label>
         <div class="col-md-9 col-sm-9 col-xs-12">
-            <input type="text" class="form-control" name="txt_ani" ng-model="newObj.ANI" required>
+            <input type="text" class="form-control" name="txt_ani" ng-model="newObj.ANI" ng-required="ANIRequired" ng-disabled="!ANIRequired">
             <div ng-messages="frm_newRule.txt_ani.$error">
                 <div class="alert" ng-message="required">This field is required</div>
             </div>
@@ -100,15 +100,15 @@
         </div>
     </div>
 
-   <!-- <div class="form-group" ng-if="newObj.Direction=='OUTBOUND'">
-        <label class="control-label col-md-3 col-sm-3 col-xs-12">Trunk Number</label>
-        <div class="col-md-9 col-sm-9 col-xs-12">
-            <select class="form-control"ng-model="newObj.TrunkNumber" ng-repeat="trunk in trunkObj" value="{{trunk.PhoneNumber}}" ng-model-options="{trackBy: '$value'}" ng-selected="$first" required>
-                <option>{{trunk.PhoneNumber}}</option>
+    <!-- <div class="form-group" ng-if="newObj.Direction=='OUTBOUND'">
+         <label class="control-label col-md-3 col-sm-3 col-xs-12">Trunk Number</label>
+         <div class="col-md-9 col-sm-9 col-xs-12">
+             <select class="form-control"ng-model="newObj.TrunkNumber" ng-repeat="trunk in trunkObj" value="{{trunk.PhoneNumber}}" ng-model-options="{trackBy: '$value'}" ng-selected="$first" required>
+                 <option>{{trunk.PhoneNumber}}</option>
 
-            </select>
-        </div>
-    </div>-->
+             </select>
+         </div>
+     </div>-->
 
 
     <div class="">
@@ -117,6 +117,105 @@
         </label>
     </div>
     <div class="ln_solid"></div>
+    <div ng-if="editMode==true">
+        <span class="fa fa-cog" ng-click="showAdvanced()" ></span>
+    </div>
+
+
+    <div ng-if="advancedViewSt==true">
+
+
+        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">DNIS Translation</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <!--<select class="form-control" ng-model="newObj.TranslationId"   ng-change="AttachDNISTransToRule()" ng-model-options="{trackBy: '$value'}">
+                    <option ng-repeat="Trans in TransObj" value="{{Trans.id}}">{{Trans.TransName}}</option>
+                </select>-->
+
+                <select class="form-control" ng-options="Trans.TransName for Trans in TransObj track by Trans.id"
+                        ng-model="newObj.TranslationId" ng-change="AttachDNISTransToRule()">
+                </select>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">ANI Translation</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <select class="form-control" ng-options="Trans.TransName for Trans in TransObj track by Trans.id"
+                        ng-model="newObj.ANITranslationId" ng-change="AttachANITransToRule()">
+                </select>
+
+               <!-- <select class="form-control" ng-model="newObj.ANITranslationId"   ng-change="AttachANITranstoRule()" ng-model-options="{trackBy: '$value'}">
+                    <option ng-repeat="Trans in TransObj" value="{{Trans.id}}">{{Trans.TransName}}</option>
+                </select>-->
+            </div>
+        </div>
+
+       <!-- <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" ng-if="isInbound">
+            &lt;!&ndash;<label class="control-label col-md-3 col-sm-3 col-xs-12">Applications</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <select name="mySelect" id="mySelect"
+                    ng-options ="App.id for App in AppObj track by App.id"
+                    ng-model="newObj.AppId"
+                </select>&ndash;&gt;
+
+
+
+
+
+
+                &lt;!&ndash;<select name="mySelect" id="mySelect"
+                        ng-options="option.name for option in data.availableOptions track by option.id"
+                        ng-model="data.selectedOption"></select>&ndash;&gt;
+
+            </div>
+        </div>-->
+
+    <!--<select name="mySelect" id="mySelect"
+            ng-options="App.AppName for App in AppObj track by App.id"
+            ng-model="newObje.AppId">
+
+    </select>-->
+
+
+
+
+
+        <div class="form-group" ng-show="isInbound">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Application</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <select class="form-control" ng-options="App.AppName for App in AppObj track by App.id"
+                        ng-model="newObj.AppId" ng-change="AttachAppToRule()">
+                </select>
+            </div>
+        </div>
+
+
+        <!--<div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Application</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <select class="form-control" name="APPID" ng-model="newObje.AppId"   ng-model-options="{trackBy: '$value'}">
+                    <option ng-repeat="App in AppObj" value="{{App.id}}">{{App.id}}</option>
+                </select>
+            </div>
+        </div>-->
+
+        <!--<form name="myForm">
+            <label for="mySelect">Make a choice:</label>
+            <select name="mySelect"
+                    ng-options="option.name for option in data.availableOptions track by option.id"
+                    ng-model="datatee.selectedOption"></select>
+        </form>-->
+        <!--<md-option ng-repeat="App in Apps" value="{{App.id}}" ng-model-options="{trackBy: '$value'}"   >
+            {{App.AppName}}
+        </md-option>
+-->
+
+
+    </div>
+
+
     <div class="form-group">
         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
             <button ng-click="backToList()">Cancel</button>
