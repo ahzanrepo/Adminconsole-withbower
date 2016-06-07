@@ -35,7 +35,7 @@
                 </div>
 
                 <ul class="list-unstyled timeline" style="overflow-y: auto; height: 785px">
-                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true | filterBy: ['SipUsername']: searchCriteria">
+                    <li ng-repeat="item in sipUsrList | filter : item.Enabled : true | filterBy: ['SipUsername', 'Extension.Extension']: searchCriteria">
                         <div class="block">
                             <div class="tags">
                                 <a href="" class="tag">

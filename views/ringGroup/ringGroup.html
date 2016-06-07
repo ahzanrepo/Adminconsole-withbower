@@ -81,7 +81,7 @@
                 </div>
 
                 <ul class="list-unstyled timeline" style="overflow-y: auto; height: 785px">
-                    <li ng-repeat="grp in groupList | filterBy: ['GroupName']: searchCriteria">
+                    <li ng-repeat="grp in groupList | filterBy: ['GroupName', 'Extension.Extension']: searchCriteria">
                         <div class="block">
                             <div class="tags">
                                 <a href="" class="tag">
