@@ -155,7 +155,7 @@
                     <div class="form-group">
                         <label>Users :</label>
                         <tags-input ng-model="currentGroupUsers" display-property="SipUsername" add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)" on-tag-removed="onChipDelete($tag)" ng-disabled="!IsEdit" min-length="1">
-                            <auto-complete source="querySearch($query)" min-length="1"></auto-complete>
+                            <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1"></auto-complete>
                         </tags-input>
                     </div>
 
