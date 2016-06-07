@@ -132,6 +132,97 @@ mainApp.factory('ruleConfSrv', function ($http) {
 
         },
 
+        loadApps : function () {
+
+            return $http({
+                method: 'GET',
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Applications",
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(response)
+            {
+                return response;
+            });
+
+        },
+
+        loadTranslations : function () {
+
+            return $http({
+                method: 'GET',
+                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/Translations",
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(response)
+            {
+                return response;
+            });
+
+        },
+         attchDNISTransToRule : function (rID,dtID) {
+
+            return $http({
+                method: 'POST',
+                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID+"/SetDNISTranslation/"+dtID,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(response)
+            {
+                return response;
+            });
+
+
+        },
+        attchANITransToRule : function (rID,atID) {
+
+            return $http({
+                method: 'POST',
+                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID+"/SetANITranslation/"+atID,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(response)
+            {
+                return response;
+            });
+
+        },
+
+        updateRules :function (rule) {
+
+            return $http({
+                method: 'PUT',
+                url: 'http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/'+rule.id,
+                headers: {
+                    'authorization': authToken
+                },
+                data:rule
+            }).then(function(response)
+            {
+                return response;
+            });
+
+
+
+        },
+        attchAppWithRule : function (rID,aID) {
+
+            return $http({
+                method: 'POST',
+                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID+"/SetApplication/"+aID,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(response)
+            {
+                return response;
+            });
+
+        }
+
 
     }
 });

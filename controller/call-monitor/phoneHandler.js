@@ -5,6 +5,7 @@ var readyCallback = function(e) {
 
 var errorCallback = function(e) {
     // function called when error occured during sipml initialisation.
+    console.log(e);
 };
 
 
