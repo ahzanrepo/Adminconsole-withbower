@@ -22,6 +22,7 @@
         $scope.searchText = null;
         $scope.selectedItem = null;
         $scope.IsEdit = false;
+        $scope.EditState = 'New Group';
         $scope.dataLoaded = false;
         var emptyArr = [];
 
@@ -217,6 +218,7 @@
         $scope.onNewPressed = function()
         {
             $scope.IsEdit = false;
+            $scope.EditState = 'New Group';
             $scope.dataLoaded = false;
             clearFormOnSave();
         };
@@ -443,8 +445,6 @@
 
                     }
 
-                    var ss = $scope.currentGroupUsers;
-
                 }
                 else
                 {
@@ -480,6 +480,7 @@
                 if(data.IsSuccess)
                 {
                     $scope.IsEdit = true;
+                    $scope.EditState = 'Edit Group';
                     $scope.basicConfig = data.Result;
                 }
                 else

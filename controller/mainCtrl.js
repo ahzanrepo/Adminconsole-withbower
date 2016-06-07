@@ -21,6 +21,9 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         goAttributeList: function () {
             $state.go('console.attributes');
         },
+        goResourceList: function () {
+            $state.go('console.resources');
+        },
         goRealTimeQueued: function () {
             $state.go('console.realtime-queued');
         },
@@ -29,6 +32,12 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         },
         goCallMonitor: function () {
             $state.go('console.callmonitor');
+        },
+        goSipUser: function () {
+            $state.go('console.sipuser');
+        },
+        goRingGroup: function () {
+            $state.go('console.ringGroup');
         }
     };
 
