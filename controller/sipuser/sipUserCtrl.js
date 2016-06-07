@@ -22,7 +22,6 @@
 
         $scope.searchCriteria = "";
 
-
         $scope.reloadUserList = function()
         {
             $scope.searchCriteria = "";
@@ -100,6 +99,7 @@
         $scope.onEditPressed = function(username)
         {
             $scope.IsEdit = true;
+            $scope.EditState = 'Edit User';
 
             sipUserApiHandler.getSIPUser(username).then(function(data)
             {
@@ -146,17 +146,19 @@
         //User Configuration Operations
 
         $scope.IsEdit = false;
+        $scope.EditState = 'New User';
 
         $scope.clearFormOnSave = function()
         {
             $scope.basicConfig = {};
             $scope.IsEdit = false;
+            $scope.EditState = 'New User';
 
-            basicConfig.UsePublic=false;
-            basicConfig.TransInternalEnable=false;
-            basicConfig.TransExternalEnable=false;
-            basicConfig.TransConferenceEnable=false;
-            basicConfig.TransGroupEnable=false;
+            $scope.basicConfig.UsePublic=false;
+            $scope.basicConfig.TransInternalEnable=false;
+            $scope.basicConfig.TransExternalEnable=false;
+            $scope.basicConfig.TransConferenceEnable=false;
+            $scope.basicConfig.TransGroupEnable=false;
         };
 
         $scope.onSavePressed = function()
