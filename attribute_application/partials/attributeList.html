@@ -1,12 +1,12 @@
-
-
 <div class="row">
 
 
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-adn"></i> Attribute <small>Viewer</small></h2>
+                <h2><i class="fa fa-adn"></i> Attribute
+                    <small>Viewer</small>
+                </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a ng-click="addAttribute()" class="close-link"><i class="fa fa-plus"></i></a>
                     </li>
@@ -16,16 +16,20 @@
                     <div class="tile-stats">
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="attribute.Attribute" id="AttributeId" placeholder="Attribute">
+                                <input type="text" class="form-control has-feedback-left" ng-model="attribute.Attribute"
+                                       id="AttributeId" placeholder="Attribute">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
                             <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="attribute.OtherData"style=""  id="OtherData" placeholder="Other">
+                                <input type="text" class="form-control has-feedback-left" ng-model="attribute.OtherData"
+                                       style="" id="OtherData" placeholder="Other">
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <button type="button" class="btn btn-success btn-xs " ng-click="saveAttribute(attribute)">Add</button>
+                            <button type="button" class="btn btn-success btn-xs " ng-click="saveAttribute(attribute)">
+                                Add
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -38,18 +42,32 @@
                         <editattribute attribute="attrib" update-attribute="removeDeleted(attrib)"></editattribute>
                     </li>
 
-
-
+                    <paging ng-show="showPaging"
+                            class="small"
+                            page="currentPage"
+                            page-size="pageSize"
+                            total="pageTotal"
+                            show-prev-next="true"
+                            show-first-last="true"
+                            text-next-class="glyphicon glyphicon-chevron-right"
+                            text-prev-class="glyphicon glyphicon-chevron-left"
+                            text-first-class="glyphicon glyphicon-backward"
+                            text-last-class="glyphicon glyphicon-forward"
+                            paging-action="getPageData('attribute', page, pageSize, total)">
+                    </paging>
                 </ul>
 
             </div>
         </div>
+
     </div>
 
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-group"></i> Group Manager <small>Viewer</small></h2>
+                <h2><i class="fa fa-group"></i> Group Manager
+                    <small>Viewer</small>
+                </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a ng-click="addGrop()" class="close-link"><i class="fa fa-plus"></i></a>
                     </li>
@@ -59,19 +77,26 @@
                     <div class="tile-stats">
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="grp.GroupName"  placeholder="Group Name">
+                                <input type="text" class="form-control has-feedback-left" ng-model="grp.GroupName"
+                                       placeholder="Group Name">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
                             <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="grp.OtherData" placeholder="Other Data">
+                                <input type="text" class="form-control has-feedback-left" ng-model="grp.OtherData"
+                                       placeholder="Other Data">
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
-                            <div class="col-md-2">
-                                <p>Percentage</p>
-                                <input class="knob" data-width="110" data-height="120" data-displayPrevious=true data-fgColor="#26B99A" data-skin="tron" data-thickness=".2" value="75">
+                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                                <input type="text" class="form-control has-feedback-left" ng-model="grp.Percentage"
+                                       placeholder="Percentage">
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
-                            <button type="button" class="btn btn-success btn-xs " ng-click="saveGroup(grp)">Add</button>
+
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-success btn-xs " ng-click="saveGroup(grp)">Add
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -81,8 +106,23 @@
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="grp in groupsData">
-                        <editgroups groupinfo="grp" update-groups="removeDeletedGroup(grp)"></editgroups>
+                        <editgroups groupinfo="grp" attribinfo="attribData"
+                                    update-groups="removeDeletedGroup(grp)"></editgroups>
                     </li>
+
+                    <paging ng-show="showPaging"
+                            class="small"
+                            page="currentGrpPage"
+                            page-size="pageSize"
+                            total="pageGrpTotal"
+                            show-prev-next="true"
+                            show-first-last="true"
+                            text-next-class="glyphicon glyphicon-chevron-right"
+                            text-prev-class="glyphicon glyphicon-chevron-left"
+                            text-first-class="glyphicon glyphicon-backward"
+                            text-last-class="glyphicon glyphicon-forward"
+                            paging-action="getPageData('groups', page, pageSize, total)">
+                    </paging>
                 </ul>
             </div>
         </div>

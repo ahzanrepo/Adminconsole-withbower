@@ -21,6 +21,9 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         goAttributeList: function () {
             $state.go('console.attributes');
         },
+        goResourceList: function () {
+            $state.go('console.resources');
+        },
         goRealTimeQueued: function () {
             $state.go('console.realtime-queued');
         },

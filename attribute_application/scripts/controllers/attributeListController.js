@@ -1,17 +1,38 @@
-mainApp.controller("attributeListController", function ($scope,$compile, $filter, $location, $log, attributeService) {
+mainApp.controller("attributeListController", function ($scope, $compile, $filter, $location, $log, attributeService) {
 
 
     $scope.countByCategory = [];
     $scope.categoryId = 0;
-    $scope.showPaging = true;
-    $scope.currentPage="1";
-    $scope.pageTotal="1";
-    $scope.pageSize="50";
+    $scope.showPaging = false;
+    $scope.currentPage = "1";
+    $scope.pageTotal = "1";
+    $scope.pageSize = "50";
 
-    $scope.safeApply = function(fn) {
+    $scope.GetAttributeCount = function () {
+        attributeService.GetAttributeCount().then(function (response) {
+            $scope.pageTotal = response;
+        }, function (error) {
+            $log.debug("GetAttributeCount err");
+            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+        });
+
+    };
+    $scope.GetAttributeCount();
+
+
+    $scope.getPageData = function (model, page, pageSize, total) {
+        if (model == "attribute") {
+            $scope.GetAttributes(model, page, pageSize);
+        }
+        else {
+            $scope.GetGroups(model, page, pageSize);
+        }
+    };
+
+    $scope.safeApply = function (fn) {
         var phase = this.$root.$$phase;
-        if(phase == '$apply' || phase == '$digest') {
-            if(fn && (typeof(fn) === 'function')) {
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
                 fn();
             }
         } else {
@@ -19,78 +40,77 @@ mainApp.controller("attributeListController", function ($scope,$compile, $filter
         }
     };
 
-    $scope.removeDeleted = function(item) {
+    $scope.removeDeleted = function (item) {
 
-        $scope.safeApply(function() {
+        $scope.safeApply(function () {
             var index = $scope.attribData.indexOf(item);
             if (index != -1) {
                 $scope.attribData.splice(index, 1);
             }
         });
-
-
+        $scope.GetAttributeCount();
 
         /*alert('toggle in basket');*/
     };
 
-    $scope.addNew=false;
-    $scope.addAttribute=function(){
-        $scope.addNew=!$scope.addNew;
+    $scope.addNew = false;
+    $scope.addAttribute = function () {
+        $scope.addNew = !$scope.addNew;
     };
 
-    $scope.saveAttribute= function(item){
+    $scope.saveAttribute = function (item) {
         attributeService.SaveAttribute(item).then(function (response) {
             console.info("SaveAttribute : " + response);
-            if(response.IsSuccess){
+            if (response.IsSuccess) {
                 $scope.attribData.splice(0, 0, response.Result);
             }
-            $scope.addNew=!response.IsSuccess;
+            $scope.addNew = !response.IsSuccess;
+            $scope.GetAttributeCount();
         }, function (error) {
             console.info("SaveAttribute err" + error);
         });
     };
 
-    $scope.GetAttributeCount = function () {
-        attributeService.GetAttributeCount().then(function (response) {
-            $log.debug("GetAttributeCount: response" + response);
-            $scope.pageTotal= response;
-        }, function (error) {
-            $log.debug("GetAttributeCount err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
-        });
-
-    };
-
-
     $scope.attribData = [];
-    $scope.GetAttributes = function (Paging, page, pageSize, total) {
-        attributeService.GetAttributes(pageSize,page).then(function (response) {
-
+    $scope.GetAttributes = function (Paging, page, pageSize) {
+        $scope.showPaging = false;
+        attributeService.GetAttributes(pageSize, page).then(function (response) {
             $log.debug("GetAttributes: response" + response);
             $scope.attribData = response;
+            $scope.showPaging = true;
         }, function (error) {
             $log.debug("GetAttributes err");
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
         });
 
     };
-    $scope.GetAttributes("init",1,$scope.pageSize,$scope.pageTotal);
+    $scope.GetAttributes("init", 1, $scope.pageSize);
 
 
     /*get Groups*/
 
-    $scope.currentGrpPage="1";
-    $scope.pageGrpTotal="1";
-    $scope.pageSize="50";
+    $scope.currentGrpPage = "1";
+    $scope.pageGrpTotal = "1";
 
-    $scope.addGrp=false;
-    $scope.addGrop=function(){
-        $scope.addGrp=!$scope.addGrp;
+    $scope.GroupsCount = function () {
+        attributeService.GroupsCount().then(function (response) {
+            $log.debug("GroupsCount: response" + response);
+            $scope.pageGrpTotal = response;
+        }, function (error) {
+            $log.debug("GroupsCount err");
+            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+        });
+
+    };
+    $scope.GroupsCount();
+    $scope.addGrp = false;
+    $scope.addGrop = function () {
+        $scope.addGrp = !$scope.addGrp;
     };
 
     $scope.groupsData = {};
-    $scope.GetGroups = function (Paging, page, pageSize, total) {
-        attributeService.GetGroups(pageSize,page).then(function (response) {
+    $scope.GetGroups = function (Paging, page, pageSize) {
+        attributeService.GetGroups(pageSize, page).then(function (response) {
 
             $log.debug("GetGroups: response" + response);
             $scope.groupsData = response;
@@ -100,14 +120,15 @@ mainApp.controller("attributeListController", function ($scope,$compile, $filter
         });
 
     };
-    $scope.GetGroups("init",1,$scope.pageSize,$scope.pageGrpTotal);
+    $scope.GetGroups("init", 1, $scope.pageSize);
 
     $scope.saveGroup = function (item) {
         attributeService.SaveGroup(item).then(function (response) {
-            if(response.IsSuccess){
+            if (response.IsSuccess) {
                 $scope.groupsData.splice(0, 0, response.Result);
             }
-            $scope.addGrp=!response.IsSuccess;
+            $scope.addGrp = !response.IsSuccess;
+            $scope.GroupsCount();
         }, function (error) {
             $log.debug("saveGroup err");
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
@@ -115,15 +136,15 @@ mainApp.controller("attributeListController", function ($scope,$compile, $filter
 
     };
 
-    $scope.removeDeletedGroup = function(item) {
+    $scope.removeDeletedGroup = function (item) {
 
-        $scope.safeApply(function() {
+        $scope.safeApply(function () {
             var index = $scope.groupsData.indexOf(item);
             if (index != -1) {
                 $scope.groupsData.splice(index, 1);
             }
         });
-
+        $scope.GroupsCount();
     };
 
     $scope.showAlert = function (tittle, label, button, content) {

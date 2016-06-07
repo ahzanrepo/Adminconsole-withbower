@@ -6,7 +6,7 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio','bw.paging']);
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging']);
 
 
 var baseUrls = {
@@ -43,6 +43,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/attributes",
             templateUrl: "attribute_application/partials/attributeList.html",
             controller: "attributeListController"
+        }).state('console.resources', {
+            url: "/resources",
+            templateUrl: "resource_application/partials/resourceList.html",
+            controller: "resourceController"
         }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
@@ -70,10 +74,18 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('console.rule', {
             url: "/rule-conf",
             templateUrl: "views/rule/ruleList.html",
-            controller : "rulelistcontroller"
+            controller: "rulelistcontroller"
+        }).state('console.newrule', {
+            url: "/new-rule",
+            templateUrl: "views/rule/newRule.html",
+            controller: "newrulecontroller"
+        }).state('console.editrule', {
+            url: "/edit-rule",
+            params: {id: null},
+            templateUrl: "views/rule/newRule.html",
+            controller: "newrulecontroller"
         });
     }]);
-
 
 
 //main console directive
