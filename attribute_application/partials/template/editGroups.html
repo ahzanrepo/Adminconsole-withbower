@@ -6,7 +6,7 @@
     </div>
     <div class="block_content">
         <h2 class="title">
-            <a>{{groupinfo.GroupName}}</a>
+            <a ng-hide="editMode">{{groupinfo.GroupName}}</a>
             <a ng-disabled="true" ng-click="deleteGroup(groupinfo)" style="cursor: pointer"><i
                     class="fa fa-trash-o"></i></a>
             <a ng-disabled="true" ng-click="editGroup()" style="cursor: pointer"><i class="fa fa-edit"></i></a>
@@ -62,11 +62,11 @@
         </div>
 
 
-        <div class="byline">
+        <div ng-hide="editMode" class="byline">
             <span>{{groupinfo.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>
-        <p class="excerpt">{{groupinfo.OtherData}} </p>
-        <p class="excerpt">{{groupinfo.Percentage}}% </p>
+        <p ng-hide="editMode" class="excerpt">{{groupinfo.OtherData}} </p>
+        <p ng-hide="editMode" class="excerpt">{{groupinfo.Percentage}}% </p>
 
     </div>
 </div>
