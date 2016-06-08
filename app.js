@@ -72,15 +72,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/call-phone",
             templateUrl: "views/call-monitor/phoneWidget.html"
         }).state('console.rule', {
-            url: "/rule-conf",
+            url: "/rule/rules",
             templateUrl: "views/rule/ruleList.html",
             controller: "rulelistcontroller"
         }).state('console.newrule', {
-            url: "/new-rule",
+            url: "/rule/new-rule",
             templateUrl: "views/rule/newRule.html",
             controller: "newrulecontroller"
         }).state('console.editrule', {
-            url: "/edit-rule?id",
+            url: "/rule/edit-rule?id",
             params:{id:null},
             templateUrl: "views/rule/newRule.html",
             controller: "newrulecontroller"

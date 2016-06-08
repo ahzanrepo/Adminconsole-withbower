@@ -2,7 +2,7 @@
  * Created by Pawan on 6/6/2016.
  */
 'use strict';
-mainApp.controller('newrulecontroller', function ($scope, ruleConfSrv, notificationService,$state,$stateParams) {
+mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, notificationService,$state,$stateParams) {
 
 
     $scope.newObj={};
@@ -142,14 +142,14 @@ mainApp.controller('newrulecontroller', function ($scope, ruleConfSrv, notificat
     };
 
     var loadTrunks = function () {
-        ruleConfSrv.loadTrunks().then(onTrunkLoadCompleted,onError);
+        ruleconfigservice.loadTrunks().then(onTrunkLoadCompleted,onError);
     };
 
     var loadApplications = function () {
-        ruleConfSrv.loadApps().then(onAppLoadCompleted,onError);
+        ruleconfigservice.loadApps().then(onAppLoadCompleted,onError);
     };
     var loadTranslations = function () {
-        ruleConfSrv.loadTranslations().then(onTransLoadCompleted,onError);
+        ruleconfigservice.loadTranslations().then(onTransLoadCompleted,onError);
     };
 
 
@@ -157,12 +157,12 @@ mainApp.controller('newrulecontroller', function ($scope, ruleConfSrv, notificat
         //$scope.newObj.Direction=Direction;
         if($scope.editMode)
         {
-            ruleConfSrv.updateRules($scope.newObj).then(onSaveCompleted,onError);
+            ruleconfigservice.updateRules($scope.newObj).then(onSaveCompleted,onError);
         }
 
         else
         {
-            ruleConfSrv.addNewRule($scope.newObj).then(onSaveCompleted,onError);
+            ruleconfigservice.addNewRule($scope.newObj).then(onSaveCompleted,onError);
         }
 
 
@@ -171,7 +171,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleConfSrv, notificat
 
     function  loadContexts()
     {
-        ruleConfSrv.getContextList().then(onContextLoad,onError);
+        ruleconfigservice.getContextList().then(onContextLoad,onError);
     };
 
     $scope.backToList =function()
@@ -183,7 +183,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleConfSrv, notificat
     function initiateProcess  () {
         if($scope.ruleID)
         {
-            ruleConfSrv.getRule($scope.ruleID).then(onRuleLoad,onError);
+            ruleconfigservice.getRule($scope.ruleID).then(onRuleLoad,onError);
 
         }
         else
@@ -211,7 +211,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleConfSrv, notificat
         {
             console.log("Id "+$scope.newObj.id);
             console.log("TId "+$scope.newObj.TranslationId.id);
-            ruleConfSrv.attchDNISTransToRule($scope.newObj.id,$scope.newObj.TranslationId.id).then(onAttachCompleted,onError);
+            ruleconfigservice.attchDNISTransToRule($scope.newObj.id,$scope.newObj.TranslationId.id).then(onAttachCompleted,onError);
         }
 
     };
@@ -221,7 +221,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleConfSrv, notificat
         {
             console.log("Id "+$scope.newObj.id);
             console.log("TId "+$scope.newObj.ANITranslationId.id);
-            ruleConfSrv.attchANITransToRule($scope.newObj.id,$scope.newObj.ANITranslationId.id).then(onAttachCompleted,onError);
+            ruleconfigservice.attchANITransToRule($scope.newObj.id,$scope.newObj.ANITranslationId.id).then(onAttachCompleted,onError);
         }
 
     };
@@ -232,7 +232,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleConfSrv, notificat
         {
             console.log("Id "+$scope.newObj.id);
             console.log("APPId "+$scope.newObj.AppId.id);
-            ruleConfSrv.attchAppWithRule($scope.newObj.id,$scope.newObj.AppId.id).then(onAttachCompleted,onError);
+            ruleconfigservice.attchAppWithRule($scope.newObj.id,$scope.newObj.AppId.id).then(onAttachCompleted,onError);
         }
 
     };
