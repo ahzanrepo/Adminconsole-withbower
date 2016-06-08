@@ -4,7 +4,7 @@
 
 'use strict';
 
-mainApp.controller('rulelistcontroller', function ($scope,$state, ruleConfSrv,$location, notificationService) {
+mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigservice,$location, notificationService) {
 
     // Update the dataset at 25FPS for a smoothly-animating chart
     $scope.ruleObj = {};
@@ -81,16 +81,16 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleConfSrv,$l
     };
     var getAllRules= function () {
         $scope.ruleObj=null;
-        ruleConfSrv.allRulePicker().then(onAllRulePicked,onError);
+        ruleconfigservice.allRulePicker().then(onAllRulePicked,onError);
     };
 
     var getInRules = function () {
         $scope.ruleObj=null;
-        ruleConfSrv.inboundRulePicker().then(onInRulePicked,onError);
+        ruleconfigservice.inboundRulePicker().then(onInRulePicked,onError);
     };
     var getOutRules = function () {
         $scope.ruleObj=null;
-        ruleConfSrv.outboundRulePicker().then(onOutRulePicked,onError);
+        ruleconfigservice.outboundRulePicker().then(onOutRulePicked,onError);
     };
 
     $scope.onBtnPressed = function (btnName) {
@@ -157,14 +157,14 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleConfSrv,$l
 
     $scope.deleteRule= function(rule){
 
-        ruleConfSrv.deleteRules(rule).then(onRuleDeleted,onError);
+        ruleconfigservice.deleteRules(rule).then(onRuleDeleted,onError);
 
     };
 
     $scope.editRule = function (rule) {
         //$location.path("/new-rule/"+rule.id);
         $state.go('console.editrule',{id:rule.id});
-    }
+    };
 
     var refershPage= function () {
         $scope.ruleObj = null;
