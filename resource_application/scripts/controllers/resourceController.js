@@ -1,6 +1,15 @@
 mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log, resourceService) {
 
 
+    $scope.tasksList = [];
+    $scope.GetTasks = function () {
+        resourceService.GetTasks().then(function (response) {
+            $scope.tasksList = response
+        }, function (error) {
+            console.info("GetTasks err" + error);
+        });
+    };
+    $scope.GetTasks();
 
     $scope.safeApply = function (fn) {
         var phase = this.$root.$$phase;
@@ -61,16 +70,6 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
 
     };
 
-    $scope.tasksList = [];
-    $scope.GetTasks = function () {
-        resourceService.GetTasks().then(function (response) {
-            $scope.tasksList = response
-        }, function (error) {
-            console.info("GetTasks err" + error);
-        });
-    };
-    $scope.GetTasks();
-
     $scope.showAlert = function (tittle, label, button, content) {
 
         new PNotify({
@@ -86,17 +85,55 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
         console.info("reloadPage..........");
     };
 
-
-
+    $scope.attributesList = {};
+    $scope.LoadAttribute = function (item) {
+        resourceService.GetAttributes().then(function (response) {
+            $scope.attributesList = response;
+        }, function (error) {
+            console.info("GetAttributes err" + error);
+        });
+    };
+    $scope.LoadAttribute();
 
 });
 
 mainApp.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, selectedTask) {
 
     $scope.selectedTask = selectedTask;
-    $scope.selectedTask.Concurrency = 0;
 
     $scope.ok = function () {
+        $uibModalInstance.close($scope.selectedTask);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+mainApp.controller('addSkillModalInstanceCtrl', function ($scope, $uibModalInstance, selectedTask) {
+
+    $scope.selectedAttribute = [];
+
+    $scope.selectedTask = selectedTask;
+
+    $scope.ok = function () {
+        $scope.selectedTask.selectedAttribute = $scope.selectedAttribute;
+        $uibModalInstance.close($scope.selectedTask);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+mainApp.controller('assignAttributeToTask', function ($scope) {
+
+    $scope.selectedAttribute = [];
+
+    $scope.selectedTask = selectedTask;
+
+    $scope.ok = function () {
+        $scope.selectedTask.selectedAttribute = $scope.selectedAttribute;
         $uibModalInstance.close($scope.selectedTask);
     };
 

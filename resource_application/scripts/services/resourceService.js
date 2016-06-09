@@ -21,6 +21,23 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
+    var getTaskAttachToResource = function (resourceId) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.resourceServiceBaseUrl + "Resource/"+resourceId+"/Tasks",
+            headers: {
+                'authorization': authService.Token
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return {};
+            }
+        });
+
+    };
+
     var saveResource = function (resource) {
         return $http({
             method: 'post',
@@ -72,11 +89,11 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
             },
             data:{"Concurrency":concurrency}
         }).then(function (response) {
-            return response.data.IsSuccess;
+            return response.data;
         });
     };
 
-    var assignTaskToResource = function (item, resource) {
+    var assignTasksToResource = function (item, resource) {
         angular.forEach(item, function (a) {
             assignTask(resource.ResourceId, a.TaskId, a.Concurrency);
         });
@@ -95,7 +112,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var deleteTaskToResource = function (item, resource) {
+    var deleteTasksToResource = function (item, resource) {
         angular.forEach(item, function (a) {
             deleteTask(resource.ResourceId, a.TaskId);
         });
@@ -118,14 +135,85 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
+    var updateAttachedTask = function(resourceId,taskId,data){
+        return $http({
+            method: 'PUT',
+            url: baseUrls.resourceServiceBaseUrl + "Resource/"+resourceId+"/Tasks/"+taskId,
+            headers: {
+                'authorization': authService.Token
+            },
+            data:data
+        }).then(function(response)
+        {
+            return response.data.IsSuccess;
+
+        });
+
+    };
+
+    var getAttributes = function(resource){
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + "Attributes",
+            headers: {
+                'authorization': authService.Token
+            },
+            data:resource
+        }).then(function(response)
+        {
+            return response.data.Result;
+
+        });
+
+    };
+
+    var getAttributesAttachToResource = function(resource){
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/"+resource.ResourceId+"/Attributes",
+            headers: {
+                'authorization': authService.Token
+            },
+            data:resource
+        }).then(function(response)
+        {
+            return response.data.Result;
+
+        });
+
+    };
+
+    var attachAttributeToTask = function(resTaskId,taskId,attributeId,percentage,otherData){
+        return $http({
+            method: 'post',
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/"+resTaskId+"/Attribute/"+taskId,
+            headers: {
+                'authorization': authService.Token
+            },
+            data:{'Attribute': attributeId, 'Percentage': percentage, 'OtherData': otherData}
+        }).then(function(response)
+        {
+            return response.data.Result;
+
+        });
+
+    };
+
     return {
         GetResources: getResources,
+        GetTaskAttachToResource:getTaskAttachToResource,
         SaveResource: saveResource,
         DeleteResource: deleteResource,
         GetTasks: getTasks,
         UpdateResource:updateResource,
-        DeleteTaskToResource: deleteTaskToResource,
-        AssignTaskToResource: assignTaskToResource
+        UpdateAttachedTask:updateAttachedTask,
+        DeleteTasksToResource: deleteTasksToResource,
+        DeleteTaskToResource:deleteTask,
+        AssignTasksToResource: assignTasksToResource,
+        AssignTaskToResource:assignTask,
+        GetAttributes:getAttributes,
+        GetAttributesAttachToResource:getAttributesAttachToResource,
+        AttachAttributeToTask:attachAttributeToTask
     }
 
 });
