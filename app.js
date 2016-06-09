@@ -6,7 +6,7 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging']);
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging','ngDragDrop']);
 
 
 var baseUrls = {
@@ -57,6 +57,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/sipuser",
             templateUrl: "views/sipuser/sipuser.html",
             controller: "sipUserCtrl"
+        }).state("console.pbxuser", {
+            url: "/pbxuser",
+            templateUrl: "views/pbxuser/pbxuser.html",
+            controller: "pbxCtrl"
         }).state("console.ringGroup", {
             url: "/ringGroup",
             templateUrl: "views/ringGroup/ringGroup.html",
@@ -72,7 +76,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/call-phone",
             templateUrl: "views/call-monitor/phoneWidget.html"
         }).state('console.rule', {
-            url: "/rules",
+            url: "/rule/rules",
             templateUrl: "views/rule/ruleList.html",
             controller: "rulelistcontroller"
         }).state('console.newrule', {
