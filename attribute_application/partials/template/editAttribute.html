@@ -6,7 +6,7 @@
     </div>
     <div class="block_content" >
         <h2 class="title">
-            <a>{{attribute.Attribute}}</a>
+            <a ng-hide="editMode">{{attribute.Attribute}}</a>
             <a ng-disabled="true" ng-click="deleteAttribute(attribute)"style="cursor: pointer"><i class="fa fa-trash-o"></i></a>
             <a ng-disabled="true" ng-click="editAttribute()"style="cursor: pointer"><i class="fa fa-edit"></i></a>
         </h2>
@@ -31,10 +31,10 @@
         </div>
 
 
-        <div class="byline">
-            <span>{{attribute.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
+        <div ng-hide="editMode" class="byline">
+            <span >{{attribute.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>
-        <p class="excerpt">{{attribute.OtherData}}
+        <p ng-hide="editMode" class="excerpt">{{attribute.OtherData}}
         </p>
     </div>
 </div>

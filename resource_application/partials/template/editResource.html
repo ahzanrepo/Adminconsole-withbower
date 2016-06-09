@@ -51,36 +51,55 @@
                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                         </div>
 
-                        <div class="col-md-9 col-sm-6 col-xs-12 form-group has-feedback">
-                            <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Tasks</label>-->
-                            <div class="col-md-12 col-sm-9 col-xs-12">
-                                <select class="select2_multiple form-control" multiple="multiple"
-                                        ng-model="resource.tasks"
-                                        ng-change="selectionsChanged(resource.tasks)"
-                                        ng-options="task.ResTaskInfo.TaskName for task in tasks track by task.TaskInfoId"></select>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <div class="thumbnaildrag" data-drop="true" ng-model='attachedTask'
+                                 data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=deletedTask])'}"
+                                 jqyoui-droppable="{multiple:true}">
+                                <div class="caption">
+                                    <div class="btn btn-info btn-draggable" ng-repeat="item in attachedTask" ng-show="item.ResTaskInfo.TaskName"
+                                         data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                         ng-model="attachedTask" jqyoui-draggable="{index: {{$index}},animate:true,}">{{item.ResTaskInfo.TaskName}}:{{item.Concurrency}}
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-sm-3 col-xs-6 form-group has-feedback">
+                            <div class="thumbnaildrag" data-drop="true" ng-model='deletedTask'
+                                 data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=availableTask])'}"
+                                 jqyoui-droppable="{multiple:true}">
+                                <div class="caption">
+                                    <div class="btn btn-info btn-draggable" ng-repeat="item in deletedTask" ng-show="item.ResTaskInfo.TaskName"
+                                         data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                         ng-model="deletedTask" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.ResTaskInfo.TaskName}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <div class="thumbnaildrag" data-drop="true" ng-model='availableTask'
+                                 data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=deletedTask])'}"
+                                 jqyoui-droppable="{multiple:true}">
+                                <div class="caption">
+                                    <div ng-click="setCurrentDrag(item)" class="btn btn-info btn-draggable" ng-repeat="item in availableTask" ng-show="item.ResTaskInfo.TaskName"
+                                         data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                         ng-model="availableTask" jqyoui-draggable="{index: {{$index}},animate:true,beforeDrop: 'beforeDrop'}">{{item.ResTaskInfo.TaskName}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
                             <button type="button" class="btn btn-success btn-xs " ng-click="UpdateResource(resource)">
                                 Update
                             </button>
+
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
-                <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-caret-square-o-right"></i>
-                    </div>
-                    <div class="count">179</div>
-
-                    <h3>New Sign ups</h3>
-
-                    <p>Lorem ipsum psdea itgum rixt.</p>
-                </div>
-            </div>
         </div>
 
 

@@ -63,31 +63,22 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var assignTask = function (resourceId, taskId) {
+    var assignTask = function (resourceId, taskId,concurrency) {
         return $http({
             method: 'POST',
             url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Tasks/" + taskId,
             headers: {
                 'authorization': authService.Token
             },
-            data:{}
+            data:{"Concurrency":concurrency}
         }).then(function (response) {
             return response.data.IsSuccess;
         });
     };
 
-    var assignTaskToResource = function (item, oldItems, resource) {
-
-        angular.forEach(oldItems, function (a) {
-            var items = $filter('filter')(item, {TaskId: a.TaskId});
-            if (items) {
-                var index = item.indexOf(items[0]);
-                item.splice(index, 1);
-            }
-        });
-
+    var assignTaskToResource = function (item, resource) {
         angular.forEach(item, function (a) {
-            assignTask(resource.ResourceId, a.TaskId);
+            assignTask(resource.ResourceId, a.TaskId, a.Concurrency);
         });
 
     };
@@ -104,23 +95,9 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var deleteTaskToResource = function (item, oldItems, resource) {
-
-        var AttributeIds = [];
+    var deleteTaskToResource = function (item, resource) {
         angular.forEach(item, function (a) {
-            var items = $filter('filter')(oldItems, {TaskId: a.TaskId})
-            if (items) {
-                var index = oldItems.indexOf(items[0]);
-                oldItems.splice(index, 1);
-            }
-        });
-
-        angular.forEach(oldItems, function (a) {
-            AttributeIds.push(a.TaskId)
-        });
-
-        angular.forEach(AttributeIds, function (a) {
-            deleteTask(resource.ResourceId,a);
+            deleteTask(resource.ResourceId, a.TaskId);
         });
 
     };

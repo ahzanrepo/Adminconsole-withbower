@@ -1,4 +1,5 @@
-mainApp.controller("resourceController", function ($scope, $compile, $filter, $location, $log, resourceService) {
+mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log, resourceService) {
+
 
 
     $scope.safeApply = function (fn) {
@@ -12,10 +13,10 @@ mainApp.controller("resourceController", function ($scope, $compile, $filter, $l
         }
     };
 
-    $scope.resource={};
+    $scope.resource = {};
     $scope.resources = [];
-    $scope.GetResources = function (rowCount,pageNo) {
-        resourceService.GetResources(rowCount,pageNo).then(function (response) {
+    $scope.GetResources = function (rowCount, pageNo) {
+        resourceService.GetResources(rowCount, pageNo).then(function (response) {
             $scope.resources = response;
         }, function (error) {
             $log.debug("GetResources err");
@@ -23,7 +24,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $filter, $l
         });
 
     };
-    $scope.GetResources(50,1);
+    $scope.GetResources(50, 1);
 
     $scope.addNew = false;
     $scope.addResource = function () {
@@ -33,7 +34,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $filter, $l
     $scope.saveResource = function (resource) {
         resourceService.SaveResource(resource).then(function (response) {
             $scope.addNew = !response.IsSuccess;
-            if(response.IsSuccess){
+            if (response.IsSuccess) {
                 $scope.resources.splice(0, 0, response.Result);
             }
 
@@ -44,7 +45,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $filter, $l
 
     };
 
-    $scope.GetResourcesCount = function(){
+    $scope.GetResourcesCount = function () {
 
     };
 
@@ -80,6 +81,26 @@ mainApp.controller("resourceController", function ($scope, $compile, $filter, $l
         });
     };
 
+    $scope.reloadPage = function () {
+        $scope.GetResources(50, 1);
+        console.info("reloadPage..........");
+    };
+
+
+
+
 });
 
+mainApp.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, selectedTask) {
 
+    $scope.selectedTask = selectedTask;
+    $scope.selectedTask.Concurrency = 0;
+
+    $scope.ok = function () {
+        $uibModalInstance.close($scope.selectedTask);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
