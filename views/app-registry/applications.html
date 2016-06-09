@@ -4,7 +4,7 @@
     <div class="col-md-12 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-child"></i> Resource
+                <h2><i class="fa fa-child"></i> Application
                     <small>List</small>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
@@ -72,7 +72,7 @@
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="App in AppList">
-                        <editapplication application="App" applist="AppList" update-recource="removeDeleted(App)" reloadpage="reloadPage()"></editapplication>
+                        <editapplication application="App" applist="AppList" update-application="removeDeleted(App)" reloadpage="reloadPage()"></editapplication>
                     </li>
 
                     <paging ng-show="showPaging"

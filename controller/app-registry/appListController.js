@@ -5,90 +5,12 @@
 mainApp.controller("applicationController", function ($scope,$state, appBackendService) {
 
 
-    /*$scope.safeApply = function (fn) {
-     var phase = this.$root.$$phase;
-     if (phase == '$apply' || phase == '$digest') {
-     if (fn && (typeof(fn) === 'function')) {
-     fn();
-     }
-     } else {
-     this.$apply(fn);
-     }
-     };
-
-     $scope.resource={};
-     $scope.resources = [];
-     $scope.GetResources = function (rowCount,pageNo) {
-     resourceService.GetResources(rowCount,pageNo).then(function (response) {
-     $scope.resources = response;
-     }, function (error) {
-     $log.debug("GetResources err");
-     $scope.showAlert("Error", "Error", "ok", "There is an error ");
-     });
-
-     };
-     $scope.GetResources(50,1);
-
-     $scope.addNew = false;
-     $scope.addResource = function () {
-     $scope.addNew = !$scope.addNew;
-     };
-
-     $scope.saveResource = function (resource) {
-     resourceService.SaveResource(resource).then(function (response) {
-     $scope.addNew = !response.IsSuccess;
-     if(response.IsSuccess){
-     $scope.resources.splice(0, 0, response.Result);
-     }
-
-     }, function (error) {
-     $log.debug("GetResources err");
-     $scope.showAlert("Error", "Error", "ok", "There is an error ");
-     });
-
-     };
-
-     $scope.GetResourcesCount = function(){
-
-     };
-
-     $scope.removeDeleted = function (item) {
-
-     $scope.safeApply(function () {
-     var index = $scope.resources.indexOf(item);
-     if (index != -1) {
-     $scope.resources.splice(index, 1);
-     }
-     });
-     $scope.GetResourcesCount();
-
-     };
-
-     $scope.tasksList = [];
-     $scope.GetTasks = function () {
-     resourceService.GetTasks().then(function (response) {
-     $scope.tasksList = response
-     }, function (error) {
-     console.info("GetTasks err" + error);
-     });
-     };
-     $scope.GetTasks();
-
-     $scope.showAlert = function (tittle, label, button, content) {
-
-     new PNotify({
-     title: tittle,
-     text: content,
-     type: 'notice',
-     styling: 'bootstrap3'
-     });
-     };*/
-
 
     $scope.AppList=[];
     $scope.newApplication={};
     $scope.addNew = false;
     $scope.MasterAppList=[];
+
 
 
     $scope.saveAplication= function (resource) {
@@ -104,6 +26,7 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
                 $scope.addNew = !response.data.IsSuccess;
 
                 $scope.AppList.splice(0, 0, response.data.Result);
+                $scope.newApplication={};
 
 
             }
@@ -112,22 +35,17 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
             console.info("Error in adding new Application "+error);
         }
     };
-    $scope.GetResourcesCount = function(){
 
-    };
 
     $scope.addApplication = function () {
         $scope.addNew = !$scope.addNew;
     };
     $scope.removeDeleted = function (item) {
 
-        $scope.safeApply(function () {
-            var index = $scope.AppList.indexOf(item);
-            if (index != -1) {
-                $scope.AppList.splice(index, 1);
-            }
-        });
-        $scope.GetResourcesCount();
+        var index = $scope.AppList.indexOf(item);
+        if (index != -1) {
+            $scope.AppList.splice(index, 1);
+        }
 
     };
     $scope.reloadPage = function () {
@@ -152,9 +70,116 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
         }
     };
 
+
+
     $scope.GetApplications();
 
 });
 
 
+mainApp.controller("modalController", function ($scope, $uibModalInstance,appBackendService,appID) {
 
+    console.log("AppID "+appID);
+    $scope.availableFileList=[];
+    $scope.selectedFileList=[];
+    $scope.allEligibleList=[];
+
+
+    $scope.GetAvailableFiles = function () {
+        appBackendService.getUnassignedFiles().then(function (response) {
+
+            if(response.data.IsSuccess)
+            {
+                $scope.availableFileList=response.data.Result;
+                appBackendService.getFilesOfApplication(appID).then(function (AppFiles) {
+                    if(AppFiles.data.IsSuccess)
+                    {
+                        $scope.selectedFileList= AppFiles.data.Result;
+                        $scope.createCompleteFileList();
+                    }
+                    else
+                    {
+                        console.info("Error in getting App related files "+AppFiles.data.Exception);
+                    }
+                }, function (errAppFiles) {
+                    console.info("Exception in getting App related files "+errAppFiles);
+                })
+            }
+            else
+            {
+                console.info("All file selection Error "+response.data.Exception);
+            }
+
+        }, function (error) {
+            console.info("All file selection Exception "+error);
+        });
+    };
+
+    $scope.createCompleteFileList = function () {
+
+        for(var i=0;i<$scope.selectedFileList.length;i++)
+        {
+            $scope.selectedFileList[i].isChecked=true;
+            $scope.allEligibleList.push($scope.selectedFileList[i]);
+
+        }
+
+        for(var j=0;j<$scope.availableFileList.length;j++)
+        {
+            $scope.availableFileList[j].isChecked=false;
+            $scope.allEligibleList.push($scope.availableFileList[j]);
+
+        }
+
+
+
+
+        console.log($scope.availableFileList);
+    };
+
+    $scope.fileAttachDetach= function (file) {
+        if(file.isChecked)
+        {
+            appBackendService.attachFilesWithApplication(appID,file.UniqueId).then(function (response) {
+                if(response.data.IsSuccess)
+                {
+                    console.log("File "+file.Filename+" attached with "+appID);
+                }
+                else
+                {
+                    console.log("Error in file Attaching "+response.data.Exception);
+                }
+
+            }, function (error) {
+                console.log("Exception in file Attaching "+error);
+            });
+        }
+        else
+        {
+            appBackendService.detachFilesFromApplication(file.UniqueId).then(function (response) {
+                if(response.data.IsSuccess)
+                {
+                    console.log("File "+file.Filename+" detached from "+appID);
+                }
+                else
+                {
+                    console.log("Error in file detaching "+response.data.Exception);
+                }
+
+            }, function (error) {
+                console.log("Exception in file detaching "+error);
+            });
+        }
+    };
+
+    $scope.ok = function () {
+        $uibModalInstance.close($scope.selectedTask);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    $scope.GetAvailableFiles();
+
+})
