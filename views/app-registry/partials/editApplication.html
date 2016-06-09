@@ -1,0 +1,122 @@
+<div class="block">
+    <div class="tags">
+        <a class="tag">
+            <span>{{application.id}}</span>
+        </a>
+    </div>
+    <div class="block_content">
+        <h2 class="title">
+            <a ng-hide="editMode">Name : {{application.AppName}}</a>
+            <a ng-disabled="true" ng-click="removeApplication(application)" style="cursor: pointer"><i
+                    class="fa fa-trash-o"></i></a>
+            <a ng-disabled="true" ng-click="editApplication()" style="cursor: pointer"><i class="fa fa-edit"></i></a>
+            <a ng-disabled="true" ng-click="showConig(application.id)" style="cursor: pointer"><i class="fa fa-cog"></i></a>
+        </h2>
+
+        <div class="col-md-12 col-sm-12 col-xs-12" ng-show="editMode">
+            <br>
+
+            <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                <div class="tile-stats">
+
+                    <form class="form-horizontal form-label-left input_mask">
+                        <br>
+
+                        <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="application.AppName"
+                                   placeholder="Application Name" ng-disabled="true">
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="application.Description"
+                                   placeholder="Description">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="application.OtherData"
+                                   placeholder="Other Data">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="application.Url"
+                                   placeholder="Application URL">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Application Type</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+
+                            <select class="form-control has-feedback-left" ng-model="application.ObjClass">
+                                <option>SYSTEM</option>
+                                <option>DEVELOPER</option>
+                            </select>
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Application Protocol</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <select class="form-control has-feedback-left" ng-model="application.ObjType" placeholder="Choose Protocol">
+                                <option>HTTAPI</option>
+                                <option>SOCKET</option>
+                                <option>EXTENDED</option>
+                            </select>
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Master Application</label>
+                        <div class="col-md-9 col-sm-6 col-xs-12 form-group has-feedback">
+
+                            <div class="col-md-12 col-sm-9 col-xs-12">
+
+                                <select class="form-control" ng-model="application.MasterApplicationId"   ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
+                                    <option ng-repeat="masterapp in MasterApps" value="{{masterapp.id}}" >{{masterapp.AppName}}</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12 col-sm-9 col-xs-12">
+                            <label>
+                                Availability  <input type="checkbox" class="js-switch" ng-model="application.Availability"/>
+                            </label>
+                        </div>
+
+                        <!--<div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" ng-model="resource.OtherData"
+                                   placeholder="Other Data">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>-->
+
+
+                        <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                            <button type="button" class="btn btn-success btn-xs " ng-click="UpdateApplication()">
+                                Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="byline" ng-hide="editMode">
+            <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
+        </div>
+        <div ng-hide="editMode">
+            <p class="excerpt col-md-4"> Protocol : {{application.ObjType}} </p>
+
+            <p class="excerpt col-md-4"> Application Type : {{application.ObjClass}} </p>
+
+            <p class="excerpt col-md-4"> Master Application: {{application.MasterApplication.AppName}} </p>
+
+            <p class="excerpt col-md-12"> Availability : {{application.Availability}} </p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

@@ -164,7 +164,7 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
     $scope.editRule = function (rule) {
         //$location.path("/new-rule/"+rule.id);
         $state.go('console.editrule',{id:rule.id});
-    };
+    }
 
     var refershPage= function () {
         $scope.ruleObj = null;

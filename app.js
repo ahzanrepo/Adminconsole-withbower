@@ -10,7 +10,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
 
 
 var baseUrls = {
-    'resourceServiceBaseUrl': 'http://localhost:8832/DVP/API/6.0/ResourceManager/',
+    'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/'
@@ -57,6 +57,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/sipuser",
             templateUrl: "views/sipuser/sipuser.html",
             controller: "sipUserCtrl"
+        }).state("console.pbxuser", {
+            url: "/pbxuser",
+            templateUrl: "views/pbxuser/pbxuser.html",
+            controller: "pbxCtrl"
         }).state("console.ringGroup", {
             url: "/ringGroup",
             templateUrl: "views/ringGroup/ringGroup.html",
@@ -84,7 +88,12 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             params:{id:null},
             templateUrl: "views/rule/newRule.html",
             controller: "newrulecontroller"
-        });
+        }).state('console.application', {
+            url: "/applications",
+            templateUrl: "views/app-registry/applications.html",
+            controller: "applicationController"
+        })
+        ;
     }]);
 
 
