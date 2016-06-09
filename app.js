@@ -57,6 +57,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/sipuser",
             templateUrl: "views/sipuser/sipuser.html",
             controller: "sipUserCtrl"
+        }).state("console.pbxuser", {
+            url: "/pbxuser",
+            templateUrl: "views/pbxuser/pbxuser.html",
+            controller: "pbxCtrl"
         }).state("console.ringGroup", {
             url: "/ringGroup",
             templateUrl: "views/ringGroup/ringGroup.html",
