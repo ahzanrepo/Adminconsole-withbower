@@ -41,24 +41,24 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                     if (agent) {
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
                         var agentProductivity = {
-                            "data":[{
-                                value: ids[0].AcwTime?ids[0].AcwTime:0,
+                            "data": [{
+                                value: ids[0].AcwTime ? ids[0].AcwTime : 0,
                                 name: 'After work'
                             }, {
-                                value: ids[0].BreakTime?ids[0].BreakTime:0,
+                                value: ids[0].BreakTime ? ids[0].BreakTime : 0,
                                 name: 'Break'
                             }, {
-                                value: ids[0].OnCallTime?ids[0].OnCallTime:0,
+                                value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
                                 name: 'On Call'
                             }, {
-                                value: ids[0].IdleTime?ids[0].IdleTime:0,
+                                value: ids[0].IdleTime ? ids[0].IdleTime : 0,
                                 name: 'Idle'
-                            }] ,
+                            }],
                             "ResourceId": agent.ResourceId,
                             "ResourceName": agent.ResourceName,
-                            "IncomingCallCount": ids[0].IncomingCallCount?ids[0].IncomingCallCount:0,
-                            "MissCallCount": ids[0].MissCallCount?ids[0].MissCallCount:0,
-                            "Chatid":agent.ResourceId
+                            "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
+                            "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
+                            "Chatid": agent.ResourceId
                         };
 
                         $scope.Productivitys.push(agentProductivity);
@@ -72,8 +72,8 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         }
     };
 
-   /* $scope.labels = ["After work", "Break", "On Call", "Idle"];
-    $scope.data = [300, 500, 100, 100];*/
+    /* $scope.labels = ["After work", "Break", "On Call", "Idle"];
+     $scope.data = [300, 500, 100, 100];*/
 
 
     $scope.showAlert = function (tittle, label, button, content) {
@@ -87,18 +87,17 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
     };
 
 
-
     var theme = {
         color: [
-            '#26B99A', '#34495E', '#BDC3C7', '#3498DB',
+            '#db4114', '#f8b01d', '#2ba89c', '#114858',
             '#9B59B6', '#8abb6f', '#759c6a', '#bfd3b7'
         ],
-
         title: {
             itemGap: 8,
             textStyle: {
-                fontWeight: 'normal',
-                color: '#408829'
+                color: '#408829',
+                fontFamily: 'Roboto',
+                fontWeight: 300
             }
         },
 
@@ -305,7 +304,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
     var myObject = {}
     $scope.echartDonutSetOption = function () {
         angular.forEach($scope.Productivitys, function (productivity) {
-            myObject[productivity.Chatid]  = echarts.init(document.getElementById(productivity.ResourceId), theme);
+            myObject[productivity.Chatid] = echarts.init(document.getElementById(productivity.ResourceId), theme);
             myObject[productivity.Chatid].setOption({
                 tooltip: {
                     trigger: 'item',
@@ -371,7 +370,6 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
             });
 
         });
-
 
 
     };

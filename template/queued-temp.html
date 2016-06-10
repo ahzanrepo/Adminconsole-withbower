@@ -1,66 +1,69 @@
 <div class="col-md-4 col-xs-12 ">
     <div class="x_panel">
-    <div class="x_title">
-        <h2>Queued - English {{val}}</h2>
-        <div class="clearfix"></div>
-    </div>
-    <div class="x_content">
-        <div class="row">
-            <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                <div class="tile-stats text-center bg-green100">
-                    <div class="count">{{que.CurrentWaiting}}</div>
-                    <h3 class="font-robot font-700 font-yellow800">Current Waiting</h3>
-                    <p class="font-robot font-200">total answer call</p>
-                </div>
-            </div>
-            <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                <div class="tile-stats text-center bg-blue700">
-                    <div class="count">{{que.CurrentMaxWaitTime}}</div>
-                    <h3 class="font-robot font-700 font-orange800">Max Wait Time</h3>
-                    <p class="font-robot font-200">total answer call</p>
-                </div>
-            </div>
+        <div class="x_title">
+            <h2>Queued - {{val}}</h2>
+            <div class="clearfix"></div>
         </div>
-    </div>
-
-    <div class=" col-xs-12">
-        <div class="row">
-            <div class="queued-pie-chart">
-                <div id="pie-text">{{que.presentage}}%</div>
-                <div easypiechart options="pieoption" percent="que.presentage"></div>
-            </div>
-        </div>
-
-
-        <div class="col-xs-12">
+        <div class="x_content">
             <div class="row">
-                <!--<div class="col-md-6">-->
-                <div class="demo-container m-top20" style="height:150px">
-                    <flot id="engilshQueued" dataset="dataSet"
-                          options="queueoption"></flot>
+                <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
+                    <div class="tile-stats text-center bg-green100">
+                        <div class="count">{{que.CurrentWaiting}}</div>
+                        <h3 class="font-robot font-700 font-yellow800">Current Waiting</h3>
+                        <p class="font-robot font-200">total answer call</p>
+                    </div>
                 </div>
-                <!--</div>-->
+                <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
+                    <div class="tile-stats text-center bg-blue700">
+                        <div class="count">{{que.CurrentMaxWaitTime}}</div>
+                        <h3 class="font-robot font-700 font-orange800">Max Wait Time</h3>
+                        <p class="font-robot font-200">total answer call</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="col-xs-12">
-            <ul class="list-inline queued-footer-list m-top20 text-center m-bottom20">
-                <li>
-                    <h3 class="font-robot font-700 font-green-light500 ">{{que.TotalQueued}}</h3>
-                    <span class="font-robot font-700">Total Queued</span>
-                </li>
-                <li>
-                    <h3 class="font-robot font-700 font-blue500 ">{{que.MaxWaitTime}}</h3>
-                    <span class="font-robot font-700">Max Waiting</span>
-                </li>
-                <li>
-                    <h3 class="font-robot font-700 font-yellow900">{{que.AverageWaitTime}}</h3>
-                    <span class="font-robot font-700">Average</span>
-                </li>
-            </ul>
+        <div class=" col-xs-12">
+            <div class="row">
+                <div class="queued-pie-chart">
+                    <div id="pie-text">{{que.presentage}}%
+                        <p> ANSWERED</p>
+                    </div>
+
+                    <div easypiechart options="pieoption" percent="que.presentage"></div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12">
+                <div class="row">
+                    <!--<div class="col-md-6">-->
+                    <div class="demo-container m-top20" style="height:150px">
+                        <flot id="engilshQueued" dataset="dataSet"
+                              options="queueoption"></flot>
+                    </div>
+                    <!--</div>-->
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <ul class="list-inline queued-footer-list m-top20 text-center m-bottom20">
+                    <li>
+                        <h3 class="font-robot font-700 font-green-light500 ">{{que.TotalQueued}}</h3>
+                        <span class="font-robot font-700">Total Queued</span>
+                    </li>
+                    <li>
+                        <h3 class="font-robot font-700 font-blue500 ">{{que.MaxWaitTime}}</h3>
+                        <span class="font-robot font-700">Max Waiting</span>
+                    </li>
+                    <li>
+                        <h3 class="font-robot font-700 font-yellow900">{{que.AverageWaitTime}}</h3>
+                        <span class="font-robot font-700">Average</span>
+                    </li>
+                </ul>
+            </div>
+
+
         </div>
-
-
     </div>
-</div>
 </div>

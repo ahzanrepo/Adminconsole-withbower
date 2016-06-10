@@ -20,13 +20,11 @@
 
         $scope.currentPlayingFile = null;
 
-        $scope.playStopFile = function (uuid, playState, stopState)
-        {
+        $scope.playStopFile = function (uuid, playState, stopState) {
             if (playState) {
 
 
-                if($scope.currentPlayingFile)
-                {
+                if ($scope.currentPlayingFile) {
                     $scope.fileToPlay.stop();
                 }
                 $scope.currentPlayingFile = uuid;
@@ -62,8 +60,8 @@
         $scope.top = -1;
         $scope.bottom = -1;
 
-        $scope.startDate = new Date();
-        $scope.endDate = new Date();
+        $scope.startDate = moment().format("L");
+        $scope.endDate = moment().format("L");
 
         $scope.offset = -1;
         $scope.prevOffset = -1;
@@ -85,8 +83,8 @@
 
         };
 
-        var isEmpty = function(map) {
-            for(var key in map) {
+        var isEmpty = function (map) {
+            for (var key in map) {
                 if (map.hasOwnProperty(key)) {
                     return false;
                 }
@@ -95,11 +93,9 @@
         };
 
 
-        $scope.getProcessedCDR = function (offset, reset)
-        {
+        $scope.getProcessedCDR = function (offset, reset) {
 
-            try
-            {
+            try {
                 if (reset) {
                     pageStack = [];
                     $scope.top = -1;
@@ -134,12 +130,9 @@
 
                 var lim = parseInt($scope.recLimit);
                 $scope.isTableLoading = 0;
-                cdrApiHandler.getCDRForTimeRange(startTime, endTime, lim, offset).then(function (cdrResp)
-                {
-                    if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
-                    {
-                        if(!isEmpty(cdrResp.Result))
-                        {
+                cdrApiHandler.getCDRForTimeRange(startTime, endTime, lim, offset).then(function (cdrResp) {
+                    if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
+                        if (!isEmpty(cdrResp.Result)) {
                             var topSet = false;
                             var bottomSet = false;
 
@@ -376,25 +369,21 @@
                                 $scope.cdrList.push(cdrAppendObj);
                             }
 
-                            if(pageStack.length === 0)
-                            {
+                            if (pageStack.length === 0) {
                                 $scope.isNextDisabled = false;
                                 $scope.isPreviousDisabled = true;
                             }
-                            else if(pageStack.length > 0)
-                            {
+                            else if (pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;
                                 $scope.isNextDisabled = false;
                             }
 
                             $scope.isTableLoading = 1;
                         }
-                        else
-                        {
+                        else {
                             $scope.showAlert('Info', 'info', 'No records to load');
 
-                            if(pageStack.length > 0)
-                            {
+                            if (pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;
                                 $scope.isNextDisabled = true;
                             }
@@ -404,21 +393,18 @@
 
 
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
                         $scope.isTableLoading = 1;
                     }
 
 
-                }, function (err)
-                {
+                }, function (err) {
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                     $scope.isTableLoading = 1;
                 })
             }
-            catch(ex)
-            {
+            catch (ex) {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                 $scope.isTableLoading = 1;
             }
@@ -426,7 +412,8 @@
 
 
     };
-
-
     app.controller("cdrCtrl", cdrCtrl);
+
 }());
+
+
