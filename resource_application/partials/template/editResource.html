@@ -128,6 +128,8 @@
         <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12" ng-show="editAttribute">
             <br>
 
+
+
             <div class="col-md-12 col-sm-12 col-xs-12 tile-stats">
                 <div class="x_panel">
                     <div class="x_title">
@@ -160,13 +162,18 @@
                         <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
                             <div class="thumbnaildrag" data-drop="true" ng-model='selectedAttributes'
                                  data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=selectedAttributes])'}"
-                                 jqyoui-droppable="{multiple:true}">
+                                 jqyoui-droppable="{multiple:true, onDrop: 'assignAttributeToTask' }">
                                 <div class="caption">
-                                    <div ng-click="setObject(item)" class="btn btn-info btn-draggable" ng-repeat="item in selectedAttributes" ng-show="item.Attribute"
+                                    <!--<div ng-click="setObject(item)" class="btn btn-warning btn-draggable" ng-repeat="item in selectedAttributes" ng-show="item.Attribute"
                                          data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
                                          ng-model="selectedAttributes" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.Attribute}}
 
-                                    </div>
+                                    </div>-->
+                                    <resourceskill selected-attribute="item" ng-click="setObject(item)"  ng-repeat="item in selectedAttributes" ng-show="item.Attribute"
+                                                   data-drag="false" data-jqyoui-options="{revert: 'invalid'}"
+                                                   ng-model="selectedAttributes" jqyoui-draggable="{index: {{$index}},animate:true}"></resourceskill>
+
+
                                 </div>
                             </div>
                         </div>
@@ -174,11 +181,11 @@
                         <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
                             <div class="thumbnaildrag" data-drop="true" ng-model='assignSkill_selectedTask.attributes'
                                  data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignSkill_selectedTask.attributes])'}"
-                                 jqyoui-droppable="{multiple:true}">
+                                 jqyoui-droppable="{multiple:true, onDrop: 'deleteAttributeAssignToTask'}">
                                 <div class="caption">
                                     <div ng-click="curentDragAttribute(item)" class="btn btn-info btn-draggable" ng-repeat="item in assignSkill_selectedTask.attributes" ng-show="item.Attribute"
                                          data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
-                                         ng-model="assignSkill_selectedTask.attributes" jqyoui-draggable="{index: {{$index}},animate:true,beforeDrop: 'assignAttributeToTask'}">{{item.Attribute}}
+                                         ng-model="assignSkill_selectedTask.attributes" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.Attribute}}
                                     </div>
                                 </div>
                             </div>

@@ -167,14 +167,13 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
-    var getAttributesAttachToResource = function(resource){
+    var getAttributesAttachToResource = function(resTaskId){
         return $http({
             method: 'get',
-            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/"+resource.ResourceId+"/Attributes",
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/"+resTaskId+"/Attributes",
             headers: {
                 'authorization': authService.Token
-            },
-            data:resource
+            }
         }).then(function(response)
         {
             return response.data.Result;
@@ -183,17 +182,32 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
-    var attachAttributeToTask = function(resTaskId,taskId,attributeId,percentage,otherData){
+    var attachAttributeToTask = function(resTaskId,attributeId,percentage,otherData){
         return $http({
             method: 'post',
-            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/"+resTaskId+"/Attribute/"+taskId,
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/"+resTaskId+"/Attribute/"+attributeId,
             headers: {
                 'authorization': authService.Token
             },
             data:{'Attribute': attributeId, 'Percentage': percentage, 'OtherData': otherData}
         }).then(function(response)
         {
-            return response.data.Result;
+            return response.data;
+
+        });
+
+    };
+
+    var deleteAttributeAssignToTask = function(resAttId){
+        return $http({
+            method: 'delete',
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/"+resAttId,
+            headers: {
+                'authorization': authService.Token
+            }
+        }).then(function(response)
+        {
+            return response.data;
 
         });
 
@@ -213,7 +227,8 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         AssignTaskToResource:assignTask,
         GetAttributes:getAttributes,
         GetAttributesAttachToResource:getAttributesAttachToResource,
-        AttachAttributeToTask:attachAttributeToTask
+        AttachAttributeToTask:attachAttributeToTask,
+        DeleteAttributeAssignToTask:deleteAttributeAssignToTask
     }
 
 });
