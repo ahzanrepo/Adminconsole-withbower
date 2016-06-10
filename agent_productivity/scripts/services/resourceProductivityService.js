@@ -2,15 +2,15 @@
  * Created by Rajinda on 12/31/2015.
  */
 
-var clusterModule = angular.module("resourceServiceModule", []);
+var clusterModule = angular.module("resourceProductivityServiceModule", []);
 
-clusterModule.factory("resourceService", function ($http, $log,authService,baseUrls) {
+clusterModule.factory("resourceProductivityService", function ($http, $log,authService,baseUrls) {
 
  var getProductivity = function () {
 
     return $http.get(baseUrls.resourceServiceBaseUrl+ "Resources/Productivity",
       {
-        headers:{authorization:authService.Token}
+        headers:{authorization:authService.GloableToken}
       }).then(function (response) {
         if (response.data && response.data.IsSuccess) {
           return response.data.Result;
@@ -24,7 +24,7 @@ clusterModule.factory("resourceService", function ($http, $log,authService,baseU
 
         return $http.get(baseUrls.ardsmonitoringBaseUrl+ "MONITORING/resources",
             {
-                headers:{authorization:authService.Token}
+                headers:{authorization:authService.GloableToken}
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;

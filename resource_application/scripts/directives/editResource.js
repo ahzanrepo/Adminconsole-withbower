@@ -18,6 +18,107 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
         link: function (scope, element, attributes) {
 
             $(document).ready(function () {
+
+                <!-- jQuery Knob -->
+                $(function($) {
+
+                    $(".knob").knob({
+                        change: function(value) {
+                            //console.log("change : " + value);
+                        },
+                        release: function(value) {
+                            //console.log(this.$.attr('value'));
+                            console.log("release : " + value);
+                        },
+                        cancel: function() {
+                            console.log("cancel : ", this);
+                        },
+                        /*format : function (value) {
+                         return value + '%';
+                         },*/
+                        draw: function() {
+
+                            // "tron" case
+                            if (this.$.data('skin') == 'tron') {
+
+                                this.cursorExt = 0.3;
+
+                                var a = this.arc(this.cv) // Arc
+                                    ,
+                                    pa // Previous arc
+                                    , r = 1;
+
+                                this.g.lineWidth = this.lineWidth;
+
+                                if (this.o.displayPrevious) {
+                                    pa = this.arc(this.v);
+                                    this.g.beginPath();
+                                    this.g.strokeStyle = this.pColor;
+                                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                                    this.g.stroke();
+                                }
+
+                                this.g.beginPath();
+                                this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                                this.g.stroke();
+
+                                this.g.lineWidth = 2;
+                                this.g.beginPath();
+                                this.g.strokeStyle = this.o.fgColor;
+                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                                this.g.stroke();
+
+                                return false;
+                            }
+                        }
+                    });
+
+                    // Example of infinite knob, iPod click wheel
+                    var v, up = 0,
+                        down = 0,
+                        i = 0,
+                        $idir = $("div.idir"),
+                        $ival = $("div.ival"),
+                        incr = function() {
+                            i++;
+                            $idir.show().html("+").fadeOut();
+                            $ival.html(i);
+                        },
+                        decr = function() {
+                            i--;
+                            $idir.show().html("-").fadeOut();
+                            $ival.html(i);
+                        };
+                    $("input.infinite").knob({
+                        min: 0,
+                        max: 20,
+                        stopper: false,
+                        change: function() {
+                            if (v > this.cv) {
+                                if (up) {
+                                    decr();
+                                    up = 0;
+                                } else {
+                                    up = 1;
+                                    down = 0;
+                                }
+                            } else {
+                                if (v < this.cv) {
+                                    if (down) {
+                                        incr();
+                                        down = 0;
+                                    } else {
+                                        down = 1;
+                                        up = 0;
+                                    }
+                                }
+                            }
+                            v = this.cv;
+                        }
+                    });
+                });
+                <!-- /jQuery Knob -->
                 $(".select2_multiple").select2({
                     placeholder: "Select Attribute",
                     allowClear: true
@@ -221,6 +322,52 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
             scope.GetTaskAttachToResource();
 
             /*assign Attribute to Task*/
+            scope.selectedAttributes = [];
+            scope.assignSkill_selectedTask = {'task': {}, 'attributes': []};
+            scope.selectTask = function (task) {
+                scope.selectedAttributes = [];
+                scope.assignSkill_selectedTask.task = task;
+                angular.copy(scope.attributes, scope.assignSkill_selectedTask.attributes);
+                scope.GetAttributesAttachToResource(task.ResTaskId);
+            };
+
+            scope.selectedAttribute = {};
+            scope.curentDragAttribute = function (item) {
+                scope.selectedAttribute = item;
+                scope.selectedAttribute.Percentage = 50;
+                scope.selectedAttribute.OtherData = "";
+            };
+
+            scope.GetAttributesAttachToResource = function (resTaskId) {
+                resourceService.GetAttributesAttachToResource(resTaskId).then(function (response) {
+                    angular.forEach(response.ResResourceAttributeTask,function(item){
+
+                        try {
+                            if (item) {
+                                var items = $filter('filter')(scope.assignSkill_selectedTask.attributes, {AttributeId: item.AttributeId})
+                                if (items) {
+                                    var index = scope.assignSkill_selectedTask.attributes.indexOf(items[0]);
+                                    if (index > -1) {
+                                        var temptask = scope.assignSkill_selectedTask.attributes[index];
+                                        temptask.Percentage = item.Percentage;
+                                        scope.selectedAttributes.push(temptask);
+                                        scope.assignSkill_selectedTask.attributes.splice(index, 1);
+                                    }
+                                }
+                            }
+                        }
+                        catch (ex) {
+                            console.info("GetAttributesAttachToResource.forEach");
+                        }
+
+                    });
+
+
+                }, function (error) {
+                    console.info("UpdateAttributes err" + error);
+                });
+            };
+
             scope.UpdateAttachedTask = function (data) {
                 resourceService.UpdateAttachedTask(scope.resource.ResourceId, data.ResTask.TaskId, data).then(function (response) {
 
@@ -229,29 +376,37 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                 });
             };
 
-            scope.selectedAttributes = [];
-            scope.assignSkill_selectedTask = {'task': {}, 'attributes': []};
-            scope.selectTask = function (task) {
-                scope.selectedAttributes = [];
-                scope.assignSkill_selectedTask.task = task;
-                angular.copy(scope.attributes, scope.assignSkill_selectedTask.attributes);
-            };
-
-
-            scope.selectedAttribute = {};
-            scope.curentDragAttribute = function (item) {
-                scope.selectedAttribute = item;
-                scope.selectedAttribute.Percentage = 0;
-                scope.selectedAttribute.OtherData = "";
-            };
 
             scope.assignAttributeToTask = function (e) {
 
-                resourceService.AttachAttributeToTask(scope.assignSkill_selectedTask.task.ResTaskId, scope.assignSkill_selectedTask.task.TaskId, scope.selectedAttribute.AttributeId, scope.selectedAttribute.Percentage, scope.selectedAttribute.OtherData).then(function (response) {
+                resourceService.AttachAttributeToTask(scope.assignSkill_selectedTask.task.ResTaskId, scope.selectedAttribute.AttributeId, scope.selectedAttribute.Percentage, scope.selectedAttribute.OtherData).then(function (response) {
 
-                    scope.selectedAttribute.savedObj = response;
+                    if (response.IsSuccess) {
+                        scope.selectedAttribute.savedObj = response.Result;
+                    }
+                    else {
+                        var index = scope.selectedAttributes.indexOf(scope.selectedAttribute);
+                        if (index > -1) {
+                            scope.selectedAttributes.splice(index, 1);
+                            scope.assignSkill_selectedTask.attributes.push(scope.selectedAttribute)
+                        }
+                    }
+                }, function (error) {
+                    console.info("AssignTaskToResource err" + error);
+                });
+            };
 
+            scope.deleteAttributeAssignToTask = function (e) {
 
+                resourceService.DeleteAttributeAssignToTask(scope.selectedAttribute.savedObj.ResAttId).then(function (response) {
+
+                    if (!response.IsSuccess) {
+                        var index = scope.assignSkill_selectedTask.attributes.indexOf(scope.selectedAttribute);
+                        if (index > -1) {
+                            scope.selectedAttributes.push(scope.selectedAttribute);
+                            scope.assignSkill_selectedTask.attributes.splice(index, 1);
+                        }
+                    }
                 }, function (error) {
                     console.info("AssignTaskToResource err" + error);
                 });

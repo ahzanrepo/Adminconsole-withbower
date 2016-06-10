@@ -1,6 +1,7 @@
 mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log, resourceService) {
 
 
+
     $scope.tasksList = [];
     $scope.GetTasks = function () {
         resourceService.GetTasks().then(function (response) {
