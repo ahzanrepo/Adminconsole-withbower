@@ -10,6 +10,7 @@
             <a ng-disabled="true" ng-click="removeApplication(application)" style="cursor: pointer"><i
                     class="fa fa-trash-o"></i></a>
             <a ng-disabled="true" ng-click="editApplication()" style="cursor: pointer"><i class="fa fa-edit"></i></a>
+            <a ng-disabled="true" ng-click="showConig(application.id)" style="cursor: pointer"><i class="fa fa-cog"></i></a>
         </h2>
 
         <div class="col-md-12 col-sm-12 col-xs-12" ng-show="editMode">
@@ -67,7 +68,6 @@
 
                         <label class="control-label col-md-6 col-sm-6 col-xs-12">Master Application</label>
                         <div class="col-md-9 col-sm-6 col-xs-12 form-group has-feedback">
-                            <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Tasks</label>-->
 
                             <div class="col-md-12 col-sm-9 col-xs-12">
 
@@ -75,12 +75,6 @@
                                     <option ng-repeat="masterapp in MasterApps" value="{{masterapp.id}}" >{{masterapp.AppName}}</option>
                                 </select>
 
-                                <!--<select class="form-control has-feedback-left"
-                                        ng-model="application.MasterApplicationId"
-                                        ng-options="masterapp.AppName for masterapp in applist track by masterapp.id"
-                                        ng-change="selectionsChanged()">
-
-                                </select>-->
                             </div>
 
                         </div>

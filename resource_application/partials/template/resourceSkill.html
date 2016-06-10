@@ -1,0 +1,34 @@
+<div class="tile-stats">
+    <i ng-click="addAttributetoTask()" class="fa fa-plus" style="cursor: pointer"></i>
+
+    <div class="icon"></div>
+    <div class="count">{{attachtask.ResTaskInfo.TaskName}}</div>
+
+    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control has-feedback-left" ng-model="attachtask.Concurrency"
+               placeholder="Concurrency">
+        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        <input type="text" class="form-control has-feedback-left" ng-model="attachtask.OtherData"
+               placeholder="Other Data">
+        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+    </div>
+
+    <div class="ln_solid"></div>
+
+    <div ng-repeat="selectedAtt in attachedAttribute.selectedAttribute">
+        <small>{{selectedAtt.Attribute}}</small><br>
+        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+            <input type="text" class="form-control has-feedback-left" ng-model="attachedAttribute.Percentage"
+                   placeholder="Percentage">
+            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+            <input type="text" class="form-control has-feedback-left" ng-model="selectedAtt.Attribute"
+                   placeholder="Other Data">
+            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+        </div>
+        <div class="ln_solid"></div>
+    </div>
+</div>

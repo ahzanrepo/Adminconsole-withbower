@@ -1,14 +1,14 @@
 /**
  * Created by Pawan on 6/8/2016.
  */
-mainApp.directive("editapplication", function ($filter,appBackendService,$state) {
+mainApp.directive("editapplication", function ($filter,$uibModal,appBackendService) {
 
     return {
         restrict: "EAA",
         scope: {
             application: "=",
             applist: "=",
-            'updateRecource': '&',
+            'updateApplication': '&',
             'reloadpage':'&'
         },
 
@@ -34,7 +34,6 @@ mainApp.directive("editapplication", function ($filter,appBackendService,$state)
                         if(scope.applist[i].MasterApplicationId)
                         {
                             scope.applist[i].MasterApplicationId=scope.applist[i].MasterApplicationId.toString();
-                            console.log(scope.applist[i]);
 
 
                         }
@@ -49,36 +48,11 @@ mainApp.directive("editapplication", function ($filter,appBackendService,$state)
 
             scope.setMasterAppList();
 
-            /*$(document).ready(function () {
-             angular.forEach(scope.resource.ResResourceTask, function(item){
-             if(item){
-
-             var items = $filter('filter')(scope.tasks, {TaskId: item.TaskId})
-             if (items) {
-             var index = scope.tasks.indexOf(items[0]);
-             scope.attachedTasks.push(scope.tasks[index]);
-             }
-             }
-             });
-
-             scope.resource.tasks = scope.attachedTasks;
-
-             $(".select2_multiple").select2({
-             placeholder: "Select Tasks",
-             allowClear: true
-             });
-             });*/
-
-            console.log("yoooooo "+JSON.stringify(scope.applist));
-            console.log("xoooooo "+JSON.stringify(scope.application));
-            console.log(typeof ( scope.application.MasterApplicationId));
-
             scope.editMode = false;
 
             scope.editApplication = function () {
                 scope.editMode = !scope.editMode;
                 console.log(scope.applist);
-                console.log("Hit");
             };
 
             scope.UpdateApplication = function () {
@@ -110,7 +84,7 @@ mainApp.directive("editapplication", function ($filter,appBackendService,$state)
 
                     appBackendService.deleteApplication(scope.application).then(function (response) {
                         if (response) {
-                            scope.updateRecource(item);
+                            scope.updateApplication(item);
                             scope.showAlert("Deleted", "Deleted", "ok", "File " + item.AppName + " Deleted successfully");
                         }
                         else
@@ -153,10 +127,6 @@ mainApp.directive("editapplication", function ($filter,appBackendService,$state)
 
             scope.selectionsChanged = function () {
 
-                console.log("Child "+scope.application.id);
-                console.log("type child "+typeof (scope.application.id));
-                console.log("Master "+scope.application.MasterApplicationId);
-                console.log("type Master "+typeof (scope.application.MasterApplicationId));
                 appBackendService.assignMasterApplication(scope.application.MasterApplicationId,scope.application.id).then(function (response) {
 
 
@@ -185,6 +155,21 @@ mainApp.directive("editapplication", function ($filter,appBackendService,$state)
                     text: content,
                     type: 'notice',
                     styling: 'bootstrap3'
+                });
+            };
+
+            scope.showConig= function (appid) {
+                //modal show
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'views/app-registry/partials/appConfigModal.html',
+                    controller: 'modalController',
+                    size: 'sm',
+                    resolve: {
+                        appID: function () {
+                            return appid;
+                        }
+                    }
                 });
             };
         }

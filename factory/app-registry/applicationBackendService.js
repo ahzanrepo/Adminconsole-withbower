@@ -23,7 +23,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'POST',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application",
+                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Application",
                 headers: {
                     'authorization':authToken
                 },
@@ -39,7 +39,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'POST',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId,
+                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId,
                 headers: {
                     'authorization':authToken
                 }
@@ -80,49 +80,63 @@ mainApp.factory('appBackendService', function ($http) {
                 return response;
             });
         },
-
-
-
-
-        listenCall: function (bargeID,protocol) {
+        getUnassignedFiles: function () {
 
             return $http({
-                method: 'POST',
-                url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/listen",
+                method: 'GET',
+                url: "http://127.0.0.1:5642/DVP/API/1.0.0.0/FileService/Files?fileCategory=HOLDMUSIC&fileFormat=audio/wav&assignedState=false",
                 headers: {
                     'authorization':authToken
-                },
-                data:
-                {
-                    protocol:protocol,
-                    destination:"2003"
                 }
+
             }).then(function(response)
             {
-                console.log(JSON.stringify(response));
                 return response;
             });
         },
-        threeWayCall: function (bargeID,protocol) {
+        getFilesOfApplication: function (appID) {
 
             return $http({
-                method: 'POST',
-                url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/threeway",
+                method: 'GET',
+                url: "http://127.0.0.1:5642/DVP/API/1.0.0.0/FileService/Files/Info/"+appID,
                 headers: {
                     'authorization':authToken
-                },
-                data:
-                {
-                    protocol:protocol,
-                    destination:"2003"
                 }
+
             }).then(function(response)
             {
-                console.log(JSON.stringify(response));
                 return response;
             });
-        }
+        },
 
+        attachFilesWithApplication: function (appID,fileID) {
+
+        return $http({
+            method: 'POST',
+            url: "http://127.0.0.1:5642/DVP/API/1.0.0.0/FileService/File/"+fileID+"/AssignToApplication/"+appID,
+            headers: {
+                'authorization':authToken
+            }
+
+        }).then(function(response)
+        {
+            return response;
+        });
+    } ,
+        detachFilesFromApplication: function (fileID) {
+
+        return $http({
+            method: 'POST',
+            url: "http://127.0.0.1:5642/DVP/API/1.0.0.0/FileService/File/"+fileID+"/DetachFromApplication",
+            headers: {
+                'authorization':authToken
+            }
+
+        }).then(function(response)
+        {
+            return response;
+        });
+    }
 
     }
 });
