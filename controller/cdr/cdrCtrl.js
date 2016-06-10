@@ -154,13 +154,150 @@
                                 var curCdr = cdrResp.Result[cdr];
                                 var isInboundHTTAPI = false;
 
+                                var callHangupDirectionA = '';
+                                var callHangupDirectionB = '';
+
                                 var len = curCdr.length;
 
 
                                 //Need to filter out inbound and outbound legs before processing
 
+                                var filteredInb = curCdr.filter(function (item)
+                                {
+                                    if(item.Direction === 'inbound')
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
 
-                                for (i = 0; i < curCdr.length; i++)
+                                });
+
+                                var filteredOutb = curCdr.filter(function (item)
+                                {
+                                    if(item.Direction === 'outbound')
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
+
+                                });
+
+
+                                //process inbound legs first
+
+                                for(i=0; i < filteredInb.length; i++)
+                                {
+                                    var curProcessingLeg = filteredInb[i];
+
+                                    if(curProcessingLeg.DVPCallDirection)
+                                    {
+                                        callHangupDirectionA = curProcessingLeg.HangupDisposition;
+                                    }
+
+
+
+                                        //use the counts in inbound leg
+                                        if (!topSet)
+                                        {
+                                            $scope.top = curProcessingLeg.id;
+                                            topSet = true;
+                                        }
+
+                                        if (!bottomSet && count === cdrLen)
+                                        {
+                                            $scope.bottom = curProcessingLeg.id;
+                                            bottomSet = true;
+                                        }
+
+                                        cdrAppendObj.Uuid = curProcessingLeg.Uuid;
+                                        cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
+                                        cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
+                                        cdrAppendObj.IsAnswered = curProcessingLeg.IsAnswered;
+                                        cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;
+
+                                        var localTime = moment(curProcessingLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
+
+                                        cdrAppendObj.CreatedTime = localTime;
+                                        cdrAppendObj.Duration = curProcessingLeg.Duration;
+                                        cdrAppendObj.BillSec = curProcessingLeg.BillSec;
+                                        cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                        cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
+                                        cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+
+
+                                        if (curProcessingLeg.ObjType === 'HTTAPI') {
+                                            isInboundHTTAPI = true;
+                                        }
+
+                                        if (len === 1)
+                                        {
+                                            cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                            cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                        }
+
+
+                                }
+
+                                //process outbound legs next
+
+
+                                for(j=0; j< filteredOutb.length; j++)
+                                {
+                                    var curProcessingLeg = filteredInb[j];
+
+                                    callHangupDirectionB = curProcessingLeg.HangupDisposition;
+
+                                    var dvpCallDirection = curProcessingLeg.DVPCallDirection;
+
+                                    if (!bottomSet && count === cdrLen) {
+                                        $scope.bottom = curProcessingLeg.id;
+                                        bottomSet = true;
+                                    }
+
+                                    cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
+                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+
+                                    if(dvpCallDirection === 'outbound')
+                                    {
+                                        cdrAppendObj.Duration = curProcessingLeg.Duration;
+                                        cdrAppendObj.BillSec = curProcessingLeg.BillSec;
+                                        cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                    }
+
+                                    if (!cdrAppendObj.ObjType) {
+                                        cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                    }
+
+                                    if (!cdrAppendObj.ObjCategory) {
+                                        cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                    }
+                                }
+
+                                if(callHangupDirectionA === 'recv_bye' && (callHangupDirectionB === 'send_bye' || !callHangupDirectionB))
+                                {
+                                    cdrAppendObj.HangupParty = 'CALLER';
+                                }
+                                else if((callHangupDirectionA === 'send_bye' || !callHangupDirectionA) && callHangupDirectionB === 'recv_bye')
+                                {
+                                    cdrAppendObj.HangupParty = 'CALLEE';
+                                }
+                                else if((callHangupDirectionA === 'send_bye' || callHangupDirectionA === 'send_refuse' || callHangupDirectionA === 'send_cancel') && !callHangupDirectionB)
+                                {
+                                    cdrAppendObj.HangupParty = 'SYSTEM';
+                                }
+                                else
+                                {
+                                    cdrAppendObj.HangupParty = 'UNKNOWN';
+                                }
+
+
+                                /*for (i = 0; i < curCdr.length; i++)
                                 {
                                     var currCdrLeg = curCdr[i];
                                     var legDirection = currCdrLeg.Direction;
@@ -227,7 +364,7 @@
 
                                         outLegProcessed = true;
                                     }
-                                }
+                                }*/
 
                                 if (isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec) {
                                     cdrAppendObj.ShowButton = true;

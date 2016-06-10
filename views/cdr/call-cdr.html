@@ -136,6 +136,10 @@
                                         rowspan="1"
                                         colspan="1" aria-label="Call Category">Call Category
                                     </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="Hangup Party">Hangup Party
+                                    </th>
                                 </thead>
                                 <tbody>
                                 <tr role="row" class="odd"
@@ -152,6 +156,7 @@
                                     <td>{{cdr.HoldSec}}</td>
                                     <td>{{cdr.ObjType}}</td>
                                     <td>{{cdr.ObjCategory}}</td>
+                                    <td>{{cdr.HangupParty}}</td>
                                     <td>
                             <span ng-show="cdr.ShowButton">
                                 <i class="fa fa-stop"
