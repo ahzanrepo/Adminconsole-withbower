@@ -5,7 +5,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var cdrCtrl = function ($scope, cdrApiHandler, ngAudio) {
+    var cdrCtrl = function ($scope, $filter, cdrApiHandler, ngAudio) {
 
 
         $scope.showAlert = function (tittle, type, content) {
@@ -146,7 +146,8 @@
                             var count = 0;
                             var cdrLen = Object.keys(cdrResp.Result).length;
 
-                            for (cdr in cdrResp.Result) {
+                            for (cdr in cdrResp.Result)
+                            {
                                 count++;
                                 var cdrAppendObj = {};
                                 var outLegProcessed = false;
@@ -156,17 +157,24 @@
                                 var len = curCdr.length;
 
 
-                                for (i = 0; i < curCdr.length; i++) {
+                                //Need to filter out inbound and outbound legs before processing
+
+
+                                for (i = 0; i < curCdr.length; i++)
+                                {
                                     var currCdrLeg = curCdr[i];
                                     var legDirection = currCdrLeg.Direction;
 
-                                    if (legDirection === 'inbound') {
-                                        if (!topSet) {
+                                    if (legDirection === 'inbound')
+                                    {
+                                        if (!topSet)
+                                        {
                                             $scope.top = currCdrLeg.id;
                                             topSet = true;
                                         }
 
-                                        if (!bottomSet && count === cdrLen) {
+                                        if (!bottomSet && count === cdrLen)
+                                        {
                                             $scope.bottom = currCdrLeg.id;
                                             bottomSet = true;
                                         }
