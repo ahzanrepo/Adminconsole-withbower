@@ -1015,3 +1015,9 @@ a.thumbnaildrag:hover {
     font-weight: 500;
     color: #2ba89c;
 }
+
+/*productivity services*/
+
+.productivity-panel {
+    height: 455px;
+}

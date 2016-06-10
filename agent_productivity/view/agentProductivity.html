@@ -1,35 +1,22 @@
 <div ng-controller="resourceProductivityController">
-    <!--<div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="p in Productivitys">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>{{p.ResourceName}}</h2>
-
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-
-                <canvas id="doughnut" class="chart chart-doughnut" chart-data="p.data" chart-labels="labels">
-                </canvas>
-
-                <div class="caption">
-                    <div>
-                    <span class="control-label col-md-3 col-sm-3 col-xs-12"><i class="green"><i
-                            class="fa fa-sort-asc"></i>Total Call : </i>{{p.IncomingCallCount}}</span>
-                    </div>
-                    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Miss Call : </i>{{p.MissCallCount}}</span>
-                </div>
-
-            </div>
-        </div>
-    </div>-->
 
     <div class="row">
-        <div class="col-md-4 col-sm-4 col-xs-12"  ng-repeat="p in OnlineAgents" >
+        <div class="col-lg-12">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3 class="font-robot font-600 ">Call CDR Report</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-xs-12" ng-repeat="p in OnlineAgents">
             <div class="x_panel">
 
-                <div class="x_content">
+                <div class="x_content productivity-panel">
                     <div class="x_title">
-                        <h2>{{p.ResourceName}}</h2>
+                        <h2 class="font-robot font-300 text-uppercase font-15">{{p.ResourceName}}</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div id="{{p.ResourceId}}" style="height:350px;"></div>
