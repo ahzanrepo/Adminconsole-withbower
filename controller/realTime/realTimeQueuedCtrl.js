@@ -107,7 +107,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
         scope: {
             name: "@",
             queueoption: "=",
-            pieoption: "=",
+            pieoption: "="
         },
 
 

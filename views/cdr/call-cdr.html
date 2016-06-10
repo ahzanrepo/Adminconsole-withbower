@@ -18,14 +18,12 @@
                 <div class="col-sm-3">
                     <label>Start Date</label>
                     <input type="text" class="form-control" ng-model="startDate" name="startDate"
-                           data-date-format="yyyy-MM-dd"
-                           data-date-type="number" bs-datepicker>
+                           datepicker>
                 </div>
                 <div class="col-sm-3">
                     <label>End Date</label>
                     <input type="text" class="form-control" ng-model="endDate" name="endDate"
-                           data-date-format="yyyy-MM-dd"
-                           data-date-type="number" bs-datepicker>
+                           datepicker>
                 </div>
                 <div class="col-sm-3">
                     <div class="dataTables_length" id="datatable-responsive_length">
@@ -136,6 +134,10 @@
                                         rowspan="1"
                                         colspan="1" aria-label="Call Category">Call Category
                                     </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="Hangup Party">Hangup Party
+                                    </th>
                                 </thead>
                                 <tbody>
                                 <tr role="row" class="odd"
@@ -152,6 +154,7 @@
                                     <td>{{cdr.HoldSec}}</td>
                                     <td>{{cdr.ObjType}}</td>
                                     <td>{{cdr.ObjCategory}}</td>
+                                    <td>{{cdr.HangupParty}}</td>
                                     <td>
                             <span ng-show="cdr.ShowButton">
                                 <i class="fa fa-stop"
@@ -166,6 +169,8 @@
                                    ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
                                     fileToPlay.progress == 0 || fileToPlay.progress == 1) && fileToPlay.remaining != 'Infinity')),
                                    (cdr.Uuid == currentPlayingFile && ((fileToPlay.progress > 0 && fileToPlay.progress < 1) || fileToPlay.remaining == 'Infinity')))"></i>
+
+                                <a class="fa fa-download" target="_self" href="{{DownloadFileUrl}}" ng-click="SetDownloadPath(cdr.Uuid)"></a>
 
                             </span>
 
