@@ -1,11 +1,11 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller("resourceController", function ($scope, $filter, $location, $log, resourceService) {
+app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, resourceProductivityService) {
 
     $scope.productivity = [];
     $scope.getProductivity = function () {
 
-        resourceService.GetProductivity().then(function (response) {
+        resourceProductivityService.GetProductivity().then(function (response) {
 
             $log.debug("GetCallServers: response" + response);
             $scope.productivity = response;
@@ -19,7 +19,7 @@ app.controller("resourceController", function ($scope, $filter, $location, $log,
 
     $scope.OnlineAgents = [];
     $scope.GetOnlineAgents = function () {
-        resourceService.GetOnlineAgents().then(function (response) {
+        resourceProductivityService.GetOnlineAgents().then(function (response) {
 
             $log.debug("GetOnlineAgents: response" + response);
             $scope.OnlineAgents = response;
