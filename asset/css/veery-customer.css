@@ -193,6 +193,10 @@ a {
     margin-left: 10px;
 }
 
+.m-r-10 {
+    margin-right: 10px;
+}
+
 .m-bottom20 {
     margin-bottom: 20px;
 }
@@ -1072,7 +1076,7 @@ a.thumbnaildrag:hover {
     padding: 30px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    margin-top: 10px;
+    margin-top: 40px;
     border: 1px solid #fff;
 }
 
@@ -1177,3 +1181,108 @@ small > i {
 .sip-user-btn-wrap > button {
     width: 100px;
 }
+
+.sip-user-wrap {
+    height: 670px;
+    overflow: hidden;
+}
+
+/*attributes*/
+.attribute.customer-side-header {
+    width: 100%;
+    text-align: center;
+    display: table;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.attribute.customer-side-header > .tab1,
+.attribute.customer-side-header > .tab2 {
+    display: inline-block;
+    padding: 10px 10px 10px 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif !important;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.selected-attr-btn {
+    background: #f8b01d;
+}
+
+.select-attr-btn {
+    background: #114858;
+}
+
+.tile-stats {
+    background: none;
+    border: 0px solid;
+}
+
+.tag {
+    background: #114858;
+}
+
+.tag:after {
+    border-left: 11px solid #114858;
+}
+
+.timeline .block {
+    border-left: 3px solid #2ba89c;
+}
+
+.attribute-name {
+    padding-bottom: 15px;
+}
+
+.timeline .title:before {
+    content: "";
+    position: absolute;
+    left: -14px;
+    top: 3px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    border: 3px solid #d2d3d2;
+    border-radius: 14px;
+    background: #f9f9f9;
+}
+
+.timeline .title:before {
+    border: 3px solid #f8b01d;
+    background: #2ba89c;
+}
+
+.attribute-edit-wrap {
+    display: inline-flex;
+    float: right;
+    text-align: center;
+    margin-left: 150px;
+    margin-top: 16px;
+}
+
+.attribute-edit-wrap > a {
+    font-size: 20px;
+    padding-left: 15px;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.attribute-edit-wrap > a :hover {
+    color: #f8b01d;
+}
+
+.border-0 {
+    border-bottom: 0px solid #F7F7F7 !important;
+}
+
+.attribute-btn {
+    width: 60px;
+    height: 34px;
+}
+
+

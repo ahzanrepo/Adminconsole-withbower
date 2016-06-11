@@ -36,7 +36,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="mail_list_column">
+                <div class="mail_list_column sip-user-wrap"
+                     ng-mouseover="viewScroll()"
+                     ng-mouseleave="hideScroll()"
+                     ng-slimscroll
+                     height="670" opacity="0.2" distance="0px"
+                     enabled="{{ scrollEnabled }}">
                     <a href="javascript:void(0);" class="user-wrap" ng-click="onEditPressed(item.SipUsername)"
                        ng-repeat="item in sipUsrList | filter : item.Enabled : true | filterBy: ['SipUsername', 'Extension.Extension']: searchCriteria">
                         <div class="mail_list user-list">

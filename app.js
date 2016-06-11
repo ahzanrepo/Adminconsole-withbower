@@ -6,7 +6,11 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging','ngDragDrop','ui.knob','ui-rangeSlider']);
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload',
+    'download', 'ngMessages', 'ngAudio', 'bw.paging',
+    'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
+    'jkuri.slimscroll'
+]);
 
 
 var baseUrls = {
@@ -93,7 +97,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "newrulecontroller"
         }).state('console.editrule', {
             url: "/rule/edit-rule?id",
-            params:{id:null},
+            params: {id: null},
             templateUrl: "views/rule/newRule.html",
             controller: "newrulecontroller"
         }).state('console.application', {

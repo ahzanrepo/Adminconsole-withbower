@@ -309,10 +309,34 @@
             if (viewState == 0) {
                 $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
             }
-        }
+        };
+
+        $scope.safeApply = function (fn) {
+            var phase = this.$root.$$phase;
+            if (phase == '$apply' || phase == '$digest') {
+                if (fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
+            }
+        };
+
+        $scope.viewScroll = function () {
+            $scope.safeApply(function () {
+                $scope.scrollEnabled = true;
+            });
+
+        };
+        $scope.hideScroll = function () {
+            $scope.safeApply(function () {
+                $scope.scrollEnabled = false;
+            });
+        };
 
 
     };
+
 
     app.controller("sipUserCtrl", sipUserCtrl);
 }());

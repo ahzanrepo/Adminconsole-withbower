@@ -1,41 +1,60 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3 class="font-robot font-600 ">attributes</h3>
+    </div>
+</div>
+
+
 <div class="row">
 
+    <div class="col-lg-12">
+        <div class="attribute customer-side-header">
+            <div class="tab1 m-r-10"
+                 ng-class="attributes==false?'selected-attr-btn':
+                 'select-attr-btn'" ng-click="changeView(false)">
+                ATTRIBUTES
+            </div>
+            <div class="tab2"
+                 ng-class="attributes==true?'selected-attr-btn':
+                 'select-attr-btn'" ng-click="changeView(true)">
+                GROUP MANAGER
+            </div>
+        </div>
+    </div>
 
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2><i class="fa fa-adn"></i> Attribute
-                    <small>Viewer</small>
-                </h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a ng-click="addAttribute()" class="close-link"><i class="fa fa-plus"></i></a>
-                    </li>
-                </ul>
 
-                <div class="col-xs-12" ng-show="addNew">
-                    <div class="tile-stats">
+    <div ng-show="!attributes" class="new-attribute col-md-8 col-sm-6 col-xs-12 col-md-offset-2 ">
+        <div class="x_panel ">
+            <div class="x_title border-0">
+                <h2 class="font-robot font-300 text-uppercase font-15">Add new attribute</h2>
+                <div class="col-xs-12">
+                    <div class="tile-stats m-top15">
                         <form class="form-horizontal form-label-left input_mask">
-                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <div class="col-md-5 col-sm-6 col-xs-12 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" ng-model="attribute.Attribute"
                                        id="AttributeId" placeholder="Attribute">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
-
-                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" ng-model="attribute.OtherData"
                                        style="" id="OtherData" placeholder="Other">
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
-
-                            <button type="button" class="btn btn-success btn-xs " ng-click="saveAttribute(attribute)">
-                                Add
-                            </button>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-success btn-sm pull-right attribute-btn  "
+                                        ng-click="saveAttribute(attribute)">
+                                    Add
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
                 <div class="clearfix"></div>
             </div>
+        </div>
 
+
+        <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="attrib in attribData">
@@ -62,39 +81,33 @@
 
     </div>
 
-    <div class="col-md-6 col-sm-6 col-xs-12">
+    <div ng-if="attributes" class="col-md-8 col-sm-6 col-xs-12 col-md-offset-2 ">
         <div class="x_panel">
-            <div class="x_title">
-                <h2><i class="fa fa-group"></i> Group Manager
-                    <small>Viewer</small>
-                </h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a ng-click="addGrop()" class="close-link"><i class="fa fa-plus"></i></a>
-                    </li>
-                </ul>
+            <div class="x_title border-0">
+                <h2 class="font-robot font-300 text-uppercase font-15">Group Manager</h2>
 
-                <div class="col-xs-12" ng-show="addGrp">
-                    <div class="tile-stats">
+                <div class="col-xs-12">
+                    <div class="tile-stats m-top15">
                         <form class="form-horizontal form-label-left input_mask">
-                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" ng-model="grp.GroupName"
                                        placeholder="Group Name">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" ng-model="grp.OtherData"
                                        placeholder="Other Data">
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
-                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                            <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" ng-model="grp.Percentage"
                                        placeholder="Percentage">
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
-
                             <div class="col-md-2">
-                                <button type="button" class="btn btn-success btn-xs " ng-click="saveGroup(grp)">Add
+                                <button type="button" class="btn btn-success attribute-btn btn-xs "
+                                        ng-click="saveGroup(grp)">Add
                                 </button>
                             </div>
                         </form>
@@ -102,7 +115,9 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
+        </div>
 
+        <div class="x_panel ">
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="grp in groupsData">
