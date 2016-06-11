@@ -2,14 +2,16 @@
  * Created by dinusha on 6/2/2016.
  */
 
-(function ()
-{
+(function () {
     var app = angular.module("veeryConsoleApp");
 
-    var sipUserCtrl = function ($scope, sipUserApiHandler)
-    {
+
+    var sipUserCtrl = function ($scope, sipUserApiHandler) {
 
         //User List Operations
+        $scope.viewDivState = -1;
+        //0 view | 1 edit | 2 new
+
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({
@@ -22,22 +24,21 @@
 
         $scope.searchCriteria = "";
 
-        $scope.reloadUserList = function()
-        {
+        $scope.reloadUserList = function () {
             $scope.searchCriteria = "";
-            sipUserApiHandler.getSIPUsers().then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+            sipUserApiHandler.getSIPUsers().then(function (data) {
+                if (data.IsSuccess) {
                     $scope.sipUsrList = data.Result;
+                    if ($scope.sipUsrList.lenght != 0) {
+                        $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
+                        $scope.viewDivState = 0;
+                    }
                     $scope.total = data.Result.length;
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
@@ -46,11 +47,9 @@
 
                 $scope.dataReady = true;
 
-            }, function(err)
-            {
+            }, function (err) {
                 var errMsg = "Error occurred while getting pabx user list";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
@@ -58,81 +57,66 @@
             });
         };
 
-        $scope.onDeleteUser = function(username)
-        {
+        $scope.onDeleteUser = function (username) {
             var usrObj = {SipUsername: username, Enabled: false};
 
             sipUserApiHandler.updateUser(usrObj)
-                .then(function(data)
-                {
-                    if(data.IsSuccess)
-                    {
-                        $scope.reloadUserList();
-                    }
-                    else
-                    {
-                        var errMsg = data.CustomMessage;
+                .then(function (data) {
+                        if (data.IsSuccess) {
+                            $scope.reloadUserList();
+                        }
+                        else {
+                            var errMsg = data.CustomMessage;
 
-                        if(data.Exception)
-                        {
-                            errMsg = data.Exception.Message;
+                            if (data.Exception) {
+                                errMsg = data.Exception.Message;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+                            $scope.dataReady = true;
+
+                        }
+
+                    },
+                    function (err) {
+                        var errMsg = "Error occurred while deleting user";
+                        if (err.statusText) {
+                            errMsg = err.statusText;
                         }
                         $scope.showAlert('Error', 'error', errMsg);
-                        $scope.dataReady = true;
 
-                    }
-
-                },
-                function(err)
-                {
-                    var errMsg = "Error occurred while deleting user";
-                    if(err.statusText)
-                    {
-                        errMsg = err.statusText;
-                    }
-                    $scope.showAlert('Error', 'error', errMsg);
-
-                })
+                    })
 
         };
 
-        $scope.onEditPressed = function(username)
-        {
+        $scope.onEditPressed = function (username) {
             $scope.IsEdit = true;
             $scope.EditState = 'Edit User';
+            $scope.viewDivState = 0;
 
-            sipUserApiHandler.getSIPUser(username).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
-                    if(data.Result.CloudEndUserId)
-                    {
+            sipUserApiHandler.getSIPUser(username).then(function (data) {
+                if (data.IsSuccess) {
+                    if (data.Result.CloudEndUserId) {
                         data.Result.CloudEndUserId = data.Result.CloudEndUserId.toString();
                     }
                     $scope.basicConfig = data.Result;
 
-                    if(data.Result && data.Result.Extension)
-                    {
+                    if (data.Result && data.Result.Extension) {
                         $scope.basicConfig.Extension = data.Result.Extension.Extension;
                     }
 
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = 'Get sip user error : ' + data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
                 var errMsg = "Error occurred while getting sip user";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
@@ -148,64 +132,51 @@
         $scope.IsEdit = false;
         $scope.EditState = 'New User';
 
-        $scope.clearFormOnSave = function()
-        {
+        $scope.clearFormOnSave = function () {
             $scope.basicConfig = {};
             $scope.IsEdit = false;
             $scope.EditState = 'New User';
 
-            $scope.basicConfig.UsePublic=false;
-            $scope.basicConfig.TransInternalEnable=false;
-            $scope.basicConfig.TransExternalEnable=false;
-            $scope.basicConfig.TransConferenceEnable=false;
-            $scope.basicConfig.TransGroupEnable=false;
+            $scope.basicConfig.UsePublic = false;
+            $scope.basicConfig.TransInternalEnable = false;
+            $scope.basicConfig.TransExternalEnable = false;
+            $scope.basicConfig.TransConferenceEnable = false;
+            $scope.basicConfig.TransGroupEnable = false;
         };
 
-        $scope.onSavePressed = function()
-        {
-            if($scope.IsEdit)
-            {
-                sipUserApiHandler.updateUser($scope.basicConfig).then(function(data1)
-                {
-                    if(data1.IsSuccess)
-                    {
+        $scope.onSavePressed = function () {
+            if ($scope.IsEdit) {
+                sipUserApiHandler.updateUser($scope.basicConfig).then(function (data1) {
+                    if (data1.IsSuccess) {
                         $scope.showAlert('Success', 'info', 'User updated successfully');
                         $scope.reloadUserList();
 
-                        if($scope.basicConfig.UsePublic)
-                        {
+                        if ($scope.basicConfig.UsePublic) {
                             $scope.basicConfig.Domain = '';
-                            sipUserApiHandler.setPublicUser($scope.basicConfig).then(function(data2)
-                            {
+                            sipUserApiHandler.setPublicUser($scope.basicConfig).then(function (data2) {
 
                             })
                         }
 
 
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('Error', 'error', 'Error updating user');
                     }
 
-                }, function(err)
-                {
+                }, function (err) {
                     var errMsg = "Error updating user";
-                    if(err.statusText)
-                    {
+                    if (err.statusText) {
                         errMsg = err.statusText;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 });
             }
-            else
-            {
+            else {
                 //Save
                 $scope.basicConfig.Enabled = true;
-                sipUserApiHandler.saveSIPUser($scope.basicConfig).then(function(data1)
-                {
-                    if(data1.IsSuccess)
-                    {
+                sipUserApiHandler.saveSIPUser($scope.basicConfig).then(function (data1) {
+                    if (data1.IsSuccess) {
                         $scope.reloadUserList();
 
                         var extObj = {
@@ -219,43 +190,34 @@
                             ObjCategory: "USER"
                         };
 
-                        sipUserApiHandler.addNewExtension(extObj).then(function(data2)
-                        {
-                            if(data2.IsSuccess)
-                            {
+                        sipUserApiHandler.addNewExtension(extObj).then(function (data2) {
+                            if (data2.IsSuccess) {
 
-                                sipUserApiHandler.assignExtensionToUser(extObj.Extension, data1.Result.id).then(function(data3)
-                                {
-                                    if(data3.IsSuccess)
-                                    {
+                                sipUserApiHandler.assignExtensionToUser(extObj.Extension, data1.Result.id).then(function (data3) {
+                                    if (data3.IsSuccess) {
                                         $scope.clearFormOnSave();
                                         $scope.showAlert('Success', 'info', 'Sip User Saved Successfully');
                                     }
-                                    else
-                                    {
+                                    else {
                                         var errMsg = data3.CustomMessage;
 
-                                        if(data3.Exception)
-                                        {
+                                        if (data3.Exception) {
                                             errMsg = 'Assign user to extension error : ' + data3.Exception.Message;
                                         }
                                         $scope.clearFormOnSave();
 
                                         $scope.showAlert('Saved with errors', 'error', errMsg);
                                     }
-                                }, function(err)
-                                {
+                                }, function (err) {
                                     $scope.clearFormOnSave();
                                     $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while assigning extension');
 
                                 })
                             }
-                            else
-                            {
+                            else {
                                 var errMsg = data2.CustomMessage;
 
-                                if(data2.Exception)
-                                {
+                                if (data2.Exception) {
                                     errMsg = 'Create extension error : ' + data2.Exception.Message;
                                 }
 
@@ -263,27 +225,23 @@
 
                                 $scope.showAlert('Saved with errors', 'error', errMsg);
                             }
-                        }, function(err)
-                        {
+                        }, function (err) {
                             $scope.clearFormOnSave();
                             $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while creating extension');
                         })
 
                     }
-                    else
-                    {
+                    else {
                         var errMsg = data1.CustomMessage;
 
-                        if(data1.Exception)
-                        {
+                        if (data1.Exception) {
                             errMsg = 'Get context Error : ' + data1.Exception.Message;
                         }
 
                         $scope.showAlert('Error', 'error', errMsg);
                     }
 
-                }, function(err)
-                {
+                }, function (err) {
                     $scope.showAlert('Error', 'error', 'Communication error occurred - user not saved');
                 });
             }
@@ -291,28 +249,22 @@
         };
 
 
-        sipUserApiHandler.getContexts().then(function(data)
-        {
-            if(data.IsSuccess)
-            {
+        sipUserApiHandler.getContexts().then(function (data) {
+            if (data.IsSuccess) {
                 $scope.contextList = data.Result;
             }
-            else
-            {
+            else {
                 var errMsg = data.CustomMessage;
 
-                if(data.Exception)
-                {
+                if (data.Exception) {
                     errMsg = 'Get context Error : ' + data.Exception.Message;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             }
 
-        }, function(err)
-        {
+        }, function (err) {
             var errMsg = "Error occurred while getting context list";
-            if(err.statusText)
-            {
+            if (err.statusText) {
                 errMsg = err.statusText;
             }
             $scope.showAlert('Error', 'error', errMsg);
@@ -321,34 +273,43 @@
         });
 
 
-        sipUserApiHandler.getDomains().then(function(data)
-        {
-            if(data.IsSuccess)
-            {
+        sipUserApiHandler.getDomains().then(function (data) {
+            if (data.IsSuccess) {
                 $scope.endUserList = data.Result;
             }
-            else
-            {
+            else {
                 var errMsg = data.CustomMessage;
 
-                if(data.Exception)
-                {
+                if (data.Exception) {
                     errMsg = 'Get enduser Error : ' + data.Exception.Message;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             }
 
-        }, function(err)
-        {
+        }, function (err) {
             var errMsg = "Error occurred while getting end user list";
-            if(err.statusText)
-            {
+            if (err.statusText) {
                 errMsg = err.statusText;
             }
             $scope.showAlert('Error', 'error', errMsg);
 
 
         });
+
+        //update code damith
+        //load view mode then change other view
+        $scope.viewBtnClick = function (viewState) {
+            // 0 view mode || 1 edit mode || 2 new mode
+            $scope.viewDivState = viewState;
+            if (viewState == 2) {
+                $scope.basicConfig = {};
+                $scope.IsEdit = false;
+            }
+
+            if (viewState == 0) {
+                $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
+            }
+        }
 
 
     };
