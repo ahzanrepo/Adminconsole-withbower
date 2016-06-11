@@ -1,6 +1,10 @@
 mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log, resourceService) {
 
-
+    $scope.value = 65;
+    $scope.options = {
+        size: 300
+        //other options
+    };
 
     $scope.tasksList = [];
     $scope.GetTasks = function () {

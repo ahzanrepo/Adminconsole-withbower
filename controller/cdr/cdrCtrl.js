@@ -20,6 +20,15 @@
 
         $scope.currentPlayingFile = null;
 
+        $scope.hstep = 1;
+        $scope.mstep = 15;
+
+
+        $scope.SetDownloadPath = function(uuid)
+        {
+            $scope.DownloadFileUrl = 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/DownloadLatest/1/3/' + uuid + '.wav';
+        };
+
         $scope.playStopFile = function (uuid, playState, stopState) {
             if (playState) {
 
@@ -242,7 +251,7 @@
 
                                 for(j=0; j< filteredOutb.length; j++)
                                 {
-                                    var curProcessingLeg = filteredInb[j];
+                                    var curProcessingLeg = filteredOutb[j];
 
                                     callHangupDirectionB = curProcessingLeg.HangupDisposition;
 
@@ -270,17 +279,19 @@
                                     if (!cdrAppendObj.ObjCategory) {
                                         cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
                                     }
+
+                                    outLegProcessed = true;
                                 }
 
-                                if(callHangupDirectionA === 'recv_bye' && (callHangupDirectionB === 'send_bye' || !callHangupDirectionB))
+                                if(callHangupDirectionA === 'recv_bye')
                                 {
                                     cdrAppendObj.HangupParty = 'CALLER';
                                 }
-                                else if((callHangupDirectionA === 'send_bye' || !callHangupDirectionA) && callHangupDirectionB === 'recv_bye')
+                                else if(callHangupDirectionB === 'recv_bye')
                                 {
                                     cdrAppendObj.HangupParty = 'CALLEE';
                                 }
-                                else if((callHangupDirectionA === 'send_bye' || callHangupDirectionA === 'send_refuse' || callHangupDirectionA === 'send_cancel') && !callHangupDirectionB)
+                                else if(callHangupDirectionA === 'send_refuse' || callHangupDirectionA === 'send_cancel')
                                 {
                                     cdrAppendObj.HangupParty = 'SYSTEM';
                                 }

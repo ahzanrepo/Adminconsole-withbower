@@ -170,6 +170,8 @@
                                     fileToPlay.progress == 0 || fileToPlay.progress == 1) && fileToPlay.remaining != 'Infinity')),
                                    (cdr.Uuid == currentPlayingFile && ((fileToPlay.progress > 0 && fileToPlay.progress < 1) || fileToPlay.remaining == 'Infinity')))"></i>
 
+                                <a class="fa fa-download" target="_self" href="{{DownloadFileUrl}}" ng-click="SetDownloadPath(cdr.Uuid)"></a>
+
                             </span>
 
                                     </td>
