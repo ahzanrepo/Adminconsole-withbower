@@ -47,6 +47,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/resources",
             templateUrl: "resource_application/partials/resourceList.html",
             controller: "resourceController"
+        }).state('console.applicationAccessManager', {
+            url: "/applicationAccessManager",
+            templateUrl: "application_access_management/view/appAccessManage.html",
+            controller: "appAccessManageController"
         }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
@@ -57,6 +61,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/sipuser",
             templateUrl: "views/sipuser/sipuser.html",
             controller: "sipUserCtrl"
+        }).state("console.userprofile", {
+            url: "/userprofile/:id",
+            templateUrl: "views/userprofile/userprofile.html",
+            controller: "userProfileCtrl"
         }).state("console.pbxuser", {
             url: "/pbxuser",
             templateUrl: "views/pbxuser/pbxuser.html",
