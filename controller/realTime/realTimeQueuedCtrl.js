@@ -217,7 +217,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
 
                 updatetimer = $timeout(updateRealtime, 2000);
 
-            }
+            };
 
             var updatetimer = $timeout(updateRealtime, 2000);
 

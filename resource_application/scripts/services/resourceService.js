@@ -182,6 +182,22 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
+    var updateAttributesAttachToResource = function(item){
+        return $http({
+            method: 'put',
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/"+item.savedObj.ResAttId,
+            headers: {
+                'authorization': authService.Token
+            },
+            data:item.savedObj
+        }).then(function(response)
+        {
+            return response.data.Result;
+
+        });
+
+    };
+
     var attachAttributeToTask = function(resTaskId,attributeId,percentage,otherData){
         return $http({
             method: 'post',
@@ -221,6 +237,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         GetTasks: getTasks,
         UpdateResource:updateResource,
         UpdateAttachedTask:updateAttachedTask,
+        UpdateAttributesAttachToResource:updateAttributesAttachToResource,
         DeleteTasksToResource: deleteTasksToResource,
         DeleteTaskToResource:deleteTask,
         AssignTasksToResource: assignTasksToResource,
