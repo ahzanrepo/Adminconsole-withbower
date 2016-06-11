@@ -34,7 +34,7 @@ mainApp.factory("appAccessManageService", function ($http, $log,authService,base
 
   return {
       GetUserList: getUserList,
-      GetOnlineAgents:getOnlineAgents
+
 
   }
 

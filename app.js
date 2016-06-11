@@ -7,6 +7,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload',
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging','ngDragDrop','ui.knob','ui-rangeSlider','AngularBootstrapTree']);
     'download', 'ngMessages', 'ngAudio', 'bw.paging',
     'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
     'jkuri.slimscroll'

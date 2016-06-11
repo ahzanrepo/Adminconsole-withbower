@@ -1,176 +1,85 @@
-<div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="x_panel">
-        <button type="button" class="btn btn-round btn-primary" ng-repeat="user in userList">{{user.username}}</button>
-    </div>
-</div>
+<div ng-controller="appAccessManageController as vm">
 
-<div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="x_panel">
-        <div class="x_title">
-            <h2>Application Access Manager
-                <small>owner Name</small>
-            </h2>
-            <ul class="nav navbar-right panel_toolbox">
-                <li><a class="close-link"><i class="fa fa-spinner"></i></a></li>
-            </ul>
-            <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-            <br>
 
-            <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-
-                <div class="animated flipInY col-md-12 col-sm-12 col-xs-12">
-                    <div class="tile-stats">
-                        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
-                        <div class="count">179</div>
-                        <h3>New Sign ups</h3>
-
-                        <p>Lorem ipsum psdea itgum rixt.</p>
-                    </div>
-                </div>
-
-                <div class="animated flipInY col-md-12 col-sm-12 col-xs-12">
-                    <div class="tile-stats">
-                        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
-                        <div class="count">179</div>
-                        <h3>New Sign ups</h3>
-
-                        <p>Lorem ipsum psdea itgum rixt.</p>
-                    </div>
-                </div>
-
-            </form>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <button ng-click="loadUserData(user)" type="button" class="btn btn-round btn-primary"
+                    ng-repeat="user in userList">{{user.username}}
+            </button>
         </div>
     </div>
-</div>
 
-<div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="x_panel">
-        <h2>Edit
-            <small>User Name</small>
-        </h2>
-        <div class="x_content">
-            <div class="dashboard-widget-content">
 
-                <ul class="list-unstyled timeline widget">
-                    <li>
-                        <div class="block">
-                            <div class="block_content">
-                                <h2 class="title">
-                                    <a>Application 1</a>
-                                </h2>
-
-                                <div class="byline">
-                                    <span>13 hours ago</span> by <a>Jane Smith</a>
-                                </div>
-                                <div class="">
-                                    <ul class="to_do">
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Read </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Write </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Delete </p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="block">
-                            <div class="block_content">
-                                <h2 class="title">
-                                    <a>Application 2</a>
-                                </h2>
-
-                                <div class="byline">
-                                    <span>13 hours ago</span> by <a>Jane Smith</a>
-                                </div>
-                                <div class="">
-                                    <ul class="to_do">
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Read </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Write </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Delete </p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="block">
-                            <div class="block_content">
-                                <h2 class="title">
-                                    <a>Application 3</a>
-                                </h2>
-
-                                <div class="byline">
-                                    <span>13 hours ago</span> by <a>Jane Smith</a>
-                                </div>
-                                <div class="">
-                                    <ul class="to_do">
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Read </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Write </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Delete </p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="block">
-                            <div class="block_content">
-                                <h2 class="title">
-                                    <a>Application 4</a>
-                                </h2>
-
-                                <div class="byline">
-                                    <span>13 hours ago</span> by <a>Jane Smith</a>
-                                </div>
-                                <div class="">
-                                    <ul class="to_do">
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Read </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Write </p>
-                                        </li>
-                                        <li>
-                                            <p>
-                                                <input type="checkbox" class="flat"> Delete </p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Application Access Manager
+                    <small>owner Name</small>
+                </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="close-link"><i class="fa fa-spinner"></i></a></li>
                 </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br>
+
+                <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+
+                    <div class="animated rotateInDownRight col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                        <div class="thumbnaildrag" data-drop="true" ng-model='deletedTask'
+                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=availableTask])'}"
+                             jqyoui-droppable="{multiple:false}">
+                            <div class="caption">
+                                <div class="btn btn-warning btn-draggable" ng-repeat="item in deletedTask"
+                                     ng-show="item.ResTaskInfo.TaskName"
+                                     data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                     ng-model="deletedTask" jqyoui-draggable="{index: {{$index}},animate:true}">
+                                    {{item.ResTaskInfo.TaskName}}
+                                </div>
+                                <small>Drop to Delete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="animated rotateInUpLeft col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                        <div class="thumbnaildrag" data-drop="false" ng-model='availableTask'
+                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=deletedTask])'}"
+                             jqyoui-droppable="{multiple:false}">
+                            <div class="caption">
+                                <div ng-click="setCurrentDrag(item,'available')" class="btn btn-info btn-draggable"
+                                     ng-repeat="item in availableTask" ng-show="item.ResTaskInfo.TaskName"
+                                     data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                     ng-model="availableTask"
+                                     jqyoui-draggable="{index: {{$index}},animate:true,beforeDrop: 'assignTask'}">
+                                    {{item.ResTaskInfo.TaskName}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <h2>Console
+                <small>{{consoleAppList.consoleName}}</small>
+            </h2>
+            <div class="x_content">
+                <div class="dashboard-widget-content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <!--<button class="btn btn-default" ng-click="vm.expandAll(vm.data)">Expand All</button>-->
+                                <tree branch="vm.data"></tree>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
