@@ -58,7 +58,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "views/sipuser/sipuser.html",
             controller: "sipUserCtrl"
         }).state("console.userprofile", {
-            url: "/userprofile/:id",
+            url: "/userprofile/:username",
             templateUrl: "views/userprofile/userprofile.html",
             controller: "userProfileCtrl"
         }).state("console.pbxuser", {

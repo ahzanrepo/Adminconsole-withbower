@@ -21,10 +21,45 @@
             })
         };
 
+        var addContactToProfile = function(user, contact, type)
+        {
+            return $http({
+                method: 'PUT',
+                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
+                headers: {
+                    'authorization': authToken
+                },
+                data:{
+                    type: type
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var deleteContactFromProfile = function(user, contact)
+        {
+            return $http({
+                method: 'DELETE',
+                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         return {
-            getProfileByName: getProfileByName
+            getProfileByName: getProfileByName,
+            addContactToProfile: addContactToProfile,
+            deleteContactFromProfile: deleteContactFromProfile
         };
     };
+
+
 
     var module = angular.module("veeryConsoleApp");
     module.factory("userProfileApiAccess", userProfileApiAccess);
