@@ -71,6 +71,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/userprofile/:username",
             templateUrl: "views/userprofile/userprofile.html",
             controller: "userProfileCtrl"
+        }).state("console.users", {
+            url: "/users",
+            templateUrl: "views/user/userList.html",
+            controller: "userListCtrl"
         }).state("console.pbxuser", {
             url: "/pbxuser",
             templateUrl: "views/pbxuser/pbxuser.html",

@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="col-md-11 col-sm-11 col-xs-11">
+                    <h2>Users</h2>
+                </div>
+
+                <div class="col-md-1 col-sm-1 col-xs-1">
+                    <button type="button" class="btn btn-round btn-primary" ng-click="addUserPress()">{{NewUserLabel}}</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <br>
+                    <div ng-if="NewUserOpened" class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" placeholder="Contact" ng-model="newUser.Contact">
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true" placeholder="Type" name="contactType" ng-model="newUser.Type">
+                                <option value="voice" ng-selected="true">Voice</option>
+                                <option value="email">E-Mail</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                            <button class="btn btn-primary" ng-click="addNewContact()" ng-disabled="!(newUser.Type && newUser.Contact)">Save</button>
+                        </div>
+
+                    </div>
+                    <div class="x_content col-md-12 col-sm-12 col-xs-12">
+                        <ul class="list-unstyled msg_list">
+                            <div class="mail_list_column sip-user-wrap"
+                                 ng-mouseover="viewScroll()"
+                                 ng-mouseleave="hideScroll()"
+                                 ng-slimscroll
+                                 height="670" opacity="0.2" distance="0px"
+                                 enabled="{{ scrollEnabled }}">
+                                <a href="javascript:void(0);" class="user-wrap"
+                                   ng-repeat="item in userList">
+                                    <div class="mail_list user-list">
+                                        <div class="right">
+                                            <h3 class="font-robot ">{{item.username}}
+                                                <small class="fa fa-trash" ng-click="removeContact(item.contact)"></small>
+
+                                            </h3>
+
+                                            <p>
+                                                <small>{{item.firstname}} {{item.lastname}}</small>
+                                            </p>
+                                            <p>
+                                                <small>Joined On : {{item.joinedOn}}</small>
+                                            </p>
+
+                                            <p>
+                                                <small class="fa fa-envelope">&nbsp;{{item.email.contact}}</small>&nbsp;&nbsp;&nbsp;
+                                                <small class="fa fa-phone">&nbsp;{{item.phoneNumber.contact}}</small>
+                                            </p>
+                                            <p>
+                                                <small>Role : {{item.user_meta.role}}</small>
+                                            </p>
+                                        </div>
+                                        <div class="left">
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

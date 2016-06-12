@@ -21,6 +21,20 @@
             })
         };
 
+        var getUsers = function()
+        {
+            return $http({
+                method: 'GET',
+                url: 'http://localhost:3636/DVP/API/1.0.0.0/Users',
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var addContactToProfile = function(user, contact, type)
         {
             return $http({
@@ -72,7 +86,8 @@
             getProfileByName: getProfileByName,
             addContactToProfile: addContactToProfile,
             deleteContactFromProfile: deleteContactFromProfile,
-            updateProfile: updateProfile
+            updateProfile: updateProfile,
+            getUsers: getUsers
         };
     };
 
