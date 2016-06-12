@@ -36,6 +36,9 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         goSipUser: function () {
             $state.go('console.sipuser');
         },
+        goUsers: function () {
+            $state.go('console.users');
+        },
         goRingGroup: function () {
             $state.go('console.ringGroup');
         },
