@@ -2,22 +2,13 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>User profile of {{CurrentProfile.username}}</h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Settings 1</a>
-                            </li>
-                            <li><a href="#">Settings 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
+                <div class="col-md-10 col-sm-10 col-xs-10">
+                    <h2>User profile of {{CurrentProfile.username}}</h2>
+                </div>
+
+                <div class="col-md-2 col-sm-2 col-xs-2">
+                    <label class="btn btn-warning">Level : {{CurrentProfile.user_meta.role}}</label>
+                </div>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -99,19 +90,19 @@
                         <!-- end of image cropping -->
 
                     </div>
-                    <h3>{{CurrentProfile.name}}</h3>
+                    <h3>{{displayName}}</h3>
 
                     <ul class="list-unstyled user_data col-md-12">
-                        <li><i class="fa fa-map-marker user-profile-icon"></i> {{CurrentProfile.displayAddress}}
+                        <li><i class="fa fa-map-marker user-profile-icon"></i> {{displayAddress}}
                         </li>
 
                         <li>
-                            <i class="fa fa-envelope user-profile-icon"></i> {{CurrentProfile.email.contact}}
+                            <i class="fa fa-envelope user-profile-icon"></i> {{displayEmail}}
                             <i class="fa fa-check user-profile-icon" ng-if="CurrentProfile.email.verified"></i>
                         </li>
 
                         <li>
-                            <i class="fa fa-phone user-profile-icon"></i> {{CurrentProfile.phoneNumber.contact}}
+                            <i class="fa fa-phone user-profile-icon"></i> {{displayPhoneNumber}}
                             <i class="fa fa-check user-profile-icon" ng-if="CurrentProfile.phoneNumber.verified"></i>
                         </li>
                     </ul>
@@ -140,26 +131,27 @@
                             </ul>
                             <div id="myTabContent" class="tab-content">
                                 <div ng-if="CurrentTab==='Contacts'">
-                                    <div class="profile_title">
-                                        <div class="col-md-6">
-                                            <h2 class="col-md-6">Contacts</h2>
-                                            <div class="col-md-6">
-                                                <button type="button" class="btn btn-round btn-primary" ng-click="addContactPress()">New</button>
+                                    <div class="profile_title col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <h2 class="col-md-10 col-sm-10 col-xs-10">Contacts</h2>
+                                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                                <button type="button" class="btn btn-round btn-primary" ng-click="addContactPress()">{{NewContactLabel}}</button>
                                             </div>
 
                                         </div>
 
                                     </div>
 
-                                    <div>
-                                        <div ng-if="NewContactOpened">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <br>
+                                        <div ng-if="NewContactOpened" class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                                 <input type="text" class="form-control has-feedback-left" placeholder="Contact" ng-model="newContact.Contact">
                                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                             </div>
                                             <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                                <select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="contactType" ng-model="newContact.Type">
-                                                    <option value="voice">Voice</option>
+                                                <select class="select2_single form-control" tabindex="-1" aria-hidden="true" placeholder="Type" name="contactType" ng-model="newContact.Type">
+                                                    <option value="voice" ng-selected="true">Voice</option>
                                                     <option value="email">E-Mail</option>
                                                 </select>
                                             </div>
@@ -168,16 +160,38 @@
                                             </div>
 
                                         </div>
-                                        <div class="x_content">
+                                        <div class="x_content col-md-12 col-sm-12 col-xs-12">
                                             <ul class="list-unstyled msg_list">
-                                                <li ng-repeat="item in CurrentProfile.contacts">
-                                                    <div>
-                                                        <label class="col-md-3">Contact : {{item.contact}}</label>
-                                                        <label class="col-md-3">Type : {{item.type}}</label>
-                                                        <label class="col-md-3">Verified : {{item.verified}}</label>
-                                                        <i class="fa fa-trash" ng-click="removeContact(item.contact)"></i>
-                                                    </div>
-                                                </li>
+                                                <div class="mail_list_column sip-user-wrap"
+                                                     ng-mouseover="viewScroll()"
+                                                     ng-mouseleave="hideScroll()"
+                                                     ng-slimscroll
+                                                     height="670" opacity="0.2" distance="0px"
+                                                     enabled="{{ scrollEnabled }}">
+                                                    <a href="javascript:void(0);" class="user-wrap"
+                                                       ng-repeat="item in CurrentProfile.contacts">
+                                                        <div class="mail_list user-list">
+                                                            <div class="right">
+                                                                <h3 class="font-robot ">{{item.contact}}
+                                                                    <small class="fa fa-trash" ng-click="removeContact(item.contact)"></small>
+
+                                                                </h3>
+
+                                                                <p>
+                                                                <small class="fa fa-envelope" ng-if="item.type === 'email'"></small>
+                                                                <small class="fa fa-phone" ng-if="item.type === 'voice'"></small>
+                                                                <small class="fa fa-globe" ng-if="item.type != 'voice' && item.type != 'email'"></small>
+                                                                </p>
+                                                                <p>
+                                                                    <small ng-if="item.verified">Verified</small>
+                                                                    <small ng-if="!item.verified">Not Verified</small>
+                                                                </p>
+                                                            </div>
+                                                            <div class="left">
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
 
                                             </ul>
                                         </div>
@@ -241,7 +255,7 @@
                                     </div>
 
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <label><u><h4>Personal Info</h4></u></label>
+                                        <label><u><h4>Personal Information</h4></u></label>
                                     </div>
                                     <form class="form-horizontal form-label-left">
 
@@ -277,13 +291,55 @@
                                             F: <input type="radio" ng-model="CurrentProfile.gender" class="flat" name="gender" value="female" />
                                         </div>
 
+                                        <div class="clearfix"></div>
+
                                         <label class="control-label col-md-1 col-sm-1 col-xs-12">Birthday</label>
-                                        <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
-                                            <input type="text" class="form-control" ng-model="CurrentProfile.birthday" name="birthday"
-                                                   datepicker>
+                                        <div class="col-md-2 col-sm-1 col-xs-4 form-group has-feedback">
+                                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="bdayDay" ng-model="CurrentProfile.birthday.day">
+                                                <option ng-repeat="day in dayList" value="{{day}}">{{day}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-1 col-xs-4 form-group has-feedback">
+                                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="bdayMonth" ng-model="CurrentProfile.birthday.month">
+                                                <option ng-repeat="month in monthList" value="{{month.index}}">{{month.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-1 col-xs-4 form-group has-feedback">
+                                            <input type="number" class="form-control" ng-model="CurrentProfile.birthday.year" name="bdayYear" min="1900" max="{{maxYear}}"/>
                                         </div>
 
                                     </form>
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <label><u><h4>Contact Information</h4></u></label>
+                                    </div>
+                                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Email Address</label>
+
+                                    <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                        <input type="text" class="form-control has-feedback-left" ng-model="CurrentProfile.email.contact">
+                                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+
+                                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Phone Number</label>
+
+                                    <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                        <input type="text" class="form-control has-feedback-left" ng-model="CurrentProfile.phoneNumber.contact">
+                                        <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    <br>
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-md-10"></div>
+                                        <div class="col-md-2">
+                                            <a class="btn btn-primary" ng-click="saveProfile()">
+                                                <i class="fa fa-save m-right-xs"></i>Save Profile
+                                            </a>
+                                        </div>
+
+                                    </div>
+
+
+
                                 </div>
 
                             </div>

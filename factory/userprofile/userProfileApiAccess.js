@@ -38,6 +38,22 @@
             })
         };
 
+        var updateProfile = function(user, profileInfo)
+        {
+            var jsonStr = JSON.stringify(profileInfo);
+            return $http({
+                    method: 'PUT',
+                    url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile',
+                    headers: {
+                        'authorization': authToken
+                    },
+                    data:jsonStr
+                }).then(function(resp)
+                {
+                    return resp.data;
+                })
+        }
+
         var deleteContactFromProfile = function(user, contact)
         {
             return $http({
@@ -55,7 +71,8 @@
         return {
             getProfileByName: getProfileByName,
             addContactToProfile: addContactToProfile,
-            deleteContactFromProfile: deleteContactFromProfile
+            deleteContactFromProfile: deleteContactFromProfile,
+            updateProfile: updateProfile
         };
     };
 
