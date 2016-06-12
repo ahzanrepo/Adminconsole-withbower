@@ -54,38 +54,6 @@
             $state.go('console.userprofile', {username: username});
         }
 
-        $scope.saveProfile = function()
-        {
-            userProfileApiAccess.updateProfile($scope.CurrentProfile.username, $scope.CurrentProfile).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
-                    $scope.showAlert('Success', 'info', 'User profile updated successfully');
-
-                }
-                else
-                {
-                    var errMsg = data.CustomMessage;
-
-                    if(data.Exception)
-                    {
-                        errMsg = data.Exception.Message;
-                    }
-                    $scope.showAlert('Error', 'error', errMsg);
-
-                }
-
-            }, function(err)
-            {
-                var errMsg = "Error occurred while getting profile";
-                if(err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('Error', 'error', errMsg);
-            });
-
-        }
 
 
         var loadUsers = function()
@@ -135,7 +103,12 @@
                 }
                 else
                 {
-                    var errMsg = data.Exception.Message;
+                    var errMsg = "";
+                    if(data.Exception && data.Exception.Message)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+
                     if(data.CustomMessage)
                     {
                         errMsg = data.CustomMessage;
