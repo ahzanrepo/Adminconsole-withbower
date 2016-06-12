@@ -6,11 +6,17 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging','ngDragDrop','ui.knob','ui-rangeSlider']);
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
+    'AngularBootstrapTree',
+    'download', 'ngMessages', 'ngAudio', 'bw.paging',
+    'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
+    'jkuri.slimscroll'
+]);
 
 
 var baseUrls = {
-    'resourceServiceBaseUrl': 'http://localhost:8832/DVP/API/6.0/ResourceManager/',
+    'UserServiceBaseUrl': 'http://localhost:3636/DVP/API/1.0.0.0/',
+    'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/'
@@ -47,6 +53,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/resources",
             templateUrl: "resource_application/partials/resourceList.html",
             controller: "resourceController"
+        }).state('console.applicationAccessManager', {
+            url: "/applicationAccessManager",
+            templateUrl: "application_access_management/view/appAccessManage.html",
+            controller: "appAccessManageController"
         }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
@@ -89,7 +99,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "newrulecontroller"
         }).state('console.editrule', {
             url: "/rule/edit-rule?id",
-            params:{id:null},
+            params: {id: null},
             templateUrl: "views/rule/newRule.html",
             controller: "newrulecontroller"
         }).state('console.application', {

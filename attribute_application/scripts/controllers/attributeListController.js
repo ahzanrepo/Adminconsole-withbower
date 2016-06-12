@@ -157,6 +157,14 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
         });
     };
 
+    //update code by damith
+    //on click change attribute view
+    $scope.attributes = false;
+    $scope.changeView = function (state) {
+        $scope.attributes = state;
+    }
+
+
 });
 
 
