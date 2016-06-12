@@ -5,7 +5,7 @@
 {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, userProfileApiAccess)
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess)
     {
 
         $scope.showAlert = function (title, type, content) {
@@ -21,6 +21,8 @@
         $scope.newUser = {};
         $scope.NewUserLabel = "+";
 
+        $scope.searchCriteria = "";
+
         $scope.NewUserOpened = false;
 
         $scope.addUserPress = function()
@@ -31,13 +33,26 @@
             {
                 $scope.NewUserLabel = '-';
             }
-            else if($scope.NewUserLabel === '+')
+            else if($scope.NewUserLabel === '-')
             {
-                $scope.NewUserLabel = '-';
+                $scope.NewUserLabel = '+';
             }
 
 
         };
+
+        var resetForm = function()
+        {
+            $scope.newUser = {};
+            $scope.NewUserLabel = "+";
+            $scope.searchCriteria = "";
+            $scope.NewUserOpened = false;
+        };
+
+        $scope.viewProfile = function(username)
+        {
+            $state.go('console.userprofile', {username: username});
+        }
 
         $scope.saveProfile = function()
         {
@@ -104,52 +119,33 @@
             });
         };
 
-        $scope.addNewContact = function()
+        $scope.addNewUser = function()
         {
-            userProfileApiAccess.addContactToProfile($scope.CurrentProfile.username, $scope.newContact.Contact, $scope.newContact.Type).then(function(data)
+            userProfileApiAccess.addUser($scope.newUser).then(function(data)
             {
                 if(data.IsSuccess)
                 {
-                    $scope.showAlert('Success', 'info', 'Contact added');
+                    $scope.showAlert('Success', 'info', 'User added');
 
-                    userProfileApiAccess.getProfileByName($scope.CurrentProfile.username).then(function(data1)
-                    {
-                        if(data1.IsSuccess)
-                        {
-                            $scope.CurrentProfile.contacts = data1.Result.contacts;
-                        }
-                        else
-                        {
-                            var errMsg = data.CustomMessage;
+                    resetForm();
 
-                            if(data.Exception)
-                            {
-                                errMsg = data.Exception.Message;
-                            }
-                            $scope.showAlert('Error', 'error', errMsg);
-
-                        }
-
-                    }, function(err)
-                    {
-                        var errMsg = "Error occurred while loading new contact list";
-                        if(err.statusText)
-                        {
-                            errMsg = err.statusText;
-                        }
-                        $scope.showAlert('Error', 'error', errMsg);
-                    });
+                    loadUsers();
 
 
                 }
                 else
                 {
-                    $scope.showAlert('Error', 'error', 'Error adding contact');
+                    var errMsg = data.Exception.Message;
+                    if(data.CustomMessage)
+                    {
+                        errMsg = data.CustomMessage;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
                 }
 
             }, function(err)
             {
-                var errMsg = "Error updating user";
+                var errMsg = "Error adding user";
                 if(err.statusText)
                 {
                     errMsg = err.statusText;
@@ -159,47 +155,29 @@
         };
 
 
-        $scope.removeContact = function(contact)
+        $scope.removeUser = function(username)
         {
-            userProfileApiAccess.deleteContactFromProfile($scope.CurrentProfile.username, contact).then(function (data)
+            userProfileApiAccess.deleteUser(username).then(function (data)
             {
                 if(data.IsSuccess)
                 {
-                    $scope.showAlert('Success', 'info', 'Contact added');
-
-                    userProfileApiAccess.getProfileByName($scope.CurrentProfile.username).then(function(data1)
-                    {
-                        if(data1.IsSuccess)
-                        {
-                            $scope.CurrentProfile.contacts = data1.Result.contacts;
-                        }
-                        else
-                        {
-                            var errMsg = data.CustomMessage;
-
-                            if(data.Exception)
-                            {
-                                errMsg = data.Exception.Message;
-                            }
-                            $scope.showAlert('Error', 'error', errMsg);
-
-                        }
-
-                    }, function(err)
-                    {
-                        var errMsg = "Error occurred while loading new contact list";
-                        if(err.statusText)
-                        {
-                            errMsg = err.statusText;
-                        }
-                        $scope.showAlert('Error', 'error', errMsg);
-                    });
-
-
+                    $scope.showAlert('Success', 'info', 'User deleted');
+                    loadUsers();
                 }
                 else
                 {
-                    $scope.showAlert('Error', 'error', 'Error deleting contact');
+                    var errMsg = "";
+
+                    if(data.Exception)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if(data.CustomMessage)
+                    {
+                        errMsg = data.CustomMessage;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
                 }
 
             }, function (err)
@@ -212,7 +190,7 @@
                 $scope.showAlert('Error', 'error', errMsg);
             });
 
-        }
+        };
 
         loadUsers();
 

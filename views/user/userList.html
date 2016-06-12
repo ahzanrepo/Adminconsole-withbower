@@ -1,9 +1,19 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <div class="x_title">
-                <div class="col-md-11 col-sm-11 col-xs-11">
+            <div class="x_title col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-5 col-sm-5 col-xs-5">
                     <h2>Users</h2>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
+                    <div class="input-group">
+                        <input type="text" ng-model="searchCriteria" class="form-control"
+                               placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                    </div>
                 </div>
 
                 <div class="col-md-1 col-sm-1 col-xs-1">
@@ -17,17 +27,39 @@
                     <br>
                     <div ng-if="NewUserOpened" class="col-md-12 col-sm-12 col-xs-12">
                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                            <input type="text" class="form-control has-feedback-left" placeholder="Contact" ng-model="newUser.Contact">
+                            <input type="text" class="form-control has-feedback-left" placeholder="Username" ng-model="newUser.username">
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true" placeholder="Type" name="contactType" ng-model="newUser.Type">
-                                <option value="voice" ng-selected="true">Voice</option>
-                                <option value="email">E-Mail</option>
-                            </select>
+                            <input type="password" class="form-control has-feedback-left" placeholder="Password" ng-model="newUser.password">
+                            <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                            <button class="btn btn-primary" ng-click="addNewContact()" ng-disabled="!(newUser.Type && newUser.Contact)">Save</button>
+                            <input type="text" class="form-control has-feedback-left" placeholder="Nick Name" ng-model="newUser.name">
+                            <span class="fa fa-meh-o form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" placeholder="E-mail Address" ng-model="newUser.mail">
+                            <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" placeholder="Phone Number" ng-model="newUser.phone">
+                            <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true" placeholder="Role" name="role" ng-model="newUser.role">
+                                <option value="admin" ng-selected="true">Admin</option>
+                                <option value="agent">Agent</option>
+                                <option value="supervisor">Supervisor</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <div class="col-md-10 col-sm-10 col-xs-10"></div>
+                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                <button class="btn btn-success" ng-click="addNewUser()" ng-disabled="!(newUser.username && newUser.password && newUser.name && newUser.mail && newUser.phone && newUser.role)"><i class="fa fa-plus m-right-xs"></i>Add User</button>
+                            </div>
+
+
                         </div>
 
                     </div>
@@ -40,12 +72,13 @@
                                  height="670" opacity="0.2" distance="0px"
                                  enabled="{{ scrollEnabled }}">
                                 <a href="javascript:void(0);" class="user-wrap"
-                                   ng-repeat="item in userList">
+                                   ng-repeat="item in userList | filterBy: ['username']: searchCriteria">
                                     <div class="mail_list user-list">
                                         <div class="right">
                                             <h3 class="font-robot ">{{item.username}}
-                                                <small class="fa fa-trash" ng-click="removeContact(item.contact)"></small>
-
+                                                <small class="fa fa-trash" ng-click="removeUser(item.username)"></small>
+                                                <small class="fa fa-cog" ng-click="viewPermissions()"></small>
+                                                <small class="fa fa-user" ng-click="viewProfile(item.username)"></small>
                                             </h3>
 
                                             <p>

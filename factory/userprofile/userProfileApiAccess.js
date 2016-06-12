@@ -52,6 +52,22 @@
             })
         };
 
+        var addUser = function(userObj)
+        {
+            var jsonStr = JSON.stringify(userObj);
+            return $http({
+                method: 'POST',
+                url: 'http://localhost:3636/DVP/API/1.0.0.0/User',
+                headers: {
+                    'authorization': authToken
+                },
+                data:jsonStr
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var updateProfile = function(user, profileInfo)
         {
             var jsonStr = JSON.stringify(profileInfo);
@@ -82,12 +98,28 @@
             })
         };
 
+        var deleteUser = function(username)
+        {
+            return $http({
+                method: 'DELETE',
+                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + username,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         return {
             getProfileByName: getProfileByName,
             addContactToProfile: addContactToProfile,
             deleteContactFromProfile: deleteContactFromProfile,
             updateProfile: updateProfile,
-            getUsers: getUsers
+            getUsers: getUsers,
+            addUser: addUser,
+            deleteUser: deleteUser
         };
     };
 
