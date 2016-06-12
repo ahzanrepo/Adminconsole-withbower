@@ -70,7 +70,13 @@
 
         var updateProfile = function(user, profileInfo)
         {
+
+
+
+
+            profileInfo.birthday = profileInfo.birthday.year+"-"+ profileInfo.birthday.month+"-" + profileInfo.birthday.day;
             var jsonStr = JSON.stringify(profileInfo);
+
             return $http({
                     method: 'PUT',
                     url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile',
