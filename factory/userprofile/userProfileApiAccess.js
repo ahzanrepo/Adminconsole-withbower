@@ -70,11 +70,7 @@
 
         var updateProfile = function(user, profileInfo)
         {
-
-
-
-
-            profileInfo.birthday = profileInfo.birthday.year+"-"+ profileInfo.birthday.month+"-" + profileInfo.birthday.day;
+            profileInfo.birthday = profileInfo.dob.year+"-"+ profileInfo.dob.month+"-" + profileInfo.dob.day;
             var jsonStr = JSON.stringify(profileInfo);
 
             return $http({
