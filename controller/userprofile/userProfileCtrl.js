@@ -368,20 +368,22 @@
 
                         if(data.Result.birthday)
                         {
-                            if(!data.Result.birthday.day)
-                            {
-                                data.Result.birthday = {}
+                            var momentUtc = moment(data.Result.birthday).utc();
 
+                            data.Result.birthday = {};
+                            data.Result.birthday.day = momentUtc.date().toString();
+                            data.Result.birthday.month = (momentUtc.month() + 1).toString();
+                            data.Result.birthday.year = momentUtc.year();
+
+
+                        }
+                        else
+                        {
+
+                                data.Result.birthday = {};
                                 data.Result.birthday.day = moment().date().toString();
-                            }
-                            if(!data.Result.birthday.month)
-                            {
                                 data.Result.birthday.month = (moment().month() + 1).toString();
-                            }
-                            if(!data.Result.birthday.year)
-                            {
                                 data.Result.birthday.year = moment().year();
-                            }
                         }
 
                     }
