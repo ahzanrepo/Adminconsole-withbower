@@ -56,7 +56,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('console.applicationAccessManager', {
             url: "/applicationAccessManager",
             templateUrl: "application_access_management/view/appAccessManage.html",
-            controller: "appAccessManageController"
         }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"

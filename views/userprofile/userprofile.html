@@ -295,17 +295,17 @@
 
                                         <label class="control-label col-md-1 col-sm-1 col-xs-12">Birthday</label>
                                         <div class="col-md-2 col-sm-1 col-xs-4 form-group has-feedback">
-                                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="bdayDay" ng-model="CurrentProfile.birthday.day">
+                                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="bdayDay" ng-model="CurrentProfile.dob.day">
                                                 <option ng-repeat="day in dayList" value="{{day}}">{{day}}</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 col-sm-1 col-xs-4 form-group has-feedback">
-                                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="bdayMonth" ng-model="CurrentProfile.birthday.month">
+                                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="bdayMonth" ng-model="CurrentProfile.dob.month">
                                                 <option ng-repeat="month in monthList" value="{{month.index}}">{{month.name}}</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 col-sm-1 col-xs-4 form-group has-feedback">
-                                            <input type="number" class="form-control" ng-model="CurrentProfile.birthday.year" name="bdayYear" min="1900" max="{{maxYear}}"/>
+                                            <input type="number" class="form-control" ng-model="CurrentProfile.dob.year" name="bdayYear" min="1900" max="{{maxYear}}"/>
                                         </div>
 
                                     </form>

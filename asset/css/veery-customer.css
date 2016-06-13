@@ -76,31 +76,31 @@ a {
 
 /*background color*/
 .bg-red50 {
-    background-color: #ef737a;
+    background-color: #ef737a !important;
     border: 1px solid #ef737a !important;
     color: #fff;
 }
 
 .bg-green100 {
-    background-color: #2ba89c;
+    background-color: #2ba89c !important;
     border: 1px solid #2ba89c !important;
     color: #fff;
 }
 
 .bg-orange200 {
-    background-color: #d06e4f;
+    background-color: #d06e4f !important;
     border: 1px solid #d06e4f !important;
     color: #fff;
 }
 
 .bg-yellow300 {
-    background-color: #f8b01d;
+    background-color: #f8b01d !important;
     border: 1px solid #f8b01d !important;
     color: #fff;
 }
 
 .bg-blue700 {
-    background-color: #114858;
+    background-color: #114858 !important;
     border: 1px solid #114858 !important;
     color: #fff;
 }
