@@ -1,12 +1,13 @@
 <div ng-controller="appAccessManageController as vm">
 
-    <div class="col-md-12 col-sm-12 col-xs-12">
+
+    <!--<div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <button ng-click="selectUser(user)" type="button" class="btn btn-round btn-primary"
                     ng-repeat="user in userList">{{user.username}}
             </button>
         </div>
-    </div>
+    </div>-->
 
 
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -25,17 +26,17 @@
 
                 <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 
-                    <div class="animated rotateInDownRight col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                    <div ng-disabled="active" class="animated pulse col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
 
                         <div  class="thumbnaildrag" data-drop="true" ng-model='assignedNavigations'
                              data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignedNavigations])'}"
-                             jqyoui-droppable="{multiple:true}">
+                             jqyoui-droppable="{multiple:false,onDrop: 'assignNavigation'}">
                             <div class="caption">
                                 <div ng-dblclick="showEditView(item)" ng-click="setCurrentDrag(item)" class="btn btn-round btn-warning btn-draggable"
                                      ng-repeat="item in assignedNavigations" ng-show="item.consoleName"
                                      data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
                                      ng-model="assignedNavigations"
-                                     jqyoui-draggable="{index: {{$index}},animate:true,onDrop: 'assignNavigation'}">
+                                     jqyoui-draggable="{index: {{$index}},animate:true}">
                                     {{item.consoleName}}
                                 </div>
                             </div>
@@ -44,13 +45,13 @@
 
                         <div class="thumbnaildrag" data-drop="true" ng-model='assignableNavigations'
                              data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignableNavigations])'}"
-                             jqyoui-droppable="{multiple:true}">
+                             jqyoui-droppable="{multiple:false,onDrop: 'removeNavigation'}">
                             <div class="caption">
                                 <div ng-click="setCurrentDrag(item)" class="btn btn-round btn-primary btn-draggable"
                                      ng-repeat="item in assignableNavigations" ng-show="item.consoleName"
                                      data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
                                      ng-model="assignableNavigations"
-                                     jqyoui-draggable="{index: {{$index}},animate:true,onDrop: 'removeNavigation'}">
+                                     jqyoui-draggable="{index: {{$index}},animate:true}">
                                     {{item.consoleName}}
                                 </div>
                             </div>
@@ -61,20 +62,16 @@
         </div>
     </div>
 
-    <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showEditWindow">
         <div class="x_panel">
             <h2>Console
-                <small>{{consoleAppList.consoleName}}</small>
+                <small>{{DragObject.consoleName}}</small>
             </h2>
             <div class="x_content">
                 <div class="dashboard-widget-content">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-3">
-                                <!--<selectednavigation selected-console="consoleAppList.consoleNavigation"></selectednavigation>-->
-                                <!--<button class="btn btn-default" ng-click="vm.expandAll(vm.data)">Expand All</button>-->
-                                <tree branch="vm.data"></tree>
-                            </div>
+                            <navigationtree selected-console="selectedConsole" user-name="{{selectedUser.username}}" console-name="{{DragObject.consoleName}}" navigation="item" ng-repeat="item in selectedConsole.consoleNavigation"></navigationtree>
                         </div>
                     </div>
                 </div>

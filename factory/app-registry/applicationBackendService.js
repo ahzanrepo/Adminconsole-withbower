@@ -9,7 +9,7 @@ mainApp.factory('appBackendService', function ($http) {
         getApplications: function () {
             return $http({
                 method: 'GET',
-                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Applications",
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Applications",
                 headers: {
                     'authorization':authToken
                 }
@@ -23,7 +23,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'POST',
-                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Application",
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application",
                 headers: {
                     'authorization':authToken
                 },
@@ -39,7 +39,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'POST',
-                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId,
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId,
                 headers: {
                     'authorization':authToken
                 }
@@ -54,7 +54,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'PUT',
-                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
                 headers: {
                     'authorization':authToken
                 },
@@ -70,7 +70,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'DELETE',
-                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
                 headers: {
                     'authorization':authToken
                 }
@@ -84,7 +84,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'GET',
-                url: "http://127.0.0.1:5642/DVP/API/1.0.0.0/FileService/Files?fileCategory=HOLDMUSIC&fileFormat=audio/wav&assignedState=false",
+                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/Files?fileCategory=HOLDMUSIC&fileFormat=audio/wav&assignedState=false",
                 headers: {
                     'authorization':authToken
                 }
@@ -98,7 +98,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'GET',
-                url: "http://127.0.0.1:5642/DVP/API/1.0.0.0/FileService/Files/Info/"+appID,
+                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/Files/Info/"+appID,
                 headers: {
                     'authorization':authToken
                 }
@@ -111,32 +111,60 @@ mainApp.factory('appBackendService', function ($http) {
 
         attachFilesWithApplication: function (appID,fileID) {
 
-        return $http({
-            method: 'POST',
-            url: "http://127.0.0.1:5642/DVP/API/1.0.0.0/FileService/File/"+fileID+"/AssignToApplication/"+appID,
-            headers: {
-                'authorization':authToken
-            }
+            return $http({
+                method: 'POST',
+                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/"+fileID+"/AssignToApplication/"+appID,
+                headers: {
+                    'authorization':authToken
+                }
 
-        }).then(function(response)
-        {
-            return response;
-        });
-    } ,
+            }).then(function(response)
+            {
+                return response;
+            });
+        } ,
         detachFilesFromApplication: function (fileID) {
 
-        return $http({
-            method: 'POST',
-            url: "http://127.0.0.1:5642/DVP/API/1.0.0.0/FileService/File/"+fileID+"/DetachFromApplication",
-            headers: {
-                'authorization':authToken
-            }
+            return $http({
+                method: 'POST',
+                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/"+fileID+"/DetachFromApplication",
+                headers: {
+                    'authorization':authToken
+                }
 
-        }).then(function(response)
-        {
-            return response;
-        });
-    }
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        getDevelopers: function () {
+
+            return $http({
+                method: 'GET',
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Developers",
+                headers: {
+                    'authorization':authToken
+                }
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        ApplicationAssignToDeveloper: function (appId,devId) {
+
+            return $http({
+                method: 'POST',
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+appId+"/AssignToDeveloper/"+devId,
+                headers: {
+                    'authorization':authToken
+                }
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        }
 
     }
 });

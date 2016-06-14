@@ -65,6 +65,23 @@
             </div>
         </div>
         <!-- end -->
+                    <div class="x_content col-md-12 col-sm-12 col-xs-12">
+                        <ul class="list-unstyled msg_list">
+                            <div class="mail_list_column sip-user-wrap"
+                                 ng-mouseover="viewScroll()"
+                                 ng-mouseleave="hideScroll()"
+                                 ng-slimscroll
+                                 height="670" opacity="0.2" distance="0px"
+                                 enabled="{{ scrollEnabled }}">
+                                <a href="javascript:void(0);" class="user-wrap"
+                                   ng-repeat="item in userList | filterBy: ['username']: searchCriteria">
+                                    <div class="mail_list user-list">
+                                        <div class="right">
+                                            <h3 class="font-robot ">{{item.username}}
+                                                <small class="fa fa-trash" ng-click="removeUser(item.username)"></small>
+                                                <small class="fa fa-cog" ng-click="viewPermissions(item)"></small>
+                                                <small class="fa fa-user" ng-click="viewProfile(item.username)"></small>
+                                            </h3>
 
         <!-- view user details -->
         <div class="x_panel">

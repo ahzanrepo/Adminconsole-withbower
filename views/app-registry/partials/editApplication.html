@@ -49,11 +49,20 @@
                         <label class="control-label col-md-6 col-sm-6 col-xs-12">Application Type</label>
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
 
-                            <select class="form-control has-feedback-left" ng-model="application.ObjClass">
+                            <select class="form-control has-feedback-left" ng-model="application.ObjClass" ng-change="changeApplicationType(application.ObjClass)">
                                 <option>SYSTEM</option>
                                 <option>DEVELOPER</option>
                             </select>
                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Developer</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+
+                            <select class="form-control" ng-model="application.AppDeveloperId"   ng-model-options="{trackBy: '$value'}" ng-change="changeApplicationType(application.ObjClass)" ng-disabled="!IsDeveloper">
+                                <option ng-repeat="Developer in Developers" value="{{Developer.id}}" >{{Developer.Username}}</option>
+                            </select>
+
                         </div>
 
                         <label class="control-label col-md-6 col-sm-6 col-xs-12">Application Protocol</label>
@@ -115,7 +124,9 @@
 
             <p class="excerpt col-md-4"> Master Application: {{application.MasterApplication.AppName}} </p>
 
-            <p class="excerpt col-md-12"> Availability : {{application.Availability}} </p>
+            <p class="excerpt col-md-4"> Availability : {{application.Availability}} </p>
+
+            <p class="excerpt col-md-4" ng-if="IsDeveloper"> Developer : {{application.AppDeveloper.Username}} </p>
         </div>
         <div class="clearfix"></div>
     </div>
