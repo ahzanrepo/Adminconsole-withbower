@@ -113,6 +113,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/holdmusic",
             templateUrl: "views/hold-music/holdmusic.html",
             controller: "holdMusicController"
+        }).state('console.limits', {
+            url: "/limits",
+            templateUrl: "views/limit/limits.html",
+            controller: "limitController"
         })
         ;
     }]);
