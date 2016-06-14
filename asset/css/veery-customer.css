@@ -341,7 +341,7 @@ a {
     font-weight: 300;
     font-size: 14px;
     color: #555;
-    border: 1px solid #F7F7F7;
+    border: 2px solid #F7F7F7;
     border-radius: 5px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .0);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .0);
@@ -1037,6 +1037,8 @@ a.thumbnaildrag:hover {
 
 .mail_list_column {
     border-left: 0px solid #DBDBDB;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 .user-list {
@@ -1067,6 +1069,11 @@ a.thumbnaildrag:hover {
 .user-wrap :hover {
     background: #fbfbfb;
     border-radius: 5px;
+}
+
+.hover-none :hover {
+    background: none !important;
+    border-radius: 0px !important;
 }
 
 .user-details-view {
@@ -1283,6 +1290,138 @@ small > i {
 .attribute-btn {
     width: 60px;
     height: 34px;
+}
+
+.bg-light-gray {
+    background: #fbfbfb;
+}
+
+.user-list > .user-option-wrap > h3 > small {
+    background: #f7f7f7;
+    padding: 11px 18px 11px 19px;
+    border-radius: 0px;
+    color: #114858;
+    text-transform: lowercase;
+    font-size: 15px;
+}
+
+.user-list > .user-option-wrap > h3 > small:hover {
+    background: #114858 !important;
+    color: #ffffff !important;
+}
+
+.user-option-wrap > h2.sub-header {
+    font-size: 20px;
+}
+
+.user-option-wrap > h3.sub-header {
+    font-size: 20px;
+    color: #f8b01d;
+}
+
+.embed-wrap {
+    background: #114858;
+    padding: 2px 7px 3px 7px;
+    border-radius: 4px;
+    color: #f7f7f7;
+}
+
+.embed-wrap:hover {
+    background: #114858 !important;
+    border-radius: 4px !important;
+}
+
+/*profile main style*/
+.profile-main-name {
+    color: #2ba89c !important;
+    font-weight: 500;
+    text-transform: lowercase;
+    font-size: 20px;
+}
+
+.user-level {
+    background: #db4114;
+    color: #fff !important;
+    padding: 2px 8px 2px 8px;
+    border-radius: 5px;
+}
+
+.profile-header {
+    width: 100%;
+    height: 240px;
+    background: #383b3b;
+    position: relative;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    overflow: hidden;
+    position: relative;
+}
+
+.profile_left {
+    margin-top: -100px;
+    margin-left: 20px;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.profile_left > h3 {
+    font-size: 22px;
+    font-weight: 500;
+    color: #f8b01d;
+}
+
+.profile_left > ul.profile-data-list > li {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
+    font-size: 14px;
+    padding-bottom: 8px;
+}
+
+.profile_left > ul.profile-data-list > li > i {
+    padding-right: 5px;
+    color: #383b3b;
+}
+
+.profile_right {
+    margin-top: -52px;
+    margin-left: 45px;
+}
+
+.profile-top {
+    margin-top: 20px;
+    padding: 15px;
+}
+
+.profile-tab-panel {
+    background: transparent !important;
+}
+
+.profile-details-wrap {
+    margin-bottom: 45px;
+    margin-top: 45px;
+    padding-right: 40px;
+}
+
+.profile-details-btn-wrap {
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    color: #f8b01d;
+    cursor: default;
+    background-color: transparent;
+    border: 0px solid;
+}
+
+.cover-image {
+    position: absolute;
+    width: 100%;
+    height: 20%;
+}
+
+.profile-content {
+    top: 190px;
 }
 
 
