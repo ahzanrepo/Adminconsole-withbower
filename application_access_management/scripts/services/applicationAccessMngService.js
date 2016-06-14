@@ -41,6 +41,32 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         });
     };
 
+    var addConsoleToUser = function (consoleName) {
+        return $http({
+            method: 'put',
+            url: baseUrls.UserServiceBaseUrl + "Console/"+consoleName,
+            headers: {
+                'authorization': authService.UserService,
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
+    var deleteConsoleFrmUser = function (consoleName) {
+        return $http({
+            method: 'delete',
+            url: baseUrls.UserServiceBaseUrl + "Console/"+consoleName,
+            headers: {
+                'authorization': authService.UserService,
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
     var DeleteSelectedNavigationFrmUser = function (userName, consoleName, navigation) {
         //User/:username/Console/:consoleName/Navigation/:navigation
         return $http({
@@ -84,6 +110,8 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
 
     return {
         GetUserList: getUserList,
+        AddConsoleToUser:addConsoleToUser,
+        DeleteConsoleFrmUser:deleteConsoleFrmUser,
         AddSelectedNavigationToUser: addSelectedNavigationToUser,
         DeleteSelectedNavigationFrmUser: DeleteSelectedNavigationFrmUser,//
         GetNavigationAssignToUser:getNavigationAssignToUser,
