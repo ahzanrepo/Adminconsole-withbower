@@ -26,7 +26,7 @@
 
                 <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 
-                    <div class="animated rotateInDownLeft col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                    <div ng-attr-active="active" class="animated rotateInDownLeft col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
 
                         <div  class="thumbnaildrag" data-drop="true" ng-model='assignedNavigations'
                              data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignedNavigations])'}"
@@ -71,7 +71,7 @@
                 <div class="dashboard-widget-content">
                     <div class="container">
                         <div class="row">
-                            <navigationtree navigation="item" ng-repeat="item in selectedConsole.consoleNavigation"></navigationtree>
+                            <navigationtree selected-console="selectedConsole" user-name="{{selectedUser.username}}" console-name="{{DragObject.consoleName}}" navigation="item" ng-repeat="item in selectedConsole.consoleNavigation"></navigationtree>
                         </div>
                     </div>
                 </div>

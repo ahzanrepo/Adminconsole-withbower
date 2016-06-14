@@ -1,5 +1,6 @@
-mainApp.controller("appAccessManageController", function ($scope, appAccessManageService) {
+mainApp.controller("appAccessManageController", function ($scope, $filter, appAccessManageService) {
 
+    $scope.active = true;
     /*Load Application list*/
     $scope.showAlert = function (tittle, label, button, content) {
 
@@ -32,11 +33,12 @@ mainApp.controller("appAccessManageController", function ($scope, appAccessManag
 
     $scope.selectedUser = {};
     $scope.selectUser = function (user) {
+        $scope.active = false;
         $scope.assignedNavigations = [];
         $scope.selectedUser = user;
-        $scope.showEditWindow=false;
-        $scope.GetAssignableNavigations(user.user_meta.role);
-        $scope.GetNavigationAssignToUser(user.user_meta.role);
+        $scope.showEditWindow = false;
+        $scope.GetAssignableNavigations(user);
+
     };
 
     $scope.AddClientNavigationToUser = function () {
@@ -71,9 +73,10 @@ mainApp.controller("appAccessManageController", function ($scope, appAccessManag
     };
 
     $scope.assignableNavigations = [];
-    $scope.GetAssignableNavigations = function (role) {
-        appAccessManageService.GetAssignableNavigations(role).then(function (response) {
+    $scope.GetAssignableNavigations = function (user) {
+        appAccessManageService.GetAssignableNavigations(user.user_meta.role).then(function (response) {
             $scope.assignableNavigations = response;
+            $scope.GetNavigationAssignToUser(user.username);
         }, function (error) {
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
         });
@@ -82,22 +85,39 @@ mainApp.controller("appAccessManageController", function ($scope, appAccessManag
 
 
     $scope.assignedNavigations = [];
-    $scope.GetNavigationAssignToUser = function (userRole) {
-        appAccessManageService.GetNavigationAssignToUser(userRole).then(function (response) {
-            $scope.assignedNavigations = response.consoleNavigation.resources;
+    $scope.GetNavigationAssignToUser = function (userName) {
+        appAccessManageService.GetNavigationAssignToUser(userName).then(function (response) {
+            if (response.IsSuccess) {
+
+                angular.forEach(response.Result.client_scopes, function (item) {
+                    var items = $filter('filter')($scope.assignableNavigations, {consoleName: item.consoleName})
+                    if (items) {
+                        var index = $scope.assignableNavigations.indexOf(items[0]);
+                        if (index > -1) {
+                            var temptask = $scope.assignableNavigations[index];
+                            temptask.consoleNavigation.saveItem = {};
+                            temptask.consoleNavigation.saveItem = item.menus;
+                            $scope.assignedNavigations.push(temptask);
+                            $scope.assignableNavigations.splice(index, 1);
+                        }
+                    }
+                });
+                $scope.active = true;
+            }
+
         }, function (error) {
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
         });
     };
 
     $scope.assignNavigation = function () {
-        appAccessManageService.AddConsoleToUser($scope.DragObject.consoleName).then(function (response) {
+        appAccessManageService.AddConsoleToUser($scope.selectedUser.username, $scope.DragObject.consoleName).then(function (response) {
             if (!response) {
                 var index = $scope.assignedNavigations.indexOf($scope.DragObject);
                 if (index != -1) {
                     $scope.assignedNavigations.splice(index, 1);
                     $scope.assignableNavigations.push($scope.DragObject);
-               }
+                }
             }
         }, function (error) {
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
@@ -105,7 +125,7 @@ mainApp.controller("appAccessManageController", function ($scope, appAccessManag
     };
 
     $scope.removeNavigation = function () {
-        appAccessManageService.DeleteConsoleFrmUser($scope.DragObject.consoleName).then(function (response) {
+        appAccessManageService.DeleteConsoleFrmUser($scope.selectedUser.username, $scope.DragObject.consoleName).then(function (response) {
             if (!response) {
                 var index = $scope.assignableNavigations.indexOf($scope.DragObject);
                 if (index != -1) {
@@ -122,14 +142,14 @@ mainApp.controller("appAccessManageController", function ($scope, appAccessManag
     $scope.DragObject = {};
     $scope.setCurrentDrag = function (item) {
         $scope.DragObject = item;
-        $scope.showEditWindow=false;
+        $scope.showEditWindow = false;
     };
 
-    $scope.showEditWindow=false;
+    $scope.showEditWindow = false;
     $scope.selectedConsole = {};
     $scope.showEditView = function (item) {
         $scope.selectedConsole = item;
-        $scope.showEditWindow=true;
+        $scope.showEditWindow = true;
     };
 
 

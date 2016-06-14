@@ -27,24 +27,16 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
                 'authorization': authService.UserService,
                 'Content-Type': 'application/json'
             },
-            data: {
-                "menuItem": navigationData.menuItem,
-                "menuAction": {
-                    "Navigatione": navigationData.Navigatione,
-                    "read": navigationData.read,
-                    "write": navigationData.write,
-                    "delete": navigationData.delete
-                }
-            }
+            data: navigationData
         }).then(function (response) {
             return response.data.IsSuccess;
         });
     };
 
-    var addConsoleToUser = function (consoleName) {
+    var addConsoleToUser = function (username,consoleName) {
         return $http({
             method: 'put',
-            url: baseUrls.UserServiceBaseUrl + "Console/"+consoleName,
+            url: baseUrls.UserServiceBaseUrl + "User/"+username+"/Console/"+consoleName,
             headers: {
                 'authorization': authService.UserService,
                 'Content-Type': 'application/json'
@@ -54,10 +46,10 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         });
     };
 
-    var deleteConsoleFrmUser = function (consoleName) {
+    var deleteConsoleFrmUser = function (username,consoleName) {
         return $http({
             method: 'delete',
-            url: baseUrls.UserServiceBaseUrl + "Console/"+consoleName,
+            url: baseUrls.UserServiceBaseUrl + "User/"+username+"/Console/"+consoleName,
             headers: {
                 'authorization': authService.UserService,
                 'Content-Type': 'application/json'
@@ -81,17 +73,17 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         });
     };
 
-    var getNavigationAssignToUser = function (userRole) {
+    var getNavigationAssignToUser = function (userName) {
 //http://localhost:3636/DVP/API/1.0.0.0/User/John
         return $http({
             method: 'get',
-            url: baseUrls.UserServiceBaseUrl + "User/"+userRole,
+            url: baseUrls.UserServiceBaseUrl + "User/"+userName,
             headers: {
                 'authorization': authService.UserService,
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
-            return response.data.IsSuccess;
+            return response.data;
         });
     };
 
