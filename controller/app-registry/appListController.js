@@ -10,11 +10,19 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
     $scope.newApplication={};
     $scope.addNew = false;
     $scope.MasterAppList=[];
+    $scope.IsDeveloper=false;
+    $scope.Developers=[];
+
+
 
 
 
     $scope.saveAplication= function (resource) {
         resource.Availability=true;
+        if(resource.ObjClass=="DEVELOPER")
+        {
+            resource.IsDeveloper=true;
+        }
         appBackendService.saveNewApplication(resource).then(function (response) {
 
             if(!response.data.IsSuccess)

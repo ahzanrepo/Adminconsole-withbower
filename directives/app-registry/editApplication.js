@@ -15,6 +15,8 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
         templateUrl: 'views/app-registry/partials/editApplication.html',
 
         link: function (scope) {
+            scope.IsDeveloper=false;
+            scope.Developers=[];
 
             scope.MasterApps=[];
 
@@ -22,6 +24,20 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
             if(scope.application.MasterApplicationId)
             {
                 scope.application.MasterApplicationId=(scope.application.MasterApplicationId).toString();
+            }
+
+            if(scope.application.ObjClass=="SYSTEM" )
+            {
+                scope.IsDeveloper=false;
+            }
+            else if(scope.application.ObjClass=="DEVELOPER" )
+            {
+                scope.IsDeveloper=true;
+                if(scope.application.AppDeveloperId)
+                {
+                    scope.application.AppDeveloperId=(scope.application.AppDeveloperId).toString();
+                }
+
             }
 
 
@@ -48,6 +64,24 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
 
             scope.setMasterAppList();
 
+            scope.getAllDevelopers = function () {
+                appBackendService.getDevelopers().then(function (response) {
+
+                    if(response.data.IsSuccess)
+                    {
+                        scope.Developers=response.data.Result;
+                    }
+                    else
+                    {
+                        console.log("Error in loading all developers ",response.data.Exception);
+                    }
+                }, function (error) {
+                    console.log("Exception in loading all developers ",error);
+                })
+            };
+
+            scope.getAllDevelopers();
+
             scope.editMode = false;
 
             scope.editApplication = function () {
@@ -55,13 +89,45 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
                 console.log(scope.applist);
             };
 
+            scope.changeApplicationType = function (appType) {
+                if(appType=="SYSTEM")
+                {
+                    scope.IsDeveloper=false;
+                    scope.application.AppDeveloperId=null;
+                }
+                else
+                {
+                    scope.IsDeveloper=true;
+                }
+            };
+
+
             scope.UpdateApplication = function () {
 
+                if(scope.application.ObjClass=="SYSTEM")
+                {
+                    scope.application.AppDeveloperId=null;
+                }
                 appBackendService.updateApplication(scope.application).then(function (response) {
                     if(response.data.IsSuccess)
                     {
                         //scope.updateRecource(scope.application);
-                        scope.reloadpage();
+                        appBackendService.ApplicationAssignToDeveloper(scope.application.id,scope.application.AppDeveloperId).then(function (Assignresponse) {
+                            if(Assignresponse.data.IsSuccess)
+                            {
+                                console.log("Application "+scope.application.id+" : "+scope.application.AppName+" Assigned to Developer "+scope.application.AppDeveloperId);
+                                scope.reloadpage();
+                            }
+                            else
+                            {
+                                console.log("Error in assigning application "+scope.application.AppName+ " to Developer "+scope.application.AppDeveloperId);
+                                scope.reloadpage();
+                            }
+                        }, function (Assignerror) {
+                            console.log("Exception in assigning application "+scope.application.AppName+ " to Developer "+scope.application.AppDeveloperId,Assignerror);
+                            scope.reloadpage();
+                        });
+
                         //scope.editMode=false;
 
 
@@ -146,6 +212,8 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
                 });
 
             };
+
+
 
 
             scope.showAlert = function (tittle, label, button, content) {
