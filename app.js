@@ -191,7 +191,7 @@ mainApp.directive('datepicker', function () {
                 });
             };
             var options = {
-                dateFormat: "dd-mm-yy",
+                dateFormat: "yy-mm-dd",
                 onSelect: function (dateText) {
                     updateModel(dateText);
                 }

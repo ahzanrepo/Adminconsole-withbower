@@ -18,6 +18,18 @@
             });
         };
 
+        $scope.onDateChange = function()
+        {
+            if(moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid())
+            {
+                $scope.dateValid = true;
+            }
+            else
+            {
+                $scope.dateValid = false;
+            }
+        };
+
         $scope.currentPlayingFile = null;
 
         $scope.hstep = 1;
@@ -69,8 +81,9 @@
         $scope.top = -1;
         $scope.bottom = -1;
 
-        $scope.startDate = moment().format("L");
-        $scope.endDate = moment().format("L");
+        $scope.startDate = moment().format("YYYY-MM-DD");
+        $scope.endDate = moment().format("YYYY-MM-DD");
+        $scope.dateValid = true;
 
         $scope.offset = -1;
         $scope.prevOffset = -1;
@@ -104,8 +117,10 @@
 
         $scope.getProcessedCDR = function (offset, reset) {
 
-            try {
-                if (reset) {
+            try
+            {
+                if (reset)
+                {
                     pageStack = [];
                     $scope.top = -1;
                     $scope.bottom = -1;
@@ -118,8 +133,8 @@
                 $scope.isPreviousDisabled = true;
 
 
-                var startDateMoment = moment($scope.startDate);
-                var endDateMoment = moment($scope.endDate);
+                var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
+                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");
 
                 var startYear = startDateMoment.year().toString();
                 var startMonth = (startDateMoment.month() + 1).toString();
@@ -197,51 +212,55 @@
                                 {
                                     var curProcessingLeg = filteredInb[i];
 
-                                    if(curProcessingLeg.DVPCallDirection)
+                                    if (curProcessingLeg.DVPCallDirection)
                                     {
                                         callHangupDirectionA = curProcessingLeg.HangupDisposition;
                                     }
 
 
+                                    //use the counts in inbound leg
+                                    if (!topSet)
+                                    {
+                                        $scope.top = curProcessingLeg.id;
+                                        topSet = true;
+                                    }
 
-                                        //use the counts in inbound leg
-                                        if (!topSet)
-                                        {
-                                            $scope.top = curProcessingLeg.id;
-                                            topSet = true;
-                                        }
+                                    if (!bottomSet && count === cdrLen)
+                                    {
+                                        $scope.bottom = curProcessingLeg.id;
+                                        bottomSet = true;
+                                    }
 
-                                        if (!bottomSet && count === cdrLen)
-                                        {
-                                            $scope.bottom = curProcessingLeg.id;
-                                            bottomSet = true;
-                                        }
+                                    cdrAppendObj.Uuid = curProcessingLeg.Uuid;
+                                    cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
+                                    cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
+                                    cdrAppendObj.IsAnswered = curProcessingLeg.IsAnswered;
+                                    cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;
 
-                                        cdrAppendObj.Uuid = curProcessingLeg.Uuid;
-                                        cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
-                                        cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
-                                        cdrAppendObj.IsAnswered = curProcessingLeg.IsAnswered;
-                                        cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;
+                                    var localTime = moment(curProcessingLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
 
-                                        var localTime = moment(curProcessingLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
+                                    cdrAppendObj.CreatedTime = localTime;
+                                    cdrAppendObj.Duration = curProcessingLeg.Duration;
+                                    cdrAppendObj.BillSec = curProcessingLeg.BillSec;
+                                    cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
 
-                                        cdrAppendObj.CreatedTime = localTime;
-                                        cdrAppendObj.Duration = curProcessingLeg.Duration;
-                                        cdrAppendObj.BillSec = curProcessingLeg.BillSec;
-                                        cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
-                                        cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
-                                        cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                    cdrAppendObj.QueueSec = curProcessingLeg.QueueSec;
+                                    cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
+
+                                    cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
+                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
 
-                                        if (curProcessingLeg.ObjType === 'HTTAPI') {
-                                            isInboundHTTAPI = true;
-                                        }
+                                    if (curProcessingLeg.ObjType === 'HTTAPI')
+                                    {
+                                        isInboundHTTAPI = true;
+                                    }
 
-                                        if (len === 1)
-                                        {
-                                            cdrAppendObj.ObjType = curProcessingLeg.ObjType;
-                                            cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
-                                        }
+                                    if (len === 1)
+                                    {
+                                        cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                        cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                    }
 
 
                                 }
@@ -291,13 +310,9 @@
                                 {
                                     cdrAppendObj.HangupParty = 'CALLEE';
                                 }
-                                else if(callHangupDirectionA === 'send_refuse' || callHangupDirectionA === 'send_cancel')
-                                {
-                                    cdrAppendObj.HangupParty = 'SYSTEM';
-                                }
                                 else
                                 {
-                                    cdrAppendObj.HangupParty = 'UNKNOWN';
+                                    cdrAppendObj.HangupParty = 'SYSTEM';
                                 }
 
 
