@@ -1,9 +1,8 @@
 <div ng-controller="appAccessManageController as vm">
 
-
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <button ng-click="loadUserData(user)" type="button" class="btn btn-round btn-primary"
+            <button ng-click="selectUser(user)" type="button" class="btn btn-round btn-primary"
                     ng-repeat="user in userList">{{user.username}}
             </button>
         </div>
@@ -27,38 +26,36 @@
                 <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 
                     <div class="animated rotateInDownRight col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                        <div class="thumbnaildrag" data-drop="true" ng-model='deletedTask'
-                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=availableTask])'}"
-                             jqyoui-droppable="{multiple:false}">
-                            <div class="caption">
-                                <div class="btn btn-warning btn-draggable" ng-repeat="item in deletedTask"
-                                     ng-show="item.ResTaskInfo.TaskName"
-                                     data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
-                                     ng-model="deletedTask" jqyoui-draggable="{index: {{$index}},animate:true}">
-                                    {{item.ResTaskInfo.TaskName}}
-                                </div>
-                                <small>Drop to Delete</small>
-                            </div>
 
-                        </div>
-                    </div>
-
-                    <div class="animated rotateInUpLeft col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                        <div class="thumbnaildrag" data-drop="false" ng-model='availableTask'
-                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=deletedTask])'}"
-                             jqyoui-droppable="{multiple:false}">
+                        <div  class="thumbnaildrag" data-drop="true" ng-model='assignedNavigations'
+                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignedNavigations])'}"
+                             jqyoui-droppable="{multiple:true}">
                             <div class="caption">
-                                <div ng-click="setCurrentDrag(item,'available')" class="btn btn-info btn-draggable"
-                                     ng-repeat="item in availableTask" ng-show="item.ResTaskInfo.TaskName"
+                                <div ng-dblclick="showEditView(item)" ng-click="setCurrentDrag(item)" class="btn btn-round btn-warning btn-draggable"
+                                     ng-repeat="item in assignedNavigations" ng-show="item.consoleName"
                                      data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
-                                     ng-model="availableTask"
-                                     jqyoui-draggable="{index: {{$index}},animate:true,beforeDrop: 'assignTask'}">
-                                    {{item.ResTaskInfo.TaskName}}
+                                     ng-model="assignedNavigations"
+                                     jqyoui-draggable="{index: {{$index}},animate:true,onDrop: 'assignNavigation'}">
+                                    {{item.consoleName}}
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <br>
 
+                        <div class="thumbnaildrag" data-drop="true" ng-model='assignableNavigations'
+                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignableNavigations])'}"
+                             jqyoui-droppable="{multiple:true}">
+                            <div class="caption">
+                                <div ng-click="setCurrentDrag(item)" class="btn btn-round btn-primary btn-draggable"
+                                     ng-repeat="item in assignableNavigations" ng-show="item.consoleName"
+                                     data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                     ng-model="assignableNavigations"
+                                     jqyoui-draggable="{index: {{$index}},animate:true,onDrop: 'removeNavigation'}">
+                                    {{item.consoleName}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -74,6 +71,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-3">
+                                <!--<selectednavigation selected-console="consoleAppList.consoleNavigation"></selectednavigation>-->
                                 <!--<button class="btn btn-default" ng-click="vm.expandAll(vm.data)">Expand All</button>-->
                                 <tree branch="vm.data"></tree>
                             </div>

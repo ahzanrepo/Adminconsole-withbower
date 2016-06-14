@@ -2,27 +2,13 @@
  * Created by Rajinda on 12/31/2015.
  */
 
-mainApp.factory("appAccessManageService", function ($http, $log,authService,baseUrls) {
+mainApp.factory("appAccessManageService", function ($http, $log, authService, baseUrls) {
 
- var getUserList = function () {
+    var getUserList = function () {
 
-    return $http.get(baseUrls.UserServiceBaseUrl+ "Users",
-      {
-        headers:{authorization:authService.GloableToken}
-      }).then(function (response) {
-        if (response.data && response.data.IsSuccess) {
-          return response.data.Result;
-        } else {
-          return {};
-        }
-      });
-  };
-
-    var getOnlineAgents = function () {
-
-        return $http.get(baseUrls.ardsmonitoringBaseUrl+ "MONITORING/resources",
+        return $http.get(baseUrls.UserServiceBaseUrl + "Users",
             {
-                headers:{authorization:authService.GloableToken}
+                headers: {authorization: authService.GloableToken}
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
@@ -32,10 +18,76 @@ mainApp.factory("appAccessManageService", function ($http, $log,authService,base
             });
     };
 
-  return {
-      GetUserList: getUserList,
+    var addSelectedNavigationToUser = function (userName, consoleName, navigationData) {
+///User/:username/Console/:consoleName/Navigation
+        return $http({
+            method: 'put',
+            url: baseUrls.UserServiceBaseUrl + "User/" + userName + "/Console/" + consoleName + "/Navigation",
+            headers: {
+                'authorization': authService.UserService,
+                'Content-Type': 'application/json'
+            },
+            data: {
+                "menuItem": navigationData.menuItem,
+                "menuAction": {
+                    "Navigatione": navigationData.Navigatione,
+                    "read": navigationData.read,
+                    "write": navigationData.write,
+                    "delete": navigationData.delete
+                }
+            }
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
 
+    var DeleteSelectedNavigationFrmUser = function (userName, consoleName, navigation) {
+        //User/:username/Console/:consoleName/Navigation/:navigation
+        return $http({
+            method: 'delete',
+            url: baseUrls.UserServiceBaseUrl + "User/"+userName+"/Console/"+consoleName+"/Navigation/"+navigation,
+            headers: {
+                'authorization': authService.UserService,
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
 
-  }
+    var getNavigationAssignToUser = function (userRole) {
+//http://localhost:3636/DVP/API/1.0.0.0/User/John
+        return $http({
+            method: 'get',
+            url: baseUrls.UserServiceBaseUrl + "User/"+userRole,
+            headers: {
+                'authorization': authService.UserService,
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
+    var getAssignableNavigations = function (userRole) {
+//http://localhost:3636/DVP/API/1.0.0.0/Consoles/admin
+        return $http({
+            method: 'get',
+            url: baseUrls.UserServiceBaseUrl + "Consoles/"+userRole,
+            headers: {
+                'authorization': authService.UserService
+            }
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
+    return {
+        GetUserList: getUserList,
+        AddSelectedNavigationToUser: addSelectedNavigationToUser,
+        DeleteSelectedNavigationFrmUser: DeleteSelectedNavigationFrmUser,//
+        GetNavigationAssignToUser:getNavigationAssignToUser,
+        GetAssignableNavigations:getAssignableNavigations
+    }
 
 });

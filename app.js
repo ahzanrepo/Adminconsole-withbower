@@ -56,7 +56,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('console.applicationAccessManager', {
             url: "/applicationAccessManager",
             templateUrl: "application_access_management/view/appAccessManage.html",
-            controller: "appAccessManageController"
         }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
@@ -110,6 +109,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/applications",
             templateUrl: "views/app-registry/applications.html",
             controller: "applicationController"
+        }).state('console.holdmusic', {
+            url: "/holdmusic",
+            templateUrl: "views/hold-music/holdmusic.html",
+            controller: "holdMusicController"
         })
         ;
     }]);
