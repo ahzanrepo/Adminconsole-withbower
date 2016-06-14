@@ -9,7 +9,7 @@ mainApp.factory('limitBackendService', function ($http) {
         getLimits: function () {
             return $http({
                 method: 'GET',
-                url: 'http://127.0.0.1:8084/DVP/API/1.0.0.0/LimitAPI/Limit/Info',
+                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Limit/Info',
                 headers: {
                     'authorization': authToken
                 }})
@@ -20,7 +20,7 @@ mainApp.factory('limitBackendService', function ($http) {
         saveNewLimit: function (limitInfo) {
             return $http({
                 method: 'POST',
-                url: 'http://127.0.0.1:8084/DVP/API/1.0.0.0/LimitAPI/Limit',
+                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Limit',
                 headers: {
                     'authorization': authToken
                 },
@@ -34,7 +34,7 @@ mainApp.factory('limitBackendService', function ($http) {
         updateMaxLimit: function (limitId,maxLimit) {
             return $http({
                 method: 'PUT',
-                url: 'http://127.0.0.1:8084/DVP/API/1.0.0.0/LimitAPI/Limit/'+limitId+'/Max/'+maxLimit,
+                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Limit/'+limitId+'/Max/'+maxLimit,
                 headers: {
                     'authorization': authToken
                 }
@@ -46,7 +46,7 @@ mainApp.factory('limitBackendService', function ($http) {
         setLimitStatus: function (limitId,status) {
             return $http({
                 method: 'PUT',
-                url: 'http://127.0.0.1:8084/DVP/API/1.0.0.0/LimitAPI/Limit/'+limitId+'/Activate/'+status,
+                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Limit/'+limitId+'/Activate/'+status,
                 headers: {
                     'authorization': authToken
                 }

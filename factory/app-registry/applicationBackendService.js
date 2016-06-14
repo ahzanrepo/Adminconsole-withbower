@@ -9,7 +9,7 @@ mainApp.factory('appBackendService', function ($http) {
         getApplications: function () {
             return $http({
                 method: 'GET',
-                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Applications",
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Applications",
                 headers: {
                     'authorization':authToken
                 }
@@ -141,7 +141,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'GET',
-                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Developers",
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Developers",
                 headers: {
                     'authorization':authToken
                 }
@@ -155,7 +155,7 @@ mainApp.factory('appBackendService', function ($http) {
 
             return $http({
                 method: 'POST',
-                url: "http://127.0.0.1:8016/DVP/API/1.0.0.0/APPRegistry/Application/"+appId+"/AssignToDeveloper/"+devId,
+                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+appId+"/AssignToDeveloper/"+devId,
                 headers: {
                     'authorization':authToken
                 }
