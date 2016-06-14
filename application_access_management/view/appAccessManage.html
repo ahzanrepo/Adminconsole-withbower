@@ -1,13 +1,13 @@
 <div ng-controller="appAccessManageController as vm">
 
 
-    <div class="col-md-12 col-sm-12 col-xs-12">
+    <!--<div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <button ng-click="selectUser(user)" type="button" class="btn btn-round btn-primary"
                     ng-repeat="user in userList">{{user.username}}
             </button>
         </div>
-    </div>
+    </div>-->
 
 
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -26,7 +26,7 @@
 
                 <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 
-                    <div ng-attr-active="active" class="animated rotateInDownLeft col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                    <div ng-disabled="active" class="animated pulse col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
 
                         <div  class="thumbnaildrag" data-drop="true" ng-model='assignedNavigations'
                              data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignedNavigations])'}"

@@ -52,7 +52,13 @@
         $scope.viewProfile = function(username)
         {
             $state.go('console.userprofile', {username: username});
-        }
+        };
+
+        $scope.viewPermissions = function(item)
+        {
+            $state.go('console.applicationAccessManager', {username: item.username,role: item.user_meta.role});
+        };
+
 
 
 

@@ -53,9 +53,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/resources",
             templateUrl: "resource_application/partials/resourceList.html",
             controller: "resourceController"
-        }).state('console.applicationAccessManager', {
+        })/*.state('console.applicationAccessManager', {
             url: "/applicationAccessManager",
-            templateUrl: "application_access_management/view/appAccessManage.html",
+            templateUrl: "application_access_management/view/appAccessManage.html"
+        })*/
+            .state("console.applicationAccessManager", {
+            url: "/applicationAccessManager/:username/:role",
+            templateUrl: "application_access_management/view/appAccessManage.html"
         }).state('login', {
             url: "/login",
             templateUrl: "views/login.html"
