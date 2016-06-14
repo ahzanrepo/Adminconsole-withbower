@@ -109,6 +109,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/applications",
             templateUrl: "views/app-registry/applications.html",
             controller: "applicationController"
+        }).state('console.holdmusic', {
+            url: "/holdmusic",
+            templateUrl: "views/hold-music/holdmusic.html",
+            controller: "holdMusicController"
         })
         ;
     }]);
