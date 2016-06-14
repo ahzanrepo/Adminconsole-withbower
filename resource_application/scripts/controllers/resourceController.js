@@ -51,12 +51,32 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
             if (response.IsSuccess) {
                 $scope.resources.splice(0, 0, response.Result);
             }
+            else {
+                if (response.CustomMessage == "invalid Resource Name.") {
+                    $scope.showAlert("Error", "Error", "ok", "Invalid Resource Name.");
+                }
+            }
 
         }, function (error) {
             $log.debug("GetResources err");
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
         });
 
+    };
+
+    $scope.checkAvailability = function (resource) {
+        resourceService.ResourceNameIsExsists(resource.ResourceName).then(function (response) {
+            if (!response) {
+                $scope.showAlert("Info", "Info", "ok", "Available to Use.");
+            }
+            else {
+                $scope.showAlert("Error", "Error", "ok", "Not Available");
+            }
+
+        }, function (error) {
+            $log.debug("GetResources err");
+            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+        });
     };
 
     $scope.GetResourcesCount = function () {

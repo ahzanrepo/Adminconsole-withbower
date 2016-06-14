@@ -1,15 +1,6 @@
-mainApp.controller("appAccessManageController", function ($scope, appAccessManageService) {
-    /*var vm = this;
-     vm.expandAll = expandAll;
-     vm.data = newItem(0,"Console App Navigation's");
-     var item1 = addChild(vm.data, 1, "ARDS Configurations");
-     /!* item4.isSelected=true;
-     item1.isExpanded = true;*!/
-     var item9 = addChild(item1, 5, "Request Metadata");
-     addChild(item9, 6, "Read");
-     addChild(item9, 7, "Write");
-     addChild(item9, 8, "Delete");*/
+mainApp.controller("appAccessManageController", function ($scope, $filter,$stateParams, appAccessManageService) {
 
+    $scope.active = true;
     /*Load Application list*/
     $scope.showAlert = function (tittle, label, button, content) {
 
@@ -38,13 +29,9 @@ mainApp.controller("appAccessManageController", function ($scope, appAccessManag
         });
 
     };
-    $scope.GetUserList();
+   // $scope.GetUserList();
 
-    $scope.selectedUser = {};
-    $scope.selectUser = function (user) {
-        $scope.selectedUser = user;
-        $scope.GetAssignableNavigations(user.user_meta.role)
-    };
+
 
     $scope.AddClientNavigationToUser = function () {
 
@@ -78,9 +65,10 @@ mainApp.controller("appAccessManageController", function ($scope, appAccessManag
     };
 
     $scope.assignableNavigations = [];
-    $scope.GetAssignableNavigations = function (role) {
+    $scope.GetAssignableNavigations = function (username,role) {
         appAccessManageService.GetAssignableNavigations(role).then(function (response) {
             $scope.assignableNavigations = response;
+            $scope.GetNavigationAssignToUser(username);
         }, function (error) {
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
         });
@@ -89,9 +77,55 @@ mainApp.controller("appAccessManageController", function ($scope, appAccessManag
 
 
     $scope.assignedNavigations = [];
-    $scope.GetNavigationAssignToUser = function () {
-        appAccessManageService.GetNavigationAssignToUser().then(function (response) {
-            $scope.assignedNavigations = response.consoleNavigation.resources;
+    $scope.GetNavigationAssignToUser = function (userName) {
+        appAccessManageService.GetNavigationAssignToUser(userName).then(function (response) {
+            if (response.IsSuccess) {
+
+                angular.forEach(response.Result.client_scopes, function (item) {
+                    var items = $filter('filter')($scope.assignableNavigations, {consoleName: item.consoleName})
+                    if (items) {
+                        var index = $scope.assignableNavigations.indexOf(items[0]);
+                        if (index > -1) {
+                            var temptask = $scope.assignableNavigations[index];
+                            temptask.consoleNavigation.saveItem = {};
+                            temptask.consoleNavigation.saveItem = item.menus;
+                            $scope.assignedNavigations.push(temptask);
+                            $scope.assignableNavigations.splice(index, 1);
+                        }
+                    }
+                });
+                $scope.active = true;
+            }
+
+        }, function (error) {
+            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+        });
+    };
+
+    $scope.assignNavigation = function () {
+        appAccessManageService.AddConsoleToUser($scope.selectedUser, $scope.DragObject.consoleName).then(function (response) {
+            if (!response) {
+                var index = $scope.assignedNavigations.indexOf($scope.DragObject);
+                if (index != -1) {
+                    $scope.assignedNavigations.splice(index, 1);
+                    $scope.assignableNavigations.push($scope.DragObject);
+                }
+            }
+        }, function (error) {
+            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+        });
+    };
+
+    $scope.removeNavigation = function () {
+        appAccessManageService.DeleteConsoleFrmUser($scope.selectedUser, $scope.DragObject.consoleName).then(function (response) {
+            if (!response) {
+                var index = $scope.assignableNavigations.indexOf($scope.DragObject);
+                if (index != -1) {
+                    $scope.assignableNavigations.splice(index, 1);
+                    $scope.assignedNavigations.push($scope.DragObject);
+                }
+
+            }
         }, function (error) {
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
         });
@@ -100,157 +134,26 @@ mainApp.controller("appAccessManageController", function ($scope, appAccessManag
     $scope.DragObject = {};
     $scope.setCurrentDrag = function (item) {
         $scope.DragObject = item;
-
-
+        $scope.showEditWindow = false;
     };
 
+    $scope.showEditWindow = false;
+    $scope.selectedConsole = {};
     $scope.showEditView = function (item) {
-
-
-        vm.data = newItem(0,"Console App Navigation's");
-
-        /*Generate tree*/
-        var id=1;
-        angular.forEach(item.consoleNavigation,function(navigation){
-            var item1 = addChild(vm.data, id, navigation.navigationName);
-            id++;
-            angular.forEach(navigation.resources,function(scopeData){
-                var item9 = addChild(item1, id, scopeData.scopeName);
-                id++;
-                addChild(item9, id, "Read");id++;
-                addChild(item9, id, "Write");id++;
-                addChild(item9, id, "Delete");
-            });
-
-
-        });
-
-        vm.expandAll(vm.data);
-
+        $scope.selectedConsole = item;
+        $scope.showEditWindow = true;
     };
 
-    /*Generate tree*/
-    var vm = this;
-    vm.expandAll = expandAll;
-    vm.data = {};
-    /*vm.data = newItem(0, "Console App Navigation's");
+    $scope.selectedUser = {};
+    $scope.selectUser = function (user,role) {
+        $scope.active = false;
+        $scope.assignedNavigations = [];
+        $scope.selectedUser = user;
+        $scope.showEditWindow = false;
+        $scope.GetAssignableNavigations(user,role);
 
-
-     var id = 1;
-     angular.forEach($scope.consoleAppList.consoleNavigation, function (navigation) {
-     var item1 = addChild(vm.data, id, navigation.navigationName);
-     id++;
-     angular.forEach(navigation.scopes, function (scopeData) {
-     var item9 = addChild(item1, id, scopeData.scopeName);
-     id++;
-     addChild(item9, id, "Read");
-     id++;
-     addChild(item9, id, "Write");
-     id++;
-     addChild(item9, id, "Delete");
-     });
-
-
-     });
-
-     vm.expandAll(vm.data);*/
-
-    function newItem(id, name) {
-        return {
-            id: id,
-            name: name,
-            children: [],
-            isExpanded: false,
-            isSelected: false,
-        };
-    }
-
-    function addChild(parent, id, name) {
-        var child = newItem(id, name);
-        child.parent = parent;
-        parent.children.push(child);
-        return child;
-    }
-
-    function expandAll(root, setting) {
-        if (!setting) {
-            setting = !root.isExpanded;
-        }
-        root.isExpanded = setting;
-        root.children.forEach(function (branch) {
-            expandAll(branch, setting);
-        });
-    }
-
+    };
+    $scope.selectUser($stateParams.username,$stateParams.role);
 });
 
 
-/*
- mainApp.controller("appAccessManageController", function ($scope, $filter, $location, $log, appAccessManageService) {
-
- $scope.vm = {};
- $scope.vm.expandAll = $scope.expandAll;
-
-
- $scope.vm.data = newItem(0,"Portal");
- var item1 = addChild($scope.vm.data, 1, "Search");
- var item2 = addChild($scope.vm.data, 2, "Dashboard");
- var item3 = addChild($scope.vm.data, 3, "Item 3");
- var item4 = addChild($scope.vm.data, 4, "Item 4");
-
- item4.isSelected=true;
- item1.isExpanded = true;
- addChild(item1, 5, "Policy Search.");
- addChild(item1, 6, "Claims Search.");
- addChild(item2, 7, "Underwriter Dashboard.");
- addChild(item2, 8, "Claims Dashboard.");
-
-
- function newItem(id, name) {
- return {
- id: id,
- name: name,
- children: [],
- isExpanded: false,
- isSelected: false,
- };
- }
-
- function addChild(parent, id, name) {
- var child = newItem(id, name);
- child.parent = parent;
- parent.children.push(child);
- return child;
- }
-
- function expandAll(root, setting){
- if(! setting){
- setting = ! root.isExpanded;
- }
- root.isExpanded = setting;
- root.children.forEach(function(branch){
- expandAll(branch, setting);
- });
- }
-
-
- $scope.userList = [];
- $scope.GetUserList = function () {
-
- appAccessManageService.GetUserList().then(function (response) {
- $scope.userList = response;
- }, function (error) {
- $scope.showAlert("Error", "Error", "ok", "There is an error ");
- });
-
- };
- $scope.GetUserList();
-
-
- $scope.userList = [];
- $scope.loadUserData=function(){
-
- };
- });
-
- */
