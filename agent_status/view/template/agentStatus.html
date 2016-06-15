@@ -1,0 +1,45 @@
+<li class="media event "
+    ng-class="{'reserved':profile.slotState=='Reserved',
+                                               'available':profile.slotState=='Available',
+                                               'connected':profile.slotState=='Connected',
+                                                'break':profile.other=='Break'}"
+    >
+    <a class="pull-left border-aero profile_thumb">
+        <i class="fa fa-user font-blue500"></i>
+    </a>
+    <div class="media-body">
+        <a class="title" href="javascript:void(0)">{{profile.name}}</a>
+        <p>{{profile.LastReservedTime}} </p>
+        <p>
+            <small>
+                {{profile.slotState}}
+            </small>
+            <small>
+                {{profile.slotStateTime}}
+            </small>
+<br>
+            Tasks
+            <small ng-repeat="task in profile.taskList">
+                {{task.taskType}}{{task.skill}}{{task.percentage}}
+            </small>
+        </p>
+        <!--Current Call Detail-->
+        <div  ng-repeat="call in callInfos">
+            <small>connect with : {{call["Caller-Caller-ID-Number"]}}</small>
+            <small>Direction : {{call["DVP-Call-Direction"]}}</small>
+            <small>Direction : {{call["DVP-Call-Direction"]}}</small>
+        </div>
+        <!--Productivity-->
+        <div  >
+            <small>AcwTime : {{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
+            <small>BreakTime : {{productivity.BreakTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
+            <small>HoldTime : {{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
+            <small>OnCallTime : {{productivity.OnCallTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
+            <small>IdleTime : {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
+            <small>StaffedTime :{{productivity.StaffedTime | secondsToDateTime | date:'HH:mm:ss'}}</small>
+            <small>IncomingCallCount : {{productivity.IncomingCallCount}}</small>
+            <small>MissCallCount : {{productivity.MissCallCount}}</small>
+            <small>TransferCallCount : {{productivity.TransferCallCount}}</small>
+        </div>
+    </div>
+</li>

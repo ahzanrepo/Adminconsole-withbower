@@ -42,8 +42,8 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         goRingGroup: function () {
             $state.go('console.ringGroup');
         },
-        GoApplicationAccessManager: function () {
-            $state.go('console.applicationAccessManager');
+        goAgentStatus: function () {
+            $state.go('console.AgentStatus');
         }
     };
 
