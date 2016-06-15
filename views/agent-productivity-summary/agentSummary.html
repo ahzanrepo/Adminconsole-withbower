@@ -1,0 +1,147 @@
+<div>
+    <div class="page-title">
+        <div class="title_left">
+            <h3 class="font-robot font-600 ">Agent Summary Report</h3>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 col-sm-12 col-xs-12 animated fadeIn">
+        <div class="row">
+            <div class="x_panel">
+                <div class="x_title bottom-gray-200 m-bottom20">
+                    <h4 class="font-robot font-300 text-uppercase font-15">Search option
+                    </h4>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-sm-3">
+                    <label>Start Date</label>
+                    <input type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()" name="startDate"
+                           datepicker>
+                </div>
+                <div class="col-sm-3">
+                    <label>End Date</label>
+                    <input type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
+                           datepicker>
+                </div>
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-3">
+                    <div class="x_content btn-wrap-header">
+                        <button type="button" class="btn btn-success" ng-click="getAgentSummary()" ng-disabled="!dateValid">
+                            Search
+                        </button>
+                        <!--<button type="button" class="btn btn-primary">Reset</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-main-wrap" ng-if="isTableLoading==0">
+        <div class="row ">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="data-state-wrap">
+                    Please Wait...
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row" ng-if="isTableLoading==1">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" ng-model="searchCriteria" class="form-control"
+                                   placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                        </div>
+                    </div>
+
+                    <div id="datatable-responsive_wrapper"
+                         class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="datatable-responsive"
+                                       class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
+                                       cellspacing="0" width="100%" role="grid"
+                                       aria-describedby="datatable-responsive_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="Call Direction">Agent
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="From">StaffTime
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="To">Date
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">Talk Time
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">Total Answered
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">Average Handling Time
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">Break Time
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">After Work Time
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">Idle Time
+                                        </th>
+
+                                    </thead>
+                                    <tbody>
+                                    <tr role="row" class="odd"
+                                        ng-repeat="agentSummary in agentSummaryList">
+                                        <td>{{agentSummary.Agent}}</td>
+                                        <td>{{agentSummary.StaffTime}}</td>
+                                        <td>{{agentSummary.Date}}</td>
+                                        <td>{{agentSummary.TalkTime}}</td>
+                                        <td>{{agentSummary.TotalAnswered}}</td>
+                                        <td>{{agentSummary.TotalCalls}}</td>
+                                        <td>{{agentSummary.AverageHandlingTime}}</td>
+                                        <td>{{agentSummary.BreakTime}}</td>
+                                        <td>{{agentSummary.AfterWorkTime}}</td>
+                                        <td>{{agentSummary.IdleTime}}</td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!--</div>-->
+    </div>
+
+
+
+</div>

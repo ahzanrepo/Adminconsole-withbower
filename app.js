@@ -93,6 +93,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/call-monitor",
             templateUrl: "views/call-monitor/callMonitor.html",
             controller: "callmonitorcntrl"
+        }).state('console.abandonCdr', {
+            url: "/abandonCallReport",
+            templateUrl: "views/cdr/abandonCallReport.html",
+            controller: "abandonCallCdrCtrl"
         }).state('console.realtime-queued', {
             url: "/realtime-queued",
             templateUrl: "views/real-time/queued.html"
@@ -120,8 +124,20 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/holdmusic",
             templateUrl: "views/hold-music/holdmusic.html",
             controller: "holdMusicController"
-        })
-        ;
+        }).state('console.limits', {
+            url: "/limits",
+            templateUrl: "views/limit/limits.html",
+            controller: "limitController"
+        }).state('console.queuesummary', {
+                url: "/queuesummary",
+                templateUrl: "views/queue-summary/queue-summary.html",
+                controller: "queueSummaryController"
+            }).state('console.agentsummary', {
+                url: "/agentsummary",
+                templateUrl: "views/agent-productivity-summary/agentSummary.html",
+                controller: "agentSummaryController"
+            });
+
     }]);
 
 

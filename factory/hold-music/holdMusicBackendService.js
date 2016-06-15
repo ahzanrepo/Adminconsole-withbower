@@ -9,7 +9,7 @@ mainApp.factory('holdMusicBackendService', function ($http) {
         getHoldMusic: function () {
             return $http({
                 method: 'GET',
-                url: "http://127.0.0.1:9095/DVP/API/1.0.0.0/QueueMusic/Profiles",
+                url: "http://queuemusic.104.131.67.21.xip.io/DVP/API/1.0.0.0/QueueMusic/Profiles",
                 headers: {
                     'authorization':authToken
                 }
@@ -22,7 +22,7 @@ mainApp.factory('holdMusicBackendService', function ($http) {
         getHoldMusicFiles: function () {
             return $http({
                 method: 'GET',
-                url: "http://127.0.0.1:5645/DVP/API/1.0.0.0/FileService/Files?fileCategory=HOLDMUSIC&fileFormat=audio/wav",
+                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/Files?fileCategory=HOLDMUSIC&fileFormat=audio/wav",
                 headers: {
                     'authorization':authToken
                 }
@@ -34,7 +34,7 @@ mainApp.factory('holdMusicBackendService', function ($http) {
         saveHoldMusicFiles: function (resource) {
             return $http({
                 method: 'POST',
-                url: "http://127.0.0.1:9095/DVP/API/1.0.0.0/QueueMusic/Profile",
+                url: "http://queuemusic.104.131.67.21.xip.io/DVP/API/1.0.0.0/QueueMusic/Profile",
                 headers: {
                     'authorization':authToken
                 },
@@ -47,7 +47,7 @@ mainApp.factory('holdMusicBackendService', function ($http) {
         removeHoldMusicFiles: function (resource) {
             return $http({
                 method: 'DELETE',
-                url: "http://127.0.0.1:9095/DVP/API/1.0.0.0/QueueMusic/Profile/"+resource.Name,
+                url: "http://queuemusic.104.131.67.21.xip.io/DVP/API/1.0.0.0/QueueMusic/Profile/"+resource.Name,
                 headers: {
                     'authorization':authToken
                 },
@@ -60,7 +60,7 @@ mainApp.factory('holdMusicBackendService', function ($http) {
         updateHoldMusicFiles: function (resource) {
             return $http({
                 method: 'PUT',
-                url: "http://127.0.0.1:9095/DVP/API/1.0.0.0/QueueMusic/Profile/"+resource.Name,
+                url: "http://queuemusic.104.131.67.21.xip.io/DVP/API/1.0.0.0/QueueMusic/Profile/"+resource.Name,
                 headers: {
                     'authorization':authToken
                 },

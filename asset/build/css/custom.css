@@ -1041,6 +1041,7 @@ h2 {
     -webkit-transition: all .2s ease;
     -ms-transition: all .2s ease;
     transition: all .2s ease;
+    border-radius: 7px;
 }
 
 .x_title {
@@ -2438,13 +2439,13 @@ legend {
 .form-control-feedback {
     margin-top: 8px;
     height: 23px;
-    color: #bbb;
+    color: #f7f7f7;
     line-height: 24px;
     font-size: 15px;
 }
 
 .form-control-feedback.left {
-    border-right: 1px solid #ccc;
+    border-right: 1px solid #f7f7f7;
     left: 13px;
 }
 
@@ -2854,41 +2855,50 @@ span.tag a {
 /** Tabs **/
 ul.bar_tabs {
     overflow: visible;
-    background: #F5F7FA;
+    background: transparent;
     height: 25px;
     margin: 21px 0 14px;
     padding-left: 14px;
     position: relative;
     z-index: 1;
     width: 100%;
-    border-bottom: 1px solid #E6E9ED;
+    border-bottom: 0px solid #E6E9ED;
 }
 
 ul.bar_tabs > li {
-    border: 1px solid #E6E9ED;
+    border: 1px solid transparent;
     color: #333 !important;
     margin-top: -17px;
     margin-left: 8px;
-    background: #fff;
+    background: transparent;
     border-bottom: none;
     border-radius: 4px 4px 0 0;
+
 }
 
 ul.bar_tabs > li.active {
-    border-right: 6px solid #D3D6DA;
+    border-right: 0px solid #D3D6DA;
     border-top: 0;
     margin-top: -15px;
+    background: transparent;
+    border-bottom: 2px solid #f8b01d;
 }
 
 ul.bar_tabs > li a {
     padding: 10px 17px;
-    background: #F5F7FA;
+    background: transparent;
     margin: 0;
     border-top-right-radius: 0;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
+    font-size: 15px;
+    color: #ffffff;
+    text-transform: uppercase;
 }
 
 ul.bar_tabs > li a:hover {
     border: 1px solid transparent;
+    background: transparent;
 }
 
 ul.bar_tabs > li.active a {

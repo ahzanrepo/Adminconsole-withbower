@@ -42,8 +42,29 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         goRingGroup: function () {
             $state.go('console.ringGroup');
         },
-        goAgentStatus: function () {
-            $state.go('console.AgentStatus');
+        GoApplicationAccessManager: function () {
+            $state.go('console.applicationAccessManager');
+        },
+        goRule: function () {
+            $state.go('console.rule');
+        },
+        goAbandonCallList: function () {
+            $state.go('console.abandonCdr');
+        },
+        goApplications: function () {
+            $state.go('console.application');
+        },
+        goHoldMusic: function () {
+            $state.go('console.holdmusic');
+        },
+        goLimits: function () {
+            $state.go('console.limits');
+        },
+        goQueueSummary: function () {
+            $state.go('console.queuesummary');
+        },
+        goAgentSummary: function () {
+            $state.go('console.agentsummary');
         }
     };
 

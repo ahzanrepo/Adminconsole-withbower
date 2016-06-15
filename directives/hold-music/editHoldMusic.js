@@ -119,6 +119,10 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
                 });
             };
 
+            scope.cancelUpdate = function () {
+                scope.editMode = false;
+            }
+
 
         }
 
