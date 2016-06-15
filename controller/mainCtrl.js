@@ -45,6 +45,9 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         GoApplicationAccessManager: function () {
             $state.go('console.applicationAccessManager');
         },
+        goAgentStatus: function () {
+            $state.go('console.AgentStatus');
+        },
         goRule: function () {
             $state.go('console.rule');
         },
