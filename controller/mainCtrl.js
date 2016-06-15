@@ -56,6 +56,12 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         },
         goLimits: function () {
             $state.go('console.limits');
+        },
+        goQueueSummary: function () {
+            $state.go('console.queuesummary');
+        },
+        goAgentSummary: function () {
+            $state.go('console.agentsummary');
         }
     };
 

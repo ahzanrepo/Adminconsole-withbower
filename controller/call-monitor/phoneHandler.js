@@ -5,6 +5,7 @@ var readyCallback = function(e) {
 
 var errorCallback = function(e) {
     // function called when error occured during sipml initialisation.
+    alert("Registration Failed");
     console.log(e);
 };
 
@@ -141,7 +142,7 @@ function createSipStack() {
 
 
 function register() { // register function
-   // alert("Registering....");
+    // alert("Registering....");
     registerSession = sipStack.newSession('register', {
         expires: 300, // expire time, optional
         events_listener: { events: '*', listener: EventListener } /* optional, '*' means all events. */
