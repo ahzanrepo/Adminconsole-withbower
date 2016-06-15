@@ -78,6 +78,10 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
         }
     };
 
+    $scope.cancleEdit = function () {
+        $scope.addNew=false;
+    };
+
 
 
     $scope.GetApplications();
