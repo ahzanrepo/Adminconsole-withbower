@@ -45,8 +45,14 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         GoApplicationAccessManager: function () {
             $state.go('console.applicationAccessManager');
         },
+        goAgentStatus: function () {
+            $state.go('console.AgentStatus');
+        },
         goRule: function () {
             $state.go('console.rule');
+        },
+        goAbandonCallList: function () {
+            $state.go('console.abandonCdr');
         },
         goApplications: function () {
             $state.go('console.application');
@@ -56,6 +62,12 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         },
         goLimits: function () {
             $state.go('console.limits');
+        },
+        goQueueSummary: function () {
+            $state.go('console.queuesummary');
+        },
+        goAgentSummary: function () {
+            $state.go('console.agentsummary');
         }
     };
 

@@ -240,6 +240,11 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
                     }
                 });
             };
+
+            scope.cancelUpdate=function()
+            {
+                scope.editMode=false;
+            };
         }
 
     }
