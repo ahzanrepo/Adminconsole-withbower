@@ -48,6 +48,9 @@ mainApp.controller('mainCtrl', function ($scope, $state) {
         goRule: function () {
             $state.go('console.rule');
         },
+        goAbandonCallList: function () {
+            $state.go('console.abandonCdr');
+        },
         goApplications: function () {
             $state.go('console.application');
         },

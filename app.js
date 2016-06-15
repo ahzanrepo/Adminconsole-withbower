@@ -54,74 +54,78 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "resource_application/partials/resourceList.html",
             controller: "resourceController"
         })/*.state('console.applicationAccessManager', {
-         url: "/applicationAccessManager",
-         templateUrl: "application_access_management/view/appAccessManage.html"
-         })*/
+            url: "/applicationAccessManager",
+            templateUrl: "application_access_management/view/appAccessManage.html"
+        })*/
             .state("console.applicationAccessManager", {
-                url: "/applicationAccessManager/:username/:role",
-                templateUrl: "application_access_management/view/appAccessManage.html"
-            }).state('login', {
-                url: "/login",
-                templateUrl: "views/login.html"
-            }).state("console.cdr", {
-                url: "/cdr",
-                templateUrl: "views/cdr/call-cdr.html"
-            }).state("console.sipuser", {
-                url: "/sipuser",
-                templateUrl: "views/sipuser/sipuser.html",
-                controller: "sipUserCtrl"
-            }).state("console.userprofile", {
-                url: "/userprofile/:username",
-                templateUrl: "views/userprofile/userprofile.html",
-                controller: "userProfileCtrl"
-            }).state("console.users", {
-                url: "/users",
-                templateUrl: "views/user/userList.html",
-                controller: "userListCtrl"
-            }).state("console.pbxuser", {
-                url: "/pbxuser",
-                templateUrl: "views/pbxuser/pbxuser.html",
-                controller: "pbxCtrl"
-            }).state("console.ringGroup", {
-                url: "/ringGroup",
-                templateUrl: "views/ringGroup/ringGroup.html",
-                controller: "ringGroupCtrl"
-            }).state('console.callmonitor', {
-                url: "/call-monitor",
-                templateUrl: "views/call-monitor/callMonitor.html",
-                controller: "callmonitorcntrl"
-            }).state('console.realtime-queued', {
-                url: "/realtime-queued",
-                templateUrl: "views/real-time/queued.html"
-            }).state('console.phone', {
-                url: "/call-phone",
-                templateUrl: "views/call-monitor/phoneWidget.html"
-            }).state('console.rule', {
-                url: "/rule/rules",
-                templateUrl: "views/rule/ruleList.html",
-                controller: "rulelistcontroller"
-            }).state('console.newrule', {
-                url: "/rule/new-rule",
-                templateUrl: "views/rule/newRule.html",
-                controller: "newrulecontroller"
-            }).state('console.editrule', {
-                url: "/rule/edit-rule?id",
-                params: {id: null},
-                templateUrl: "views/rule/newRule.html",
-                controller: "newrulecontroller"
-            }).state('console.application', {
-                url: "/applications",
-                templateUrl: "views/app-registry/applications.html",
-                controller: "applicationController"
-            }).state('console.holdmusic', {
-                url: "/holdmusic",
-                templateUrl: "views/hold-music/holdmusic.html",
-                controller: "holdMusicController"
-            }).state('console.limits', {
-                url: "/limits",
-                templateUrl: "views/limit/limits.html",
-                controller: "limitController"
-            }).state('console.queuesummary', {
+            url: "/applicationAccessManager/:username/:role",
+            templateUrl: "application_access_management/view/appAccessManage.html"
+        }).state('login', {
+            url: "/login",
+            templateUrl: "views/login.html"
+        }).state("console.cdr", {
+            url: "/cdr",
+            templateUrl: "views/cdr/call-cdr.html"
+        }).state("console.sipuser", {
+            url: "/sipuser",
+            templateUrl: "views/sipuser/sipuser.html",
+            controller: "sipUserCtrl"
+        }).state("console.userprofile", {
+            url: "/userprofile/:username",
+            templateUrl: "views/userprofile/userprofile.html",
+            controller: "userProfileCtrl"
+        }).state("console.users", {
+            url: "/users",
+            templateUrl: "views/user/userList.html",
+            controller: "userListCtrl"
+        }).state("console.pbxuser", {
+            url: "/pbxuser",
+            templateUrl: "views/pbxuser/pbxuser.html",
+            controller: "pbxCtrl"
+        }).state("console.ringGroup", {
+            url: "/ringGroup",
+            templateUrl: "views/ringGroup/ringGroup.html",
+            controller: "ringGroupCtrl"
+        }).state('console.callmonitor', {
+            url: "/call-monitor",
+            templateUrl: "views/call-monitor/callMonitor.html",
+            controller: "callmonitorcntrl"
+        }).state('console.abandonCdr', {
+            url: "/abandonCallReport",
+            templateUrl: "views/cdr/abandonCallReport.html",
+            controller: "abandonCallCdrCtrl"
+        }).state('console.realtime-queued', {
+            url: "/realtime-queued",
+            templateUrl: "views/real-time/queued.html"
+        }).state('console.phone', {
+            url: "/call-phone",
+            templateUrl: "views/call-monitor/phoneWidget.html"
+        }).state('console.rule', {
+            url: "/rule/rules",
+            templateUrl: "views/rule/ruleList.html",
+            controller: "rulelistcontroller"
+        }).state('console.newrule', {
+            url: "/rule/new-rule",
+            templateUrl: "views/rule/newRule.html",
+            controller: "newrulecontroller"
+        }).state('console.editrule', {
+            url: "/rule/edit-rule?id",
+            params: {id: null},
+            templateUrl: "views/rule/newRule.html",
+            controller: "newrulecontroller"
+        }).state('console.application', {
+            url: "/applications",
+            templateUrl: "views/app-registry/applications.html",
+            controller: "applicationController"
+        }).state('console.holdmusic', {
+            url: "/holdmusic",
+            templateUrl: "views/hold-music/holdmusic.html",
+            controller: "holdMusicController"
+        }).state('console.limits', {
+            url: "/limits",
+            templateUrl: "views/limit/limits.html",
+            controller: "limitController"
+        }).state('console.queuesummary', {
                 url: "/queuesummary",
                 templateUrl: "views/queue-summary/queue-summary.html",
                 controller: "queueSummaryController"
@@ -130,6 +134,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 templateUrl: "views/agent-productivity-summary/agentSummary.html",
                 controller: "agentSummaryController"
             });
+
     }]);
 
 
