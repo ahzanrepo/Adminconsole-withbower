@@ -13,8 +13,8 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Application Access Manager
-                    <small>owner Name</small>
+                <h2 class="font-robot font-300 text-uppercase font-15">Application Access Manager
+                    <small class="lab-owner">owner Name</small>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="close-link"><i class="fa fa-spinner"></i></a></li>
@@ -23,55 +23,84 @@
             </div>
             <div class="x_content">
                 <br>
-
                 <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-
-                    <div ng-disabled="active" class="animated pulse col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-
-                        <div  class="thumbnaildrag" data-drop="true" ng-model='assignedNavigations'
-                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignedNavigations])'}"
-                             jqyoui-droppable="{multiple:false,onDrop: 'assignNavigation'}">
-                            <div class="caption">
-                                <div ng-dblclick="showEditView(item)" ng-click="setCurrentDrag(item)" class="btn btn-round btn-warning btn-draggable"
-                                     ng-repeat="item in assignedNavigations" ng-show="item.consoleName"
-                                     data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
-                                     ng-model="assignedNavigations"
-                                     jqyoui-draggable="{index: {{$index}},animate:true}">
-                                    {{item.consoleName}}
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <!-- add permission -->
+                            <div class="drop-header">
+                                <i class="fa fa-unlock"></i>
+                                <h2 class="text-center">Access : Permission</h2>
+                            </div>
+                            <div class="thumbnaildrag drop-area-wrap" data-drop="true" ng-model='assignedNavigations'
+                                 data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignedNavigations])'}"
+                                 jqyoui-droppable="{multiple:false,onDrop: 'assignNavigation'}">
+                                <div class="caption">
+                                    <div ng-dblclick="showEditView(item)" ng-click="setCurrentDrag(item)"
+                                         class="btn btn-round
+                                 btn-warning btn-draggable  draggable-item"
+                                         ng-repeat="item in assignedNavigations" ng-show="item.consoleName"
+                                         data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                         ng-model="assignedNavigations"
+                                         jqyoui-draggable="{index: {{$index}},animate:true}">
+                                        {{item.consoleName}}
+                                    </div>
+                                    <div class="drop-area-text" ng-if="assignedNavigations.length==0">
+                                        drop area
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <br>
-
-                        <div class="thumbnaildrag" data-drop="true" ng-model='assignableNavigations'
-                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignableNavigations])'}"
-                             jqyoui-droppable="{multiple:false,onDrop: 'removeNavigation'}">
-                            <div class="caption">
-                                <div ng-click="setCurrentDrag(item)" class="btn btn-round btn-primary btn-draggable"
-                                     ng-repeat="item in assignableNavigations" ng-show="item.consoleName"
-                                     data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
-                                     ng-model="assignableNavigations"
-                                     jqyoui-draggable="{index: {{$index}},animate:true}">
-                                    {{item.consoleName}}
+                        <!-- end -->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <!-- delete permission -->
+                            <div class="drop-header">
+                                <i class="fa fa-lock"></i>
+                                <h2 class="text-center">Access denied : Permissions </h2>
+                            </div>
+                            <div class="thumbnaildrag drop-area-wrap" data-drop="true" ng-model='assignableNavigations'
+                                 data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignableNavigations])'}"
+                                 jqyoui-droppable="{multiple:false,onDrop: 'removeNavigation'}">
+                                <div class="caption">
+                                    <div ng-click="setCurrentDrag(item)" class="btn btn-round btn-primary
+                                 btn-draggable  draggable-item"
+                                         ng-repeat="item in assignableNavigations" ng-show="item.consoleName"
+                                         data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                         ng-model="assignableNavigations"
+                                         jqyoui-draggable="{index: {{$index}},animate:true}">
+                                        {{item.consoleName}}
+                                    </div>
+                                    <div class="drop-area-text" ng-if="assignableNavigations.length==0">
+                                        drop area
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- end -->
+
+                    <!--<div ng-disabled="active" class="form-group has-feedback">-->
+                    <!--<br>-->
+                    <!--</div>-->
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showEditWindow">
+    <div class="col-md-6 col-sm-4 col-xs-12" ng-show="showEditWindow">
         <div class="x_panel">
-            <h2>Console
-                <small>{{DragObject.consoleName}}</small>
+            <h2 class="font-robot font-300 text-uppercase font-15">Console
+                <small class="lab-owner">{{DragObject.consoleName}}</small>
             </h2>
             <div class="x_content">
                 <div class="dashboard-widget-content">
                     <div class="container">
                         <div class="row">
-                            <navigationtree selected-console="selectedConsole" user-name="{{selectedUser.username}}" console-name="{{DragObject.consoleName}}" navigation="item" ng-repeat="item in selectedConsole.consoleNavigation"></navigationtree>
+                            <navigationtree selected-console="selectedConsole"
+                                            user-name="{{selectedUser.username}}"
+                                            console-name="{{DragObject.consoleName}}"
+                                            navigation="item"
+                                            ng-repeat="item in selectedConsole.consoleNavigation">
+                            </navigationtree>
                         </div>
                     </div>
                 </div>
