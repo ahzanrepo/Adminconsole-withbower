@@ -37,7 +37,7 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 var write = addChild(item1, id, "Write");
                 id++;
                 var del = addChild(item1, id, "Delete");
-                if (items) {
+                if (items.length != 0) {
                     var optionSelected = false;
                     angular.forEach(items[0].menuAction, function (action) {
                         read.isSelected = action.read;
