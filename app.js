@@ -90,6 +90,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/call-monitor",
             templateUrl: "views/call-monitor/callMonitor.html",
             controller: "callmonitorcntrl"
+        }).state('console.abandonCdr', {
+            url: "/abandonCallReport",
+            templateUrl: "views/cdr/abandonCallReport.html",
+            controller: "abandonCallCdrCtrl"
         }).state('console.realtime-queued', {
             url: "/realtime-queued",
             templateUrl: "views/real-time/queued.html"
