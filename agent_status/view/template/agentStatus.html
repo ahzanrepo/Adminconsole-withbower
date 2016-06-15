@@ -1,45 +1,134 @@
-<li class="media event "
-    ng-class="{'reserved':profile.slotState=='Reserved',
-                                               'available':profile.slotState=='Available',
-                                               'connected':profile.slotState=='Connected',
-                                                'break':profile.other=='Break'}"
-    >
-    <a class="pull-left border-aero profile_thumb">
-        <i class="fa fa-user font-blue500"></i>
-    </a>
-    <div class="media-body">
-        <a class="title" href="javascript:void(0)">{{profile.name}}</a>
-        <p>{{profile.LastReservedTime}} </p>
-        <p>
-            <small>
-                {{profile.slotState}}
-            </small>
-            <small>
-                {{profile.slotStateTime}}
-            </small>
-<br>
-            Tasks
-            <small ng-repeat="task in profile.taskList">
-                {{task.taskType}}{{task.skill}}{{task.percentage}}
-            </small>
-        </p>
-        <!--Current Call Detail-->
-        <div  ng-repeat="call in callInfos">
-            <small>connect with : {{call["Caller-Caller-ID-Number"]}}</small>
-            <small>Direction : {{call["DVP-Call-Direction"]}}</small>
-            <small>Direction : {{call["DVP-Call-Direction"]}}</small>
+<div class="col-md-4 col-sm-4  widget_tally_box">
+    <div class="x_panel fixed_height_480 agent-main-wrap"
+         ng-class="{'reserved':profile.slotState=='Reserved',
+                    'available':profile.slotState=='Available',
+                    'connected':profile.slotState=='Connected',
+                    'break':profile.other=='Break'}">
+        <div class="x_content">
+            <div class="flex">
+                <ul class="list-inline widget_profile_box">
+                    <li class="slot-state">
+                        {{profile.slotState}}<br/>
+                        {{profile.slotStateTime}}
+                    </li>
+                    <li>
+                        <img src="images/user.png" alt="..."
+                             class="img-circle profile_img boarder-0a">
+                    </li>
+                    <li>
+
+                    </li>
+                </ul>
+            </div>
+            <h3 class="name">{{profile.name}}</h3>
+            <div class="last-reserved-time">
+                <p>Last Reserved Time</p>
+                <small>{{profile.LastReservedTime}}</small>
+            </div>
+            <div class="flex">
+                <ul class="list-inline count2 count3">
+                    <li>
+                        <h3>{{productivity.StaffedTime | secondsToDateTime | date:'HH:mm:ss'}}</h3>
+                        <span> Staffed Time </span>
+                    </li>
+                    <li>
+                        <h3>{{productivity.OnCallTime | secondsToDateTime | date:'HH:mm:ss'}}</h3>
+                        <span>On Call Time</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="call-infos">
+                <!--// ng-repeat="call in callInfos"-->
+                <ul class="list-inline widget_tally" ng-repeat="call in callInfos">
+                    <li>
+                        <p>
+                            <span class="month">connect with</span>
+                            <span class="count">{{call["Caller-Caller-ID-Number"]}</span>
+                            <!--//{{call["Caller-Caller-ID-Number"]}-->
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="month">Direction</span>
+                            <span class="count">{{call["DVP-Call-Direction"]}}</span>
+                            <!--{{call["DVP-Call-Direction"]}}-->
+                        </p>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- task -->
+            <div class="task-wrap" ng-slimscroll
+                 ng-mouseover="viewScroll()"
+                 ng-mouseleave="hideScroll()"
+                 opacity="0.1"
+                 distance="5px"
+                 enabled="{{ scrollEnabled }}"
+                 width="100%">
+                <table class="table table-striped task-tbl">
+                    <thead>
+                    <tr>
+                        <th class="fs15 text-left">Task Type</th>
+                        <th class="fs15 text-right">Skill</th>
+                        <th class="fs15 text-right">Percentage</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="task in profile.taskList">
+                        <td class="text-left">{{task.taskType}}</td>
+                        <td class="fs15 fw700 text-right"> {{task.skill}}</td>
+                        <td class="fs15 fw700 text-right">{{task.percentage}}%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- other details -->
+            <div class="other-agent-details"
+
+                 ng-mouseover="viewOtherScroll()"
+                 ng-mouseleave="hideOtherScroll()"
+            >
+                <div class="col-md-4 tile">
+                    <span>Miss Call </span>
+                    <h2> {{productivity.MissCallCount}}</h2>
+                </div>
+                <div class="col-md-4 tile">
+                    <span>Incoming Call </span>
+                    <h2> {{productivity.IncomingCallCount}}</h2>
+                </div>
+                <div class="col-md-4 tile">
+                    <span>Transfer Call </span>
+                    <h2> {{productivity.TransferCallCount}}</h2>
+                </div>
+                <div class="col-md-4 tile">
+                    <span>Acw Time</span>
+                    <h2>{{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</h2>
+                </div>
+                <div class="col-md-4 tile">
+                    <span>Hold Time</span>
+                    <h2>{{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</h2>
+                </div>
+                <div class="col-md-4 tile">
+                    <span>Idle Time</span>
+                    <h2> {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</h2>
+                </div>
+                <div class="col-md-4 tile">
+                    <span>Break Time</span>
+                    <h2>{{productivity.BreakTime | secondsToDateTime | date:'HH:mm:ss'}}</h2>
+                </div>
+
+
+            </div>
         </div>
-        <!--Productivity-->
-        <div  >
-            <small>AcwTime : {{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
-            <small>BreakTime : {{productivity.BreakTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
-            <small>HoldTime : {{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
-            <small>OnCallTime : {{productivity.OnCallTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
-            <small>IdleTime : {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</small>
-            <small>StaffedTime :{{productivity.StaffedTime | secondsToDateTime | date:'HH:mm:ss'}}</small>
-            <small>IncomingCallCount : {{productivity.IncomingCallCount}}</small>
-            <small>MissCallCount : {{productivity.MissCallCount}}</small>
-            <small>TransferCallCount : {{productivity.TransferCallCount}}</small>
-        </div>
+
+
     </div>
-</li>
+</div>
+
+
+
+
+
+

@@ -1,7 +1,7 @@
-mainApp.controller("agentStatusController", function ($scope, $filter, $stateParams, $timeout,$log, agentStatusService) {
+mainApp.controller("agentStatusController", function ($scope, $filter, $stateParams, $timeout, $log, agentStatusService) {
 
     $scope.productivity = [];
-    $scope.Productivitys=[];
+    $scope.Productivitys = [];
     $scope.GetProductivity = function () {
         agentStatusService.GetProductivity().then(function (response) {
             $scope.productivity = response;
@@ -81,80 +81,78 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
         agentStatusService.GetProfileDetails().then(function (response) {
             $scope.profile = response;
             /*$scope.profile = [];
-            if (response.length > 0) {
-                angular.forEach(response,function(resItem){
-                    var profile = {
-                        name: '',
-                        slotState: null,
-                        LastReservedTime: 0,
-                        other: null,
-                        slotStateTime: 0,
-                    };
+             if (response.length > 0) {
+             angular.forEach(response,function(resItem){
+             var profile = {
+             name: '',
+             slotState: null,
+             LastReservedTime: 0,
+             other: null,
+             slotStateTime: 0,
+             };
 
-                    profile.name = resItem.ResourceName;
-                    if (resItem.ConcurrencyInfo.length > 0 &&
-                        resItem.ConcurrencyInfo[0].SlotInfo.length > 0) {
+             profile.name = resItem.ResourceName;
+             if (resItem.ConcurrencyInfo.length > 0 &&
+             resItem.ConcurrencyInfo[0].SlotInfo.length > 0) {
 
-                        // is user state Reason
-                        var resonseStatus = null,
-                            resonseAvailability = null;
-                        if (resItem.Status.Reason && resItem.Status.State) {
-                            resonseAvailability = resItem.Status.State;
-                            resonseStatus = resItem.Status.Reason;
-                        }
-
-
-                        var reservedDate = resItem.ConcurrencyInfo[0].
-                            SlotInfo[0].StateChangeTime;
-
-                        if (resonseAvailability == "NotAvailable") {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Break";
-                            reservedDate = resItem.Status.StateChangeTime;
-                        } else {
-                            profile.slotState = resItem.ConcurrencyInfo[0].SlotInfo[0].State;
-
-                            if (resItem.ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
-
-                                reservedDate = resItem.Status.StateChangeTime;
-                            }
-                        }
+             // is user state Reason
+             var resonseStatus = null,
+             resonseAvailability = null;
+             if (resItem.Status.Reason && resItem.Status.State) {
+             resonseAvailability = resItem.Status.State;
+             resonseStatus = resItem.Status.Reason;
+             }
 
 
-                        if (reservedDate == "") {
-                            profile.LastReservedTime = null;
-                        } else {
-                            profile.LastReservedTime = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
-                            profile.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
-                        }
+             var reservedDate = resItem.ConcurrencyInfo[0].
+             SlotInfo[0].StateChangeTime;
 
-                        /!* Set Task Info*!/
-                        profile.taskList = [];
-                        angular.forEach(resItem.ResourceAttributeInfo, function (item) {
-                            try {
-                                var task = {};
-                                task.taskType = item.HandlingType;
-                                task.percentage = item.Percentage;
-                                var data = $filter('filter')($scope.attributesList, {AttributeId: item.Attribute});
-                                if (data.length > 0)
-                                    task.skill = data[0].Attribute;
-                                profile.taskList.push(task);
-                            }
-                            catch (ex) {
-                                console.info(ex);
-                            }
-                        });
-                        /!* Set Task Info*!/
+             if (resonseAvailability == "NotAvailable") {
+             profile.slotState = resonseStatus;
+             profile.other = "Break";
+             reservedDate = resItem.Status.StateChangeTime;
+             } else {
+             profile.slotState = resItem.ConcurrencyInfo[0].SlotInfo[0].State;
 
-                        $scope.profile.push(profile);
-                    }
-                });
+             if (resItem.ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
 
-            }*/
+             reservedDate = resItem.Status.StateChangeTime;
+             }
+             }
+
+
+             if (reservedDate == "") {
+             profile.LastReservedTime = null;
+             } else {
+             profile.LastReservedTime = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
+             profile.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
+             }
+
+             /!* Set Task Info*!/
+             profile.taskList = [];
+             angular.forEach(resItem.ResourceAttributeInfo, function (item) {
+             try {
+             var task = {};
+             task.taskType = item.HandlingType;
+             task.percentage = item.Percentage;
+             var data = $filter('filter')($scope.attributesList, {AttributeId: item.Attribute});
+             if (data.length > 0)
+             task.skill = data[0].Attribute;
+             profile.taskList.push(task);
+             }
+             catch (ex) {
+             console.info(ex);
+             }
+             });
+             /!* Set Task Info*!/
+
+             $scope.profile.push(profile);
+             }
+             });
+
+             }*/
         });
     };
-
-
 
 
     var getAllRealTime = function () {
@@ -164,6 +162,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 
+    //getAllRealTime();
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
     $scope.$on("$destroy", function () {
@@ -173,6 +172,41 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
     });
 
     $scope.refreshTime = 10000;
+
+    $scope.showAlert = function (tittle, label, button, content) {
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'notice',
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
+
+    //update damith
+    $scope.viewScroll = function () {
+        $scope.safeApply(function () {
+            $scope.scrollEnabled = true;
+        });
+
+    };
+    $scope.hideScroll = function () {
+        $scope.safeApply(function () {
+            $scope.scrollEnabled = false;
+        });
+    };
+
+
 });
 
 
