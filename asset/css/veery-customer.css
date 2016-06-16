@@ -1575,21 +1575,30 @@ ul > li.presentation > a {
 }
 
 ul.widget_profile_box li .profile_img {
-    margin-left: 58px;
+    /*margin: 20px auto;*/
+    text-align: center;
+    /*margin-left: 58px;*/
+    position: relative !important;
 }
 
 .fixed_height_480 {
     height: 650px;
 }
 
+.widget_profile_box {
+    width: 100%;
+    height: 45px;
+    margin-top: 40px;
+}
+
 /*Reserved*/
 .agent-main-wrap.reserved > .x_content >
-div > ul.widget_profile_box {
+div > div > .widget_profile_box {
     background: #2ba89c;
 }
 
 .agent-main-wrap.reserved > .x_content >
-div > ul > li > .img-circle.profile_img {
+div > div > .widget_profile_box > div > div > .profile_img {
     background: #f8b01d;
 }
 
@@ -1649,17 +1658,18 @@ div > ul.count3 > li > span {
     font-family: 'Roboto', sans-serif !important;
     color: #2ba89c !important;
 }
+
 /*end  Reserved*/
 
 /*Available*/
 .agent-main-wrap.available > .x_content >
-div > ul.widget_profile_box {
+div > div > .widget_profile_box {
     background: #114858;
 }
 
 .agent-main-wrap.available > .x_content >
-div > ul > li > .img-circle.profile_img {
-    background: #114858;
+div > div > .widget_profile_box > div > div > .profile_img {
+    background: #2ba89c;
 }
 
 .agent-main-wrap.available > .x_content >
@@ -1718,17 +1728,23 @@ div > ul.count3 > li > span {
     font-family: 'Roboto', sans-serif !important;
     color: #114858 !important;
 }
+
 /*end Available*/
 
 /*break*/
 .agent-main-wrap.break > .x_content >
-div > ul.widget_profile_box {
+div > div > .widget_profile_box {
     background: #db4114;
 }
 
 .agent-main-wrap.break > .x_content >
-div > ul > li > .img-circle.profile_img {
+div > div > .widget_profile_box > div > div > .profile_img {
     background: #114858;
+}
+
+.widget_profile_box > div > .slot-state {
+    color: #ffffff;
+    padding-top: 3px;
 }
 
 .agent-main-wrap.break > .x_content >
@@ -1771,7 +1787,91 @@ div.last-reserved-time > small {
     font-weight: 600;
     color: #114858;
 }
+
 /*end break*/
+
+/*Connected */
+.agent-main-wrap.connected > .x_content >
+div > div > .widget_profile_box {
+    background: #049b4d;
+}
+
+.agent-main-wrap.connected > .x_content >
+div > div > .widget_profile_box > div > div > .profile_img {
+    background: #264f7f;
+}
+
+.agent-main-wrap.connected > .x_content >
+h3.name {
+    margin-bottom: 5px;
+    color: #264f7f;
+}
+
+.agent-main-wrap.connected > .x_content >
+div > ul > li.slot-state {
+    color: #264f7f;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    font-size: 12px;
+    padding-top: 3px
+}
+
+.agent-main-wrap.connected > .x_content >
+h3.name {
+    margin-bottom: 5px;
+    color: #264f7f;
+}
+
+.agent-main-wrap.connected > .x_content >
+div > ul > li.slot-state {
+    color: #f8b01d;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    font-size: 12px;
+    padding-top: 3px
+}
+
+.agent-main-wrap.connected > .x_content >
+div.last-reserved-time > p {
+    margin-bottom: 2px;
+    font-family: 'Roboto', sans-serif !important;
+    color: #2ba89c;
+}
+
+.agent-main-wrap.connected > .x_content >
+div.last-reserved-time > small {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #114858;
+}
+
+.agent-main-wrap.connected > .x_content >
+div > ul.count3 > li > h3 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #2ba89c;
+}
+
+.agent-main-wrap.connected > .x_content >
+div > ul.count3 > li > span {
+    font-family: 'Roboto', sans-serif !important;
+    color: #114858 !important;
+}
+
+.agent-main-wrap.connected > .x_content >
+div > ul.count3 > li > h3 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #049b4d;
+}
+
+.agent-main-wrap.connected > .x_content >
+div > ul.count3 > li > span {
+    font-family: 'Roboto', sans-serif !important;
+    color: #264f7f;
+}
+
+/*end Connected*/
 
 ul.count3 li {
     width: 48%;
@@ -1835,4 +1935,37 @@ ul.count2 {
     font-size: 12px;
 }
 
+.img-circle.profile_img {
+    width: 100px;
+    position: inherit;
+    margin-top: 0;
+}
 
+.img-circle.profile_img {
+    margin-left: 0px;
+}
+
+.widget_tally_box .name {
+    text-align: center;
+    margin: 20px;
+}
+
+.connected-caller > small {
+    font-size: 15px;
+    color: #f8b01d !important;
+}
+
+/*agent table view */
+.agent-tbl-header {
+    background: #f7f7f7;
+    padding: 12px 5px 30px 5px;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.agent-tbl-view {
+    padding: 12px 5px 30px 5px;
+    margin-top: 5px;
+}

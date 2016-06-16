@@ -17,7 +17,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
 mainApp.constant('moment', moment);
 
 var baseUrls = {
-    'monitorrestapi':'http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/',
+    'monitorrestapi': 'http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/',
     'UserServiceBaseUrl': 'http://localhost:3636/DVP/API/1.0.0.0/',
     'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
@@ -59,7 +59,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('console.AgentStatus', {
             url: "/AgentStatus",
             templateUrl: "agent_status/view/agentStatusList.html",
-            controller:"agentStatusController"
+            controller: "agentStatusController"
         }).state("console.applicationAccessManager", {
             url: "/applicationAccessManager/:username/:role",
             templateUrl: "application_access_management/view/appAccessManage.html"
@@ -129,14 +129,18 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "views/limit/limits.html",
             controller: "limitController"
         }).state('console.queuesummary', {
-                url: "/queuesummary",
-                templateUrl: "views/queue-summary/queue-summary.html",
-                controller: "queueSummaryController"
-            }).state('console.agentsummary', {
-                url: "/agentsummary",
-                templateUrl: "views/agent-productivity-summary/agentSummary.html",
-                controller: "agentSummaryController"
-            });
+            url: "/queuesummary",
+            templateUrl: "views/queue-summary/queue-summary.html",
+            controller: "queueSummaryController"
+        }).state('console.agentsummary', {
+            url: "/agentsummary",
+            templateUrl: "views/agent-productivity-summary/agentSummary.html",
+            controller: "agentSummaryController"
+        }).state('console.AgentTblList', {
+            url: "/AgentTblList",
+            templateUrl: "agent_status/view/agentStatusTblList.html",
+            controller: "agentStatusController"
+        })
 
     }]);
 

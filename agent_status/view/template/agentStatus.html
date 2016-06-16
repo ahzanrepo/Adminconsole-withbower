@@ -6,25 +6,56 @@
                     'break':profile.other=='Break'}">
         <div class="x_content">
             <div class="flex">
-                <ul class="list-inline widget_profile_box">
-                    <li class="slot-state">
-                        {{profile.slotState}}<br/>
-                        {{profile.slotStateTime}}
-                    </li>
-                    <li>
-                        <img src="images/user.png" alt="..."
-                             class="img-circle profile_img boarder-0a">
-                    </li>
-                    <li>
 
-                    </li>
-                </ul>
+                <div class="col-lg-12 ">
+                    <div class="list-inline widget_profile_box">
+                        <div class="col-md-4">
+                            <div class="slot-state">
+                                {{profile.slotState}}<br/>
+                                {{profile.slotStateTime}}
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="margin-top: -28px;">
+                            <div class="text-center">
+                                <img src="images/user.png" alt="..."
+                                     class="img-circle profile_img boarder-0a">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-right">
+                                <!--Caller <br/>-->
+                                <!--{{call["Caller-Caller-ID-Number"]}}-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<ul class="list-inline widget_profile_box">-->
+                <!--<li class="slot-state" style="width: 77px;">-->
+                <!--
+                <!--</li>-->
+                <!--<li>-->
+                <!--<img src="images/user.png" alt="..."-->
+                <!--class="img-circle profile_img boarder-0a">-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<li ng-repeat="call in callInfos">-->
+                <!--Caller <br/>-->
+                <!--{{call["Caller-Caller-ID-Number"]}}-->
+                <!--</li>-->
+
+                <!--</li>-->
+                <!--</ul>-->
             </div>
             <h3 class="name">{{profile.name}}</h3>
-            <div class="last-reserved-time">
+            <div class="last-reserved-time connected-caller" ng-repeat="call in callInfos" ng-if="callInfos.length!=0">
+                <p>Caller</p>
+                <small>{{call["Caller-Caller-ID-Number"]}}</small>
+            </div>
+            <div class="last-reserved-time" ng-if="callInfos.length==0">
                 <p>Last Reserved Time</p>
                 <small>{{profile.LastReservedTime}}</small>
             </div>
+
             <div class="flex">
                 <ul class="list-inline count2 count3">
                     <li>
@@ -38,25 +69,6 @@
                 </ul>
             </div>
 
-            <div class="call-infos">
-                <!--// ng-repeat="call in callInfos"-->
-                <ul class="list-inline widget_tally" ng-repeat="call in callInfos">
-                    <li>
-                        <p>
-                            <span class="month">connect with</span>
-                            <span class="count">{{call["Caller-Caller-ID-Number"]}</span>
-                            <!--//{{call["Caller-Caller-ID-Number"]}-->
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <span class="month">Direction</span>
-                            <span class="count">{{call["DVP-Call-Direction"]}}</span>
-                            <!--{{call["DVP-Call-Direction"]}}-->
-                        </p>
-                    </li>
-                </ul>
-            </div>
 
             <!-- task -->
             <div class="task-wrap" ng-slimscroll
