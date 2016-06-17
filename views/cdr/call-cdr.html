@@ -15,11 +15,12 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <div class="col-sm-3">
+                <div class="col-md-3 col-sm-3 col-xs-12">
                     <label>Start Date</label>
                     <input type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()" name="startDate"
                            datepicker>
                 </div>
+
                 <div class="col-sm-3">
                     <label>End Date</label>
                     <input type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
@@ -45,6 +46,42 @@
                         <button type="button" class="btn btn-primary">Reset</button>
                     </div>
                 </div>
+                <div class="clearfix"></div>
+
+
+                <time-picker ng-model="startTime"></time-picker>
+
+
+                <!--<div class="col-md-2 col-sm-2 col-xs-6">
+                    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                        <label>HH</label>
+                        <input type="text" class="form-control"
+                               ng-model="startHr" ng-change="onChangeHr('START')"
+                               name="startHr" maxlength="2" ng-init="startHr='00'"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
+                        <label>MM</label>
+                        <input type="text" class="form-control"
+                               ng-model="startMin"
+                               name="startMin" maxlength="2" ng-init="startMin='00'" ng-change="onChangeMin('START')"/>
+                    </div>
+
+                </div>-->
+
+                <div class="col-md-1 col-sm-1 col-xs-1"></div>
+                <time-picker ng-model="endTime"></time-picker>
+                <!--<div class="col-md-1 col-sm-1 col-xs-3 form-group">
+                    <label>HH</label>
+                    <input type="text" class="form-control"
+                           ng-model="endHr"
+                           name="endHr" maxlength="2" ng-init="endHr='00'" ng-change="onChangeHr('END')"/>
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-3 form-group">
+                    <label>MM</label>
+                    <input type="text" class="form-control"
+                           ng-model="endMin"
+                           name="endMin" maxlength="2" ng-init="endMin='00'" ng-change="onChangeMin('END')"/>
+                </div>-->
             </div>
         </div>
     </div>
