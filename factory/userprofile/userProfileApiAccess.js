@@ -6,12 +6,12 @@
 
     var userProfileApiAccess = function($http)
     {
-        var authToken = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkaW51c2hhZGNrIiwianRpIjoiMjViZjZmZTItZjZjNC00ZWJhLWFmODgtNmMxNjIxOTU4OGRiIiwic3ViIjoiNTZhOWU3NTlmYjA3MTkwN2EwMDAwMDAxMjVkOWU4MGI1YzdjNGY5ODQ2NmY5MjExNzk2ZWJmNDMiLCJleHAiOjE4OTI0NDE2NzIsInRlbmFudCI6MSwiY29tcGFueSI6Mywic2NvcGUiOlt7InJlc291cmNlIjoiYWxsIiwiYWN0aW9ucyI6ImFsbCJ9XSwiaWF0IjoxNDYwNDM4MDcyfQ.aPoVPiTtoGFgnKmhdLBTzwTrQRTGWWliYujHP5NONqU';
+        var authToken = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3YXJ1bmEiLCJqdGkiOiJhNmE4MzliMS1iYzYyLTQ4ZGEtOTA2OS01NzFiZWIzOWE4ZmIiLCJzdWIiOiJBY2Nlc3MgY2xpZW50IiwiZXhwIjoxNDY2NzYxMjkwLCJ0ZW5hbnQiOjEsImNvbXBhbnkiOjI0LCJhdWQiOiJteWFwcCIsImNvbnRleHQiOnt9LCJzY29wZSI6W3sicmVzb3VyY2UiOiJhcmRzcmVzb3VyY2UiLCJhY3Rpb25zIjpbInJlYWQiLCJ3cml0ZSIsImRlbGV0ZSJdfSx7InJlc291cmNlIjoiYXJkc3JlcXVlc3QiLCJhY3Rpb25zIjpbInJlYWQiLCJ3cml0ZSIsImRlbGV0ZSJdfSx7InJlc291cmNlIjoidXNlciIsImFjdGlvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl19LHsicmVzb3VyY2UiOiJ1c2VyUHJvZmlsZSIsImFjdGlvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl19LHsicmVzb3VyY2UiOiJvcmdhbmlzYXRpb24iLCJhY3Rpb25zIjpbInJlYWQiLCJ3cml0ZSJdfSx7InJlc291cmNlIjoicmVzb3VyY2UiLCJhY3Rpb25zIjpbInJlYWQiXX0seyJyZXNvdXJjZSI6InBhY2thZ2UiLCJhY3Rpb25zIjpbInJlYWQiXX0seyJyZXNvdXJjZSI6ImNvbnNvbGUiLCJhY3Rpb25zIjpbInJlYWQiXX0seyJyZXNvdXJjZSI6InVzZXJTY29wZSIsImFjdGlvbnMiOlsicmVhZCIsIndyaXRlIiwiZGVsZXRlIl19LHsicmVzb3VyY2UiOiJ1c2VyQXBwU2NvcGUiLCJhY3Rpb25zIjpbInJlYWQiLCJ3cml0ZSIsImRlbGV0ZSJdfSx7InJlc291cmNlIjoidXNlck1ldGEiLCJhY3Rpb25zIjpbInJlYWQiLCJ3cml0ZSIsImRlbGV0ZSJdfSx7InJlc291cmNlIjoidXNlckFwcE1ldGEiLCJhY3Rpb25zIjpbInJlYWQiLCJ3cml0ZSIsImRlbGV0ZSJdfSx7InJlc291cmNlIjoiY2xpZW50IiwiYWN0aW9ucyI6WyJyZWFkIiwid3JpdGUiLCJkZWxldGUiXX0seyJyZXNvdXJjZSI6ImNsaWVudFNjb3BlIiwiYWN0aW9ucyI6WyJyZWFkIiwid3JpdGUiLCJkZWxldGUiXX0seyJyZXNvdXJjZSI6InN5c21vbml0b3JpbmciLCJhY3Rpb25zIjpbInJlYWQiXX0seyJyZXNvdXJjZSI6ImRhc2hib2FyZGV2ZW50IiwiYWN0aW9ucyI6WyJyZWFkIl19LHsicmVzb3VyY2UiOiJkYXNoYm9hcmRncmFwaCIsImFjdGlvbnMiOlsicmVhZCJdfV0sImlhdCI6MTQ2NjE1NjQ5MH0.gpRVdXlv9ideKcCxZX4jUGEBXKS7ew_sHm0QSzVT7gI';
         var getProfileByName = function(user)
         {
             return $http({
                 method: 'GET',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile',
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + user + '/profile',
                 headers: {
                     'authorization': authToken
                 }
@@ -25,7 +25,7 @@
         {
             return $http({
                 method: 'GET',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/Users',
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Users',
                 headers: {
                     'authorization': authToken
                 }
@@ -39,7 +39,7 @@
         {
             return $http({
                 method: 'PUT',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
                 headers: {
                     'authorization': authToken
                 },
@@ -57,7 +57,7 @@
             var jsonStr = JSON.stringify(userObj);
             return $http({
                 method: 'POST',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User',
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User',
                 headers: {
                     'authorization': authToken
                 },
@@ -75,7 +75,7 @@
 
             return $http({
                     method: 'PUT',
-                    url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile',
+                    url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + user + '/profile',
                     headers: {
                         'authorization': authToken
                     },
@@ -90,7 +90,7 @@
         {
             return $http({
                 method: 'DELETE',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
                 headers: {
                     'authorization': authToken
                 }
@@ -104,7 +104,7 @@
         {
             return $http({
                 method: 'DELETE',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + username,
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + username,
                 headers: {
                     'authorization': authToken
                 }

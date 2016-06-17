@@ -19,6 +19,7 @@
         };
 
         $scope.newUser = {};
+        $scope.newUser.title = 'mr';
         $scope.NewUserLabel = "+";
 
         $scope.searchCriteria = "";

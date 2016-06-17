@@ -30,11 +30,34 @@
                                    ng-model="newUser.password">
                             <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
                         </div>
+
                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                            <input type="text" class="form-control has-feedback-left" placeholder="Nick Name"
-                                   ng-model="newUser.name">
+                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                                    placeholder="Role" name="role" ng-model="newUser.role">
+                                <option value="admin">Admin</option>
+                                <option value="agent">Agent</option>
+                                <option value="supervisor">Supervisor</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                                    placeholder="Title" name="title" ng-model="newUser.title">
+                                <option value="mr">Mr</option>
+                                <option value="mrs">Mrs</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" placeholder="First Name"
+                                   ng-model="newUser.firstname">
                             <span class="fa fa-meh-o form-control-feedback left" aria-hidden="true"></span>
                         </div>
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left" placeholder="Last Name"
+                                   ng-model="newUser.lastname">
+                            <span class="fa fa-meh-o form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                             <input type="text" class="form-control has-feedback-left" placeholder="E-mail Address"
                                    ng-model="newUser.mail">
@@ -46,12 +69,9 @@
                             <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
-                                    placeholder="Role" name="role" ng-model="newUser.role">
-                                <option value="admin">Admin</option>
-                                <option value="agent">Agent</option>
-                                <option value="supervisor">Supervisor</option>
-                            </select>
+                            <input type="text" class="form-control has-feedback-left" placeholder="Nick Name"
+                                   ng-model="newUser.name">
+                            <span class="fa fa-meh-o form-control-feedback left" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                             <button class="btn btn-success" ng-click="addNewUser()"

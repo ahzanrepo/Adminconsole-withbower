@@ -10,7 +10,6 @@
 
         var getCDRForTimeRange = function(startDate, endDate, limit, offsetId)
         {
-
             var url = 'http://cdrprocessor.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallCDR/GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if(offsetId)
