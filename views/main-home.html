@@ -1,6 +1,6 @@
 <div class="container body" ng-controller="mainCtrl">
     <div class="main_container">
-        <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col menu_fixed">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="index.html" class="site_title">
@@ -49,23 +49,44 @@
                             <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Utility <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goFilegallery()">File Gallery </a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goFileupload()">File Upload</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goSipUser()">SIP User</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goRingGroup()">Ring Group</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goFilegallery()">File
+                                        Gallery </a></li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goFileupload()">File
+                                        Upload</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goSipUser()">SIP User</a>
+                                    </li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goRingGroup()">Ring
+                                        Group</a></li>
                                     <li><a href="javascript:void(0);" ng-click="clickDirective.goUsers()">Users</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goApplications()">Applications</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goApplications()">Applications</a>
+                                    </li>
                                     <li><a href="javascript:void(0);" ng-click="clickDirective.goRule()">Rules</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goHoldMusic()">Hold Music</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goLimits()">Limits</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goHoldMusic()">Hold
+                                        Music</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goLimits()">Limits</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> User <span
+                                    class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAttributeList()">Attributes </a>
+                                    </li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goResourceList()">Resources</a>
+                                    </li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAgentStatus()">Agent
+                                        Status</a></li>
                                 </ul>
                             </li>
                             <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Request Router <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAttributeList()">Attributes </a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goResourceList()">Resources</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAgentStatus()">Agent Status</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAttributeList()">Attributes </a>
+                                    </li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goResourceList()">Resources</a>
+                                    </li>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAgentStatus()">Agent
+                                        Status</a></li>
                                 </ul>
                             </li>
 
@@ -79,11 +100,14 @@
                                 <ul class="nav child_menu">
                                     <li><a href="javascript:void(0);" ng-click="clickDirective.goCdrReport()">CDR</a>
                                     </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAbandonCallList()">Abandon Call Report</a>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAbandonCallList()">Abandon
+                                        Call Report</a>
                                     </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goQueueSummary()">Queue Summary</a>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goQueueSummary()">Queue
+                                        Summary</a>
                                     </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAgentSummary()">Agent productivity Summary</a>
+                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAgentSummary()">Agent
+                                        productivity Summary</a>
                                 </ul>
                             </li>
 

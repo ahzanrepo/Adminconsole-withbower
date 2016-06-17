@@ -10,7 +10,7 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
             resItem: '=',
             attributesList: '=',
             activeCallList: '=',
-            productivityList:'='
+            productivityList: '='
         },
 
         templateUrl: 'agent_status/view/template/agentStatus.html',
@@ -127,19 +127,56 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
             });
 
             /* Set ConcurrencyInfo*/
+
+            /*update damith */
+            scope.safeApply = function (fn) {
+                var phase = this.$root.$$phase;
+                if (phase == '$apply' || phase == '$digest') {
+                    if (fn && (typeof(fn) === 'function')) {
+                        fn();
+                    }
+                } else {
+                    this.$apply(fn);
+                }
+            };
+            scope.scrollEnabled = false;
+            scope.viewScroll = function () {
+                scope.safeApply(function () {
+                    scope.scrollEnabled = true;
+                });
+
+            };
+            scope.hideScroll = function () {
+                scope.safeApply(function () {
+                    scope.scrollEnabled = false;
+                });
+            };
+
+            scope.scrollOtherEnabled = false;
+            scope.viewOtherScroll = function () {
+                scope.safeApply(function () {
+                    scope.scrollOtherEnabled = true;
+                });
+
+            };
+            scope.hideOtherScroll = function () {
+                scope.safeApply(function () {
+                    scope.scrollOtherEnabled = false;
+                });
+            };
         }
 
     }
 });
 
-mainApp.filter('secondsToDateTime', [function() {
-    return function(seconds) {
+mainApp.filter('secondsToDateTime', [function () {
+    return function (seconds) {
         return new Date(1970, 0, 1).setSeconds(seconds);
     };
 }]);
 
-mainApp.filter('millisecondsToDateTime', [function() {
-    return function(seconds) {
+mainApp.filter('millisecondsToDateTime', [function () {
+    return function (seconds) {
         return new Date(1970, 0, 1).setMilliseconds(seconds);
     };
 }]);

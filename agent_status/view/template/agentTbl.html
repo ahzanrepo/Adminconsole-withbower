@@ -1,0 +1,45 @@
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
+        <div class="agent-tbl-header">
+            <div class="col-md-3">
+                User
+            </div>
+            <div class="col-md-2">
+                State
+            </div>
+            <div class="col-md-3">
+                Time
+            </div>
+            <div class="col-md-2">
+                Task
+            </div>
+            <div class="col-md-2">
+                from
+            </div>
+        </div>
+        <div ng-repeat="pro in profile">
+            <div class="agent-tbl-view"
+                 ng-class="{'reserved':pro.Status.State=='Reserved',
+                    'available':pro.Status.State=='Available',
+                    'connected':pro.Status.State=='Connected',
+                    'break':pro.Status.State=='Break'}">
+                <div class="col-md-3">
+                    {{pro.ResourceName}}
+                </div>
+                <div class="col-md-2">
+                    {{pro.Status.State}}
+                </div>
+                <div class="col-md-3">
+                    Time
+                </div>
+                <div class="col-md-2">
+                    Task
+                </div>
+                <div class="col-md-2">
+                    from
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
