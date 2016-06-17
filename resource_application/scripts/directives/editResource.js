@@ -33,9 +33,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
             scope.availableTask = [];
             angular.copy(scope.tasks, scope.availableTask);
 
-            console.info("ResResourceTask[edit resource] Count : " + scope.resource.ResResourceTask.length);
-            console.info("tasks[edit resource] Count : " + scope.tasks.length);
-            console.info("availableTask[edit resource] Count : " + scope.availableTask.length);
+
 
             angular.forEach(scope.resource.ResResourceTask, function (item) {
                 try {
@@ -59,9 +57,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
 
             scope.resource.tasks = scope.attachedTask;
 
-            console.info("1ResResourceTask[edit resource] Count : " + scope.resource.ResResourceTask.length);
-            console.info("1tasks[edit resource] Count : " + scope.tasks.length);
-            console.info("1availableTask[edit resource] Count : " + scope.availableTask.length);
+
 
             $(document).ready(function () {
                 console.info("ready......................");
@@ -227,10 +223,12 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
             scope.selectedAttributes = [];
             scope.assignSkill_selectedTask = {'task': {}, 'attributes': []};
             scope.selectTask = function (task) {
-                scope.selectedAttributes = [];
-                scope.assignSkill_selectedTask.task = task;
-                angular.copy(scope.attributes, scope.assignSkill_selectedTask.attributes);
-                scope.GetAttributesAttachToResource(task.ResTaskId);
+                if (task) {
+                    scope.selectedAttributes = [];
+                    scope.assignSkill_selectedTask.task = task;
+                    angular.copy(scope.attributes, scope.assignSkill_selectedTask.attributes);
+                    scope.GetAttributesAttachToResource(task.ResTaskId);
+                }
             };
 
             scope.selectedAttribute = {};
@@ -240,15 +238,15 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                 scope.selectedAttribute.OtherData = "";
             };
 
-            scope.draggable=false;
-            scope.setDraggable=function(){
+            scope.draggable = false;
+            scope.setDraggable = function () {
                 scope.deleteAttributeAssignToTask();
                 console.info("setDraggable" + scope.draggable);
             };
 
             scope.GetAttributesAttachToResource = function (resTaskId) {
                 resourceService.GetAttributesAttachToResource(resTaskId).then(function (response) {
-                    angular.forEach(response.ResResourceAttributeTask,function(item){
+                    angular.forEach(response.ResResourceAttributeTask, function (item) {
 
                         try {
                             if (item) {
@@ -292,7 +290,8 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                     if (response.IsSuccess) {
                         var index = scope.selectedAttributes.indexOf(scope.selectedAttribute);
                         if (index > -1) {
-                            scope.selectedAttributes.splice(index, 1);;
+                            scope.selectedAttributes.splice(index, 1);
+                            ;
                             scope.assignSkill_selectedTask.attributes.push(scope.selectedAttribute)
                         }
                     }
