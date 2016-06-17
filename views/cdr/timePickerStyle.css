@@ -1,0 +1,14 @@
+.hourTag {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 28px;
+    height: 19px;
+    border: 0px solid rgb(0, 0, 0);
+    font-size: 12pt;
+    color: rgb(136, 136, 136);
+    text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+    outline: rgb(0, 0, 0) solid 0px;
+    box-shadow: rgb(47, 79, 79) 0px 0px 1px;
+}
