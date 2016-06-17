@@ -12,7 +12,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
     'jkuri.slimscroll',
     'base64',
-    'angular-jwt'
+    'angular-jwt',
+    'LocalStorageModule'
 ]);
 
 
