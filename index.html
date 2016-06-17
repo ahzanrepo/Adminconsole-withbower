@@ -142,12 +142,19 @@
 <script src="bower_components/angular-download/angular-download.js"></script>
 <script src="bower_components/angular-file-saver/dist/angular-file-saver.js"></script>
 
+<!-- auth -->
+<script type="text/javascript" src="bower_components/angular-base64/angular-base64.js"></script>
+<script type="text/javascript" src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
 
+<!-- main app JS -->
 <script type="text/javascript" src="app.js"></script>
 
 <!-- factory -->
 <script type="text/javascript" src="factory/dashboardService.js"></script>
 <script type="text/javascript" src="factory/queueMonitorService.js"></script>
+
+<!--oAuthServices -->
+<script type="text/javascript" src="auth/services/oAuthServices.js"></script>
 
 <!-- controller -->
 <script type="text/javascript" src="controller/mainCtrl.js"></script>
@@ -165,7 +172,7 @@
 <script type="text/javascript" src="factory/sipuser/sipUserApiHandler.js"></script>
 <script type="text/javascript" src="factory/sipuser/sipUserValidator.js"></script>
 <script type="text/javascript" src="controller/cdr/cdrApiHandler.js"></script>
-<script type="text/javascript" src="controller/loginCtrl.js"></script>
+<script type="text/javascript" src="auth/controller/loginCtrl.js"></script>
 
 
 <!-- Agent productivity -->
@@ -210,6 +217,10 @@
 <script type="text/javascript" src="file_gallery/scripts/controllers/fileServiceController.js"></script>
 <script type="text/javascript" src="file_gallery/scripts/directives/fileCounts.js"></script>
 <script type="text/javascript" src="bower_components/angular-paging/dist/paging.js"></script>
+
+
+<script type="text/javascript" src="bower_components/oauth-ng/dist/oauth-ng.js"></script>
+
 
 <!-- PNotify -->
 <script src="asset/vendors/pnotify/dist/pnotify.js"></script>
