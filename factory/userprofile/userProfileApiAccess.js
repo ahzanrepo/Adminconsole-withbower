@@ -11,7 +11,7 @@
         {
             return $http({
                 method: 'GET',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile',
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + user + '/profile',
                 headers: {
                     'authorization': authToken
                 }
@@ -25,7 +25,7 @@
         {
             return $http({
                 method: 'GET',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/Users',
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Users',
                 headers: {
                     'authorization': authToken
                 }
@@ -39,7 +39,7 @@
         {
             return $http({
                 method: 'PUT',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
                 headers: {
                     'authorization': authToken
                 },
@@ -57,7 +57,7 @@
             var jsonStr = JSON.stringify(userObj);
             return $http({
                 method: 'POST',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User',
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User',
                 headers: {
                     'authorization': authToken
                 },
@@ -75,7 +75,7 @@
 
             return $http({
                     method: 'PUT',
-                    url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile',
+                    url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + user + '/profile',
                     headers: {
                         'authorization': authToken
                     },
@@ -90,7 +90,7 @@
         {
             return $http({
                 method: 'DELETE',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
                 headers: {
                     'authorization': authToken
                 }
@@ -104,7 +104,7 @@
         {
             return $http({
                 method: 'DELETE',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/User/' + username,
+                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/User/' + username,
                 headers: {
                     'authorization': authToken
                 }
