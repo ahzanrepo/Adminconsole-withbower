@@ -92,12 +92,19 @@
             <!-- /.col -->
             <div class="col-sm-6 invoice-col">
                 <div class="pull-left attribute-edit-wrap">
-                    <a ng-disabled="true" class="inline-block" ng-click="deleteAttribute(attribute)"
+                    <a ng-disabled="true" class="inline-block" ng-click="deleteGroup(groupinfo)"
                        style="cursor: pointer"><i
                             class="fa fa-trash-o"></i></a>
                     <br>
-                    <a ng-disabled="true" class="inline-block" ng-click="editAttribute()" style="cursor: pointer"><i
+                    <a ng-disabled="true" class="inline-block" ng-click="editGroup()" style="cursor: pointer"><i
                             class="fa fa-edit"></i></a>
+
+                   <!-- <h2 class="title">
+                        <a ng-hide="editMode">{{groupinfo.GroupName}}</a>
+                        <a ng-disabled="true" ng-click="deleteGroup(groupinfo)" style="cursor: pointer"><i
+                                class="fa fa-trash-o"></i></a>
+                        <a ng-disabled="true" ng-click="editGroup()" style="cursor: pointer"><i class="fa fa-edit"></i></a>
+                    </h2>-->
                 </div>
             </div>
             <!-- /.col -->

@@ -6,12 +6,11 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     var setResourceToProfile = function (resourceName, resourceid) {
         return $http({
-            method: 'post',
+            method: 'put',
             url: baseUrls.UserServiceBaseUrl + "User/" + resourceName + "/profile/resource/" + resourceid,
             headers: {
                 'authorization': authService.resourceToken
-            },
-            data: resource
+            }
         }).then(function (response) {
             return response.data;
         });
@@ -77,7 +76,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         }).then(function (response) {
             try {
                 if (response.data.IsSuccess)
-                    setResourceToProfile(resource.ResourceName, response.data.Result.Resourceid);
+                    setResourceToProfile(resource.ResourceName, response.data.Result.ResourceId);
             }
             catch (ex) {
                 console.info(ex);
