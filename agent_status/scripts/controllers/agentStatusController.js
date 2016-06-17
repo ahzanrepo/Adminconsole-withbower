@@ -1,5 +1,12 @@
 mainApp.controller("agentStatusController", function ($scope, $filter, $stateParams, $timeout, $log, agentStatusService) {
 
+    $scope.summaryText="Table";
+    $scope.summary=false;
+    $scope.changeView = function(){
+        $scope.summary= !$scope.summary;
+        $scope.summaryText = $scope.summary?"Card":"Table";
+    };
+
     $scope.productivity = [];
     $scope.Productivitys = [];
     $scope.GetProductivity = function () {

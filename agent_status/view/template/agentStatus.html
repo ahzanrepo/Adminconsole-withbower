@@ -1,4 +1,4 @@
-<div class="col-md-4 col-sm-4  widget_tally_box">
+<div ng-hide="showSummary" class="col-md-4 col-sm-4  widget_tally_box">
     <div class="x_panel fixed_height_480 agent-main-wrap"
          ng-class="{'reserved':profile.slotState=='Reserved',
                     'available':profile.slotState=='Available',
@@ -137,6 +137,61 @@
 
 
     </div>
+</div>
+
+<div ng-show="showSummary" class="col-md-12 col-sm-12 col-xs-12">
+    <table class="table table-striped task-tbl">
+        <thead>
+        <tr>
+            <th class="fs15 text-left">Call Info</th>
+            <th class="fs15 text-left">Name</th>
+            <th class="fs15 text-right">State</th>
+            <th class="fs15 text-right">State Time</th>
+            <th class="fs15 text-right">Staffed Time</th>
+            <th class="fs15 text-right">AcwTime</th>
+            <th class="fs15 text-right">BreakTime</th>
+            <th class="fs15 text-right">HoldTime</th>
+            <th class="fs15 text-right">OnCallTime</th>
+            <th class="fs15 text-right">IdleTime</th>
+            <th class="fs15 text-right">StaffedTime</th>
+            <th class="fs15 text-right">IncomingCallCount</th>
+            <th class="fs15 text-right">MissCallCount</th>
+            <th class="fs15 text-right">TransferCallCount</th>
+            <th class="fs15 text-right">Tasks</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th class="fs15 text-left">
+                <div ng-repeat="call in callInfos">
+                    <small>connect with : {{call["Caller-Caller-ID-Number"]}}</small>
+                    <small>Direction : {{call["DVP-Call-Direction"]}}</small>
+                </div>
+            </th>
+            <th class="fs15 text-left">{{profile.name}}</th>
+            <th class="fs15 text-right">{{profile.slotState}}</th>
+            <th class="fs15 text-right">{{profile.slotStateTime}}</th>
+            <th class="fs15 text-right">{{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.BreakTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.OnCallTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right"> {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.StaffedTime | secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.IncomingCallCount}}</th>
+            <th class="fs15 text-right">{{productivity.MissCallCount}}</th>
+            <th class="fs15 text-right">{{productivity.TransferCallCount}}</th>
+            <th class="fs15 text-right"><!-- task -->
+                <div ng-repeat="task in profile.taskList">
+                    <small>{{task.taskType}}</small>
+                    <small>{{task.skill}}</small>
+                    <small>{{task.percentage}}%</small>
+                </div>
+            </th>
+        </tr>
+
+        </tbody>
+    </table>
+
 </div>
 
 
