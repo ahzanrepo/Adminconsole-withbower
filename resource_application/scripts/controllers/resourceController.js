@@ -66,7 +66,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
 
     $scope.checkAvailability = function (resource) {
         resourceService.ResourceNameIsExsists(resource.ResourceName).then(function (response) {
-            if (!response) {
+            if (response) {
                 $scope.showAlert("Info", "Info", "ok", "Available to Use.");
             }
             else {
