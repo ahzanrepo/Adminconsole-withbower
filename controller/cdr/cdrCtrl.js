@@ -18,6 +18,12 @@
             });
         };
 
+        $scope.startTime = '00:00';
+        $scope.endTime = '00:00';
+
+
+
+
         $scope.onDateChange = function()
         {
             if(moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid())
@@ -148,8 +154,8 @@
                 //var encodedTz = encodeURI(momentTz);
                 momentTz = momentTz.replace("+", "%2B");
 
-                var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
-                var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTime + ':00' + momentTz;
+                var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTime + ':59' + momentTz;
 
 
                 var lim = parseInt($scope.recLimit);
