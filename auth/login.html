@@ -1,22 +1,24 @@
-<div class="logi animated flipInY" ng-controller="loginCtrl">
+<div class="logi animated fadeIn" ng-controller="loginCtrl">
     <div>
         <div class="login_wrapper">
-            <div class="animate form login_form">
+            <div class="form login_form">
                 <section class="login_content">
                     <div class="login-header">
                         <img src="images/logo150x150.png" width="120" height="120"/>
                     </div>
                     <form>
-                        <h1 class="font-robot font-300">Login Form</h1>
+                        <h1 class="font-robot font-300">Login </h1>
                         <div>
-                            <input type="text" class="form-control" placeholder="Username" required=""/>
+                            <input type="text" ng-model="userName" class="form-control" placeholder="Username"
+                                   required=""/>
                         </div>
                         <div>
-                            <input type="password" class="form-control" placeholder="Password" required=""/>
+                            <input type="password" ng-model="password" class="form-control" placeholder="Password"
+                                   required=""/>
                         </div>
                         <div>
                             <a class="btn btn-default submit" href="javascript:void(0)"
-                               ng-click="login()">Log in</a>
+                               ng-click="onClickLogin()">Log in</a>
                             <a class="reset_pass" href="#">Lost your password?</a>
                         </div>
 
@@ -42,3 +44,4 @@
         </div>
     </div>
 </div>
+

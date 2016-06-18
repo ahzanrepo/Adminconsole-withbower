@@ -10,13 +10,15 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
             resItem: '=',
             attributesList: '=',
             activeCallList: '=',
-            productivityList: '='
+            productivityList: '=',
+            showSummary:'='
         },
 
         templateUrl: 'agent_status/view/template/agentStatus.html',
 
 
         link: function (scope, element, attributes) {
+
 
             var productivityData = $filter('filter')(scope.productivityList, {ResourceId: scope.resItem.ResourceId});
             if (productivityData.length > 0)

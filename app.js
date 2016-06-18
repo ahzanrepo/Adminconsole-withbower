@@ -10,7 +10,10 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'AngularBootstrapTree',
     'download', 'ngMessages', 'ngAudio', 'bw.paging',
     'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
-    'jkuri.slimscroll'
+    'jkuri.slimscroll',
+    'base64',
+    'angular-jwt',
+    'LocalStorageModule'
 ]);
 
 
@@ -18,7 +21,7 @@ mainApp.constant('moment', moment);
 
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl': 'http://localhost:3636/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl': 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/',
     'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
@@ -65,7 +68,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "application_access_management/view/appAccessManage.html"
         }).state('login', {
             url: "/login",
-            templateUrl: "views/login.html"
+            templateUrl: "auth/login.html"
         }).state("console.cdr", {
             url: "/cdr",
             templateUrl: "views/cdr/call-cdr.html"
@@ -231,3 +234,9 @@ mainApp.directive('datepicker', function () {
     }
 });
 
+
+mainApp.constant('config', {
+    Auth_API: 'http://userservice.162.243.230.46.xip.io/',
+    appVersion: 1.0,
+    client_Id_secret: 'ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048'
+});

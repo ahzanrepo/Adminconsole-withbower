@@ -1,5 +1,6 @@
 mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log, resourceService) {
 
+    $scope.userNameAvilable = false;
     $scope.value = 65;
     $scope.options = {
         size: 300
@@ -49,6 +50,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
         resourceService.SaveResource(resource).then(function (response) {
             $scope.addNew = !response.IsSuccess;
             if (response.IsSuccess) {
+                $scope.reloadPage();
                 $scope.resources.splice(0, 0, response.Result);
             }
             else {
@@ -66,6 +68,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
 
     $scope.checkAvailability = function (resource) {
         resourceService.ResourceNameIsExsists(resource.ResourceName).then(function (response) {
+            $scope.userNameAvilable = response;
             if (response) {
                 $scope.showAlert("Info", "Info", "ok", "Available to Use.");
             }
