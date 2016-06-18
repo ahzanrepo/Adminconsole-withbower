@@ -107,6 +107,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             data: {
                 requireLogin: true
             }
+        }).state("console.myNumbers", {
+            url: "/myNumbers",
+            templateUrl: "views/mynumbers/myNumbers.html",
+            controller: "myNumbersCtrl",
+            data: {
+                requireLogin: true
+            }
         }).state("console.sipuser", {
             url: "/sipuser",
             templateUrl: "views/sipuser/sipuser.html",
