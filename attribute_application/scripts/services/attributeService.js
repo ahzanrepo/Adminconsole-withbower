@@ -8,7 +8,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
 
         return $http.get(baseUrls.resourceServiceBaseUrl + "AttributeCount",
             {
-                headers: {authorization: authService.Token}
+                headers: {authorization: authService.GetToken()}
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
@@ -24,7 +24,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'post',
             url: baseUrls.resourceServiceBaseUrl + 'Attribute',
             headers: {
-                'authorization': authService.Token
+                'authorization': authService.GetToken()
             },
             data: item
         }).then(function (response) {
@@ -38,7 +38,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'put',
             url: baseUrls.resourceServiceBaseUrl + 'Attribute/' + item.AttributeId,
             headers: {
-                'authorization': authService.Token
+                'authorization': authService.GetToken()
             },
             data: item
         }).then(function (response) {
@@ -50,7 +50,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
 
         return $http.get(baseUrls.resourceServiceBaseUrl + "Attributes/"+rowCount+"/"+pageNo,
             {
-                headers: {authorization: authService.Token}
+                headers: {authorization: authService.GetToken()}
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
@@ -66,7 +66,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'delete',
             url: baseUrls.resourceServiceBaseUrl + 'Attribute/' + item.AttributeId,
             headers: {
-                'authorization': authService.Token
+                'authorization': authService.GetToken()
             },
             data: item
         }).then(function (response) {
@@ -80,7 +80,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'get',
             url: baseUrls.resourceServiceBaseUrl + 'Groups/'+rowCount+'/'+pageNo,
             headers: {
-                'authorization': authService.Token
+                'authorization': authService.GetToken()
             }
         }).then(function (response) {
             return response.data.Result;
@@ -93,7 +93,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'get',
             url: baseUrls.resourceServiceBaseUrl + 'GroupsCount',
             headers: {
-                'authorization': authService.Token
+                'authorization': authService.GetToken()
             }
         }).then(function (response) {
             return response.data.Result;
@@ -106,7 +106,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'post',
             url: baseUrls.resourceServiceBaseUrl + 'Group',
             headers: {
-                'authorization': authService.Token
+                'authorization': authService.GetToken()
             },
             data: item
         }).then(function (response) {
@@ -130,7 +130,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'put',
             url: baseUrls.resourceServiceBaseUrl + 'Group/' + grpID + '/Attributes',
             headers: {
-                'authorization': authService.Token
+                'authorization': authService.GetToken()
             },
             data: item
         }).then(function (response) {
@@ -144,7 +144,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'delete',
             url: baseUrls.resourceServiceBaseUrl + 'Group/' + item.GroupId,
             headers: {
-                'authorization': authService.Token
+                'authorization': authService.GetToken()
             },
             data: item
         }).then(function (response) {
@@ -177,7 +177,7 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
             method: 'delete',
             url: baseUrls.resourceServiceBaseUrl + 'Group/' + grpID + '/DeleteAttributes',
             headers: {
-                'authorization': authService.Token,
+                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             },
             data: {"AttributeIds": AttributeIds}

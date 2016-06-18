@@ -9,7 +9,7 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
             method: 'GET',
             url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/resources",
             headers: {
-                'authorization': authService.resourceToken
+                'authorization': authService.GetToken()
             }
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -25,7 +25,7 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
             method: 'GET',
             url: baseUrls.resourceServiceBaseUrl+"Attributes",
             headers: {
-                'authorization': authService.resourceToken
+                'authorization': authService.GetToken()
             }
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -42,7 +42,7 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
             method: 'GET',
             url: baseUrls.monitorrestapi+"Calls",
             headers: {
-                'authorization': authService.resourceToken
+                'authorization': authService.GetToken()
             }
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -57,7 +57,7 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
 
         return $http.get(baseUrls.resourceServiceBaseUrl+ "Resources/Productivity",
             {
-                headers:{authorization:authService.resourceToken}
+                headers:{authorization:authService.GetToken()}
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;

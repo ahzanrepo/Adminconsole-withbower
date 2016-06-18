@@ -3,14 +3,11 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $state,loginService ) {
-
+mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
 
 
     $scope.clickDirective = {
-
-        goLogout: function(){
-
+        goLogout: function () {
             loginService.clearCookie("@loginToken");
             $state.go('login');
         },
@@ -81,6 +78,15 @@ mainApp.controller('mainCtrl', function ($scope, $state,loginService ) {
             $state.go('console.agentsummary');
         }
     };
+
+    var getUserName = function () {
+        var userDetails = loginService.getTokenDecode();
+        console.log(userDetails);
+        if (userDetails) {
+            $scope.userName = userDetails.iss;
+        }
+    };
+    getUserName();
 
 
 });

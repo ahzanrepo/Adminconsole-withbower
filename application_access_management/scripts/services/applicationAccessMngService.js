@@ -2,7 +2,7 @@
  * Created by Rajinda on 12/31/2015.
  */
 
-mainApp.factory("appAccessManageService", function ($http, $log, authService, baseUrls) {
+mainApp.factory("appAccessManageService", function ($http, $log, authService, baseUrls, jwtHelper) {
 
     var getUserList = function () {
 
@@ -24,7 +24,7 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
             method: 'put',
             url: baseUrls.UserServiceBaseUrl + "User/" + userName + "/Console/" + consoleName + "/Navigation",
             headers: {
-                'authorization': authService.UserService,
+                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             },
             data: navigationData
@@ -33,12 +33,12 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         });
     };
 
-    var addConsoleToUser = function (username,consoleName) {
+    var addConsoleToUser = function (username, consoleName) {
         return $http({
             method: 'put',
-            url: baseUrls.UserServiceBaseUrl + "User/"+username+"/Console/"+consoleName,
+            url: baseUrls.UserServiceBaseUrl + "User/" + username + "/Console/" + consoleName,
             headers: {
-                'authorization': authService.UserService,
+                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
@@ -46,12 +46,12 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         });
     };
 
-    var deleteConsoleFrmUser = function (username,consoleName) {
+    var deleteConsoleFrmUser = function (username, consoleName) {
         return $http({
             method: 'delete',
-            url: baseUrls.UserServiceBaseUrl + "User/"+username+"/Console/"+consoleName,
+            url: baseUrls.UserServiceBaseUrl + "User/" + username + "/Console/" + consoleName,
             headers: {
-                'authorization': authService.UserService,
+                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
@@ -63,9 +63,9 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         //User/:username/Console/:consoleName/Navigation/:navigation
         return $http({
             method: 'delete',
-            url: baseUrls.UserServiceBaseUrl + "User/"+userName+"/Console/"+consoleName+"/Navigation/"+navigation,
+            url: baseUrls.UserServiceBaseUrl + "User/" + userName + "/Console/" + consoleName + "/Navigation/" + navigation,
             headers: {
-                'authorization': authService.UserService,
+                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
@@ -77,9 +77,9 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
 //http://localhost:3636/DVP/API/1.0.0.0/User/John
         return $http({
             method: 'get',
-            url: baseUrls.UserServiceBaseUrl + "User/"+userName,
+            url: baseUrls.UserServiceBaseUrl + "User/" + userName,
             headers: {
-                'authorization': authService.UserService,
+                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
@@ -91,23 +91,110 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
 //http://localhost:3636/DVP/API/1.0.0.0/Consoles/admin
         return $http({
             method: 'get',
-            url: baseUrls.UserServiceBaseUrl + "Consoles/"+userRole,
+            url: baseUrls.UserServiceBaseUrl + "Consoles/" + userRole,
             headers: {
-                'authorization': authService.UserService
+                'authorization': authService.GetToken()
             }
         }).then(function (response) {
             return response.data.Result;
         });
     };
 
+    var getUserAssignableScope = function () {
+        return jwtHelper.decodeToken(authService.TokenWithoutBearer()).scope;
+    };
+
+    var getUserAssignedScope = function (assignedUser) {
+        return $http({
+            method: 'get',
+            url: baseUrls.UserServiceBaseUrl + "Users/" + assignedUser + "/Scope",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+
+            var scopes = [];
+
+            angular.forEach(response.data.Result, function (item) {
+                var scope = {"resource": "", "read": false, "write": false, "delete": false};
+                try {
+                    scope.resource = item.scope;
+                } catch (ex) {
+                }
+                try {
+                    scope.read = item.read;
+                } catch (ex) {
+                }
+                try {
+                    scope.write = item.write;
+                } catch (ex) {
+                }
+                try {
+                    scope.delete = item.delete;
+                } catch (ex) {
+                }
+                scopes.push(scope);
+            });
+            return scopes;
+        });
+    };
+
+    var assignScopeToUser = function (assignedUser,item) {
+        var scope = {"scop": "", "read": false, "write": false, "delete": false};
+        try {
+            scope.scop = item.resource;
+        } catch (ex) {
+        }
+        try {
+            scope.read = item.read;
+        } catch (ex) {
+        }
+        try {
+            scope.write = item.write;
+        } catch (ex) {
+        }
+        try {
+            scope.delete = item.delete;
+        } catch (ex) {
+        }
+
+
+        return $http({
+            method: 'put',
+            url: baseUrls.UserServiceBaseUrl + "Users/"+assignedUser+"/Scope",
+            headers: {
+                'authorization': authService.GetToken()
+            },
+            data:scop
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
+    var removeAssignedScope = function (assignedUser,scope) {
+        return $http({
+            method: 'delete',
+            url: baseUrls.UserServiceBaseUrl + "User/"+assignedUser+"/Scope/"+scope.resource,
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
     return {
         GetUserList: getUserList,
-        AddConsoleToUser:addConsoleToUser,
-        DeleteConsoleFrmUser:deleteConsoleFrmUser,
+        AddConsoleToUser: addConsoleToUser,
+        DeleteConsoleFrmUser: deleteConsoleFrmUser,
         AddSelectedNavigationToUser: addSelectedNavigationToUser,
         DeleteSelectedNavigationFrmUser: DeleteSelectedNavigationFrmUser,//
-        GetNavigationAssignToUser:getNavigationAssignToUser,
-        GetAssignableNavigations:getAssignableNavigations
+        GetNavigationAssignToUser: getNavigationAssignToUser,
+        GetAssignableNavigations: getAssignableNavigations,
+        GetUserAssignableScope: getUserAssignableScope,
+        GetUserAssignedScope: getUserAssignedScope,
+        AssignScopeToUser:assignScopeToUser,
+        RemoveAssignedScope:removeAssignedScope
     }
 
 });

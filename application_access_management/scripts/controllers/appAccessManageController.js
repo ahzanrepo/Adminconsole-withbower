@@ -1,4 +1,4 @@
-mainApp.controller("appAccessManageController", function ($scope, $filter,$stateParams, appAccessManageService) {
+mainApp.controller("appAccessManageController", function ($scope, $filter, $stateParams, appAccessManageService) {
 
     $scope.active = true;
     /*Load Application list*/
@@ -29,8 +29,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter,$state
         });
 
     };
-   // $scope.GetUserList();
-
+    // $scope.GetUserList();
 
 
     $scope.AddClientNavigationToUser = function () {
@@ -65,7 +64,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter,$state
     };
 
     $scope.assignableNavigations = [];
-    $scope.GetAssignableNavigations = function (username,role) {
+    $scope.GetAssignableNavigations = function (username, role) {
         appAccessManageService.GetAssignableNavigations(role).then(function (response) {
             $scope.assignableNavigations = response;
             $scope.GetNavigationAssignToUser(username);
@@ -145,15 +144,73 @@ mainApp.controller("appAccessManageController", function ($scope, $filter,$state
     };
 
     $scope.selectedUser = {};
-    $scope.selectUser = function (user,role) {
+    $scope.selectUser = function (user, role) {
         $scope.active = false;
         $scope.assignedNavigations = [];
         $scope.selectedUser = user;
         $scope.showEditWindow = false;
-        $scope.GetAssignableNavigations(user,role);
+        $scope.GetAssignableNavigations(user, role);
 
     };
-    $scope.selectUser($stateParams.username,$stateParams.role);
+    $scope.selectUser($stateParams.username, $stateParams.role);
+
+
+    /* Scope Assign*/
+    $scope.assignableScope = [];
+    $scope.assignedScope = [];
+    $scope.setCurrentDragScope = {};
+    $scope.GetUserAssignableScope = function () {
+        $scope.assignableScope = appAccessManageService.GetUserAssignableScope();
+    };
+    $scope.GetUserAssignableScope();
+
+    $scope.GetUserAssignedScope = function () {
+        appAccessManageService.GetUserAssignedScope($stateParams.username).then(function (response) {
+
+
+            angular.forEach(response, function (item) {
+                var items = $filter('filter')($scope.assignableScope, {resource: item.resource})
+                if (items) {
+                    var index = $scope.assignableScope.indexOf(items[0]);
+                    if (index > -1) {
+                        var temptask = $scope.assignableScope[index];
+                        $scope.assignedScope.push(temptask);
+                        $scope.assignableScope.splice(index, 1);
+                    }
+                }
+            });
+
+        }, function (error) {
+            $scope.showAlert("Error", "Error", "ok", "Unable To Receive User Scope.");
+        });
+    };
+   $scope.GetUserAssignedScope();
+
+    $scope.assignScopeToUser = function () {
+        appAccessManageService.AssignScopeToUser($stateParams.username, $scope.setCurrentDragScopeObj).then(function (response) {
+            if (!response) {
+                $scope.showAlert("Error", "Error", "ok", "Fail To Assign Scope To User.");
+            }
+        }, function (error) {
+            $scope.showAlert("Error", "Error", "ok", "Fail To Assign Scope To User.");
+        });
+    };
+
+    $scope.removeAssignedScope = function () {
+        appAccessManageService.RemoveAssignedScope($stateParams.username, $scope.setCurrentDragScopeObj).then(function (response) {
+            if (!response) {
+                $scope.showAlert("Error", "Error", "ok", "Fail To Delete Scope.");
+            }
+        }, function (error) {
+            $scope.showAlert("Error", "Error", "ok", "Fail To Delete Scope.");
+        });
+    };
+
+    $scope.setCurrentDragScopeObj = {}
+    $scope.setCurrentDragScope = function (item) {
+        $scope.setCurrentDragScopeObj = item;
+    }
+
 });
 
 

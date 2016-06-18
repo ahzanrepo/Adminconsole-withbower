@@ -1,6 +1,4 @@
 <div ng-controller="appAccessManageController as vm">
-
-
     <!--<div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <button ng-click="selectUser(user)" type="button" class="btn btn-round btn-primary"
@@ -107,4 +105,72 @@
             </div>
         </div>
     </div>
+
+    <!-- Scope Assign-->
+    <div>
+        <div class="x_content">
+            <br>
+            <form id="scopeForm" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <!-- add permission -->
+                        <div class="drop-header">
+                            <i class="fa fa-unlock"></i>
+                            <h2 class="text-center">Access : Permission</h2>
+                        </div>
+                        <div class="thumbnaildrag drop-area-wrap" data-drop="true" ng-model='assignedScope'
+                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignedScope])'}"
+                             jqyoui-droppable="{multiple:false,onDrop: 'assignScopeToUser'}">
+                            <div class="caption">
+                                <div ng-click="setCurrentDragScope(item)"
+                                     class="btn btn-round
+                                 btn-warning btn-draggable  draggable-item"
+                                     ng-repeat="item in assignedScope" ng-show="item.resource"
+                                     data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                     ng-model="assignedScope"
+                                     jqyoui-draggable="{index: {{$index}},animate:true}">
+                                    {{item.resource}}
+                                </div>
+                                <div class="drop-area-text" >
+                                    drop area
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end -->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <!-- delete permission -->
+                        <div class="drop-header">
+                            <i class="fa fa-lock"></i>
+                            <h2 class="text-center">Access denied : Permissions </h2>
+                        </div>
+                        <div class="thumbnaildrag drop-area-wrap" data-drop="true" ng-model='assignableScope'
+                             data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=assignableScope])'}"
+                             jqyoui-droppable="{multiple:false,onDrop: 'removeAssignedScope'}">
+                            <div class="caption">
+                                <div ng-click="setCurrentDragScope(item)" class="btn btn-round btn-primary
+                                 btn-draggable  draggable-item"
+                                     ng-repeat="item in assignableScope" ng-show="item.resource"
+                                     data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+                                     ng-model="assignableScope"
+                                     jqyoui-draggable="{index: {{$index}},animate:true}">
+                                    {{item.resource}}
+                                </div>
+                                <div class="drop-area-text" >
+                                    drop area
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end -->
+
+                <!--<div ng-disabled="active" class="form-group has-feedback">-->
+                <!--<br>-->
+                <!--</div>-->
+            </form>
+        </div>
+    </div>
 </div>
+
+
