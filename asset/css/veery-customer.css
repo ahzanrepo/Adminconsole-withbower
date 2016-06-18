@@ -1970,3 +1970,54 @@ ul.count2 {
     margin-top: 5px;
 }
 
+.login-controller {
+
+}
+
+/*validation area */
+.validation-area {
+    text-align: left;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.validation-area.user-name > input {
+    border: 2px solid #f46e5e;
+}
+
+.validation-area > div > div {
+    color: #f46e5e;
+    padding-bottom: 5px;
+}
+
+.login-controller:focus {
+    border: 3px solid #f8b01d;
+}
+
+.login_content form input[type="text"]:focus, .login_content form input[type="email"]:focus, .login_content form input[type="password"]:focus {
+    -webkit-box-shadow: 0 0 0px #AA77B4 inset;
+    -moz-box-shadow: 0 0 0px #ed1c24 inset;
+    -ms-box-shadow: 0 0 0px #ed1c24 inset;
+    -o-box-shadow: 0 0 0px #ed1c24 inset;
+    box-shadow: 0 0 0px #A97AAD inset;
+    background-color: #fff;
+    border: 2px solid #f8b01d;
+    outline: none;
+}
+
+.login {
+    background: #2aa79b;
+    border-color: #29a69a;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.signUp {
+    border-color: #29a69a;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.signup-wrap {
+    max-width: 460px;
+}
+

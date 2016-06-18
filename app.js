@@ -13,7 +13,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'jkuri.slimscroll',
     'base64',
     'angular-jwt',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'ngMessages'
 ]);
 
 
@@ -97,7 +98,12 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('login', {
             url: "/login",
             templateUrl: "auth/login.html",
-
+            data: {
+                requireLogin: false
+            }
+        }).state('signUp', {
+            url: "/signUp",
+            templateUrl: "auth/signUp.html",
             data: {
                 requireLogin: false
             }
@@ -333,15 +339,16 @@ mainApp.constant('config', {
 });
 
 
-
 mainApp.run(function ($rootScope, loginService, $location) {
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
 
-        if (requireLogin && !loginService.getToken()) {
-            event.preventDefault();
-            $location.path("/login");
+        if (requireLogin) {
+            if(!loginService.getToken()) {
+                event.preventDefault();
+                $location.path("/login");
+            }
             // get me a login modal!
         }
     });

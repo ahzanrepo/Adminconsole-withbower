@@ -1,0 +1,118 @@
+<div class="login animated fadeIn" ng-controller="signUpCtrl">
+    <div>
+        <div class="login_wrapper signup-wrap">
+            <div class="form login_form">
+                <section class="login_content">
+                    <div class="login-header">
+                        <img src="images/logo150x150.png" width="120" height="120"/>
+                    </div>
+                    <form name="signUpForm">
+                        <h1 class="font-robot font-300">SignUp </h1>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="validation-area">
+                                    <!-- user name -->
+                                    <label>User name *</label>
+                                    <input type="text" name="userName" ng-model="userName"
+                                           class="form-control "
+                                           placeholder="Username"
+                                           required/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="validation-area">
+                                    <!-- phone no -->
+                                    <label>Phone no *</label>
+                                    <input type="text" name="phoneNo" ng-model="phoneNo"
+                                           class="form-control "
+                                           placeholder="Phone No"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="validation-area">
+                                    <!-- first name -->
+                                    <label>First Name *</label>
+                                    <input type="text" name="firstName" ng-model="firstName"
+                                           class="form-control "
+                                           placeholder="First Name"
+                                           required/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="validation-area">
+                                    <!-- last name -->
+                                    <label>Last Name *</label>
+                                    <input type="text" name="lastName" ng-model="lastName"
+                                           class="form-control "
+                                           placeholder="Last Name"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="validation-area">
+                                    <!-- password  -->
+                                    <label>Password *</label>
+                                    <input type="password" ng-model="password"
+                                           class="form-control"
+                                           name="password"
+                                           placeholder="Password"
+                                           required=""/>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="validation-area">
+                                    <!-- confirm password -->
+                                    <label>Confirm password *</label>
+                                    <input type="password" password-verify="password"
+                                           ng-model="confirmPwd"
+                                           class="form-control"
+                                           name="confirmPwd"
+                                           placeholder="Confirm password"
+                                           required=""/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="validation-area">
+                            <label>Email *</label>
+                            <input type="email" name="email" ng-model="email"
+                                   class="form-control "
+                                   placeholder="Email"
+                                   required/>
+                        </div>
+
+                        <div class="m-bottom20">
+                            <a class="btn btn-default signUp  text-center" href="javascript:void(0)"
+                               ng-click="onClickCreateAccount()"
+                               ng-disabled="signUpForm.$invalid">Create Account</a>
+                            <a class="btn btn-default login " href="javascript:void(0)"
+                               ng-click="onClickLogIn()" ng-disabled="isLogin">LogIn</a>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="separator">
+                            <div class="clearfix"></div>
+                            <br/>
+
+                            <div>
+                                <p class="font-robot font-300 font-green-light500">
+                                    ©2016 All Rights Reserved <br/> veery.cloud Privacy and
+                                    Terms</p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
