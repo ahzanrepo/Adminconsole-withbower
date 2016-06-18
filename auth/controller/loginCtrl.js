@@ -31,6 +31,7 @@ mainApp.controller('loginCtrl', function ($scope, $state, $http,
             loginService.Login(para, function (result) {
                 if (result) {
                     $state.go('login');
+
                 } else {
                     showAlert('Error', 'error', 'Please check login details...');
                 }
