@@ -29,7 +29,8 @@
             sipUserApiHandler.getSIPUsers().then(function (data) {
                 if (data.IsSuccess) {
                     $scope.sipUsrList = data.Result;
-                    if ($scope.sipUsrList.lenght != 0) {
+                    if ($scope.sipUsrList.length != 0)
+                    {
                         $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
                         $scope.viewDivState = 0;
                     }
