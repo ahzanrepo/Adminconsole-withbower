@@ -10,7 +10,7 @@ clusterModule.factory("resourceProductivityService", function ($http, $log,authS
 
     return $http.get(baseUrls.resourceServiceBaseUrl+ "Resources/Productivity",
       {
-        headers:{authorization:authService.GloableToken}
+        headers:{authorization:authService.GetToken()}
       }).then(function (response) {
         if (response.data && response.data.IsSuccess) {
           return response.data.Result;
@@ -24,7 +24,7 @@ clusterModule.factory("resourceProductivityService", function ($http, $log,authS
 
         return $http.get(baseUrls.ardsmonitoringBaseUrl+ "MONITORING/resources",
             {
-                headers:{authorization:authService.GloableToken}
+                headers:{authorization:authService.GetToken()}
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
