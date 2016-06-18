@@ -10,7 +10,10 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'AngularBootstrapTree',
     'download', 'ngMessages', 'ngAudio', 'bw.paging',
     'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
-    'jkuri.slimscroll'
+    'jkuri.slimscroll',
+    'base64',
+    'angular-jwt',
+    'LocalStorageModule'
 ]);
 
 
@@ -18,7 +21,7 @@ mainApp.constant('moment', moment);
 
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl': 'http://localhost:3636/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl': 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/',
     'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
@@ -33,124 +36,214 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         $urlRouterProvider.otherwise('/login');
         $stateProvider.state("console", {
             url: "/console",
-            templateUrl: "views/main-home.html"
+            templateUrl: "views/main-home.html",
+            data: {
+                requireLogin: true
+            }
+
         }).state('console.dashboard', {
             url: "/dashboard",
-            templateUrl: "views/dashboard/dashboard-1.html"
+            templateUrl: "views/dashboard/dashboard-1.html",
+            data: {
+                requireLogin: true
+            }
         }).state('console.productivity', {
             url: "/productivity",
-            templateUrl: "agent_productivity/view/agentProductivity.html"
+            templateUrl: "agent_productivity/view/agentProductivity.html",
+            data: {
+                requireLogin: true
+            }
         }).state('console.filegallery', {
             url: "/filegallery",
             templateUrl: "file_gallery/view/fileList.html",
-            controller: "FileListController"
+            controller: "FileListController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.fileupload', {
             url: "/fileupload",
             templateUrl: "file_gallery/view/fileAdd.html",
-            controller: "FileEditController"
+            controller: "FileEditController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.attributes', {
             url: "/attributes",
             templateUrl: "attribute_application/partials/attributeList.html",
-            controller: "attributeListController"
+            controller: "attributeListController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.resources', {
             url: "/resources",
             templateUrl: "resource_application/partials/resourceList.html",
-            controller: "resourceController"
+            controller: "resourceController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.AgentStatus', {
             url: "/AgentStatus",
             templateUrl: "agent_status/view/agentStatusList.html",
-            controller: "agentStatusController"
+            controller: "agentStatusController",
+            data: {
+                requireLogin: true
+            }
         }).state("console.applicationAccessManager", {
             url: "/applicationAccessManager/:username/:role",
-            templateUrl: "application_access_management/view/appAccessManage.html"
+            templateUrl: "application_access_management/view/appAccessManage.html",
+            data: {
+                requireLogin: true
+            }
         }).state('login', {
             url: "/login",
-            templateUrl: "views/login.html"
+            templateUrl: "auth/login.html",
+
+            data: {
+                requireLogin: false
+            }
         }).state("console.cdr", {
             url: "/cdr",
-            templateUrl: "views/cdr/call-cdr.html"
+            templateUrl: "views/cdr/call-cdr.html",
+            data: {
+                requireLogin: true
+            }
         }).state("console.sipuser", {
             url: "/sipuser",
             templateUrl: "views/sipuser/sipuser.html",
-            controller: "sipUserCtrl"
+            controller: "sipUserCtrl",
+
+            data: {
+                requireLogin: true
+            }
+
         }).state("console.userprofile", {
             url: "/userprofile/:username",
             templateUrl: "views/userprofile/userprofile.html",
-            controller: "userProfileCtrl"
+            controller: "userProfileCtrl",
+            data: {
+                requireLogin: true
+            }
         }).state("console.users", {
             url: "/users",
             templateUrl: "views/user/userList.html",
-            controller: "userListCtrl"
+            controller: "userListCtrl",
+            data: {
+                requireLogin: true
+            }
         }).state("console.pbxuser", {
             url: "/pbxuser",
             templateUrl: "views/pbxuser/pbxuser.html",
-            controller: "pbxCtrl"
+            controller: "pbxCtrl",
+            data: {
+                requireLogin: true
+            }
         }).state("console.ringGroup", {
             url: "/ringGroup",
             templateUrl: "views/ringGroup/ringGroup.html",
-            controller: "ringGroupCtrl"
+            controller: "ringGroupCtrl",
+            data: {
+                requireLogin: true
+            }
         }).state('console.callmonitor', {
             url: "/call-monitor",
             templateUrl: "views/call-monitor/callMonitor.html",
-            controller: "callmonitorcntrl"
+            controller: "callmonitorcntrl",
+            data: {
+                requireLogin: true
+            }
         }).state('console.abandonCdr', {
             url: "/abandonCallReport",
             templateUrl: "views/cdr/abandonCallReport.html",
-            controller: "abandonCallCdrCtrl"
+            controller: "abandonCallCdrCtrl",
+            data: {
+                requireLogin: true
+            }
         }).state('console.realtime-queued', {
             url: "/realtime-queued",
-            templateUrl: "views/real-time/queued.html"
+            templateUrl: "views/real-time/queued.html",
+            data: {
+                requireLogin: true
+            }
         }).state('console.phone', {
             url: "/call-phone",
-            templateUrl: "views/call-monitor/phoneWidget.html"
+            templateUrl: "views/call-monitor/phoneWidget.html",
+            data: {
+                requireLogin: true
+            }
         }).state('console.rule', {
             url: "/rule/rules",
             templateUrl: "views/rule/ruleList.html",
-            controller: "rulelistcontroller"
+            controller: "rulelistcontroller",
+            data: {
+                requireLogin: true
+            }
         }).state('console.newrule', {
             url: "/rule/new-rule",
             templateUrl: "views/rule/newRule.html",
-            controller: "newrulecontroller"
+            controller: "newrulecontroller",
+            data: {
+                requireLogin: true
+            }
         }).state('console.editrule', {
             url: "/rule/edit-rule?id",
             params: {id: null},
             templateUrl: "views/rule/newRule.html",
-            controller: "newrulecontroller"
+            controller: "newrulecontroller",
+            data: {
+                requireLogin: true
+            }
         }).state('console.application', {
             url: "/applications",
             templateUrl: "views/app-registry/applications.html",
-            controller: "applicationController"
+            controller: "applicationController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.holdmusic', {
             url: "/holdmusic",
             templateUrl: "views/hold-music/holdmusic.html",
-            controller: "holdMusicController"
+            controller: "holdMusicController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.limits', {
             url: "/limits",
             templateUrl: "views/limit/limits.html",
-            controller: "limitController"
+            controller: "limitController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.queuesummary', {
             url: "/queuesummary",
             templateUrl: "views/queue-summary/queue-summary.html",
-            controller: "queueSummaryController"
+            controller: "queueSummaryController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.agentsummary', {
             url: "/agentsummary",
             templateUrl: "views/agent-productivity-summary/agentSummary.html",
-            controller: "agentSummaryController"
+            controller: "agentSummaryController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.AgentTblList', {
             url: "/AgentTblList",
             templateUrl: "agent_status/view/agentStatusTblList.html",
-            controller: "agentStatusController"
+            controller: "agentStatusController",
+            data: {
+                requireLogin: true
+            }
         }).state('console.extension', {
-                url: "/extensions",
-                templateUrl: "views/extension/extension.html",
-                controller: "extensionController"
-            }).
+            url: "/extensions",
+            templateUrl: "views/extension/extension.html",
+            controller: "extensionController"
+        }).
             state('console.ards', {
                 url: "/ards",
                 templateUrl: "views/ards-config/ardsconfig.html",
                 controller: "ardsController"
             })
-
 
     }]);
 
@@ -239,5 +332,28 @@ mainApp.directive('datepicker', function () {
             elem.datepicker(options);
         }
     }
+});
+
+
+mainApp.constant('config', {
+    Auth_API: 'http://userservice.162.243.230.46.xip.io/',
+    appVersion: 1.0,
+    client_Id_secret: 'ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048'
+});
+
+
+
+mainApp.run(function ($rootScope, loginService, $location) {
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+        var requireLogin = toState.data.requireLogin;
+
+        if (requireLogin && !loginService.getToken()) {
+            event.preventDefault();
+            $location.path("/login");
+            // get me a login modal!
+        }
+    });
+
 });
 

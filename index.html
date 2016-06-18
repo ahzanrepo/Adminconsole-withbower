@@ -38,6 +38,7 @@
 <!-- Custom Theme Style -->
 
 
+
 <!-- iCheck -->
 <link href="asset/css/iCheck/skins/flat/green.css" rel="stylesheet">
 <link href="asset/fonts/font-awesome-4.6.3/font-awesome.min.css" rel="stylesheet">
@@ -60,6 +61,7 @@
 <link rel="stylesheet" href="asset/vendors/ng-tags-input.min/ng-tags-input.min.css">
 <link rel="stylesheet" href="asset/vendors/ng-tags-input.min/ng-tags-input.bootstrap.min.css">
 <link href="asset/css/veery-customer.css" rel="stylesheet">
+<link href="views/cdr/timePickerStyle.css" rel="stylesheet">
 <!-- pawan -->
 
 <link rel="stylesheet" href="bower_components/pnotify/pnotify.core.css">
@@ -120,6 +122,8 @@
 <script type="text/javascript" src="asset/vendors/ng-tags-input.min/ng-tags-input.min.js"></script>
 <!--<script type="text/javascript" src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>-->
 
+<script type="text/javascript" src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+
 <!-- pawan -->
 <script src="bower_components/pnotify/pnotify.core.js"></script>
 <script src="bower_components/pnotify/pnotify.confirm.js"></script>
@@ -142,12 +146,19 @@
 <script src="bower_components/angular-download/angular-download.js"></script>
 <script src="bower_components/angular-file-saver/dist/angular-file-saver.js"></script>
 
+<!-- auth -->
+<script type="text/javascript" src="bower_components/angular-base64/angular-base64.js"></script>
+<script type="text/javascript" src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
 
+<!-- main app JS -->
 <script type="text/javascript" src="app.js"></script>
 
 <!-- factory -->
 <script type="text/javascript" src="factory/dashboardService.js"></script>
 <script type="text/javascript" src="factory/queueMonitorService.js"></script>
+
+<!--oAuthServices -->
+<script type="text/javascript" src="auth/services/oAuthServices.js"></script>
 
 <!-- controller -->
 <script type="text/javascript" src="controller/mainCtrl.js"></script>
@@ -165,7 +176,7 @@
 <script type="text/javascript" src="factory/sipuser/sipUserApiHandler.js"></script>
 <script type="text/javascript" src="factory/sipuser/sipUserValidator.js"></script>
 <script type="text/javascript" src="controller/cdr/cdrApiHandler.js"></script>
-<script type="text/javascript" src="controller/loginCtrl.js"></script>
+<script type="text/javascript" src="auth/controller/loginCtrl.js"></script>
 
 
 <!-- Agent productivity -->
@@ -200,7 +211,7 @@
 <script type="text/javascript" src="agent_status/scripts/controllers/agentStatusController.js"></script>
 <script type="text/javascript" src="agent_status/scripts/services/agentStatusService.js"></script>
 <script type="text/javascript" src="agent_status/scripts/directives/agentStatus.js"></script>
-<script type="text/javascript" src="agent_status/scripts/controllers/agentStatusTblController.js"></script>
+<!--<script type="text/javascript" src="agent_status/scripts/controllers/agentStatusTblController.js"></script>-->
 
 <script type="text/javascript" src="directives/cdr/timePicker.js"></script>
 
@@ -210,6 +221,7 @@
 <script type="text/javascript" src="file_gallery/scripts/controllers/fileServiceController.js"></script>
 <script type="text/javascript" src="file_gallery/scripts/directives/fileCounts.js"></script>
 <script type="text/javascript" src="bower_components/angular-paging/dist/paging.js"></script>
+
 
 <!-- PNotify -->
 <script src="asset/vendors/pnotify/dist/pnotify.js"></script>
@@ -267,7 +279,7 @@
 <script src="asset/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
 <script src="asset/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="asset/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-<script src="asset/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
+<!--<script src="asset/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>-->
 <script src="asset/vendors/jszip/dist/jszip.min.js"></script>
 <script src="asset/vendors/pdfmake/build/pdfmake.min.js"></script>
 <script src="asset/vendors/pdfmake/build/vfs_fonts.js"></script>

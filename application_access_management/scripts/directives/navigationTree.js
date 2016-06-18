@@ -90,7 +90,7 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 angular.forEach(navigationData.children, function (menu) {
                     var data = {};
                     data = {
-                        "Navigatione": menu.id,//"scopeName": "requestmeta",
+                        "scope": menu.id,//"scopeName": "requestmeta",
                         "read": menu.children["0"].isSelected,
                         "write": menu.children["1"].isSelected,
                         "delete": menu.children["2"].isSelected,

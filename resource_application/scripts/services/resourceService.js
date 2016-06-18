@@ -4,12 +4,25 @@
 'use strict';
 mainApp.factory("resourceService", function ($http, $log, $filter, authService, baseUrls) {
 
+    var setResourceToProfile = function (resourceName, resourceid) {
+        return $http({
+            method: 'put',
+            url: baseUrls.UserServiceBaseUrl + "User/" + resourceName + "/profile/resource/" + resourceid,
+            headers: {
+                'authorization': authService.resourceToken
+            }
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+
     var resourceNameIsExsists = function (resourceName) {
         return $http({
             method: 'GET',
-            url: baseUrls.UserServiceBaseUrl+"User/"+resourceName+"/exsists",
+            url: baseUrls.UserServiceBaseUrl + "User/" + resourceName + "/exsists",
             headers: {
-                'authorization':  authService.UserService
+                'authorization': authService.UserService
             }
         }).then(function (response) {
             return response.data.Result;
@@ -37,7 +50,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var getTaskAttachToResource = function (resourceId) {
         return $http({
             method: 'GET',
-            url: baseUrls.resourceServiceBaseUrl + "Resource/"+resourceId+"/Tasks",
+            url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Tasks",
             headers: {
                 'authorization': authService.resourceToken
             }
@@ -51,6 +64,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
+
     var saveResource = function (resource) {
         return $http({
             method: 'post',
@@ -60,6 +74,13 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
             },
             data: resource
         }).then(function (response) {
+            try {
+                if (response.data.IsSuccess)
+                    setResourceToProfile(resource.ResourceName, response.data.Result.ResourceId);
+            }
+            catch (ex) {
+                console.info(ex);
+            }
             return response.data;
         });
 
@@ -93,14 +114,14 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var assignTask = function (resourceId, taskId,concurrency) {
+    var assignTask = function (resourceId, taskId, concurrency) {
         return $http({
             method: 'POST',
             url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Tasks/" + taskId,
             headers: {
                 'authorization': authService.resourceToken
             },
-            data:{"Concurrency":concurrency}
+            data: {"Concurrency": concurrency}
         }).then(function (response) {
             return response.data;
         });
@@ -113,7 +134,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
-    var deleteTask = function (resourceId,taskId) {
+    var deleteTask = function (resourceId, taskId) {
         return $http({
             method: 'DELETE',
             url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Task/" + taskId,
@@ -132,110 +153,103 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
-    var updateResource = function(resource){
+    var updateResource = function (resource) {
         return $http({
             method: 'PUT',
             url: baseUrls.resourceServiceBaseUrl + "Resource/" + resource.ResourceId,
             headers: {
                 'authorization': authService.resourceToken
             },
-            data:resource
-        }).then(function(response)
-        {
+            data: resource
+        }).then(function (response) {
             return response.data.IsSuccess;
 
         });
 
     };
 
-    var updateAttachedTask = function(resourceId,taskId,data){
+    var updateAttachedTask = function (resourceId, taskId, data) {
         return $http({
             method: 'PUT',
-            url: baseUrls.resourceServiceBaseUrl + "Resource/"+resourceId+"/Tasks/"+taskId,
+            url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Tasks/" + taskId,
             headers: {
                 'authorization': authService.resourceToken
             },
-            data:data
-        }).then(function(response)
-        {
+            data: data
+        }).then(function (response) {
             return response.data.IsSuccess;
 
         });
 
     };
 
-    var getAttributes = function(resource){
+    var getAttributes = function (resource) {
         return $http({
             method: 'get',
             url: baseUrls.resourceServiceBaseUrl + "Attributes",
             headers: {
                 'authorization': authService.resourceToken
             },
-            data:resource
-        }).then(function(response)
-        {
+            data: resource
+        }).then(function (response) {
             return response.data.Result;
 
         });
 
     };
 
-    var getAttributesAttachToResource = function(resTaskId){
+    var getAttributesAttachToResource = function (resTaskId) {
         return $http({
             method: 'get',
-            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/"+resTaskId+"/Attributes",
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/" + resTaskId + "/Attributes",
             headers: {
                 'authorization': authService.resourceToken
             }
-        }).then(function(response)
-        {
+        }).then(function (response) {
             return response.data.Result;
 
         });
 
     };
 
-    var updateAttributesAttachToResource = function(item){
+    var updateAttributesAttachToResource = function (item) {
         return $http({
             method: 'put',
-            url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/"+item.savedObj.ResAttId,
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/" + item.savedObj.ResAttId,
             headers: {
                 'authorization': authService.resourceToken
             },
-            data:item.savedObj
-        }).then(function(response)
-        {
+            data: item.savedObj
+        }).then(function (response) {
             return response.data.Result;
 
         });
 
     };
 
-    var attachAttributeToTask = function(resTaskId,attributeId,percentage,otherData){
+    var attachAttributeToTask = function (resTaskId, attributeId, percentage, otherData) {
         return $http({
             method: 'post',
-            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/"+resTaskId+"/Attribute/"+attributeId,
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/" + resTaskId + "/Attribute/" + attributeId,
             headers: {
                 'authorization': authService.resourceToken
             },
-            data:{'Attribute': attributeId, 'Percentage': percentage, 'OtherData': otherData}
-        }).then(function(response)
-        {
+            data: {'Attribute': attributeId, 'Percentage': percentage, 'OtherData': otherData}
+        }).then(function (response) {
             return response.data;
 
         });
 
     };
 
-    var deleteAttributeAssignToTask = function(resAttId){
+    var deleteAttributeAssignToTask = function (resAttId) {
         return $http({
             method: 'delete',
-            url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/"+resAttId,
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/" + resAttId,
             headers: {
                 'authorization': authService.resourceToken
             }
-        }).then(function(response)
-        {
+        }).then(function (response) {
             return response.data;
 
         });
@@ -244,22 +258,22 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     return {
         GetResources: getResources,
-        GetTaskAttachToResource:getTaskAttachToResource,
+        GetTaskAttachToResource: getTaskAttachToResource,
         SaveResource: saveResource,
         DeleteResource: deleteResource,
         GetTasks: getTasks,
-        UpdateResource:updateResource,
-        UpdateAttachedTask:updateAttachedTask,
-        UpdateAttributesAttachToResource:updateAttributesAttachToResource,
+        UpdateResource: updateResource,
+        UpdateAttachedTask: updateAttachedTask,
+        UpdateAttributesAttachToResource: updateAttributesAttachToResource,
         DeleteTasksToResource: deleteTasksToResource,
-        DeleteTaskToResource:deleteTask,
+        DeleteTaskToResource: deleteTask,
         AssignTasksToResource: assignTasksToResource,
-        AssignTaskToResource:assignTask,
-        GetAttributes:getAttributes,
-        GetAttributesAttachToResource:getAttributesAttachToResource,
-        AttachAttributeToTask:attachAttributeToTask,
-        DeleteAttributeAssignToTask:deleteAttributeAssignToTask,
-        ResourceNameIsExsists:resourceNameIsExsists
+        AssignTaskToResource: assignTask,
+        GetAttributes: getAttributes,
+        GetAttributesAttachToResource: getAttributesAttachToResource,
+        AttachAttributeToTask: attachAttributeToTask,
+        DeleteAttributeAssignToTask: deleteAttributeAssignToTask,
+        ResourceNameIsExsists: resourceNameIsExsists
     }
 
 });

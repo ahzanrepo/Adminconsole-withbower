@@ -5,9 +5,12 @@ mainApp.directive('timePicker', function () {
     return {
         restrict: "E",
         require: "ngModel",
+        scope: true,
         templateUrl: 'views/cdr/timePicker.html',
         controller: function($scope, $element, $attrs)
         {
+            $scope.Hour = '00:00';
+            $scope.Minute = '00:00';
 
             var ngModelName = $attrs.ngModel;
             $element.scope().$watch(ngModelName, function(val)
@@ -51,6 +54,11 @@ mainApp.directive('timePicker', function () {
                 var ngModel = $element.controller('ngModel');
                 ngModel.$setViewValue(newModelValue);
             }, true);
+
+            $scope.onHrUpPressed = function()
+            {
+
+            }
 
 
 
@@ -96,7 +104,7 @@ mainApp.directive('timePicker', function () {
 
                 $scope.Minute = strMin;
                 var ngModel = $element.controller('ngModel');
-                ngModel.$setViewValue($scope.Hour + ':' + $scope.Minute);
+                ngModel.$setViewValue($scope.Hour+ ':' + $scope.Minute);
 
             };
 

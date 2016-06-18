@@ -62,7 +62,7 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
         attributeService.SaveAttribute(item).then(function (response) {
             console.info("SaveAttribute : " + response);
             if (response.IsSuccess) {
-                $scope.attribData.splice(0, 0, response.Result);
+                $scope.GetAttributes("init", 1, $scope.pageSize);
             }
             $scope.addNew = !response.IsSuccess;
             $scope.GetAttributeCount();
@@ -120,12 +120,13 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
         });
 
     };
+
     $scope.GetGroups("init", 1, $scope.pageSize);
 
     $scope.saveGroup = function (item) {
         attributeService.SaveGroup(item).then(function (response) {
             if (response.IsSuccess) {
-                $scope.groupsData.splice(0, 0, response.Result);
+                $scope.GetGroups("init", 1, $scope.pageSize);
             }
             $scope.addGrp = !response.IsSuccess;
             $scope.GroupsCount();

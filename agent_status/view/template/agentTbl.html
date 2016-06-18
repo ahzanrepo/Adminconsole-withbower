@@ -1,45 +1,83 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="row">
-        <div class="agent-tbl-header">
-            <div class="col-md-3">
-                User
-            </div>
-            <div class="col-md-2">
-                State
-            </div>
-            <div class="col-md-3">
-                Time
-            </div>
-            <div class="col-md-2">
-                Task
-            </div>
-            <div class="col-md-2">
-                from
-            </div>
-        </div>
-        <div ng-repeat="pro in profile">
-            <div class="agent-tbl-view"
-                 ng-class="{'reserved':pro.Status.State=='Reserved',
-                    'available':pro.Status.State=='Available',
-                    'connected':pro.Status.State=='Connected',
-                    'break':pro.Status.State=='Break'}">
-                <div class="col-md-3">
-                    {{pro.ResourceName}}
+    <table class="table table-striped task-tbl">
+        <thead>
+        <tr>
+            <th class="fs15 text-left">Call Info</th>
+            <th class="fs15 text-left">Name</th>
+            <th class="fs15 text-right">State</th>
+            <th class="fs15 text-right">State Time</th>
+            <th class="fs15 text-right">Staffed Time</th>
+            <th class="fs15 text-right">AcwTime</th>
+            <th class="fs15 text-right">BreakTime</th>
+            <th class="fs15 text-right">HoldTime</th>
+            <th class="fs15 text-right">OnCallTime</th>
+            <th class="fs15 text-right">IdleTime</th>
+            <th class="fs15 text-right">StaffedTime</th>
+            <th class="fs15 text-right">IncomingCallCount</th>
+            <th class="fs15 text-right">MissCallCount</th>
+            <th class="fs15 text-right">TransferCallCount</th>
+            <th class="fs15 text-right">Tasks</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th class="fs15 text-left">
+                <div ng-repeat="call in callInfos">
+                    <small>connect with : {{call["Caller-Caller-ID-Number"]}}</small>
+                    <small>Direction : {{call["DVP-Call-Direction"]}}</small>
                 </div>
-                <div class="col-md-2">
-                    {{pro.Status.State}}
+            </th>
+            <th class="fs15 text-left">{{profile.name}}</th>
+            <th class="fs15 text-right">{{profile.slotState}}</th>
+            <th class="fs15 text-right">{{profile.slotStateTime}}</th>
+            <th class="fs15 text-right">{{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.BreakTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.OnCallTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right"> {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.StaffedTime | secondsToDateTime | date:'HH:mm:ss'}}</th>
+            <th class="fs15 text-right">{{productivity.IncomingCallCount}}</th>
+            <th class="fs15 text-right">{{productivity.MissCallCount}}</th>
+            <th class="fs15 text-right">{{productivity.TransferCallCount}}</th>
+            <th class="fs15 text-right"><!-- task -->
+                <div ng-repeat="task in profile.taskList">
+                    <small>{{task.taskType}}</small>
+                    <small>{{task.skill}}</small>
+                    <small>{{task.percentage}}%</small>
                 </div>
-                <div class="col-md-3">
-                    Time
-                </div>
-                <div class="col-md-2">
-                    Task
-                </div>
-                <div class="col-md-2">
-                    from
-                </div>
-            </div>
-        </div>
+            </th>
+        </tr>
 
-    </div>
+        </tbody>
+    </table>
+
 </div>
+
+
+<!--
+
+<div class="task-wrap" ng-slimscroll
+     ng-mouseover="viewScroll()"
+     ng-mouseleave="hideScroll()"
+     opacity="0.1"
+     distance="5px"
+     enabled="{{ scrollEnabled }}"
+     width="100%">
+    <table class="table table-striped task-tbl">
+        <thead>
+        <tr>
+            <th class="fs15 text-left">Task Type</th>
+            <th class="fs15 text-right">Skill</th>
+            <th class="fs15 text-right">Percentage</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="task in profile.taskList">
+            <td class="text-left">{{task.taskType}}</td>
+            <td class="fs15 fw700 text-right"> {{task.skill}}</td>
+            <td class="fs15 fw700 text-right">{{task.percentage}}%</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+-->

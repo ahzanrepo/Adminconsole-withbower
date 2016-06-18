@@ -3,9 +3,17 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $state) {
+mainApp.controller('mainCtrl', function ($scope, $state,loginService ) {
+
+
 
     $scope.clickDirective = {
+
+        goLogout: function(){
+
+            loginService.clearCookie("@loginToken");
+            $state.go('login');
+        },
         goDashboard: function () {
             $state.go('console.dashboard');
         },
