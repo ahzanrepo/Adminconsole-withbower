@@ -5,10 +5,11 @@
     'use strict';
     mainApp.factory('loginService', Service);
 
-    function Service($http, localStorageService) {
+    function Service($http, localStorageService,jwtHelper) {
         var service = {};
         service.Login = Login;
         service.clearCookie = clearCookie;
+        service.getToken = getToken;
         return service;
 
         //set cookie
@@ -20,6 +21,27 @@
         function clearCookie(key) {
             localStorageService.remove(key);
         }
+
+
+        function getToken(appname){
+
+
+            var data = localStorageService.get("@loginToken");
+
+            if(data && data.access_token){
+
+                if(jwtHelper.isTokenExpired(data.access_token)){
+                    return data.access_token;
+
+                }
+            }
+
+            return undefined;
+
+        };
+
+
+
 
         // user login
         function Login(parm, callback) {
