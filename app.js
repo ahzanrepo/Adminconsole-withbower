@@ -140,7 +140,17 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/AgentTblList",
             templateUrl: "agent_status/view/agentStatusTblList.html",
             controller: "agentStatusController"
-        })
+        }).state('console.extension', {
+                url: "/extensions",
+                templateUrl: "views/extension/extension.html",
+                controller: "extensionController"
+            }).
+            state('console.ards', {
+                url: "/ards",
+                templateUrl: "views/ards-config/ardsconfig.html",
+                controller: "ardsController"
+            })
+
 
     }]);
 
