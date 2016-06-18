@@ -10,6 +10,9 @@
 
         //User List Operations
         $scope.viewDivState = -1;
+
+        $scope.canCancelNewUser = false;
+
         //0 view | 1 edit | 2 new
 
         $scope.showAlert = function (title, type, content) {
@@ -29,9 +32,17 @@
             sipUserApiHandler.getSIPUsers().then(function (data) {
                 if (data.IsSuccess) {
                     $scope.sipUsrList = data.Result;
-                    if ($scope.sipUsrList.lenght != 0) {
+                    if ($scope.sipUsrList.length > 0)
+                    {
+                        $scope.canCancelNewUser = true;
                         $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
                         $scope.viewDivState = 0;
+                    }
+
+                    if($scope.sipUsrList.length == 0)
+                    {
+                        $scope.canCancelNewUser = false;
+                        $scope.viewDivState = 2;
                     }
                     $scope.total = data.Result.length;
                 }

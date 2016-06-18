@@ -5,10 +5,11 @@
     'use strict';
     mainApp.factory('loginService', Service);
 
-    function Service($http, localStorageService) {
+    function Service($http, localStorageService,jwtHelper) {
         var service = {};
         service.Login = Login;
         service.clearCookie = clearCookie;
+        service.getToken = getToken;
         return service;
 
         //set cookie
@@ -21,19 +22,43 @@
             localStorageService.remove(key);
         }
 
+
+        function getToken(appname){
+
+
+            var data = localStorageService.get("@loginToken");
+
+            if(data && data.access_token){
+
+                if(!jwtHelper.isTokenExpired(data.access_token)){
+                    return data.access_token;
+
+                }
+            }
+
+            return undefined;
+
+        };
+
+
+
+
+
         // user login
         function Login(parm, callback) {
             $http.post("http://userservice.104.131.67.21.xip.io/oauth/token", {
                 grant_type: "password",
                 username: parm.userName,
                 password: parm.password,
-                scope: "client_scopes all_all"
+                scope: "all_all"
             }, {
                 headers: {
                     Authorization: 'Basic ' + parm.clientID
                 }
             }).
             success(function (data, status, headers, config) {
+
+                clearCookie('@loginToken');
                 setCookie('@loginToken', data);
                 callback(true);
             }).
