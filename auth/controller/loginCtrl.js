@@ -2,7 +2,7 @@
  * Created by Damith on 6/1/2016.
  */
 
-mainApp.controller('loginCtrl', function ($scope, $state, $http,
+mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                           loginService,
                                           config, $base64) {
         var para = {
@@ -30,7 +30,8 @@ mainApp.controller('loginCtrl', function ($scope, $state, $http,
             //decode clientID
             loginService.Login(para, function (result) {
                 if (result) {
-                    $state.go('login');
+
+                    $state.go('console');
 
                 } else {
                     showAlert('Error', 'error', 'Please check login details...');
