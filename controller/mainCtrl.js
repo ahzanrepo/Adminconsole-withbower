@@ -47,6 +47,9 @@ mainApp.controller('mainCtrl', function ($scope, $state,loginService ) {
         goUsers: function () {
             $state.go('console.users');
         },
+        goMyNumbers: function () {
+            $state.go('console.myNumbers');
+        },
         goRingGroup: function () {
             $state.go('console.ringGroup');
         },

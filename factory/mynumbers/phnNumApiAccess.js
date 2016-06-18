@@ -13,7 +13,7 @@
                 method: 'GET',
                 url: 'http://phonenumbertrunkservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumbers',
                 headers: {
-                    'authorization': 'bearer ' + authToken
+                    'authorization': authToken
                 }
             }).then(function(resp)
             {

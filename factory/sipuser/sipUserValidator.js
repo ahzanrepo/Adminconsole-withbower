@@ -6,16 +6,17 @@
 
     var app = angular.module("veeryConsoleApp");
 
-    app.directive("usernamecheck", function ($q, $http)
+    app.directive("usernamecheck", function ($q, $http, authService)
     {
 
         var validateUsername = function (usr)
         {
+            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
                 url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/User/' + usr,
                 headers: {
-                    'authorization': 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkaW51c2hhZGNrIiwianRpIjoiZTBhMGFlYzItMDViYi00YTZiLThlYjctMzFmZjBjYWE4OGI0Iiwic3ViIjoiNTZhOWU3NTlmYjA3MTkwN2EwMDAwMDAxMjVkOWU4MGI1YzdjNGY5ODQ2NmY5MjExNzk2ZWJmNDMiLCJleHAiOjE4OTIzNTM2NDksInRlbmFudCI6MSwiY29tcGFueSI6Mywic2NvcGUiOlt7InJlc291cmNlIjoiYWxsIiwiYWN0aW9ucyI6ImFsbCJ9XSwiaWF0IjoxNDYwMzUwMDQ5fQ.CJuBzazkYKiGWVhxvZ4NweilYP3n5RQFvTk2VoHYa2c'
+                    'authorization': authToken
                 }
             }).then(function (resp)
             {
@@ -67,16 +68,17 @@
         };
     })
 
-    app.directive("extcheck", function($q, $http)
+    app.directive("extcheck", function($q, $http, authService)
     {
 
         var validateExtension = function(ext)
         {
+            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
                 url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
                 headers: {
-                    'authorization': 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkaW51c2hhZGNrIiwianRpIjoiZTBhMGFlYzItMDViYi00YTZiLThlYjctMzFmZjBjYWE4OGI0Iiwic3ViIjoiNTZhOWU3NTlmYjA3MTkwN2EwMDAwMDAxMjVkOWU4MGI1YzdjNGY5ODQ2NmY5MjExNzk2ZWJmNDMiLCJleHAiOjE4OTIzNTM2NDksInRlbmFudCI6MSwiY29tcGFueSI6Mywic2NvcGUiOlt7InJlc291cmNlIjoiYWxsIiwiYWN0aW9ucyI6ImFsbCJ9XSwiaWF0IjoxNDYwMzUwMDQ5fQ.CJuBzazkYKiGWVhxvZ4NweilYP3n5RQFvTk2VoHYa2c'
+                    'authorization': authToken
                 }
             }).then(function (resp) {
                 return resp.data;
