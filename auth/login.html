@@ -6,35 +6,42 @@
                     <div class="login-header">
                         <img src="images/logo150x150.png" width="120" height="120"/>
                     </div>
-                    <form>
+                    <form name="loginFrm">
                         <h1 class="font-robot font-300">Login </h1>
-                        <div>
-                            <input type="text" ng-model="userName" class="form-control" placeholder="Username"
-                                   required=""/>
+                        <div class="validation-area"
+                             ng-class="loginFrm.name.$error ?'user-name':''">
+                            <div class="ng-message error text-left"
+                                 ng-messages="loginFrm.name.$error">
+                                <div ng-message="required"> filed is required..!</div>
+                            </div>
+                            <input type="text" name="userName" ng-model="userName"
+                                   class="form-control login-controller"
+                                   placeholder="Username"
+                                   required/>
                         </div>
                         <div>
                             <input type="password" ng-model="password" class="form-control" placeholder="Password"
                                    required=""/>
                         </div>
                         <div>
-                            <a class="btn btn-default submit" href="javascript:void(0)"
-                               ng-click="onClickLogin()">Log in</a>
-                            <a class="reset_pass" href="#">Lost your password?</a>
+                            <a class="btn btn-default submit pull-left" href="javascript:void(0);"
+                               ng-click="onClickLogin()" ng-disabled="isLogin">Log in</a>
+                            <a class="reset_pass pull-right" href="javascript:void(0);">Lost your password?</a>
                         </div>
 
                         <div class="clearfix"></div>
 
                         <div class="separator">
-                            <p class="change_link">New to site?
-                                <a href="javascript:void(0);" class="to_register"> Create Account </a>
+                            <p class="change_link">
+                                <a href="javascript:void(0);" ng-click="onClickSignUp()"
+                                   class="to_register"> Create
+                                    Account </a>
                             </p>
-
                             <div class="clearfix"></div>
                             <br/>
-
                             <div>
-                                <p class="font-robot  font-300 font-green-light500">
-                                    ©2016 All Rights Reserved | veery.cloud Privacy and
+                                <p class="font-robot font-300 font-green-light500">
+                                    ©2016 All Rights Reserved <br/> veery.cloud Privacy and
                                     Terms</p>
                             </div>
                         </div>
