@@ -1,11 +1,49 @@
 /**
  * Created by Damith on 6/17/2016.
  */
+(function () {
+    'use strict';
+    mainApp.factory('loginService', Service);
 
-'use strict';
-mainApp.factory('loginService', function ($http) {
+    function Service($http, localStorageService) {
+        var service = {};
+        service.Login = Login;
+        service.clearCookie = clearCookie;
+        return service;
 
-});
+        //set cookie
+        function setCookie(key, val) {
+            localStorageService.set(key, val);
+        }
+
+        //remove cookie
+        function clearCookie(key) {
+            localStorageService.remove(key);
+        }
+
+        // user login
+        function Login(parm, callback) {
+            $http.post("http://userservice.104.131.67.21.xip.io/oauth/token", {
+                grant_type: "password",
+                username: parm.userName,
+                password: parm.password,
+                scope: "client_scopes all_all"
+            }, {
+                headers: {
+                    Authorization: 'Basic ' + parm.clientID
+                }
+            }).
+            success(function (data, status, headers, config) {
+                setCookie('@loginToken', data);
+                callback(true);
+            }).
+            error(function (data, status, headers, config) {
+                //login error
+                callback(false);
+            });
+        }
+    }
+})();
 
 
 //$http({

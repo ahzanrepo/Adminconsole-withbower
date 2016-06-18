@@ -33,6 +33,9 @@
             }
         };
 
+        $scope.startTimeNow = '00:00';
+        $scope.endTimeNow = '00:00';
+
         $scope.hstep = 1;
         $scope.mstep = 15;
 
@@ -121,8 +124,15 @@
                 //var encodedTz = encodeURI(momentTz);
                 momentTz = momentTz.replace("+", "%2B");
 
-                var startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
-                var endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
+                var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTimeNow + ':59' + momentTz;
+
+                if($scope.startTimeNow === '00:00' && $scope.endTimeNow === '00:00')
+                {
+                    //use date only
+                    startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
+                    endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+                }
 
 
                 var lim = parseInt($scope.recLimit);

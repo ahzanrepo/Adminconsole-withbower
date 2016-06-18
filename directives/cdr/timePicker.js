@@ -9,9 +9,10 @@ mainApp.directive('timePicker', function () {
         templateUrl: 'views/cdr/timePicker.html',
         controller: function($scope, $element, $attrs)
         {
+            $scope.Hour = '00:00';
+            $scope.Minute = '00:00';
 
             var ngModelName = $attrs.ngModel;
-            var hrScope = ngModelName + 'Hr';
             $element.scope().$watch(ngModelName, function(val)
             {
                 var newModelValue = '00:00';
@@ -40,8 +41,8 @@ mainApp.directive('timePicker', function () {
                                 if(intMin >= 0 && intMin <= 59)
                                 {
 
-                                    $scope[hrScope] = cleanUpHr;
-                                    $scope['Minute'] = cleanUpMin;
+                                    $scope.Hour = cleanUpHr;
+                                    $scope.Minute = cleanUpMin;
 
                                     newModelValue = cleanUpHr + ':' + cleanUpMin;
                                 }
@@ -54,12 +55,17 @@ mainApp.directive('timePicker', function () {
                 ngModel.$setViewValue(newModelValue);
             }, true);
 
+            $scope.onHrUpPressed = function()
+            {
+
+            }
+
 
 
             $scope.onChangeHr = function()
             {
                 var strHr = '00';
-                var cleanUpHr = $scope[hrScope].replace(/((?![0-9]).)/g, '');
+                var cleanUpHr = $scope.Hour.replace(/((?![0-9]).)/g, '');
 
                 if(cleanUpHr)
                 {
@@ -72,9 +78,9 @@ mainApp.directive('timePicker', function () {
                     }
                 }
 
-                $scope[hrScope] = strHr;
+                $scope.Hour = strHr;
                 var ngModel = $element.controller('ngModel');
-                ngModel.$setViewValue($scope[hrScope] + ':' + $scope.Minute);
+                ngModel.$setViewValue($scope.Hour + ':' + $scope.Minute);
 
 
 
@@ -98,7 +104,7 @@ mainApp.directive('timePicker', function () {
 
                 $scope.Minute = strMin;
                 var ngModel = $element.controller('ngModel');
-                ngModel.$setViewValue($scope[hrScope] + ':' + $scope.Minute);
+                ngModel.$setViewValue($scope.Hour+ ':' + $scope.Minute);
 
             };
 

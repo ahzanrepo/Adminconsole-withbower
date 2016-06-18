@@ -18,8 +18,8 @@
             });
         };
 
-        $scope.startTime = '00:00';
-        $scope.endTime = '00:00';
+        $scope.startTimeNow = '00:00';
+        $scope.endTimeNow = '00:00';
 
 
 
@@ -121,6 +121,42 @@
         };
 
 
+        $scope.CheckTimeValidity = function(timeStr)
+        {
+            var splitTime = timeStr.split(':');
+
+            if(splitTime.length === 2)
+            {
+                //ok
+                var cleanUpHr = splitTime[0].replace(/((?![0-9]).)/g, '');
+
+                if(cleanUpHr)
+                {
+                    var intHr = parseInt(cleanUpHr);
+
+                    if(intHr >= 0 && intHr <= 23)
+                    {
+                        var cleanUpMin = splitTime[1].replace(/((?![0-9]).)/g, '');
+
+                        if(cleanUpMin)
+                        {
+                            var intMin = parseInt(cleanUpMin);
+
+                            if(intMin >= 0 && intMin <= 59)
+                            {
+
+                                $scope.Hour = cleanUpHr;
+                                $scope.Minute = cleanUpMin;
+
+                                newModelValue = cleanUpHr + ':' + cleanUpMin;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         $scope.getProcessedCDR = function (offset, reset) {
 
             try
@@ -154,8 +190,15 @@
                 //var encodedTz = encodeURI(momentTz);
                 momentTz = momentTz.replace("+", "%2B");
 
-                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTime + ':00' + momentTz;
-                var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTime + ':59' + momentTz;
+                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
+                var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTimeNow + ':59' + momentTz;
+
+                if($scope.startTimeNow === '00:00' && $scope.endTimeNow === '00:00')
+                {
+                    //use date only
+                    startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
+                    endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+                }
 
 
                 var lim = parseInt($scope.recLimit);
