@@ -45,60 +45,70 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/dashboard",
             templateUrl: "views/dashboard/dashboard-1.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "DASHBOARD"
+
             }
         }).state('console.productivity', {
             url: "/productivity",
             templateUrl: "agent_productivity/view/agentProductivity.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "AGENT_PRODUCTIVITY"
             }
         }).state('console.filegallery', {
             url: "/filegallery",
             templateUrl: "file_gallery/view/fileList.html",
             controller: "FileListController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "FILE_GALLERY"
             }
         }).state('console.fileupload', {
             url: "/fileupload",
             templateUrl: "file_gallery/view/fileAdd.html",
             controller: "FileEditController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "FILE_UPLOAD"
             }
         }).state('console.attributes', {
             url: "/attributes",
             templateUrl: "attribute_application/partials/attributeList.html",
             controller: "attributeListController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "ATTRIBUTES"
             }
         }).state('console.resources', {
             url: "/resources",
             templateUrl: "resource_application/partials/resourceList.html",
             controller: "resourceController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "RESOURCES"
             }
         }).state('console.AgentStatus', {
             url: "/AgentStatus",
             templateUrl: "agent_status/view/agentStatusList.html",
             controller: "agentStatusController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "RESOURCES"
             }
         }).state("console.applicationAccessManager", {
             url: "/applicationAccessManager/:username/:role",
             templateUrl: "application_access_management/view/appAccessManage.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "APPLICATIONS"
             }
         }).state('login', {
             url: "/login",
             templateUrl: "auth/login.html",
             data: {
-                requireLogin: false
+                requireLogin: false,
+
             }
         }).state('signUp', {
             url: "/signUp",
@@ -116,14 +126,17 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/cdr",
             templateUrl: "views/cdr/call-cdr.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "CDR"
+
             }
         }).state("console.myNumbers", {
             url: "/myNumbers",
             templateUrl: "views/mynumbers/myNumbers.html",
             controller: "myNumbersCtrl",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "CDR"
             }
         }).state("console.sipuser", {
             url: "/sipuser",
@@ -131,7 +144,8 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "sipUserCtrl",
 
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "SIPUSER_CONFIGURATION"
             }
 
         }).state("console.userprofile", {
@@ -139,68 +153,79 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "views/userprofile/userprofile.html",
             controller: "userProfileCtrl",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "PROFILE"
+
             }
         }).state("console.users", {
             url: "/users",
             templateUrl: "views/user/userList.html",
             controller: "userListCtrl",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "USERS"
             }
         }).state("console.pbxuser", {
             url: "/pbxuser",
             templateUrl: "views/pbxuser/pbxuser.html",
             controller: "pbxCtrl",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "PABX_USERS"
             }
         }).state("console.ringGroup", {
             url: "/ringGroup",
             templateUrl: "views/ringGroup/ringGroup.html",
             controller: "ringGroupCtrl",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "RING_GROUP_CONFIGURATION"
             }
         }).state('console.callmonitor', {
             url: "/call-monitor",
             templateUrl: "views/call-monitor/callMonitor.html",
             controller: "callmonitorcntrl",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "CALL_MONITOR"
             }
         }).state('console.abandonCdr', {
             url: "/abandonCallReport",
             templateUrl: "views/cdr/abandonCallReport.html",
             controller: "abandonCallCdrCtrl",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "CDR_ABANDONE"
             }
         }).state('console.realtime-queued', {
             url: "/realtime-queued",
             templateUrl: "views/real-time/queued.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "DASHBOARD"
             }
         }).state('console.phone', {
             url: "/call-phone",
             templateUrl: "views/call-monitor/phoneWidget.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "CALL_MONITOR"
             }
         }).state('console.rule', {
             url: "/rule/rules",
             templateUrl: "views/rule/ruleList.html",
             controller: "rulelistcontroller",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "RULES"
             }
         }).state('console.newrule', {
             url: "/rule/new-rule",
             templateUrl: "views/rule/newRule.html",
             controller: "newrulecontroller",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "RULES"
             }
         }).state('console.editrule', {
             url: "/rule/edit-rule?id",
@@ -208,59 +233,68 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "views/rule/newRule.html",
             controller: "newrulecontroller",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "RULES"
             }
         }).state('console.application', {
             url: "/applications",
             templateUrl: "views/app-registry/applications.html",
             controller: "applicationController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "APPLICATION"
             }
         }).state('console.holdmusic', {
             url: "/holdmusic",
             templateUrl: "views/hold-music/holdmusic.html",
             controller: "holdMusicController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "HOLD_MUSIC"
             }
         }).state('console.limits', {
             url: "/limits",
             templateUrl: "views/limit/limits.html",
             controller: "limitController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "LIMIT"
             }
         }).state('console.queuesummary', {
             url: "/queuesummary",
             templateUrl: "views/queue-summary/queue-summary.html",
             controller: "queueSummaryController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "CDR"
             }
         }).state('console.agentsummary', {
             url: "/agentsummary",
             templateUrl: "views/agent-productivity-summary/agentSummary.html",
             controller: "agentSummaryController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "CDR"
             }
         }).state('console.AgentTblList', {
             url: "/AgentTblList",
             templateUrl: "agent_status/view/agentStatusTblList.html",
             controller: "agentStatusController",
             data: {
-                requireLogin: true
+                requireLogin: true,
+                navigation: "CDR"
             }
         }).state('console.extension', {
             url: "/extensions",
             templateUrl: "views/extension/extension.html",
-            controller: "extensionController"
+            controller: "extensionController",
+            navigation: "EXTENSION"
         }).
         state('console.ards', {
             url: "/ards",
             templateUrl: "views/ards-config/ardsconfig.html",
-            controller: "ardsController"
+            controller: "ardsController",
+            navigation: "ARDS_CONFIG"
         })
 
     }]);
@@ -365,6 +399,19 @@ mainApp.run(function ($rootScope, loginService, $location) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
 
+        var navigation = toState.data.navigation;
+
+
+
+        if(navigation)
+        if(!loginService.checkNavigation(navigation)) {
+            event.preventDefault();
+            return;
+
+        }
+
+
+
         if (requireLogin) {
             if (!loginService.getToken()) {
                 event.preventDefault();
@@ -372,6 +419,7 @@ mainApp.run(function ($rootScope, loginService, $location) {
             }
             // get me a login modal!
         }
+
     });
 
 });

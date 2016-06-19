@@ -30,63 +30,69 @@
                 <!-- sidebar menu -->
 
 
-                <div id="sidebar-menu" menu-collapse class="main_menu_side hidden-print main_menu">
+                <div id="sidebar-menu" menu-collapse class="main_menu_side hidden-print main_menu"
+                >
                     <div class="menu_section active">
                         <h3 class="font-gry-200">General</h3>
                         <ul class="nav side-menu" style="">
-                            <li class=""><a ng-click="clickDirective.goDashboard()" class="font-robot font-300">
+                            <li class="" ng-show="accessNavigation.DASHBOARD"><a ng-click="clickDirective.goDashboard()"
+                                                                                 class="font-robot font-300">
                                 <i class="fa fa-home"></i> Home </a>
                             </li>
                             <li><a class="font-robot font-300 "><i class="fa fa-edit"></i> Real Time
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a ng-click="clickDirective.goProductivity()">Agent Productivity </a></li>
-                                    <li><a href="javascript:void(0)" ng-click="clickDirective.goCallMonitor()">Call
+                                    <li ng-show="accessNavigation.AGENT_PRODUCTIVITY"><a ng-click="clickDirective.goProductivity()">Agent Productivity </a></li>
+                                    <li ng-show="accessNavigation.CALL_MONITOR"><a href="javascript:void(0)" ng-click="clickDirective.goCallMonitor()">Call
                                         Monitor</a></li>
-                                    <li><a ng-click="clickDirective.goRealTimeQueued()">Queued</a></li>
+                                    <li ng-show="accessNavigation.DASHBOARD"><a ng-click="clickDirective.goRealTimeQueued()">Queued</a></li>
                                 </ul>
                             </li>
                             <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Utility <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goFilegallery()">File
+                                    <li ng-show="accessNavigation.FILE_GALLERY"><a href="javascript:void(0);" ng-click="clickDirective.goFilegallery()">File
                                         Gallery </a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goFileupload()">File
+                                    <li ng-show="accessNavigation.FILE_UPLOAD"><a href="javascript:void(0);" ng-click="clickDirective.goFileupload()">File
                                         Upload</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goSipUser()">SIP User</a>
-                                    </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goRingGroup()">Ring
-                                        Group</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goUsers()">Users</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goMyNumbers()">My Numbers</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goApplications()">Applications</a>
-                                    </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goRule()">Rules</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goHoldMusic()">Hold
+
+
+                                    <li ng-show="accessNavigation.HOLD_MUSIC"><a href="javascript:void(0);" ng-click="clickDirective.goHoldMusic()">Hold
                                         Music</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goLimits()">Limits</a>
+                                    <li ng-show="accessNavigation.LIMIT"><a href="javascript:void(0);" ng-click="clickDirective.goLimits()">Limits</a>
                                     </li>
                                 </ul>
                             </li>
                             <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> User <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAttributeList()">Attributes </a>
+                                    <li ng-show="accessNavigation.USERS"><a href="javascript:void(0);" ng-click="clickDirective.goUsers()">Users</a></li>
+                                    <li ng-show="accessNavigation.SIPUSER_CONFIGURATION"><a href="javascript:void(0);" ng-click="clickDirective.goSipUser()">SIP User</a>
                                     </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goResourceList()">Resources</a>
-                                    </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAgentStatus()">Agent
+                                    <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION"><a href="javascript:void(0);" ng-click="clickDirective.goRingGroup()">Ring
+                                        Group</a></li>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);" ng-click="clickDirective.goAgentStatus()">Agent
                                         Status</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Call Rules <span
+                                    class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);" ng-click="clickDirective.goMyNumbers()">My
+                                        Numbers</a></li>
+                                    <li ng-show="accessNavigation.APPLICATION"><a href="javascript:void(0);" ng-click="clickDirective.goApplications()">Applications</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.RULES"><a href="javascript:void(0);" ng-click="clickDirective.goRule()">Rules</a></li>
                                 </ul>
                             </li>
                             <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Request Router <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAttributeList()">Attributes </a>
+                                    <li ng-show="accessNavigation.ATTRIBUTES"><a href="javascript:void(0);" ng-click="clickDirective.goAttributeList()">Attributes </a>
                                     </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goResourceList()">Resources</a>
+                                    <li ng-show="accessNavigation.RESOURCES"><a href="javascript:void(0);" ng-click="clickDirective.goResourceList()">Resources</a>
                                     </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAgentStatus()">Agent
+                                    <li ng-show="accessNavigation.RESOURCES"><a href="javascript:void(0);" ng-click="clickDirective.goAgentStatus()">Agent
                                         Status</a></li>
                                 </ul>
                             </li>
@@ -99,15 +105,15 @@
                             <li><a class="font-robot font-300 "><i class="fa fa-bug"></i> Report <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goCdrReport()">CDR</a>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);" ng-click="clickDirective.goCdrReport()">CDR</a>
                                     </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAbandonCallList()">Abandon
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);" ng-click="clickDirective.goAbandonCallList()">Abandon
                                         Call Report</a>
                                     </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goQueueSummary()">Queue
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);" ng-click="clickDirective.goQueueSummary()">Queue
                                         Summary</a>
                                     </li>
-                                    <li><a href="javascript:void(0);" ng-click="clickDirective.goAgentSummary()">Agent
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);" ng-click="clickDirective.goAgentSummary()">Agent
                                         productivity Summary</a>
                                 </ul>
                             </li>

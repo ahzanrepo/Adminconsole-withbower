@@ -12,6 +12,8 @@
         return service;
 
         //create new user
+        //http://192.168.5.103:3636
+        //http://userservice.104.131.67.21.xip.io
         function createNewUser(param, callback) {
             $http.post("http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Organisation/Owner", param).
             success(function (data, status, headers, config) {
