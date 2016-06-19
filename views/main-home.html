@@ -39,7 +39,7 @@
                                                                                  class="font-robot font-300">
                                 <i class="fa fa-home"></i> Home </a>
                             </li>
-                            <li><a class="font-robot font-300 "><i class="fa fa-edit"></i> Real Time
+                            <li ng-show="accessNavigation.AGENT_PRODUCTIVITY || accessNavigation.CALL_MONITOR"><a class="font-robot font-300 "><i class="fa fa-edit"></i> Real Time
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.AGENT_PRODUCTIVITY"><a ng-click="clickDirective.goProductivity()">Agent Productivity </a></li>
@@ -48,7 +48,7 @@
                                     <li ng-show="accessNavigation.DASHBOARD"><a ng-click="clickDirective.goRealTimeQueued()">Queued</a></li>
                                 </ul>
                             </li>
-                            <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Utility <span
+                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LIMIT"><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Utility <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.FILE_GALLERY"><a href="javascript:void(0);" ng-click="clickDirective.goFilegallery()">File
@@ -63,7 +63,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> User <span
+                            <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.USERS"><a class="font-robot font-300 "><i class="fa fa-desktop"></i> User <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.USERS"><a href="javascript:void(0);" ng-click="clickDirective.goUsers()">Users</a></li>
@@ -75,7 +75,7 @@
                                         Status</a></li>
                                 </ul>
                             </li>
-                            <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Call Rules <span
+                            <li ng-show="accessNavigation.CDR || accessNavigation.APPLICATION || accessNavigation.RULES"><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Call Rules <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);" ng-click="clickDirective.goMyNumbers()">My
@@ -85,7 +85,7 @@
                                     <li ng-show="accessNavigation.RULES"><a href="javascript:void(0);" ng-click="clickDirective.goRule()">Rules</a></li>
                                 </ul>
                             </li>
-                            <li><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Request Router <span
+                            <li ng-show="accessNavigation.ATTRIBUTES || accessNavigation.RESOURCES "><a class="font-robot font-300 "><i class="fa fa-desktop"></i> Request Router <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.ATTRIBUTES"><a href="javascript:void(0);" ng-click="clickDirective.goAttributeList()">Attributes </a>
@@ -102,7 +102,7 @@
                     <div class="menu_section">
                         <h3 class="font-gry-200">Other</h3>
                         <ul class="nav side-menu">
-                            <li><a class="font-robot font-300 "><i class="fa fa-bug"></i> Report <span
+                            <li  ng-show="accessNavigation.CDR"><a class="font-robot font-300 "><i class="fa fa-bug"></i> Report <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);" ng-click="clickDirective.goCdrReport()">CDR</a>
