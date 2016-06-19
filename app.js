@@ -41,7 +41,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             data: {
                 requireLogin: true
             }
-
         }).state('console.dashboard', {
             url: "/dashboard",
             templateUrl: "views/dashboard/dashboard-1.html",
@@ -104,6 +103,12 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('signUp', {
             url: "/signUp",
             templateUrl: "auth/signUp.html",
+            data: {
+                requireLogin: false
+            }
+        }).state('pricing', {
+            url: "/pricing",
+            templateUrl: "auth/pricing.html",
             data: {
                 requireLogin: false
             }
@@ -252,11 +257,11 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "views/extension/extension.html",
             controller: "extensionController"
         }).
-            state('console.ards', {
-                url: "/ards",
-                templateUrl: "views/ards-config/ardsconfig.html",
-                controller: "ardsController"
-            })
+        state('console.ards', {
+            url: "/ards",
+            templateUrl: "views/ards-config/ardsconfig.html",
+            controller: "ardsController"
+        })
 
     }]);
 
@@ -361,7 +366,7 @@ mainApp.run(function ($rootScope, loginService, $location) {
         var requireLogin = toState.data.requireLogin;
 
         if (requireLogin) {
-            if(!loginService.getToken()) {
+            if (!loginService.getToken()) {
                 event.preventDefault();
                 $location.path("/login");
             }

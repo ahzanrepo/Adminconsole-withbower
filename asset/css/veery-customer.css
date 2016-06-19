@@ -2021,3 +2021,34 @@ ul.count2 {
     max-width: 460px;
 }
 
+/*pricing */
+.pricing_wrapper {
+    right: 0px;
+    margin: 5% auto;
+    text-align: center;
+    max-width: 900px;
+    float: none;
+}
+
+.price-wrap {
+    background: #fff;
+    height: 450px;
+    width: 100%;
+    border-radius: 10px;
+
+}
+
+.pricing {
+}
+
+.pricing > .title {
+    background: #fff;
+    color: #000000;
+
+}
+
+.pricing > .x_content {
+    margin-top: 0;
+    padding: 0px;
+}
+

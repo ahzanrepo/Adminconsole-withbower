@@ -11,6 +11,9 @@
         service.clearCookie = clearCookie;
         service.getToken = getToken;
         service.getTokenDecode = getTokenDecode;
+        service.getMyPackages = getMyPackages;
+        service.getAllPackages = getAllPackages;
+        service.buyMyPackage = buyMyPackage;
         return service;
 
         //set cookie
@@ -43,7 +46,7 @@
         //remove cookie
         function clearCookie(key) {
             localStorageService.remove(key);
-            getToken();
+
         }
 
 
@@ -60,7 +63,6 @@
                 }
             }).
             success(function (data, status, headers, config) {
-
                 clearCookie('@loginToken');
                 setCookie('@loginToken', data);
                 callback(true);
@@ -70,6 +72,58 @@
                 callback(false);
             });
         }
+
+
+        //get my packages
+        function getMyPackages(callback) {
+            $http.get("http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/MyOrganization/mypackages", {
+                headers: {
+                    Authorization: 'bearer ' + getToken()
+                }
+            }).
+            success(function (data, status, headers, config) {
+                if (data && data.Result && data.Result.length > 0) {
+                    callback(true);
+                } else {
+                    callback(false);
+                }
+            }).
+            error(function (data, status, headers, config) {
+                callback(false);
+            });
+        }
+
+        //get package details
+        function getAllPackages(callback) {
+            $http.get("http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Packages", {
+                headers: {
+                    Authorization: 'bearer ' + getToken()
+                }
+            }).
+            success(function (data, status, headers, config) {
+                callback(data.Result);
+
+            }).
+            error(function (data, status, headers, config) {
+                callback(data.Result);
+            });
+        }
+
+        //buy my package details
+        function buyMyPackage(packageName, callback) {
+            $http.put("http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Organisation/Package/" + packageName, {}, {
+                headers: {
+                    Authorization: 'bearer ' + getToken()
+                }
+            }).
+            success(function (data, status, headers, config) {
+                callback(true);
+            }).
+            error(function (data, status, headers, config) {
+                callback(false);
+            });
+        }
+
     }
 })();
 
