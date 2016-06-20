@@ -157,6 +157,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         //$scope.newObj.Direction=Direction;
         if($scope.editMode)
         {
+
             ruleconfigservice.updateRules($scope.newObj).then(onSaveCompleted,onError);
         }
 
@@ -167,6 +168,15 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
 
 
 
+    };
+
+    $scope.makeContextEmpty = function () {
+        $scope.newObj.Context=null;
+        console.log("After Remove context "+$scope.newObj.Context);
+    };
+    $scope.makeTrunkEmpty = function () {
+        $scope.newObj.TrunkNumber=null;
+        console.log("After Remove TrunkNumber "+$scope.newObj.TrunkNumber);
     };
 
     function  loadContexts()
