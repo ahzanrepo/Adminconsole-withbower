@@ -13,11 +13,21 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
     $scope.IsDeveloper=false;
     $scope.Developers=[];
 
+    $scope.showAlert = function (tittle,content,type) {
 
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
 
 
 
     $scope.saveAplication= function (resource) {
+
+
         resource.Availability=true;
         if(resource.ObjClass=="DEVELOPER")
         {
@@ -27,20 +37,26 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
 
             if(!response.data.IsSuccess)
             {
+
                 console.info("Error in adding new Application "+response.data.Exception);
+                $scope.showAlert("Error", "There is an error in saving Application ","error");
+               //$scope.showAlert("Error",)
             }
             else
             {
                 $scope.addNew = !response.data.IsSuccess;
+                $scope.showAlert("Success", "New Application added sucessfully.","success");
 
                 $scope.AppList.splice(0, 0, response.data.Result);
                 $scope.newApplication={};
 
 
             }
-
+            $state.reload();
         }), function (error) {
             console.info("Error in adding new Application "+error);
+            $scope.showAlert("Error", "There is an Exception in saving Application "+error,"error");
+            $state.reload();
         }
     };
 
