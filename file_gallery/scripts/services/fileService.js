@@ -15,7 +15,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
       //data: json, //this is your json data string
       headers: {
         'Content-type': 'application/json',
-        'authorization': authService.Token
+        'authorization': authService.GetToken()
       },
       responseType: 'arraybuffer'
     }).success(function (data, status, headers, config) {
@@ -44,7 +44,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
       method: 'get',
       url: baseUrls.fileServiceUrl+ 'Files/50/'+pageNo,
       headers: {
-        'authorization': authService.Token
+        'authorization': authService.GetToken()
       }
     }).then(function (response) {
       return response.data.Result;
@@ -56,7 +56,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
       method: 'get',
       url: baseUrls.fileServiceUrl+ 'FilesInfo/Category/'+categoryId+'/'+pageSize+'/'+pageNo,
       headers: {
-        'authorization': authService.Token
+        'authorization': authService.GetToken()
       }
     }).then(function (response) {
       return response.data.Result;
@@ -68,7 +68,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
       method: 'get',
       url: baseUrls.fileServiceUrl+ 'File/Count/Category/'+categoryId,
       headers: {
-        'authorization': authService.Token
+        'authorization': authService.GetToken()
       }
     }).then(function (response) {
       return response.data.Result;
@@ -79,7 +79,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     return $http({
       method: 'delete',
       url: baseUrls.fileServiceUrl+'File/' + file.UniqueId,
-      headers: {'authorization': authService.Token}
+      headers: {'authorization': authService.GetToken()}
     }).then(function (response) {
       return response.data.IsSuccess;
     });
@@ -89,7 +89,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
 
     return $http.get(baseUrls.fileServiceUrl+'FileCategories',
       {
-        headers: {'authorization':  authService.Token}
+        headers: {'authorization':  authService.GetToken()}
       }
     ).then(function (response) {
 
@@ -99,7 +99,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
   };
 
   return {
-    GetToken: authService.Token,
+    GetToken: authService.GetToken(),
     DownloadFile: downloadFile,
     GetFiles: getFiles,
     DeleteFile: deleteFile,
@@ -108,7 +108,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     GetFileCountCategoryID:getFileCountCategoryID,
     UploadUrl: baseUrls.fileServiceUrl+ "File/Upload",
     File: {},
-    Headers: {'Authorization':  authService.Token}
+    Headers: {'Authorization':  authService.GetToken()}
   }
 
 });
