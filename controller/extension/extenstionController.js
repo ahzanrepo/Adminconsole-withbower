@@ -84,14 +84,50 @@ mainApp.controller("extensionController", function ($scope,$state, extensionBack
 
 
 
-   // $scope.GetApplications();
+    // $scope.GetApplications();
+
+    $scope.addNewExtension= function (resource) {
+
+        $scope.extension = resource;
+        $scope.extension.Enabled = true;
+        $scope.extension.DodActive = true;
+        extensionBackendService.saveNewExtension(resource).then(function (response) {
+            if(response.data.IsSuccess)
+            {
+                console.log("Extension added successfully");
+                extensionBackendService.assignDodToExtension(response.data.id,resource.DodNumber).then(function (response) {
+
+                    if(response.data.IsSuccess)
+                    {
+                        console.log("Dod assigned to Extension");
+                    }
+                    else
+                    {
+                        console.log("Error in assigning DOD to Extension ",response.data.Extension.Message);
+                    }
+                }, function (error) {
+                    console.log("Extension in assigning DOD to Extension ",error);
+                });
+            }
+            else
+            {
+                console.log("Extension saving error ",response.data.Exception.Message);
+            }
+            $scope.reloadPage();
+
+        }, function (error) {
+            console.log("Extension saving failed ",error);
+            $scope.reloadPage();
+        });
+    };
+
 
     $scope.GetExtensions = function () {
         extensionBackendService.getExtensions().then(function (response) {
 
             if(response.data.Exception)
             {
-                console.info("Error in picking App list "+response.data.Exception);
+                console.info("Error in picking limit list "+response.data.Exception.Message);
             }
             else
             {
@@ -104,6 +140,7 @@ mainApp.controller("extensionController", function ($scope,$state, extensionBack
         }
     };
     $scope.GetExtensions();
+
 
 
 });
