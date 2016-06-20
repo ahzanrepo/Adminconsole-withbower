@@ -8,6 +8,7 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
         scope: {
             groupinfo: "=",
             attribinfo:"=",
+            taskList:"=",
             'updateGroups': '&'
         },
 
@@ -130,7 +131,7 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
                 new PNotify({
                     title: tittle,
                     text: content,
-                    type: 'notice',
+                    type: 'success',
                     styling: 'bootstrap3'
                 });
             };

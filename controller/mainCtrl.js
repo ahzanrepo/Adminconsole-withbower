@@ -16,8 +16,20 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
 
     $scope.clickDirective = {
         goLogout: function () {
-            loginService.clearCookie("@loginToken");
-            $state.go('login');
+
+            loginService.Logoff(undefined,function(issuccess){
+
+                if(issuccess){
+
+                    $state.go('login');
+
+                }else{
+
+                }
+
+            });
+            //loginService.clearCookie("@loginToken");
+            //$state.go('login');
         },
         goDashboard: function () {
             $state.go('console.dashboard');
@@ -84,6 +96,9 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         },
         goAgentSummary: function () {
             $state.go('console.agentsummary');
+        },
+        goArdsConfig: function () {
+            $state.go('console.ardsconfig');
         }
     };
 

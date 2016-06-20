@@ -116,7 +116,7 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 new PNotify({
                     title: tittle,
                     text: content,
-                    type: 'notice',
+                    type: 'success',
                     styling: 'bootstrap3'
                 });
             };

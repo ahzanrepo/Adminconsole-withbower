@@ -5,7 +5,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var cdrCtrl = function ($scope, $filter, cdrApiHandler, ngAudio) {
+    var cdrCtrl = function ($scope, $filter, cdrApiHandler, ngAudio, loginService) {
 
 
         $scope.showAlert = function (tittle, type, content) {
@@ -44,7 +44,13 @@
 
         $scope.SetDownloadPath = function(uuid)
         {
-            $scope.DownloadFileUrl = 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/DownloadLatest/1/3/' + uuid + '.wav';
+            var decodedToken = loginService.getTokenDecode();
+
+            if(decodedToken && decodedToken.company && decodedToken.tenant)
+            {
+                $scope.DownloadFileUrl = 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.wav';
+            }
+
         };
 
         $scope.playStopFile = function (uuid, playState, stopState) {
@@ -56,9 +62,16 @@
                 }
                 $scope.currentPlayingFile = uuid;
 
-                $scope.fileToPlay = ngAudio.load('http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/DownloadLatest/1/3/' + uuid + '.wav');
+                var decodedToken = loginService.getTokenDecode();
 
-                $scope.fileToPlay.play();
+                if(decodedToken && decodedToken.company && decodedToken.tenant)
+                {
+                    $scope.fileToPlay = ngAudio.load('http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.wav');
+
+                    $scope.fileToPlay.play();
+                }
+
+
             }
             else if (stopState) {
                 $scope.currentPlayingFile = null;
@@ -186,6 +199,7 @@
                                 var outLegProcessed = false;
                                 var curCdr = cdrResp.Result[cdr];
                                 var isInboundHTTAPI = false;
+                                var outLegAnswered = false;
 
                                 var callHangupDirectionA = '';
                                 var callHangupDirectionB = '';
@@ -250,20 +264,29 @@
                                     cdrAppendObj.Uuid = curProcessingLeg.Uuid;
                                     cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
                                     cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
-                                    cdrAppendObj.IsAnswered = curProcessingLeg.IsAnswered;
+                                    cdrAppendObj.IsAnswered = false;
+
                                     cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;
 
                                     var localTime = moment(curProcessingLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
 
                                     cdrAppendObj.CreatedTime = localTime;
                                     cdrAppendObj.Duration = curProcessingLeg.Duration;
-                                    cdrAppendObj.BillSec = curProcessingLeg.BillSec;
-                                    cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                    cdrAppendObj.BillSec = 0;
+                                    cdrAppendObj.HoldSec = 0;
+
+                                    cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
+
+                                    if(cdrAppendObj.DVPCallDirection === 'INBOUND')
+                                    {
+                                        cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                    }
+
 
                                     cdrAppendObj.QueueSec = curProcessingLeg.QueueSec;
                                     cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
 
-                                    cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
+
                                     cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
 
@@ -290,8 +313,6 @@
 
                                     callHangupDirectionB = curProcessingLeg.HangupDisposition;
 
-                                    var dvpCallDirection = curProcessingLeg.DVPCallDirection;
-
                                     if (!bottomSet && count === cdrLen) {
                                         $scope.bottom = curProcessingLeg.id;
                                         bottomSet = true;
@@ -300,12 +321,13 @@
                                     cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
                                     cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
-                                    if(dvpCallDirection === 'outbound')
+
+                                    if(cdrAppendObj.DVPCallDirection === 'OUTBOUND')
                                     {
-                                        cdrAppendObj.Duration = curProcessingLeg.Duration;
-                                        cdrAppendObj.BillSec = curProcessingLeg.BillSec;
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
+
+                                    cdrAppendObj.BillSec = curProcessingLeg.BillSec;
 
                                     if (!cdrAppendObj.ObjType) {
                                         cdrAppendObj.ObjType = curProcessingLeg.ObjType;
@@ -316,6 +338,14 @@
                                     }
 
                                     outLegProcessed = true;
+
+                                    if(!outLegAnswered)
+                                    {
+                                        if(curProcessingLeg.BillSec > 0)
+                                        {
+                                            outLegAnswered = true;
+                                        }
+                                    }
                                 }
 
                                 if(callHangupDirectionA === 'recv_bye')
@@ -330,6 +360,8 @@
                                 {
                                     cdrAppendObj.HangupParty = 'SYSTEM';
                                 }
+
+
 
 
                                 /*for (i = 0; i < curCdr.length; i++)
@@ -400,6 +432,8 @@
                                         outLegProcessed = true;
                                     }
                                 }*/
+
+                                cdrAppendObj.IsAnswered = outLegAnswered;
 
                                 if (isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec) {
                                     cdrAppendObj.ShowButton = true;

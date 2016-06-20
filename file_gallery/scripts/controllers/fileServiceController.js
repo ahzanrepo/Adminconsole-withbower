@@ -32,7 +32,7 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
             new PNotify({
                 title: 'File Upload!',
                 text: 'Please Select File Category.',
-                type: 'notice',
+                type: 'error',
                 styling: 'bootstrap3'
             });
             return;
@@ -72,7 +72,11 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
         fileService.GetCatagories().then(function (response) {
 
             $scope.Categorys = $filter('filter')(response, {Owner: "user"});
-
+            if ($scope.Categorys) {
+                if ($scope.Categorys.length > 0) {
+                    $scope.file.category = $scope.Categorys[0];
+                }
+            }
         }, function (error) {
             console.info("GetCatagories err" + error);
 
@@ -90,12 +94,12 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     $scope.countByCategory = [];
     $scope.categoryId = 0;
     $scope.showPaging = false;
-    $scope.currentPage="1";
-    $scope.pageTotal="1";
-    $scope.pageSize="50";
+    $scope.currentPage = "1";
+    $scope.pageTotal = "1";
+    $scope.pageSize = "50";
 
-    $scope.getPageData=function(Paging, page, pageSize, total){
-        fileService.GetFilesCategoryID($scope.categoryId,pageSize, page).then(function (response) {
+    $scope.getPageData = function (Paging, page, pageSize, total) {
+        fileService.GetFilesCategoryID($scope.categoryId, pageSize, page).then(function (response) {
             $scope.files = response;
         }, function (err) {
         });
@@ -142,11 +146,11 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     $scope.loadFileList(1);
 
     $scope.getFilesCategoryID = function (categoryId, currentPage) {
-        $scope.pageTotal =($filter('filter')($scope.countByCategory, {ID: categoryId}))[0].Count;
+        $scope.pageTotal = ($filter('filter')($scope.countByCategory, {ID: categoryId}))[0].Count;
         $scope.currentPage = 1;
         $scope.categoryId = categoryId;
         $scope.showPaging = false;
-        fileService.GetFilesCategoryID(categoryId,$scope.pageSize, currentPage).then(function (response) {
+        fileService.GetFilesCategoryID(categoryId, $scope.pageSize, currentPage).then(function (response) {
             $scope.files = response;
             $scope.showPaging = true;
         }, function (err) {

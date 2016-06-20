@@ -144,7 +144,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                 new PNotify({
                     title: tittle,
                     text: content,
-                    type: 'notice',
+                    type: 'success',
                     styling: 'bootstrap3'
                 });
             };
@@ -304,7 +304,11 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                 resourceService.AttachAttributeToTask(scope.assignSkill_selectedTask.task.ResTaskId, scope.selectedAttribute.AttributeId, scope.selectedAttribute.Percentage, scope.selectedAttribute.OtherData).then(function (response) {
 
                     if (response.IsSuccess) {
+                        var index = scope.selectedAttributes.indexOf(scope.selectedAttribute);
                         scope.selectedAttribute.savedObj = response.Result;
+                        if (index > -1) {
+                            scope.selectedAttributes[index]=scope.selectedAttribute;
+                        }
                     }
                     else {
                         var index = scope.selectedAttributes.indexOf(scope.selectedAttribute);

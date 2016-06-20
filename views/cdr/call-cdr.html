@@ -216,18 +216,26 @@
                                         <td>{{cdr.HangupParty}}</td>
                                         <td>
                             <span ng-show="cdr.ShowButton">
-                                <i class="fa fa-stop"
-                                   ng-if="cdr.Uuid == currentPlayingFile && ((fileToPlay.progress > 0 && fileToPlay.progress < 1) || fileToPlay.remaining == 'Infinity')"
-                                   ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
+
+                                <a href="">
+                                    <i class="fa fa-stop"
+                                       ng-if="cdr.Uuid == currentPlayingFile && ((fileToPlay.progress > 0 && fileToPlay.progress < 1) || fileToPlay.remaining == 'Infinity')"
+                                       ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
                                     fileToPlay.progress == 0 || fileToPlay.progress == 1) && fileToPlay.remaining != 'Infinity')),
                                      (cdr.Uuid == currentPlayingFile && ((fileToPlay.progress > 0 && fileToPlay.progress < 1) || fileToPlay.remaining == 'Infinity')))"></i>
+                                </a>
 
-                                <i class="fa fa-play"
-                                   ng-if="!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
+                                <a href="">
+                                    <i class="fa fa-play"
+                                       ng-if="!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
                                     fileToPlay.progress == 0 || fileToPlay.progress == 1) && fileToPlay.remaining != 'Infinity')"
-                                   ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
+                                       ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
                                     fileToPlay.progress == 0 || fileToPlay.progress == 1) && fileToPlay.remaining != 'Infinity')),
                                    (cdr.Uuid == currentPlayingFile && ((fileToPlay.progress > 0 && fileToPlay.progress < 1) || fileToPlay.remaining == 'Infinity')))"></i>
+                                </a>
+
+
+
 
                                 <a class="fa fa-download" target="_self" href="{{DownloadFileUrl}}" ng-click="SetDownloadPath(cdr.Uuid)"></a>
 

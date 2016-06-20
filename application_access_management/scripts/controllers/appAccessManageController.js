@@ -1,4 +1,4 @@
-mainApp.controller("appAccessManageController", function ($scope, $filter, $stateParams, appAccessManageService) {
+mainApp.controller("appAccessManageController", function ($scope, $filter, $stateParams, appAccessManageService,authService, jwtHelper) {
 
     $scope.active = true;
     /*Load Application list*/
@@ -7,7 +7,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
         new PNotify({
             title: tittle,
             text: content,
-            type: 'notice',
+            type: 'success',
             styling: 'bootstrap3'
         });
     };
@@ -209,8 +209,15 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
     $scope.setCurrentDragScopeObj = {}
     $scope.setCurrentDragScope = function (item) {
         $scope.setCurrentDragScopeObj = item;
-    }
+    };
 
+    $scope.ownerName="Verry";
+    $scope.getOwnerName = function () {
+        var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
+        console.info(decodeData);
+        $scope.ownerName = decodeData.iss;
+    }
+    $scope.getOwnerName();
 });
 
 
