@@ -287,11 +287,11 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "extensionController",
             navigation: "EXTENSION"
         }).
-        state('console.ards', {
-            url: "/ards",
+        state('console.ardsconfig', {
+            url: "/ardsconfig",
             templateUrl: "views/ards-config/ardsconfig.html",
             controller: "ardsController",
-            navigation: "ARDS_CONFIG"
+            navigation: "ARDS_CONFIGURATION"
         })
 
     }]);
