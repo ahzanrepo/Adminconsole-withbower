@@ -8,7 +8,7 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
 
         return $http.get(baseUrls.UserServiceBaseUrl + "Users",
             {
-                headers: {authorization: authService.GloableToken}
+                headers: {authorization: authService.GetToken()}
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;

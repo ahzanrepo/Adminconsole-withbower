@@ -186,6 +186,21 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var getTasks = function () {
+
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.resourceServiceBaseUrl + "Tasks",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
     return {
         GetAttributes: getattributes,
         GetAttributeCount: getattributeCount,
@@ -197,7 +212,8 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         UpdateGroup: updateGroup,
         SaveGroup: saveGroup,
         DeleteGroup: deleteGroup,
-        DeleteAttributeFrmGroup: deleteAttributeFrmGroup
+        DeleteAttributeFrmGroup: deleteAttributeFrmGroup,
+        GetTasks: getTasks
     }
 
 });

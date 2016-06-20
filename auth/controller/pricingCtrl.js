@@ -15,7 +15,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
     $scope.onClickBuyPackages = function (packageName) {
         loginService.buyMyPackage(packageName, function (result) {
             if (result) {
-                $state.go('console');
+                $state.go('login');
             }
         });
     }

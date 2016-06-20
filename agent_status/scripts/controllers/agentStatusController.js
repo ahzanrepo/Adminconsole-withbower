@@ -184,7 +184,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
         new PNotify({
             title: tittle,
             text: content,
-            type: 'notice',
+            type: 'success',
             styling: 'bootstrap3'
         });
     };
