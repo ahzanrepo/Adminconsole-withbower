@@ -256,6 +256,20 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
+    var getResourcesCount = function (resAttId) {
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + "ResourceCount",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            return response.data;
+
+        });
+
+    };
+
     return {
         GetResources: getResources,
         GetTaskAttachToResource: getTaskAttachToResource,
@@ -273,7 +287,8 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         GetAttributesAttachToResource: getAttributesAttachToResource,
         AttachAttributeToTask: attachAttributeToTask,
         DeleteAttributeAssignToTask: deleteAttributeAssignToTask,
-        ResourceNameIsExsists: resourceNameIsExsists
+        ResourceNameIsExsists: resourceNameIsExsists,
+        GetResourcesCount:getResourcesCount
     }
 
 });

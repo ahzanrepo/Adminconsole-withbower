@@ -33,6 +33,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
     $scope.GetResources = function (rowCount, pageNo) {
         resourceService.GetResources(rowCount, pageNo).then(function (response) {
             $scope.resources = response;
+            $scope.showPaging=true;
         }, function (error) {
             $log.debug("GetResources err");
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
@@ -80,6 +81,17 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
             $log.debug("GetResources err");
             $scope.showAlert("Error", "Error", "ok", "There is an error ");
         });
+    };
+
+    $scope.showPaging = false;
+    $scope.currentPage = "1";
+    $scope.pageTotal = "1";
+    $scope.pageSize = "50";
+
+    $scope.getPageData = function (model, page, pageSize, total) {
+
+        $scope.GetResources(pageSize, page);
+
     };
 
     $scope.GetResourcesCount = function () {
