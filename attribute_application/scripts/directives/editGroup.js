@@ -8,6 +8,7 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
         scope: {
             groupinfo: "=",
             attribinfo:"=",
+            taskList:"=",
             'updateGroups': '&'
         },
 

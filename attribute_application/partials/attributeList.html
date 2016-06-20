@@ -95,10 +95,16 @@
                             </div>
 
                             <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="grp.GroupType"
-                                       placeholder="Type">
-                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                <select class="form-control" id="GroupType"  ng-model="grp.GroupType">
+                                    <option  ng-repeat="c in Tasks" value="{{c.ResTaskInfo.TaskType}}" selected>{{c.ResTaskInfo.TaskType| uppercase}}
+                                    </option>
+                                </select>
+
+                                <!--<select ng-model="grp.GroupType"
+                                        ng-options="c.ResTaskInfo.TaskType for c in Tasks track by c.ResTaskInfo.TaskType">
+                                </select>-->
                             </div>
+
 
                             <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" ng-model="grp.Percentage"
@@ -132,7 +138,7 @@
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="grp in groupsData">
-                        <editgroups groupinfo="grp" attribinfo="attribData"
+                        <editgroups task-list="Tasks" groupinfo="grp" attribinfo="attribData"
                                     update-groups="removeDeletedGroup(grp)"></editgroups>
                     </li>
 

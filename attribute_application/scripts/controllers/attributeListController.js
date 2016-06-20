@@ -63,7 +63,7 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
             console.info("SaveAttribute : " + response);
             if (response.IsSuccess) {
                 $scope.GetAttributes("init", 1, $scope.pageSize);
-                $scope.attribute={};
+                $scope.attribute = {};
                 $scope.showAlert("Info", "Info", "ok", "Save Successfully");
             }
             $scope.addNew = !response.IsSuccess;
@@ -139,6 +139,18 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
         });
 
     };
+
+    $scope.Tasks = [];
+    $scope.GetTasks = function (item) {
+        attributeService.GetTasks(item).then(function (response) {
+            $scope.Tasks = response;
+        }, function (error) {
+            $log.debug("GetTasks err");
+            $scope.showAlert("Error", "Error", "ok", "Fail To Get Task List.");
+        });
+
+    };
+    $scope.GetTasks();
 
     $scope.removeDeletedGroup = function (item) {
 
