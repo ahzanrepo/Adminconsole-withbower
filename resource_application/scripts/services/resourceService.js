@@ -4,6 +4,16 @@
 'use strict';
 mainApp.factory("resourceService", function ($http, $log, $filter, authService, baseUrls) {
 
+    var showError = function (tittle, label, button, content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
+            styling: 'bootstrap3'
+        });
+    };
+
     var setResourceToProfile = function (resourceName, resourceid) {
         return $http({
             method: 'put',
@@ -12,7 +22,13 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
                 'authorization': authService.GetToken()
             }
         }).then(function (response) {
-            return response.data;
+            if (response.data && response.data.IsSuccess) {
+                console.info("Resource Map To Profile..........Done............");
+                return response.data.Result;
+            } else {
+                console.error("Resource Map To Profile..........Error............");
+                return {};
+            }
         });
     };
 
@@ -75,11 +91,17 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
             data: resource
         }).then(function (response) {
             try {
-                if (response.data.IsSuccess)
+                if (response.data.IsSuccess) {
+                    console.info("Resource Map To Profile..........Start............");
                     setResourceToProfile(resource.ResourceName, response.data.Result.ResourceId);
+                }
+                else{
+                    console.error("Fail To Save Resource.");
+                    showError("Error", "Error", "ok", "Fail To Save Resource Info.");
+                }
             }
             catch (ex) {
-                console.info(ex);
+                console.error(ex);
             }
             return response.data;
         });
@@ -288,7 +310,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         AttachAttributeToTask: attachAttributeToTask,
         DeleteAttributeAssignToTask: deleteAttributeAssignToTask,
         ResourceNameIsExsists: resourceNameIsExsists,
-        GetResourcesCount:getResourcesCount
+        GetResourcesCount: getResourcesCount
     }
 
 });

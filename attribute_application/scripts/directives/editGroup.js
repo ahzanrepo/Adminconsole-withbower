@@ -89,9 +89,9 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
                             scope.showAlert("Deleted", "Deleted", "ok", "File " + item.GroupName + " Deleted successfully");
                         }
                         else
-                            scope.showAlert("Error", "Error", "ok", "There is an error ");
+                            scope.showError("Error", "Error", "ok", "There is an error ");
                     }, function (error) {
-                        scope.showAlert("Error", "Error", "ok", "There is an error ");
+                        scope.showError("Error", "Error", "ok", "There is an error ");
                     });
 
                 }, function () {
@@ -136,12 +136,21 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
                 });
             };
 
+            scope.showError = function (tittle,content) {
+
+                new PNotify({
+                    title: tittle,
+                    text: content,
+                    type: 'error',
+                    styling: 'bootstrap3'
+                });
+            };
             /*scope.attribData = [];
             scope.GetAttributes = function () {
                 attributeService.GetAttributes().then(function (response) {
                     scope.attribData = response;
                 }, function (error) {
-                    scope.showAlert("Error", "Error", "ok", "There is an error ");
+                    scope.showError("Error", "Error", "ok", "There is an error ");
                 });
                 scope.GetAttributes();
             };*/
