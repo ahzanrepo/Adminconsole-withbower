@@ -242,7 +242,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "applicationController",
             data: {
                 requireLogin: true,
-                navigation: "APPLICATION"
+                navigation: "APPLICATIONS"
             }
         }).state('console.holdmusic', {
             url: "/holdmusic",
@@ -258,7 +258,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "limitController",
             data: {
                 requireLogin: true,
-                navigation: "LIMIT"
+                navigation: "LimitHandler"
             }
         }).state('console.queuesummary', {
             url: "/queuesummary",
