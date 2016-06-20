@@ -182,7 +182,7 @@
                     <div class="col-lg-12">
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="sipUserName">Sip Username *</label></h3>
-                            <p><input type="email" class="form-control" id="sipUserName"
+                            <p><input class="form-control" id="sipUserName"
                                       ng-model="basicConfig.SipUsername"
                                       ng-disabled="IsEdit"
                                       ng-model-options="{ updateOn: 'blur' }" usernamecheck
@@ -344,7 +344,7 @@
                     <div class="col-lg-12">
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="NewsipUserName">Sip Username *</label></h3>
-                            <p><input type="email" class="form-control" id="NewsipUserName"
+                            <p><input class="form-control" id="NewsipUserName"
                                       ng-model="basicConfig.SipUsername"
                                       ng-disabled="IsEdit"
                                       ng-model-options="{ updateOn: 'blur' }" usernamecheck
@@ -483,8 +483,7 @@
 
                 <div class="col-lg-12">
                     <div class="sip-user-btn-wrap text-left">
-                        <button class="btn btn-primary" ng-click="onSavePressed()"
-                                ng-disabled="sipUserConfForm.$invalid">
+                        <button class="btn btn-primary" ng-click="onSavePressed()">
                             Save
                         </button>
                     </div>
