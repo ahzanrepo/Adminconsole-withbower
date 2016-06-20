@@ -98,78 +98,8 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             {
                 return response;
             });
-        },
-        getFilesOfApplication: function (appID) {
-            var authToken = authService.GetToken();
-            return $http({
-                method: 'GET',
-                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/Files/Info/"+appID,
-                headers: {
-                    'authorization':authToken
-                }
-
-            }).then(function(response)
-            {
-                return response;
-            });
-        },
-
-        attachFilesWithApplication: function (appID,fileID) {
-            var authToken = authService.GetToken();
-            return $http({
-                method: 'POST',
-                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/"+fileID+"/AssignToApplication/"+appID,
-                headers: {
-                    'authorization':authToken
-                }
-
-            }).then(function(response)
-            {
-                return response;
-            });
-        } ,
-        detachFilesFromApplication: function (fileID) {
-            var authToken = authService.GetToken();
-            return $http({
-                method: 'POST',
-                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/"+fileID+"/DetachFromApplication",
-                headers: {
-                    'authorization':authToken
-                }
-
-            }).then(function(response)
-            {
-                return response;
-            });
-        },
-        getDevelopers: function () {
-            var authToken = authService.GetToken();
-            return $http({
-                method: 'GET',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Developers",
-                headers: {
-                    'authorization':authToken
-                }
-
-            }).then(function(response)
-            {
-                return response;
-            });
-        },
-        ApplicationAssignToDeveloper: function (appId,devId) {
-            var authToken = authService.GetToken();
-            return $http({
-                method: 'POST',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+appId+"/AssignToDeveloper/"+devId,
-                headers: {
-                    'authorization':authToken
-                }
-
-            }).then(function(response)
-            {
-                return response;
-            });
         }
+
 
     }
 });
