@@ -37,7 +37,20 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
             $scope.isLogin = true;
             loginService.Login(para, function (result) {
                 if (result) {
-                    $state.go('console');
+                    loginService.getMyPackages(function (result, status) {
+                        if (status == 200) {
+                            if (result) {
+                                loginService.getUserNavigation(function (isnavigation) {
+                                    $state.go('console');
+                                })
+                            } else {
+                                $state.go('pricing');
+                            }
+                        } else {
+                            $state.go('console');
+                        }
+
+                    });
                 } else {
                     showAlert('Error', 'error', 'Please check login details...');
                     $scope.isLogin = false;

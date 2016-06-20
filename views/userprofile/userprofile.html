@@ -401,6 +401,40 @@
                                     </div>
                                 </div>
 
+                                <!-- veery account info -->
+
+                                <div class="profile-details-wrap">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <label><h4>Veery Account Information</h4></label>
+                                        </div>
+
+
+                                        <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
+                                             style="margin-right: 20px;">
+                                            <label>Active Account</label>
+                                            <input type="text" class="form-control" ng-model="displayVeeryContact" style="opacity: 1;color: rgb(0, 0, 0);
+                                            text-align: center;font-weight: bold;padding: 5px;border-radius: 10px;
+                                            background-color: rgb(135, 206, 250);"/>
+
+
+                                        </div>
+
+                                        <div class="col-md-5 col-sm-5 col-xs-6 form-group has-feedback">
+                                            <label>Change Account</label>
+                                            <select class="select2_single form-control" tabindex="-1" ng-disabled="!sipUserList || sipUserList.length === 0"
+                                                    aria-hidden="true"
+                                                    id="sipAcc"
+                                                    name="sipAcc" ng-model="selectedSipUser.id"
+                                                    ng-model-options="{trackBy: '$value'}">
+                                                <option ng-repeat="user in sipUserList" value="{{user.id}}">{{user.SipUsername}}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
 
                                 <!-- button wrap -->
 

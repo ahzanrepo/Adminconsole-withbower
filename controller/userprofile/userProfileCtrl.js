@@ -5,7 +5,7 @@
 {
     var app = angular.module("veeryConsoleApp");
 
-    var userProfileCtrl = function ($scope, $stateParams, userProfileApiAccess)
+    var userProfileCtrl = function ($scope, $stateParams, $filter, userProfileApiAccess, sipUserApiHandler)
     {
 
         $scope.languages = [
@@ -193,6 +193,12 @@
             {"code":"za","name":"Zhuang, Chuang","nativeName":"Sa? cue??, Saw cuengh"}
         ];
 
+        $scope.sipUserList = [];
+
+        $scope.selectedSipUser = {};
+
+        $scope.displayVeeryContact = '';
+
         var genDayList = function()
         {
             var max = 31;
@@ -297,12 +303,48 @@
 
         $scope.saveProfile = function()
         {
+
+            var filteredUsers = $scope.sipUserList.filter(function (item)
+            {
+                if(item.id == $scope.selectedSipUser.id)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            });
+
+            var curUser = null;
+
+            if(filteredUsers && filteredUsers.length > 0 && filteredUsers[0].SipUsername && filteredUsers[0].CloudEndUser && filteredUsers[0].CloudEndUser.Domain)
+            {
+                curUser = filteredUsers[0];
+                $scope.CurrentProfile.veeryaccount = {};
+                $scope.CurrentProfile.veeryaccount.contact = filteredUsers[0].SipUsername + '@' + filteredUsers[0].CloudEndUser.Domain;
+
+                if(filteredUsers[0].Extension && filteredUsers[0].Extension.Extension)
+                {
+                    $scope.CurrentProfile.veeryaccount.display = filteredUsers[0].Extension.Extension;
+                }
+
+                $scope.CurrentProfile.veeryaccount.verified = true;
+                $scope.CurrentProfile.veeryaccount.type = 'sip';
+
+            }
             userProfileApiAccess.updateProfile($scope.CurrentProfile.username, $scope.CurrentProfile).then(function(data)
             {
                 if(data.IsSuccess)
                 {
                     $scope.showAlert('Success', 'info', 'User profile updated successfully');
 
+                    if(curUser)
+                    {
+                        curUser.GuRefId = $scope.CurrentProfile._id;
+                        sipUserApiHandler.updateUser(curUser);
+                    }
                 }
                 else
                 {
@@ -318,7 +360,7 @@
 
             }, function(err)
             {
-                var errMsg = "Error occurred while getting profile";
+                var errMsg = "Error occurred while saving profile";
                 if(err.statusText)
                 {
                     errMsg = err.statusText;
@@ -327,6 +369,27 @@
             });
 
         }
+
+        var loadSipUsers = function()
+        {
+            sipUserApiHandler.getSIPUsers().then(function(data)
+            {
+                if(data.IsSuccess)
+                {
+                    if(data.Result)
+                    {
+                        $scope.sipUserList = data.Result;
+
+                    }
+
+
+                }
+
+            }, function(err)
+            {
+
+            });
+        };
 
 
         var loadProfile = function(username)
@@ -342,6 +405,15 @@
                         if(data.Result.address)
                         {
                             $scope.displayAddress = data.Result.address.city + ' , ' + data.Result.address.province + ' , ' + data.Result.address.country;
+                        }
+
+                        if(data.Result.veeryaccount && data.Result.veeryaccount.contact)
+                        {
+                            $scope.displayVeeryContact = data.Result.veeryaccount.display + ' | ' + data.Result.veeryaccount.contact;
+                        }
+                        else
+                        {
+                            $scope.displayVeeryContact = 'Veery contact not configured yet';
                         }
 
                         if(data.Result.email)
@@ -524,6 +596,7 @@
         }
 
         loadProfile($stateParams.username);
+        loadSipUsers();
 
     };
 

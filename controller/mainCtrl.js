@@ -6,6 +6,14 @@
 mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
 
 
+    //check my navigation
+    //is can access
+    loginService.getNavigationAccess(function (result) {
+        $scope.accessNavigation = result;
+    });
+
+
+
     $scope.clickDirective = {
         goLogout: function () {
             loginService.clearCookie("@loginToken");
@@ -43,6 +51,9 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         },
         goUsers: function () {
             $state.go('console.users');
+        },
+        goMyNumbers: function () {
+            $state.go('console.myNumbers');
         },
         goRingGroup: function () {
             $state.go('console.ringGroup');

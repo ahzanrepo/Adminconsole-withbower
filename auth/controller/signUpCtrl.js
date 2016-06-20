@@ -46,6 +46,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpSer
                 signUpServices.createOrganisation(organisation, function (result) {
                     if (result) {
                         showAlert('Job Done', 'success', 'Registration successfully...');
+                        $state.go('login');
                     }
                 });
             } else {

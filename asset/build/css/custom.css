@@ -645,7 +645,7 @@ a:hover, a:focus {
 }
 
 .nav-md ul.nav.child_menu li:before {
-    background: #425668;
+    background: #f8b01d;
     bottom: auto;
     content: "";
     height: 8px;
@@ -661,7 +661,7 @@ a:hover, a:focus {
 }
 
 .nav-md ul.nav.child_menu li:after {
-    border-left: 1px solid #425668;
+    border-left: 1px solid #2ba88c;
     bottom: 0;
     content: "";
     left: 27px;
