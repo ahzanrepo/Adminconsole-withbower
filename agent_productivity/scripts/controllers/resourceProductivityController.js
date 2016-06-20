@@ -81,7 +81,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         new PNotify({
             title: tittle,
             text: content,
-            type: 'notice',
+            type: 'success',
             styling: 'bootstrap3'
         });
     };

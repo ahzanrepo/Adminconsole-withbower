@@ -130,7 +130,7 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
                 new PNotify({
                     title: tittle,
                     text: content,
-                    type: 'notice',
+                    type: 'success',
                     styling: 'bootstrap3'
                 });
             };

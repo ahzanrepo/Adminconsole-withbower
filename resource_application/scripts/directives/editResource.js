@@ -144,7 +144,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                 new PNotify({
                     title: tittle,
                     text: content,
-                    type: 'notice',
+                    type: 'success',
                     styling: 'bootstrap3'
                 });
             };

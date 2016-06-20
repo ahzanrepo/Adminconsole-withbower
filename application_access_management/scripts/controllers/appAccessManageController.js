@@ -7,7 +7,7 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
         new PNotify({
             title: tittle,
             text: content,
-            type: 'notice',
+            type: 'success',
             styling: 'bootstrap3'
         });
     };
