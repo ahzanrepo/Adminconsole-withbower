@@ -226,13 +226,19 @@
 
                                     cdrAppendObj.CreatedTime = localTime;
                                     cdrAppendObj.Duration = curProcessingLeg.Duration;
-                                    cdrAppendObj.BillSec = curProcessingLeg.BillSec;
-                                    cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                    cdrAppendObj.BillSec = 0;
+                                    cdrAppendObj.HoldSec = 0;
 
                                     cdrAppendObj.QueueSec = curProcessingLeg.QueueSec;
                                     cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
 
                                     cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
+
+                                    if(cdrAppendObj.DVPCallDirection === 'INBOUND')
+                                    {
+                                        cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                    }
+
                                     cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
 
@@ -259,8 +265,6 @@
 
                                     callHangupDirectionB = curProcessingLeg.HangupDisposition;
 
-                                    var dvpCallDirection = curProcessingLeg.DVPCallDirection;
-
                                     if (!bottomSet && count === cdrLen) {
                                         $scope.bottom = curProcessingLeg.id;
                                         bottomSet = true;
@@ -269,12 +273,12 @@
                                     cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
                                     cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
-                                    if(dvpCallDirection === 'outbound')
+                                    if(cdrAppendObj.DVPCallDirection === 'OUTBOUND')
                                     {
-                                        cdrAppendObj.Duration = curProcessingLeg.Duration;
-                                        cdrAppendObj.BillSec = curProcessingLeg.BillSec;
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
+
+                                    cdrAppendObj.BillSec = curProcessingLeg.BillSec;
 
                                     if (!cdrAppendObj.ObjType) {
                                         cdrAppendObj.ObjType = curProcessingLeg.ObjType;
@@ -308,6 +312,8 @@
                                 {
                                     cdrAppendObj.HangupParty = 'SYSTEM';
                                 }
+
+                                cdrAppendObj.IsAnswered = outLegAnswered;
 
 
                                 /*for (i = 0; i < curCdr.length; i++)
