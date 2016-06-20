@@ -19,6 +19,7 @@
         service.checkNavigation = checkNavigation;
         service.getNavigationAccess = getNavigationAccess;
         service.navigations = navigations;
+        service.Logoff = Logoff;
         return service;
 
 
@@ -87,6 +88,29 @@
         function clearCookie(key) {
             localStorageService.remove(key);
 
+        }
+
+
+
+
+
+        //logoff
+        function Logoff(parm, callback) {
+
+            var decodeToken = getTokenDecode();
+            $http.delete("http://userservice.104.131.67.21.xip.io/oauth/token/revoke/"+decodeToken.jti,  {
+                headers: {
+                    Authorization: 'Bearer '+getToken()
+                }
+            }).
+                success(function (data, status, headers, config) {
+                    clearCookie('@loginToken');
+                    callback(true);
+                }).
+                error(function (data, status, headers, config) {
+                    //login error
+                    callback(false);
+                });
         }
 
 
