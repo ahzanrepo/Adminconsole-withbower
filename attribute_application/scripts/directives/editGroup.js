@@ -145,15 +145,54 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
                     styling: 'bootstrap3'
                 });
             };
-            /*scope.attribData = [];
-            scope.GetAttributes = function () {
-                attributeService.GetAttributes().then(function (response) {
-                    scope.attribData = response;
-                }, function (error) {
-                    scope.showError("Error", "Error", "ok", "There is an error ");
-                });
-                scope.GetAttributes();
-            };*/
+
+            function createFilterFor(query) {
+                var lowercaseQuery = angular.lowercase(query);
+                return function filterFn(group) {
+                    return (group.Attribute.toLowerCase().indexOf(lowercaseQuery) != -1);;
+                };
+            }
+
+            scope.querySearch = function (query) {
+                if(query === "*" || query === "")
+                {
+                    if(scope.attribinfo)
+                    {
+                        return scope.attribinfo;
+                    }
+                    else
+                    {
+                        return [];
+                    }
+
+                }
+                else
+                {
+                    var results = query ? scope.attribinfo.filter(createFilterFor(query)) : [];
+                    return results;
+                }
+
+            };
+
+            scope.onChipAdd = function (chip) {
+
+                $scope.attributeGroups.push(chip.GroupId);
+                console.log("add attGroup "+$scope.attributeGroups);
+
+            };
+
+            scope.onChipDelete = function (chip) {
+
+                var index=$scope.attributeGroups.indexOf(chip.GroupId);
+                console.log("index ",index);
+                if(index>-1)
+                {
+                    $scope.attributeGroups.splice(index,1);
+                    console.log("rem attGroup "+$scope.attributeGroups);
+                }
+
+
+            };
         }
 
     }

@@ -156,7 +156,9 @@
                                 <select class="select2_multiple form-control" multiple="multiple" ng-model="groupinfo.Attributes"
                                         ng-change="selectionsChanged(groupinfo.Attributes)"     ng-options="attr.Attribute for attr in attribinfo track by attr.AttributeId"  ></select>
 
-
+                                <tags-input ng-model="groupinfo.Attributes" display-property="attr.Attribute" add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)" on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1">
+                                    <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1"></auto-complete>
+                                </tags-input>
                             </div>
                         </div>
 
