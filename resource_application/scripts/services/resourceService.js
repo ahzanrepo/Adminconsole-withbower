@@ -22,7 +22,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
             method: 'GET',
             url: baseUrls.UserServiceBaseUrl + "User/" + resourceName + "/exsists",
             headers: {
-                'authorization': authService.UserService
+                'authorization': authService.GetToken()
             }
         }).then(function (response) {
             return response.data.Result;

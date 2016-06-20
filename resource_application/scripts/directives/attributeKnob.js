@@ -13,6 +13,10 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
         templateUrl: 'resource_application/partials/template/attributeKnob.html',
 
         link: function (scope, element, attributes) {
+
+            if(!scope.selectedAttribute.Percentage){
+                scope.selectedAttribute.Percentage=0;
+            }
             scope.knobValue = 0;
             scope.$watch("knobValue",
             function (newValue, oldValue) {
