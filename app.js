@@ -8,13 +8,10 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
     'AngularBootstrapTree',
-    'download', 'ngMessages', 'ngAudio', 'bw.paging',
-    'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
     'jkuri.slimscroll',
     'base64',
     'angular-jwt',
-    'LocalStorageModule',
-    'ngMessages'
+    'LocalStorageModule'
 ]);
 
 
