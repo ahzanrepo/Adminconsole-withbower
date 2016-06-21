@@ -12,10 +12,12 @@
                             <div class="row">
                                 <label class="control-label col-md-2 col-sm-6 col-xs-12">Server Type</label>
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left"
-                                           ng-model="newArds.ServerType"
-                                           placeholder="Server Type">
-                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+
+                                    <select class="form-control" ng-model="newArds.ServerType"   ng-model-options="{trackBy: '$value'}">
+                                        <option ng-repeat="server in RequestServers" value="{{server.ServerType}}" >{{server.ServerType}}</option>
+                                    </select>
+
+
                                 </div>
                                 <label class="control-label col-md-2 col-sm-6 col-xs-12">Request Type</label>
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">

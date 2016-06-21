@@ -23,11 +23,11 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             });
         },
 
-        saveNewApplication: function (resource) {
+        saveNewExtension: function (resource) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application",
+                url: "http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension",
                 headers: {
                     'authorization':authToken
                 },
@@ -39,14 +39,19 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             });
         },
 
-        assignMasterApplication: function (masterId,childId) {
+        assignDodToExtension: function (ExtId,DodNum) {
+            var dodData =
+            {
+                ExtId:ExtId, DodNumber:DodNum, DodActive:true
+            }
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId,
+                url: "http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/DodNumber",
                 headers: {
                     'authorization':authToken
-                }
+                },
+                data:dodData
 
             }).then(function(response)
             {

@@ -8,9 +8,10 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
 
     // Update the dataset at 25FPS for a smoothly-animating chart
     $scope.ruleObj = {};
-    var inBtnSt=true;
-    var outBtnSt=true;
+    $scope.inBtnSt=true;
+    $scope.outBtnSt=true;
     $scope.isCallMonitorOption=0;
+    $scope.isInbound=true;
 
 
     var onRuleDeleted = function (response) {
@@ -45,7 +46,7 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
         else {
 
 
-
+            $scope.isInbound=true;
             $scope.ruleObj =response.data.Result ;
             console.log($scope.ruleObj);
         }
@@ -60,6 +61,7 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
 
 
             $scope.ruleObj =response.data.Result ;
+            $scope.isInbound=true;
             console.log("Only IN selected "+$scope.ruleObj);
         }
 
@@ -71,6 +73,7 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
         else {
 
             $scope.ruleObj =response.data.Result ;
+            $scope.isInbound=false;
             console.log("Only Out selected "+$scope.ruleObj);
         }
 
@@ -97,24 +100,28 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
 
         if(btnName=="IN")
         {
-            if(inBtnSt==true)
+            if($scope.inBtnSt==true)
             {
-                inBtnSt=false;
+                setButtonAppearance("btn_in",true);
+                $scope.inBtnSt=false;
             }
             else
-            {
-                inBtnSt=true;
+            {//document.getElementById("btn_in").style.opacity = "1";
+                setButtonAppearance("btn_in",false);
+                $scope.inBtnSt=true;
             }
         }
         else
         {
-            if(outBtnSt==true)
+            if($scope.outBtnSt==true)
             {
-                outBtnSt=false;
+                setButtonAppearance("btn_out",true);
+                $scope.outBtnSt=false;
             }
             else
             {
-                outBtnSt=true;
+                setButtonAppearance("btn_out",false);
+                $scope.outBtnSt=true;
             }
         }
 
@@ -125,30 +132,45 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
 
     var fillTable = function () {
 
-        if(inBtnSt&& outBtnSt)
+        if($scope.inBtnSt&& $scope.outBtnSt)
         {
+
 
             getAllRules();
         }
-        else if(inBtnSt && !outBtnSt)
+        else if($scope.inBtnSt && !$scope.outBtnSt)
         {
+
             getInRules();
         }
-        else if(!inBtnSt && outBtnSt)
+        else if(!$scope.inBtnSt && $scope.outBtnSt)
         {
-            setButtonAppearance();
+
             getOutRules();
         }
         else
         {
+
+
             $scope.ruleObj=null;
         }
 
     };
 
-    var setButtonAppearance = function ()
+    var setButtonAppearance = function (btnId,pressed)
     {
-        document.getElementById("btn_in").style.opacity = "0.5";
+        if(pressed)
+        {
+            //background: #2ba89c
+            document.getElementById(btnId).style.backgroundColor = "#999";
+           // document.getElementById(btnId).style.opacity = "1";
+        }
+        else
+        {
+            document.getElementById(btnId).style.backgroundColor = "#2ba89c";
+            //document.getElementById(btnId).style.opacity = "2";
+        }
+
     };
 
     $scope.addNewRule = function () {
@@ -168,8 +190,8 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
 
     var refershPage= function () {
         $scope.ruleObj = null;
-        inBtnSt=true;
-        outBtnSt=true;
+        $scope.inBtnSt=true;
+        $scope.outBtnSt=true;
         $scope.isCallMonitorOption=0;
         getAllRules();
     }

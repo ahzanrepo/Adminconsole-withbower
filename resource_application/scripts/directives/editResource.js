@@ -102,9 +102,9 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                             scope.showAlert("Deleted", "Deleted", "ok", "File " + item.ResourceName + " Deleted successfully");
                         }
                         else
-                            scope.showAlert("Error", "Error", "ok", "There is an error ");
+                            scope.showError("Error", "Error", "ok", "There is an error ");
                     }, function (error) {
-                        scope.showAlert("Error", "Error", "ok", "There is an error ");
+                        scope.showError("Error", "Error", "ok", "There is an error ");
                     });
 
                 }, function () {
@@ -144,11 +144,19 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                 new PNotify({
                     title: tittle,
                     text: content,
-                    type: 'notice',
+                    type: 'success',
                     styling: 'bootstrap3'
                 });
             };
+            scope.showError = function (tittle,content) {
 
+                new PNotify({
+                    title: tittle,
+                    text: content,
+                    type: 'error',
+                    styling: 'bootstrap3'
+                });
+            };
             scope.setCurrentDrag = function (task, section) {
                 scope.selectedTask.task = task;
                 scope.selectedTask.resourceId = scope.resource.ResourceId;
@@ -304,7 +312,11 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                 resourceService.AttachAttributeToTask(scope.assignSkill_selectedTask.task.ResTaskId, scope.selectedAttribute.AttributeId, scope.selectedAttribute.Percentage, scope.selectedAttribute.OtherData).then(function (response) {
 
                     if (response.IsSuccess) {
+                        var index = scope.selectedAttributes.indexOf(scope.selectedAttribute);
                         scope.selectedAttribute.savedObj = response.Result;
+                        if (index > -1) {
+                            scope.selectedAttributes[index]=scope.selectedAttribute;
+                        }
                     }
                     else {
                         var index = scope.selectedAttributes.indexOf(scope.selectedAttribute);

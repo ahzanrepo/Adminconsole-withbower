@@ -6,16 +6,14 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
+    'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
     'AngularBootstrapTree',
-    'download', 'ngMessages', 'ngAudio', 'bw.paging',
-    'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
     'jkuri.slimscroll',
     'base64',
     'angular-jwt',
-    'LocalStorageModule',
-    'ngMessages',
-    'angular-sly'
+    'angular-sly',
+    'LocalStorageModule'
 ]);
 
 
@@ -243,7 +241,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "applicationController",
             data: {
                 requireLogin: true,
-                navigation: "APPLICATION"
+                navigation: "APPLICATIONS"
             }
         }).state('console.holdmusic', {
             url: "/holdmusic",
@@ -259,7 +257,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "limitController",
             data: {
                 requireLogin: true,
-                navigation: "LIMIT"
+                navigation: "LimitHandler"
             }
         }).state('console.queuesummary', {
             url: "/queuesummary",
@@ -291,11 +289,11 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "extensionController",
             navigation: "EXTENSION"
         }).
-        state('console.ards', {
-            url: "/ards",
+        state('console.ardsconfig', {
+            url: "/ardsconfig",
             templateUrl: "views/ards-config/ardsconfig.html",
             controller: "ardsController",
-            navigation: "ARDS_CONFIG"
+            navigation: "ARDS_CONFIGURATION"
         })
 
     }]);

@@ -27,12 +27,12 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
         console.info('onAfterAddingFile', fileItem);
     };
     uploader.onAfterAddingAll = function (addedFileItems) {
-        if (!$scope.file.category) {
+        if (!$scope.file.Category) {
             uploader.clearQueue();
             new PNotify({
                 title: 'File Upload!',
                 text: 'Please Select File Category.',
-                type: 'notice',
+                type: 'error',
                 styling: 'bootstrap3'
             });
             return;
@@ -40,7 +40,7 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
         console.info('onAfterAddingAll', addedFileItems);
     };
     uploader.onBeforeUploadItem = function (item) {
-        item.formData.push({'fileCategory': $scope.file.category});
+        item.formData.push({'fileCategory': $scope.file.Category});
         console.info('onBeforeUploadItem', item);
     };
     uploader.onProgressItem = function (fileItem, progress) {
@@ -68,11 +68,16 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
     console.info('uploader', uploader);
 
     $scope.file = {};
+    $scope.file.Category = {};
     $scope.loadFileService = function () {
         fileService.GetCatagories().then(function (response) {
 
             $scope.Categorys = $filter('filter')(response, {Owner: "user"});
-
+            if ($scope.Categorys) {
+                if ($scope.Categorys.length > 0) {
+                    $scope.file.Category = $scope.Categorys[0].Category;
+                }
+            }
         }, function (error) {
             console.info("GetCatagories err" + error);
 
@@ -84,18 +89,18 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
 
 }]);
 
-app.controller("FileListController", function ($scope, $location, $log, $filter, $http, fileService, baseUrls) {
+app.controller("FileListController", function ($scope, $location, $log, $filter, $http,$state, fileService,jwtHelper ,authService , baseUrls) {
 
 
     $scope.countByCategory = [];
     $scope.categoryId = 0;
     $scope.showPaging = false;
-    $scope.currentPage="1";
-    $scope.pageTotal="1";
-    $scope.pageSize="50";
+    $scope.currentPage = "1";
+    $scope.pageTotal = "1";
+    $scope.pageSize = "50";
 
-    $scope.getPageData=function(Paging, page, pageSize, total){
-        fileService.GetFilesCategoryID($scope.categoryId,pageSize, page).then(function (response) {
+    $scope.getPageData = function (Paging, page, pageSize, total) {
+        fileService.GetFilesCategoryID($scope.categoryId, pageSize, page).then(function (response) {
             $scope.files = response;
         }, function (err) {
         });
@@ -142,11 +147,11 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     $scope.loadFileList(1);
 
     $scope.getFilesCategoryID = function (categoryId, currentPage) {
-        $scope.pageTotal =($filter('filter')($scope.countByCategory, {ID: categoryId}))[0].Count;
+        $scope.pageTotal = ($filter('filter')($scope.countByCategory, {ID: categoryId}))[0].Count;
         $scope.currentPage = 1;
         $scope.categoryId = categoryId;
         $scope.showPaging = false;
-        fileService.GetFilesCategoryID(categoryId,$scope.pageSize, currentPage).then(function (response) {
+        fileService.GetFilesCategoryID(categoryId, $scope.pageSize, currentPage).then(function (response) {
             $scope.files = response;
             $scope.showPaging = true;
         }, function (err) {
@@ -183,25 +188,33 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         new PNotify({
             title: tittle,
             text: content,
-            type: 'notice',
+            type: 'success',
             styling: 'bootstrap3'
         });
     };
 
+    $scope.showError = function (tittle,content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
+            styling: 'bootstrap3'
+        });
+    };
     $scope.deleteFile = function (file) {
 
         $scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete " + file.Filename, function (obj) {
 
             fileService.DeleteFile(file, $scope.Headers).then(function (response) {
                 if (response) {
-                    $location.path("/file/list");
+                    $scope.loadFileList(1);
                     $scope.showAlert("Deleted", "Deleted", "ok", "File " + file.Filename + " Deleted successfully");
                 }
-
                 else
-                    $scope.showAlert("Error", "Error", "ok", "There is an error ");
+                    $scope.showError("Error", "Error", "ok", "There is an error ");
             }, function (error) {
-                $scope.showAlert("Error", "Error", "ok", "There is an error ");
+                $scope.showError("Error", "Error", "ok", "There is an error ");
             });
 
         }, function () {
@@ -217,6 +230,16 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         fileService.Headers = {'Authorization': fileService.GetToken};
     };
     $scope.GetToken();
+
+    $scope.tenant=0;
+    $scope.company=0;
+    $scope.getCompanyTenant = function () {
+        var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
+        console.info(decodeData);
+        $scope.company = decodeData.company;
+        $scope.tenant = decodeData.tenant;
+    };
+    $scope.getCompanyTenant();
 
 });
 

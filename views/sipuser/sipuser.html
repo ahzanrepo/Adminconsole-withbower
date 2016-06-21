@@ -7,7 +7,7 @@
 <div class="clearfix"></div>
 
 <div class="row">
-    <div class="col-md-7 col-sm-5 col-xs-12" style="padding-right: 0px;">
+    <div class="col-md-6 col-sm-4 col-xs-12" style="padding-right: 0px;">
         <div class="x_panel">
             <div class="x_title">
                 <div class="col-md-6">
@@ -49,7 +49,7 @@
                                 <h3 class="font-robot ">{{item.SipUsername}}
                                     <small>Extension : {{item.Extension.Extension}}</small>
                                 </h3>
-                                <p> {{item.EmailAddress}}</p>
+                                <p> {{item.CloudEndUser.Domain}}</p>
                             </div>
                             <div class="left">
                             </div>
@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <div class="col-md-5 col-md-7 col-xs-12" style="padding-left: 0px;">
+    <div class="col-md-6 col-md-8 col-xs-12" style="padding-left: 0px;">
         <!-- user view mode -->
         <div ng-show="viewDivState==0" class="user-details-view">
             <div class="col-xs-12 invoice-header user-view-header">
@@ -94,22 +94,16 @@
                         <p>*********</p>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div class="animated fadeIn col-md-4">
-                        <h3>Email</h3>
-                        <p>{{basicConfig.EmailAddress}}</p>
-                    </div>
-                </div>
 
                 <div class="col-lg-12">
                     <div class="col-md-6 animated fadeIn">
                         <h3>Reference Id </h3>
-                        <p>{{basicConfig.CloudEndUserId}}</p>
+                        <p>{{basicConfig.GuRefId}}</p>
                     </div>
 
                     <div class="col-lg-6 animated fadeIn">
                         <h3>PIN</h3>
-                        <p>{{basicConfig.ContextId}}</p>
+                        <p>{{basicConfig.Pin}}</p>
                     </div>
                 </div>
 
@@ -152,7 +146,7 @@
                 <div class="col-lg-12">
                     <div class="animated fadeIn col-md-4">
                         <h3>Domain</h3>
-                        <p>{{basicConfig.CloudEndUserId}}</p>
+                        <p>{{basicConfig.CloudEndUser.Domain}}</p>
                     </div>
                     <div class="animated fadeIn col-md-4">
                         <h3>Context</h3>
@@ -182,7 +176,7 @@
                     <div class="col-lg-12">
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="sipUserName">Sip Username *</label></h3>
-                            <p><input type="email" class="form-control" id="sipUserName"
+                            <p><input class="form-control" id="sipUserName"
                                       ng-model="basicConfig.SipUsername"
                                       ng-disabled="IsEdit"
                                       ng-model-options="{ updateOn: 'blur' }" usernamecheck
@@ -203,18 +197,7 @@
                     </div>
 
                     <!-- email address -->
-                    <div class="col-lg-12">
-                        <div class="col-md-12 animated fadeIn">
-                            <h3><label for="emailAddr">Email Address *</label></h3>
-                            <p><input type="text" class="form-control "
-                                      id="emailAddr"
-                                      name="emailAddr"
-                                      ng-model="basicConfig.EmailAddress" required></p>
-                        </div>
-                        <div ng-messages="sipUserConfForm.emailAddr.$error" ng-if="sipUserConfForm.emailAddr.$dirty">
-                            <div class="alert" ng-message="required">This field is required</div>
-                        </div>
-                    </div>
+
 
                     <!-- reference ID | extension | PIN -->
                     <div class="col-lg-12">
@@ -223,7 +206,7 @@
                             <p><input type="text" class="form-control "
                                       id="refID"
                                       name="refID"
-                                      ng-model="asicConfig.GuRefId" required></p>
+                                      ng-model="basicConfig.GuRefId" required></p>
                         </div>
 
                         <div class="col-md-4 animated fadeIn">
@@ -293,7 +276,7 @@
                         <checkbox class="btn-success" ng-model="basicConfig.TransExternalEnable"
                                   ng-init="basicConfig.TransExternalEnable=false"></checkbox>
                         <label>
-                            <small>Externa</small>
+                            <small>External</small>
                         </label>
                     </div>
 
@@ -344,11 +327,10 @@
                     <div class="col-lg-12">
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="NewsipUserName">Sip Username *</label></h3>
-                            <p><input type="email" class="form-control" id="NewsipUserName"
+                            <p><input class="form-control" id="NewsipUserName"
                                       ng-model="basicConfig.SipUsername"
                                       ng-disabled="IsEdit"
-                                      ng-model-options="{ updateOn: 'blur' }" usernamecheck
-                                      placeholder="Enter Sip Username" required></p>
+                                      ng-model-options="{ updateOn: 'blur' }" usernamecheck required></p>
                         </div>
                         <div ng-messages="sipUserConfForm.sipUsrName.$error" ng-if="sipUserConfForm.sipUsrName.$dirty">
                             <div class="alert" ng-message="required">This field is required</div>
@@ -357,7 +339,6 @@
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="newPassword">Password *</label></h3>
                             <p><input type="password" class="form-control" id="newPassword"
-                                      placeholder="Enter Sip Usernam"
                                       ng-model="basicConfig.Password" required></p>
                         </div>
                         <div ng-messages="sipUserConfForm.password.$error" ng-if="sipUserConfForm.password.$dirty">
@@ -365,33 +346,11 @@
                         </div>
                     </div>
 
-                    <!-- email address -->
-                    <div class="col-lg-12">
-                        <div class="col-md-12 animated fadeIn">
-                            <h3><label for="newEmail">Email Address *</label></h3>
-                            <p><input type="text" class="form-control "
-                                      id="newEmail"
-                                      name="emailAddr"
-                                      placeholder="Enter email address"
-                                      ng-model="basicConfig.EmailAddress" required></p>
-                        </div>
-                        <div ng-messages="sipUserConfForm.emailAddr.$error" ng-if="sipUserConfForm.emailAddr.$dirty">
-                            <div class="alert" ng-message="required">This field is required</div>
-                        </div>
-                    </div>
+
 
                     <!-- reference ID | extension | PIN -->
                     <div class="col-lg-12">
-                        <div class="col-md-5 animated fadeIn">
-                            <h3><label for="newRefId">Reference Id</label></h3>
-                            <p><input type="text" class="form-control "
-                                      id="newRefId"
-                                      name="refID"
-                                      placeholder="Enter reference id"
-                                      ng-model="asicConfig.GuRefId" required></p>
-                        </div>
-
-                        <div class="col-md-4 animated fadeIn">
+                        <div class="col-md-6 animated fadeIn">
                             <h3><label for="newExtensio">Extension *</label></h3>
                             <p><input type="text" class="form-control "
                                       id="newExtensio"
@@ -406,7 +365,7 @@
                             </div>
                             </p>
                         </div>
-                        <div class="col-md-3 animated fadeIn">
+                        <div class="col-md-6 animated fadeIn">
                             <h3><label for="newPinId"> PIN</label></h3>
                             <p><input type="text" class="form-control "
                                       id="newPinId"
@@ -460,7 +419,7 @@
                         <checkbox class="btn-success" ng-model="basicConfig.TransExternalEnable"
                                   ng-init="basicConfig.TransExternalEnable=false"></checkbox>
                         <label>
-                            <small>Externa</small>
+                            <small>External</small>
                         </label>
                     </div>
 
@@ -483,8 +442,7 @@
 
                 <div class="col-lg-12">
                     <div class="sip-user-btn-wrap text-left">
-                        <button class="btn btn-primary" ng-click="onSavePressed()"
-                                ng-disabled="sipUserConfForm.$invalid">
+                        <button class="btn btn-primary" ng-click="onSavePressed()">
                             Save
                         </button>
                     </div>

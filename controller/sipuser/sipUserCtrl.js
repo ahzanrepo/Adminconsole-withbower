@@ -188,7 +188,7 @@
                 $scope.basicConfig.Enabled = true;
                 sipUserApiHandler.saveSIPUser($scope.basicConfig).then(function (data1) {
                     if (data1.IsSuccess) {
-                        $scope.reloadUserList();
+
 
                         var extObj = {
                             Extension: $scope.basicConfig.Extension,
@@ -207,6 +207,7 @@
                                 sipUserApiHandler.assignExtensionToUser(extObj.Extension, data1.Result.id).then(function (data3) {
                                     if (data3.IsSuccess) {
                                         $scope.clearFormOnSave();
+                                        $scope.reloadUserList();
                                         $scope.showAlert('Success', 'info', 'Sip User Saved Successfully');
                                     }
                                     else {
@@ -216,11 +217,13 @@
                                             errMsg = 'Assign user to extension error : ' + data3.Exception.Message;
                                         }
                                         $scope.clearFormOnSave();
+                                        $scope.reloadUserList();
 
                                         $scope.showAlert('Saved with errors', 'error', errMsg);
                                     }
                                 }, function (err) {
                                     $scope.clearFormOnSave();
+                                    $scope.reloadUserList();
                                     $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while assigning extension');
 
                                 })
@@ -233,11 +236,13 @@
                                 }
 
                                 $scope.clearFormOnSave();
+                                $scope.reloadUserList();
 
                                 $scope.showAlert('Saved with errors', 'error', errMsg);
                             }
                         }, function (err) {
                             $scope.clearFormOnSave();
+                            $scope.reloadUserList();
                             $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while creating extension');
                         })
 

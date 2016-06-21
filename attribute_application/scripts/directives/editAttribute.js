@@ -42,9 +42,9 @@ mainApp.directive("editattribute", function (attributeService) {
                             scope.showAlert("Deleted", "Deleted", "ok", "File " + item.Attribute + " Deleted successfully");
                         }
                         else
-                            scope.showAlert("Error", "Error", "ok", "There is an error ");
+                            scope.showError("Error", "Error", "ok", "There is an error ");
                     }, function (error) {
-                        scope.showAlert("Error", "Error", "ok", "There is an error ");
+                        scope.showError("Error", "Error", "ok", "There is an error ");
                     });
 
                 }, function () {
@@ -84,7 +84,17 @@ mainApp.directive("editattribute", function (attributeService) {
                 new PNotify({
                     title: tittle,
                     text: content,
-                    type: 'notice',
+                    type: 'success',
+                    styling: 'bootstrap3'
+                });
+            };
+
+            scope.showError = function (tittle,content) {
+
+                new PNotify({
+                    title: tittle,
+                    text: content,
+                    type: 'error',
                     styling: 'bootstrap3'
                 });
             };

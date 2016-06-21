@@ -103,11 +103,11 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                         scope.showAlert("Info", "Info", "ok", "Successfully Updated.")
                     }
                     else {
-                        scope.showAlert("Error", "Error", "ok", "Fail To Update.");
+                        scope.showError("Error", "Error", "ok", "Fail To Update.");
                     }
 
                 }, function (error) {
-                    scope.showAlert("Error", "Error", "ok", "There is an error ");
+                    scope.showError("Error", "Error", "ok", "There is an error ");
                 });
             }
 
@@ -116,11 +116,19 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 new PNotify({
                     title: tittle,
                     text: content,
-                    type: 'notice',
+                    type: 'success',
                     styling: 'bootstrap3'
                 });
             };
+            scope.showError = function (tittle,content) {
 
+                new PNotify({
+                    title: tittle,
+                    text: content,
+                    type: 'error',
+                    styling: 'bootstrap3'
+                });
+            };
         }
 
     }

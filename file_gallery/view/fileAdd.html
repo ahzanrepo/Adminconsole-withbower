@@ -11,13 +11,18 @@
         <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
           <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="category">Category <span class="required">*</span>
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Category">Category <span class="required">*</span>
             </label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-              <select class="form-control" id="category"  ng-model="file.category">
-                <option  ng-repeat="c in Categorys" value="{{c.Category}}" selected>{{c.Category| uppercase}}
-                </option>
+
+              <!--<select class="form-control" id="Category"  ng-model="file.Category"   ng-model-options="{trackBy: '$value'}" >
+                <option ng-repeat="c in Categorys" value="{{c.Category}}" >{{c.Category| uppercase}}</option>
+              </select>-->
+
+              <select class="form-control" id="Category"  ng-model="file.Category"
+                      ng-options="opt.Category as opt.Category for opt in Categorys">
               </select>
+
             </div>
 
           </div>

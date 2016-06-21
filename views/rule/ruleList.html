@@ -1,6 +1,4 @@
 
-
-
 <div class="row" >
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="page-title">
@@ -38,12 +36,13 @@
                     <table class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
                         <thead>
                         <tr class="headings veery-tbl-clmn-hdr">
+                            <th class="column-title">Direction</th>
                             <th class="column-title">DNIS</th>
                             <th class="column-title selectedTpcs">DNIS Pattern</th>
                             <th class="column-title selectedTpcs">Priority</th>
                             <th class="column-title selectedTpcs">Application</th>
-                            <th class="column-title selectedTpcs">Trunk</th>
-                            <th class="column-title selectedTpcs">Actions</th>
+                            <th class="column-title selectedTpcs" ng-if="(outBtnSt)">Trunk Number</th>
+                            <th class="column-title selectedTpcs"></th>
 
                         </tr>
                         </thead>
@@ -51,6 +50,7 @@
                         <tbody>
                         <tr class="even pointer veery-tbl-body" ng-repeat="rule in ruleObj">
 
+                            <td class="valAlgn">{{rule.Direction}}</td>
                             <td class="valAlgn">{{rule.DNIS}}</td>
                             <td class="valAlgn">{{rule.RegExPattern}}</td>
                             <td class="valAlgn">{{rule.Priority}}</td>

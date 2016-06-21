@@ -9,6 +9,7 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
     $scope.groups=[];
     $scope.attributeGroups=[];
     $scope.attributeGroup;
+    $scope.RequestServers=[];
 
 
 
@@ -183,6 +184,21 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
             console.log("group loading error",error);
         });
     };
+    $scope.LoadServers = function () {
+        ardsBackendService.getRequestServers().then(function (response) {
+            if(response.data.IsSuccess)
+            {
+                $scope.RequestServers=response.data.Result;
+                console.log($scope.RequestServers);
+            }
+            else
+            {
+                console.log("server loading failed");
+            }
+        }, function (error) {
+            console.log("server loading error",error);
+        });
+    };
 
     $scope.cancleEdit = function () {
         $scope.addNew=false;
@@ -193,5 +209,6 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
     $scope.GetARDSRecords();
     $scope.LoadTasks();
     $scope.LoadGroups();
+    $scope.LoadServers();
 
 });

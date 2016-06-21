@@ -22,6 +22,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
             scope.attributeGroup;
             scope.groups=[];
             scope.tasks=[];
+            scope.RequestServers=[];
 
             Array.prototype.inArray = function(comparer) {
                 for(var i=0; i < this.length; i++) {
@@ -66,6 +67,22 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                     }
                 }, function (error) {
                     console.log("group loading error",error);
+                });
+            };
+
+            scope.LoadServers = function () {
+                ardsBackendService.getRequestServers().then(function (response) {
+                    if(response.data.IsSuccess)
+                    {
+                        scope.RequestServers=response.data.Result;
+                        console.log(scope.RequestServers);
+                    }
+                    else
+                    {
+                        console.log("server loading failed");
+                    }
+                }, function (error) {
+                    console.log("server loading error",error);
                 });
             };
 
@@ -129,6 +146,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                 scope.editMode = !scope.editMode;
                 scope.LoadTasks();
                 scope.LoadGroups();
+                scope.LoadServers();
 
                 console.log(scope.applist);
             };

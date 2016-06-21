@@ -19,8 +19,10 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
             scope.Developers=[];
 
             scope.MasterApps=[];
+            scope.MasterAppName;
 
             scope.application.id=scope.application.id.toString();
+
             if(scope.application.MasterApplicationId)
             {
                 scope.application.MasterApplicationId=(scope.application.MasterApplicationId).toString();
@@ -50,7 +52,11 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
                         if(scope.applist[i].MasterApplicationId)
                         {
                             scope.applist[i].MasterApplicationId=scope.applist[i].MasterApplicationId.toString();
-
+                            if(scope.applist[i].MasterApplicationId==scope.application.MasterApplicationId)
+                            {
+                                scope.MasterAppName=scope.applist[i].AppName;
+                                console.log(scope.MasterAppName);
+                            }
 
                         }
 
@@ -102,31 +108,47 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
             };
 
 
-            scope.UpdateApplication = function () {
+            scope.modifyApplication = function () {
 
                 if(scope.application.ObjClass=="SYSTEM")
                 {
                     scope.application.AppDeveloperId=null;
+
                 }
+
                 appBackendService.updateApplication(scope.application).then(function (response) {
                     if(response.data.IsSuccess)
                     {
-                        //scope.updateRecource(scope.application);
-                        appBackendService.ApplicationAssignToDeveloper(scope.application.id,scope.application.AppDeveloperId).then(function (Assignresponse) {
-                            if(Assignresponse.data.IsSuccess)
-                            {
-                                console.log("Application "+scope.application.id+" : "+scope.application.AppName+" Assigned to Developer "+scope.application.AppDeveloperId);
-                                scope.reloadpage();
-                            }
-                            else
-                            {
-                                console.log("Error in assigning application "+scope.application.AppName+ " to Developer "+scope.application.AppDeveloperId);
-                                scope.reloadpage();
-                            }
-                        }, function (Assignerror) {
-                            console.log("Exception in assigning application "+scope.application.AppName+ " to Developer "+scope.application.AppDeveloperId,Assignerror);
+
+                        if(scope.application.AppDeveloperId==null)
+                        {
+                            scope.showAlert("Updated","File " + scope.application.AppName + " updated successfully","success");
                             scope.reloadpage();
-                        });
+                        }
+                        else
+                        {
+                            appBackendService.ApplicationAssignToDeveloper(scope.application.id,scope.application.AppDeveloperId).then(function (Assignresponse) {
+                                if(Assignresponse.data.IsSuccess)
+                                {
+                                    scope.showAlert("Updated","File " + scope.application.AppName + " updated successfully","success");
+                                    console.log("Application "+scope.application.id+" : "+scope.application.AppName+" Assigned to Developer "+scope.application.AppDeveloperId);
+                                    scope.reloadpage();
+                                }
+                                else
+                                {
+                                    scope.showAlert("Error","File " + scope.application.AppName + " updating failed","error");
+                                    console.log("Error in assigning application "+scope.application.AppName+ " to Developer "+scope.application.AppDeveloperId);
+                                    scope.reloadpage();
+                                }
+                            }, function (Assignerror) {
+                                scope.showAlert("Error","File " + item.AppName + " updating failed","error");
+                                console.log("Exception in assigning application "+scope.application.AppName+ " to Developer "+scope.application.AppDeveloperId,Assignerror);
+                                scope.reloadpage();
+                            });
+                        }
+
+                        //scope.updateRecource(scope.application);
+
 
                         //scope.editMode=false;
 
@@ -141,6 +163,8 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
                 }, function (error) {
                     console.info("Error in updating application "+error);
                 });
+
+
             };
 
 
@@ -151,12 +175,12 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
                     appBackendService.deleteApplication(scope.application).then(function (response) {
                         if (response) {
                             scope.updateApplication(item);
-                            scope.showAlert("Deleted", "Deleted", "ok", "File " + item.AppName + " Deleted successfully");
+                            scope.showAlert("Deleted","File " + item.AppName + " Deleted successfully","success");
                         }
                         else
-                            scope.showAlert("Error", "Error", "ok", "There is an error ");
+                            scope.showAlert("Error", "Error in file removing", "error");
                     }, function (error) {
-                        scope.showAlert("Error", "Error", "ok", "There is an error ");
+                        scope.showAlert("Error", "Error in file removing", "error");
                     });
 
                 }, function () {
@@ -216,15 +240,16 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
 
 
 
-            scope.showAlert = function (tittle, label, button, content) {
+            scope.showAlert = function (tittle,content,type) {
 
                 new PNotify({
                     title: tittle,
                     text: content,
-                    type: 'notice',
+                    type: type,
                     styling: 'bootstrap3'
                 });
             };
+
 
             scope.showConig= function (appid) {
                 //modal show
