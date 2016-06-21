@@ -240,10 +240,10 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
 
 
 
-            scope.showAlert = function (tittle,content,type) {
+            $scope.showAlert = function (title,content,type) {
 
                 new PNotify({
-                    title: tittle,
+                    title: title,
                     text: content,
                     type: type,
                     styling: 'bootstrap3'

@@ -83,7 +83,7 @@
                                 <label class="control-label col-md-2 col-sm-6 col-xs-12">Max Reserved Time</label>
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                     <input type="number" class="form-control has-feedback-left"
-                                           ng-model="newArds.MaxReservedTime" required ng-pattern="/^(?:100|[1-9]?[0-9])$/">
+                                           ng-model="newArds.MaxReservedTime" required ng-pattern="/^(?:100|[1-9]?[0-9])$/">sec
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                                 <label class="control-label col-md-2 col-sm-6 col-xs-12">Max AfterWork Time</label>
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                     <input type="number" class="form-control has-feedback-left"
-                                           ng-model="newArds.MaxAfterWorkTime" required ng-pattern="/^(?:100|[1-9]?[0-9])$/">
+                                           ng-model="newArds.MaxAfterWorkTime" required ng-pattern="/^(?:100|[1-9]?[0-9])$/">sec
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                                 <label class="control-label col-md-2 col-sm-6 col-xs-12">Max Reject Count</label>
@@ -106,7 +106,7 @@
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-md-12 col-sm-12 col-xs-12  ">
-                                        <tags-input ng-model="attributeGroup" display-property="GroupName" add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)" on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1">
+                                        <tags-input ng-model="attributeGroup" display-property="GroupName" add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)" on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1" placeholder="Add a group">
                                             <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1"></auto-complete>
                                         </tags-input>
                                     </div>
