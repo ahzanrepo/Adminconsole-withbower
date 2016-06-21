@@ -150,7 +150,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state("console.userprofile", {
             url: "/userprofile/:username",
             templateUrl: "views/userprofile/userprofile.html",
-            controller: "userProfileCtrl",
             data: {
                 requireLogin: true,
                 navigation: "PROFILE"
