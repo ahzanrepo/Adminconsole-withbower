@@ -16,7 +16,12 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                 title: title,
                 text: content,
                 type: type,
-                styling: 'bootstrap3'
+                styling: 'bootstrap3',
+                animate: {
+                    animate: true,
+                    in_class: "bounceIn",
+                    out_class: "bounceOut"
+                }
             });
         };
 
@@ -35,6 +40,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
             //password
             //decode clientID
             $scope.isLogin = true;
+            $scope.loginFrm.$invalid = true;
             loginService.Login(para, function (result) {
                 if (result) {
                     loginService.getMyPackages(function (result, status) {
@@ -54,6 +60,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                 } else {
                     showAlert('Error', 'error', 'Please check login details...');
                     $scope.isLogin = false;
+                    $scope.loginFrm.$invalid = false;
                 }
             });
         }

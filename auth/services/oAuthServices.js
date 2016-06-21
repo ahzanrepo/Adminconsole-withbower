@@ -18,12 +18,12 @@
         service.getUserNavigation = getUserNavigation;
         service.checkNavigation = checkNavigation;
         service.getNavigationAccess = getNavigationAccess;
-        service.navigations = navigations;
+        //service.navigations = navigations;
         service.Logoff = Logoff;
         return service;
 
 
-        var navigations = [];
+        //var navigations = [];
         var mynavigations = {};
         //set cookie
         function setCookie(key, val) {
@@ -59,6 +59,7 @@
 
         function checkNavigation(appname) {
 
+            var navigations = localStorageService.get("@navigations");
             if (navigations.menus && navigations.menus.length > 0) {
                 var obj = navigations.menus.filter(function (item, index) {
                     return item.menuItem == appname;
@@ -68,10 +69,7 @@
                     return true;
                 }
             }
-
             return false;
-
-
         };
 
         //get token decode
@@ -108,6 +106,7 @@
                 }
             }).
                 success(function (data, status, headers, config) {
+                    localStorageService.remove("@navigations");
                     clearCookie('@loginToken');
                     callback(true);
                 }).
@@ -133,6 +132,7 @@
                 }
             }).
             success(function (data, status, headers, config) {
+                localStorageService.remove("@navigations");
                 clearCookie('@loginToken');
                 setCookie('@loginToken', data);
                 callback(true);
@@ -211,7 +211,9 @@
             success(function (data, status, headers, config) {
                 console.log(data);
                 if (data.IsSuccess && data.Result && data.Result.length > 0) {
-                    navigations = data.Result[0];
+                    //navigations = data.Result[0];
+
+                    localStorageService.set("@navigations", data.Result[0]);
 
                 }
                 callback(true);
