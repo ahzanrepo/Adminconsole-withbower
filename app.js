@@ -286,14 +286,33 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/extensions",
             templateUrl: "views/extension/extension.html",
             controller: "extensionController",
-            navigation: "EXTENSION"
+            data: {
+                requireLogin: true,
+                navigation: "EXTENSION"
+            }
         }).
         state('console.ardsconfig', {
             url: "/ardsconfig",
             templateUrl: "views/ards-config/ardsconfig.html",
             controller: "ardsController",
-            navigation: "ARDS_CONFIGURATION"
-        })
+
+                data: {
+                    requireLogin: true,
+                    navigation: "ARDS_CONFIGURATION"
+                }
+
+        }).
+
+            state('console.myprofile', {
+                url: "/myprofile",
+                templateUrl: "views/myUserprofile/myUserprofile.html",
+
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+
+            })
 
     }]);
 
