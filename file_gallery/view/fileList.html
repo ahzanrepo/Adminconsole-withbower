@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-md-12">
+
         <div class="">
 
             <div class="x_content">
@@ -54,19 +55,7 @@
             </div>
 
 
-            <paging ng-show="showPaging"
-                    class="small"
-                    page="currentPage"
-                    page-size="pageSize"
-                    total="pageTotal"
-                    show-prev-next="true"
-                    show-first-last="true"
-                    text-next-class="glyphicon glyphicon-chevron-right"
-                    text-prev-class="glyphicon glyphicon-chevron-left"
-                    text-first-class="glyphicon glyphicon-backward"
-                    text-last-class="glyphicon glyphicon-forward"
-                    paging-action="getPageData('Paging Clicked', page, pageSize, total)">
-            </paging>
+
 
 
 
@@ -107,6 +96,20 @@
 
 
                 </div>
+
+                <paging ng-show="showPaging"
+                        class="small"
+                        page="currentPage"
+                        page-size="pageSize"
+                        total="pageTotal"
+                        show-prev-next="true"
+                        show-first-last="true"
+                        text-next-class="glyphicon glyphicon-chevron-right"
+                        text-prev-class="glyphicon glyphicon-chevron-left"
+                        text-first-class="glyphicon glyphicon-backward"
+                        text-last-class="glyphicon glyphicon-forward"
+                        paging-action="getPageData('Paging Clicked', page, pageSize, total)">
+                </paging>
             </div>
         </div>
     </div>

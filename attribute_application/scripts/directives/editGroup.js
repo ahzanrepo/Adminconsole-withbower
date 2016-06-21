@@ -1,14 +1,14 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("editgroups", function ($filter,attributeService) {
+mainApp.directive("editgroups", function ($filter,$rootScope, attributeService) {
 
     return {
         restrict: "EA",
         scope: {
             groupinfo: "=",
-            attribinfo:"=",
-            taskList:"=",
+            attribinfo: "=",
+            taskList: "=",
             'updateGroups': '&'
         },
 
@@ -17,28 +17,29 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
 
         link: function (scope, element, attributes) {
             scope.attachedAttributes = [];
-            $(document).ready(function () {
-                angular.forEach(scope.groupinfo.ResAttributeGroups, function(item){
-                    if(item){
-                      if(item.ResAttribute){
-                          scope.attachedAttributes.push(item.ResAttribute);
-                      }
-                    }
+
+            scope.GetAttributeByGroupId = function () {
+                attributeService.GetAttributeByGroupId(scope.groupinfo.GroupId).then(function (response) {
+                    /*scope.attachedAttributes = response.ResAttribute;*/
+
+                    angular.forEach(response.ResAttribute, function (a) {
+                        var items = $filter('filter')(scope.attribinfo, {AttributeId: a.AttributeId})
+                        if (items) {
+                            scope.attachedAttributes.push(items[0]);
+                            var index = scope.attribinfo.indexOf(items[0]);
+                            scope.attribinfo.splice(index, 1);
+                        }
+                        /*AttributeIds.push(a.AttributeId)*/
+                    });
+
+
+                }, function (error) {
+                    $log.debug("GetAttributeByGroupId err");
+                    $scope.showError("Error", "Error", "ok", "There is an error ");
                 });
-
-                scope.groupinfo.Attributes = scope.attachedAttributes;
-
-
-                $(".select2_multiple").select2({
-                    placeholder: "Selection Attributes",
-                    allowClear: true
-                });
-            });
-
-
-            scope.selectionsChanged = function (attributes) {
 
             };
+            scope.GetAttributeByGroupId();
 
             scope.editGroup = function () {
                 scope.editMode = !scope.editMode;
@@ -47,35 +48,15 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
 
             scope.updateGroup = function (item) {
 
-               /* //remove existing attachments
-                angular.forEach(scope.attachedAttributes, function(a){
-                    var index = item.Attributes.indexOf(a);
-                    if (index != -1) {
-                        item.Attributes.splice(index, 1);
-                    }
-                });
-
-                // find deleted attachments
-                angular.forEach(item.Attributes, function(a){
-
-                    var index = scope.attachedAttributes.indexOf(a);
-                    if (index != -1) {
-                        scope.attachedAttributes.splice(index, 1);
-                    }
-                });*/
-
-                scope.tempOld=[];
-                angular.copy(scope.attachedAttributes,scope.tempOld );
-                attributeService.DeleteAttributeFrmGroup(item.Attributes,scope.tempOld,item.GroupId);
-
-                attributeService.UpdateGroup(item,scope.attachedAttributes,item.GroupId).then(function (response) {
+                attributeService.UpdateGroup(item, item.GroupId).then(function (response) {
 
                     if (response) {
                         console.info("UpdateAttributes : " + response);
                         scope.editMode = false;
                     }
                 }, function (error) {
-                    console.info("UpdateAttributes err" + error);
+                    console.error("UpdateAttributes err" + error);
+                    scope.showError("Error", "Error", "ok", "Fail To Update.");
                 });
             };
 
@@ -136,7 +117,7 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
                 });
             };
 
-            scope.showError = function (tittle,content) {
+            scope.showError = function (tittle, content) {
 
                 new PNotify({
                     title: tittle,
@@ -149,25 +130,22 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
             function createFilterFor(query) {
                 var lowercaseQuery = angular.lowercase(query);
                 return function filterFn(group) {
-                    return (group.Attribute.toLowerCase().indexOf(lowercaseQuery) != -1);;
+                    return (group.Attribute.toLowerCase().indexOf(lowercaseQuery) != -1);
+                    ;
                 };
             }
 
             scope.querySearch = function (query) {
-                if(query === "*" || query === "")
-                {
-                    if(scope.attribinfo)
-                    {
+                if (query === "*" || query === "") {
+                    if (scope.attribinfo) {
                         return scope.attribinfo;
                     }
-                    else
-                    {
+                    else {
                         return [];
                     }
 
                 }
-                else
-                {
+                else {
                     var results = query ? scope.attribinfo.filter(createFilterFor(query)) : [];
                     return results;
                 }
@@ -175,25 +153,71 @@ mainApp.directive("editgroups", function ($filter,attributeService) {
             };
 
             scope.onChipAdd = function (chip) {
-
-                $scope.attributeGroups.push(chip.GroupId);
-                console.log("add attGroup "+$scope.attributeGroups);
-
+                attributeService.AddAttributeToGroup(scope.groupinfo.GroupId, chip.AttributeId, "Attribute Group").then(function (response) {
+                    if (response) {
+                        console.info("AddAttributeToGroup : " + response);
+                        scope.showAlert("Info", "Info", "ok", "Attribute " + chip.Attribute + " Save successfully");
+                    }
+                    else {
+                        scope.resetAfterAddFail(chip);
+                        scope.showError("Error", "Fail To Save " + chip.Attribute);
+                    }
+                }, function (error) {
+                    scope.resetAfterAddFail(chip);
+                    scope.showError("Error", "Fail To Save " + chip.Attribute);
+                });
             };
 
             scope.onChipDelete = function (chip) {
-
-                var index=$scope.attributeGroups.indexOf(chip.GroupId);
-                console.log("index ",index);
-                if(index>-1)
-                {
-                    $scope.attributeGroups.splice(index,1);
-                    console.log("rem attGroup "+$scope.attributeGroups);
-                }
-
+                attributeService.DeleteOneAttribute(scope.groupinfo.GroupId, chip.AttributeId).then(function (response) {
+                    if (response) {
+                        console.info("AddAttributeToGroup : " + response);
+                        scope.showAlert("Info", "Info", "ok", "Successfully Delete " + chip.Attribute);
+                    }
+                    else {
+                        scope.resetAfterDeleteFail(chip);
+                        scope.showError("Error", "Fail To Delete " + chip.Attribute);
+                    }
+                }, function (error) {
+                    scope.showError("Error", "Fail To Delete " + chip.Attribute);
+                    scope.resetAfterDeleteFail(chip);
+                });
 
             };
-        }
 
+            scope.safeApply = function(fn) {
+                var phase = this.$root.$$phase;
+                if(phase == '$apply' || phase == '$digest') {
+                    if(fn && (typeof(fn) === 'function')) {
+                        fn();
+                    }
+                } else {
+                    this.$apply(fn);
+                }
+            };
+
+            scope.resetAfterAddFail = function (chip) {
+                scope.safeApply(function () {
+                    var index = scope.attachedAttributes.indexOf(chip);
+                    if (index > 0)
+                        scope.attachedAttributes.splice(index, 1);
+                    index = scope.attribinfo.indexOf(chip);
+                    if (index > 0)
+                        scope.attribinfo.push(chip);
+                });
+
+            };
+
+            scope.resetAfterDeleteFail = function (chip) {
+                scope.safeApply(function () {
+                    var index = scope.attribinfo.indexOf(chip);
+                    if (index > 0)
+                        scope.attribinfo.splice(index, 1);
+                    index = scope.attachedAttributes.indexOf(chip);
+                    if (index > 0)
+                        scope.attachedAttributes.push(chip);
+                });
+            }
+        }
     }
 });

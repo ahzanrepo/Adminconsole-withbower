@@ -2,7 +2,7 @@
  * Created by Pawan on 6/18/2016.
  */
 
-mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendService) {
+mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendService,ngTagsInput) {
 
     return {
         restrict: "EAA",
@@ -134,7 +134,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
             };
             scope.closeEdit = function () {
                 scope.editMode=false;
-            }
+            };
 
             scope.removeArds= function (serverType,requestType) {
 
@@ -174,7 +174,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                     console.log("Updation Exception ",error);
                 })
 
-            }
+            };
 
             scope.changeApplicationType = function (appType) {
                 if(appType=="SYSTEM")
