@@ -122,6 +122,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
             scope.que.CurrentWaiting = 1;
             scope.que.presentage = 0;
             scope.maxy = 10;
+            scope.val = "";
 
             scope.dataSet = [{
                 data: [],
@@ -163,6 +164,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
                     scope.que = response.QueueInfo;
                     scope.que.id = response.QueueId;
 
+                    scope.val= response.QueueName;
                     scope.que.AverageWaitTime = Math.round(scope.que.AverageWaitTime*100)/100;
 
                     if (scope.que.TotalQueued > 0) {

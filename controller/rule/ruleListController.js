@@ -13,9 +13,21 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
     $scope.isCallMonitorOption=0;
     $scope.isInbound=true;
 
+    $scope.showAlert = function (title,content,type) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
+
 
     var onRuleDeleted = function (response) {
         if (response.data.Exception) {
+            $scope.showAlert("Error","Deletion failed","error");
             onError(response.data.Exception.Message);
         }
         else {
@@ -31,6 +43,7 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
              }
              }
              $scope.ruleObj.splice(val, 1);*/
+            $scope.showAlert("Deleted","Successfully deleted","success");
             refershPage();
 
 

@@ -42,10 +42,9 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>Server Type</label>
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="ards.ServerType"
-                                       placeholder="Server Type" ng-disabled="true">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                <select class="form-control" ng-model="ards.ServerType"   ng-model-options="{trackBy: '$value'}">
+                                    <option ng-repeat="server in RequestServers" value="{{server.ServerType}}" >{{server.ServerType}}</option>
+                                </select>
                             </div>
 
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"
@@ -118,7 +117,7 @@
                                 <label>Max Reserved Time</label>
                                 <input type="number" class="form-control has-feedback-left "
                                        ng-model="ards.MaxReservedTime"
-                                       placeholder="Max Reserved Time">
+                                       placeholder="Max Reserved Time">sec
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
@@ -128,7 +127,7 @@
                                 <label>Max AfterWork Time</label>
                                 <input type="number" class="form-control has-feedback-left "
                                        ng-model="ards.MaxAfterWorkTime"
-                                       placeholder="Max AfterWork Time">
+                                       placeholder="Max AfterWork Time">sec
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
@@ -145,8 +144,8 @@
                             </div>
 
                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                <tags-input ng-model="attributeGroups" display-property="GroupName" add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)" on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1">
-                                    <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1"></auto-complete>
+                                <tags-input ng-model="attributeGroups" display-property="GroupName" add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)" on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1" placeholder="Add a group">
+                                    <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1" ></auto-complete>
                                 </tags-input>
                             </div>
 

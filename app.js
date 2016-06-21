@@ -6,11 +6,13 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
+    'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
     'AngularBootstrapTree',
     'jkuri.slimscroll',
     'base64',
     'angular-jwt',
+    'angular-sly',
     'LocalStorageModule'
 ]);
 
@@ -148,7 +150,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state("console.userprofile", {
             url: "/userprofile/:username",
             templateUrl: "views/userprofile/userprofile.html",
-            controller: "userProfileCtrl",
             data: {
                 requireLogin: true,
                 navigation: "PROFILE"
@@ -285,14 +286,33 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/extensions",
             templateUrl: "views/extension/extension.html",
             controller: "extensionController",
-            navigation: "EXTENSION"
+            data: {
+                requireLogin: true,
+                navigation: "EXTENSION"
+            }
         }).
         state('console.ardsconfig', {
             url: "/ardsconfig",
             templateUrl: "views/ards-config/ardsconfig.html",
             controller: "ardsController",
-            navigation: "ARDS_CONFIGURATION"
-        })
+
+                data: {
+                    requireLogin: true,
+                    navigation: "ARDS_CONFIGURATION"
+                }
+
+        }).
+
+            state('console.myprofile', {
+                url: "/myprofile",
+                templateUrl: "views/myUserprofile/myUserprofile.html",
+
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+
+            })
 
     }]);
 
@@ -399,14 +419,12 @@ mainApp.run(function ($rootScope, loginService, $location) {
         var navigation = toState.data.navigation;
 
 
+        if (navigation)
+            if (!loginService.checkNavigation(navigation)) {
+                event.preventDefault();
+                return;
 
-        if(navigation)
-        if(!loginService.checkNavigation(navigation)) {
-            event.preventDefault();
-            return;
-
-        }
-
+            }
 
 
         if (requireLogin) {

@@ -5,7 +5,7 @@
 {
     var app = angular.module("veeryConsoleApp");
 
-    var userProfileCtrl = function ($scope, $stateParams, $filter, userProfileApiAccess, sipUserApiHandler)
+    var myUserProfileCtrl = function ($scope, $stateParams, $filter, myUserProfileApiAccess, sipUserApiHandler)
     {
 
         $scope.languages = [
@@ -580,7 +580,7 @@
                 $scope.CurrentProfile.veeryaccount.type = 'sip';
 
             }
-            userProfileApiAccess.updateProfile($scope.CurrentProfile.username, $scope.CurrentProfile).then(function(data)
+            myUserProfileApiAccess.updateMyProfile($scope.CurrentProfile).then(function(data)
             {
                 if(data.IsSuccess)
                 {
@@ -640,7 +640,7 @@
 
         var loadProfile = function(username)
         {
-            userProfileApiAccess.getProfileByName(username).then(function(data)
+            myUserProfileApiAccess.getMyProfile().then(function(data)
             {
                 if(data.IsSuccess)
                 {
@@ -738,13 +738,13 @@
 
         $scope.addNewContact = function()
         {
-            userProfileApiAccess.addContactToProfile($scope.CurrentProfile.username, $scope.newContact.Contact, $scope.newContact.Type).then(function(data)
+            myUserProfileApiAccess.addContactToMyProfile( $scope.newContact.Contact, $scope.newContact.Type).then(function(data)
             {
                 if(data.IsSuccess)
                 {
                     $scope.showAlert('Success', 'info', 'Contact added');
 
-                    userProfileApiAccess.getProfileByName($scope.CurrentProfile.username).then(function(data1)
+                    myUserProfileApiAccess.getMyProfile().then(function(data1)
                     {
                         if(data1.IsSuccess)
                         {
@@ -793,13 +793,13 @@
 
         $scope.removeContact = function(contact)
         {
-            userProfileApiAccess.deleteContactFromProfile($scope.CurrentProfile.username, contact).then(function (data)
+            myUserProfileApiAccess.deleteContactFromMyProfile( contact).then(function (data)
             {
                 if(data.IsSuccess)
                 {
                     $scope.showAlert('Success', 'info', 'Contact added');
 
-                    userProfileApiAccess.getProfileByName($scope.CurrentProfile.username).then(function(data1)
+                    myUserProfileApiAccess.getMyProfile().then(function(data1)
                     {
                         if(data1.IsSuccess)
                         {
@@ -851,5 +851,5 @@
 
     };
 
-    app.controller("userProfileCtrl", userProfileCtrl);
+    app.controller("myUserProfileCtrl", myUserProfileCtrl);
 }());

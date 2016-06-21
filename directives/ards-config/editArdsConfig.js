@@ -22,6 +22,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
             scope.attributeGroup;
             scope.groups=[];
             scope.tasks=[];
+            scope.RequestServers=[];
 
             Array.prototype.inArray = function(comparer) {
                 for(var i=0; i < this.length; i++) {
@@ -66,6 +67,22 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                     }
                 }, function (error) {
                     console.log("group loading error",error);
+                });
+            };
+
+            scope.LoadServers = function () {
+                ardsBackendService.getRequestServers().then(function (response) {
+                    if(response.data.IsSuccess)
+                    {
+                        scope.RequestServers=response.data.Result;
+                        console.log("servers "+scope.RequestServers);
+                    }
+                    else
+                    {
+                        console.log("server loading failed");
+                    }
+                }, function (error) {
+                    console.log("server loading error",error);
                 });
             };
 
@@ -129,6 +146,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                 scope.editMode = !scope.editMode;
                 scope.LoadTasks();
                 scope.LoadGroups();
+                scope.LoadServers();
 
                 console.log(scope.applist);
             };
@@ -238,12 +256,12 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                     appBackendService.deleteApplication(scope.application).then(function (response) {
                         if (response) {
                             scope.updateApplication(item);
-                            scope.showAlert("Deleted", "Deleted", "ok", "File " + item.AppName + " Deleted successfully");
+                            scope.showAlert("Deleted", "File " + item.AppName + " Deleted successfully","success");
                         }
                         else
-                            scope.showAlert("Error", "Error", "ok", "There is an error ");
+                            scope.showAlert("Error", "Error in deleting ","error");
                     }, function (error) {
-                        scope.showAlert("Error", "Error", "ok", "There is an error ");
+                        scope.showAlert("Error", "Error in deleting ","error");
                     });
 
                 }, function () {
@@ -303,12 +321,12 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
 
 
 
-            scope.showAlert = function (tittle, label, button, content) {
+            scope.showAlert = function (title,content,type) {
 
                 new PNotify({
-                    title: tittle,
+                    title: title,
                     text: content,
-                    type: 'notice',
+                    type: type,
                     styling: 'bootstrap3'
                 });
             };

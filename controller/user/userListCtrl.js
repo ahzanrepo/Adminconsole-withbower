@@ -52,7 +52,7 @@
 
         $scope.viewProfile = function(username)
         {
-            $state.go('console.userprofile', {username: username});
+            $state.go('console.userprofile', {'username': username});
         };
 
         $scope.viewPermissions = function(item)

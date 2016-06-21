@@ -7,6 +7,16 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
     $scope.holdMusicFiles = [];
     $scope.addNew = false;
 
+    $scope.showAlert = function (title,content,type) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
     $scope.GetHoldMusic = function () {
         holdMusicBackendService.getHoldMusic().then(function (response) {
 
@@ -44,10 +54,6 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
         }
     };
 
-
-
-
-
     $scope.addHoldMusic = function () {
 
         $scope.GetHoldMusicFiles();
@@ -63,6 +69,7 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
             if(!response.data.IsSuccess)
             {
                 console.info("Error in adding new Hold Music "+response.data.Exception);
+                $scope.showAlert("Error","Error in saving ","error");
             }
             else
             {
@@ -70,12 +77,14 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
 
                 $scope.holdMusicList.splice(0, 0, response.data.Result);
                 $scope.newHoldMusic={};
+                $scope.showAlert("Success","Saving succeeded","success");
 
 
             }
 
         }, function (error) {
             console.info("Exception in adding new Hold Music "+error);
+            $scope.showAlert("Error","Error in saving ","error");
         });
     };
 
@@ -85,14 +94,32 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
 
     $scope.removeDeleted = function (item) {
 
-        console.log("Hit ............");
+
         var index = $scope.holdMusicList.indexOf(item);
         if (index != -1) {
             $scope.holdMusicList.splice(index, 1);
+            $scope.showAlert("Success","Successfully removed","success");
+        }
+        else
+        {
+            $scope.showAlert("Error","Error in removing ","error");
         }
 
     };
 
     $scope.GetHoldMusic();
+
+    $scope.makeFirstAnnounementEmpty =function()
+    {
+        $scope.newHoldMusic.FirstAnnounement =null;
+    };
+    $scope.makeMOHEmpty=function()
+    {
+        $scope.newHoldMusic.MOH =null;
+    };
+    $scope.makeAnnouncementEmpty=function()
+    {
+        $scope.newHoldMusic.Announcement =null;
+    };
 
 });

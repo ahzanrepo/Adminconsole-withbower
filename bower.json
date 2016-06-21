@@ -55,6 +55,7 @@
     "ngSlimscroll": "*",
     "angular-jwt": "^0.0.9",
     "angular-base64": "^2.0.5",
-    "angular-local-storage": "^0.2.7"
+    "angular-local-storage": "^0.2.7",
+    "sly": "^1.6.1"
   }
 }

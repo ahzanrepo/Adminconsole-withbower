@@ -1,41 +1,56 @@
-<div class="logi animated fadeIn" ng-controller="loginCtrl">
+<div id="login-bg" class="logi animated fadeIn " ng-controller="loginCtrl">
+    <img src="asset/images/bg_10444x1000.jpg" id="bg" alt="">
     <div>
         <div class="login_wrapper">
             <div class="form login_form">
                 <section class="login_content">
                     <div class="login-header">
-                        <img src="images/logo150x150.png" width="120" height="120"/>
+                        <img src="images/logo_130x130yellow.png" width="120" height="120"/>
                     </div>
                     <form name="loginFrm">
                         <h1 class="font-robot font-300">Login </h1>
-                        <div class="validation-area"
-                             ng-class="loginFrm.name.$error ?'user-name':''">
-                            <div class="ng-message error text-left"
-                                 ng-messages="loginFrm.name.$error">
-                                <div ng-message="required"> filed is required..!</div>
-                            </div>
+                        <div class="validation-area">
+
+                            <label class="inline-block dark-frm-label">User name
+                                <span class="inline-block validation-on  "
+                                      ng-show="loginFrm.userName.$invalid && !loginFrm.userName.$pristine">
+                             *
+                            </span> </label>
                             <input type="text" name="userName" ng-model="userName"
-                                   class="form-control login-controller"
-                                   placeholder="Username"
+                                   class="form-control login-controller dark-frm-input "
                                    required/>
                         </div>
-                        <div>
-                            <input type="password" ng-model="password" class="form-control" placeholder="Password"
-                                   required=""/>
+                        <div class="validation-area">
+                            <div>
+                                <label class="inline-block dark-frm-label">Password
+                                <span class="inline-block validation-on"
+                                      ng-show="loginFrm.password.$invalid && !loginFrm.password.$pristine">
+                            *
+                            </span> </label>
+                                <input type="password" ng-model="password" name="password"
+                                       class="form-control dark-frm-input"
+                                       required/>
+                            </div>
                         </div>
                         <div>
-                            <a class="btn btn-default submit pull-left" href="javascript:void(0);"
-                               ng-click="onClickLogin()" ng-disabled="isLogin">Log in</a>
-                            <a class="reset_pass pull-right" href="javascript:void(0);">Lost your password?</a>
+                            <button class="btn btn-default submit  pull-left" href="javascript:void(0);"
+                                    ng-disabled="loginFrm.$invalid"
+                                    ng-class="isLogin==true ?'disabled-btn':'dark-frm-btn'"
+                                    ng-click="onClickLogin()" ng-disabled="isLogin">Log in
+                                <i ng-if="isLogin" class="fa fa-spinner fa-pulse fa-3x fa-fw form-data-loading"></i>
+                            </button>
+                            <!-- loading -->
+                            <a class="reset_pass pull-right dark-reset-text" href="javascript:void(0);">Lost your
+                                password?</a>
                         </div>
 
                         <div class="clearfix"></div>
 
-                        <div class="separator">
+                        <div class="dark-separator">
                             <p class="change_link">
                                 <a href="javascript:void(0);" ng-click="onClickSignUp()"
-                                   class="to_register"> Create
-                                    Account </a>
+                                   class="to_register to_register_dark"> New here? Create an
+                                    account </a>
                             </p>
                             <div class="clearfix"></div>
                             <br/>

@@ -30,8 +30,7 @@
                 <!-- sidebar menu -->
 
 
-                <div id="sidebar-menu" menu-collapse class="main_menu_side hidden-print main_menu"
-                        >
+                <div id="sidebar-menu" menu-collapse class="main_menu_side hidden-print main_menu">
                     <div class="menu_section active">
                         <h3 class="font-gry-200">General</h3>
                         <ul class="nav side-menu" style="">
@@ -122,17 +121,11 @@
                                         Status</a></li>
 
                                     <li ng-show="accessNavigation.ARDS_CONFIGURATION"><a href="javascript:void(0);"
-                                                                                ng-click="clickDirective.goArdsConfig()">Router Configuration</a>
+                                                                                         ng-click="clickDirective.goArdsConfig()">Router
+                                        Configuration</a>
                                     </li>
-
-
-
-
-
-
                                 </ul>
                             </li>
-
                         </ul>
                     </div>
                     <div class="menu_section">
@@ -182,7 +175,7 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;"> Profile</a></li>
+                                <li ng-click="clickDirective.goProfile()"><a href="javascript:void(0)"> Profile</a></li>
                                 <li>
                                     <a href="javascript:;">
                                         <span class="badge bg-red pull-right">50%</span>
@@ -190,7 +183,7 @@
                                     </a>
                                 </li>
                                 <li><a href="javascript:;">Help</a></li>
-                                <li ng-click="clickDirective.goLogout()"><a href="#"><i
+                                <li ng-click="clickDirective.goLogout()"><a href="javascript:void(0)"><i
                                         class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                             </ul>
                         </li>

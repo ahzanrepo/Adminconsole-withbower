@@ -9,6 +9,8 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpSer
         $state.go('login');
     };
 
+    $scope.isSignUp = false;
+
     //fire notification
     var showAlert = function (title, type, content) {
         new PNotify({
@@ -36,6 +38,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpSer
         newUser.lastname = $scope.lastName;
         newUser.password = $scope.password;
         newUser.mail = $scope.email;
+        $scope.isSignUp = true;
         signUpServices.createNewUser(newUser, function (result) {
             if (result) {
                 var organisation = {
@@ -51,6 +54,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpSer
                 });
             } else {
                 showAlert('Error', 'error', 'User Registration error...');
+                $scope.isSignUp = false;
             }
         });
     }

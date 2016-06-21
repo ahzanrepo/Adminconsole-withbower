@@ -17,13 +17,13 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
     $scope.clickDirective = {
         goLogout: function () {
 
-            loginService.Logoff(undefined,function(issuccess){
+            loginService.Logoff(undefined, function (issuccess) {
 
-                if(issuccess){
+                if (issuccess) {
 
                     $state.go('login');
 
-                }else{
+                } else {
 
                 }
 
@@ -99,6 +99,10 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         },
         goArdsConfig: function () {
             $state.go('console.ardsconfig');
+        },
+
+        goProfile: function () {
+            $state.go('console.myprofile');
         }
     };
 
