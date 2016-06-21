@@ -4142,6 +4142,8 @@ a.hiddenanchor {
     letter-spacing: 1px;
     line-height: 20px;
     margin: 10px 0 30px;
+    color: #fff;
+    text-transform: uppercase;
 }
 
 .login_content h1:before, .login_content h1:after {

@@ -36,7 +36,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
             $scope.showPaging=true;
         }, function (error) {
             $log.debug("GetResources err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
@@ -56,13 +56,13 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
             }
             else {
                 if (response.CustomMessage == "invalid Resource Name.") {
-                    $scope.showAlert("Error", "Error", "ok", "Invalid Resource Name.");
+                    $scope.showError("Error", "Error", "ok", "Invalid Resource Name.");
                 }
             }
 
         }, function (error) {
             $log.debug("GetResources err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
@@ -74,12 +74,12 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
                 $scope.showAlert("Info", "Info", "ok", "Available to Use.");
             }
             else {
-                $scope.showAlert("Error", "Error", "ok", "Not Available");
+                $scope.showError("Error", "Error", "ok", "Not Available");
             }
 
         }, function (error) {
             $log.debug("GetResources err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
     };
 
@@ -116,6 +116,16 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
             title: tittle,
             text: content,
             type: 'success',
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.showError = function (tittle,content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
             styling: 'bootstrap3'
         });
     };

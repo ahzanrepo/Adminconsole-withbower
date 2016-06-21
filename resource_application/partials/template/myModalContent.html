@@ -3,8 +3,8 @@
 </div>
 <div class="modal-body">
     <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-        <input type="text" class="form-control has-feedback-left" ng-model="selectedTask.task.Concurrency"
-               placeholder="Concurrency">
+        <input type="number" class="form-control has-feedback-left" ng-model="selectedTask.task.Concurrency"
+               min="1"   placeholder="Concurrency">
         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
     </div>
 

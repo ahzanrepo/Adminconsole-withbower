@@ -13,7 +13,7 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
             $scope.pageTotal = response;
         }, function (error) {
             $log.debug("GetAttributeCount err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
@@ -82,7 +82,7 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
             $scope.showPaging = true;
         }, function (error) {
             $log.debug("GetAttributes err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
@@ -100,7 +100,7 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
             $scope.pageGrpTotal = response;
         }, function (error) {
             $log.debug("GroupsCount err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
@@ -118,7 +118,7 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
             $scope.groupsData = response;
         }, function (error) {
             $log.debug("GetGroups err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
@@ -135,18 +135,22 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
             $scope.GroupsCount();
         }, function (error) {
             $log.debug("saveGroup err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
 
     $scope.Tasks = [];
+    $scope.grp = {};
     $scope.GetTasks = function (item) {
         attributeService.GetTasks(item).then(function (response) {
             $scope.Tasks = response;
+            if ($scope.Tasks.length > 0) {
+                $scope.grp.GroupType = $scope.Tasks[0].ResTaskInfo.TaskName;
+            }
         }, function (error) {
             $log.debug("GetTasks err");
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get Task List.");
+            $scope.showError("Error", "Error", "ok", "Fail To Get Task List.");
         });
 
     };
@@ -163,12 +167,24 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
         $scope.GroupsCount();
     };
 
+
+
     $scope.showAlert = function (tittle, label, button, content) {
 
         new PNotify({
             title: tittle,
             text: content,
             type: 'success',
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.showError = function (tittle,content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
             styling: 'bootstrap3'
         });
     };

@@ -6,11 +6,13 @@
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
-    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download', 'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
+    'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
+    'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
     'AngularBootstrapTree',
     'jkuri.slimscroll',
     'base64',
     'angular-jwt',
+    'angular-sly',
     'LocalStorageModule'
 ]);
 
@@ -398,14 +400,12 @@ mainApp.run(function ($rootScope, loginService, $location) {
         var navigation = toState.data.navigation;
 
 
+        if (navigation)
+            if (!loginService.checkNavigation(navigation)) {
+                event.preventDefault();
+                return;
 
-        if(navigation)
-        if(!loginService.checkNavigation(navigation)) {
-            event.preventDefault();
-            return;
-
-        }
-
+            }
 
 
         if (requireLogin) {

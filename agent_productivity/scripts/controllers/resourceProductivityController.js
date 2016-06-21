@@ -12,7 +12,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
             calculateProductivity();
         }, function (error) {
             $log.debug("GetCallServers err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
@@ -26,7 +26,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
             $scope.getProductivity();
         }, function (error) {
             $log.debug("GetOnlineAgents err");
-            $scope.showAlert("Error", "Error", "ok", "There is an error ");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
@@ -74,7 +74,15 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     /* $scope.labels = ["After work", "Break", "On Call", "Idle"];
      $scope.data = [300, 500, 100, 100];*/
+    $scope.showError = function (tittle,content) {
 
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'error',
+            styling: 'bootstrap3'
+        });
+    };
 
     $scope.showAlert = function (tittle, label, button, content) {
 

@@ -95,20 +95,21 @@
                             </div>
 
                             <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <select class="form-control" id="GroupType"  ng-model="grp.GroupType">
-                                    <option  ng-repeat="c in Tasks" value="{{c.ResTaskInfo.TaskType}}" selected>{{c.ResTaskInfo.TaskType| uppercase}}
+                                <!--<select class="form-control" id="GroupType"  ng-model="grp.GroupType">
+                                    <option  ng-repeat="c in Tasks" value="{{c.ResTaskInfo.TaskType}}" >{{c.ResTaskInfo.TaskType| uppercase}}
                                     </option>
+                                </select>-->
+
+                                <select class="form-control" ng-model="grp.GroupType"   ng-model-options="{trackBy: '$value'}" >
+                                    <option ng-repeat="c in Tasks" value="{{c.ResTaskInfo.TaskType}}" >{{c.ResTaskInfo.TaskType}}</option>
                                 </select>
 
-                                <!--<select ng-model="grp.GroupType"
-                                        ng-options="c.ResTaskInfo.TaskType for c in Tasks track by c.ResTaskInfo.TaskType">
-                                </select>-->
                             </div>
 
 
                             <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="grp.Percentage"
-                                       placeholder="Percentage">
+                                <input type="number" class="form-control has-feedback-left" ng-model="grp.Percentage"
+                                       placeholder="Weight" min="0" >
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
