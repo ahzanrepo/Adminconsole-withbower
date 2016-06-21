@@ -1,4 +1,4 @@
-<siv class="row">
+<div class="row" ng-controller="userProfileCtrl">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel p-0">
             <div class="profile-header">
@@ -265,8 +265,16 @@
                                             <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
                                                  style="margin-right: 20px;">
                                                 <label>Country</label>
-                                                <input type="text" class="form-control"
-                                                       ng-model="CurrentProfile.address.country">
+                                                <!--<input type="text" class="form-control"-->
+                                                       <!--ng-model="CurrentProfile.address.country">-->
+
+                                                <select class="select2_single form-control" tabindex="-1"
+                                                        aria-hidden="true"
+                                                        name="country" ng-model="CurrentProfile.address.country">
+                                                    <option ng-repeat="country in countryList" value="{{country.name}}">
+                                                        {{country.name}}
+                                                    </option>
+                                                </select>
                                             </div>
 
                                             <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
@@ -454,4 +462,4 @@
             </div>
         </div>
     </div>
-</siv>
+</div>

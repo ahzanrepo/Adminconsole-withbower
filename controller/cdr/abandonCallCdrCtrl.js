@@ -385,7 +385,7 @@
                                  }
                                  }*/
 
-                                if (isInboundHTTAPI && !outLegProcessed && !outLegAnswered && cdrAppendObj.QueueSec && cdrAppendObj.QueueSec > 10) {
+                                if (isInboundHTTAPI && !outLegAnswered && cdrAppendObj.QueueSec && cdrAppendObj.QueueSec > 10) {
                                     $scope.cdrList.push(cdrAppendObj);
                                 }
 

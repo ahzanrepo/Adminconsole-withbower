@@ -345,13 +345,16 @@ a {
     font-weight: 300;
     font-size: 14px;
     color: #555;
-    border: 2px solid #F7F7F7;
+    border: 2px solid #e6e5e5;
     border-radius: 5px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .0);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .0);
     -webkit-transition: border-color ease-in-out 0s, -webkit-box-shadow ease-in-out 0s;
     -o-transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;
     transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;
+}
+.form-control-feedback {
+    color: #383b3b;
 }
 
 .text-uppercase {
