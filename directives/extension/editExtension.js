@@ -17,7 +17,15 @@ mainApp.directive("editextension", function ($filter,$uibModal,extensionBackendS
         link: function (scope) {
 
 
+            scope.showAlert = function (title,content,type) {
 
+                new PNotify({
+                    title: title,
+                    text: content,
+                    type: type,
+                    styling: 'bootstrap3'
+                });
+            };
 
 
             //scope.setMasterAppList();
@@ -30,16 +38,7 @@ mainApp.directive("editextension", function ($filter,$uibModal,extensionBackendS
                 //console.log(scope.applist);
             };
 
-
-            scope.showAlert = function (tittle, label, button, content) {
-
-                new PNotify({
-                    title: tittle,
-                    text: content,
-                    type: 'notice',
-                    styling: 'bootstrap3'
-                });
-            };
+            
 
 
         }

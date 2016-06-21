@@ -20,6 +20,7 @@
                                 <input type="text" class="form-control has-feedback-left" ng-model="newHoldMusic.Name"
                                        placeholder="Hold Music Name">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+
                             </div>
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">Description</label>
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
@@ -35,6 +36,8 @@
                                     <option ng-repeat="holdmusic in holdMusicFiles" value="{{holdmusic.Filename}}" >{{holdmusic.Filename}}</option>
                                 </select>
 
+                                <i class="fa fa-close" ng-click="makeEmpty(newHoldMusic.MOH)"></i>
+
                             </div>
 
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">Announcement</label>
@@ -42,6 +45,7 @@
                                 <select class="form-control" ng-model="newHoldMusic.Announcement"   ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
                                     <option ng-repeat="holdmusic in holdMusicFiles" value="{{holdmusic.Filename}}" >{{holdmusic.Filename}}</option>
                                 </select>
+                                <i class="fa fa-close " ng-click="makeEmpty(newHoldMusic.Announcement)"></i>
                             </div>
 
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">First Announement</label>
@@ -49,6 +53,7 @@
                                 <select class="form-control" ng-model="newHoldMusic.FirstAnnounement"   ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
                                     <option ng-repeat="holdmusic in holdMusicFiles" value="{{holdmusic.Filename}}" >{{holdmusic.Filename}}</option>
                                 </select>
+                                <i class="fa fa-close" ng-click="makeEmpty(newHoldMusic.FirstAnnounement)"></i>
                             </div>
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">Announcement Time</label>
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">

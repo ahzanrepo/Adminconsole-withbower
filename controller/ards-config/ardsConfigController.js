@@ -12,35 +12,17 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
     $scope.RequestServers=[];
 
 
+    $scope.showAlert = function (title,content,type) {
 
-
-
-    $scope.saveAplication= function (resource) {
-        resource.Availability=true;
-        if(resource.ObjClass=="DEVELOPER")
-        {
-            resource.IsDeveloper=true;
-        }
-        appBackendService.saveNewApplication(resource).then(function (response) {
-
-            if(!response.data.IsSuccess)
-            {
-                console.info("Error in adding new Application "+response.data.Exception);
-            }
-            else
-            {
-                $scope.addNew = !response.data.IsSuccess;
-
-                $scope.AppList.splice(0, 0, response.data.Result);
-                $scope.newApplication={};
-
-
-            }
-
-        }), function (error) {
-            console.info("Error in adding new Application "+error);
-        }
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
     };
+
+
 
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
@@ -86,14 +68,17 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
         ardsBackendService.saveArds($scope.newArds).then(function (response) {
             if(response.data.IsSuccess)
             {
-                console.log("Successfully saved")
+                console.log("Successfully saved");
+                $scope.showAlert("Success","Saved successfully","success");
                 $state.reload();
             }
             else
             {
+                $scope.showAlert("Error","Error in saving","error");
                 console.log("Error in response")
             }
         }, function (error) {
+            $scope.showAlert("Error","Error in saving","error");
             console.log("Exception in request ",error);
         })
 
@@ -119,15 +104,16 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
     };
 
 
-
-    $scope.addApplication = function () {
-        $scope.addNew = !$scope.addNew;
-    };
     $scope.removeDeleted = function (item) {
 
         var index = $scope.AppList.indexOf(item);
         if (index != -1) {
             $scope.AppList.splice(index, 1);
+            $scope.showAlert("Removed","Removed successfully","success");
+        }
+        else
+        {
+            $scope.showAlert("Error","Error in removing","error");
         }
 
     };
@@ -209,6 +195,5 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
     $scope.GetARDSRecords();
     $scope.LoadTasks();
     $scope.LoadGroups();
-    $scope.LoadServers();
 
 });

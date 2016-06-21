@@ -58,6 +58,7 @@
 
 
         function checkNavigation(appname) {
+
             if (navigations.menus && navigations.menus.length > 0) {
                 var obj = navigations.menus.filter(function (item, index) {
                     return item.menuItem == appname;
@@ -67,7 +68,10 @@
                     return true;
                 }
             }
+
             return false;
+
+
         };
 
         //get token decode
@@ -122,7 +126,7 @@
                 grant_type: "password",
                 username: parm.userName,
                 password: parm.password,
-                scope: "all_all"
+                scope: "all_all profile_veeryaccount"
             }, {
                 headers: {
                     Authorization: 'Basic ' + parm.clientID
