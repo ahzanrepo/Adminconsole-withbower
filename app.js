@@ -14,7 +14,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'base64',
     'angular-jwt',
     'LocalStorageModule',
-    'ngMessages'
+    'ngMessages',
+    'angular-sly'
 ]);
 
 
@@ -402,14 +403,12 @@ mainApp.run(function ($rootScope, loginService, $location) {
         var navigation = toState.data.navigation;
 
 
+        if (navigation)
+            if (!loginService.checkNavigation(navigation)) {
+                event.preventDefault();
+                return;
 
-        if(navigation)
-        if(!loginService.checkNavigation(navigation)) {
-            event.preventDefault();
-            return;
-
-        }
-
+            }
 
 
         if (requireLogin) {

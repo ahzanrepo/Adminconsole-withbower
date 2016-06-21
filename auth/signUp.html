@@ -1,10 +1,11 @@
 <div class="login animated fadeIn" ng-controller="signUpCtrl">
+    <img src="asset/images/bg_10444x10002.jpg" id="bg" alt="">
     <div>
         <div class="login_wrapper signup-wrap">
             <div class="form login_form">
                 <section class="login_content">
                     <div class="login-header">
-                        <img src="images/logo150x150.png" width="120" height="120"/>
+                        <img src="images/logo_130x130yellow.png" width="120" height="120"/>
                     </div>
                     <form name="signUpForm">
                         <h1 class="font-robot font-300">SignUp </h1>
@@ -12,9 +13,12 @@
                             <div class="col-md-6">
                                 <div class="validation-area">
                                     <!-- user name -->
-                                    <label>User name *</label>
+                                    <label class="dark-frm-label">User name
+                                        <span class="inline-block validation-on"
+                                              ng-show="signUpForm.userName.$invalid && !signUpForm.userName.$pristine">*
+                                    </span></label>
                                     <input type="text" name="userName" ng-model="userName"
-                                           class="form-control "
+                                           class="form-control dark-frm-input "
                                            placeholder="Username"
                                            required/>
                                 </div>
@@ -22,9 +26,12 @@
                             <div class="col-md-6">
                                 <div class="validation-area">
                                     <!-- phone no -->
-                                    <label>Phone no *</label>
+                                    <label class="dark-frm-label">Phone no
+                                        <span class="inline-block validation-on"
+                                              ng-show="signUpForm.userName.$invalid && !signUpForm.userName.$pristine">*
+                                    </span></label>
                                     <input type="text" name="phoneNo" ng-model="phoneNo"
-                                           class="form-control "
+                                           class="form-control dark-frm-input "
                                            placeholder="Phone No"
                                            required/>
                                 </div>
@@ -34,9 +41,12 @@
                             <div class="col-md-6">
                                 <div class="validation-area">
                                     <!-- first name -->
-                                    <label>First Name *</label>
+                                    <label class="dark-frm-label">First Name
+                                        <span class="inline-block validation-on"
+                                              ng-show="signUpForm.firstName.$invalid && !signUpForm.firstName.$pristine">*
+                                    </span></label>
                                     <input type="text" name="firstName" ng-model="firstName"
-                                           class="form-control "
+                                           class="form-control dark-frm-input "
                                            placeholder="First Name"
                                            required/>
                                 </div>
@@ -45,9 +55,12 @@
                             <div class="col-md-6">
                                 <div class="validation-area">
                                     <!-- last name -->
-                                    <label>Last Name *</label>
+                                    <label class="dark-frm-label">Last Name
+                                         <span class="inline-block validation-on"
+                                               ng-show="signUpForm.lastName.$invalid && !signUpForm.lastName.$pristine">*
+                                    </span></label>
                                     <input type="text" name="lastName" ng-model="lastName"
-                                           class="form-control "
+                                           class="form-control dark-frm-input "
                                            placeholder="Last Name"
                                            required/>
                                 </div>
@@ -56,9 +69,12 @@
 
 
                         <div class="validation-area">
-                            <label>Email *</label>
+                            <label class="dark-frm-label">Email
+                                 <span class="inline-block validation-on"
+                                       ng-show="signUpForm.email.$invalid && !signUpForm.email.$pristine">*
+                                    </span></label>
                             <input type="email" name="email" ng-model="email"
-                                   class="form-control "
+                                   class="form-control dark-frm-input "
                                    placeholder="Email"
                                    required/>
                         </div>
@@ -68,9 +84,12 @@
                             <div class="col-lg-6">
                                 <div class="validation-area">
                                     <!-- password  -->
-                                    <label>Password *</label>
+                                    <label class="dark-frm-label">Password
+                                         <span class="inline-block validation-on"
+                                               ng-show="signUpForm.password.$invalid && !signUpForm.password.$pristine">*
+                                    </span></label>
                                     <input type="password" ng-model="password"
-                                           class="form-control"
+                                           class="form-control dark-frm-input"
                                            name="password"
                                            placeholder="Password"
                                            required=""/>
@@ -80,29 +99,40 @@
                             <div class="col-lg-6">
                                 <div class="validation-area">
                                     <!-- confirm password -->
-                                    <label>Confirm password *</label>
+                                    <label class="dark-frm-label">Confirm password
+                                         <span class="inline-block validation-on"
+                                               ng-show="signUpForm.confirmPwd.$invalid && !signUpForm.confirmPwd.$pristine">*
+                                    </span></label>
                                     <input type="password" password-verify="password"
                                            ng-model="confirmPwd"
-                                           class="form-control"
+                                           class="form-control dark-frm-input"
                                            name="confirmPwd"
                                            placeholder="Confirm password"
-                                           required=""/>
+                                           required/>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="m-bottom20">
+                            <button class="btn btn-default signUp   dark-frm-btn pull-left"
+                                    ng-click="onClickCreateAccount()"
+                                    ng-disabled="signUpForm.$invalid">Create Account
+                            </button>
+                            <!-- loading -->
+                            <a ng-if="isSignUp"><i class="fa fa-spinner fa-pulse fa-3x fa-fw form-data-loading"></i>
+                            </a>
+                            <a class="reset_pass pull-right dark-reset-text" ng-click="onClickLogIn()"
+                               href="javascript:void(0);">Login</a>
+                        </div>
+
 
                         <div class="m-bottom20">
-                            <a class="btn btn-default signUp  text-center" href="javascript:void(0)"
-                               ng-click="onClickCreateAccount()"
-                               ng-disabled="signUpForm.$invalid">Create Account</a>
-                            <a class="btn btn-default login " href="javascript:void(0)"
-                               ng-click="onClickLogIn()" ng-disabled="isLogin">LogIn</a>
+
                         </div>
 
                         <div class="clearfix"></div>
 
-                        <div class="separator">
+                        <div class="dark-separator">
                             <div class="clearfix"></div>
                             <br/>
 
