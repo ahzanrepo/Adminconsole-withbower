@@ -36,7 +36,7 @@
                                     <option ng-repeat="holdmusic in holdMusicFiles" value="{{holdmusic.Filename}}" >{{holdmusic.Filename}}</option>
                                 </select>
 
-                                <i class="fa fa-close" ng-click="makeEmpty(newHoldMusic.MOH)"></i>
+                                <i class="fa fa-close" ng-click="makeMOHEmpty()"></i>
 
                             </div>
 
@@ -45,7 +45,7 @@
                                 <select class="form-control" ng-model="newHoldMusic.Announcement"   ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
                                     <option ng-repeat="holdmusic in holdMusicFiles" value="{{holdmusic.Filename}}" >{{holdmusic.Filename}}</option>
                                 </select>
-                                <i class="fa fa-close " ng-click="makeEmpty(newHoldMusic.Announcement)"></i>
+                                <i class="fa fa-close " ng-click="makeAnnouncementEmpty()"></i>
                             </div>
 
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">First Announement</label>
@@ -53,12 +53,12 @@
                                 <select class="form-control" ng-model="newHoldMusic.FirstAnnounement"   ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
                                     <option ng-repeat="holdmusic in holdMusicFiles" value="{{holdmusic.Filename}}" >{{holdmusic.Filename}}</option>
                                 </select>
-                                <i class="fa fa-close" ng-click="makeEmpty(newHoldMusic.FirstAnnounement)"></i>
+                                <i class="fa fa-close" ng-click="makeFirstAnnounementEmpty()"></i>
                             </div>
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">Announcement Time</label>
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" ng-model="newHoldMusic.AnnouncementTime"
-                                       placeholder="Announcement Time">
+                                       placeholder="Announcement Time">ms
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 

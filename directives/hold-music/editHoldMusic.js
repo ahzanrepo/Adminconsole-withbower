@@ -127,7 +127,23 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
 
             scope.cancelUpdate = function () {
                 scope.editMode = false;
-            }
+            };
+
+            scope.makeFirstAnnounementEmpty =function()
+            {
+                scope.holdmusic.FirstAnnounement =null;
+            };
+            scope.makeMOHEmpty=function()
+            {
+                scope.holdmusic.MOH =null;
+            };
+            scope.makeAnnouncementEmpty=function()
+            {
+                scope.holdmusic.Announcement =null;
+            };
+
+
+
 
 
         }

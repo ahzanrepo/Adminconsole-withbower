@@ -109,9 +109,17 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
 
     $scope.GetHoldMusic();
 
-    $scope.makeEmpty(data)
+    $scope.makeFirstAnnounementEmpty =function()
     {
-        $scope.data =null;
-    }
+        $scope.newHoldMusic.FirstAnnounement =null;
+    };
+    $scope.makeMOHEmpty=function()
+    {
+        $scope.newHoldMusic.MOH =null;
+    };
+    $scope.makeAnnouncementEmpty=function()
+    {
+        $scope.newHoldMusic.Announcement =null;
+    };
 
 });

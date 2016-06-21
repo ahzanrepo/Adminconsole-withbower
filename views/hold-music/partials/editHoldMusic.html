@@ -38,7 +38,7 @@
                             <select class="form-control" ng-model="holdmusic.MOH"   ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
                                 <option ng-repeat="musicFile in fileList" value="{{musicFile.Filename}}" >{{musicFile.Filename}}</option>
                             </select>
-
+                            <i class="fa fa-close" ng-click="makeMOHEmpty()"></i>
 
                         </div>
 
@@ -47,7 +47,7 @@
                             <select class="form-control" ng-model="holdmusic.Announcement"   ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
                                 <option ng-repeat="musicFile in fileList" value="{{musicFile.Filename}}" >{{musicFile.Filename}}</option>
                             </select>
-
+                            <i class="fa fa-close " ng-click="makeAnnouncementEmpty()"></i>
                         </div>
 
                         <label class="control-label col-md-2 col-sm-6 col-xs-12">First Announement</label>
@@ -55,12 +55,12 @@
                             <select class="form-control" ng-model="holdmusic.FirstAnnounement"   ng-model-options="{trackBy: '$value'}" ng-change="selectionsChanged()">
                                 <option ng-repeat="musicFile in fileList" value="{{musicFile.Filename}}" >{{musicFile.Filename}}</option>
                             </select>
-
+                            <i class="fa fa-close" ng-click="makeFirstAnnounementEmpty()"></i>
                         </div>
                         <label class="control-label col-md-2 col-sm-6 col-xs-12">Announcement Time</label>
                         <div class="col-md-4 col-sm-6 col-xs-12 form-group">
                             <input type="text" class="form-control has-feedback-left" ng-model="holdmusic.AnnouncementTime"
-                                   placeholder="Announcement Time">
+                                   placeholder="Announcement Time"> ms
                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                         </div>
 
