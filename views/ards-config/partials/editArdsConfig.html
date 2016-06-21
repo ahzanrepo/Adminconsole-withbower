@@ -42,10 +42,9 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>Server Type</label>
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="ards.ServerType"
-                                       placeholder="Server Type" ng-disabled="true">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                <select class="form-control" ng-model="ards.ServerType"   ng-model-options="{trackBy: '$value'}">
+                                    <option ng-repeat="server in RequestServers" value="{{server.ServerType}}" >{{server.ServerType}}</option>
+                                </select>
                             </div>
 
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"

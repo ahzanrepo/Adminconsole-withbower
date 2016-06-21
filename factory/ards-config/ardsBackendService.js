@@ -98,7 +98,23 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             {
                 return response;
             });
-        }
+        },
+
+        getRequestServers: function () {
+
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: "http://ardsliteservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/requestservers/*/*",
+                headers: {
+                    'authorization':authToken
+                }
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+
 
 
     }
