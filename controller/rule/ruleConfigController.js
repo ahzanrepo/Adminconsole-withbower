@@ -16,6 +16,17 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     $scope.ANIRequired = true;
 
 
+    $scope.showAlert = function (title,content,type) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
+
 
 
 
@@ -90,8 +101,10 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     };
 
     var onSaveCompleted = function (response) {
+        $scope.showAlert("Success","Successfully saved","success");
         $scope.backToList();
     };
+
     var onTrunkLoadCompleted = function (response) {
         if(response.data.Exception)
         {
@@ -106,6 +119,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     };
 
     var onError = function (reason) {
+        $scope.showAlert("Error","There is an error","error");
         console.log(reason);
     };
 
