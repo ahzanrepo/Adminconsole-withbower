@@ -199,7 +199,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "abandonCallCdrCtrl",
             data: {
                 requireLogin: true,
-                navigation: "CDR_ABANDONE"
+                navigation: "CDR"
             }
         }).state('console.realtime-queued', {
             url: "/realtime-queued",

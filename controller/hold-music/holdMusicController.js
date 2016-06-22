@@ -64,6 +64,11 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
 
     $scope.saveHoldMusic = function (resource) {
 
+        if($scope.newHoldMusic.AnnouncementTime==""|| $scope.holdmusic.AnnouncementTime==null)
+        {
+            $scope.newHoldMusic.AnnouncementTime=0;
+        }
+
         holdMusicBackendService.saveHoldMusicFiles(resource).then(function (response) {
 
             if(!response.data.IsSuccess)

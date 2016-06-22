@@ -175,7 +175,7 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
             if(response.data.IsSuccess)
             {
                 $scope.RequestServers=response.data.Result;
-                console.log($scope.RequestServers);
+                console.log("Servers ",$scope.RequestServers);
             }
             else
             {
@@ -195,5 +195,6 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
     $scope.GetARDSRecords();
     $scope.LoadTasks();
     $scope.LoadGroups();
+    $scope.LoadServers();
 
 });

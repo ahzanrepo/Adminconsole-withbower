@@ -40,7 +40,7 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
 
                 console.info("Error in adding new Application "+response.data.Exception);
                 $scope.showAlert("Error", "There is an error in saving Application ","error");
-               //$scope.showAlert("Error",)
+                //$scope.showAlert("Error",)
             }
             else
             {
@@ -107,6 +107,7 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
 
 mainApp.controller("modalController", function ($scope, $uibModalInstance,appBackendService,appID) {
 
+    $scope.ModalMessage="Searching for files...";
     console.log("AppID "+appID);
     $scope.availableFileList=[];
     $scope.selectedFileList=[];
@@ -118,6 +119,7 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
 
             if(response.data.IsSuccess)
             {
+
                 $scope.availableFileList=response.data.Result;
                 appBackendService.getFilesOfApplication(appID).then(function (AppFiles) {
                     if(AppFiles.data.IsSuccess)
@@ -132,6 +134,8 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
                 }, function (errAppFiles) {
                     console.info("Exception in getting App related files "+errAppFiles);
                 })
+
+
             }
             else
             {
@@ -159,7 +163,10 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
 
         }
 
-
+        if($scope.allEligibleList.length==0)
+        {
+            $scope.ModalMessage="No files found....";
+        }
 
 
         console.log($scope.availableFileList);
@@ -207,6 +214,10 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    $scope.exitModal= function () {
+        $uibModalInstance.dismiss('cancel');
+    }
 
     $scope.GetAvailableFiles();
 
