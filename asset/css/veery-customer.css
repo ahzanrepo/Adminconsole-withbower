@@ -353,6 +353,7 @@ a {
     -o-transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;
     transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;
 }
+
 .form-control-feedback {
     color: #383b3b;
 }
@@ -2169,6 +2170,7 @@ label {
     margin-top: 15px;
     padding-top: 10px;
 }
+
 .disabled-btn {
     background: #393b3b !important;
     border: 1px solid #393b3b !important;
@@ -2206,8 +2208,6 @@ ul.timeline-with-tag li {
     left: 0;
     width: 84px;
 }
-
-
 
 .timeline-with-tag .tag-with-tag {
     display: block;
@@ -2280,3 +2280,9 @@ ul.social li {
 }
 
 /*end new time line*/
+
+/*table scroll bar update*/
+.table-wrapper {
+    width: 100%;
+    overflow: hidden;
+}

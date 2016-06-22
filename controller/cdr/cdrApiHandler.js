@@ -28,8 +28,31 @@
             })
         };
 
+        var getAbandonCDRForTimeRange = function(startDate, endDate, limit, offsetId)
+        {
+            var authToken = authService.GetToken();
+            var url = 'http://cdrprocessor.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallCDR/GetAbandonCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+
+            if(offsetId)
+            {
+                url = url + '&offset=' + offsetId;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         return {
-            getCDRForTimeRange: getCDRForTimeRange
+            getCDRForTimeRange: getCDRForTimeRange,
+            getAbandonCDRForTimeRange: getAbandonCDRForTimeRange
         };
     };
 

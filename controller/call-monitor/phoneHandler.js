@@ -150,6 +150,10 @@ function register() { // register function
     });
     registerSession.register(); // registering session.
 }
+function unregister()
+{
+    registerSession.unregister();
+}
 function hangupCall() { // call this function to hangup /reject a call.
     if(callSession) {
         callSession.hangup(); // hangups outgoing call.
