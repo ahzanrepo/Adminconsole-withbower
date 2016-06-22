@@ -100,6 +100,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
 
 });
+
 mainApp.directive('queued', function (queueMonitorService, $timeout) {
     return {
 
