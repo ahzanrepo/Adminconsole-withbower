@@ -253,7 +253,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
 
     $scope.playVideo = function (file) {
 
-        /*var modalInstance = $uibModal.open({
+        var modalInstance = $uibModal.open({
             animation: false,
             templateUrl: 'file_gallery/view/myModalContent.html',
             controller: 'ModalInstanceCtrl',
@@ -269,7 +269,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             $scope.selected = selectedItem;
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
-        });*/
+        });
     };
 
     /* Video Modal*/
@@ -317,7 +317,7 @@ app.directive('onErrorSrc', function () {
 
 
 
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, file) {
+app.controller('ModalInstanceCtrl', function ($scope,$sce, $uibModalInstance,baseUrls, file) {
 
     $scope.selectedFile = file;
 
@@ -328,4 +328,37 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, file) {
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    /*{{internalUrl}}File/Download/{{tenant}}/{{company}}/{{file.UniqueId}}/{{file.Filename}}*/
+    $scope.config = {
+        preload: "auto",
+        sources: [
+            {src: $sce.trustAsResourceUrl(baseUrls.fileServiceInternalUrl +"File/Download/"+file.TenantId+"/"+file.CompanyId+"/"+file.UniqueId+"/"+file.Filename), type: file.FileStructure}
+        ],
+        tracks: [
+            {
+                src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
+                kind: "subtitles",
+                srclang: "en",
+                label: "English",
+                default: ""
+            }
+        ],
+        theme: {
+            url: "bower_components/videogular-themes-default/videogular.css"
+        },
+        "analytics": {
+            "category": "Videogular",
+            "label": "Main",
+            "events": {
+                "ready": true,
+                "play": true,
+                "pause": true,
+                "stop": true,
+                "complete": true,
+                "progress": 10
+            }
+        }
+    };
 });
+
