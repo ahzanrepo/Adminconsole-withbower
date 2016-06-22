@@ -27,8 +27,14 @@ mainApp.directive("fileCountdrt", function ($filter, fileService) {
                     scope.countByCategory[scope.name] = scope.fileCount;
                     console.info("GetFileCountCategoryID : " + scope.fileCount);
                 }
+                else {
+                    var data = {"Category": scope.category, "Count": 0, "ID": scope.name};
+                    scope.fileCount = data;
+                    scope.countByCategory[scope.name] = scope.fileCount;
+                    console.info("GetFileCountCategoryID - No data receive");
+                }
             }, function (error) {
-                console.info("GetFileCoun3432432tCategoryID err" + error);
+                console.info("GetFileCountCategoryID err" + error);
             });
 
             /*engagementService.GetItemsBySessionId(scope.name).then(function (response) {

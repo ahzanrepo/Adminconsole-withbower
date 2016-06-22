@@ -89,7 +89,7 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
 
 }]);
 
-app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state, fileService, jwtHelper, authService, baseUrls) {
+app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state,$uibModal, fileService, jwtHelper, authService, baseUrls) {
 
 
     $scope.countByCategory = [];
@@ -247,6 +247,33 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     };
     $scope.getCompanyTenant();
 
+
+    /* Video Modal*/
+    $scope.items = ['item1', 'item2', 'item3'];
+
+    $scope.playVideo = function (file) {
+
+        /*var modalInstance = $uibModal.open({
+            animation: false,
+            templateUrl: 'file_gallery/view/myModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: 'sm',
+            resolve: {
+                file: function () {
+                    return file;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });*/
+    };
+
+    /* Video Modal*/
+
 });
 
 app.controller('SidebarController', function ($scope, sidebar) {
@@ -286,4 +313,19 @@ app.directive('onErrorSrc', function () {
             });
         }
     }
+});
+
+
+
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, file) {
+
+    $scope.selectedFile = file;
+
+    $scope.ok = function () {
+        $uibModalInstance.close($scope.selectedFile.Filename);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 });
