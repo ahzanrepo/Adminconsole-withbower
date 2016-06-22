@@ -353,6 +353,7 @@ a {
     -o-transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;
     transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;
 }
+
 .form-control-feedback {
     color: #383b3b;
 }
@@ -2162,9 +2163,15 @@ label {
     border-top: 1px solid rgb(60, 60, 60);
     margin-top: 15px;
     padding-top: 10px;
+}
 
 .disabled-btn {
     background: #393b3b !important;
     border: 1px solid #393b3b !important;
     color: #5d5d5f;
+}
+
+.navigation-tree {
+    height: 600px;
+    overflow: hidden;
 }

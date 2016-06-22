@@ -13,17 +13,16 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
     });
 
 
-
     $scope.clickDirective = {
         goLogout: function () {
 
-            loginService.Logoff(undefined,function(issuccess){
+            loginService.Logoff(undefined, function (issuccess) {
 
-                if(issuccess){
+                if (issuccess) {
 
                     $state.go('login');
 
-                }else{
+                } else {
 
                 }
 
@@ -111,6 +110,31 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
     };
     getUserName();
 
+
+    $scope.scrollEnabled = false;
+    $scope.safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
+
+    //update damith
+    $scope.scrollEnabled = false;
+    $scope.viewScroll = function () {
+        $scope.safeApply(function () {
+            $scope.scrollEnabled = true;
+        });
+    };
+    $scope.hideScroll = function () {
+        $scope.safeApply(function () {
+            $scope.scrollEnabled = false;
+        });
+    };
 
 });
 
