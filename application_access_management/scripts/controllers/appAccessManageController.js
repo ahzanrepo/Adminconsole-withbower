@@ -225,8 +225,9 @@ mainApp.controller("appAccessManageController", function ($scope, $filter, $stat
         var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
         console.info(decodeData);
         $scope.ownerName = decodeData.iss;
-    }
+    };
     $scope.getOwnerName();
+    $scope.userName = $stateParams.username;
 });
 
 

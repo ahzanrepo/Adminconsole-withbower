@@ -2,6 +2,11 @@ var app = angular.module("veeryConsoleApp");
 
 app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, resourceProductivityService) {
 
+    $scope.reloadPage = function(){
+        $scope.OnlineAgents = [];
+        $scope.productivity = [];
+        $scope.GetOnlineAgents();
+    };
     $scope.productivity = [];
     $scope.getProductivity = function () {
 

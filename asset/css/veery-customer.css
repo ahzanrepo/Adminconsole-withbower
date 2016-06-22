@@ -1035,9 +1035,15 @@ a.thumbnaildrag:hover {
 /*productivity services*/
 
 .productivity-panel {
-    height: 455px;
+    height: 350px;
+    border: 1px solid #f8b01d !important;
+    border-radius: 0px !important;
 }
-
+.productivity-text-uppercase {
+    text-transform: uppercase;
+    text-align: right;
+    /*background-color: #8a8181;*/
+}
 /*sip user*/
 .sup-user-panel {
 
