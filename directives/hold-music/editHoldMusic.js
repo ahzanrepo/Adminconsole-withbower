@@ -55,7 +55,7 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
 
             scope.updateHoldMusicDetails = function () {
 
-                if(scope.holdmusic.AnnouncementTime=="")
+                if(scope.holdmusic.AnnouncementTime=="" || scope.holdmusic.AnnouncementTime==null)
                 {
                     scope.holdmusic.AnnouncementTime=0;
                 }

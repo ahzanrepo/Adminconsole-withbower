@@ -64,7 +64,7 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
 
     $scope.saveHoldMusic = function (resource) {
 
-        if($scope.newHoldMusic.AnnouncementTime=="")
+        if($scope.newHoldMusic.AnnouncementTime==""|| $scope.holdmusic.AnnouncementTime==null)
         {
             $scope.newHoldMusic.AnnouncementTime=0;
         }
