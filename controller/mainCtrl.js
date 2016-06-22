@@ -98,6 +98,10 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         },
         goArdsConfig: function () {
             $state.go('console.ardsconfig');
+        },
+
+        goProfile: function () {
+            $state.go('console.myprofile');
         }
     };
 

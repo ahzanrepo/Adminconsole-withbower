@@ -74,6 +74,20 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var deleteOneAttribute = function (groupId,attributeId) {
+
+        return $http({
+            method: 'delete',
+            url: baseUrls.resourceServiceBaseUrl + 'Group/'+groupId+'/Attribute/'+attributeId,
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
+
     var getGroups = function (rowCount,pageNo) {
 
         return $http({
@@ -114,21 +128,10 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
-    var updateGroup = function (item, oldItems, grpID) {
-
-        angular.forEach(oldItems, function (a) {
-            var items = $filter('filter')(item.Attributes, {AttributeId: a.AttributeId});
-            if (items) {
-                var index = item.Attributes.indexOf(items[0]);
-                item.Attributes.splice(index, 1);
-            }
-            /*AttributeIds.push(a.AttributeId)*/
-        });
-
-
+    var updateGroup = function (item,grpID) {
         return $http({
             method: 'put',
-            url: baseUrls.resourceServiceBaseUrl + 'Group/' + grpID + '/Attributes',
+            url: baseUrls.resourceServiceBaseUrl + 'Group/' + grpID ,
             headers: {
                 'authorization': authService.GetToken()
             },
@@ -201,6 +204,35 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+
+    var addAttributeToGroup = function (groupId,attributeId,otherData) {
+
+
+        return $http({
+            method: 'put',
+            url: baseUrls.resourceServiceBaseUrl + "ExsistingGroup/"+groupId+"/Attribute/"+attributeId,//:GroupId/Attribute/:AttributeId
+            headers: {
+                'authorization': authService.GetToken()
+            },
+            data: {"AttributeId": attributeId, "OtherData": otherData}
+        }).then(function (response) {
+            return response.data.IsSuccess;
+        });
+    };
+
+    var getAttributeByGroupId = function (groupId) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.resourceServiceBaseUrl + "AttributeGroup/"+groupId,
+            headers: {
+                'authorization': authService.GetToken()
+            }
+
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
     return {
         GetAttributes: getattributes,
         GetAttributeCount: getattributeCount,
@@ -213,7 +245,10 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         SaveGroup: saveGroup,
         DeleteGroup: deleteGroup,
         DeleteAttributeFrmGroup: deleteAttributeFrmGroup,
-        GetTasks: getTasks
+        GetTasks: getTasks,
+        AddAttributeToGroup:addAttributeToGroup,
+        DeleteOneAttribute:deleteOneAttribute,
+        GetAttributeByGroupId:getAttributeByGroupId
     }
 
 });

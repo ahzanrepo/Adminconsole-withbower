@@ -4,13 +4,89 @@
 
 'use strict';
 
-mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notificationService) {
+mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSrv, notificationService,jwtHelper,authService) {
 
     // Update the dataset at 25FPS for a smoothly-animating chart
     $scope.CallObj = {};
     $scope.CallStatus = null;
     $scope.phoneSatus = false;
     $scope.currentSessionID = null;
+    $scope.loginData={};
+
+    $scope.showAlert = function (title,content,type) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.pickPassword = function (response) {
+        $scope.password=response;
+        console.log("Hit");
+        console.log("password ",response);
+
+        if($scope.password!=null)
+        {
+            console.log("Password picked "+$scope.password);
+            $scope.loginData.password=$scope.password;
+            Initiate($scope.loginData,onRegistrationCompleted, onCallDisconnected, onCallConnected);
+        }
+    };
+
+    var authToken = authService.GetToken();
+
+
+    $scope.showModal= function (User) {
+        //modal show
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/call-monitor/partials/loginModal.html',
+            controller: 'loginModalController',
+            size: 'sm',
+            resolve: {
+                user: function () {
+                    return User;
+                },
+                pickPassword : function () {
+                    return $scope.pickPassword;
+                }
+            }
+        });
+    };
+
+
+
+    var getRegistrationData = function (authToken) {
+
+        var decodeData = jwtHelper.decodeToken(authToken);
+        console.log("Token Obj "+decodeData);
+
+
+        var values = decodeData.context.veeryaccount.contact.split("@");
+        $scope.sipUri="sip:" + decodeData.context.veeryaccount.contact;
+        $scope.WSUri="wss://" + values[1] + ":7443";
+        $scope.realm=values[1];
+        $scope.username=values[0];
+        $scope.displayname=values[0];
+        $scope.loginData ={
+            realm:$scope.realm,
+            impi:$scope.displayname,
+            impu:$scope.sipUri,
+            display_name:decodeData.iss,
+            websocket_proxy_url:$scope.WSUri
+
+
+        }
+
+        $scope.showModal(decodeData.iss);
+
+
+    };
+
+
 
     var onBargeComplete = function (response) {
 
@@ -78,7 +154,9 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
 
     //#is check listen function OK
     var onRegistrationCompleted = function (response) {
-        console.log(response);
+        //console.log(response);
+        console.log("Hit registered");
+        $scope.showAlert("Registerd","Successfully registered","success");
         $scope.$apply(function () {
             $scope.phoneSatus = true;
         });
@@ -86,6 +164,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
 
     var onCallDisconnected = function () {
         //console.log(response);
+        $scope.showAlert("Disconnected","Disconnected happend","notice");
         $scope.clickBtnStateName = "Waiting";
         $scope.$apply(function () {
             $scope.isCallMonitorOption = 0;
@@ -263,10 +342,41 @@ mainApp.controller('callmonitorcntrl', function ($scope, callMonitorSrv, notific
         $scope.clickBtnStateName = "waiting";
     };
 
-
+    getRegistrationData(authToken);
     $scope.LoadCurrentCalls();
-    Initiate(onRegistrationCompleted, onCallDisconnected, onCallConnected);
+    //Initiate(onRegistrationCompleted, onCallDisconnected, onCallConnected);
 
 });
 
+mainApp.controller("loginModalController", function ($scope, $uibModalInstance,user,pickPassword) {
 
+    $scope.showModal=true;
+    $scope.username=user;
+
+    $scope.ok = function () {
+        pickPassword($scope.userPasssword);
+        $scope.showModal=false;
+        $uibModalInstance.close($scope.password);
+    };
+
+    $scope.login= function () {
+        pickPassword($scope.userPasssword);
+        $scope.showModal=false;
+        $uibModalInstance.close($scope.password);
+    };
+
+    $scope.closeModal = function () {
+        pickPassword(null);
+        $scope.showModal=false;
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    $scope.cancel = function () {
+        pickPassword(null);
+        $scope.showModal=false;
+        $uibModalInstance.dismiss('cancel');
+    };
+
+
+
+});

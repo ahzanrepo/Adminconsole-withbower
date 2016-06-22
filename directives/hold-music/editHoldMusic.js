@@ -16,6 +16,17 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
         link: function (scope) {
 
 
+            scope.showAlert = function (title,content,type) {
+
+                new PNotify({
+                    title: title,
+                    text: content,
+                    type: type,
+                    styling: 'bootstrap3'
+                });
+            };
+
+
 
             scope.editMode = false;
             scope.fileList={};
@@ -47,16 +58,19 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
                 holdMusicBackendService.updateHoldMusicFiles(scope.holdmusic).then(function (response) {
                     if(response.data.IsSuccess)
                     {
+                        scope.showAlert("Success","Updated successfully","success")
                         scope.reloadpage();
 
                     }
                     else
                     {
                         console.info("Error in updating app "+response.data.Exception);
+                        scope.showAlert("Error","Error in updating","error");
                     }
 
                 }, function (error) {
                     console.info("Error in updating application "+error);
+                    scope.showAlert("Error","Error in updating","error");
                 });
             };
 
@@ -68,12 +82,12 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
                     holdMusicBackendService.removeHoldMusicFiles(scope.holdmusic).then(function (response) {
                         if (response) {
                             scope.updateholdmusic(item);
-                            scope.showAlert("Deleted", "Deleted", "ok", "File " + item.Name + " Deleted successfully");
+                            scope.showAlert("Deleted", "File " + item.Name + " Deleted successfully","success");
                         }
                         else
-                            scope.showAlert("Error", "Error", "ok", "There is an error ");
+                            scope.showAlert("Error", "Error in deleting ","error");
                     }, function (error) {
-                        scope.showAlert("Error", "Error", "ok", "There is an error ");
+                        scope.showAlert("Error", "Error in deleting ","error");
                     });
 
                 }, function () {
@@ -109,19 +123,27 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
             };
 
 
-            scope.showAlert = function (tittle, label, button, content) {
 
-                new PNotify({
-                    title: tittle,
-                    text: content,
-                    type: 'notice',
-                    styling: 'bootstrap3'
-                });
-            };
 
             scope.cancelUpdate = function () {
                 scope.editMode = false;
-            }
+            };
+
+            scope.makeFirstAnnounementEmpty =function()
+            {
+                scope.holdmusic.FirstAnnounement =null;
+            };
+            scope.makeMOHEmpty=function()
+            {
+                scope.holdmusic.MOH =null;
+            };
+            scope.makeAnnouncementEmpty=function()
+            {
+                scope.holdmusic.Announcement =null;
+            };
+
+
+
 
 
         }

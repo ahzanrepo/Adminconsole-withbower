@@ -37,19 +37,20 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 var write = addChild(item1, id, "Write");
                 id++;
                 var del = addChild(item1, id, "Delete");
-                if (items.length != 0) {
-                    var optionSelected = false;
-                    angular.forEach(items[0].menuAction, function (action) {
-                        read.isSelected = action.read;
-                        write.isSelected = action.write;
-                        del.isSelected = action.delete;
-                        optionSelected = action.read ? true : (action.write ? true : action.delete)
-                    });
-                    if (optionSelected) {
-                        item1.isSelected = true;
-                        scope.vm.data.isSelected = true;
+                if (items)
+                    if (items.length != 0) {
+                        var optionSelected = false;
+                        angular.forEach(items[0].menuAction, function (action) {
+                            read.isSelected = action.read;
+                            write.isSelected = action.write;
+                            del.isSelected = action.delete;
+                            optionSelected = action.read ? true : (action.write ? true : action.delete)
+                        });
+                        if (optionSelected) {
+                            item1.isSelected = true;
+                            scope.vm.data.isSelected = true;
+                        }
                     }
-                }
             });
 
             /*scope.vm.expandAll(scope.vm.data);*/
@@ -82,34 +83,39 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
             }
 
             scope.updateNavigation = function (navigationData) {
-                var editedMenus = {};
-                editedMenus = {
-                    "menuItem": navigationData.name,//"navigationName": "ARDS_CONFIGURATION",
-                    "menuAction": []
-                };
-                angular.forEach(navigationData.children, function (menu) {
-                    var data = {};
-                    data = {
-                        "scope": menu.id,//"scopeName": "requestmeta",
-                        "read": menu.children["0"].isSelected,
-                        "write": menu.children["1"].isSelected,
-                        "delete": menu.children["2"].isSelected,
+                try {
+                    var editedMenus = {};
+                    editedMenus = {
+                        "menuItem": navigationData.name,//"navigationName": "ARDS_CONFIGURATION",
+                        "menuAction": []
                     };
-                    editedMenus.menuAction.push(data);
-                });
+                    angular.forEach(navigationData.children, function (menu) {
+                        var data = {};
+                        data = {
+                            "scope": menu.id,//"scopeName": "requestmeta",
+                            "read": menu.children["0"].isSelected,
+                            "write": menu.children["1"].isSelected,
+                            "delete": menu.children["2"].isSelected,
+                        };
+                        editedMenus.menuAction.push(data);
+                    });
 
-                appAccessManageService.AddSelectedNavigationToUser(scope.userName, scope.consoleName, editedMenus).then(function (response) {
-                    if (response) {
-                        scope.showAlert("Info", "Info", "ok", "Successfully Updated.")
-                    }
-                    else {
-                        scope.showError("Error", "Error", "ok", "Fail To Update.");
-                    }
+                    appAccessManageService.AddSelectedNavigationToUser(scope.userName, scope.consoleName, editedMenus).then(function (response) {
+                        if (response) {
+                            scope.showAlert("Info", "Info", "ok", "Successfully Updated.")
+                        }
+                        else {
+                            scope.showError("Error", "Error", "ok", "Fail To Update.");
+                        }
 
-                }, function (error) {
+                    }, function (error) {
+                        scope.showError("Error", "Error", "ok", "There is an error ");
+                    });
+                }
+                catch (ex) {
                     scope.showError("Error", "Error", "ok", "There is an error ");
-                });
-            }
+                }
+            };
 
             scope.showAlert = function (tittle, label, button, content) {
 
@@ -120,7 +126,7 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                     styling: 'bootstrap3'
                 });
             };
-            scope.showError = function (tittle,content) {
+            scope.showError = function (tittle, content) {
 
                 new PNotify({
                     title: tittle,

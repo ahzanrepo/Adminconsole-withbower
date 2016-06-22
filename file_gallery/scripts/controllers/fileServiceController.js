@@ -89,7 +89,7 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
 
 }]);
 
-app.controller("FileListController", function ($scope, $location, $log, $filter, $http,$state, fileService,jwtHelper ,authService , baseUrls) {
+app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state, fileService, jwtHelper, authService, baseUrls) {
 
 
     $scope.countByCategory = [];
@@ -147,15 +147,21 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     $scope.loadFileList(1);
 
     $scope.getFilesCategoryID = function (categoryId, currentPage) {
-        $scope.pageTotal = ($filter('filter')($scope.countByCategory, {ID: categoryId}))[0].Count;
-        $scope.currentPage = 1;
-        $scope.categoryId = categoryId;
-        $scope.showPaging = false;
-        fileService.GetFilesCategoryID(categoryId, $scope.pageSize, currentPage).then(function (response) {
-            $scope.files = response;
-            $scope.showPaging = true;
-        }, function (err) {
-        });
+        var data = ($filter('filter')($scope.countByCategory, {ID: categoryId}));
+        if (data.length > 0) {
+            $scope.pageTotal = data[0].Count;
+            $scope.currentPage = 1;
+            $scope.categoryId = categoryId;
+            $scope.showPaging = false;
+            fileService.GetFilesCategoryID(categoryId, $scope.pageSize, currentPage).then(function (response) {
+                $scope.files = response;
+                $scope.showPaging = true;
+            }, function (err) {
+            });
+        }
+        else {
+            $scope.files = [];
+        }
     };
 
     $scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
@@ -193,7 +199,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         });
     };
 
-    $scope.showError = function (tittle,content) {
+    $scope.showError = function (tittle, content) {
 
         new PNotify({
             title: tittle,
@@ -231,8 +237,8 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     };
     $scope.GetToken();
 
-    $scope.tenant=0;
-    $scope.company=0;
+    $scope.tenant = 0;
+    $scope.company = 0;
     $scope.getCompanyTenant = function () {
         var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
         console.info(decodeData);

@@ -141,12 +141,12 @@
                             <button ng-click="selectTask(atTask)" ng-repeat="atTask in taskAttachToResource" type="button" class="btn btn-success btn-sm" >{{atTask.ResTask.ResTaskInfo.TaskName}}</button>
                         </div>
                         <br>
-                        <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
+                        <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
                             <input type="number" min="0" class="form-control has-feedback-left" ng-model="assignSkill_selectedTask.task.Concurrency"
                                    placeholder="Concurrency">
                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                        <div class="col-md-8 col-sm-6 col-xs-12 form-group has-feedback">
+                        <div class="col-md-7 col-sm-6 col-xs-12 form-group has-feedback">
                             <input type="text" class="form-control has-feedback-left" ng-model="assignSkill_selectedTask.task.OtherData"
                                    placeholder="Other Data">
                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>

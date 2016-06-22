@@ -34,7 +34,6 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
             angular.copy(scope.tasks, scope.availableTask);
 
 
-
             angular.forEach(scope.resource.ResResourceTask, function (item) {
                 try {
                     if (item) {
@@ -56,7 +55,6 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
             });
 
             scope.resource.tasks = scope.attachedTask;
-
 
 
             $(document).ready(function () {
@@ -86,6 +84,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                     }
                 }, function (error) {
                     console.info("UpdateAttributes err" + error);
+                    scope.showError("Resource", "Fail To Update Resource.");
                 });
 
 
@@ -148,7 +147,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                     styling: 'bootstrap3'
                 });
             };
-            scope.showError = function (tittle,content) {
+            scope.showError = function (tittle, content) {
 
                 new PNotify({
                     title: tittle,
@@ -172,7 +171,9 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                     }
                 }, function (error) {
                     console.info("DeleteTaskToResource err" + error);
+                    scope.showError("Error", "Fail to Delete Task.");
                 });
+
             };
 
             scope.assignTask = function (size) {
@@ -206,6 +207,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                         }
                     }, function (error) {
                         console.info("AssignTaskToResource err" + error);
+                        scope.showError("Error", "Fail to Assign Task To Resource.");
                     });
 
                 }, function () {
@@ -223,6 +225,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                         scope.selectTask(scope.taskAttachToResource[0])
                 }, function (error) {
                     console.info("DeleteTaskToResource err" + error);
+                    scope.showError("Error", "Fail to Get Task Attached To Resource.");
                 });
             };
             scope.GetTaskAttachToResource();
@@ -272,23 +275,33 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                             }
                         }
                         catch (ex) {
-                            console.info("GetAttributesAttachToResource.forEach");
+                            console.error("GetAttributesAttachToResource.forEach");
+                            scope.showError("Error", "Fail to Get Attribute Attached To Resource.")
                         }
 
                     });
 
 
                 }, function (error) {
-                    console.info("UpdateAttributes err" + error);
+                    console.error("UpdateAttributes err" + error);
+                    scope.showError("Error", "Fail to Get Attribute Attached To Resource.")
                 });
             };
 
             scope.UpdateAttachedTask = function (data) {
-                resourceService.UpdateAttachedTask(scope.resource.ResourceId, data.ResTask.TaskId, data).then(function (response) {
-
-                }, function (error) {
-                    console.info("UpdateAttributes err" + error);
-                });
+                if (data.ResTask) {
+                    resourceService.UpdateAttachedTask(scope.resource.ResourceId, data.ResTask.TaskId, data).then(function (response) {
+                        if (response) {
+                            scope.showAlert("Update Task", "", "", "Sucssefully Updated.");
+                        }
+                    }, function (error) {
+                        console.info("UpdateAttributes err" + error);
+                        scope.showError("Update Task", "Fail to Update Task.")
+                    });
+                }
+                else {
+                    scope.showError("Update Task", "Please Select Task.")
+                }
             };
 
             scope.deleteAttributeAssignToTask = function (item) {
@@ -299,12 +312,12 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                         var index = scope.selectedAttributes.indexOf(scope.selectedAttribute);
                         if (index > -1) {
                             scope.selectedAttributes.splice(index, 1);
-                            ;
                             scope.assignSkill_selectedTask.attributes.push(scope.selectedAttribute)
                         }
                     }
                 }, function (error) {
                     console.info("AssignTaskToResource err" + error);
+                    scope.showError("Error", "Fail To Delete Attribute.")
                 });
             };
             scope.assignAttributeToTask = function (e) {
@@ -315,7 +328,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                         var index = scope.selectedAttributes.indexOf(scope.selectedAttribute);
                         scope.selectedAttribute.savedObj = response.Result;
                         if (index > -1) {
-                            scope.selectedAttributes[index]=scope.selectedAttribute;
+                            scope.selectedAttributes[index] = scope.selectedAttribute;
                         }
                     }
                     else {
@@ -327,6 +340,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                     }
                 }, function (error) {
                     console.info("AssignTaskToResource err" + error);
+                    scope.showError("Error", "Fail To Assign Attribute To Task.")
                 });
             };
 

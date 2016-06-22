@@ -6,6 +6,9 @@ mainApp.controller("limitController", function ($scope,$state,$uibModal, limitBa
 
     $scope.limitList=[];
 
+
+
+
     $scope.GetLimits = function () {
         limitBackendService.getLimits().then(function (response) {
 
@@ -57,6 +60,17 @@ mainApp.controller("limitController", function ($scope,$state,$uibModal, limitBa
 
 mainApp.controller("limitModalController", function ($scope, $uibModalInstance,limitBackendService,limId,limitData,reloadPage) {
     $scope.showModal=true;
+
+    $scope.showAlert = function (title,content,type) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
     if(limId)
     {
         $scope.limitData=limitData;
@@ -84,16 +98,19 @@ mainApp.controller("limitModalController", function ($scope, $uibModalInstance,l
             if(response.data.IsSuccess)
             {
                 console.log("successfully Saved new Limit ");
+                $scope.showAlert("Success","New Limit added successfully","success");
                 $scope.closeModal();
             }
             else
             {
                 console.log("Exception in Save new Limit "+response.data.Exception);
+                $scope.showAlert("Error","New Limit adding failed","error");
                 $scope.closeModal();
             }
 
 
         }, function (error) {
+            $scope.showAlert("Error","New Limit adding failed","error");
             console.log("error in Save new Limit "+error);
             $scope.closeModal();
         });
@@ -105,16 +122,20 @@ mainApp.controller("limitModalController", function ($scope, $uibModalInstance,l
         if (limId) {
             limitBackendService.updateMaxLimit(resource.LimitId, resource.MaxCount).then(function (response) {
                 if (response.data.IsSuccess) {
+
+                    $scope.showAlert("Success","Limit updated successfully","success");
                     console.log("successfully Saved  Limit MAx ");
                     $scope.closeModal();
                 }
                 else {
+                    $scope.showAlert("Error","Limit updating failed","error");
                     console.log("Exception in Limit Max " + response.data.Exception);
                     $scope.closeModal();
                 }
 
 
             }, function (error) {
+                $scope.showAlert("Error","Limit updating failed","error");
                 console.log("error in Limit Max " + error);
                 $scope.closeModal();
 
@@ -129,14 +150,17 @@ mainApp.controller("limitModalController", function ($scope, $uibModalInstance,l
             limitBackendService.setLimitStatus(resource.LimitId,resource.Enable).then(function (response) {
                 if(response.data.IsSuccess)
                 {
+                    $scope.showAlert("Success","Limit state changed","success");
                     console.log("successfully set Limit status ");
                 }
                 else
                 {
+                    $scope.showAlert("Error","Limit state updating failed","error");
                     console.log("Exception in setting Limit status "+response.data.Exception);
                 }
 
             }, function (error) {
+                $scope.showAlert("Error","Limit state updating failed","error");
                 console.log("error in setting Limit status "+error);
             });
         }

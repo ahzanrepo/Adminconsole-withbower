@@ -18,6 +18,7 @@ var incomingCallSession;
 var onRegCompleted;
 var onDisconnection;
 var onCallConnect;
+var regData;
 
 function EventListener(e) {
 
@@ -125,14 +126,14 @@ function EventListener(e) {
 }
 
 function createSipStack() {
-    console.log("hooorai");
+    console.log("reqData "+JSON.stringify(regData));
     sipStack = new SIPml.Stack({
-        realm: '159.203.160.47', // mandatory domain name
-        impi: 'charlie', // mandatory authorisation name
-        impu: 'sip:charlie@159.203.160.47', // mandatory sip uri
-        password: 'DuoS123', //optional
-        display_name: 'charlie', // optional
-        websocket_proxy_url: 'wss://159.203.160.47:7443', // optiona
+        realm: regData.realm, // mandatory domain name
+        impi: regData.impi, // mandatory authorisation name
+        impu: regData.impu,//'sip:charlie@159.203.160.47', // mandatory sip uri
+        password: regData.password,//'DuoS123', //optional
+        display_name: regData.display_name,//'charlie', // optional
+        websocket_proxy_url: regData.websocket_proxy_url,//'wss://159.203.160.47:7443', // optiona
         enable_rtcweb_breaker: true, // optional
         events_listener: { events: '*', listener: EventListener } /* optional , '*' means all events */
     });
@@ -180,8 +181,9 @@ function makeCall(ext) {
 }
 
 
-function Initiate(onRegistrationCompleted,onCallDisconnected,onCallConnected)
+function Initiate(loginData,onRegistrationCompleted,onCallDisconnected,onCallConnected)
 {
+    regData=loginData;
     SIPml.init(readyCallback, errorCallback);
     onRegCompleted=onRegistrationCompleted;
     onDisconnection=onCallDisconnected;

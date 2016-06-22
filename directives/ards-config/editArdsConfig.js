@@ -75,7 +75,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                     if(response.data.IsSuccess)
                     {
                         scope.RequestServers=response.data.Result;
-                        console.log(scope.RequestServers);
+                        console.log("servers "+scope.RequestServers);
                     }
                     else
                     {
@@ -152,7 +152,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
             };
             scope.closeEdit = function () {
                 scope.editMode=false;
-            }
+            };
 
             scope.removeArds= function (serverType,requestType) {
 
@@ -192,7 +192,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                     console.log("Updation Exception ",error);
                 })
 
-            }
+            };
 
             scope.changeApplicationType = function (appType) {
                 if(appType=="SYSTEM")
@@ -256,12 +256,12 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                     appBackendService.deleteApplication(scope.application).then(function (response) {
                         if (response) {
                             scope.updateApplication(item);
-                            scope.showAlert("Deleted", "Deleted", "ok", "File " + item.AppName + " Deleted successfully");
+                            scope.showAlert("Deleted", "File " + item.AppName + " Deleted successfully","success");
                         }
                         else
-                            scope.showAlert("Error", "Error", "ok", "There is an error ");
+                            scope.showAlert("Error", "Error in deleting ","error");
                     }, function (error) {
-                        scope.showAlert("Error", "Error", "ok", "There is an error ");
+                        scope.showAlert("Error", "Error in deleting ","error");
                     });
 
                 }, function () {
@@ -321,12 +321,12 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
 
 
 
-            scope.showAlert = function (tittle, label, button, content) {
+            scope.showAlert = function (title,content,type) {
 
                 new PNotify({
-                    title: tittle,
+                    title: title,
                     text: content,
-                    type: 'notice',
+                    type: type,
                     styling: 'bootstrap3'
                 });
             };

@@ -125,7 +125,7 @@
                 grant_type: "password",
                 username: parm.userName,
                 password: parm.password,
-                scope: "all_all"
+                scope: "all_all profile_veeryaccount"
             }, {
                 headers: {
                     Authorization: 'Basic ' + parm.clientID
