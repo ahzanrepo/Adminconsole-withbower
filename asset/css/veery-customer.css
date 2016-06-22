@@ -2171,7 +2171,6 @@ label {
     color: #5d5d5f;
 }
 
-
 /** /Tabs **/
 /* *********  timeline  **************************** */
 ul.timeline-with-tag li {
@@ -2203,8 +2202,6 @@ ul.timeline-with-tag li {
     left: 0;
     width: 84px;
 }
-
-
 
 .timeline-with-tag .tag-with-tag {
     display: block;
@@ -2277,3 +2274,9 @@ ul.social li {
 }
 
 /*end new time line*/
+
+/*table scroll bar update*/
+.table-wrapper {
+    width: 100%;
+    overflow: hidden;
+}
