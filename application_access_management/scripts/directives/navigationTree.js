@@ -61,7 +61,7 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                     name: name,
                     children: [],
                     isExpanded: false,
-                    isSelected: false,
+                    isSelected: false
                 };
             }
 
@@ -102,18 +102,19 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
 
                     appAccessManageService.AddSelectedNavigationToUser(scope.userName, scope.consoleName, editedMenus).then(function (response) {
                         if (response) {
-                            scope.showAlert("Info", "Info", "ok", "Successfully Updated.")
+                            scope.showAlert("Info", "Info", "ok", navigationData.name +" Successfully Updated.")
                         }
                         else {
-                            scope.showError("Error", "Error", "ok", "Fail To Update.");
+                            scope.showError("Error", "Error", "ok", navigationData.name +" Fail To Update.");
                         }
 
                     }, function (error) {
-                        scope.showError("Error", "Error", "ok", "There is an error ");
+                        scope.showError("Error", "Error", "ok", "There is an error. Fail to Add Permissions["+navigationData.name +"]");
                     });
                 }
                 catch (ex) {
-                    scope.showError("Error", "Error", "ok", "There is an error ");
+                    scope.showError("Error", "Error", "ok", "There is an error. Fail to Add Permissions["+navigationData.name +"]");
+                    console.error(ex);
                 }
             };
 

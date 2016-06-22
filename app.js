@@ -13,7 +13,12 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'base64',
     'angular-jwt',
     'angular-sly',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'ngSanitize',
+    'com.2fdevs.videogular',
+    'com.2fdevs.videogular.plugins.controls',
+    'com.2fdevs.videogular.plugins.overlayplay',
+    'com.2fdevs.videogular.plugins.poster'
 ]);
 
 
@@ -25,7 +30,8 @@ var baseUrls = {
     'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
-    'fileServiceInternalUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/'
+    'fileServiceInternalUrl': 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/'
+
 };
 
 mainApp.constant('baseUrls', baseUrls);

@@ -215,6 +215,10 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
         $uibModalInstance.dismiss('cancel');
     };
 
+    $scope.exitModal= function () {
+        $uibModalInstance.dismiss('cancel');
+    }
+
     $scope.GetAvailableFiles();
 
 })
