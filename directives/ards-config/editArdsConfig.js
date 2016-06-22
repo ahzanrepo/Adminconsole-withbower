@@ -2,7 +2,7 @@
  * Created by Pawan on 6/18/2016.
  */
 
-mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendService,ngTagsInput) {
+mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendService) {
 
     return {
         restrict: "EAA",
