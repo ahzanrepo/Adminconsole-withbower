@@ -17,7 +17,7 @@ mainApp.directive("fileCountdrt", function ($filter, fileService) {
         link: function (scope, element, attributes) {
 
             scope.countByCategory = [];
-            scope.fileCount ={};
+            scope.fileCount =0;
             scope.fileCount.Category =scope.category;
             scope.fileCount.Count ="";
 

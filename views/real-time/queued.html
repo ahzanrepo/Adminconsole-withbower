@@ -1,7 +1,25 @@
 <div ng-controller="realTimeQueuedCtrl">
-    <div class="row">
+    <div>
+        <div class="clearfix"><button type="button" class="btn btn-success btn-sm pull-right attribute-btn"
+                                      ng-click="changeView();">
+            {{summaryText}}
+        </button></div>
+    </div>
+    <div class="row" ng-show="!isGrid">
         <div ng-repeat="que in queues">
             <queued name="{{que.id}}" queueoption="queueoption" pieoption="pieoption"></queued>
         </div>
+    </div>
+    <div class="row" ng-show="isGrid">
+        <div class="x_panel">
+            <div class="x_content">
+                <ul class="list-unstyled timeline">
+                    <li ng-repeat="que in queues">
+                        <queuedlist name="{{que.id}}"></queuedlist>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 </div>

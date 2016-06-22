@@ -137,7 +137,7 @@
 
                 var lim = parseInt($scope.recLimit);
                 $scope.isTableLoading = 0;
-                cdrApiHandler.getCDRForTimeRange(startTime, endTime, lim, offset).then(function (cdrResp) {
+                cdrApiHandler.getAbandonCDRForTimeRange(startTime, endTime, lim, offset).then(function (cdrResp) {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
                             var topSet = false;
@@ -384,10 +384,6 @@
                                  outLegProcessed = true;
                                  }
                                  }*/
-
-                                if (isInboundHTTAPI && !outLegAnswered && cdrAppendObj.QueueSec && cdrAppendObj.QueueSec > 10) {
-                                    $scope.cdrList.push(cdrAppendObj);
-                                }
 
 
 

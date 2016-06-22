@@ -7,6 +7,9 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     //$scope.percent = 65;
 
     //#
+    $scope.isGrid=false;
+    $scope.summaryText="Table";
+
     $scope.pieoption = {
         animate: {
             duration: 1000,
@@ -82,6 +85,18 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
      */
 
+
+    $scope.changeView = function () {
+        $scope.isGrid=!$scope.isGrid;
+        if($scope.isGrid)
+        {
+            $scope.summaryText="Card";
+        }
+        else
+        {
+            $scope.summaryText="Table";
+        }
+    }
 
     $scope.GetAllQueueStatistics();
 
@@ -237,15 +252,50 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
 
             /*
 
-            $interval(function updateRandom() {
-                qData();
-                qStats();
+             $interval(function updateRandom() {
+             qData();
+             qStats();
 
 
-            }, 10000);
+             }, 10000);
 
-            */
+             */
 
+
+        },
+
+
+    }
+});
+
+mainApp.directive('queuedlist', function (queueMonitorService) {
+    return {
+
+        restrict: 'EA',
+        scope: {
+            name: "@"
+        },
+
+
+        templateUrl: 'template/queue-list.html',
+        link: function (scope) {
+            console.log("List data "+scope.name);
+
+            var qData = function () {
+
+                queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
+                    scope.que = response.QueueInfo;
+                    scope.que.id = response.QueueId;
+
+                    scope.val= response.QueueName;
+                    scope.que.AverageWaitTime = Math.round(scope.que.AverageWaitTime*100)/100;
+
+                    if (scope.que.TotalQueued > 0) {
+                        scope.que.presentage = Math.round((scope.que.TotalAnswered / scope.que.TotalQueued) * 100);
+                    }
+                });
+            };
+            qData();
 
         },
 
