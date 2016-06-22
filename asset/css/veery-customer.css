@@ -2043,11 +2043,17 @@ ul.count2 {
 }
 
 .pricing {
+    background: rgba(50, 51, 53, 0.70);
+    border-radius: 10px;
 }
 
 .pricing > .title {
-    background: #fff;
-    color: #000000;
+    background: rgba(50, 51, 53, 0.70);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-family: 'Roboto', sans-serif !important;
+    color: #ffffff;
+    height: 140px;
 
 }
 
@@ -2279,4 +2285,74 @@ ul.social li {
 .table-wrapper {
     width: 100%;
     overflow: hidden;
+}
+
+/*price table update*/
+.price-table-wrapper {
+    margin-bottom: 10px;
+}
+
+.pricing_features {
+    background: rgba(50, 51, 53, 0.70);
+    font-family: 'Roboto', sans-serif !important;
+    color: #ffffff;
+
+}
+
+.pricing_footer {
+    background: rgba(50, 51, 53, 0.90);
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top: 4px solid #464b4f;
+}
+
+.pricing .title h1 {
+    font-size: 30px;
+    margin: 12px;
+    color: #f8b01d;
+}
+
+.pricing .title {
+    padding: 28px 0 0;
+}
+
+.pricing_features > ul > li > i {
+    padding-left: 20px;
+}
+
+.pricing_features > ul > li > strong {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
+    padding-left: 15px;
+}
+
+.get-free {
+    position: absolute;
+    width: 90px;
+    height: 89px;
+    border-radius: 100%;
+    background: #f8b01d;
+    top: 122px;
+    right: 5%;
+    font-size: 30px;
+    color: #fff;
+    line-height: 90px;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    -webkit-transform: rotate(-20deg);
+    -moz-transform: rotate(-20deg);
+    -ms-transform: rotate(-20deg);
+    text-align: center;
+}
+
+.pricing .title h2 {
+    text-transform: capitalize;
+    color: #2ba89c;
+}
+
+.get-free > .dot {
+    width: 90px;
+    height: 89px;
+    color: #ffffff;
 }
