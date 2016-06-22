@@ -682,12 +682,6 @@
                             $scope.displayName = $scope.displayName + ' ' + data.Result.lastname;
                         }
 
-                        if(!data.Result.avatar)
-                        {
-                            $scope.CurrentProfile.avatar = 'asset/images/noimage.jpg';
-                        }
-
-
 
                         if(data.Result.birthday)
                         {
