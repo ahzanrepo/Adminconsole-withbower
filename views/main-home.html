@@ -1,6 +1,6 @@
 <div class="container body" ng-controller="mainCtrl">
     <div class="main_container">
-        <div class="col-md-3 left_col menu_fixed">
+        <div class="col-md-3 left_col ">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="index.html" class="site_title">
@@ -12,7 +12,6 @@
                     </a>
                 </div>
                 <div class="clearfix"></div>
-
                 <!-- menu profile quick info -->
                 <!--<div class="profile">-->
                 <!--<div class="profile_pic">-->
@@ -24,13 +23,12 @@
                 <!--</div>-->
                 <!--</div>-->
                 <!-- /menu profile quick info -->
-
                 <br>
-
                 <!-- sidebar menu -->
+                <div id="sidebar-menu"
 
-
-                <div id="sidebar-menu" menu-collapse class="main_menu_side hidden-print main_menu">
+                     menu-collapse
+                     class="main_menu_side hidden-print main_menu">
                     <div class="menu_section active">
                         <h3 class="font-gry-200">General</h3>
                         <ul class="nav side-menu" style="">
@@ -39,7 +37,7 @@
                                 <i class="fa fa-home"></i> Home </a>
                             </li>
                             <li ng-show="accessNavigation.AGENT_PRODUCTIVITY || accessNavigation.CALL_MONITOR"><a
-                                    class="font-robot font-300 "><i class="fa fa-edit"></i> Real Time
+                                    class="font-robot font-300 "><i class="fa fa-plug"></i> Real Time
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.AGENT_PRODUCTIVITY"><a
@@ -52,7 +50,7 @@
                                 </ul>
                             </li>
                             <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler">
-                                <a class="font-robot font-300 "><i class="fa fa-desktop"></i> Utility <span
+                                <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.FILE_GALLERY"><a href="javascript:void(0);"
@@ -73,7 +71,7 @@
                             </li>
 
                             <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.USERS">
-                                <a class="font-robot font-300 "><i class="fa fa-desktop"></i> User <span
+                                <a class="font-robot font-300 "><i class="fa fa-user"></i> User <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.USERS"><a href="javascript:void(0);"
@@ -92,8 +90,9 @@
                                 </ul>
                             </li>
                             <li ng-show="accessNavigation.CDR || accessNavigation.APPLICATIONS || accessNavigation.RULES">
-                                <a class="font-robot font-300 "><i class="fa fa-desktop"></i> Call Rules <span
-                                        class="fa fa-chevron-down"></span></a>
+                                <a class="font-robot font-300 "><i class="fa fa-volume-control-phone"></i> Call
+                                    Rules <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goMyNumbers()">My
@@ -107,7 +106,7 @@
                                 </ul>
                             </li>
                             <li ng-show="accessNavigation.ATTRIBUTES || accessNavigation.RESOURCES "><a
-                                    class="font-robot font-300 "><i class="fa fa-desktop"></i> Request Router <span
+                                    class="font-robot font-300 "><i class="fa fa-code-fork"></i> Request Router <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.ATTRIBUTES"><a href="javascript:void(0);"
@@ -131,7 +130,8 @@
                     <div class="menu_section">
                         <h3 class="font-gry-200">Other</h3>
                         <ul class="nav side-menu">
-                            <li ng-show="accessNavigation.CDR"><a class="font-robot font-300 "><i class="fa fa-bug"></i>
+                            <li ng-show="accessNavigation.CDR"><a class="font-robot font-300 "><i
+                                    class="fa fa-line-chart"></i>
                                 Report <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
