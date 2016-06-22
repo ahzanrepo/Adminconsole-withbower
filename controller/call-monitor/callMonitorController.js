@@ -342,6 +342,15 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
         $scope.clickBtnStateName = "waiting";
     };
 
+    $scope.onClosePage = function () {
+        console.log("closed");
+    };
+
+    $scope.$on("$destroy", function() {
+        console.log("closed controller");
+        unregister();
+    });
+
     getRegistrationData(authToken);
     $scope.LoadCurrentCalls();
     //Initiate(onRegistrationCompleted, onCallDisconnected, onCallConnected);
