@@ -1,7 +1,7 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("editgroups", function ($filter,$rootScope, attributeService) {
+mainApp.directive("editgroups", function ($filter, $rootScope, attributeService) {
 
     return {
         restrict: "EA",
@@ -23,13 +23,15 @@ mainApp.directive("editgroups", function ($filter,$rootScope, attributeService) 
                     /*scope.attachedAttributes = response.ResAttribute;*/
 
                     angular.forEach(response.ResAttribute, function (a) {
-                        var items = $filter('filter')(scope.attribinfo, {AttributeId: a.AttributeId})
-                        if (items) {
-                            scope.attachedAttributes.push(items[0]);
-                            var index = scope.attribinfo.indexOf(items[0]);
-                            scope.attribinfo.splice(index, 1);
+                        if (a) {
+                            var items = $filter('filter')(scope.attribinfo, {AttributeId: a.AttributeId})
+                            if (items) {
+                                scope.attachedAttributes.push(items[0]);
+                                var index = scope.attribinfo.indexOf(items[0]);
+                                scope.attribinfo.splice(index, 1);
+                            }
+                            /*AttributeIds.push(a.AttributeId)*/
                         }
-                        /*AttributeIds.push(a.AttributeId)*/
                     });
 
 
@@ -185,10 +187,10 @@ mainApp.directive("editgroups", function ($filter,$rootScope, attributeService) 
 
             };
 
-            scope.safeApply = function(fn) {
+            scope.safeApply = function (fn) {
                 var phase = this.$root.$$phase;
-                if(phase == '$apply' || phase == '$digest') {
-                    if(fn && (typeof(fn) === 'function')) {
+                if (phase == '$apply' || phase == '$digest') {
+                    if (fn && (typeof(fn) === 'function')) {
                         fn();
                     }
                 } else {
