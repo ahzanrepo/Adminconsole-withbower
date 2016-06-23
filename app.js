@@ -258,7 +258,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             }
         }).state('console.limits', {
             url: "/limits",
-            templateUrl: "views/limit/limits.html",
+            templateUrl: "views/limit/Limits.html",
             controller: "limitController",
             data: {
                 requireLogin: true,
