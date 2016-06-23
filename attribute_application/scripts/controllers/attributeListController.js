@@ -156,14 +156,8 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
     };
     $scope.GetTasks();
 
-    $scope.removeDeletedGroup = function (item) {
-
-        $scope.safeApply(function () {
-            var index = $scope.groupsData.indexOf(item);
-            if (index != -1) {
-                $scope.groupsData.splice(index, 1);
-            }
-        });
+    $scope.relaodPageData = function (item) {
+        $scope.GetAttributes("init", 1, $scope.pageSize);
         $scope.GroupsCount();
     };
 

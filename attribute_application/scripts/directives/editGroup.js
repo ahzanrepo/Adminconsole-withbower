@@ -22,7 +22,7 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
                 attributeService.GetAttributeByGroupId(scope.groupinfo.GroupId).then(function (response) {
                     /*scope.attachedAttributes = response.ResAttribute;*/
 
-                    angular.forEach(response.ResAttribute, function (a) {
+                    angular.forEach(response, function (a) {
                         if (a) {
                             var items = $filter('filter')(scope.attribinfo, {AttributeId: a.AttributeId})
                             if (items) {
@@ -159,6 +159,7 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
                     if (response) {
                         console.info("AddAttributeToGroup : " + response);
                         scope.showAlert("Info", "Info", "ok", "Attribute " + chip.Attribute + " Save successfully");
+
                     }
                     else {
                         scope.resetAfterAddFail(chip);
@@ -199,26 +200,28 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
             };
 
             scope.resetAfterAddFail = function (chip) {
-                scope.safeApply(function () {
+                scope.GetAttributeByGroupId();
+                /*scope.safeApply(function () {
                     var index = scope.attachedAttributes.indexOf(chip);
                     if (index > 0)
                         scope.attachedAttributes.splice(index, 1);
                     index = scope.attribinfo.indexOf(chip);
                     if (index > 0)
                         scope.attribinfo.push(chip);
-                });
+                });*/
 
             };
 
             scope.resetAfterDeleteFail = function (chip) {
-                scope.safeApply(function () {
+                scope.GetAttributeByGroupId();
+               /* scope.safeApply(function () {
                     var index = scope.attribinfo.indexOf(chip);
                     if (index > 0)
                         scope.attribinfo.splice(index, 1);
                     index = scope.attachedAttributes.indexOf(chip);
                     if (index > 0)
                         scope.attachedAttributes.push(chip);
-                });
+                });*/
             }
         }
     }
