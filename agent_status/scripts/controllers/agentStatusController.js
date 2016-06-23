@@ -1,10 +1,11 @@
 mainApp.controller("agentStatusController", function ($scope, $filter, $stateParams, $timeout, $log, agentStatusService) {
 
-    $scope.summaryText="Table";
-    $scope.summary=false;
-    $scope.changeView = function(){
-        $scope.summary= !$scope.summary;
-        $scope.summaryText = $scope.summary?"Card":"Table";
+    $scope.showCallInfos = false;
+    $scope.summaryText = "Table";
+    $scope.summary = false;
+    $scope.changeView = function () {
+        $scope.summary = !$scope.summary;
+        $scope.summaryText = $scope.summary ? "Card" : "Table";
     };
 
     $scope.productivity = [];
@@ -21,32 +22,56 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
 
 
     var calculateProductivity = function () {
+        $scope.Productivitys = [];
         if ($scope.profile) {
             angular.forEach($scope.profile, function (agent) {
                 try {
                     if (agent) {
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
+
                         var agentProductivity = {
                             "data": [{
-                                value: ids[0].AcwTime ? ids[0].AcwTime : 0,
+                                value: 0,
                                 name: 'After work'
                             }, {
-                                value: ids[0].BreakTime ? ids[0].BreakTime : 0,
+                                value: 0,
                                 name: 'Break'
                             }, {
-                                value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
+                                value: 0,
                                 name: 'On Call'
                             }, {
-                                value: ids[0].IdleTime ? ids[0].IdleTime : 0,
+                                value: 0,
                                 name: 'Idle'
                             }],
                             "ResourceId": agent.ResourceId,
                             "ResourceName": agent.ResourceName,
-                            "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
-                            "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
+                            "IncomingCallCount": 0,
+                            "MissCallCount": 100,
                             "Chatid": agent.ResourceId
                         };
 
+                        if (ids.length > 0) {
+                            agentProductivity = {
+                                "data": [{
+                                    value: ids[0].AcwTime ? ids[0].AcwTime : 0,
+                                    name: 'After work'
+                                }, {
+                                    value: ids[0].BreakTime ? ids[0].BreakTime : 0,
+                                    name: 'Break'
+                                }, {
+                                    value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
+                                    name: 'On Call'
+                                }, {
+                                    value: ids[0].IdleTime ? ids[0].IdleTime : 0,
+                                    name: 'Idle'
+                                }],
+                                "ResourceId": agent.ResourceId,
+                                "ResourceName": agent.ResourceName,
+                                "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
+                                "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
+                                "Chatid": agent.ResourceId
+                            };
+                        }
                         $scope.Productivitys.push(agentProductivity);
                     }
                 } catch (ex) {

@@ -24,7 +24,6 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
             if (productivityData.length > 0)
                 scope.productivity = productivityData[0];
 
-
             scope.profile = {
                 name: '',
                 slotState: null,
@@ -173,6 +172,9 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
 
 mainApp.filter('secondsToDateTime', [function () {
     return function (seconds) {
+        if(!seconds){
+            return new Date(1970, 0, 1).setSeconds(0);
+        }
         return new Date(1970, 0, 1).setSeconds(seconds);
     };
 }]);
