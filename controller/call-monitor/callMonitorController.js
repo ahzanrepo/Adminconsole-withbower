@@ -376,6 +376,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
     $scope.$on("$destroy", function() {
         console.log("closed controller");
         unregister();
+        //disconnectAllCalls();
     });
 
     getRegistrationData(authToken);

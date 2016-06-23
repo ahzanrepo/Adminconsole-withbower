@@ -20,6 +20,7 @@ var onDisconnection;
 var onCallConnect;
 var onUnRegCompleted;
 var regData;
+var isRegistered=false;
 
 function EventListener(e) {
 
@@ -97,6 +98,7 @@ function EventListener(e) {
         if(e.session == registerSession) {
             // successfully registed.
             console.log("Successfully registered");
+            isRegistered=true;
             onRegCompleted("Done");
         } else if(e.session == callSession) {
             // successfully connected call
@@ -112,6 +114,7 @@ function EventListener(e) {
         if(e.session == registerSession) {
             // client unregistered
             console.log("Registration terminated");
+            isRegistered=false;
             onUnRegCompleted();
 
 
@@ -159,6 +162,16 @@ function unregister()
 {
     registerSession.unregister();
 }
+
+function disconnectAllCalls()
+{
+    if(callSession) {
+        callSession.hangup(); // hangups outgoing call.
+    } else if(incomingCallSession) {
+        incomingCallSession.reject(); // rejects incoming call.
+    }
+}
+
 function hangupCall() { // call this function to hangup /reject a call.
     if(callSession) {
         callSession.hangup(); // hangups outgoing call.
