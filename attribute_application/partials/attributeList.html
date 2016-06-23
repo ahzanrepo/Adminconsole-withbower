@@ -146,7 +146,7 @@
                 <ul class="list-unstyled timeline-with-tag">
                     <li ng-repeat="grp in groupsData">
                         <editgroups task-list="Tasks" groupinfo="grp" attribinfo="attribData"
-                                    update-groups="removeDeletedGroup(grp)"></editgroups>
+                                    update-groups="relaodPageData(grp)"></editgroups>
                     </li>
 
                     <paging ng-show="showPaging"

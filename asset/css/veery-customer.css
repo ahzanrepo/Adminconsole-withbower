@@ -1040,11 +1040,13 @@ a.thumbnaildrag:hover {
     border: 1px solid #f8b01d !important;
     border-radius: 0px !important;
 }
+
 .productivity-text-uppercase {
     text-transform: uppercase;
     text-align: right;
     /*background-color: #8a8181;*/
 }
+
 /*sip user*/
 .sup-user-panel {
 
@@ -2361,4 +2363,9 @@ ul.social li {
     width: 90px;
     height: 89px;
     color: #ffffff;
+}
+
+/*knob*/
+.knob-resources {
+
 }
