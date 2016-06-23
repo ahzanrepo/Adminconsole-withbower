@@ -45,7 +45,7 @@
 <!-- end modal -->
 
 
-<div class="row">
+<div class="row" >
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="page-title">
             <div class="title_left">
@@ -58,15 +58,20 @@
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <button type="button" class="btn btn-success" ng-click="LoadCurrentCalls()">
+                        <button type="button" class="btn btn-success" ng-click="LoadCurrentCalls()"ng-show="callListStatus">
                             Refresh
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-success" ng-click="Reregister()"ng-show="!callListStatus">
+                            Register
                         </button>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 
-            <div class="x_content">
+            <div class="x_content" ng-show="callListStatus">
 
 
                 <div class="">

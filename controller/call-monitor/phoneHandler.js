@@ -18,6 +18,7 @@ var incomingCallSession;
 var onRegCompleted;
 var onDisconnection;
 var onCallConnect;
+var onUnRegCompleted;
 var regData;
 
 function EventListener(e) {
@@ -107,15 +108,19 @@ function EventListener(e) {
 
     } else if(e.type == 'terminated') {
 
-        onDisconnection();
+
         if(e.session == registerSession) {
             // client unregistered
             console.log("Registration terminated");
+            onUnRegCompleted();
+
 
         } else if(e.session == callSession) {
+            onDisconnection();
             callSession = null;
             //outgoing call terminated.
         } else if(e.session == incomingCallSession) {
+            onDisconnection();
             incomingCallSession = null;
 
 
@@ -185,13 +190,14 @@ function makeCall(ext) {
 }
 
 
-function Initiate(loginData,onRegistrationCompleted,onCallDisconnected,onCallConnected)
+function Initiate(loginData,onRegistrationCompleted,onCallDisconnected,onCallConnected,onUnRegisterCompleted)
 {
     regData=loginData;
     SIPml.init(readyCallback, errorCallback);
     onRegCompleted=onRegistrationCompleted;
     onDisconnection=onCallDisconnected;
     onCallConnect=onCallConnected;
+    onUnRegCompleted = onUnRegisterCompleted;
 }
 
 

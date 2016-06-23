@@ -41,7 +41,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
             });
         },
 
-        listenCall: function (bargeID,protocol) {
+        listenCall: function (bargeID,protocol,destinationKey) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
@@ -52,7 +52,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
                 data:
                 {
                     protocol:protocol,
-                    destination:"2003"
+                    destination:destinationKey
                 }
             }).then(function(response)
             {
