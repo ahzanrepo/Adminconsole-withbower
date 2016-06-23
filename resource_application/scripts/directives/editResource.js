@@ -181,7 +181,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'resource_application/partials/template/myModalContent.html',
-                    controller: 'ModalInstanceCtrl',
+                    controller: 'resourceModalInstanceCtrl',
                     size: 'sm',
                     resolve: {
                         selectedTask: function () {
