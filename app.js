@@ -309,7 +309,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
 
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "MYPROFILE"
                 }
 
             })
