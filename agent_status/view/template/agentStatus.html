@@ -47,6 +47,7 @@
                 <!--</ul>-->
             </div>
             <h3 class="name">{{profile.name}}</h3>
+
             <div class="last-reserved-time connected-caller" ng-repeat="call in callInfos" ng-if="callInfos.length!=0">
                 <p>Caller</p>
                 <small>{{call["Caller-Caller-ID-Number"]}}</small>
@@ -98,38 +99,77 @@
 
             <!-- other details -->
             <div class="other-agent-details"
-
                  ng-mouseover="viewOtherScroll()"
                  ng-mouseleave="hideOtherScroll()"
-            >
-                <div class="col-md-4 tile">
-                    <span>Miss Call </span>
-                    <h2> {{productivity.MissCallCount}}</h2>
+                    >
+                <div class="row">
+                    <div class="col-md-4 tile">
+                        <span>Idle Time</span>
+
+                        <p> {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</p>
+                    </div>
+                    <div class="col-md-4 tile">
+                        <span>Break Time</span>
+
+                        <p>{{productivity.BreakTime | secondsToDateTime | date:'HH:mm:ss'}}</p>
+                    </div>
+                    <div class="col-md-4 tile">
+                        <span>Acw Time</span>
+
+                        <p>{{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</p>
+                    </div>
+                    <div class="col-md-4 tile">
+                        <span>Hold Time</span>
+
+                        <p>{{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</p>
+                    </div>
                 </div>
                 <div class="col-md-4 tile">
-                    <span>Incoming Call </span>
-                    <h2> {{productivity.IncomingCallCount}}</h2>
+                    <span>Miss Call</span>
+
+                    <p> {{productivity.MissCallCount}}</p>
                 </div>
                 <div class="col-md-4 tile">
-                    <span>Transfer Call </span>
-                    <h2> {{productivity.TransferCallCount}}</h2>
+                    <span>Incoming Call</span>
+
+                    <p> {{productivity.IncomingCallCount}}</p>
                 </div>
                 <div class="col-md-4 tile">
-                    <span>Acw Time</span>
-                    <h2>{{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</h2>
+                    <span>Transfer Call</span>
+
+                    <p> {{productivity.TransferCallCount}}</p>
+                </div>
+
+
+                <!--<div class="col-md-4 tile">
+                    <span>Idle Time : {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</span>
                 </div>
                 <div class="col-md-4 tile">
-                    <span>Hold Time</span>
-                    <h2>{{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</h2>
+                    <span>Break Time : {{productivity.BreakTime | secondsToDateTime | date:'HH:mm:ss'}}</span>
+
                 </div>
                 <div class="col-md-4 tile">
-                    <span>Idle Time</span>
-                    <h2> {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</h2>
+                    <span>Acw Time : {{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</span>
+
                 </div>
+
                 <div class="col-md-4 tile">
-                    <span>Break Time</span>
-                    <h2>{{productivity.BreakTime | secondsToDateTime | date:'HH:mm:ss'}}</h2>
+                    <span>Hold Time : {{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</span>
                 </div>
+
+                <div class="col-md-4 tile">
+                    <span>Miss Call : {{productivity.MissCallCount}}</span>
+                </div>
+
+                <div class="col-md-4 tile">
+                    <span>Transfer Call : {{productivity.TransferCallCount}} </span>
+                </div>
+
+
+
+                <div class="col-md-4 tile">
+                    <span>Incoming Call : {{productivity.IncomingCallCount}}</span>
+                </div>-->
 
 
             </div>

@@ -147,7 +147,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
 
 });
 
-mainApp.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, selectedTask) {
+mainApp.controller('resourceModalInstanceCtrl', function ($scope, $uibModalInstance, selectedTask) {
 
     $scope.selectedTask = selectedTask;
 

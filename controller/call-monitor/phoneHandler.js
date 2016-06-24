@@ -18,7 +18,9 @@ var incomingCallSession;
 var onRegCompleted;
 var onDisconnection;
 var onCallConnect;
+var onUnRegCompleted;
 var regData;
+var isRegistered=false;
 
 function EventListener(e) {
 
@@ -96,6 +98,7 @@ function EventListener(e) {
         if(e.session == registerSession) {
             // successfully registed.
             console.log("Successfully registered");
+            isRegistered=true;
             onRegCompleted("Done");
         } else if(e.session == callSession) {
             // successfully connected call
@@ -107,15 +110,20 @@ function EventListener(e) {
 
     } else if(e.type == 'terminated') {
 
-        onDisconnection();
+
         if(e.session == registerSession) {
             // client unregistered
             console.log("Registration terminated");
+            isRegistered=false;
+            onUnRegCompleted();
+
 
         } else if(e.session == callSession) {
+            onDisconnection();
             callSession = null;
             //outgoing call terminated.
         } else if(e.session == incomingCallSession) {
+            onDisconnection();
             incomingCallSession = null;
 
 
@@ -154,6 +162,16 @@ function unregister()
 {
     registerSession.unregister();
 }
+
+function disconnectAllCalls()
+{
+    if(callSession) {
+        callSession.hangup(); // hangups outgoing call.
+    } else if(incomingCallSession) {
+        incomingCallSession.reject(); // rejects incoming call.
+    }
+}
+
 function hangupCall() { // call this function to hangup /reject a call.
     if(callSession) {
         callSession.hangup(); // hangups outgoing call.
@@ -185,13 +203,14 @@ function makeCall(ext) {
 }
 
 
-function Initiate(loginData,onRegistrationCompleted,onCallDisconnected,onCallConnected)
+function Initiate(loginData,onRegistrationCompleted,onCallDisconnected,onCallConnected,onUnRegisterCompleted)
 {
     regData=loginData;
     SIPml.init(readyCallback, errorCallback);
     onRegCompleted=onRegistrationCompleted;
     onDisconnection=onCallDisconnected;
     onCallConnect=onCallConnected;
+    onUnRegCompleted = onUnRegisterCompleted;
 }
 
 

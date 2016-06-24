@@ -315,6 +315,8 @@
 
                                 cdrAppendObj.IsAnswered = outLegAnswered;
 
+                                $scope.cdrList.push(cdrAppendObj);
+
 
                                 /*for (i = 0; i < curCdr.length; i++)
                                  {

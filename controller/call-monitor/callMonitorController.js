@@ -12,6 +12,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
     $scope.phoneSatus = false;
     $scope.currentSessionID = null;
     $scope.loginData={};
+    $scope.callListStatus=false;
 
     $scope.showAlert = function (title,content,type) {
 
@@ -32,7 +33,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
         {
             console.log("Password picked "+$scope.password);
             $scope.loginData.password=$scope.password;
-            Initiate($scope.loginData,onRegistrationCompleted, onCallDisconnected, onCallConnected);
+            Initiate($scope.loginData,onRegistrationCompleted, onCallDisconnected, onCallConnected,onUnRegisterCompleted);
         }
     };
 
@@ -64,24 +65,32 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
         var decodeData = jwtHelper.decodeToken(authToken);
         console.log("Token Obj "+decodeData);
 
+        if(decodeData.context.veeryaccount)
+        {
+            var values = decodeData.context.veeryaccount.contact.split("@");
+            $scope.sipUri="sip:" + decodeData.context.veeryaccount.contact;
+            $scope.WSUri="wss://" + values[1] + ":7443";
+            $scope.realm=values[1];
+            $scope.username=values[0];
+            $scope.displayname=values[0];
+            $scope.loginData ={
+                realm:$scope.realm,
+                impi:$scope.displayname,
+                impu:$scope.sipUri,
+                display_name:decodeData.iss,
+                websocket_proxy_url:$scope.WSUri
 
-        var values = decodeData.context.veeryaccount.contact.split("@");
-        $scope.sipUri="sip:" + decodeData.context.veeryaccount.contact;
-        $scope.WSUri="wss://" + values[1] + ":7443";
-        $scope.realm=values[1];
-        $scope.username=values[0];
-        $scope.displayname=values[0];
-        $scope.loginData ={
-            realm:$scope.realm,
-            impi:$scope.displayname,
-            impu:$scope.sipUri,
-            display_name:decodeData.iss,
-            websocket_proxy_url:$scope.WSUri
 
+            }
 
+            $scope.showModal(decodeData.iss);
+        }
+        else
+        {
+            $scope.showAlert("Error","Unauthorized user details to login ","error");
         }
 
-        $scope.showModal(decodeData.iss);
+
 
 
     };
@@ -157,14 +166,27 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
         //console.log(response);
         console.log("Hit registered");
         $scope.showAlert("Registerd","Successfully registered","success");
+        $scope.callListStatus=true;
         $scope.$apply(function () {
             $scope.phoneSatus = true;
         });
     };
+    var onUnRegisterCompleted = function (response) {
+        //console.log(response);
+        $scope.showAlert("Unregistered","Registration terminated","notice");
+        $scope.callListStatus=false;
+        $scope.$apply(function () {
+            $scope.phoneSatus = false;
+        });
+    };
+
+
+
+
 
     var onCallDisconnected = function () {
         //console.log(response);
-        $scope.showAlert("Disconnected","Disconnected happend","notice");
+        $scope.showAlert("Call disconnected","Call is disconnected","notice");
         $scope.clickBtnStateName = "Waiting";
         $scope.$apply(function () {
             $scope.isCallMonitorOption = 0;
@@ -193,6 +215,11 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
     var protocol = "user";
 
 
+    $scope.Reregister = function () {
+        getRegistrationData(authToken);
+        $scope.LoadCurrentCalls();
+    }
+
     $scope.BargeCall = function () {
         //alert("barged: "+bargeID);
 
@@ -208,7 +235,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
     $scope.ListenCall = function (callData) {
         //alert("barged: "+bargeID);
         $scope.currentSessionID = callData.BargeID;
-        callMonitorSrv.listenCall(callData.BargeID, protocol).then(onListenComplete, onError);
+        callMonitorSrv.listenCall(callData.BargeID, protocol,$scope.displayname).then(onListenComplete, onError);
 
 
     };
@@ -349,6 +376,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
     $scope.$on("$destroy", function() {
         console.log("closed controller");
         unregister();
+        //disconnectAllCalls();
     });
 
     getRegistrationData(authToken);

@@ -4,7 +4,7 @@
     <div class="col-md-12 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-child"></i> Hold Music
+                <h2><i class="fa fa-child"></i> Queue Music Profile
                     <small>List</small>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
@@ -19,14 +19,14 @@
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" ng-model="newHoldMusic.Name"
                                        placeholder="Hold Music Name">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+
 
                             </div>
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">Description</label>
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" ng-model="newHoldMusic.Description"
                                        placeholder="Description">
-                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+
                             </div>
 
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">Hold Music</label>
@@ -57,9 +57,8 @@
                             </div>
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">Announcement Time</label>
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="newHoldMusic.AnnouncementTime"
-                                       placeholder="Announcement Time">ms
-                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                <input type="number" class="form-control has-feedback-left" ng-model="newHoldMusic.AnnouncementTime" min="0">
+                                <span class="form-control-feedback right" aria-hidden="true">ms</span>
                             </div>
 
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
