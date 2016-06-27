@@ -8,7 +8,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var abandonCallCdrCtrl = function ($scope, $filter, cdrApiHandler, ngAudio) {
+    var abandonCallCdrCtrl = function ($scope, $filter, cdrApiHandler) {
+
+        $scope.enableSearchButton = true;
 
 
         $scope.showAlert = function (tittle, type, content) {
@@ -91,7 +93,9 @@
         };
 
 
-        $scope.getProcessedCDR = function (offset, reset) {
+        $scope.getProcessedCDR = function (offset, reset)
+        {
+            $scope.enableSearchButton = false;
 
             try
             {
@@ -420,10 +424,13 @@
                         $scope.isTableLoading = 1;
                     }
 
+                    $scope.enableSearchButton = true;
+
 
                 }, function (err) {
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                     $scope.isTableLoading = 1;
+                    $scope.enableSearchButton = true;
                 })
             }
             catch (ex) {
