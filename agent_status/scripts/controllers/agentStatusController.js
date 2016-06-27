@@ -29,7 +29,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
                     if (agent) {
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
 
-                        var agentProductivity = {
+                        /*var agentProductivity = {
                             "data": [{
                                 value: 0,
                                 name: 'After work'
@@ -48,10 +48,10 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
                             "IncomingCallCount": 0,
                             "MissCallCount": 100,
                             "Chatid": agent.ResourceId
-                        };
+                        };*/
 
                         if (ids.length > 0) {
-                            agentProductivity = {
+                          var   agentProductivity = {
                                 "data": [{
                                     value: ids[0].AcwTime ? ids[0].AcwTime : 0,
                                     name: 'After work'

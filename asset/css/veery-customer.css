@@ -1033,12 +1033,18 @@ a.thumbnaildrag:hover {
     color: #2ba89c;
 }
 
-/*productivity services*/
+/*/!*productivity services*!/
 
 .productivity-panel {
     height: 350px;
     border: 1px solid #f8b01d !important;
     border-radius: 0px !important;
+}*/
+
+/*productivity services*/
+
+.productivity-panel {
+    height: 455px;
 }
 
 .productivity-text-uppercase {
