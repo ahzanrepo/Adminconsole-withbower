@@ -23,6 +23,18 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
 
             scope.application.id=scope.application.id.toString();
 
+
+            scope.pickMasterAppName = function (masterId) {
+                for(var i=0;i<scope.applist.length;i++)
+                {
+                    if(scope.applist[i].id==masterId)
+                    {
+                        scope.application.MasterAppName=scope.applist[i].AppName;
+                    }
+                }
+            };
+
+
             if(scope.application.MasterApplicationId)
             {
                 scope.application.MasterApplicationId=(scope.application.MasterApplicationId).toString();
@@ -35,9 +47,11 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
             else if(scope.application.ObjClass=="DEVELOPER" )
             {
                 scope.IsDeveloper=true;
+                scope.pickMasterAppName(scope.application.MasterApplicationId);
                 if(scope.application.AppDeveloperId)
                 {
                     scope.application.AppDeveloperId=(scope.application.AppDeveloperId).toString();
+
                 }
 
             }
@@ -270,6 +284,8 @@ mainApp.directive("editapplication", function ($filter,$uibModal,appBackendServi
             {
                 scope.editMode=false;
             };
+
+
         }
 
     }
