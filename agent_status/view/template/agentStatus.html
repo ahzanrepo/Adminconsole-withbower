@@ -1,9 +1,9 @@
 <div ng-hide="showSummary" class="col-md-4 col-sm-4  widget_tally_box">
     <div class="x_panel fixed_height_480 agent-main-wrap"
-         ng-class="{'reserved':profile.slotState=='Reserved',
-                    'available':profile.slotState=='Available',
-                    'connected':profile.slotState=='Connected',
-                    'break':profile.other=='Break'}">
+         ng-class="{'reserved':productivity.slotState=='Reserved',
+                    'available':productivity.slotState=='Available',
+                    'connected':productivity.slotState=='Connected',
+                    'break':productivity.other=='Break'}">
         <div class="x_content">
             <div class="flex">
 
@@ -11,8 +11,8 @@
                     <div class="list-inline widget_profile_box">
                         <div class="col-md-4">
                             <div class="slot-state">
-                                {{profile.slotState}}<br/>
-                                {{profile.slotStateTime}}
+                                {{productivity.slotState}}<br/>
+                                {{productivity.slotStateTime}}
                             </div>
                         </div>
                         <div class="col-md-4" style="margin-top: -28px;">
@@ -29,32 +29,17 @@
                         </div>
                     </div>
                 </div>
-                <!--<ul class="list-inline widget_profile_box">-->
-                <!--<li class="slot-state" style="width: 77px;">-->
-                <!--
-                <!--</li>-->
-                <!--<li>-->
-                <!--<img src="images/user.png" alt="..."-->
-                <!--class="img-circle profile_img boarder-0a">-->
-                <!--</li>-->
-                <!--<li>-->
-                <!--<li ng-repeat="call in callInfos">-->
-                <!--Caller <br/>-->
-                <!--{{call["Caller-Caller-ID-Number"]}}-->
-                <!--</li>-->
 
-                <!--</li>-->
-                <!--</ul>-->
             </div>
             <h3 class="name">{{profile.name}}</h3>
 
-            <div class="last-reserved-time connected-caller" ng-repeat="call in callInfos" ng-if="callInfos.length!=0">
+            <div class="last-reserved-time connected-caller" ng-repeat="call in productivity.callInfos" ng-if="productivity.callInfos.length!=0">
                 <p>Caller</p>
                 <small>{{call["Caller-Caller-ID-Number"]}}</small>
             </div>
-            <div class="last-reserved-time" ng-if="callInfos.length==0">
+            <div class="last-reserved-time" ng-if="productivity.callInfos.length==0">
                 <p>Last Reserved Time</p>
-                <small>{{profile.LastReservedTime}}</small>
+                <small>{{productivity.LastReservedTime}}</small>
             </div>
 
             <div class="flex">
@@ -88,7 +73,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="task in profile.taskList">
+                    <tr ng-repeat="task in productivity.taskList">
                         <td class="text-left">{{task.taskType}}</td>
                         <td class="fs15 fw700 text-right"> {{task.skill}}</td>
                         <td class="fs15 fw700 text-right">{{task.percentage}}%</td>
@@ -179,7 +164,7 @@
     </div>
 </div>
 
-<div ng-show="showSummary" class="col-md-12 col-sm-12 col-xs-12">
+<!--<div ng-show="showSummary" class="col-md-12 col-sm-12 col-xs-12">
     <table class="table table-striped task-tbl">
         <thead>
         <tr>
@@ -220,7 +205,7 @@
             <th class="fs15 text-right">{{productivity.IncomingCallCount}}</th>
             <th class="fs15 text-right">{{productivity.MissCallCount}}</th>
             <th class="fs15 text-right">{{productivity.TransferCallCount}}</th>
-            <th class="fs15 text-right"><!-- task -->
+            <th class="fs15 text-right">&lt;!&ndash; task &ndash;&gt;
                 <div ng-repeat="task in profile.taskList">
                     <small>{{task.taskType}}</small>
                     <small>{{task.skill}}</small>
@@ -232,7 +217,7 @@
         </tbody>
     </table>
 
-</div>
+</div>-->
 
 
 

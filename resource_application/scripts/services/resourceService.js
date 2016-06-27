@@ -310,7 +310,8 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         AttachAttributeToTask: attachAttributeToTask,
         DeleteAttributeAssignToTask: deleteAttributeAssignToTask,
         ResourceNameIsExsists: resourceNameIsExsists,
-        GetResourcesCount: getResourcesCount
+        GetResourcesCount: getResourcesCount,
+        SetResourceToProfile:setResourceToProfile
     }
 
 });
