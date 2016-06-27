@@ -480,7 +480,33 @@
 
         $scope.maxYear = moment().year();
 
+        var resetPage = function()
+        {
+            $scope.sipUserList = [];
 
+            $scope.selectedSipUser = {};
+
+            $scope.displayVeeryContact = '';
+
+            $scope.newContact = {};
+            $scope.NewContactLabel = "New";
+
+            $scope.displayAddress = '';
+            $scope.displayEmail = '';
+            $scope.displayPhoneNumber = '';
+            $scope.displayName = '';
+
+            $scope.contactsActive = '';
+            $scope.infoActive = 'active';
+
+            $scope.NewContactOpened = false;
+
+            $scope.CurrentTab = 'Info';
+
+            loadProfile($stateParams.username);
+            loadSipUsers();
+
+        }
 
 
         $scope.showAlert = function (title, type, content) {
@@ -591,6 +617,8 @@
                         curUser.GuRefId = $scope.CurrentProfile._id;
                         sipUserApiHandler.updateUser(curUser);
                     }
+
+                    resetPage();
                 }
                 else
                 {

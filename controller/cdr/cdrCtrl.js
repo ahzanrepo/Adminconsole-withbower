@@ -5,7 +5,10 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var cdrCtrl = function ($scope, $filter, cdrApiHandler, ngAudio, loginService) {
+    var cdrCtrl = function ($scope, $filter, cdrApiHandler, ngAudio, loginService)
+    {
+
+        $scope.enableSearchButton = true;
 
 
         $scope.showAlert = function (tittle, type, content) {
@@ -137,7 +140,9 @@
 
 
 
-        $scope.getProcessedCDR = function (offset, reset) {
+        $scope.getProcessedCDR = function (offset, reset)
+        {
+            $scope.enableSearchButton = false;
 
             try
             {
@@ -453,6 +458,7 @@
                             }
 
                             $scope.isTableLoading = 1;
+
                         }
                         else {
                             $scope.showAlert('Info', 'info', 'No records to load');
@@ -472,10 +478,13 @@
                         $scope.isTableLoading = 1;
                     }
 
+                    $scope.enableSearchButton = true;
+
 
                 }, function (err) {
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                     $scope.isTableLoading = 1;
+                    $scope.enableSearchButton = true;
                 })
             }
             catch (ex) {
