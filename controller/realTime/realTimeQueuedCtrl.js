@@ -53,6 +53,8 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
             $scope.queues = response.map(function (c, index) {
                 var item = c.QueueInfo;
                 item.id = c.QueueId;
+                item.queuename= c.QueueName;
+                item.AverageWaitTime = Math.round(item.AverageWaitTime*100)/100;
 
                 if (c.QueueInfo.TotalQueued > 0) {
                     item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
