@@ -20,9 +20,9 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
         });
     };
 
-
+    $scope.showCallDetails = false;
     var calculateProductivity = function () {
-        $scope.Productivitys = [];
+        $scope.Productivitys = [];$scope.showCallDetails = false;
         if ($scope.profile) {
             angular.forEach($scope.profile, function (agent) {
                 try {
@@ -30,28 +30,28 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
 
                         /*var agentProductivity = {
-                            "data": [{
-                                value: 0,
-                                name: 'After work'
-                            }, {
-                                value: 0,
-                                name: 'Break'
-                            }, {
-                                value: 0,
-                                name: 'On Call'
-                            }, {
-                                value: 0,
-                                name: 'Idle'
-                            }],
-                            "ResourceId": agent.ResourceId,
-                            "ResourceName": agent.ResourceName,
-                            "IncomingCallCount": 0,
-                            "MissCallCount": 100,
-                            "Chatid": agent.ResourceId
-                        };*/
+                         "data": [{
+                         value: 0,
+                         name: 'After work'
+                         }, {
+                         value: 0,
+                         name: 'Break'
+                         }, {
+                         value: 0,
+                         name: 'On Call'
+                         }, {
+                         value: 0,
+                         name: 'Idle'
+                         }],
+                         "ResourceId": agent.ResourceId,
+                         "ResourceName": agent.ResourceName,
+                         "IncomingCallCount": 0,
+                         "MissCallCount": 100,
+                         "Chatid": agent.ResourceId
+                         };*/
 
                         if (ids.length > 0) {
-                          var   agentProductivity = {
+                            var agentProductivity = {
                                 "data": [{
                                     value: ids[0].AcwTime ? ids[0].AcwTime : 0,
                                     name: 'After work'
@@ -69,9 +69,115 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
                                 "ResourceName": agent.ResourceName,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
                                 "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
-                                "Chatid": agent.ResourceId
+                                "Chatid": agent.ResourceId,
+                                "AcwTime": ids[0].AcwTime,
+                                "BreakTime": ids[0].BreakTime,
+                                "HoldTime": ids[0].HoldTime,
+                                "OnCallTime": ids[0].OnCallTime,
+                                "IdleTime": ids[0].IdleTime,
+                                "StaffedTime": ids[0].StaffedTime
                             };
+
+
                         }
+                        if (agent.ConcurrencyInfo.length > 0 &&
+                            agent.ConcurrencyInfo[0].SlotInfo.length > 0) {
+
+                            // is user state Reason
+                            var resonseStatus = null,
+                                resonseAvailability = null;
+                            if (agent.Status.Reason && agent.Status.State) {
+                                resonseAvailability = agent.Status.State;
+                                resonseStatus = agent.Status.Reason;
+                            }
+
+
+                            var reservedDate = agent.ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
+
+                            if (resonseAvailability == "NotAvailable") {
+                                agentProductivity.slotState = resonseStatus;
+                                agentProductivity.other = "Break";
+                                reservedDate = agent.Status.StateChangeTime;
+                            } else {
+                                agentProductivity.slotState = agent.ConcurrencyInfo[0].SlotInfo[0].State;
+
+                                if (agent.ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
+
+                                    reservedDate = agent.Status.StateChangeTime;
+                                }
+                            }
+
+
+                            if (reservedDate == "") {
+                                agentProductivity.LastReservedTime = null;
+                            } else {
+                                agentProductivity.LastReservedTime = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
+                                agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
+                            }
+
+
+                        }
+
+
+                        /* Set Task Info*/
+                        agentProductivity.taskList = [];
+                        angular.forEach(agent.ResourceAttributeInfo, function (item) {
+                            try {
+                                var task = {};
+                                task.taskType = item.HandlingType;
+                                task.percentage = item.Percentage;
+                                var data = $filter('filter')($scope.attributesList, {AttributeId: item.Attribute});
+                                if (data.length > 0)
+                                    task.skill = data[0].Attribute;
+                                agentProductivity.taskList.push(task);
+                            }
+                            catch (ex) {
+                                console.info(ex);
+                            }
+                        });
+                        /* Set Task Info*/
+
+                        /* Set ConcurrencyInfo */
+                        var sessionIds = [];
+                        angular.forEach(agent.ConcurrencyInfo, function (item) {
+                            try {
+                                var slotInfo = $filter('filter')(item.SlotInfo, {State: "Connected"});
+                                if (slotInfo.length > 0) {
+                                    var sid = slotInfo[0].HandlingRequest;
+                                    sessionIds.push(sid);
+                                }
+                            }
+                            catch (ex) {
+                                console.info(ex);
+                            }
+                        });
+
+                        /*Get Call info base on sid*/
+                        agentProductivity.callInfos = [];
+                        angular.forEach($scope.activeCalls, function (item) {
+                            try {
+                                var inboundCalls = $filter('filter')(item, {'Call-Direction': "inbound"});
+                                angular.forEach(sessionIds, function (sid) {
+                                    try {
+                                        var callInfo = $filter('filter')(inboundCalls, {'Unique-ID': sid});
+                                        if (callInfo.length > 0) {
+
+                                            agentProductivity.callInfos.push(callInfo[0]);
+                                            console.info(callInfo);
+                                            $scope.showCallDetails=true;
+                                        }
+                                    } catch (ex) {
+                                        console.info(ex);
+                                    }
+                                })
+                            }
+                            catch (ex) {
+                                console.info(ex);
+                            }
+                        });
+
+                        /* Set ConcurrencyInfo*/
+
                         $scope.Productivitys.push(agentProductivity);
                     }
                 } catch (ex) {
@@ -85,9 +191,11 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
 
 
     $scope.activeCalls = [];
+
     $scope.GetAllActiveCalls = function () {
         agentStatusService.GetAllActiveCalls().then(function (response) {
             $scope.activeCalls = response;
+
         }, function (error) {
             $log.debug("getAllActiveCalls err");
             $scope.showAlert("Error", "Error", "ok", "Fail To Get Active Call List.");
