@@ -12,12 +12,10 @@
                 <div class="col-md-3 ">
                     <div class="pull-right user-option-wrap" ng-show="!editMode">
                         <h3>
-                            <small ng-disabled="true" ng-click="removeApplication(application)" style="cursor: pointer"><i
+                            <small ng-disabled="true" ng-click="removeExtension(extension)" style="cursor: pointer"><i
                                     class="fa fa-trash-o"></i></small>
                             <small ng-disabled="true" ng-click="editExtension()" style="cursor: pointer"><i
                                     class="fa fa-edit"></i></small>
-                            <small ng-disabled="true" ng-click="showConig(application.id)" style="cursor: pointer"><i
-                                    class="fa fa-cog"></i></small>
                         </h3>
                     </div>
                 </div>
@@ -83,15 +81,9 @@
 
 
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
-                                <div class="col-md-6 col-sm-6 col-xs-12 ">
-                                    <label>
-                                        Availability <input type="checkbox" class="js-switch"
-                                                            ng-model="application.Availability"/>
-                                    </label>
-                                </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <button type="button" class="btn btn-success btn-sm pull-right"
-                                            ng-click="UpdateApplication()">
+                                            ng-click="updateExtension(extension)">
                                         Update
                                     </button>
                                 </div>

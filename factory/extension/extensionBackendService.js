@@ -57,6 +57,35 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             {
                 return response;
             });
+        },
+        removeExtension: function (extension) {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'DELETE',
+                url: "http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/"+extension,
+                headers: {
+                    'authorization':authToken
+                }
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        updateExtension: function (extension) {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'POST',
+                url: "http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/"+extension.Extension,
+                headers: {
+                    'authorization':authToken
+                },
+                data:extension
+
+            }).then(function(response)
+            {
+                return response;
+            });
         }
 
     }
