@@ -105,7 +105,11 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
 
         goProfile: function () {
             $state.go('console.myprofile');
-        }
+        },
+
+        goExtension: function () {
+        $state.go('console.extension');
+    }
     };
 
     var getUserName = function () {

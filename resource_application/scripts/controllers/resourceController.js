@@ -51,8 +51,21 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
         resourceService.SaveResource(resource).then(function (response) {
             $scope.addNew = !response.IsSuccess;
             if (response.IsSuccess) {
-                $scope.reloadPage();
                 $scope.resources.splice(0, 0, response.Result);
+                $scope.reloadPage();
+                resourceService.SetResourceToProfile(resource.ResourceName, response.data.Result.ResourceId).then(function (response) {
+                    if (response.IsSuccess) {
+                        $scope.showAlert("Info", "Info", "ok", "Resource "+resource.ResourceName+" Successfully Save.");
+                    }
+                    else {
+                        $scope.showNotify("Error", "Error", "ok", "Resource "+resource.ResourceName+" Save Successfully Without Mapping to Profile.");
+                    }
+
+                }, function (error) {
+                    $log.debug("GetResources err");
+                    $scope.showError("Error", "Error", "ok", "Fail To Map Resource with Profile.");
+                });
+
             }
             else {
                 if (response.CustomMessage == "invalid Resource Name.") {
@@ -126,6 +139,16 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
             title: tittle,
             text: content,
             type: 'error',
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.showNotify = function (tittle,content) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: 'notify',
             styling: 'bootstrap3'
         });
     };
