@@ -40,6 +40,8 @@ mainApp.controller("queueSummaryController", function ($scope,$filter,$state, qu
 
                     for(var j=0;j<summaryData[i].Summary.length;j++)
                     {
+                        summaryData[i].Summary[j].SLA=Math.round(summaryData[i].Summary[j].SLA * 100) / 100;
+                        summaryData[i].Summary[j].AverageQueueTime=Math.round(summaryData[i].Summary[j].AverageQueueTime * 100) / 100;
                         $scope.queueSummaryList.push(summaryData[i].Summary[j]);
                     }
                 }
