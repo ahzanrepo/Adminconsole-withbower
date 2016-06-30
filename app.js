@@ -15,6 +15,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'angular-sly',
     'LocalStorageModule',
     'ngSanitize',
+    'ngCsv',
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
@@ -175,7 +176,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "pbxCtrl",
             data: {
                 requireLogin: true,
-                navigation: "PABX_USERS"
+                navigation: "PABX_USER"
             }
         }).state("console.ringGroup", {
             url: "/ringGroup",
