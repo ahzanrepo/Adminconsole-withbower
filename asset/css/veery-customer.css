@@ -2371,6 +2371,74 @@ ul.social li {
     color: #ffffff;
 }
 
+.pabxStatus
+{
+    height: 25px;
+    width: 65px;
+    padding: 5px;
+    opacity: 1;
+    font-size: 8pt;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.pabxStatus.dnd
+{
+    background-color: rgb(208, 59, 89);
+}
+
+.pabxStatus.dnd:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(208, 59, 89) !important;
+    border-radius: 8px !important;
+}
+
+.pabxStatus.divert
+{
+    background-color: rgb(5, 142, 156);
+}
+
+.pabxStatus.divert:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(5, 142, 156) !important;
+    border-radius: 8px !important;
+}
+
+.pabxStatus.available
+{
+    background-color: rgb(70, 167, 87);
+}
+
+.pabxStatus.available:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(70, 167, 87) !important;
+    border-radius: 8px !important;
+}
+
+.pabxStatus.followme
+{
+    background-color: rgb(187, 143, 54);
+}
+
+.pabxStatus.followme:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(187, 143, 54) !important;
+    border-radius: 8px !important;
+}
+
+.pabxStatus.forward
+{
+    background-color: rgb(241, 100, 58);
+}
+
+.pabxStatus.forward:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(241, 100, 58) !important;
+    border-radius: 8px !important;
+}
+
 /*knob*/
 .knob-resources {
 

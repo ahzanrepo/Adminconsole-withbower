@@ -8,7 +8,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var abandonCallCdrCtrl = function ($scope, $filter, cdrApiHandler) {
+    var abandonCallCdrCtrl = function ($scope, $filter, $q, cdrApiHandler) {
 
         $scope.enableSearchButton = true;
 
@@ -90,6 +90,269 @@
                 }
             }
             return true;
+        };
+
+        $scope.getProcessedCDRForCSV = function ()
+        {
+            $scope.DownloadFileName = 'ABANDONCALLCDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
+
+            var deferred = $q.defer();
+
+            var cdrListForCSV = [];
+
+            try
+            {
+
+                var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
+                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");
+
+                var startYear = startDateMoment.year().toString();
+                var startMonth = (startDateMoment.month() + 1).toString();
+                var startDay = startDateMoment.date().toString();
+
+                var endYear = endDateMoment.year().toString();
+                var endMonth = (endDateMoment.month() + 1).toString();
+                var endDay = endDateMoment.date().toString();
+
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                //var encodedTz = encodeURI(momentTz);
+                momentTz = momentTz.replace("+", "%2B");
+
+                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
+                var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTimeNow + ':59' + momentTz;
+
+                if ($scope.startTimeNow === '00:00' && $scope.endTimeNow === '00:00')
+                {
+                    //use date only
+                    startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
+                    endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+                }
+
+
+                var lim = parseInt($scope.recLimit);
+                cdrApiHandler.GetAbandonCallDetailsByRange(startTime, endTime, 0, 0).then(function (cdrResp)
+                {
+                    if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
+                    {
+                        if (!isEmpty(cdrResp.Result))
+                        {
+                            var count = 0;
+                            for (cdr in cdrResp.Result)
+                            {
+                                count++;
+                                var cdrAppendObj = {};
+                                var outLegProcessed = false;
+                                var curCdr = cdrResp.Result[cdr];
+                                var isInboundHTTAPI = false;
+                                var outLegAnswered = false;
+
+                                var callHangupDirectionA = '';
+                                var callHangupDirectionB = '';
+
+                                var len = curCdr.length;
+
+
+                                //Need to filter out inbound and outbound legs before processing
+
+                                var filteredInb = curCdr.filter(function (item)
+                                {
+                                    if (item.Direction === 'inbound')
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
+
+                                });
+
+                                var filteredOutb = curCdr.filter(function (item)
+                                {
+                                    if (item.Direction === 'outbound')
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
+
+                                });
+
+
+                                //process inbound legs first
+
+                                for (i = 0; i < filteredInb.length; i++)
+                                {
+                                    var curProcessingLeg = filteredInb[i];
+
+                                    if (curProcessingLeg.DVPCallDirection)
+                                    {
+                                        callHangupDirectionA = curProcessingLeg.HangupDisposition;
+                                    }
+
+
+                                    //use the counts in inbound leg
+                                    cdrAppendObj.Uuid = curProcessingLeg.Uuid;
+                                    cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
+                                    cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
+                                    cdrAppendObj.IsAnswered = false;
+
+                                    cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;
+
+                                    var localTime = moment(curProcessingLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
+
+                                    cdrAppendObj.CreatedTime = localTime;
+                                    cdrAppendObj.Duration = curProcessingLeg.Duration;
+                                    cdrAppendObj.BillSec = 0;
+                                    cdrAppendObj.HoldSec = 0;
+
+                                    cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
+
+                                    if (cdrAppendObj.DVPCallDirection === 'INBOUND')
+                                    {
+                                        cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                    }
+
+
+                                    cdrAppendObj.QueueSec = curProcessingLeg.QueueSec;
+                                    cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
+
+
+                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+
+
+                                    if (curProcessingLeg.ObjType === 'HTTAPI')
+                                    {
+                                        isInboundHTTAPI = true;
+                                    }
+
+                                    if (len === 1)
+                                    {
+                                        cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                        cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                    }
+
+
+                                }
+
+                                //process outbound legs next
+
+
+                                for (j = 0; j < filteredOutb.length; j++)
+                                {
+                                    var curProcessingLeg = filteredOutb[j];
+
+                                    callHangupDirectionB = curProcessingLeg.HangupDisposition;
+
+                                    cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
+                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+
+
+                                    if (cdrAppendObj.DVPCallDirection === 'OUTBOUND')
+                                    {
+                                        cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                    }
+
+                                    cdrAppendObj.BillSec = curProcessingLeg.BillSec;
+
+                                    if (!cdrAppendObj.ObjType)
+                                    {
+                                        cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                    }
+
+                                    if (!cdrAppendObj.ObjCategory)
+                                    {
+                                        cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                    }
+
+                                    outLegProcessed = true;
+
+                                    if (!outLegAnswered)
+                                    {
+                                        if (curProcessingLeg.BillSec > 0)
+                                        {
+                                            outLegAnswered = true;
+                                        }
+                                    }
+                                }
+
+                                if (callHangupDirectionA === 'recv_bye')
+                                {
+                                    cdrAppendObj.HangupParty = 'CALLER';
+                                }
+                                else if (callHangupDirectionB === 'recv_bye')
+                                {
+                                    cdrAppendObj.HangupParty = 'CALLEE';
+                                }
+                                else
+                                {
+                                    cdrAppendObj.HangupParty = 'SYSTEM';
+                                }
+
+
+                                cdrAppendObj.IsAnswered = outLegAnswered;
+
+                                if (isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec)
+                                {
+                                    cdrAppendObj.ShowButton = true;
+                                }
+
+                                var cdrCsv =
+                                {
+                                    DVPCallDirection: cdrAppendObj.DVPCallDirection,
+                                    SipFromUser: cdrAppendObj.SipFromUser,
+                                    SipToUser: cdrAppendObj.SipToUser,
+                                    RecievedBy: cdrAppendObj.RecievedBy,
+                                    AgentSkill: cdrAppendObj.AgentSkill,
+                                    IsAnswered: cdrAppendObj.IsAnswered,
+                                    CreatedTime: cdrAppendObj.CreatedTime,
+                                    Duration: cdrAppendObj.Duration,
+                                    BillSec: cdrAppendObj.BillSec,
+                                    AnswerSec: cdrAppendObj.AnswerSec,
+                                    QueueSec: cdrAppendObj.QueueSec,
+                                    HoldSec: cdrAppendObj.HoldSec,
+                                    ObjType: cdrAppendObj.ObjType,
+                                    ObjCategory: cdrAppendObj.ObjCategory,
+                                    HangupParty: cdrAppendObj.HangupParty
+                                };
+
+
+                                cdrListForCSV.push(cdrCsv);
+                            }
+
+
+                        }
+                        else
+                        {
+                            $scope.showAlert('Info', 'info', 'No records to load');
+
+                        }
+
+
+                    }
+                    else
+                    {
+                        $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                    }
+
+                    deferred.resolve(cdrListForCSV);
+
+
+                }, function (err)
+                {
+                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
+                    deferred.resolve(cdrListForCSV);
+                })
+            }
+            catch (ex)
+            {
+                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list')
+                deferred.resolve(cdrListForCSV);
+            }
+
+            return deferred.promise;
         };
 
 
