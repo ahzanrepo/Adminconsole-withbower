@@ -319,6 +319,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 }
 
             })
+            .state('console.did', {
+                url: "/didnumbers",
+                templateUrl: "views/did/did.html",
+                controller: "didController",
+                data: {
+                    requireLogin: true,
+                    navigation: "DID"
+                }
+            })
 
 
     }]);
