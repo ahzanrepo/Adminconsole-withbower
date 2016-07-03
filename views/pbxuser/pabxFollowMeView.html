@@ -3,13 +3,18 @@
         <h2>Follow-Me Configurations</h2>
 
     </div>
-    <div class="x_title col-md-3 col-sm-3 col-xs-3">
-        <button class="btn btn-primary" ng-click="saveFMConfig()" ng-disabled="!list.length || list.length === 0">Save Configuration</button>
+    <div class="x_title col-md-3 col-sm-3 col-xs-3" ng-if="CurUserName">
+        <h2>User : {{CurUserName}}</h2>
     </div>
+
 
 
     <div class="clearfix"></div>
     <div class="x_content col-md-12 col-sm-12 col-xs-12">
+
+        <div class="x_title col-md-12 col-sm-12 col-xs-12">
+            <button class="btn btn-primary" ng-click="saveFMConfig()" ng-disabled="!list.length || list.length === 0">Save Configuration</button>
+        </div>
 
         <div class="col-md-12 col-sm-12 col-xs-12">
             <label><b>Sandbox</b> (drag and drop to re-arrange)</label>

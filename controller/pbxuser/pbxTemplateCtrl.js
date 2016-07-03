@@ -32,6 +32,7 @@
             $scope.destinationNumber = null;
             $scope.numberType = 'USER';
             currentUserUuid = null;
+            $scope.CurUserName = '';
             $scope.pabxTemplList = [];
             $scope.dataReady = false;
         };
@@ -106,8 +107,9 @@
 
         $rootScope.$on('PABX_LoadUserData', function(event, args)
         {
-            currentUserUuid = args;
-            reloadTemplateList(args);
+            currentUserUuid = args.UserUuid;
+            $scope.CurUserName = args.UserName;
+            reloadTemplateList(currentUserUuid);
         });
 
         $rootScope.$on('PABX_ResetForms', function(event, args)

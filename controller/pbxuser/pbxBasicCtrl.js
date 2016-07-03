@@ -53,7 +53,8 @@
         var resetForm = function()
         {
             $scope.basicConfig = {}
-            var currentUserUuid = null;
+            $scope.CurUserName = '';
+            currentUserUuid = null;
         };
 
 
@@ -116,9 +117,10 @@
 
         $rootScope.$on('PABX_LoadUserData', function(event, args)
         {
-            currentUserUuid = args;
-            loadPABXBasicConf(args);
-            reloadDivertNumbers(args);
+            currentUserUuid = args.UserUuid;
+            $scope.CurUserName = args.UserName;
+            loadPABXBasicConf(currentUserUuid);
+            reloadDivertNumbers(currentUserUuid);
 
         });
 

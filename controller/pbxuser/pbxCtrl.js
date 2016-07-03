@@ -42,7 +42,7 @@
 
             $scope.pabxUserSelected = pbxUsr;
 
-            $scope.$emit('PABX_LoadUserData', pbxUsr.UserUuid);
+            $scope.$emit('PABX_LoadUserData', pbxUsr);
 
 
         };

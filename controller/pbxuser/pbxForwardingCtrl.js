@@ -31,6 +31,7 @@
             $scope.ringTimeout = null;
             $scope.numberType = 'USER';
             currentUserUuid = null;
+            $scope.CurUserName = '';
             $scope.fwdList = [];
             $scope.dataReady = false;
         };
@@ -106,8 +107,9 @@
 
         $rootScope.$on('PABX_LoadUserData', function(event, args)
         {
-            currentUserUuid = args;
-            reloadFWDList(args);
+            currentUserUuid = args.UserUuid;
+            $scope.CurUserName = args.UserName;
+            reloadFWDList(currentUserUuid);
         });
 
         $rootScope.$on('PABX_ResetForms', function(event, args)
