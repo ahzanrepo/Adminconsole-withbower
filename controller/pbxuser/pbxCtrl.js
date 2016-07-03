@@ -6,36 +6,8 @@
 (function() {
     var app = angular.module("veeryConsoleApp");
 
-    var pbxCtrl = function ($scope, pbxUserApiHandler)
+    var pbxCtrl = function ($scope, $rootScope, $uibModal, pbxUserApiHandler)
     {
-        $scope.timeZones = [{Offset:"-12:00", TZName: "-12:00"},
-            {Offset:"-11:00", TZName: "-11:00"},
-            {Offset:"-10:00", TZName: "-10:00"},
-            {Offset:"-09:00", TZName: "-09:00"},
-            {Offset:"-08:00", TZName: "-08:00"},
-            {Offset:"-07:00", TZName: "-07:00"},
-            {Offset:"-06:00", TZName: "-06:00"},
-            {Offset:"-05:00", TZName: "-05:00"},
-            {Offset:"-04:30", TZName: "-04:30"},
-            {Offset:"-04:00", TZName: "-04:00"},
-            {Offset:"-03:30", TZName: "-03:30"},
-            {Offset:"-03:00", TZName: "-03:00"},
-            {Offset:"-02:00", TZName: "-02:00"},
-            {Offset:"-01:00", TZName: "-01:00"},
-            {Offset:"00:00", TZName: "00:00"},
-            {Offset:"+01:00", TZName: "+01:00"},
-            {Offset:"+02:00", TZName: "+02:00"},
-            {Offset:"+03:00", TZName: "+03:00"},
-            {Offset:"+04:00", TZName: "+04:00"},
-            {Offset:"+05:00", TZName: "+05:00"},
-            {Offset:"+05:30", TZName: "+05:30"},
-            {Offset:"+06:00", TZName: "+06:00"},
-            {Offset:"+07:00", TZName: "+07:00"},
-            {Offset:"+08:00", TZName: "+08:00"},
-            {Offset:"+09:00", TZName: "+09:00"},
-            {Offset:"+10:00", TZName: "+10:00"},
-            {Offset:"+11:00", TZName: "+11:00"},
-            {Offset:"+12:00", TZName: "+12:00"}];
 
         $scope.showAlert = function (title, type, content) {
 
@@ -49,35 +21,57 @@
 
         $scope.searchCriteria = "";
 
-        $scope.IsEdit = false;
+        $scope.PABX_OnEditMode = false;
 
         $scope.pabxUserSelected = {};
 
-        function PickUserController($scope, $mdDialog, pbxUserApiHandler)
+        $rootScope.$on('SetCurrentPABXUserStatus', function(event, args)
         {
-            pbxUserApiHandler.getSIPUsers().then(function(data)
-            {
-                $scope.sipUserList = data.Result;
-            }, function(err)
-            {
+            $scope.pabxUserSelected.UserStatus = args.UserStatus;
+            $scope.pabxUserSelected.AdvancedRouteMethod = args.AdvancedRouteMethod;
+        });
 
+        $rootScope.$on('PABX_ReloadUserList', function(event, args)
+        {
+            $scope.reloadUserList();
+        });
+
+        $scope.loadBasicConfig = function(pbxUsr)
+        {
+            $scope.PABX_OnEditMode = true;
+
+            $scope.pabxUserSelected = pbxUsr;
+
+            $scope.$emit('PABX_LoadUserData', pbxUsr.UserUuid);
+
+
+        };
+
+        $scope.newUser = function()
+        {
+
+            $scope.$emit('PABX_ResetForms', null);
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/pbxuser/pabxNewUserView.html',
+                controller: 'pbxNewUserCtrl',
+                size: 'lg',
+                resolve: {
+                    items: function () {
+                        return $scope.items;
+                    }
+                }
             });
-            $scope.onContinue = function()
-            {
-                sharedResPABXUser.PABXUser = {};
-                sharedResPABXUser.PABXUser.UserUuid = $scope.selectedUserUuid;
-                sharedResPABXUser.PABXUser.IsEdit = false;
-                $mdDialog.hide();
-            };
-            $scope.onCancel = function()
-            {
-                $mdDialog.cancel();
-            };
         }
+
+
 
 
         $scope.updateStatus = function(selectedStatus, pbxUsr)
         {
+            $scope.PABX_OnEditMode = false;
+            $scope.$emit('PABX_ResetForms', null);
+
             if(selectedStatus === 'DND')
             {
                 pbxUsr.UserStatus = 'DND';
@@ -184,24 +178,6 @@
             $scope.CurrentSelectedUser = pbxUsr;
         };
 
-        $scope.onNewPressed = function(ev)
-        {
-
-            $mdDialog.show({
-                controller: PickUserController,
-                templateUrl: 'partials/newUserSelectionView.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose:true
-            })
-                .then(function(answer)
-                {
-                    $location.url("/pabxUser/" + sharedResPABXUser.PABXUser.UserUuid);
-                }, function()
-                {
-
-                });
-        };
 
         $scope.deleteUser = function(userUuid)
         {
@@ -284,228 +260,6 @@
         $scope.reloadUserList();
 
 
-
-
-
-
-
-
-
-        $scope.onSavePressed = function()
-        {
-            if($scope.basicConfig.IsEdit)
-            {
-                pbxUserApiHandler.updatePABXUser($scope.basicConfig).then(function(data1)
-                {
-                    if(data1.IsSuccess)
-                    {
-                        pbxUserApiHandler.setAllowedNumbers($scope.basicConfig.UserUuid, $scope.allowedNumbers).then(function(data2)
-                        {
-                            if(data2.IsSuccess)
-                            {
-                                pbxUserApiHandler.setDeniedNumbers($scope.basicConfig.UserUuid, $scope.deniedNumbers).then(function(data3)
-                                {
-                                    if(data3.IsSuccess)
-                                    {
-                                        mdAleartDialog("SUCCESS", "Basic Configuration Updated Successfully", "SUCCESS");
-                                    }
-                                    else
-                                    {
-                                        var errMsg = data3.CustomMessage;
-
-                                        if(data3.Exception)
-                                        {
-                                            errMsg = data3.Exception.Message;
-                                        }
-                                        mdAleartDialog("WARINING", "Basic Configuration Partially Updated - ERROR : " + errMsg, "WARINING");
-                                    }
-
-                                }, function(err)
-                                {
-                                    mdAleartDialog("WARINING", "Basic Configuration Partially Updated - Communication Error on Saving Denied Numbers : ", "WARINING");
-                                });
-                            }
-                            else
-                            {
-                                var errMsg = data2.CustomMessage;
-
-                                if(data2.Exception)
-                                {
-                                    errMsg = data2.Exception.Message;
-                                }
-                                mdAleartDialog("WARINING", "Basic Configuration Partially Updated - ERROR : " + errMsg, "WARINING");
-                            }
-
-                        }, function(err)
-                        {
-                            mdAleartDialog("WARINING", "Basic Configuration Partially Updated - Communication Error on Saving Allowed Numbers : ", "WARINING");
-                        });
-
-                    }
-                    else
-                    {
-                        var errMsg = data1.CustomMessage;
-
-                        if(data1.Exception)
-                        {
-                            errMsg = data1.Exception.Message;
-                        }
-                        mdAleartDialog("ERROR", errMsg, "ERROR");
-                    }
-
-                }, function(err)
-                {
-                    mdAleartDialog("ERROR", "Communication Error Occurred", "ERROR");
-                });
-            }
-            else
-            {
-                //Save
-                pbxUserApiHandler.savePABXUser($scope.basicConfig).then(function(data1)
-                {
-                    if(data1.IsSuccess)
-                    {
-                        pbxUserApiHandler.setAllowedNumbers($scope.basicConfig.UserUuid, $scope.allowedNumbers).then(function(data2)
-                        {
-                            if(data2.IsSuccess)
-                            {
-                                pbxUserApiHandler.setDeniedNumbers($scope.basicConfig.UserUuid, $scope.deniedNumbers).then(function(data3)
-                                {
-                                    if(data3.IsSuccess)
-                                    {
-                                        mdAleartDialog("SUCCESS", "Basic Configuration Saved Successfully", "SUCCESS");
-                                    }
-                                    else
-                                    {
-                                        var errMsg = data3.CustomMessage;
-
-                                        if(data3.Exception)
-                                        {
-                                            errMsg = data3.Exception.Message;
-                                        }
-                                        mdAleartDialog("WARINING", "Basic Configuration Partially Saved - ERROR : " + errMsg, "WARINING");
-                                    }
-
-                                }, function(err)
-                                {
-                                    mdAleartDialog("WARINING", "Basic Configuration Partially Saved - Communication Error on Saving Denied Numbers : ", "WARINING");
-                                });
-                            }
-                            else
-                            {
-                                var errMsg = data2.CustomMessage;
-
-                                if(data2.Exception)
-                                {
-                                    errMsg = data2.Exception.Message;
-                                }
-                                mdAleartDialog("WARINING", "Basic Configuration Partially Saved - ERROR : " + errMsg, "WARINING");
-                            }
-
-                        }, function(err)
-                        {
-                            mdAleartDialog("WARINING", "Basic Configuration Partially Saved - Communication Error on Saving Allowed Numbers : ", "WARINING");
-                        });
-
-                    }
-                    else
-                    {
-                        var errMsg = data1.CustomMessage;
-
-                        if(data1.Exception)
-                        {
-                            errMsg = data1.Exception.Message;
-                        }
-                        mdAleartDialog("ERROR", errMsg, "ERROR");
-                    }
-
-                }, function(err)
-                {
-                    mdAleartDialog("ERROR", "Communication Error Occurred", "ERROR");
-                });
-            }
-
-        };
-
-        $scope.reloadDivertNumbers = function(userUuid)
-        {
-            pbxUserApiHandler.getPABXUserTemplates(userUuid).then(function(data)
-            {
-                $scope.pabxTemplList = data.Result;
-
-            },function(err)
-            {
-                var errMsg = "Error reloading divert numbers";
-                if(err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('Error', 'error', errMsg);
-            });
-
-        };
-
-        var onGetGreetingFileSuccess = function(data)
-        {
-            if(data.IsSuccess)
-            {
-                $scope.fileList = data.Result;
-            }
-
-        };
-
-        var onGetGreetingFileError = function(err)
-        {
-            console.log('Error occurred : ' + err);
-        };
-
-        var onGetPABXUserSuccess = function(data)
-        {
-            if(data.Result)
-            {
-                if($scope.basicConfig.IsEdit)
-                {
-                    $scope.allowedNumbers = data.Result.AllowedNumbers;
-                    $scope.deniedNumbers = data.Result.DeniedNumbers;
-                }
-                else
-                {
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                            .parent(angular.element(document.querySelector('#popupContainer')))
-                            .clickOutsideToClose(true)
-                            .title('User already added')
-                            .textContent('please use the edit button to edit')
-                            .ariaLabel('Not a new user')
-                            .ok('Ok')
-                    );
-
-                    $location.url("/pabxUsers");
-                }
-
-            }
-
-        };
-
-        var onGetPABXUserError = function(err)
-        {
-            console.log('Error occurred : ' + err);
-        };
-
-
-        //pbxUserApiHandler.getPABXUser(sharedResPABXUser.PABXUser.UserUuid).then(onGetPABXUserSuccess, onGetPABXUserError);
-        //pbxUserApiHandler.getGreetingFileMetadata(sharedResPABXUser.PABXUser.UserUuid).then(onGetGreetingFileSuccess, onGetGreetingFileError);
-        /*pbxUserApiHandler.getSchedules().then(function(data)
-        {
-            if(data.IsSuccess)
-            {
-                $scope.scheduleList = data.Result;
-            }
-
-        }, function(err)
-        {
-
-        });*/
 
     };
 

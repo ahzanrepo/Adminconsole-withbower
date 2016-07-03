@@ -5,7 +5,7 @@
         </div>
 
         <div class="col-md-1 col-sm-1 col-xs-1">
-            <button type="button" class="btn btn-round btn-primary" ng-click="clearFormOnSave()">+</button>
+            <button type="button" class="btn btn-round btn-primary" ng-click="newUser()">+</button>
         </div>
     </div>
 </div>
@@ -14,7 +14,7 @@
 
 <div class="row">
 
-    <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="col-md-4 col-sm-4 col-xs-12" style="flex: 1">
         <div class="x_panel col-md-12 col-sm-12 col-xs-12">
             <div class="x_title">
                 <div class="input-group col-md-12 col-sm-12 col-xs-12">
@@ -39,22 +39,22 @@
                     </div>
                 </div>
 
-                <ul class="list-unstyled timeline" style="overflow-y: auto; height: 785px">
+                <ul class="list-unstyled timeline" style="overflow-y: auto; min-height: 877px">
 
                     <div class="mail_list_column sip-user-wrap"
                          ng-mouseover="viewScroll()"
                          ng-mouseleave="hideScroll()"
                          ng-slimscroll
-                         height="670" width="100%" opacity="0.2" distance="0px"
+                         height="800" width="100%" opacity="0.2" distance="0px"
                          enabled="{{ scrollEnabled }}">
                         <a href="javascript:void(0);" class="user-wrap hover-none"
                            ng-repeat="item in pabxUsrList | filterBy: ['UserName']: searchCriteria">
                             <div class="mail_list user-list">
                                 <div class="right user-option-wrap">
-                                    <h3 class="font-robot sub-header">
+                                    <h3 class="font-robot sub-header" style="color:#383b3b">
                                         {{item.UserName}}
                                         <small class="fa fa-trash" ng-click="deleteUser(item.UserUuid)"></small>
-                                        <small class="fa fa-cog" ng-click="openStatusEdit(item)"></small>
+                                        <small class="fa fa-cog" ng-click="loadBasicConfig(item)"></small>
                                     </h3>
 
 
@@ -68,6 +68,11 @@
 
                                     <p>
                                         <div ng-if="item.StatusEditMode" class="col-md-12 col-sm-12 col-xs-12" style="border: 1px solid rgb(230, 229, 229); border-radius: 8px; padding: 5px;">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <label>Change Status</label>
+                                            </div>
+
 
                                             <div class="col-md-4 col-sm-4 col-xs-4">
                                                 <button class="pabxStatus dnd" ng-click="updateStatus('DND', item)">DND</button>
@@ -96,209 +101,133 @@
                         </a>
                     </div>
 
-<!--                    <li ng-repeat="item in pabxUsrList | filterBy: ['UserName']: searchCriteria">
-
-                        <div class="block" ng-if="item.StatusEditMode">
-                            <div class="tile-stats">
-                                <br>
-                                <br>
-
-                                <div title="DND" class="col-md-2"> DND :
-                                    <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="DND" />
-                                </div>
-                                <div title="Call Divert" class="col-md-2"> Call Divert :
-                                    <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="CALL_DIVERT" />
-                                </div>
-                                <div title="Available" class="col-md-2"> Available :
-                                    <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="AVAILABLE" />
-                                </div>
-                                <div title="Follow Me" class="col-md-2"> Follow Me :
-                                    <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="FOLLOW_ME" />
-                                </div>
-                                <div title="Conditional Forward" class="col-md-2"> Forward :
-                                    <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="FORWARD" />
-                                </div>
-
-                                <br>
-
-                                <button type="button" class="btn btn-success btn-xs " ng-click="updateStatus(item)">
-                                    Update
-                                </button>
-
-                            </div>
-
-
-                        </div>
-
-                        <div class="block">
-                            <div class="tags">
-                                <a href="" class="tag">
-                                    <span ng-click="editPABXUser(item.UserUuid)">{{item.UserName}}</span>
-                                </a>
-                                <br>
-                                <a href="">
-                                    <i class="fa fa-remove" ng-click="deleteUser(item.UserUuid)"></i>
-                                </a>
-                            </div>
-                            <div class="block_content">
-                                <h2 class="title">
-                                    <a>{{item.UserName}}</a>
-                                </h2>
-                                <br>
-                                <span title="DND" ng-if="item.UserStatus == 'DND'" class="fa fa-ban" ng-click="openStatusEdit(item)"></span>
-                                <span title="Call Divert" ng-if="item.UserStatus == 'CALL_DIVERT'" class="fa fa-exchange" ng-click="openStatusEdit(item)"></span>
-                                <span title="Available" ng-if="item.UserStatus == 'AVAILABLE' && item.AdvancedRouteMethod == 'NONE'" class="fa fa-user" ng-click="openStatusEdit(item)"></span>
-                                <span title="Follow Me" ng-if="item.UserStatus == 'AVAILABLE' && item.AdvancedRouteMethod == 'FOLLOW_ME'" class="fa fa-send" ng-click="openStatusEdit(item)"></span>
-                                <span title="Conditional Forward" ng-if="item.UserStatus == 'AVAILABLE' && item.AdvancedRouteMethod == 'FORWARD'" class="fa fa-plane" ng-click="openStatusEdit(item)"></span>
-
-
-                            </div>
-                        </div>
-                    </li>-->
-
                 </ul>
 
             </div>
         </div>
     </div>
 
+    <fieldset class="col-md-8 col-sm-6 col-xs-12" ng-disabled="!PABX_OnEditMode">
 
-    <div class="col-md-8 col-sm-6 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title col-md-12 col-sm-12 col-xs-12">
-                <h2>New PABX User</h2>
-                <div class="clearfix"></div>
+        <div class="x_panel" style="min-height: 987px;">
+            <uib-tabset active="0">
+                <uib-tab index="0" heading="Basic" disable="!PABX_OnEditMode">
+                    <div ng-include="'views/pbxuser/pabxBasicView.html'">
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="Template" disable="!PABX_OnEditMode">
+                    <div ng-include="'views/pbxuser/pabxTemplateView.html'">
+                    </div>
+                </uib-tab>
+                <uib-tab index="2" heading="Follow-Me" disable="!PABX_OnEditMode">
+                    <div ng-include="'views/pbxuser/pabxFollowMeView.html'">
+                    </div>
+                </uib-tab>
+                <uib-tab index="3" heading="Forwarding" disable="!PABX_OnEditMode">
+                    <div ng-include="'views/pbxuser/pabxForwardingView.html'">
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+
+
+    </fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--<div class="front">
+        <div ng-show="showFrontPage2" ng-include="'views/pbxuser/pabxBasicView.html'">
+
+        </div>
+
+        <div class="x_panel" ng-if="showFrontPage3">
+            <div class="x_title col-md-9 col-sm-9 col-xs-9">
+                <h2>Page 3</h2>
+
             </div>
-            <div class="x_content col-md-12 col-sm-12 col-xs-12">
-                <form name="pabxBasicConfForm">
-
-                    <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
-                        <label>User Name * :</label>
-                        <input type="text" class="form-control parsley-error" name="userName" ng-disabled="IsEdit" ng-model="basicConfig.UserName" required>
-                        <div ng-messages="pabxBasicConfForm.userName.$error" ng-if="pabxBasicConfForm.userName.$dirty">
-                            <div class="alert" ng-message="required">This field is required</div>
-                        </div>
-                    </div>
-
-                    <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
-                        <label>PIN :</label>
-                        <input class="form-control parsley-error" name="pinNumber" ng-model="basicConfig.Pin" ng-pattern="/^[0-9]*$/">
-                        <div ng-messages="pabxBasicConfForm.pinNumber.$error" ng-if="pabxBasicConfForm.pinNumber.$dirty">
-                            <div class="alert" ng-message="pattern">Pin number should be numeric</div>
-                        </div>
-                    </div>
-                    <div class="tile-stats col-md-12 col-sm-12 col-xs-12">
-                        <br>
-                        <label>User Status</label>
-                        <br>
-
-                        <div title="DND" class="col-md-2"> <label class="pabxStatus dnd">DND</label>
-                            <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="DND" />
-                        </div>
-                        <div title="Call Divert" class="col-md-2"> <label class="pabxStatus divert">Call Divert</label>
-                            <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="CALL_DIVERT" />
-                        </div>
-                        <div title="Available" class="col-md-2"> <label class="pabxStatus available">Available</label>
-                            <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="AVAILABLE" />
-                        </div>
-                        <div title="Follow Me" class="col-md-2"> <label class="pabxStatus followme">FollowMe</label>
-                            <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="FOLLOW_ME" />
-                        </div>
-                        <div title="Conditional Forward" class="col-md-2"> <button class="pabxStatus forward">Forwarding</button>
-                            <input type="radio" ng-model="pabxUserSelected.Status" class="flat" name="pbxUserStatus" value="FORWARD" />
-                        </div>
-
-                    </div>
-
-                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                        <label>Divert Number :</label>
-                        <select class="select2_single form-control parsley-error" tabindex="-1" aria-hidden="true" ng-model="basicConfig.ActiveTemplate" ng-model-options="{trackBy: '$value'}" ng-disabled="!IsEdit">
-                            <option ng-repeat="templ in pabxTemplList" value="{{templ.id}}">{{templ.CallDivertNumber}}</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                        <label>Time Zone :</label>
-                        <select class="select2_single form-control parsley-error" tabindex="-1" aria-hidden="true" name="timeZone" ng-model="basicConfig.TimeZone" ng-model-options="{trackBy: '$value'}">
-                            <option ng-repeat="tz in timeZones" ng-value="tz.Offset">{{tz.TZName}}</option>
-                        </select>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <label>Reference Id :</label>
-                    <input name="guRefId" class="form-control parsley-error" ng-model="basicConfig.GuRefId">
-
-                    <div class="clearfix"></div>
-
-                    <div class="item form-group bad">
-                        <label>Extension * :</label>
-                        <input name="ext" class="form-control parsley-error" ng-model="basicConfig.Extension" ng-model-options="{ updateOn: 'blur' }" ng-disabled="IsEdit" extcheck required>
-                        <div ng-messages="sipUserConfForm.ext.$error" ng-if="sipUserConfForm.ext.$dirty">
-                            <div class="alert" ng-message="required">This field is required</div>
-                            <div class="alert" ng-message="extcheck">Extension number already in use</div>
-                        </div>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <div class="item form-group bad">
-                        <label>PIN :</label>
-                        <input name="pin" class="form-control parsley-error" ng-model="basicConfig.Pin">
-                    </div>
-
-                    <div class="clearfix"></div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(2)">2</button>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(3)">3</button>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(4)">4</button>
+            </div>
+        </div>
 
 
+        <div class="x_panel" ng-if="showFrontPage4">
+            <div class="x_title col-md-9 col-sm-9 col-xs-9">
+                <h2>Page 4</h2>
 
-                    <div class="clearfix"></div>
-
-                    <div class="form-group">
-                        <label>Context :</label>
-                        <select class="select2_single form-control parsley-error" tabindex="-1" aria-hidden="true" name="context" ng-model="basicConfig.ContextId" ng-model-options="{trackBy: '$value'}">
-                            <option ng-repeat="ctxt in contextList" value="{{ctxt.Context}}">{{ctxt.Context}}</option>
-                        </select>
-                    </div>
-
-                    <div class="clearfix"></div>
-                    <br>
-
-                    <checkbox class="btn-primary" ng-model="basicConfig.UsePublic" ng-disabled="!IsEdit" ng-init="basicConfig.UsePublic=false"></checkbox><label>Use Public</label>
-
-                    <div class="clearfix"></div>
-
-                    <br>
-
-                    <label><h4>Attendant Transfer Configuration</h4></label>
-
-                    <div class="clearfix"></div>
-
-                    <div class="col-md-3">
-                        <checkbox class="btn-success" ng-model="basicConfig.TransInternalEnable" ng-init="basicConfig.TransInternalEnable=false"></checkbox><label><small>Internal</small></label>
-                    </div>
-
-                    <div class="col-md-3">
-                        <checkbox class="btn-success" ng-model="basicConfig.TransExternalEnable" ng-init="basicConfig.TransExternalEnable=false"></checkbox><label><small>Externa</small>l</label>
-                    </div>
-
-                    <div class="col-md-3">
-                        <checkbox class="btn-success" ng-model="basicConfig.TransConferenceEnable" ng-init="basicConfig.TransConferenceEnable=false"></checkbox><label><small>Conference</small></label>
-                    </div>
-
-                    <div class="col-md-3">
-                        <checkbox class="btn-success" ng-model="basicConfig.TransGroupEnable" ng-init="basicConfig.TransGroupEnable=false"></checkbox><label><small>Group</small></label>
-                    </div>
-
-                    <div class="clearfix"></div>
-                    <br>
-                    <br>
-
-                    <button class="btn btn-primary" ng-click="onSavePressed()" ng-disabled="sipUserConfForm.$invalid">Save</button>
-
-                </form>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(2)">2</button>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(3)">3</button>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(4)">4</button>
             </div>
         </div>
     </div>
+
+    <div class="back">
+        <div ng-show="showBackPage2" ng-include="'views/pbxuser/pabxBasicView.html'">
+
+        </div>
+
+
+        <div class="x_panel" ng-if="showBackPage3">
+            <div class="x_title col-md-9 col-sm-9 col-xs-9">
+                <h2>Page 3</h2>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(2)">2</button>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(3)">3</button>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(4)">4</button>
+            </div>
+        </div>
+
+
+        <div class="x_panel" ng-if="showBackPage4">
+            <div class="x_title col-md-9 col-sm-9 col-xs-9">
+                <h2>Page 4</h2>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(2)">2</button>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(3)">3</button>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <button type="button" class="btn btn-round btn-primary" ng-click="flipCard(4)">4</button>
+            </div>
+        </div>
+    </div>-->
 
 
 

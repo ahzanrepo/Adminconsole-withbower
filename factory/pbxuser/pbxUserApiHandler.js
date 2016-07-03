@@ -65,15 +65,15 @@
       })
     };
 
-    var saveFollowMeConfig = function(userUuid, destNum, destType, priority, ringTOut)
+    var saveFollowMeConfig = function(userUuid, fmList)
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/FollowMe',
+        url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/FollowMeMulti',
         headers: {
           'authorization': authToken
         },
-        data:{DestinationNumber:destNum, ObjCategory: destType, RingTimeout: ringTOut, Priority: priority}
+        data:JSON.stringify(fmList)
       }).then(function(resp)
       {
         return resp.data;
