@@ -1,7 +1,7 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("testconferenceitem", function ($filter, $uibModal,$log, conferenceService) {
+mainApp.directive("testconferenceitem", function ($filter, $uibModal, $log, conferenceService) {
 
     return {
         restrict: "EA-conf",
@@ -15,7 +15,9 @@ mainApp.directive("testconferenceitem", function ($filter, $uibModal,$log, confe
         templateUrl: 'conference_app/views/conferenceItem.html',
         link: function (scope, element, attributes) {
 
+            scope.isLoading = false;
             scope.reloadPage = function () {
+                scope.isLoading = true;
                 scope.editMode = false;
                 scope.addUserMode = false;
                 scope.LoadConferenceUsers();
@@ -27,7 +29,9 @@ mainApp.directive("testconferenceitem", function ($filter, $uibModal,$log, confe
                 conferenceService.GetConferenceUsers(scope.conferenceData.ConferenceName).then(function (response) {
                     scope.conferenceExistingUsers = response;
                     scope.removeExistingUsers();
+                    scope.isLoading = false;
                 }, function (error) {
+                    scope.isLoading = false;
                     scope.showAlert("Error", "error", "Fail To Get Conference " + scope.conferenceData.ConferenceName + " User List");
                 });
 
@@ -229,17 +233,17 @@ mainApp.directive("testconferenceitem", function ($filter, $uibModal,$log, confe
                                 scope.editMode = false;
                                 scope.showAlert("Update Conference", "success", "Conference " + conference.ConferenceName + " Update Successfully.");
                             } else {
-                                scope.showAlert("Error", "error", "There is an error, Please check conference name availability");
+                                scope.showAlert("Update Conference", "error", "Fail To Update Conference " + conference.ConferenceName);
                             }
                         }, function (error) {
-                            scope.showAlert("Error", "Error", "There is an error Update Conference");
+                            scope.showAlert("Update Conference", "Error", "There is an error Update Conference");
                         });
                     } else {
-                        scope.showAlert("Error", "Error", "There is an error Update Conference");
+                        scope.showAlert("Update Conference", "Error", "There is an error Update Conference");
                     }
                 }
                 else {
-                    scope.showAlert("Error", "Error", "There is an error Update Conference");
+                    scope.showAlert("Update Conference", "Error", "There is an error Update Conference");
                 }
             };
 

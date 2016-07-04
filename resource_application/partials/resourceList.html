@@ -11,11 +11,21 @@
                     </li>
                 </ul>
 
-                <div class="col-xs-12" ng-show="addNew">
-                    <div class="tile-stats">
+                <div ng-show="isProgress" >
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-state-wrap">
+                                {{progressMsg}}...
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12" ng-hide="isProgress">
+                    <div class="tile-stats" ng-show="addNew">
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="col-md-11 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left"
+                                <input  ng-disabled="userNameReadOnly" type="text" class="form-control has-feedback-left"
                                        ng-model="resource.ResourceName"
                                        placeholder="Resource Name">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
@@ -60,7 +70,18 @@
                 <div class="clearfix"></div>
             </div>
 
-            <div class="x_content">
+            <div ng-show="isLoading" >
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="data-state-wrap">
+                            Please Wait...
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="x_content" ng-hide="isLoading" >
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="res in resources">
                         <editresource  resource="res" tasks="tasksList" attributes="attributesList" page-reload="reloadPage()"

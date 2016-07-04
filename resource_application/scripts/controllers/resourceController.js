@@ -1,6 +1,7 @@
-mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log,$anchorScroll, resourceService) {
+mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, resourceService) {
 
     $anchorScroll();
+    $scope.isLoading = true;
     $scope.userNameAvilable = false;
     $scope.value = 65;
     $scope.options = {
@@ -34,8 +35,10 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
     $scope.GetResources = function (rowCount, pageNo) {
         resourceService.GetResources(rowCount, pageNo).then(function (response) {
             $scope.resources = response;
-            $scope.showPaging=true;
+            $scope.showPaging = true;
+            $scope.isLoading = false;
         }, function (error) {
+            $scope.isLoading = false;
             $log.debug("GetResources err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
         });
@@ -46,46 +49,63 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
     $scope.addNew = false;
     $scope.addResource = function () {
         $scope.addNew = !$scope.addNew;
+        $scope.isProgress = false;
     };
-
+    $scope.isProgress = false;
+    $scope.progressMsg = "Progress";
     $scope.saveResource = function (resource) {
+        $scope.userNameAvilable = false;
+        $scope.userNameReadOnly = false;
+        if (!resource.ResourceName) {
+            $scope.showAlert("Info", "Info", "ok", "Resource Name Required.");
+            return;
+        }
+        $scope.isProgress = true;
         resourceService.SaveResource(resource).then(function (response) {
             $scope.addNew = !response.IsSuccess;
+
             if (response.IsSuccess) {
+
                 $scope.resources.splice(0, 0, response.Result);
                 $scope.reloadPage();
-                resourceService.SetResourceToProfile(resource.ResourceName, response.data.Result.ResourceId).then(function (response) {
-                    if (response.IsSuccess) {
-                        $scope.showAlert("Info", "Info", "ok", "Resource "+resource.ResourceName+" Successfully Save.");
+                $scope.progressMsg = "Resource Map With Profile";
+                resourceService.SetResourceToProfile(resource.ResourceName, response.Result.ResourceId).then(function (response) {
+                    $scope.isProgress = false;
+                    if (response) {
+                        $scope.showAlert("Info", "Info", "ok", "Resource " + resource.ResourceName + " Successfully Save.");
                     }
                     else {
-                        $scope.showNotify("Error", "Error", "ok", "Resource "+resource.ResourceName+" Save Successfully Without Mapping to Profile.");
+                        $scope.showNotify("Error", "Error", "ok", "Resource " + resource.ResourceName + " Save Successfully Without Mapping to Profile.");
                     }
-
+                    $scope.resource = {};
                 }, function (error) {
                     $log.debug("GetResources err");
                     $scope.showError("Error", "Error", "ok", "Fail To Map Resource with Profile.");
+                    $scope.isProgress = false;
                 });
-
             }
             else {
                 if (response.CustomMessage == "invalid Resource Name.") {
                     $scope.showError("Error", "Error", "ok", "Invalid Resource Name.");
                 }
+                $scope.isProgress = false;
             }
 
         }, function (error) {
             $log.debug("GetResources err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
+            $scope.isProgress = false;
         });
 
     };
 
+    $scope.userNameReadOnly = false;
     $scope.checkAvailability = function (resource) {
         resourceService.ResourceNameIsExsists(resource.ResourceName).then(function (response) {
             $scope.userNameAvilable = response;
             if (response) {
                 $scope.showAlert("Info", "Info", "ok", "Available to Use.");
+                $scope.userNameReadOnly = true;
             }
             else {
                 $scope.showError("Error", "Error", "ok", "Not Available");
@@ -134,7 +154,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
         });
     };
 
-    $scope.showError = function (tittle,content) {
+    $scope.showError = function (tittle, content) {
 
         new PNotify({
             title: tittle,
@@ -144,7 +164,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
         });
     };
 
-    $scope.showNotify = function (tittle,content) {
+    $scope.showNotify = function (tittle, content) {
 
         new PNotify({
             title: tittle,
@@ -155,6 +175,9 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
     };
 
     $scope.reloadPage = function () {
+        $scope.userNameAvilable = false;
+        $scope.userNameReadOnly = false;
+        $scope.isLoading = true;
         $scope.GetResources(50, 1);
         console.info("reloadPage..........");
     };

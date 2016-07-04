@@ -24,10 +24,10 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 console.info("Resource Map To Profile..........Done............");
-                return response.data.Result;
+                return response.data.IsSuccess;
             } else {
                 console.error("Resource Map To Profile..........Error............");
-                return {};
+                return false;
             }
         });
     };

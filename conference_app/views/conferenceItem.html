@@ -4,8 +4,19 @@
             <span>{{conferenceData.ActiveTemplate}}</span>
         </a>
     </div>
+    <div ng-show="isLoading" >
+        <div class="row ">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="data-state-wrap">
+                    Please Wait...
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="block_content">
-        <div class="row invoice-info">
+        <div class="row invoice-info" ng-hide="isLoading">
             <div class="col-sm-6 invoice-col ">
                 <address class="title">
                     <a class="font-robot font-15 text-uppercase" style="color: #d2d1d1;"><b>Conference Name :</b>
@@ -93,7 +104,7 @@
                                  ng-class="{ 'has-error' : userFormEdit.Domain.$invalid && !userFormEdit.Domain.$pristine }">
                                 <label>Domain</label>
 
-                                <select class="form-control" id="Domain" ng-model="conferenceData.Domain"
+                                <select required class="form-control" id="Domain" ng-model="conferenceData.Domain"
                                         ng-options="opt.Domain as opt.Domain for opt in endUsers">
                                 </select>
 
@@ -106,7 +117,7 @@
                                 <p ng-show="userFormEdit.Extension.$invalid && !userFormEdit.Extension.$pristine"
                                    class="help-block">Extension is required.</p>
 
-                                <select class="form-control" id="Extension" ng-model="conferenceData.Extension"
+                                <select  class="form-control" id="Extension" ng-model="conferenceData.Extension"
                                         ng-options="opt.ExtensionId as opt.Extension for opt in extensionList">
                                 </select>
 

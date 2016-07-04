@@ -163,15 +163,10 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
             }
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
-
                 return response.data.Result;
-
-
             } else {
-
-                return {};
+                return undefined;
             }
-
         });
     };
 

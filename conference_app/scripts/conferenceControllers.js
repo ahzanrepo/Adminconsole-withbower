@@ -2,12 +2,15 @@
  * Created by Rajinda on 6/29/2016.
  */
 
-mainApp.controller("conferenceController", function ($scope, $compile, $uibModal, $filter, $location, $log,$anchorScroll, conferenceService) {
+mainApp.controller("conferenceController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, conferenceService) {
 
 
     $anchorScroll();
+    $scope.isLoading = true;
+    $scope.isProgress= false;
     $scope.conference = {};
     $scope.reloadPage = function () {
+        $scope.isLoading = true;
         $scope.addNewConference = false;
         $scope.loadConferences();
         $scope.LoadExtentions();
@@ -45,6 +48,7 @@ mainApp.controller("conferenceController", function ($scope, $compile, $uibModal
     };
 
     $scope.addNewExtension = function (dta) {
+
         dta.ObjCategory = "CONFERENCE";
         conferenceService.CreateExtensions(dta).then(function (response) {
 
@@ -64,6 +68,7 @@ mainApp.controller("conferenceController", function ($scope, $compile, $uibModal
         }, function (err) {
             var errMsg = "Error occurred while Add New Extension";
             $scope.showAlert('Error', 'error', errMsg);
+
         });
     };
 
@@ -159,6 +164,7 @@ mainApp.controller("conferenceController", function ($scope, $compile, $uibModal
     };
 
     $scope.createConference = function (conference) {
+
         if (!$scope.conference.MaxUser)
             $scope.conference.MaxUser = 0;
 
@@ -171,24 +177,27 @@ mainApp.controller("conferenceController", function ($scope, $compile, $uibModal
             $scope.showAlert('New Conference', 'error', "End Time Should Be Greater Than Start Time.");
             return;
         }
+        $scope.isProgress= true;
         conference.ActiveTemplate = conference.Template.TemplateName;
         conferenceService.CreateConference(conference).then(function (response) {
             if (response) {
                 $scope.addNewConference = false;
                 $scope.showAlert("Conference Created", "success", "Conference " + response.ConferenceName + " Created Successfully.");
-                $scope.reloadPage();
+                $scope.reloadPage();$scope.isProgress= false;
             } else {
                 $scope.showAlert("Error", "error", "There is an error, Please check conference name availability");
             }
         }, function (error) {
-            $scope.showAlert("Error", "Error", "There is an error createConference");
+            $scope.showAlert("Error", "Error", "There is an error createConference");$scope.isProgress= false;
         });
     };
 
     $scope.loadConferences = function () {
         conferenceService.GetConferences().then(function (response) {
+            $scope.isLoading=false;
             $scope.conferences = response;
         }, function (error) {
+            $scope.isLoading=false;
             $scope.showAlert("Error", "error", "Fail To Get Conference List.");
         });
 
@@ -212,3 +221,5 @@ app.controller('confModalInstanceCtrl', function ($scope, $sce, $uibModalInstanc
     };
 
 });
+
+

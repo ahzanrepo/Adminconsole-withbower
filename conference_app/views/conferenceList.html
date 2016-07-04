@@ -6,14 +6,25 @@
                     <small>App</small>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="close-link"><i class="fa fa-refresh" ng-click="reloadPage()"></i></a></li>
-                    <li><a ng-click="showNewConference()" class="close-link"><i class="fa fa-plus"></i></a>
+                    <li><a class="close-link"><i class="fa fa-refresh" ng-click="reloadPage()" ></i></a></li>
+                    <li><a ng-click="showNewConference()" class="close-link"><i class="fa fa-plus-circle"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 
-            <div class="x_content">
+            <div ng-show="isProgress" >
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="data-state-wrap">
+                            Progress...
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="x_content" ng-hide="isProgress">
                 <div class="col-md-12 col-sm-12 col-xs-12" ng-show="addNewConference">
 
                     <form class="form-horizontal form-label-left" name="userForm" novalidate>
@@ -222,15 +233,30 @@
 
                 </div>
             </div>
+
+
         </div>
 
     </div>
 
+
+
     <div class="col-md-12 col-sm-6 col-xs-12">
         <div class="x_panel">
+            <div ng-show="isLoading" >
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="data-state-wrap">
+                            Please Wait...
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
 
             <div class="x_content">
-                <div class="x_content">
+                <div class="x_content" ng-hide="isLoading">
                     <ul class="list-unstyled timeline">
                         <li ng-repeat="con in conferences">
                             <testconferenceitem end-users="endUserList" extension-list="extensions"
