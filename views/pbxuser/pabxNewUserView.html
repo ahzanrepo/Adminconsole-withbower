@@ -1,0 +1,131 @@
+<div class="x_panel">
+    <div class="x_title col-md-8 col-sm-8 col-xs-12">
+        <h2>New PABX User (Select a user to proceed)</h2>
+
+    </div>
+
+    <div class="form-group x_title col-md-4 col-sm-4 col-xs-6">
+        <select name="userPicker" class="select2_single form-control" tabindex="-1" aria-hidden="true" ng-model="currentUserUuid" ng-model-options="{trackBy: '$value'}" ng-change="onUserSelect()">
+            <option ng-repeat="user in sipUserList" value="{{user.SipUserUuid}}">{{user.SipUsername}}</option>
+        </select>
+    </div>
+    <div class="clearfix"></div>
+    <fieldset class="x_content col-md-12 col-sm-12 col-xs-12" ng-disabled="!allowAdd">
+        <form name="pabxBasicConfForm">
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <label><b>Basic Configuration</b></label>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
+                <label>User Name * :</label>
+                <input type="text" class="form-control" name="userName" ng-disabled="IsEdit" ng-model="basicConfig.UserName" required>
+                <div ng-messages="pabxBasicConfForm.userName.$error" ng-if="pabxBasicConfForm.userName.$dirty">
+                    <div class="alert" ng-message="required">This field is required</div>
+                </div>
+            </div>
+
+            <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
+                <label>PIN :</label>
+                <input class="form-control" name="pinNumber" ng-model="basicConfig.Pin" ng-pattern="/^[0-9]*$/">
+                <div ng-messages="pabxBasicConfForm.pinNumber.$error" ng-if="pabxBasicConfForm.pinNumber.$dirty">
+                    <div class="alert" ng-message="pattern">Pin number should be numeric</div>
+                </div>
+            </div>
+            <div class="tile-stats col-md-12 col-sm-12 col-xs-12">
+                <br>
+                <label>User Status</label>
+                <br>
+
+                <div title="DND" class="col-md-2"> <label class="pabxStatus dnd">DND</label>
+                    <input type="radio" ng-model="basicConfig.Status" class="flat" name="pbxUserStatus" value="DND" />
+                </div>
+                <div title="Call Divert" class="col-md-2"> <label class="pabxStatus divert">Call Divert</label>
+                    <input type="radio" ng-model="basicConfig.Status" class="flat" name="pbxUserStatus" value="CALL_DIVERT" />
+                </div>
+                <div title="Available" class="col-md-2"> <label class="pabxStatus available">Available</label>
+                    <input type="radio" ng-model="basicConfig.Status" class="flat" name="pbxUserStatus" value="AVAILABLE" />
+                </div>
+                <div title="Follow Me" class="col-md-2"> <label class="pabxStatus followme">FollowMe</label>
+                    <input type="radio" ng-model="basicConfig.Status" class="flat" name="pbxUserStatus" value="FOLLOW_ME" />
+                </div>
+                <div title="Conditional Forward" class="col-md-2"> <label class="pabxStatus forward">Forwarding</label>
+                    <input type="radio" ng-model="basicConfig.Status" class="flat" name="pbxUserStatus" value="FORWARD" />
+                </div>
+
+            </div>
+
+            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                <label>Time Zone :</label>
+                <select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="timeZone" ng-model="basicConfig.TimeZone" ng-model-options="{trackBy: '$value'}">
+                    <option ng-repeat="tz in timeZones" ng-value="tz.Offset">{{tz.TZName}}</option>
+                </select>
+            </div>
+
+            <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
+                <label>Ring Timeout :</label>
+                <input class="form-control" name="ringTimeout" ng-model="basicConfig.RingTimeout" ng-pattern="/^[0-9]*$/">
+                <div ng-messages="pabxBasicConfForm.ringTimeout.$error" ng-if="pabxBasicConfForm.ringTimeout.$dirty">
+                    <div class="alert" ng-message="pattern">Invalid ring timeout</div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <checkbox class="btn-success" ng-model="basicConfig.BypassMedia" ng-init="basicConfig.AllowOutbound=false"></checkbox><label><small>Bypass Media</small></label>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <checkbox class="btn-success" ng-model="basicConfig.IgnoreEarlyMedia" ng-init="basicConfig.IgnoreEarlyMedia=false"></checkbox><label><small>Ignore Early Media</small></label>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <checkbox class="btn-success" ng-model="basicConfig.VoicemailEnabled" ng-init="basicConfig.VoicemailEnabled=false"></checkbox><label><small>Voicemail</small></label>
+            </div>
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <br>
+                <label><b>Call Barring</b></label>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <br>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <checkbox class="btn-success" ng-model="basicConfig.AllowOutbound" ng-init="basicConfig.AllowOutbound=false"></checkbox><label><small>Allow Outbound</small></label>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <checkbox class="btn-success" ng-model="basicConfig.AllowIDD" ng-init="basicConfig.AllowIDD=false"></checkbox><label><small>Allow IDD</small></label>
+            </div>
+            <div class="clearfix"></div>
+
+            <br>
+
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <label>Allowed Numbers :</label>
+                <tags-input ng-model="basicConfig.AllowedNumBind" min-length="1" placeholder="Add Number">
+
+                </tags-input>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <label>Denied Numbers :</label>
+                <tags-input ng-model="basicConfig.DeniedNumBind" min-length="1" placeholder="Add Number">
+
+                </tags-input>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <br>
+            <br>
+
+            <button class="btn btn-primary" ng-click="SaveBasicConfig()" ng-disabled="sipUserConfForm.$invalid">Save</button>
+
+        </form>
+    </fieldset>
+</div>

@@ -152,6 +152,8 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
         for(var i=0;i<$scope.selectedFileList.length;i++)
         {
             $scope.selectedFileList[i].isChecked=true;
+            $scope.selectedFileList[i].ActionData="Detach";
+            $scope.selectedFileList[i].icon="fa fa-minus-square";
             $scope.allEligibleList.push($scope.selectedFileList[i]);
 
         }
@@ -159,6 +161,8 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
         for(var j=0;j<$scope.availableFileList.length;j++)
         {
             $scope.availableFileList[j].isChecked=false;
+            $scope.availableFileList[j].ActionData="Attach";
+            $scope.availableFileList[j].icon="fa fa-plus-square";
             $scope.allEligibleList.push($scope.availableFileList[j]);
 
         }
@@ -173,12 +177,18 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
     };
 
     $scope.fileAttachDetach= function (file) {
+
+        file.isChecked=!file.isChecked;
+
         if(file.isChecked)
         {
             appBackendService.attachFilesWithApplication(appID,file.UniqueId).then(function (response) {
                 if(response.data.IsSuccess)
                 {
                     console.log("File "+file.Filename+" attached with "+appID);
+                    file.ActionData="Detach";
+                    file.icon="fa fa-minus-square";
+
                 }
                 else
                 {
@@ -195,6 +205,9 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
                 if(response.data.IsSuccess)
                 {
                     console.log("File "+file.Filename+" detached from "+appID);
+                    file.ActionData="Attach";
+                    file.icon="fa fa-plus-square";
+
                 }
                 else
                 {
@@ -220,5 +233,6 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance,appBac
     }
 
     $scope.GetAvailableFiles();
+
 
 })

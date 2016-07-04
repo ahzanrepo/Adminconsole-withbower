@@ -11,6 +11,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, ag
     $scope.endDate = moment().format("YYYY-MM-DD");
     $scope.dateValid = true;
     $scope.agentSummaryList = [];
+    $scope.Agents=[];
 
 
     $scope.onDateChange = function()
@@ -46,6 +47,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, ag
                         $scope.agentSummaryList.push(summaryData[i].Summary[j]);
                     }
                 }
+                $scope.AgentDetailsAssignToSummery();
                 console.log($scope.agentSummaryList);
             }
 
@@ -53,5 +55,41 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, ag
             console.log("Error in Queue Summary loading ",error);
         });
     }
+
+    $scope.getAgents = function () {
+        agentSummaryBackendService.getAgentDetails().then(function (response) {
+            if(response.data.IsSuccess)
+            {
+                console.log("Agents "+response.data.Result);
+                console.log(response.data.Result.length+" Agent records found");
+                $scope.Agents = response.data.Result;
+            }
+            else
+            {
+                console.log("Error in Agent details picking");
+            }
+        }, function (error) {
+            console.log("Error in Agent details picking "+error);
+        });
+    };
+
+    $scope.AgentDetailsAssignToSummery = function () {
+
+
+        for(var i=0;i<$scope.agentSummaryList.length;i++)
+        {
+            $scope.agentSummaryList[i].AverageHandlingTime=Math.round($scope.agentSummaryList[i].AverageHandlingTime * 100) / 100;
+            for(var j=0;j<$scope.Agents.length;j++)
+            {
+                if($scope.Agents[j].ResourceId==$scope.agentSummaryList[i].Agent)
+                {
+                    $scope.agentSummaryList[i].AgentName=$scope.Agents[j].ResourceName;
+
+                }
+            }
+        }
+    }
+
+    $scope.getAgents();
 
 });

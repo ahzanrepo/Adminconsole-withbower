@@ -11,10 +11,12 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate','ngMessages', 'ui.b
     'AngularBootstrapTree',
     'jkuri.slimscroll',
     'base64',
+    'dndLists',
     'angular-jwt',
     'angular-sly',
     'LocalStorageModule',
     'ngSanitize',
+    'ngCsv',
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
@@ -181,7 +183,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "pbxCtrl",
             data: {
                 requireLogin: true,
-                navigation: "PABX_USERS"
+                navigation: "PABX_USER"
             }
         }).state("console.ringGroup", {
             url: "/ringGroup",
@@ -333,6 +335,16 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 }
 
             })
+            .state('console.did', {
+                url: "/didnumbers",
+                templateUrl: "views/did/did.html",
+                controller: "didController",
+                data: {
+                    requireLogin: true,
+                    navigation: "DID"
+                }
+            })
+
 
     }]);
 

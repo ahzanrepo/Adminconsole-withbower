@@ -18,6 +18,19 @@ mainApp.factory('agentSummaryBackendService', function ($http, authService) {
             {
                 return response;
             });
+        },
+        getAgentDetails: function () {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: "http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/Resources",
+                headers: {
+                    'authorization':authToken
+                }
+            }).then(function(response)
+            {
+                return response;
+            });
         }
 
 
