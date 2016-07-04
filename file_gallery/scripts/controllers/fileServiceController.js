@@ -1,6 +1,7 @@
 var app = angular.module("veeryConsoleApp");
 
 app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'fileService', function ($scope, $filter, FileUploader, fileService) {
+
     $scope.file = {};
     var uploader = $scope.uploader = new FileUploader({
         url: fileService.UploadUrl,
@@ -89,9 +90,9 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
 
 }]);
 
-app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state,$uibModal, fileService, jwtHelper, authService, baseUrls) {
+app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state,$uibModal,$anchorScroll, fileService, jwtHelper, authService, baseUrls) {
 
-
+    $anchorScroll();
     $scope.countByCategory = [];
     $scope.categoryId = 0;
     $scope.showPaging = false;

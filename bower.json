@@ -64,6 +64,7 @@
     "videogular-overlay-play": "^1.4.4",
     "videogular-poster": "^1.4.4",
     "videogular-ima-ads": "^1.4.4",
-    "videogular-angulartics": "^1.4.4"
+    "videogular-angulartics": "^1.4.4",
+    "bootstrap-ui-datetime-picker": "^2.4.0"
   }
 }

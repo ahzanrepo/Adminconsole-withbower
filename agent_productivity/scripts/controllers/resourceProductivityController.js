@@ -1,7 +1,8 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, resourceProductivityService) {
+app.controller("resourceProductivityController", function ($scope, $filter, $location, $log,$anchorScroll, resourceProductivityService) {
 
+    $anchorScroll();
     $scope.reloadPage = function(){
         $scope.OnlineAgents = [];
         $scope.productivity = [];

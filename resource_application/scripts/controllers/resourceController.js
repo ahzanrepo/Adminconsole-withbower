@@ -1,5 +1,6 @@
-mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log, resourceService) {
+mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log,$anchorScroll, resourceService) {
 
+    $anchorScroll();
     $scope.userNameAvilable = false;
     $scope.value = 65;
     $scope.options = {
