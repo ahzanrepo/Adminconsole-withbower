@@ -3,10 +3,8 @@
  */
 (function() {
 
-  var pbxUserApiHandler = function($http)
+  var pbxUserApiHandler = function($http, authService)
   {
-    var authToken = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkaW51c2hhZGNrIiwianRpIjoiMjViZjZmZTItZjZjNC00ZWJhLWFmODgtNmMxNjIxOTU4OGRiIiwic3ViIjoiNTZhOWU3NTlmYjA3MTkwN2EwMDAwMDAxMjVkOWU4MGI1YzdjNGY5ODQ2NmY5MjExNzk2ZWJmNDMiLCJleHAiOjE4OTI0NDE2NzIsInRlbmFudCI6MSwiY29tcGFueSI6Mywic2NvcGUiOlt7InJlc291cmNlIjoiYWxsIiwiYWN0aW9ucyI6ImFsbCJ9XSwiaWF0IjoxNDYwNDM4MDcyfQ.aPoVPiTtoGFgnKmhdLBTzwTrQRTGWWliYujHP5NONqU';
-
     var getPABXUsers = function()
     {
 
@@ -14,7 +12,7 @@
         method: 'GET',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUsers',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -28,7 +26,7 @@
         method: 'GET',
         url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Users',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -42,7 +40,7 @@
         method: 'GET',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/PBXUserTemplates',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -56,7 +54,7 @@
         method: 'POST',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/PBXUserTemplate',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         },
         data:{CallDivertNumber:destNum, ObjCategory: destType}
       }).then(function(resp)
@@ -71,7 +69,7 @@
         method: 'POST',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/FollowMeMulti',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         },
         data:JSON.stringify(fmList)
       }).then(function(resp)
@@ -86,7 +84,7 @@
         method: 'POST',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/Forwarding',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         },
         data:{DestinationNumber:destNum, ObjCategory: destType, RingTimeout: ringTOut, DisconnectReason: disconReason, IsActive: true}
       }).then(function(resp)
@@ -101,7 +99,7 @@
         method: 'POST',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/AllowedNumbers',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         },
         data:{AllowedNumbers:allowedNumbers}
       }).then(function(resp)
@@ -116,7 +114,7 @@
         method: 'POST',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/DeniedNumbers',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         },
         data:{DeniedNumbers:deniedNumbers}
       }).then(function(resp)
@@ -131,7 +129,7 @@
         method: 'PUT',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + usrObj.UserUuid,
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         },
         data:usrObj
       }).then(function(resp)
@@ -146,7 +144,7 @@
         method: 'POST',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         },
         data:usrObj
       }).then(function(resp)
@@ -161,7 +159,7 @@
         method: 'DELETE',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUserTemplate/' + id,
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -175,7 +173,7 @@
         method: 'DELETE',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid,
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -189,7 +187,7 @@
         method: 'GET',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + id,
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -203,7 +201,7 @@
         method: 'GET',
         url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Schedules/byCompany',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -217,7 +215,7 @@
         method: 'GET',
         url: 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/Files/' + refId + '/PABX/USER/GREETING',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -231,7 +229,7 @@
         method: 'GET',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/FollowMe',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -245,7 +243,7 @@
         method: 'GET',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/Forwarding',
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -259,7 +257,7 @@
         method: 'DELETE',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/FollowMe/' + fmId,
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
@@ -273,7 +271,7 @@
         method: 'DELETE',
         url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/Forwarding/' + fwdId,
         headers: {
-          'authorization': authToken
+          'authorization': authService.GetToken()
         }
       }).then(function(resp)
       {
