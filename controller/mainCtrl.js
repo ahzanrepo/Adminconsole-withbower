@@ -66,6 +66,9 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         goPbxUsers: function () {
             $state.go('console.pbxuser');
         },
+        goPbxAdmin: function () {
+            $state.go('console.pbxadmin');
+        },
         goMyNumbers: function () {
             $state.go('console.myNumbers');
         },

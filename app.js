@@ -179,6 +179,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 requireLogin: true,
                 navigation: "PABX_USER"
             }
+        }).state("console.pbxadmin", {
+            url: "/pbxadmin",
+            templateUrl: "views/pabxAdmin/pabxCompanyConfig.html",
+            controller: "pbxAdminCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "PABX_ADMIN"
+            }
         }).state("console.ringGroup", {
             url: "/ringGroup",
             templateUrl: "views/ringGroup/ringGroup.html",

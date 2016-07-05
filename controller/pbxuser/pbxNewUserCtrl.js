@@ -103,22 +103,6 @@
 
         $scope.SaveBasicConfig = function()
         {
-            var allowedNumArr = [];
-            var deniedNumArr = [];
-
-
-            for(i=0; i<$scope.basicConfig.AllowedNumBind.length; i++)
-            {
-                allowedNumArr.push($scope.basicConfig.AllowedNumBind[i].text)
-            }
-
-            for(i=0; i<$scope.basicConfig.DeniedNumBind.length; i++)
-            {
-                deniedNumArr.push($scope.basicConfig.DeniedNumBind[i].text)
-            }
-
-            $scope.basicConfig.AllowedNumbers = JSON.stringify(allowedNumArr);
-            $scope.basicConfig.DeniedNumbers = JSON.stringify(deniedNumArr);
 
             if($scope.basicConfig.Status === 'DND')
             {
@@ -162,7 +146,7 @@
 
                         $scope.$emit('PABX_ReloadUserList', null);
 
-                        $uibModalInstance.close();
+                        $uibModalInstance.dismiss('cancel');
 
                     }
                     else
