@@ -3,7 +3,7 @@
  */
 
 
-var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
+var mainApp = angular.module('veeryConsoleApp', ['ngAnimate','ngMessages', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
@@ -20,11 +20,14 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster'
+    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker'
 ]);
 
 
 mainApp.constant('moment', moment);
+mainApp.run(['$anchorScroll', function($anchorScroll) {
+    $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
+}]);
 
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/',
@@ -32,8 +35,11 @@ var baseUrls = {
     'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
-    'fileServiceInternalUrl': 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/'
-
+    'fileServiceInternalUrl': 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
+    'clusterconfigUrl':'http://clusterconfig.104.131.67.21.xip.io/DVP/API/1.0.0.0/CloudConfiguration/',
+    'conferenceUrl':'http://conference.104.131.67.21.xip.io/DVP/API/1.0.0.0/',
+    'sipUserendpoint': 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/',
+    'pbxUrl': 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -273,6 +279,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             data: {
                 requireLogin: true,
                 navigation: "LimitHandler"
+            }
+        }).state('console.conference', {
+            url: "/conference",
+            templateUrl: "conference_app/views/conferenceList.html",
+            controller: "conferenceController",
+            data: {
+                requireLogin: true,
+                navigation: "CONFERENCE"
             }
         }).state('console.queuesummary', {
             url: "/queuesummary",

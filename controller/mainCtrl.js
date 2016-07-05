@@ -96,6 +96,9 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         goLimits: function () {
             $state.go('console.limits');
         },
+        goConference: function () {
+            $state.go('console.conference');
+        },
         goQueueSummary: function () {
             $state.go('console.queuesummary');
         },

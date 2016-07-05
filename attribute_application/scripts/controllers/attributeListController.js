@@ -1,6 +1,6 @@
-mainApp.controller("attributeListController", function ($scope, $compile, $filter, $location, $log, attributeService) {
+mainApp.controller("attributeListController", function ($scope, $compile, $filter, $location, $log,$anchorScroll, attributeService) {
 
-
+    $anchorScroll();
     $scope.countByCategory = [];
     $scope.categoryId = 0;
     $scope.showPaging = false;
