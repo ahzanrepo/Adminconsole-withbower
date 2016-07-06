@@ -76,7 +76,7 @@
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.USERS || accessNavigation.PABX_USER">
+                            <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN">
                                 <a class="font-robot font-300 "><i class="fa fa-user"></i> User <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -85,6 +85,9 @@
                                     </li>
                                     <li ng-show="accessNavigation.PABX_USER"><a href="javascript:void(0);"
                                                                             ng-click="clickDirective.goPbxUsers()">PABX Users</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.PABX_ADMIN"><a href="javascript:void(0);"
+                                                                                ng-click="clickDirective.goPbxAdmin()">PABX Admin</a>
                                     </li>
                                     <li ng-show="accessNavigation.SIPUSER_CONFIGURATION"><a href="javascript:void(0);"
                                                                                             ng-click="clickDirective.goSipUser()">SIP
