@@ -96,6 +96,9 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         goConference: function () {
             $state.go('console.conference');
         },
+        /*goConferenceMonitor: function () {
+            $state.go('console.conferencemonitor');
+        },*/
         goQueueSummary: function () {
             $state.go('console.queuesummary');
         },

@@ -104,8 +104,8 @@
                                  ng-class="{ 'has-error' : userFormEdit.Domain.$invalid && !userFormEdit.Domain.$pristine }">
                                 <label>Domain</label>
 
-                                <select required class="form-control" id="Domain" ng-model="conferenceData.Domain"
-                                        ng-options="opt.Domain as opt.Domain for opt in endUsers">
+                                <select required class="form-control" id="Domain" ng-model="conferenceData.CloudEndUserId"
+                                        ng-options="opt.id as opt.Domain for opt in endUsers">
                                 </select>
 
                             </div>
@@ -117,8 +117,8 @@
                                 <p ng-show="userFormEdit.Extension.$invalid && !userFormEdit.Extension.$pristine"
                                    class="help-block">Extension is required.</p>
 
-                                <select  class="form-control" id="Extension" ng-model="conferenceData.Extension"
-                                        ng-options="opt.ExtensionId as opt.Extension for opt in extensionList">
+                                <select  class="form-control" id="Extension" ng-model="conferenceData.ExtensionId"
+                                        ng-options="opt.id as opt.Extension for opt in extensionList">
                                 </select>
 
                             </div>
@@ -261,7 +261,7 @@
                                         <label>
                                             <input type="checkbox" class="flat" ng-model="exUser.Def"
                                                    ng-change="UpdateConferenceUserModes(exUser)">
-                                            Def
+                                            Deaf
                                         </label>
                                         <label>
                                             <input type="checkbox" class="flat" ng-model="exUser.Mute"

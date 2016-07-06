@@ -1,13 +1,12 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("testconferenceitem", function ($filter, $uibModal, $log, conferenceService) {
+mainApp.directive("conferenceitem", function ($filter, $uibModal, $log, conferenceService) {
 
     return {
-        restrict: "EA-conf",
+        restrict: "EA",
         scope: {
             endUsers: "=",
-            extensionList: "=",
             conferenceData: "=",
             templatesList: "=",
             reloadPageAfterDelete: '&'
@@ -22,7 +21,17 @@ mainApp.directive("testconferenceitem", function ($filter, $uibModal, $log, conf
                 scope.addUserMode = false;
                 scope.LoadConferenceUsers();
                 scope.LoadSipUsers();
+                scope.LoadExtentions();
             };
+
+            scope.LoadExtentions = function () {
+                conferenceService.GetExtensionsByConfRoom(scope.conferenceData.ConferenceName).then(function (response) {
+                    scope.extensionList = response;
+                }, function (error) {
+                    scope.showAlert('Error', 'error', "Fail To Get Extentions.");
+                });
+            };
+            scope.LoadExtentions();
 
             /*conference User*/
             scope.LoadConferenceUsers = function () {

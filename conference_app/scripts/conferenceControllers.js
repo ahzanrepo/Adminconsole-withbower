@@ -2,19 +2,37 @@
  * Created by Rajinda on 6/29/2016.
  */
 
-mainApp.controller("conferenceController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, conferenceService) {
+mainApp.controller("conferenceController", function ($scope, $rootScope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, $timeout, conferenceService) {
 
 
     $anchorScroll();
     $scope.isLoading = true;
-    $scope.isProgress= false;
+    $scope.isProgress = false;
+    $scope.isMonitorApp = false;
     $scope.conference = {};
+
+    $scope.switchApps = function (appName) {
+        $scope.isLoading = true;
+        if (appName === "monitor") {
+            $scope.isMonitorApp = true;
+            $scope.loadActiveConferences();
+            $scope.showPaging = false;
+        }
+        else {
+            $scope.isMonitorApp = false;
+            $scope.reloadPage();
+            $scope.showPaging = true;
+        }
+    };
+
     $scope.reloadPage = function () {
+        $scope.isMonitorApp = false;
         $scope.isLoading = true;
         $scope.addNewConference = false;
         $scope.loadConferences();
         $scope.LoadExtentions();
         $scope.LoadEnduserList();
+        $scope.GetRoomsCount();
     };
 
     $scope.addNewConference = false;
@@ -88,7 +106,7 @@ mainApp.controller("conferenceController", function ($scope, $compile, $uibModal
                 $scope.endUserList = data.Result;
                 if ($scope.endUserList) {
                     if ($scope.endUserList.length > 0) {
-                        $scope.conference.Domain = $scope.endUserList[0].Domain;
+                        $scope.conference.CloudEndUserId = $scope.endUserList[0].CloudEndUserId;
                     }
                 }
             }
@@ -163,6 +181,7 @@ mainApp.controller("conferenceController", function ($scope, $compile, $uibModal
         });
     };
 
+    $scope.userForm = {};
     $scope.createConference = function (conference) {
 
         if (!$scope.conference.MaxUser)
@@ -177,32 +196,108 @@ mainApp.controller("conferenceController", function ($scope, $compile, $uibModal
             $scope.showAlert('New Conference', 'error', "End Time Should Be Greater Than Start Time.");
             return;
         }
-        $scope.isProgress= true;
+        $scope.isProgress = true;
         conference.ActiveTemplate = conference.Template.TemplateName;
         conferenceService.CreateConference(conference).then(function (response) {
-            if (response) {
+            $scope.isProgress = false;
+
+            if (response && response.IsSuccess) {
                 $scope.addNewConference = false;
                 $scope.showAlert("Conference Created", "success", "Conference " + response.ConferenceName + " Created Successfully.");
-                $scope.reloadPage();$scope.isProgress= false;
+                $scope.reloadPage();
+
+                $scope.conference = {};
+                $scope.userForm.$setPristine();//userForm.ConferenceName
+                $scope.userForm.$setUntouched();
             } else {
-                $scope.showAlert("Error", "error", "There is an error, Please check conference name availability");
+                var msg = "Fail To Create Conference."
+                if (response.Exception) {
+                    msg = msg + response.Exception.Message;
+                }
+                $scope.showAlert("Error", "error", msg);
             }
         }, function (error) {
-            $scope.showAlert("Error", "Error", "There is an error createConference");$scope.isProgress= false;
+            $scope.showAlert("Error", "error", "There is an error createConference");
+            $scope.isProgress = false;
         });
     };
 
+
+    $scope.showPaging = true;
+    $scope.currentPage = "1";
+    $scope.pageTotal = "1";
+    $scope.pageSize = "50";
+
     $scope.loadConferences = function () {
-        conferenceService.GetConferences().then(function (response) {
-            $scope.isLoading=false;
+        conferenceService.GetConferences($scope.pageSize, 1).then(function (response) {
+            $scope.isLoading = false;
             $scope.conferences = response;
         }, function (error) {
-            $scope.isLoading=false;
+            $scope.isLoading = false;
             $scope.showAlert("Error", "error", "Fail To Get Conference List.");
         });
 
     };
     $scope.loadConferences();
+
+    $scope.getPageData = function (Paging, page, pageSize, total) {
+        $scope.isLoading = true;
+        conferenceService.GetConferences(pageSize, page).then(function (response) {
+            $scope.isLoading = false;
+            $scope.conferences = response;
+        }, function (err) {
+            $scope.showAlert("Error", "Error", "There is an error createConference");
+            $scope.isLoading = false;
+        });
+    };
+
+
+    $scope.GetRoomsCount = function () {
+        conferenceService.GetRoomsCount().then(function (response) {
+            $scope.pageTotal = response;
+        }, function (error) {
+
+        });
+    };
+    $scope.GetRoomsCount();
+
+
+    /*Conference Monitor*/
+
+    $scope.activeConferenceList = [];
+    $scope.loadActiveConferences = function () {
+        conferenceService.GetActiveConference().then(function (response) {
+            $scope.isLoading = false;
+            $scope.activeConferenceList = response;
+        }, function (error) {
+            $scope.isLoading = false;
+            $scope.showAlert("Error", "error", "Fail To Get Active Conference List.");
+        });
+    };
+
+
+    var getAllRealTime = function () {
+        if ($scope.isMonitorApp) {
+            try {
+                $rootScope.$broadcast('getActiveConfUserCount', {});
+            }
+            catch (ex) {
+            }
+        }
+        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+    };
+
+    // getAllRealTime();
+    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+
+    $scope.$on("$destroy", function () {
+        if (getAllRealTimeTimer) {
+            $timeout.cancel(getAllRealTimeTimer);
+        }
+    });
+
+    $scope.refreshTime = 10000;
+    /*Conference Monitor*/
 
 
 });

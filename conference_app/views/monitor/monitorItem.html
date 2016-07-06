@@ -1,0 +1,64 @@
+<div class="block">
+    <div class="tags">
+        <a class="tag">
+            <span>Users : {{activeUserCount}}</span>
+        </a>
+    </div>
+
+    <div class="block_content">
+        <div class="row invoice-info" >
+            <div class="col-sm-6 invoice-col ">
+                <address class="title">
+                    <a class="font-robot font-15 text-uppercase" style="color: #d2d1d1;"><b>Conference Name :</b>
+                        {{conferenceData.ConferenceName}}</a>
+                    <br>
+
+                    <div >
+                        <br>ActiveTemplate : {{conferenceData.ActiveTemplate}}
+                        <br>
+
+                        <ul class="to_do" ng-repeat="user in activeUsers">
+                            <li>
+                                <p>
+
+                                    {{ user["Caller-Username"] }}
+                                    <label>
+                                        <input type="checkbox" class="flat" ng-model="user.Def"
+                                               ng-change="UserOperations(user['Caller-Username'],user.Def?'Deaf':'UnDeaf')">
+                                        Deaf
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" class="flat" ng-model="user.Mute"
+                                               ng-change="UserOperations(user['Caller-Username'],user.Mute?'Mute':'UnMute')">
+                                        Mute
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" class="flat" ng-model="user.Kick"
+                                               ng-change="UserOperations(user['Caller-Username'],'Kick')">
+                                        Kick
+                                    </label>
+                                </p>
+                            </li>
+                        </ul>
+
+                    </div>
+                </address>
+            </div>
+
+            <!--<div class="col-sm-6 invoice-col">
+                <div class="pull-left attribute-edit-wrap">
+                    <a ng-disabled="true" class="inline-block" ng-click="deleteConf(conferenceData)"
+                       style="cursor: pointer"><i
+                            class="fa fa-trash-o"></i></a>
+                    <br>
+                    <a ng-disabled="true" class="inline-block" ng-click="editConference()" style="cursor: pointer"><i
+                            class="fa fa-edit"></i></a>
+                    <br>
+                    <a ng-disabled="true" class="inline-block" ng-click="addUserToConference()" style="cursor: pointer"><i
+                            class="fa fa-user"></i></a>
+                    <a ng-disabled="true" class="inline-block"><i class="fa fa-refresh" ng-click="reloadPage()" style="cursor: pointer"></i></a>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
