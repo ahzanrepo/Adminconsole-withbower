@@ -55,7 +55,6 @@ mainApp.factory('didBackendService', function ($http, authService) {
                     return response;
                 });
         },
-
         addNewDidNumber: function (didData) {
             console.log("Did Data "+JSON.stringify(didData));
             var authToken = authService.GetToken();
