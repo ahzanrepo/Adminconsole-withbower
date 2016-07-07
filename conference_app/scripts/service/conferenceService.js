@@ -268,10 +268,10 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     };
 
 
-    var userOperations = function (user,operation) {//Mute-UnMute-Deaf-UnDeaf-Kick
+    var userOperations = function (conferenceName,user,operation) {//Mute-UnMute-Deaf-UnDeaf-Kick
         return $http({
             method: 'post',
-            url: baseUrls.conferenceUrl + "ConferenceOperations/ConferenceUser/"+user+"/"+operation,
+            url: baseUrls.conferenceUrl + "ConferenceOperations/"+conferenceName+"/ConferenceUser/"+user+"/Action/"+operation,
             headers: {
                 'authorization': authService.GetToken()
             }

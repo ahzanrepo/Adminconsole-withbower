@@ -1,43 +1,54 @@
 <div class="row">
-    <div class="col-md-12">
-
-        <div class="">
-
-            <div class="x_content">
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ng-repeat="file in Catagories" style="cursor: pointer"
-                         ng-click="getFilesCategoryID(file.id,1)">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-google-wallet"></i>
-                            </div>
-                            <div file-countdrt name="{{file.id}}" category="{{file.Category}}" count-by-category="countByCategory"></div>
+    <div class="col-md-12 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div ng-show="isProgress">
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="data-state-wrap">
+                            Progress...
                         </div>
+
                     </div>
                 </div>
             </div>
+
+            <div class="x_content" ng-hide="isProgress">
+                <filecountbycategory category="fileCat" load-files="loadFilesByCat(fileCat)"
+                                     ng-repeat="fileCat in Catagories" style="cursor: pointer"></filecountbycategory>
+            </div>
+
+
         </div>
-    </div>
-</div>
 
-<!-- top tiles -->
-<!--<div class="row tile_count">
-
-    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" ng-repeat="file in Catagories" style="cursor: pointer"
-         ng-click="getFilesCategoryID(file.id,1)">
-
-        <div file-countdrt name="{{file.id}}" category="{{file.Category}}" ></div>
     </div>
 
-</div>-->
-<!-- /top tiles -->
 
-<div class="clearfix"></div>
+    <div class="clearfix"></div>
 
-<div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
+                <h2><i class="fa fa-bars"></i> Media Gallery <small>List</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+
+                    <li><a class="close-link"><i class="fa fa-check-square-o" ng-click="showDelete();"></i></a>
+                    </li><li><a class="close-link"><i class="fa fa-trash-o" ng-click="deleteMultipleFiles();"></i></a>
+                    </li>
+                </ul>
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <!--<div class="x_title">
                 <h2>Media Gallery
-                    <small> gallery</small>
+                    <small> gallery</small><i class="fa fa-wrench"></i>
                 </h2>
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -47,16 +58,14 @@
                         <button class="btn btn-default" type="button">Go!</button>
                     </span>
                         </div>
+
                     </div>
+
                 </div>
 
 
                 <div class="clearfix"></div>
-            </div>
-
-
-
-
+            </div>-->
 
 
             <div class="x_content">
@@ -97,10 +106,12 @@
                                     <p>{{file.Filename| limitTo:20}}</p>
 
                                     <div class="tools tools-bottom">
-                                        <a href="javascript:void(0);"><i class="fa fa-play" ng-click="playVideo(file)"></i></a>
+                                        <a href="javascript:void(0);"><i class="fa fa-play"
+                                                                         ng-click="playVideo(file)"></i></a>
                                         <a href="javascript:void(0);"><i class="fa fa-cloud-download"
-                                                       ng-click="downloadFile(file)"></i></a>
-                                        <a href="javascript:void(0);"><i class="fa fa-times" ng-click="deleteFile(file)"></i></a>
+                                                                         ng-click="downloadFile(file)"></i></a>
+                                        <a href="javascript:void(0);"><i class="fa fa-times"
+                                                                         ng-click="deleteFile(file)"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -109,8 +120,10 @@
 
                                 <!--<p>{{file.FileCategory.Category}}</p>-->
 
-                                <p>{{file.createdAt| date}}</p>
+                                <p ng-hide="showDeleteSelection">{{file.createdAt| date}}</p>
 
+                                <input ng-show="showDeleteSelection" type="checkbox" class="flat" ng-model="file.delete"
+                                       ng-change="addToDelete(file)">
 
                             </div>
                         </div>
@@ -135,5 +148,8 @@
             </div>
         </div>
     </div>
+
 </div>
+
+
 

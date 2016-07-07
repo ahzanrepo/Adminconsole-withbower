@@ -1,48 +1,41 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("fileCountdrt", function ($filter, fileService) {
+mainApp.directive("filecountbycategory", function ($filter, fileService) {
 
     return {
         restrict: "EA",
         scope: {
-            name: "@",
-            category: "@",
-            countByCategory:"="
+            category: "=",
+            'loadFiles': '&'
         },
 
         templateUrl: 'file_gallery/view/fileCount.html',
-        /*template: '<span class="count_top"  ><i class="fa fa-user" ></i> {{fileCount.Category| uppercase}}</span><div class="count green">{{fileCount.Count}}</div><span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Total Number of Files</i></span>',*/
 
         link: function (scope, element, attributes) {
 
-            scope.countByCategory = [];
-            scope.fileCount =0;
-            scope.fileCount.Category =scope.category;
-            scope.fileCount.Count ="";
+            scope.category.fileCount ={"Category": scope.category.Category, "Count": 0, "ID": scope.category.id};
 
-            fileService.GetFileCountCategoryID(scope.name).then(function (count) {
-                if (count) {
-                    scope.fileCount = count;
-                    scope.countByCategory[scope.name] = scope.fileCount;
-                    console.info("GetFileCountCategoryID : " + scope.fileCount);
-                }
-                else {
-                    var data = {"Category": scope.category, "Count": 0, "ID": scope.name};
-                    scope.fileCount = data;
-                    scope.countByCategory[scope.name] = scope.fileCount;
-                    console.info("GetFileCountCategoryID - No data receive");
-                }
-            }, function (error) {
-                console.info("GetFileCountCategoryID err" + error);
-            });
+            scope.GetFileCountCategoryID = function () {
+                fileService.GetFileCountCategoryID(scope.category.id).then(function (count) {
+                    if (count) {
+                        scope.category.fileCount = count;
+                    }
+                    else {
+                        //{"ID":"2","Category":"CONVERSATION","Count":2}
+                        scope.category.fileCount = {"Category": scope.category.Category, "Count": 0, "ID": scope.category.id};
+                    }
+                }, function (error) {
+                    scope.category.fileCount = {"Category": scope.category.Category, "Count": 0, "ID": scope.category.id};
+                    console.error("GetFileCountCategoryID err" + error);
+                });
+            };
+            scope.GetFileCountCategoryID();
 
-            /*engagementService.GetItemsBySessionId(scope.name).then(function (response) {
-             scope.heroes = $filter('filter')(response, {attachmentType: "EngagementItem"});
-             }, function (error) {
-             console.info("GetEngagementsBySessionId err" + error);
-
-             });*/
+            scope.loadFileByCategoryID = function(){
+                scope.loadFiles(scope.category);
+                scope.GetFileCountCategoryID();
+            }
         }
     }
 });

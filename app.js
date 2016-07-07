@@ -37,7 +37,7 @@ var baseUrls = {
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
     'clusterconfigUrl':'http://clusterconfig.104.131.67.21.xip.io/DVP/API/1.0.0.0/CloudConfiguration/',
-    'conferenceUrl':'http://192.168.0.27:8085/DVP/API/1.0.0.0/',
+    'conferenceUrl':'http://conference.104.131.67.21.xip.io/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser'
 };

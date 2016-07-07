@@ -192,6 +192,11 @@ mainApp.controller("conferenceController", function ($scope, $rootScope, $compil
             return;
         }
 
+        if (conference.StartTime >= new Date()) {
+            scope.showAlert("New Conference", "notify", "Start Time Should Be Greater Than To Current Date Time.");
+            return;
+        }
+
         if (conference.StartTime >= conference.EndTime) {
             $scope.showAlert('New Conference', 'error', "End Time Should Be Greater Than Start Time.");
             return;
