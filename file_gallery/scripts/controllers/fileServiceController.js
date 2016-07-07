@@ -1,6 +1,7 @@
 var app = angular.module("veeryConsoleApp");
 
 app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'fileService', function ($scope, $filter, FileUploader, fileService) {
+
     $scope.file = {};
     var uploader = $scope.uploader = new FileUploader({
         url: fileService.UploadUrl,
@@ -89,19 +90,22 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
 
 }]);
 
-app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state,$uibModal, fileService, jwtHelper, authService, baseUrls) {
+app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state,$uibModal,$anchorScroll, fileService, jwtHelper, authService, baseUrls) {
 
-
+    $anchorScroll();
     $scope.countByCategory = [];
     $scope.categoryId = 0;
     $scope.showPaging = false;
     $scope.currentPage = "1";
     $scope.pageTotal = "1";
     $scope.pageSize = "50";
-
+    $scope.isLoading=true;
+    $scope.noDataToshow=false;
     $scope.getPageData = function (Paging, page, pageSize, total) {
+        $scope.noDataToshow=false;
         fileService.GetFilesCategoryID($scope.categoryId, pageSize, page).then(function (response) {
             $scope.files = response;
+            $scope.noDataToshow= response?(response.length == 0):true;
         }, function (err) {
         });
     };
@@ -139,14 +143,20 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     //get all file - page load
     $scope.files = [];
     $scope.loadFileList = function (currentPage) {
+        $scope.noDataToshow=false;
         fileService.GetFiles(currentPage).then(function (response) {
             $scope.files = response;
+             $scope.noDataToshow= response?(response.length == 0):true;
+            $scope.isLoading=false;
         }, function (err) {
+            $scope.isLoading=false;
         });
     };
     $scope.loadFileList(1);
 
     $scope.getFilesCategoryID = function (categoryId, currentPage) {
+        $scope.isLoading=true;
+        $scope.noDataToshow=false;
         var data = ($filter('filter')($scope.countByCategory, {ID: categoryId}));
         if (data.length > 0) {
             $scope.pageTotal = data[0].Count;
@@ -156,11 +166,14 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             fileService.GetFilesCategoryID(categoryId, $scope.pageSize, currentPage).then(function (response) {
                 $scope.files = response;
                 $scope.showPaging = true;
+                $scope.isLoading=false;
+                $scope.noDataToshow= response?(response.length == 0):true;
             }, function (err) {
             });
         }
         else {
             $scope.files = [];
+            $scope.noDataToshow= true;
         }
     };
 

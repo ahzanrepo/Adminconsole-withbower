@@ -61,7 +61,29 @@
 
             <div class="x_content">
 
-                <div class="row">
+                <div ng-show="isLoading">
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-state-wrap">
+                                Please Wait...
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="noDataToshow">
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-state-wrap">
+                                No Data...
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-hide="isLoading">
 
                     <div class="col-md-55" ng-repeat="file in files">
                         <div class="thumbnail">

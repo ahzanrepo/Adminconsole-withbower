@@ -1,5 +1,6 @@
-mainApp.controller("agentStatusController", function ($scope, $filter, $stateParams, $timeout, $log, agentStatusService) {
+mainApp.controller("agentStatusController", function ($scope, $filter, $stateParams, $timeout, $log,$anchorScroll, agentStatusService) {
 
+    $anchorScroll();
     $scope.showCallInfos = false;
     $scope.summaryText = "Table";
     $scope.summary = false;
