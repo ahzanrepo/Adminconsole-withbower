@@ -4,7 +4,7 @@
             <span>{{conferenceData.ActiveTemplate}}</span>
         </a>
     </div>
-    <div ng-show="isLoading" >
+    <div ng-show="isLoading">
         <div class="row ">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="data-state-wrap">
@@ -24,11 +24,17 @@
                     <br>
 
                     <div ng-hide="editMode">
+                        <div class="byline">
+                            <span>Last Update : {{conferenceData.updatedAt|date:'MM/dd/yyyy @ h:mma'}}</span>
+                        </div>
                         <br>ActiveTemplate : {{conferenceData.ActiveTemplate}}
-                        <br>Last Update : {{conferenceData.updatedAt|date:'MM/dd/yyyy @ h:mma'}}
                         <br>Description : {{conferenceData.Description}}
+                        <br>Pin : {{conferenceData.Pin}}
+                        <br>Extension : {{conferenceData.Extension}}
                         <br>Domain : {{conferenceData.Domain}}
                         <br>MaxUser : {{conferenceData.MaxUser}}
+                        <br>Anonymous Users : {{conferenceData.AllowAnonymousUser}}
+                        <br>Locked : {{conferenceData.AllowAnonymousUser}}
                         <br>StartTime : {{conferenceData.StartTime|date:'MM/dd/yyyy @ h:mma'}} EndTime :
                         {{conferenceData.EndTime|date:'MM/dd/yyyy @ h:mma'}}
                     </div>
@@ -41,12 +47,15 @@
                        style="cursor: pointer"><i
                             class="fa fa-trash-o"></i></a>
                     <br>
-                    <a ng-disabled="true" class="inline-block" ng-click="editConference()" style="cursor: pointer"><i
+                    <a ng-disabled="true" class="inline-block" ng-click="editConference(conferenceData)"
+                       style="cursor: pointer"><i
                             class="fa fa-edit"></i></a>
                     <br>
-                    <a ng-disabled="true" class="inline-block" ng-click="addUserToConference()" style="cursor: pointer"><i
+                    <a ng-disabled="true" class="inline-block" ng-click="addUserToConference(conferenceData)"
+                       style="cursor: pointer"><i
                             class="fa fa-user"></i></a>
-                    <a ng-disabled="true" class="inline-block"><i class="fa fa-refresh" ng-click="reloadPage()" style="cursor: pointer"></i></a>
+                    <a ng-disabled="true" class="inline-block"><i class="fa fa-refresh" ng-click="reloadPage()"
+                                                                  style="cursor: pointer"></i></a>
                 </div>
             </div>
             <!-- /.col -->
@@ -104,8 +113,9 @@
                                  ng-class="{ 'has-error' : userFormEdit.Domain.$invalid && !userFormEdit.Domain.$pristine }">
                                 <label>Domain</label>
 
-                                <select required class="form-control" id="Domain" ng-model="conferenceData.Domain"
-                                        ng-options="opt.Domain as opt.Domain for opt in endUsers">
+                                <select required class="form-control" id="Domain"
+                                        ng-model="conferenceData.CloudEndUserId"
+                                        ng-options="opt.id as opt.Domain for opt in endUsers">
                                 </select>
 
                             </div>
@@ -117,8 +127,8 @@
                                 <p ng-show="userFormEdit.Extension.$invalid && !userFormEdit.Extension.$pristine"
                                    class="help-block">Extension is required.</p>
 
-                                <select  class="form-control" id="Extension" ng-model="conferenceData.Extension"
-                                        ng-options="opt.ExtensionId as opt.Extension for opt in extensionList">
+                                <select class="form-control" id="Extension" ng-model="conferenceData.ExtensionId"
+                                        ng-options="opt.id as opt.Extension for opt in extensionList">
                                 </select>
 
                             </div>
@@ -216,7 +226,8 @@
                                     <input type="text" name="Destination" class="form-control"
                                            ng-model="user.Destination" required>
 
-                                    <button ng-disabled="!user.Destination" class="btn btn-success btn-xs" ng-click="addDestination(user)">
+                                    <button ng-disabled="!user.Destination" class="btn btn-success btn-xs"
+                                            ng-click="addDestination(user)">
                                         Add
                                     </button>
                                 </p>
@@ -241,7 +252,7 @@
                                     <!--<input type="checkbox" class="flat" ng-model="confirmed"
                                            ng-change="handleClick(confirmed,user)">-->
                                     {{user.SipUsername}}
-                                    <button   class="btn btn-success btn-xs" ng-click="addNewUsers(user)">
+                                    <button class="btn btn-success btn-xs" ng-click="addNewUsers(user)">
                                         Add
                                     </button>
                                 </p>
@@ -261,7 +272,7 @@
                                         <label>
                                             <input type="checkbox" class="flat" ng-model="exUser.Def"
                                                    ng-change="UpdateConferenceUserModes(exUser)">
-                                            Def
+                                            Deaf
                                         </label>
                                         <label>
                                             <input type="checkbox" class="flat" ng-model="exUser.Mute"
@@ -274,7 +285,8 @@
                                             Mod
                                         </label>
 
-                                        <a ng-disabled="true" class="inline-block" ng-click="DeleteConferenceUser(exUser)" style="cursor: pointer"><i
+                                        <a ng-disabled="true" class="inline-block"
+                                           ng-click="DeleteConferenceUser(exUser)" style="cursor: pointer"><i
                                                 class="fa fa-trash-o"></i></a>
                                     </p>
                                 </li>

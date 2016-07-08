@@ -90,7 +90,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
             },
             data: resource
         }).then(function (response) {
-            try {
+            /*try {
                 if (response.data.IsSuccess) {
                     console.info("Resource Map To Profile..........Start............");
                     setResourceToProfile(resource.ResourceName, response.data.Result.ResourceId);
@@ -102,7 +102,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
             }
             catch (ex) {
                 console.error(ex);
-            }
+            }*/
             return response.data;
         });
 

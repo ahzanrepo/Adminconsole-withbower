@@ -1,13 +1,12 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("testconferenceitem", function ($filter, $uibModal, $log, conferenceService) {
+mainApp.directive("conferenceitem", function ($filter, $uibModal, $log, conferenceService) {
 
     return {
-        restrict: "EA-conf",
+        restrict: "EA",
         scope: {
             endUsers: "=",
-            extensionList: "=",
             conferenceData: "=",
             templatesList: "=",
             reloadPageAfterDelete: '&'
@@ -22,7 +21,22 @@ mainApp.directive("testconferenceitem", function ($filter, $uibModal, $log, conf
                 scope.addUserMode = false;
                 scope.LoadConferenceUsers();
                 scope.LoadSipUsers();
+                scope.LoadExtentions();
             };
+
+            scope.LoadExtentions = function () {
+                conferenceService.GetExtensionsByConfRoom(scope.conferenceData.ConferenceName).then(function (response) {
+                    scope.extensionList = response;
+                    var items = $filter('filter')(response, {id: scope.conferenceData.ExtensionId});
+                    if (items.length > 0) {
+                        scope.conferenceData.Extension = items[0].Extension;
+                    }
+
+                }, function (error) {
+                    scope.showAlert('Error', 'error', "Fail To Get Extentions.");
+                });
+            };
+            scope.LoadExtentions();
 
             /*conference User*/
             scope.LoadConferenceUsers = function () {
@@ -56,6 +70,7 @@ mainApp.directive("testconferenceitem", function ($filter, $uibModal, $log, conf
              if (confirmed) {
              scope.newSipUsers.push(user);
              } else {
+
              var index = scope.newSipUsers.indexOf(user);
              scope.newSipUsers.splice(index, 1);
              }
@@ -203,13 +218,22 @@ mainApp.directive("testconferenceitem", function ($filter, $uibModal, $log, conf
 
 
             scope.editMode = false;
-            scope.editConference = function () {
+            scope.editConference = function (confData) {
+                if (confData.StartTime <= new Date()) {
+                    scope.showAlert("Edit Conference", "notify", "Running or Past Conference[" + confData.ConferenceName + "], Cannot update.");
+                    return;
+                }
+
                 scope.editMode = !scope.editMode;
                 scope.addUserMode = false;
             };
 
             scope.addUserMode = false;
-            scope.addUserToConference = function () {
+            scope.addUserToConference = function (confData) {
+                if (confData.EndTime <= new Date()) {
+                    scope.showAlert("Edit Conference", "notify", "Cannot Modify Past Conference[" + confData.ConferenceName + "]");
+                    return;
+                }
                 scope.addUserMode = !scope.addUserMode;
                 scope.editMode = false;
             };
@@ -302,6 +326,10 @@ mainApp.directive("testconferenceitem", function ($filter, $uibModal, $log, conf
             };
 
 
+            var endUsr = $filter('filter')(scope.endUsers, {id: scope.conferenceData.CloudEndUserId});
+            if (endUsr.length > 0) {
+                scope.conferenceData.Domain = endUsr[0].Domain;
+            }
         }
     }
 });

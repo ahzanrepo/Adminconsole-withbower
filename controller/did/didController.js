@@ -33,9 +33,7 @@ mainApp.controller("didController", function ($scope,$state,$uibModal, didBacken
     };
 
     $scope.showModal= function (didId,didData) {
-        //modal show
 
-        console.log("Modal data "+JSON.stringify(didData));
         var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/did/partials/editDid.html',
@@ -67,7 +65,6 @@ mainApp.controller("didController", function ($scope,$state,$uibModal, didBacken
 
     };
 
-
     $scope.DeleteDidNumber = function (didData) {
 
         didBackendService.deleteDidRecords(didData.id).then(function (response) {
@@ -86,10 +83,14 @@ mainApp.controller("didController", function ($scope,$state,$uibModal, didBacken
             $scope.showAlert("Error",didData.DidNumber+" deletion failed","error");
         });
     }
+
+
+
     $scope.GetDidNumbers();
 
 });
 mainApp.controller("didModalController", function ($scope, $uibModalInstance,didBackendService,didId,didData,reloadPage) {
+
     $scope.showModal=true;
     $scope.Extensions=[];
 
@@ -97,7 +98,6 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,did
     {
         $scope.did=didData;
         $scope.did.Extension.id=(didData.Extension.id).toString();
-        console.log(typeof ($scope.did.Extension.id));
     }
 
     $scope.showAlert = function (title,content,type) {
@@ -110,9 +110,7 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,did
         });
     };
 
-
-
-    $scope.UpdateDid = function (extensionId) {
+    $scope.updateDid = function (extensionId) {
         if($scope.did.id)
         {
             didBackendService.updateDidExtension($scope.did.DidNumber,extensionId).then(function (response) {
@@ -161,7 +159,6 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,did
 
     }
 
-
     $scope.saveOrUpdate = function () {
         if(didId)
         {
@@ -169,11 +166,9 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,did
             {
                 if($scope.Extensions[i].id==$scope.did.Extension.id)
                 {
-                    $scope.UpdateDid($scope.Extensions[i].Extension);
+                    $scope.updateDid($scope.Extensions[i].Extension);
                 }
             }
-
-
 
         }
         else
@@ -181,7 +176,6 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,did
             $scope.did.DidActive=true;
             $scope.did.ExtensionId=$scope.did.Extension.id;
             $scope.addNewDID($scope.did);
-
 
         }
     }
@@ -192,7 +186,9 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,did
 
             if(response.data.IsSuccess)
             {
+
                 $scope.Extensions=  response.data.Result;
+                console.log($scope.Extensions.length+" Extensions received");
             }
             else
             {
@@ -205,12 +201,11 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,did
 
     };
 
-
-
     $scope.closeModal= function () {
         $uibModalInstance.dismiss('cancel');
         reloadPage();
     }
+
 
 
     $scope.pickExtensions();

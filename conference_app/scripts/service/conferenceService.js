@@ -35,11 +35,10 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     };
 
     var getExtensions = function () {
-
-
         return $http({
             method: 'GET',
-            url: baseUrls.sipUserendpoint + "ExtensionsByCategory/CONFERENCE",
+            /*url: baseUrls.sipUserendpoint + "ExtensionsByCategory/CONFERENCE",*/
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/Conference/AvailableExtensions",
             headers: {
                 'authorization': authService.GetToken()
             }
@@ -48,6 +47,23 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
                 return response.data.Result;
             } else {
                 return {};
+            }
+        });
+    };
+
+    var getExtensionsByConfRoom = function (conferenceName) {
+        return $http({
+            method: 'GET',
+            /*url: baseUrls.sipUserendpoint + "ExtensionsByCategory/CONFERENCE",*/
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/Conference/"+conferenceName+"/AvailableExtensions",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
             }
         });
     };
@@ -93,16 +109,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
             },
             data: conference
         }).then(function (response) {
-            if (response.data && response.data.IsSuccess) {
-
-                return response.data.Result;
-
-
-            } else {
-
-                return undefined;
-            }
-
+            return response.data;
         });
 
     };
@@ -130,11 +137,11 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         });
     };
 
-    var getConferences = function () {
+    var getConferences = function (rowCount,pageNo) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRooms",
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRooms/Page/"+rowCount+"/"+pageNo,
             headers: {
                 'authorization': authService.GetToken()
             }
@@ -206,7 +213,6 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         });
     };
 
-
     var deleteConferenceUser = function (userID) {
         return $http({
             method: 'DELETE',
@@ -223,7 +229,6 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         });
 
     };
-
 
     var updateConferenceUser = function (userID, user) {
         return $http({
@@ -263,10 +268,91 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     };
 
 
+    var userOperations = function (conferenceName,user,operation) {//Mute-UnMute-Deaf-UnDeaf-Kick
+        return $http({
+            method: 'post',
+            url: baseUrls.conferenceUrl + "ConferenceOperations/"+conferenceName+"/ConferenceUser/"+user+"/Action/"+operation,
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.IsSuccess;
+            } else {
+                return false;
+            }
+        });
+    };
+
+    var getRoomsCount = function () {
+        return $http({
+            method: 'get',
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRooms/PageCount",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
+    var getActiveConference = function () {
+        return $http({
+            method: 'get',
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ActiveConferenceRooms",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var getActiveConferenceUserCount = function (conferenceName) {
+        return $http({
+            method: 'get',
+            url: baseUrls.monitorrestapi + "Conference/"+conferenceName+"/Calls/Count",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
+    var getConferenceActiveUsers = function (conferenceName) {
+        return $http({
+            method: 'get',
+            url: baseUrls.monitorrestapi + "Conference/"+conferenceName+"/RealTimeUsers",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
     return {
         GetSipUsers: getSipUsers,
         getDomains: getDomains,
         GetExtensions: getExtensions,
+        GetExtensionsByConfRoom:getExtensionsByConfRoom,
         CreateExtensions: createExtensions,
         GetConferenceTemplate: getConferenceTemplate,
         CreateConference: createConference,
@@ -277,7 +363,14 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         UpdateConferenceUser: updateConferenceUser,
         DeleteConferenceUser: deleteConferenceUser,
         GetConferenceUsers: getConferenceUsers,
-        AddUserToConference: addUserToConference
+        AddUserToConference: addUserToConference,
+        GetConferenceActiveUsers:getConferenceActiveUsers,
+        GetActiveConference:getActiveConference,
+        GetActiveConferenceUserCount:getActiveConferenceUserCount,
+        UserOperations:userOperations,
+        GetRoomsCount:getRoomsCount
+
+
     }
 
 });

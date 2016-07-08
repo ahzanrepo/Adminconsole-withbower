@@ -288,7 +288,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 requireLogin: true,
                 navigation: "CONFERENCE"
             }
-        }).state('console.queuesummary', {
+        })/*.state('console.conferencemonitor', {
+            url: "/conference",
+            templateUrl: "conference_app/views/conferenceMonitor.html",
+            controller: "conferenceMonitorController",
+            data: {
+                requireLogin: true,
+                navigation: "CONFERENCE"
+            }
+        })*/.state('console.queuesummary', {
             url: "/queuesummary",
             templateUrl: "views/queue-summary/queue-summary.html",
             controller: "queueSummaryController",
