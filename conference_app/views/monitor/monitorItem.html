@@ -8,14 +8,15 @@
 
 
     <div class="block_content">
+
         <div class="row invoice-info" >
-            <div class="col-sm-6 invoice-col ">
+            <div class="col-sm-6 invoice-col " >
                 <address class="title">
                     <a class="font-robot font-15 text-uppercase" style="color: #d2d1d1;"><b>Conference Name :</b>
                         {{conferenceData.ConferenceName}}</a>
                     <br>
 
-                    <div >
+                    <div ng-hide="isLoading">
                         <br>ActiveTemplate : {{conferenceData.ActiveTemplate}}
                         <br>
 
@@ -55,6 +56,18 @@
                         </ul>
 
                     </div>
+
+                    <div ng-show="isLoading">
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    Please Wait...
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </address>
             </div>
 
@@ -63,6 +76,8 @@
                     <a ng-disabled="true" class="inline-block"><i class="fa fa-refresh" ng-click="reloadPage()" style="cursor: pointer"></i></a>
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>

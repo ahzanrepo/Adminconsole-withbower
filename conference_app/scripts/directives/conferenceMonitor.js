@@ -17,12 +17,14 @@ mainApp.directive("conferencemonitor", function ($filter, $uibModal, $log, confe
             scope.activeUserCount = 0;
             scope.GetActiveConferenceUserCount = function () {
                 conferenceService.GetActiveConferenceUserCount(scope.conferenceData.ConferenceName).then(function (response) {
+                    scope.isLoading = false;
                     if (scope.activeUserCount != parseInt(response)) {
                         scope.getConferenceActiveUsers();
                     }
                     scope.activeUserCount = response;
                     errorCount = 0;
                 }, function (err) {
+                    scope.isLoading = false;
                     scope.showAlert('Error', 'error', "Fail To Get Active User Count for Conference " + scope.conferenceData.ConferenceName);
                     errorCount++;
                 });
@@ -35,6 +37,7 @@ mainApp.directive("conferencemonitor", function ($filter, $uibModal, $log, confe
 
             scope.isLoading = false;
             scope.reloadPage = function () {
+                scope.isLoading = true;
                 scope.GetActiveConferenceUserCount();
             };
             scope.reloadPage();
