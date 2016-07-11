@@ -187,6 +187,7 @@
                     if(data.IsSuccess)
                     {
                         $scope.reloadUserList();
+                        $scope.$emit('PABX_ResetForms', null);
                     }
                     else
                     {
