@@ -113,7 +113,6 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
     $scope.groupsData = {};
     $scope.GetGroups = function (Paging, page, pageSize) {
         attributeService.GetGroups(pageSize, page).then(function (response) {
-
             $log.debug("GetGroups: response" + response);
             $scope.groupsData = response;
         }, function (error) {

@@ -344,6 +344,7 @@ a {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 14px;
+    height: 40px;
     color: #555;
     border: 2px solid #e6e5e5;
     border-radius: 5px;
@@ -2371,8 +2372,7 @@ ul.social li {
     color: #ffffff;
 }
 
-.pabxStatus
-{
+.pabxStatus {
     height: 25px;
     width: 65px;
     padding: 5px;
@@ -2384,8 +2384,7 @@ ul.social li {
     font-weight: bold;
 }
 
-.pabxStatus.dnd
-{
+.pabxStatus.dnd {
     background-color: rgb(208, 59, 89);
 }
 
@@ -2395,8 +2394,7 @@ ul.social li {
     border-radius: 8px !important;
 }
 
-.pabxStatus.divert
-{
+.pabxStatus.divert {
     background-color: rgb(5, 142, 156);
 }
 
@@ -2406,8 +2404,7 @@ ul.social li {
     border-radius: 8px !important;
 }
 
-.pabxStatus.available
-{
+.pabxStatus.available {
     background-color: rgb(70, 167, 87);
 }
 
@@ -2417,8 +2414,7 @@ ul.social li {
     border-radius: 8px !important;
 }
 
-.pabxStatus.followme
-{
+.pabxStatus.followme {
     background-color: rgb(187, 143, 54);
 }
 
@@ -2428,8 +2424,7 @@ ul.social li {
     border-radius: 8px !important;
 }
 
-.pabxStatus.forward
-{
+.pabxStatus.forward {
     background-color: rgb(241, 100, 58);
 }
 
@@ -2446,102 +2441,73 @@ ul.social li {
 
 }
 
-
-
-
-
-
-
-
-
-
-/**
- * For the correct positioning of the placeholder element, the dnd-list and
- * it's children must have position: relative
- */
-.simpleDemo ul[dnd-list],
-.simpleDemo ul[dnd-list] > li {
-    position: relative;
-}
-
-/**
- * The dnd-list should always have a min-height,
- * otherwise you can't drop to it once it's empty
- */
-.simpleDemo ul[dnd-list] {
-    min-height: 42px;
-    padding-left: 0px;
-}
-
-/**
- * The dndDraggingSource class will be applied to
- * the source element of a drag operation. It makes
- * sense to hide it to give the user the feeling
- * that he's actually moving it.
- */
-.simpleDemo ul[dnd-list] .dndDraggingSource {
-    display: none;
-}
-
-/**
- * An element with .dndPlaceholder class will be
- * added to the dnd-list while the user is dragging
- * over it.
- */
-.simpleDemo ul[dnd-list] .dndPlaceholder {
-    display: block;
-    background-color: #ddd;
-    min-height: 42px;
-}
-
-/**
- * The dnd-lists's child elements currently MUST have
- * position: relative. Otherwise we can not determine
- * whether the mouse pointer is in the upper or lower
- * half of the element we are dragging over. In other
- * browsers we can use event.offsetY for this.
- */
-.simpleDemo ul[dnd-list] li {
+/*pagination style*/
+.pagination > .disabled > a, .pagination > .disabled > a:focus, .pagination > .disabled > a:hover, .pagination > .disabled > span, .pagination > .disabled > span:focus, .pagination > .disabled > span:hover {
+    color: #2ba89c;
+    cursor: not-allowed;
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: -1px;
+    border-color: #f8b01d;
 }
 
-/**
- * Show selected elements in green
- */
-.simpleDemo ul[dnd-list] li.selected {
-    background-color: #dff0d8;
-    color: #3c763d;
+.pagination > li:first-child > a, .pagination > li:first-child > span {
+    margin-left: 0px;
+    border-top-left-radius: 11px;
+    border-bottom-left-radius: 11px;
 }
 
-
-/*uiDatetimePickerConfig*/
-/*
-.form-horizontal {
-    width:500px;
-}
-*/
-
-.datetime-picker-dropdown {
-
+.pagination > li:last-child > a, .pagination > li:last-child > span {
+    border-top-right-radius: 11px;
+    border-bottom-right-radius: 11px;
 }
 
-.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default {
-    border: 0;
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    z-index: 0;
+    color: #fff;
+    cursor: default;
+    background-color: #f8b01d;
+    border-color: #f8b01d;
 }
 
-.datetime-picker-dropdown > li.time-picker-menu div > table {
-
+.x_title span {
+    color: #2ba89c;
 }
-/*uiDatetimePickerConfig*/
 
+tags-input .autocomplete {
+    z-index: 99999
+}
 
-/* conference Monitor*/
+tags-input .autocomplete .suggestion-list {
+    z-index: 10022;
+}
 
-/* conference Monitor*/
+tags-input .tags .tag-item {
+    color: #fff;
+    background: #f8b01d;
+    border: 1px solid #f8b01d;
+    border-radius: 5px;
+}
 
+tags-input .tags {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -moz-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    height: 40px;
+    color: #555;
+    border: 2px solid #e6e5e5;
+}
+
+tags-input .tags.focused {
+    border: 2px solid #CCD0D7;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0),0 0 0px rgba(0,0,0,0);
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0),0 0 0px rgba(0,0,0,0);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0),0 0 0px rgba(0,0,0,0);
+}
