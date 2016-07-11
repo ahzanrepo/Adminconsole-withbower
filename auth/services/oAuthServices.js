@@ -59,17 +59,26 @@
 
         function checkNavigation(appname) {
 
-            var navigations = localStorageService.get("@navigations");
-            if (navigations.menus && navigations.menus.length > 0) {
-                var obj = navigations.menus.filter(function (item, index) {
-                    return item.menuItem == appname;
-                });
+            try
+            {
+                var navigations = localStorageService.get("@navigations");
+                if (navigations.menus && navigations.menus.length > 0) {
+                    var obj = navigations.menus.filter(function (item, index) {
+                        return item.menuItem == appname;
+                    });
 
-                if (obj && obj.length > 0) {
-                    return true;
+                    if (obj && obj.length > 0) {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch(ex)
+            {
+                return false;
+            }
+
+
         };
 
         //get token decode

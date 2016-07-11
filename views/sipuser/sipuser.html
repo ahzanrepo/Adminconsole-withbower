@@ -47,6 +47,8 @@
                         <div class="mail_list user-list">
                             <div class="right">
                                 <h3 class="font-robot ">{{item.SipUsername}}
+                                    <small class="fa fa-trash" ng-click="onDeleteUser(item.SipUsername)"></small>
+
                                     <small>Extension : {{item.Extension.Extension}}</small>
                                 </h3>
                                 <p> {{item.CloudEndUser.Domain}}</p>
@@ -327,7 +329,7 @@
                     <div class="col-lg-12">
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="NewsipUserName">Sip Username *</label></h3>
-                            <p><input class="form-control" id="NewsipUserName"
+                            <p><input class="form-control" id="NewsipUserName" name="sipUsrName"
                                       ng-model="basicConfig.SipUsername"
                                       ng-disabled="IsEdit"
                                       ng-model-options="{ updateOn: 'blur' }" usernamecheck required></p>
