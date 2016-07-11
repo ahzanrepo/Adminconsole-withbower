@@ -1,5 +1,5 @@
-mainApp.controller("appAccessManageController", function ($scope, $filter, $stateParams, appAccessManageService,authService, jwtHelper) {
-
+mainApp.controller("appAccessManageController", function ($scope, $filter, $stateParams,$anchorScroll, appAccessManageService,authService, jwtHelper) {
+    $anchorScroll();
     $scope.active = true;
     /*Load Application list*/
     $scope.showAlert = function (tittle, label, button, content) {
