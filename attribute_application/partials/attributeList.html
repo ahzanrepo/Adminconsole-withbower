@@ -1,12 +1,7 @@
-<div class="page-title">
-    <div class="title_left">
-        <h3 class="font-robot font-600 ">attributes</h3>
-    </div>
-</div>
+
 
 
 <div class="row">
-
     <div class="col-lg-12">
         <div class="attribute customer-side-header">
             <div class="tab1 m-r-10"
@@ -22,9 +17,8 @@
         </div>
     </div>
 
-
     <div ng-show="!attributes" class="new-attribute col-md-8 col-sm-6 col-xs-12 col-md-offset-2 ">
-        <div class="x_panel ">
+        <div class="x_panel bg-light-gray ">
             <div class="x_title border-0">
                 <h2 class="font-robot font-300 text-uppercase font-15">Add new attribute</h2>
 
@@ -55,11 +49,13 @@
         </div>
 
 
-        <div class="x_panel">
+        <div class="x_panel ">
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="attrib in attribData">
-                        <editattribute attribute="attrib" update-attribute="removeDeleted(attrib)"></editattribute>
+                        <editattribute attribute="attrib"
+                                       update-attribute="removeDeleted(attrib)">
+                        </editattribute>
                     </li>
 
                     <paging ng-show="showPaging"
@@ -83,7 +79,7 @@
     </div>
 
     <div ng-if="attributes" class="col-md-8 col-sm-6 col-xs-12 col-md-offset-2 ">
-        <div class="x_panel">
+        <div class="x_panel bg-light-gray">
             <div class="x_title border-0">
                 <h2 class="font-robot font-300 text-uppercase font-15">Group Manager</h2>
 
