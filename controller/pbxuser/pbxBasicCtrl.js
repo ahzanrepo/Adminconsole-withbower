@@ -142,16 +142,23 @@
             var allowedNumArr = [];
             var deniedNumArr = [];
 
-
-            for(i=0; i<$scope.basicConfig.AllowedNumBind.length; i++)
+            if($scope.basicConfig.AllowedNumBind)
             {
-                allowedNumArr.push($scope.basicConfig.AllowedNumBind[i].text)
+                for(i=0; i<$scope.basicConfig.AllowedNumBind.length; i++)
+                {
+                    allowedNumArr.push($scope.basicConfig.AllowedNumBind[i].text)
+                }
             }
 
-            for(i=0; i<$scope.basicConfig.DeniedNumBind.length; i++)
+            if($scope.basicConfig.DeniedNumBind)
             {
-                deniedNumArr.push($scope.basicConfig.DeniedNumBind[i].text)
+                for(i=0; i<$scope.basicConfig.DeniedNumBind.length; i++)
+                {
+                    deniedNumArr.push($scope.basicConfig.DeniedNumBind[i].text)
+                }
             }
+
+
 
             $scope.basicConfig.AllowedNumbers = JSON.stringify(allowedNumArr);
             $scope.basicConfig.DeniedNumbers = JSON.stringify(deniedNumArr);
