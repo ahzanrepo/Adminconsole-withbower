@@ -64,151 +64,51 @@
 
     <div class="col-md-6 col-md-8 col-xs-12" style="padding-left: 0px;">
         <!-- user view mode -->
-        <div ng-show="viewDivState==0" class="user-details-view">
-            <div class="col-xs-12 invoice-header user-view-header">
-                <h1 class="font-robot text-uppercase">
-                    {{basicConfig.SipUsername}}
-                    <small class="pull-right public-user m-l-10 ">
-                        <i class="fa fa-globe"></i>
-                        public
-                    </small>
-                    <small class="pull-right edit-user m-l-10"
-                           ng-click="viewBtnClick(1)">
-                        <i class="fa fa-pencil"></i>
-                        Edit
-                    </small>
-                    <small class="pull-right new-user"
-                           ng-click="viewBtnClick(2)">
-                        <i class="fa fa-user"></i>
-                        New
-                    </small>
-                </h1>
-            </div>
-            <div class="user-config-details">
-                <div class="col-lg-12">
-                    <div class="animated fadeIn col-md-8">
-                        <h3>User name</h3>
-                        <p class="text-uppercase">{{basicConfig.SipUsername}}</p>
-                    </div>
 
-                    <div class="animated fadeIn col-md-4">
-                        <h3>Password</h3>
-                        <p>*********</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-12">
-                    <div class="col-md-6 animated fadeIn">
-                        <h3>Reference Id </h3>
-                        <p>{{basicConfig.GuRefId}}</p>
-                    </div>
-
-                    <div class="col-lg-6 animated fadeIn">
-                        <h3>PIN</h3>
-                        <p>{{basicConfig.Pin}}</p>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-12">
-                    <div class="user-config">
-                        <p>Attendant Transfer Configuration</p>
-
-                        <div class="col-md-3">
-                            <checkbox class="btn-success check-save" ng-model="basicConfig.TransInternalEnable"
-                                      ng-init="basicConfig.TransInternalEnable=false"></checkbox>
-                            <label>
-                                <small>Internal</small>
-                            </label>
-                        </div>
-                        <div class="col-md-3">
-                            <checkbox class="btn-success check-save" ng-model="basicConfig.TransExternalEnable"
-                                      ng-init="basicConfig.TransExternalEnable=false"></checkbox>
-                            <label>
-                                <small>External</small>
-                            </label>
-                        </div>
-                        <div class="col-md-3">
-                            <checkbox class="btn-success check-save" ng-model="basicConfig.TransConferenceEnable"
-                                      ng-init="basicConfig.TransExternalEnable=false"></checkbox>
-                            <label>
-                                <small>Conference</small>
-                            </label>
-                        </div>
-                        <div class="col-md-3">
-                            <checkbox class="btn-success check-save" ng-model="basicConfig.TransGroupEnable"
-                                      ng-init="basicConfig.TransExternalEnable=false"></checkbox>
-                            <label>
-                                <small>Group</small>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-12">
-                    <div class="animated fadeIn col-md-4">
-                        <h3>Domain</h3>
-                        <p>{{basicConfig.CloudEndUser.Domain}}</p>
-                    </div>
-                    <div class="animated fadeIn col-md-4">
-                        <h3>Context</h3>
-                        <p>{{basicConfig.ContextId}}</p>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
 
         <!-- user edit view -->
-        <div ng-show="viewDivState==1" class="user-details-view">
+        <!--<div ng-show="viewDivState==0 || viewDivState==1" class="user-details-view">
             <form name="sipUserConfForm">
                 <div class="col-xs-12 invoice-header user-view-header">
                     <h1 class="font-robot text-uppercase">
                         {{basicConfig.SipUsername}}
+
                         <small class="pull-right new-user"
-                               ng-click="viewBtnClick(0)">
+                               ng-click="viewBtnClick(2)">
                             <i class="fa fa-user"></i>
-                            Cancel
+                            New
                         </small>
                     </h1>
                 </div>
                 <div class="item form-group ">
-                    <!-- sip user and password -->
+                    &lt;!&ndash; sip user and password &ndash;&gt;
                     <div class="col-lg-12">
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="sipUserName">Sip Username *</label></h3>
                             <p><input class="form-control" id="sipUserName"
                                       ng-model="basicConfig.SipUsername"
                                       ng-disabled="IsEdit"
-                                      ng-model-options="{ updateOn: 'blur' }" usernamecheck
-                                      placeholder="Sip Username" required></p>
-                        </div>
-                        <div ng-messages="sipUserConfForm.sipUsrName.$error" ng-if="sipUserConfForm.sipUsrName.$dirty">
-                            <div class="alert" ng-message="required">This field is required</div>
-                            <div class="alert" ng-message="usernamecheck">Username already taken</div>
+                                      ng-model-options="{ updateOn: 'blur' }"
+                                      placeholder="Sip Username"></p>
                         </div>
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="password">Password *</label></h3>
                             <p><input type="password" class="form-control" id="password" placeholder="password"
-                                      ng-model="basicConfig.Password" required></p>
-                        </div>
-                        <div ng-messages="sipUserConfForm.password.$error" ng-if="sipUserConfForm.password.$dirty">
-                            <div class="alert" ng-message="required">This field is required</div>
+                                      ng-model="basicConfig.Password"></p>
                         </div>
                     </div>
 
-                    <!-- email address -->
+                    &lt;!&ndash; email address &ndash;&gt;
 
 
-                    <!-- reference ID | extension | PIN -->
+                    &lt;!&ndash; reference ID | extension | PIN &ndash;&gt;
                     <div class="col-lg-12">
                         <div class="col-md-5 animated fadeIn">
                             <h3><label for="refID">Reference Id</label></h3>
                             <p><input type="text" class="form-control "
                                       id="refID"
                                       name="refID"
-                                      ng-model="basicConfig.GuRefId" required></p>
+                                      ng-model="basicConfig.GuRefId"></p>
                         </div>
 
                         <div class="col-md-4 animated fadeIn">
@@ -218,11 +118,7 @@
                                       name="ext"
                                       ng-model="basicConfig.Extension"
                                       ng-model-options="{ updateOn: 'blur'}"
-                                      ng-disabled="IsEdit" extcheck required>
-                            <div ng-messages="sipUserConfForm.ext.$error" ng-if="sipUserConfForm.ext.$dirty">
-                                <div class="alert" ng-message="required">This field is required</div>
-                                <div class="alert" ng-message="extcheck">Extension number already in use</div>
-                            </div>
+                                      ng-disabled="IsEdit">
                             </p>
                         </div>
                         <div class="col-md-3 animated fadeIn">
@@ -230,11 +126,11 @@
                             <p><input type="text" class="form-control "
                                       id="pinID"
                                       name="pinID"
-                                      ng-model="basicConfig.Pin" required></p>
+                                      ng-model="basicConfig.Pin"></p>
                         </div>
                     </div>
 
-                    <!-- domain | context -->
+                    &lt;!&ndash; domain | context &ndash;&gt;
                     <div class="col-lg-12">
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="refID">Domain</label></h3>
@@ -309,18 +205,18 @@
                 </div>
 
             </form>
-        </div>
+        </div>-->
 
         <!-- create new user -->
-        <div ng-show="viewDivState==2" class="user-details-view">
+        <div class="user-details-view">
             <form name="sipUserConfForm">
                 <div class="col-xs-12 invoice-header user-view-header">
                     <h1 class="font-robot text-uppercase">
-                        Create new Sip User
-                        <small class="pull-right new-user" ng-show="canCancelNewUser"
-                               ng-click="viewBtnClick(0)">
+                        {{SipUsernameDisplay}}
+                        <small ng-show="FormState" class="pull-right new-user"
+                               ng-click="viewBtnClick()">
                             <i class="fa fa-user"></i>
-                            Cancel
+                            {{FormState}}
                         </small>
                     </h1>
                 </div>
@@ -332,19 +228,12 @@
                             <p><input class="form-control" id="NewsipUserName" name="sipUsrName"
                                       ng-model="basicConfig.SipUsername"
                                       ng-disabled="IsEdit"
-                                      ng-model-options="{ updateOn: 'blur' }" usernamecheck required></p>
-                        </div>
-                        <div ng-messages="sipUserConfForm.sipUsrName.$error" ng-if="sipUserConfForm.sipUsrName.$dirty">
-                            <div class="alert" ng-message="required">This field is required</div>
-                            <div class="alert" ng-message="usernamecheck">Username already taken</div>
+                                      ng-model-options="{ updateOn: 'blur' }"></p>
                         </div>
                         <div class="col-md-6 animated fadeIn">
                             <h3><label for="newPassword">Password *</label></h3>
                             <p><input type="password" class="form-control" id="newPassword"
-                                      ng-model="basicConfig.Password" required></p>
-                        </div>
-                        <div ng-messages="sipUserConfForm.password.$error" ng-if="sipUserConfForm.password.$dirty">
-                            <div class="alert" ng-message="required">This field is required</div>
+                                      ng-model="basicConfig.Password"></p>
                         </div>
                     </div>
 
@@ -360,11 +249,7 @@
                                       ng-model="basicConfig.Extension"
                                       placeholder="Extension"
                                       ng-model-options="{ updateOn: 'blur'}"
-                                      ng-disabled="IsEdit" extcheck required>
-                            <div ng-messages="sipUserConfForm.ext.$error" ng-if="sipUserConfForm.ext.$dirty">
-                                <div class="alert" ng-message="required">This field is required</div>
-                                <div class="alert" ng-message="extcheck">Extension number already in use</div>
-                            </div>
+                                      ng-disabled="IsEdit">
                             </p>
                         </div>
                         <div class="col-md-6 animated fadeIn">
@@ -373,7 +258,7 @@
                                       id="newPinId"
                                       name="pinID"
                                       placeholder="PIN"
-                                      ng-model="basicConfig.Pin" required></p>
+                                      ng-model="basicConfig.Pin"></p>
                         </div>
                     </div>
 

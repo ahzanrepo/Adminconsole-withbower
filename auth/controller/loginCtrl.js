@@ -50,10 +50,18 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                     $state.go('console');
                                 })
                             } else {
-                                $state.go('pricing');
+
+
+                                    $state.go('pricing');
+
+
                             }
                         } else {
-                            $state.go('console');
+
+
+                            loginService.getUserNavigation(function (isnavigation) {
+                                $state.go('console');
+                            })
                         }
 
                     });
