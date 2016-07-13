@@ -32,7 +32,7 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
                 slotStateTime: 0,
             };
 
-
+            scope.profile.name = scope.resItem.ResourceName;
 
            /* /!* Set ConcurrencyInfo *!/
             var sessionIds = [];
