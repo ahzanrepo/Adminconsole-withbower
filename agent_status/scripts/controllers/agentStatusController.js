@@ -298,13 +298,34 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
 
     var getAllRealTime = function () {
         $scope.getProfileDetails();
-        $scope.GetAllActiveCalls();
+        //$scope.GetAllActiveCalls();
         $scope.GetProductivity();
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 
     // getAllRealTime();
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+
+
+
+
+
+    ////////added for test////////////////////////////////////////////////////////
+
+    var getAllRealTimeCalls = function () {
+        $scope.GetAllActiveCalls();
+        getAllRealTimeCallTimer = $timeout(getAllRealTimeCalls, $scope.refreshTime);
+    };
+
+    // getAllRealTime();
+    var getAllRealTimeCallTimer = $timeout(getAllRealTimeCalls, $scope.refreshTime);
+
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 
     $scope.$on("$destroy", function () {
         if (getAllRealTimeTimer) {
