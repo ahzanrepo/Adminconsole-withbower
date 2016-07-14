@@ -35,6 +35,21 @@
       })
     };
 
+    var callMonitorRestApiDummy = function ()
+    {
+      var authToken = authService.GetToken();
+      return $http({
+        method: 'GET',
+        url: 'http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Calls',
+        headers: {
+          'authorization': authToken
+        }
+      }).then(function (resp)
+      {
+        return resp.data;
+      })
+    };
+
     var validateExtension = function(ext)
     {
       var authToken = authService.GetToken();
@@ -446,7 +461,8 @@
       assignExtensionToGroup: assignExtensionToGroup,
       deleteExtension: deleteExtension,
       validateUsername: validateUsername,
-      validateExtension: validateExtension
+      validateExtension: validateExtension,
+      callMonitorRestApiDummy: callMonitorRestApiDummy
 
     };
   };
