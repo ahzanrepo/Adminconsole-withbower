@@ -351,6 +351,24 @@
                             </div>
                         </div>
 
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">Rule Type</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group">
+
+                            <select class="form-control" ng-model="newObj.ObjCategory" ng-selected="$first">
+                                <option ng-selected="true">CALL</option>
+                                <option>SMS</option>
+                                <option>CLICKTOCALL</option>
+                            </select>
+
+
+                        </div>
+
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">Custom Regex Pattern</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control"  ng-model="newObj.CustomRegEx" >
+                            <span>for sms</span>
+                        </div>
+
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"ng-if="editMode==true">
                             <span class="fa fa-cog" ng-click="showAdvanced()" ></span>
                         </div>
