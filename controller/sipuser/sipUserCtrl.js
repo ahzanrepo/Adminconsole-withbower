@@ -114,9 +114,14 @@
                         data.Result.CloudEndUserId = data.Result.CloudEndUserId.toString();
                     }
                     $scope.basicConfig = data.Result;
+                    if(data.Result)
+                    {
+                        $scope.SipUsernameDisplay = data.Result.SipUsername;
+                    }
+
 
                     if (data.Result && data.Result.Extension) {
-                        $scope.basicConfig.Extension = data.Result.Extension.Extension;
+                        $scope.basicConfig.Extension = data.Result.SipUsername;
                     }
 
                 }
