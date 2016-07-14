@@ -202,7 +202,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
             $scope.showAlert("Error", "Error", "ok", "Fail To Get Active Call List.");
         });
     };
-    $scope.GetAllActiveCalls();
+    //$scope.GetAllActiveCalls();
 
     $scope.attributesList = [];
     $scope.GetAllAttributes = function () {
