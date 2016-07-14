@@ -312,13 +312,31 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
 
     ////////added for test////////////////////////////////////////////////////////
 
-    var getAllRealTimeCalls = function () {
-        $scope.GetAllActiveCalls();
-        getAllRealTimeCallTimer = $timeout(getAllRealTimeCalls, $scope.refreshTime);
+    var getAllRealTimeCallsxxxx = function () {
+        //$scope.GetAllActiveCalls();
+
+
+
+        agentStatusService.GetAllActiveCalls().then(function (response) {
+            $scope.activeCalls = response;
+
+            getAllRealTimeCallsxxxx();
+
+        }, function (error) {
+            $log.debug("getAllActiveCalls err");
+            $scope.showAlert("Error", "Error", "ok", "Fail To Get Active Call List.");
+
+            getAllRealTimeCallsxxxx();
+        });
+
+
+        //getAllRealTimeCallTimer = $timeout(getAllRealTimeCalls, $scope.refreshTime);
     };
 
+
+    getAllRealTimeCallsxxxx();
     // getAllRealTime();
-    var getAllRealTimeCallTimer = $timeout(getAllRealTimeCalls, $scope.refreshTime);
+    //var getAllRealTimeCallTimer = $timeout(getAllRealTimeCalls, $scope.refreshTime);
 
 
     ///////////////////////////////////////////////////////////////////////////////////
