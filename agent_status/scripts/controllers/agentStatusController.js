@@ -202,7 +202,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
             $scope.showAlert("Error", "Error", "ok", "Fail To Get Active Call List.");
         });
     };
-    //$scope.GetAllActiveCalls();
+    $scope.GetAllActiveCalls();
 
     $scope.attributesList = [];
     $scope.GetAllAttributes = function () {
@@ -298,7 +298,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
 
     var getAllRealTime = function () {
         $scope.getProfileDetails();
-        //$scope.GetAllActiveCalls();
+        $scope.GetAllActiveCalls();
         $scope.GetProductivity();
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
@@ -310,36 +310,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
 
 
 
-    ////////added for test////////////////////////////////////////////////////////
 
-    var getAllRealTimeCallsxxxx = function () {
-        //$scope.GetAllActiveCalls();
-
-
-
-        agentStatusService.GetAllActiveCalls().then(function (response) {
-            $scope.activeCalls = response;
-
-            getAllRealTimeCallsxxxx();
-
-        }, function (error) {
-            $log.debug("getAllActiveCalls err");
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get Active Call List.");
-
-            getAllRealTimeCallsxxxx();
-        });
-
-
-        //getAllRealTimeCallTimer = $timeout(getAllRealTimeCalls, $scope.refreshTime);
-    };
-
-
-    getAllRealTimeCallsxxxx();
-    // getAllRealTime();
-    //var getAllRealTimeCallTimer = $timeout(getAllRealTimeCalls, $scope.refreshTime);
-
-
-    ///////////////////////////////////////////////////////////////////////////////////
 
 
 

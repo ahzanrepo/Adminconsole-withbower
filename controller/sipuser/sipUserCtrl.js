@@ -105,15 +105,6 @@
 
         $scope.onEditPressed = function (username) {
 
-            sipUserApiHandler.callMonitorRestApiDummy().then(function(data1)
-            {
-                console.log('SUCCESS')
-
-            }).catch(function(err)
-            {
-                console.log('ERROR')
-            });
-
             $scope.IsEdit = true;
             $scope.EditState = 'Edit User';
             $scope.viewDivState = 0;
