@@ -169,15 +169,38 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
 
     $scope.saveNewRule = function () {
         //$scope.newObj.Direction=Direction;
+        var isValid = true;
+        try {
+            new RegExp($scope.newObj.CustomRegEx);
+        } catch(e) {
+            isValid = false;
+        }
+
+
+
         if($scope.editMode)
         {
-
-            ruleconfigservice.updateRules($scope.newObj).then(onSaveCompleted,onError);
+            if(isValid)
+            {
+                ruleconfigservice.updateRules($scope.newObj).then(onSaveCompleted, onError);
+            }else
+            {
+                $scope.showAlert("Error","Invalid Custom regEx pattern","error");
+            }
         }
 
         else
         {
-            ruleconfigservice.addNewRule($scope.newObj).then(onSaveCompleted,onError);
+
+            if(isValid)
+            {
+                ruleconfigservice.addNewRule($scope.newObj).then(onSaveCompleted,onError);
+            }
+            else
+            {
+                $scope.showAlert("Error","Invalid Custom regEx pattern","error");
+            }
+
         }
 
 

@@ -101,6 +101,9 @@
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goAgentStatus()">Agent
                                         Status</a></li>
+                                    <li ng-show="accessNavigation.EXTENSION"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goExtension()">Extension</a></li>
+
                                 </ul>
                             </li>
                             <li ng-show="accessNavigation.CDR || accessNavigation.APPLICATIONS || accessNavigation.RULES">
@@ -116,6 +119,9 @@
                                     </li>
                                     <li ng-show="accessNavigation.RULES"><a href="javascript:void(0);"
                                                                             ng-click="clickDirective.goRule()">Rules</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.DID"><a href="javascript:void(0);"
+                                                                            ng-click="clickDirective.goDID()">DID Configuration</a>
                                     </li>
                                 </ul>
                             </li>

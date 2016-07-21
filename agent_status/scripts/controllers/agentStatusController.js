@@ -306,6 +306,16 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
     // getAllRealTime();
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
+
+
+
+
+
+
+
+
+
+
     $scope.$on("$destroy", function () {
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
