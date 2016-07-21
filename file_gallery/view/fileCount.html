@@ -1,8 +1,16 @@
-<!--<span class="count_top"><i class="fa fa-user"></i> {{fileCount.Category| uppercase}}</span>
-<div class="count green">{{fileCount.Count}}</div><span class="count_bottom"><i class="green"><i
-        class="fa fa-sort-asc"></i>Total Number of Files</i></span>-->
+<!--
+<div ng-click="loadFileByCategoryID()">
+    <div class="count">{{category.fileCount.Count}}</div>
 
-<div class="count">{{fileCount.Count}}</div>
+    <h3>{{category.fileCount.Category| uppercase}}</h3>
 
-<h3>{{fileCount.Category| uppercase}}</h3>
-<p>Total Number of Files.</p>
+    <p>Total Number of Files.</p>
+</div>
+-->
+<div class="tile-stats animated flipInY col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-click="loadFileByCategoryID()">
+    <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+    <div class="count">{{category.fileCount.Count}}</div>
+    <p>Total Number of Files.</p>
+    <h3>{{category.fileCount.Category| uppercase}}</h3>
+
+</div>

@@ -1,6 +1,6 @@
-mainApp.controller("attributeListController", function ($scope, $compile, $filter, $location, $log, attributeService) {
+mainApp.controller("attributeListController", function ($scope, $compile, $filter, $location, $log,$anchorScroll, attributeService) {
 
-
+    $anchorScroll();
     $scope.countByCategory = [];
     $scope.categoryId = 0;
     $scope.showPaging = false;
@@ -113,7 +113,6 @@ mainApp.controller("attributeListController", function ($scope, $compile, $filte
     $scope.groupsData = {};
     $scope.GetGroups = function (Paging, page, pageSize) {
         attributeService.GetGroups(pageSize, page).then(function (response) {
-
             $log.debug("GetGroups: response" + response);
             $scope.groupsData = response;
         }, function (error) {

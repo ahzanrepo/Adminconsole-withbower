@@ -39,7 +39,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
 
   };
 
-  var getFiles = function (pageNo) {
+  var getFiles = function (pageSize,pageNo) {
     return $http({
       method: 'get',
       url: baseUrls.fileServiceUrl+ 'Files/50/'+pageNo,

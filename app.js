@@ -3,7 +3,7 @@
  */
 
 
-var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
+var mainApp = angular.module('veeryConsoleApp', ['ngAnimate','ngMessages', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
@@ -11,18 +11,23 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ui.bootstrap',
     'AngularBootstrapTree',
     'jkuri.slimscroll',
     'base64',
+    'dndLists',
     'angular-jwt',
     'angular-sly',
     'LocalStorageModule',
     'ngSanitize',
+    'ngCsv',
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster'
+    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker'
 ]);
 
 
 mainApp.constant('moment', moment);
+mainApp.run(['$anchorScroll', function($anchorScroll) {
+    $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
+}]);
 
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/',
@@ -30,8 +35,11 @@ var baseUrls = {
     'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
-    'fileServiceInternalUrl': 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/'
-
+    'fileServiceInternalUrl': 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
+    'clusterconfigUrl':'http://clusterconfig.104.131.67.21.xip.io/DVP/API/1.0.0.0/CloudConfiguration/',
+    'conferenceUrl':'http://conference.104.131.67.21.xip.io/DVP/API/1.0.0.0/',
+    'sipUserendpoint': 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/',
+    'pbxUrl': 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -175,7 +183,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "pbxCtrl",
             data: {
                 requireLogin: true,
-                navigation: "PABX_USERS"
+                navigation: "PABX_USER"
+            }
+        }).state("console.pbxadmin", {
+            url: "/pbxadmin",
+            templateUrl: "views/pabxAdmin/pabxCompanyConfig.html",
+            controller: "pbxAdminCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "PABX_ADMIN"
             }
         }).state("console.ringGroup", {
             url: "/ringGroup",
@@ -264,7 +280,23 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 requireLogin: true,
                 navigation: "LimitHandler"
             }
-        }).state('console.queuesummary', {
+        }).state('console.conference', {
+            url: "/conference",
+            templateUrl: "conference_app/views/conferenceList.html",
+            controller: "conferenceController",
+            data: {
+                requireLogin: true,
+                navigation: "CONFERENCE"
+            }
+        })/*.state('console.conferencemonitor', {
+            url: "/conference",
+            templateUrl: "conference_app/views/conferenceMonitor.html",
+            controller: "conferenceMonitorController",
+            data: {
+                requireLogin: true,
+                navigation: "CONFERENCE"
+            }
+        })*/.state('console.queuesummary', {
             url: "/queuesummary",
             templateUrl: "views/queue-summary/queue-summary.html",
             controller: "queueSummaryController",
@@ -319,6 +351,16 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 }
 
             })
+            .state('console.did', {
+                url: "/didnumbers",
+                templateUrl: "views/did/did.html",
+                controller: "didController",
+                data: {
+                    requireLogin: true,
+                    navigation: "DID"
+                }
+            })
+
 
     }]);
 

@@ -20,6 +20,35 @@
       })
     };
 
+    var validateUsername = function (usr)
+    {
+      var authToken = authService.GetToken();
+      return $http({
+        method: 'GET',
+        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/User/' + usr,
+        headers: {
+          'authorization': authToken
+        }
+      }).then(function (resp)
+      {
+        return resp.data;
+      })
+    };
+
+    var validateExtension = function(ext)
+    {
+      var authToken = authService.GetToken();
+      return $http({
+        method: 'GET',
+        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
+        headers: {
+          'authorization': authToken
+        }
+      }).then(function (resp) {
+        return resp.data;
+      })
+    };
+
     var getGroups = function()
     {
       var authToken = authService.GetToken();
@@ -415,7 +444,10 @@
       removeUserFromGroup: removeUserFromGroup,
       deleteGroup: deleteGroup,
       assignExtensionToGroup: assignExtensionToGroup,
-      deleteExtension: deleteExtension
+      deleteExtension: deleteExtension,
+      validateUsername: validateUsername,
+      validateExtension: validateExtension
+
     };
   };
 

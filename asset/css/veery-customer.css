@@ -344,6 +344,7 @@ a {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 14px;
+    height: 40px;
     color: #555;
     border: 2px solid #e6e5e5;
     border-radius: 5px;
@@ -1434,7 +1435,9 @@ small > i {
     color: #f8b01d;
     cursor: default;
     background-color: transparent;
-    border: 0px solid;
+    border: 0;
+    border-bottom: 2px solid;
+    font-size: 15px;
 }
 
 .cover-image {
@@ -2371,7 +2374,217 @@ ul.social li {
     color: #ffffff;
 }
 
+.pabxStatus {
+    height: 25px;
+    width: 65px;
+    padding: 5px;
+    opacity: 1;
+    font-size: 8pt;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.pabxStatus.dnd {
+    background-color: rgb(208, 59, 89);
+}
+
+.pabxStatus.dnd:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(208, 59, 89) !important;
+    border-radius: 8px !important;
+}
+
+.pabxStatus.divert {
+    background-color: rgb(5, 142, 156);
+}
+
+.pabxStatus.divert:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(5, 142, 156) !important;
+    border-radius: 8px !important;
+}
+
+.pabxStatus.available {
+    background-color: rgb(70, 167, 87);
+}
+
+.pabxStatus.available:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(70, 167, 87) !important;
+    border-radius: 8px !important;
+}
+
+.pabxStatus.followme {
+    background-color: rgb(187, 143, 54);
+}
+
+.pabxStatus.followme:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(187, 143, 54) !important;
+    border-radius: 8px !important;
+}
+
+.pabxStatus.forward {
+    background-color: rgb(241, 100, 58);
+}
+
+.pabxStatus.forward:hover {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(241, 100, 58) !important;
+    border-radius: 8px !important;
+}
+
 /*knob*/
 .knob-resources {
 
 }
+
+/*pagination style*/
+.pagination > .disabled > a, .pagination > .disabled > a:focus, .pagination > .disabled > a:hover, .pagination > .disabled > span, .pagination > .disabled > span:focus, .pagination > .disabled > span:hover {
+    color: #2ba89c;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #f8b01d;
+}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span {
+    margin-left: 0px;
+    border-top-left-radius: 11px;
+    border-bottom-left-radius: 11px;
+}
+
+.pagination > li:last-child > a, .pagination > li:last-child > span {
+    border-top-right-radius: 11px;
+    border-bottom-right-radius: 11px;
+}
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    z-index: 0;
+    color: #fff;
+    cursor: default;
+    background-color: #f8b01d;
+    border-color: #f8b01d;
+}
+
+.x_title span {
+    color: #e6e5e5;
+}
+
+tags-input .autocomplete {
+    z-index: 99999
+}
+
+tags-input .autocomplete .suggestion-list {
+    z-index: 10022;
+}
+
+tags-input .tags .tag-item {
+    color: #fff;
+    background: #f8b01d;
+    border: 1px solid #f8b01d;
+    border-radius: 5px;
+}
+
+tags-input .tags {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -moz-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    height: 40px;
+    color: #555;
+    border: 2px solid #e6e5e5;
+}
+
+tags-input .tags.focused {
+    border: 2px solid #CCD0D7;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 0px rgba(0, 0, 0, 0);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 0px rgba(0, 0, 0, 0);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 0px rgba(0, 0, 0, 0);
+}
+
+.btn {
+    padding: 9px 12px;
+}
+
+/*update damith*/
+.pbx-config-wrapper {
+    width: 100%;
+    height: 315px;
+    background: #ffffff;
+    position: absolute;
+    top: -120%;
+    left: -0;
+    z-index: 100;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.icheckbox_flat-green, .iradio_flat-green {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background: url(green.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.pbx-user-state {
+    margin-top: 7px;
+}
+
+.pbx-edit-wrap {
+    padding-top: 15px;
+}
+
+.pbx-view-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 7px;
+    width: 100%;
+    background: #ffffff;
+
+}
+
+.pbx-edit-wrapper {
+    position: absolute;
+    width: 100%;
+    background: #ffffff;
+    top: 0;
+    right: -200%;
+    z-index: 100;
+    padding: 20px;
+}
+
+.template-view-wrapper {
+    width: 100%;
+    height: 550px;
+}
+
+.text-validaion {
+    font-family: 'Roboto', sans-serif;
+    padding-left: 3px;
+    font-weight: bold;
+    text-transform: lowercase;
+    font-size: 13px;
+}
+
+.sandbox-wrapper {
+    border: 1px solid;
+    width: 100%;
+    height: auto;
+}
+
+

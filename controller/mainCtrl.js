@@ -63,6 +63,12 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         goUsers: function () {
             $state.go('console.users');
         },
+        goPbxUsers: function () {
+            $state.go('console.pbxuser');
+        },
+        goPbxAdmin: function () {
+            $state.go('console.pbxadmin');
+        },
         goMyNumbers: function () {
             $state.go('console.myNumbers');
         },
@@ -90,6 +96,12 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         goLimits: function () {
             $state.go('console.limits');
         },
+        goConference: function () {
+            $state.go('console.conference');
+        },
+        /*goConferenceMonitor: function () {
+            $state.go('console.conferencemonitor');
+        },*/
         goQueueSummary: function () {
             $state.go('console.queuesummary');
         },
@@ -102,6 +114,13 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
 
         goProfile: function () {
             $state.go('console.myprofile');
+        },
+
+        goExtension: function () {
+        $state.go('console.extension');
+    },
+        goDID: function () {
+            $state.go('console.did');
         }
     };
 

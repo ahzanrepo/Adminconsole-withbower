@@ -688,6 +688,8 @@ a:hover, a:focus {
     position: relative;
     display: block;
     padding: 13px 15px 12px;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
 }
 
 .nav.side-menu > li.current-page, .nav.side-menu > li.active {
@@ -2499,7 +2501,7 @@ ul.parsley-errors-list {
 
 input.parsley-error, textarea.parsley-error, select.parsley-error {
     background: #FAEDEC;
-    border: 1px solid #E85445;
+    border: 2px solid #E85445;
 }
 
 .btn-group .parsley-errors-list {
@@ -2507,7 +2509,7 @@ input.parsley-error, textarea.parsley-error, select.parsley-error {
 }
 
 .bad input, .bad select, .bad textarea {
-    border: 1px solid #CE5454;
+    border: 2px solid #CE5454;
     box-shadow: 0 0 4px -2px #CE5454;
     position: relative;
     left: 0;
@@ -2948,8 +2950,6 @@ ul.timeline li {
     left: 0;
     width: 84px;
 }
-
-
 
 .timeline .tag {
     display: block;
