@@ -3,11 +3,10 @@
  */
 
 
-(function() {
+(function () {
     var app = angular.module("veeryConsoleApp");
 
-    var pbxCtrl = function ($scope, $rootScope, $uibModal, pbxUserApiHandler)
-    {
+    var pbxCtrl = function ($scope, $rootScope, $uibModal, pbxUserApiHandler) {
 
         $scope.showAlert = function (title, type, content) {
 
@@ -25,151 +24,126 @@
 
         $scope.pabxUserSelected = {};
 
-        $rootScope.$on('SetCurrentPABXUserStatus', function(event, args)
-        {
+        $rootScope.$on('SetCurrentPABXUserStatus', function (event, args) {
             $scope.pabxUserSelected.UserStatus = args.UserStatus;
             $scope.pabxUserSelected.AdvancedRouteMethod = args.AdvancedRouteMethod;
         });
 
-        $rootScope.$on('PABX_ReloadUserList', function(event, args)
-        {
+        $rootScope.$on('PABX_ReloadUserList', function (event, args) {
             $scope.reloadUserList();
         });
 
-        $scope.loadBasicConfig = function(pbxUsr)
-        {
+        $scope.loadBasicConfig = function (pbxUsr) {
             $scope.PABX_OnEditMode = true;
 
             $scope.pabxUserSelected = pbxUsr;
 
             $scope.$emit('PABX_LoadUserData', pbxUsr);
+            $("#pbxEditWrapper").animate({
+                right: "0%"
+            });
 
 
         };
 
-        $scope.newUser = function()
-        {
-
-            $scope.$emit('PABX_ResetForms', null);
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/pbxuser/pabxNewUserView.html',
-                controller: 'pbxNewUserCtrl',
-                size: 'lg',
-                resolve: {
-                    items: function () {
-                        return $scope.items;
-                    }
-                }
-            });
-        }
-
-
+        //$scope.newUser = function()
+        //{
+        //
+        //    $scope.$emit('PABX_ResetForms', null);
+        //    var modalInstance = $uibModal.open({
+        //        animation: true,
+        //        templateUrl: 'views/pbxuser/pabxNewUserView.html',
+        //        controller: 'pbxNewUserCtrl',
+        //        size: 'lg',
+        //        resolve: {
+        //            items: function () {
+        //                return $scope.items;
+        //            }
+        //        }
+        //    });
+        //}
 
 
-        $scope.updateStatus = function(selectedStatus, pbxUsr)
-        {
+        $scope.updateStatus = function (selectedStatus, pbxUsr) {
             $scope.PABX_OnEditMode = false;
             $scope.$emit('PABX_ResetForms', null);
 
-            if(selectedStatus === 'DND')
-            {
+            if (selectedStatus === 'DND') {
                 pbxUsr.UserStatus = 'DND';
                 pbxUsr.AdvancedRouteMethod = 'NONE';
             }
-            else if(selectedStatus === 'CALL_DIVERT')
-            {
+            else if (selectedStatus === 'CALL_DIVERT') {
                 pbxUsr.UserStatus = 'CALL_DIVERT';
                 pbxUsr.AdvancedRouteMethod = 'NONE';
             }
-            else if(selectedStatus === 'AVAILABLE')
-            {
+            else if (selectedStatus === 'AVAILABLE') {
                 pbxUsr.UserStatus = 'AVAILABLE';
                 pbxUsr.AdvancedRouteMethod = 'NONE';
             }
-            else if(selectedStatus === 'FOLLOW_ME')
-            {
+            else if (selectedStatus === 'FOLLOW_ME') {
                 pbxUsr.UserStatus = 'AVAILABLE';
                 pbxUsr.AdvancedRouteMethod = 'FOLLOW_ME';
             }
-            else if(selectedStatus === 'FORWARD')
-            {
+            else if (selectedStatus === 'FORWARD') {
                 pbxUsr.UserStatus = 'AVAILABLE';
                 pbxUsr.AdvancedRouteMethod = 'FORWARD';
             }
-            else
-            {
+            else {
                 pbxUsr.UserStatus = 'AVAILABLE';
                 pbxUsr.AdvancedRouteMethod = 'NONE';
             }
 
-            pbxUserApiHandler.updatePABXUser(pbxUsr).then(function(data1)
-            {
-                if(data1.IsSuccess)
-                {
+            pbxUserApiHandler.updatePABXUser(pbxUsr).then(function (data1) {
+                if (data1.IsSuccess) {
                     $scope.CurrentSelectedUser = {}
                     pbxUsr.StatusEditMode = false;
                 }
-                else
-                {
+                else {
                     var errMsg = data1.CustomMessage;
 
-                    if(data1.Exception)
-                    {
+                    if (data1.Exception) {
                         errMsg = data1.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
                 $scope.showAlert('Error', 'error', 'Communication Error Occurred');
             });
 
         }
 
-        $scope.openStatusEdit = function(pbxUsr)
-        {
-            if(pbxUsr.UserStatus === 'DND')
-            {
+        $scope.openStatusEdit = function (pbxUsr) {
+            if (pbxUsr.UserStatus === 'DND') {
                 $scope.pabxUserSelected.Status = 'DND';
             }
-            else if(pbxUsr.UserStatus === 'CALL_DIVERT')
-            {
+            else if (pbxUsr.UserStatus === 'CALL_DIVERT') {
                 $scope.pabxUserSelected.Status = 'CALL_DIVERT';
             }
-            else if(pbxUsr.UserStatus === 'AVAILABLE' && pbxUsr.AdvancedRouteMethod == 'NONE')
-            {
+            else if (pbxUsr.UserStatus === 'AVAILABLE' && pbxUsr.AdvancedRouteMethod == 'NONE') {
                 $scope.pabxUserSelected.Status = 'AVAILABLE';
             }
-            else if(pbxUsr.UserStatus === 'AVAILABLE' && pbxUsr.AdvancedRouteMethod == 'FOLLOW_ME')
-            {
+            else if (pbxUsr.UserStatus === 'AVAILABLE' && pbxUsr.AdvancedRouteMethod == 'FOLLOW_ME') {
                 $scope.pabxUserSelected.Status = 'FOLLOW_ME';
             }
-            else if(pbxUsr.UserStatus === 'AVAILABLE' && pbxUsr.AdvancedRouteMethod == 'FORWARD')
-            {
+            else if (pbxUsr.UserStatus === 'AVAILABLE' && pbxUsr.AdvancedRouteMethod == 'FORWARD') {
                 $scope.pabxUserSelected.Status = 'FORWARD';
             }
-            else
-            {
+            else {
                 $scope.pabxUserSelected.Status = 'AVAILABLE';
             }
 
 
-
-            if(!$scope.CurrentSelectedUser)
-            {
+            if (!$scope.CurrentSelectedUser) {
                 $scope.CurrentSelectedUser = pbxUsr;
             }
 
-            if($scope.CurrentSelectedUser.UserName != pbxUsr.UserName)
-            {
+            if ($scope.CurrentSelectedUser.UserName != pbxUsr.UserName) {
                 $scope.CurrentSelectedUser.StatusEditMode = false;
             }
 
 
-            if(pbxUsr.StatusEditMode === undefined)
-            {
+            if (pbxUsr.StatusEditMode === undefined) {
                 pbxUsr.StatusEditMode = false;
             }
 
@@ -179,58 +153,46 @@
         };
 
 
-        $scope.deleteUser = function(userUuid)
-        {
+        $scope.deleteUser = function (userUuid) {
             pbxUserApiHandler.deletePABXUser(userUuid)
-                .then(function(data)
-                {
-                    if(data.IsSuccess)
-                    {
-                        $scope.reloadUserList();
-                        $scope.$emit('PABX_ResetForms', null);
-                    }
-                    else
-                    {
-                        var errMsg = data.CustomMessage;
-
-                        if(data.Exception)
-                        {
-                            errMsg = data.Exception.Message;
+                .then(function (data) {
+                        if (data.IsSuccess) {
+                            $scope.reloadUserList();
+                            $scope.$emit('PABX_ResetForms', null);
                         }
-                        $scope.showAlert('Error', 'error', errMsg);
-                    }
+                        else {
+                            var errMsg = data.CustomMessage;
 
-                },
-                function(err)
-                {
-                    $scope.showAlert('Error', 'error', 'Communication error occurred while deleting');
+                            if (data.Exception) {
+                                errMsg = data.Exception.Message;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+                        }
 
-                })
+                    },
+                    function (err) {
+                        $scope.showAlert('Error', 'error', 'Communication error occurred while deleting');
+
+                    })
 
         };
 
-        $scope.editPABXUser = function(usrUuid)
-        {
+        $scope.editPABXUser = function (usrUuid) {
             $scope.IsEdit = true;
             $scope.reloadDivertNumbers(usrUuid);
         };
 
-        $scope.reloadUserList = function()
-        {
+        $scope.reloadUserList = function () {
             $scope.searchCriteria = "";
-            var onGetPABXUserListSuccess = function(data)
-            {
-                if(data.IsSuccess)
-                {
+            var onGetPABXUserListSuccess = function (data) {
+                if (data.IsSuccess) {
                     $scope.pabxUsrList = data.Result;
                     $scope.total = data.Result.length;
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
 
@@ -242,11 +204,9 @@
 
             };
 
-            var onGetPABXUserListError = function(err)
-            {
+            var onGetPABXUserListError = function (err) {
                 var errMsg = "Error occurred while getting pabx user list";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
 
@@ -260,6 +220,25 @@
 
         $scope.reloadUserList();
 
+
+        //update code damtih
+        $scope.onClickLoadPBXconfig = function () {
+            $("#pbxConfig").animate({
+                top: "0"
+            });
+        };
+
+        $scope.onClickPBXclose = function () {
+            $("#pbxConfig").animate({
+                top: "-120%"
+            });
+        };
+
+        $scope.onClickPBXEditUserClose = function () {
+            $("#pbxEditWrapper").animate({
+                right: "-200%"
+            });
+        };
 
 
     };

@@ -1,12 +1,4 @@
 <div class="x_panel" ng-controller="pbxForwardingCtrl">
-    <div class="x_title col-md-9 col-sm-9 col-xs-9">
-        <h2>Conditional Forwarding Configurations</h2>
-
-    </div>
-    <div class="x_title col-md-3 col-sm-3 col-xs-3" ng-if="CurUserName">
-        <h2>User : {{CurUserName}}</h2>
-    </div>
-    <div class="clearfix"></div>
     <div class="x_content col-md-12 col-sm-12 col-xs-12">
 
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -58,7 +50,9 @@
                                     <td>{{item.ObjCategory}}</td>
                                     <td>{{item.DisconnectReason}}</td>
                                     <td>{{item.RingTimeout}}</td>
-                                    <td><button ng-click="deleteFWD(item.id)"><i class="fa fa-trash"></i></button></td>
+                                    <td>
+                                        <button ng-click="deleteFWD(item.id)"><i class="fa fa-trash"></i></button>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -83,54 +77,60 @@
             <br>
             <br>
 
-            <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
-                <label>Destination Type * :</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <label>Destination Type  <span class="inline-block validation-on text-validaion  "
+                                               ng-show="newForwardingForm.destType.$invalid && !newForwardingForm.destType.$pristine">
+                           Required field
+                  </span></label>
                 <select class="select2_single form-control" name="destType" tabindex="-1" aria-hidden="true"
-                        placeholder="Destination Type" ng-model="numberType" ng-model-options="{trackBy: '$value'}" required>
+                        placeholder="Destination Type" ng-model="numberType" ng-model-options="{trackBy: '$value'}"
+                        required>
                     <option value="USER">User</option>
                     <option value="GATEWAY">Gateway</option>
                 </select>
-                <div ng-messages="newForwardingForm.destType.$error" ng-if="newForwardingForm.destType.$dirty">
-                    <div class="alert" ng-message="required">Required field</div>
-                </div>
             </div>
 
-            <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
-                <label>Destination Number * :</label>
-                <input class="form-control" name="destinationNum" ng-model="destinationNumber" required ng-pattern="/^[0-9]*$/">
-                <div ng-messages="newForwardingForm.destinationNum.$error" ng-if="newForwardingForm.destinationNum.$dirty">
-                    <div class="alert" ng-message="pattern">Valid number required</div>
-                </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <label>Destination Number <span class="inline-block validation-on text-validaion  "
+                                                ng-show="newForwardingForm.destinationNum.$invalid &&
+                                                !newForwardingForm.destinationNum.$pristine">
+                          Valid number required
+                  </span></label>
+                <input class="form-control" name="destinationNum" ng-model="destinationNumber" required
+                       ng-pattern="/^[0-9]*$/">
             </div>
 
-            <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
-                <label>Disconnect Reason * :</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <label>Disconnect Reason  <span class="inline-block validation-on text-validaion  "
+                                                ng-show="newForwardingForm.disconReason.$invalid &&
+                                                !newForwardingForm.disconReason.$pristine">
+                         Required field
+                  </span></label>
                 <select class="select2_single form-control" name="disconReason" tabindex="-1" aria-hidden="true"
-                        placeholder="Disconnect Reason" ng-model="disconReason" ng-model-options="{trackBy: '$value'}" required>
+                        placeholder="Disconnect Reason" ng-model="disconReason" ng-model-options="{trackBy: '$value'}"
+                        required>
                     <option value="BUSY">Busy</option>
                     <option value="NO_ANSWER">No Answer</option>
                 </select>
-                <div ng-messages="newForwardingForm.disconReason.$error" ng-if="newForwardingForm.disconReason.$dirty">
-                    <div class="alert" ng-message="required">Required field</div>
-                </div>
             </div>
 
-            <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
-                <label>Ring Timeout * :</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <label>Ring Timeout <span class="inline-block validation-on text-validaion  "
+                                          ng-show="newForwardingForm.ringTimeout.$invalid &&
+                                                !newForwardingForm.ringTimeout.$pristine">
+                      Valid number required
+                  </span></label>
                 <input class="form-control" name="ringTimeout" ng-model="ringTimeout" required ng-pattern="/^[0-9]*$/">
-                <div ng-messages="newForwardingForm.ringTimeout.$error" ng-if="newForwardingForm.ringTimeout.$dirty">
-                    <div class="alert" ng-message="pattern">Valid number required</div>
-                </div>
             </div>
 
 
             <div class="clearfix"></div>
 
             <br>
-            <br>
-
-            <button class="btn btn-primary" ng-click="saveFWD()" ng-disabled="newForwardingForm.$invalid">Add</button>
-
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-primary" ng-click="saveFWD()" ng-disabled="newForwardingForm.$invalid">Add
+                </button>
+            </div>
         </form>
     </div>
 </div>

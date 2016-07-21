@@ -1,14 +1,5 @@
 <div class="x_panel" ng-controller="pbxTemplateCtrl">
-    <div class="x_title col-md-9 col-sm-9 col-xs-9">
-        <h2>PABX User Template</h2>
-
-    </div>
-    <div class="x_title col-md-3 col-sm-3 col-xs-3" ng-if="CurUserName">
-        <h2>User : {{CurUserName}}</h2>
-    </div>
-    <div class="clearfix"></div>
     <div class="x_content col-md-12 col-sm-12 col-xs-12">
-
         <div class="col-md-12 col-sm-12 col-xs-12">
             <label><b>Current Templates</b></label>
         </div>
@@ -53,7 +44,9 @@
                                     <td>{{item.id}}</td>
                                     <td>{{item.ObjCategory}}</td>
                                     <td>{{item.CallDivertNumber}}</td>
-                                    <td><button ng-click="deleteTemplate(item.id)"><i class="fa fa-trash"></i></button></td>
+                                    <td>
+                                        <button ng-click="deleteTemplate(item.id)"><i class="fa fa-trash"></i></button>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -78,33 +71,38 @@
             <br>
             <br>
 
-            <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
-                <label>Destination Type * :</label>
+            <div class="item form-group  col-md-6 col-sm-6 col-xs-12">
+                <label>Destination Type  <span class="inline-block validation-on text-validaion  "
+                                               ng-show="addTemplateForm.destType.$invalid && !addTemplateForm.destType.$pristine"
+                >
+                             Required field
+                  </span> </label>
                 <select class="select2_single form-control" name="destType" tabindex="-1" aria-hidden="true"
-                        placeholder="Destination Type" ng-model="numberType" ng-model-options="{trackBy: '$value'}" required>
+                        placeholder="Destination Type" ng-model="numberType" ng-model-options="{trackBy: '$value'}"
+                        required>
                     <option value="USER">User</option>
                     <option value="GATEWAY">Gateway</option>
                 </select>
-                <div ng-messages="addTemplateForm.destType.$error" ng-if="addTemplateForm.destType.$dirty">
-                    <div class="alert" ng-message="required">Required field</div>
-                </div>
             </div>
 
-            <div class="item form-group bad col-md-6 col-sm-6 col-xs-12">
-                <label>Destination Number * :</label>
-                <input class="form-control" name="destinationNum" ng-model="destinationNumber" required ng-pattern="/^[0-9]*$/">
-                <div ng-messages="addTemplateForm.destinationNum.$error" ng-if="addTemplateForm.destinationNum.$dirty">
-                    <div class="alert" ng-message="pattern">Valid number required</div>
-                </div>
+            <div class="item form-group  col-md-6 col-sm-6 col-xs-12">
+                <label>Destination Number <span class="inline-block validation-on text-validaion  "
+                                                ng-show="addTemplateForm.destinationNum.$invalid && !addTemplateForm.destinationNum.$pristine"
+                >
+                            Valid number required
+                  </span> </label>
+                <input class="form-control" name="destinationNum" ng-model="destinationNumber" required
+                       ng-pattern="/^[0-9]*$/">
             </div>
 
 
             <div class="clearfix"></div>
 
             <br>
-            <br>
-
-            <button class="btn btn-primary" ng-click="saveTemplate()" ng-disabled="addTemplateForm.$invalid">Add</button>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-primary" ng-click="saveTemplate()" ng-disabled="addTemplateForm.$invalid">Add
+                </button>
+            </div>
 
         </form>
     </div>

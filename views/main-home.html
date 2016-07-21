@@ -6,8 +6,8 @@
                     <a href="index.html" class="site_title">
                         <img src="images/console_logo.png" width="45px" height="45px">
                         <span class="font-robot font-700 font-green-light500">
-                         <small class="font-black500">veery</small>
-                             ADMIN
+                         <small class="font-black500">FACE</small>
+                             TONE
                         </span>
                     </a>
                 </div>
@@ -68,7 +68,7 @@
                                                                                    ng-click="clickDirective.goLimits()">Limits</a>
                                     </li>
                                     <li ng-show="accessNavigation.CONFERENCE"><a href="javascript:void(0);"
-                                                                                   ng-click="clickDirective.goConference()">Conference</a>
+                                                                                 ng-click="clickDirective.goConference()">Conference</a>
                                     </li>
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>
@@ -84,10 +84,12 @@
                                                                             ng-click="clickDirective.goUsers()">Users</a>
                                     </li>
                                     <li ng-show="accessNavigation.PABX_USER"><a href="javascript:void(0);"
-                                                                            ng-click="clickDirective.goPbxUsers()">PABX Users</a>
+                                                                                ng-click="clickDirective.goPbxUsers()">PABX
+                                        Users</a>
                                     </li>
                                     <li ng-show="accessNavigation.PABX_ADMIN"><a href="javascript:void(0);"
-                                                                                ng-click="clickDirective.goPbxAdmin()">PABX Admin</a>
+                                                                                 ng-click="clickDirective.goPbxAdmin()">PABX
+                                        Admin</a>
                                     </li>
                                     <li ng-show="accessNavigation.SIPUSER_CONFIGURATION"><a href="javascript:void(0);"
                                                                                             ng-click="clickDirective.goSipUser()">SIP
@@ -268,9 +270,11 @@
                     </ul>
                 </nav>
             </div>
+
         </div>
         <div class="right_col" role="main" style="min-height: 1647px;">
             <ul ui-view>
+
             </ul>
         </div>
     </div>
