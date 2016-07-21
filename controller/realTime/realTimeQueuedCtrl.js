@@ -241,7 +241,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
 
             var updatetimer = $timeout(updateRealtime, 2000);
 
-            updateRealtime();
+            //updateRealtime();
 
 
             scope.$on("$destroy", function() {
