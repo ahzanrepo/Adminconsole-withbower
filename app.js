@@ -203,8 +203,8 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             }
         }).state('console.callmonitor', {
             url: "/call-monitor",
-            templateUrl: "views/call-monitor/callMonitor.html",
-            controller: "callmonitorcntrl",
+            templateUrl: "views/call-monitor/callMonitor2.html",
+            controller: "callmonitorcntrl2",
             data: {
                 requireLogin: true,
                 navigation: "CALL_MONITOR"

@@ -194,6 +194,7 @@ mainApp.controller('callmonitorcntrl', function ($scope,$uibModal, callMonitorSr
 
         $scope.CallStatus = null;
         $scope.currentSessionID = null;
+        $scope.LoadCurrentCalls();
 
     };
 

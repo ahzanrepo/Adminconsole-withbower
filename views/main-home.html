@@ -279,6 +279,69 @@
 
         </div>
         <div class="right_col" role="main" style="min-height: 1647px;">
+
+<div >
+
+    <div class ="call-monitor-widget" ng-show="isRegistered" onunload="onClosePage()">
+        <ul class="nav navbar-right panel_toolbox">
+
+            <li><a class="close-link" ng-click="UnregisterPhone()" ><i class="fa fa-close"></i></a>
+            </li>
+        </ul>
+    <!--<i class="fa fa-circle" style="color: green" ng-show="isRegistered">   Online </i>
+    <i class="fa fa-circle" style="color: red" ng-show="!isRegistered">   Offline </i>-->
+    <!--<input type="password" class="form-control" placeholder="" name="txt_max" ng-model="userPasssword" ng-show="!isRegistered" required>
+    <button class="btn bg-blue700 hvr-pop btnLeft" ng-click="RegisterPhone()" ng-show="!isRegistered"><span class=""
+                                                                                                            aria-hidden="true">Register</span></button>
+-->
+    <div class="call-monitor" ng-show="isRegistered">
+        <div class="monitor-header">
+            <h2 class="font-robot font-300" style="color: green" >Online</h2>
+
+        </div>
+        <div class="center-icon">
+            <img src="images/call_center.png" width="50px"
+                 height="50px;"/>
+
+            <div>
+                <small>{{clickBtnStateName}}</small>
+            </div>
+        </div>
+
+        <div class="call-moitor-btn-wrap">
+            <div ng-if="inCall">
+                <button class="btn bg-blue700 hvr-pop" ng-click=""><span class="fa fa-microphone-slash "
+                                                                         aria-hidden="true"></span></button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span class="fa fa-phone"
+                                                                                     aria-hidden="true"></span>
+                </button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span class="fa fa-group"
+                                                                                       aria-hidden="true"></span>
+                </button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="BargeCall()"
+                        ng-disabled="(CallStatus=='BARGED' || CallStatus=='THREEWAY' || CallStatus==null)"><span
+                        class="fa fa-bullhorn" aria-hidden="true"></span></button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
+                        ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)"><span class="fa fa-mail-reply"
+                                                                                       aria-hidden="true"></span>
+                </button>
+                <button class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
+                        ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )">
+                    <span class="fa fa-user" aria-hidden="true"></span></button>
+                <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->
+
+
+            </div>
+        </div>
+    </div>
+</div></div>
+
+
+
+
+
+            <audio id="audio_remote" autoplay="autoplay"></audio>
+
             <ul ui-view>
 
             </ul>

@@ -3,8 +3,17 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
+mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, loginService,authService) {
 
+
+    //added by pawan
+
+    $scope.CallStatus = null;
+    $scope.phoneSatus = false;
+    $scope.loginData={};
+    $scope.callListStatus=false;
+    $scope.isRegistered=false;
+    $scope.inCall=false;
 
     //check my navigation
     //is can access
@@ -100,8 +109,8 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
             $state.go('console.conference');
         },
         /*goConferenceMonitor: function () {
-            $state.go('console.conferencemonitor');
-        },*/
+         $state.go('console.conferencemonitor');
+         },*/
         goQueueSummary: function () {
             $state.go('console.queuesummary');
         },
@@ -117,8 +126,8 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
         },
 
         goExtension: function () {
-        $state.go('console.extension');
-    },
+            $state.go('console.extension');
+        },
         goDID: function () {
             $state.go('console.did');
         }
@@ -158,6 +167,178 @@ mainApp.controller('mainCtrl', function ($scope, $state, loginService) {
             $scope.scrollEnabled = false;
         });
     };
+
+
+    //update pawan
+
+
+    var authToken = authService.GetToken();
+
+
+
+
+
+    var getRegistrationData = function (authToken,password) {
+
+        var decodeData = jwtHelper.decodeToken(authToken);
+        console.log("Token Obj "+decodeData);
+
+        if(decodeData.context.veeryaccount)
+        {
+            var values = decodeData.context.veeryaccount.contact.split("@");
+            var sipUri="sip:" + decodeData.context.veeryaccount.contact;
+            var WSUri="wss://" + values[1] + ":7443";
+            var realm=values[1];
+            var username=values[0];
+            var displayname=values[0];
+            var loginData ={
+                realm: realm,
+                impi:displayname,
+                impu:sipUri,
+                display_name:decodeData.iss,
+                websocket_proxy_url:WSUri,
+                password:password
+
+
+            }
+
+            return loginData;
+
+        }
+        else
+        {
+            return false;
+        }
+
+
+    };
+
+    var onRegistrationCompleted = function (response) {
+        //console.log(response);
+        console.log("Hit registered");
+        console.log("Registerd","Successfully registered","success");
+        $scope.callListStatus=true;
+        $scope.$apply(function () {
+            $scope.phoneSatus = true;
+            $scope.isRegistered=true;
+            $rootScope.$emit('register_status',  $scope.isRegistered);
+
+        });
+
+    };
+
+    var onUnRegisterCompleted = function (response) {
+        //console.log(response);
+        console.log("Unregistered","Registration terminated","notice");
+        $scope.callListStatus=false;
+        $scope.$apply(function () {
+            $scope.phoneSatus = false;
+            $scope.inCall=false;
+            $scope.isRegistered=false;
+            $rootScope.$emit('register_status',  $scope.isRegistered);
+        });
+
+    };
+
+    var onCallDisconnected = function () {
+        //console.log(response);
+        console.log("Call disconnected","Call is disconnected","notice");
+        $scope.clickBtnStateName = "Waiting";
+        $scope.$apply(function () {
+            $scope.isCallMonitorOption = 0;
+            $scope.inCall=false;
+        });
+
+        $scope.CallStatus = null;
+        $scope.currentSessionID = null;
+
+        $rootScope.$emit('load_calls',true);
+
+
+    };
+
+    var onCallConnected = function () {
+        $scope.$apply(function () {
+            console.log("onCallConnected");
+            $scope.CallStatus = "LISTEN";
+            $scope.clickBtnStateName = "Listen";
+            $scope.isCallMonitorOption = 1;
+            $scope.inCall=true;
+        });
+
+    };
+
+    $scope.RegisterPhone = function (password) {
+        var loginData=getRegistrationData(authToken,password);
+        if(loginData)
+        {
+            Initiate(loginData,onRegistrationCompleted, onCallDisconnected, onCallConnected,onUnRegisterCompleted);
+        }
+        else
+        {
+            console.log("registration failed");
+        }
+    };
+
+    $scope.UnregisterPhone= function () {
+        unregister();
+    }
+
+    $scope.HangUpCall = function () {
+        hangupCall();
+        $scope.CallStatus = null;
+        $scope.clickBtnStateName = "waiting";
+    };
+
+    $scope.ThreeWayCall = function () {
+        //alert("barged: "+bargeID);
+        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
+
+        sendDTMF('3');
+        $scope.CallStatus = 'THREEWAY';
+        $scope.clickBtnStateName = "Conference ";
+    };
+
+    $scope.BargeCall = function () {
+        //alert("barged: "+bargeID);
+
+        //callMonitorSrv.bargeCalls($scope.currentSessionID,protocol).then(onBargeComplete,onError);
+        sendDTMF('2');
+        $scope.CallStatus = "BARGED";
+        $scope.clickBtnStateName = "Barged";
+    };
+
+    $scope.ReturnToListen = function () {
+        //alert("barged: "+bargeID);
+        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
+
+        sendDTMF('0');
+        $scope.CallStatus = 'LISTEN';
+        $scope.clickBtnStateName = "Listen";
+    };
+
+    $scope.SwapUser = function () {
+        //alert("barged: "+bargeID);
+        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
+
+        sendDTMF('1');
+        $scope.CallStatus = "SWAPED";
+        $scope.clickBtnStateName = "Client";
+
+    };
+
+    $rootScope.$on("register_phone", function (event,args) {
+
+        Initiate(args,onRegistrationCompleted, onCallDisconnected, onCallConnected,onUnRegisterCompleted);
+    });
+
+    $rootScope.$on("check_register", function (event,args) {
+
+        $rootScope.$emit("is_registered",$scope.isRegistered);
+    });
+
+
+
 
 });
 

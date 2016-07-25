@@ -496,6 +496,19 @@ label {
     border-radius: 5px;
 }
 
+
+.call-monitor-widget {
+    min-width: 450px;
+    max-width: 550px;
+    height: 320px;
+    background: #fff;
+    position: relative;
+    z-index: 99999;
+    text-align: center;
+    margin: 10% auto;
+    border-radius: 5px;
+}
+
 .center-icon {
     padding-top: 20px;
     padding-bottom: 50px;
@@ -2586,5 +2599,15 @@ tags-input .tags.focused {
     width: 100%;
     height: auto;
 }
+.call-monitor-widget
+{
+position  :fixed ;
+bottom : 10px;
+right : 10px;
+}
 
+#btnLeft:active {
+    width: 70px;
+    height: 74px;
+}
 
