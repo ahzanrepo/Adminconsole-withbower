@@ -104,8 +104,8 @@ a {
 }
 
 .bg-blue700 {
-    background-color: #114858 !important;
-    border: 1px solid #114858 !important;
+    background-color: #383b3b !important;
+    border: 1px solid #383b3b !important;
     color: #fff;
 }
 
@@ -496,17 +496,14 @@ label {
     border-radius: 5px;
 }
 
-
 .call-monitor-widget {
-    min-width: 450px;
-    max-width: 550px;
-    height: 320px;
+    width: 62px;
+    height: 278px;
     background: #fff;
-    position: relative;
     z-index: 99999;
     text-align: center;
-    margin: 10% auto;
     border-radius: 5px;
+    padding-top: 8px;;
 }
 
 .center-icon {
@@ -2599,15 +2596,36 @@ tags-input .tags.focused {
     width: 100%;
     height: auto;
 }
-.call-monitor-widget
-{
-position  :fixed ;
-bottom : 10px;
-right : 10px;
+
+.call-monitor-widget {
+    position: fixed;
+    bottom: 145px;
+    right: -5%;
 }
 
 #btnLeft:active {
     width: 70px;
     height: 74px;
+}
+
+.call-widget-toggle {
+    position: absolute;
+    width: 28px;
+    height: 38px;
+    margin-top: 122px;
+    background: #ffffff;
+    z-index: 100;
+    left: -28px;
+    float: left;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    cursor: pointer;
+    outline: none !important;
+}
+
+.call-widget-toggle > i {
+    font-size: 34px;
+    color: #f8b01d;
+    padding: 2px 0px 10px 0px;
 }
 
