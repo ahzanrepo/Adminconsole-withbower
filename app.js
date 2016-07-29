@@ -360,6 +360,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     navigation: "DID"
                 }
             })
+            .state('console.scheduler', {
+                url: "/schedules",
+                templateUrl: "views/scheduler/schedule.html",
+                controller: "scheduleController",
+                data: {
+                    requireLogin: true,
+                    navigation: "SCHEDULER"
+                }
+            })
 
 
     }]);

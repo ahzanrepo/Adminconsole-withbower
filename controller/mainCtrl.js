@@ -9,7 +9,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, lo
     //added by pawan
 
     $scope.CallStatus = null;
-    $scope.phoneSatus = false;
     $scope.loginData={};
     $scope.callListStatus=false;
     $scope.isRegistered=false;
@@ -219,7 +218,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, lo
         console.log("Registerd","Successfully registered","success");
         $scope.callListStatus=true;
         $scope.$apply(function () {
-            $scope.phoneSatus = true;
             $scope.isRegistered=true;
             $rootScope.$emit('register_status',  $scope.isRegistered);
 
@@ -232,7 +230,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, lo
         console.log("Unregistered","Registration terminated","notice");
         $scope.callListStatus=false;
         $scope.$apply(function () {
-            $scope.phoneSatus = false;
             $scope.inCall=false;
             $scope.isRegistered=false;
             $rootScope.$emit('register_status',  $scope.isRegistered);
