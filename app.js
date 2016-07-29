@@ -368,6 +368,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "SCHEDULER"
                 }
+            }).state('console.companyconfig', {
+                url: "/companyconfiguration",
+                templateUrl: "views/companyConfig/companyConfigMain.html",
+                controller: "companyConfigController",
+                data: {
+                    requireLogin: false,
+                    navigation: "COMPANYCONFIG"
+                }
             })
 
 

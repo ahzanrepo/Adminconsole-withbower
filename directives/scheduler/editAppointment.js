@@ -7,15 +7,12 @@ mainApp.directive("editappointment", function ($filter,$uibModal,scheduleBackend
     return {
         restrict: "EAA",
         scope: {
-            schedule: "=",
-            appointment: "=",
-            appointmentList:"=",
-            'showEdit':'&',
-            'updateAppointment': '&',
-            'reloadpage':'&'
+            context: "=",
+            'updateContext': '&'
+
         },
 
-        templateUrl: 'views/scheduler/partials/editAppointment.html',
+        templateUrl: 'views/companyConfig/partials/editContext.html',
 
         link: function (scope) {
 
