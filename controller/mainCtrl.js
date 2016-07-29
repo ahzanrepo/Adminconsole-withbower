@@ -3,16 +3,17 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, loginService,authService) {
+mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, loginService, authService) {
 
 
     //added by pawan
 
     $scope.CallStatus = null;
-    $scope.loginData={};
-    $scope.callListStatus=false;
-    $scope.isRegistered=false;
-    $scope.inCall=false;
+    $scope.phoneSatus = false;
+    $scope.loginData = {};
+    $scope.callListStatus = false;
+    $scope.isRegistered = false;
+    $scope.inCall = false;
 
     //check my navigation
     //is can access
@@ -174,29 +175,25 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, lo
     var authToken = authService.GetToken();
 
 
-
-
-
-    var getRegistrationData = function (authToken,password) {
+    var getRegistrationData = function (authToken, password) {
 
         var decodeData = jwtHelper.decodeToken(authToken);
-        console.log("Token Obj "+decodeData);
+        console.log("Token Obj " + decodeData);
 
-        if(decodeData.context.veeryaccount)
-        {
+        if (decodeData.context.veeryaccount) {
             var values = decodeData.context.veeryaccount.contact.split("@");
-            var sipUri="sip:" + decodeData.context.veeryaccount.contact;
-            var WSUri="wss://" + values[1] + ":7443";
-            var realm=values[1];
-            var username=values[0];
-            var displayname=values[0];
-            var loginData ={
+            var sipUri = "sip:" + decodeData.context.veeryaccount.contact;
+            var WSUri = "wss://" + values[1] + ":7443";
+            var realm = values[1];
+            var username = values[0];
+            var displayname = values[0];
+            var loginData = {
                 realm: realm,
-                impi:displayname,
-                impu:sipUri,
-                display_name:decodeData.iss,
-                websocket_proxy_url:WSUri,
-                password:password
+                impi: displayname,
+                impu: sipUri,
+                display_name: decodeData.iss,
+                websocket_proxy_url: WSUri,
+                password: password
 
 
             }
@@ -204,8 +201,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, lo
             return loginData;
 
         }
-        else
-        {
+        else {
             return false;
         }
 
@@ -215,11 +211,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, lo
     var onRegistrationCompleted = function (response) {
         //console.log(response);
         console.log("Hit registered");
-        console.log("Registerd","Successfully registered","success");
-        $scope.callListStatus=true;
+        console.log("Registerd", "Successfully registered", "success");
+        $scope.callListStatus = true;
         $scope.$apply(function () {
-            $scope.isRegistered=true;
-            $rootScope.$emit('register_status',  $scope.isRegistered);
+            $scope.phoneSatus = true;
+            $scope.isRegistered = true;
+            $rootScope.$emit('register_status', $scope.isRegistered);
 
         });
 
@@ -227,62 +224,70 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, lo
 
     var onUnRegisterCompleted = function (response) {
         //console.log(response);
-        console.log("Unregistered","Registration terminated","notice");
-        $scope.callListStatus=false;
+        console.log("Unregistered", "Registration terminated", "notice");
+        $scope.callListStatus = false;
         $scope.$apply(function () {
-            $scope.inCall=false;
-            $scope.isRegistered=false;
-            $rootScope.$emit('register_status',  $scope.isRegistered);
+            $scope.phoneSatus = false;
+            $scope.inCall = false;
+            $scope.isRegistered = false;
+            $rootScope.$emit('register_status', $scope.isRegistered);
         });
 
     };
 
     var onCallDisconnected = function () {
         //console.log(response);
-        console.log("Call disconnected","Call is disconnected","notice");
+        $scope.isToggleMenu = false;
+        $('#callWidget').animate({
+            right: '-5%'
+        });
+        console.log("Call disconnected", "Call is disconnected", "notice");
         $scope.clickBtnStateName = "Waiting";
         $scope.$apply(function () {
             $scope.isCallMonitorOption = 0;
-            $scope.inCall=false;
+            $scope.inCall = false;
         });
 
         $scope.CallStatus = null;
         $scope.currentSessionID = null;
 
-        $rootScope.$emit('load_calls',true);
+        $rootScope.$emit('load_calls', true);
 
 
     };
 
     var onCallConnected = function () {
+        $scope.isToggleMenu = true;
+        $('#callWidget').animate({
+            right: '-6px'
+        });
         $scope.$apply(function () {
             console.log("onCallConnected");
             $scope.CallStatus = "LISTEN";
             $scope.clickBtnStateName = "Listen";
             $scope.isCallMonitorOption = 1;
-            $scope.inCall=true;
+            $scope.inCall = true;
         });
 
     };
 
     $scope.RegisterPhone = function (password) {
-        var loginData=getRegistrationData(authToken,password);
-        if(loginData)
-        {
-            Initiate(loginData,onRegistrationCompleted, onCallDisconnected, onCallConnected,onUnRegisterCompleted);
+        var loginData = getRegistrationData(authToken, password);
+        if (loginData) {
+            Initiate(loginData, onRegistrationCompleted, onCallDisconnected, onCallConnected, onUnRegisterCompleted);
         }
-        else
-        {
+        else {
             console.log("registration failed");
         }
     };
 
-    $scope.UnregisterPhone= function () {
+    $scope.UnregisterPhone = function () {
         unregister();
     }
 
     $scope.HangUpCall = function () {
         hangupCall();
+        $scope.isToggleMenu = false;
         $scope.CallStatus = null;
         $scope.clickBtnStateName = "waiting";
     };
@@ -324,18 +329,31 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, lo
 
     };
 
-    $rootScope.$on("register_phone", function (event,args) {
+    $rootScope.$on("register_phone", function (event, args) {
 
-        Initiate(args,onRegistrationCompleted, onCallDisconnected, onCallConnected,onUnRegisterCompleted);
+        Initiate(args, onRegistrationCompleted, onCallDisconnected, onCallConnected, onUnRegisterCompleted);
     });
 
-    $rootScope.$on("check_register", function (event,args) {
+    $rootScope.$on("check_register", function (event, args) {
 
-        $rootScope.$emit("is_registered",$scope.isRegistered);
+        $rootScope.$emit("is_registered", $scope.isRegistered);
     });
 
 
-
-
+    //toggle widget
+    $scope.isToggleMenu = false;
+    $scope.toggleWidget = function () {
+        if ($scope.isToggleMenu) {
+            $('#callWidget').animate({
+                right: '-5%'
+            });
+            $scope.isToggleMenu = false;
+        } else {
+            $('#callWidget').animate({
+                right: '-6px'
+            });
+            $scope.isToggleMenu = true;
+        }
+    }
 });
 
