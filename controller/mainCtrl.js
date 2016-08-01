@@ -132,7 +132,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope,$state,jwtHelper, lo
         },
         goSchedule : function () {
             $state.go('console.scheduler');
-        }
+        },
+        goCompanyConfig : function () {
+        $state.go('console.companyconfig');
+    }
     };
 
     var getUserName = function () {

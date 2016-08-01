@@ -22,7 +22,7 @@ mainApp.directive("editschedule", function ($filter,$uibModal,scheduleBackendSer
             scope.editMode = false;
             scope.configMode=false;
 
-            scope.editApplication = function () {
+            scope.editAppointment = function () {
                 scope.editMode = !scope.editMode;
                 console.log(scope.applist);
             };

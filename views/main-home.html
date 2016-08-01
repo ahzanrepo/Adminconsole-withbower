@@ -49,7 +49,7 @@
                                             ng-click="clickDirective.goRealTimeQueued()">Queued</a></li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE">
+                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANYCONFIG">
                                 <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -72,6 +72,9 @@
                                     </li>
                                     <li ng-show="accessNavigation.SCHEDULER"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goSchedule()">Scheduler</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.COMPANYCONFIG"><a href="javascript:void(0);"
+                                                                                ng-click="clickDirective.goCompanyConfig()">Company configuration</a>
                                     </li>
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>

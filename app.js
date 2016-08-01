@@ -373,7 +373,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 templateUrl: "views/companyConfig/companyConfigMain.html",
                 controller: "companyConfigController",
                 data: {
-                    requireLogin: false,
+                    requireLogin: true,
                     navigation: "COMPANYCONFIG"
                 }
             })

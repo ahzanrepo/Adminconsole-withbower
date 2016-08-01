@@ -56,9 +56,6 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
     };
 
 
-    $scope.addApplication = function () {
-        $scope.addNew = !$scope.addNew;
-    };
     $scope.removeDeleted = function (item) {
 
         console.log("Hit remDel");
