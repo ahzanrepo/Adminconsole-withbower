@@ -7,12 +7,13 @@ mainApp.directive("editappointment", function ($filter,$uibModal,scheduleBackend
     return {
         restrict: "EAA",
         scope: {
-            context: "=",
-            'updateContext': '&'
+            appointment: "=",
+            schedule:"=",
+            'updateAppointment': '&'
 
         },
 
-        templateUrl: 'views/companyConfig/partials/editContext.html',
+        templateUrl: 'views/scheduler/partials/editAppointment.html',
 
         link: function (scope) {
 
@@ -76,11 +77,18 @@ mainApp.directive("editappointment", function ($filter,$uibModal,scheduleBackend
                 }
                 else
                 {
-                    //var results = query ? scope.dayList.filter(createFilterFor(query)) : [];
-                    //return results;
-                    return [];
+                    var results = query ? scope.dayList.filter(createFilterFor(query)) : [];
+                    return results;
+                    //return [];
                 }
 
+            };
+
+            function createFilterFor(query) {
+                var lowercaseQuery = angular.lowercase(query);
+                return function filterFn(days) {
+                    return (days.toLowerCase().indexOf(lowercaseQuery) != -1);
+                };
             };
 
             if(scope.appointment.DaysOfWeek)

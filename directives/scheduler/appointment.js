@@ -86,7 +86,9 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
                 {
                     //var results = query ? scope.dayList.filter(createFilterFor(query)) : [];
                     //return results;
-                    return [];
+                    //return [];
+                    var results = query ? scope.dayList.filter(createFilterFor(query)) : [];
+                    return results;
                 }
 
             };
@@ -94,7 +96,7 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
             function createFilterFor(query) {
                 var lowercaseQuery = angular.lowercase(query);
                 return function filterFn(days) {
-                    return (days.day.toLowerCase().indexOf(lowercaseQuery) != -1);
+                    return (days.toLowerCase().indexOf(lowercaseQuery) != -1);
                 };
             };
 
