@@ -135,6 +135,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goCompanyConfig: function () {
             $state.go('console.companyconfig');
+        },
+        goTranslations: function () {
+            $state.go('console.translations');
         }
     };
 
