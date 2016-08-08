@@ -10,11 +10,11 @@ mainApp.factory("queueMonitorService", function ($http, authService) {
 
 
     var getAllConcurrentQueue = function () {
-        //dashboard.104.131.67.21.xip.io
+        //dashboard.app.veery.cloud
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/ConcurrentQueued/" + queue + "/5",
+            url: "http://dashboard.app.veery.cloud/DashboardGraph/ConcurrentQueued/" + queue + "/5",
             headers: {
                 'authorization': authToken
             }
@@ -29,11 +29,11 @@ mainApp.factory("queueMonitorService", function ($http, authService) {
 
 
     var getAllQueueStats = function () {
-        //dashboard.104.131.67.21.xip.io
+        //dashboard.app.veery.cloud
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/QueueDetails",
+            url: "http://dashboard.app.veery.cloud/DashboardEvent/QueueDetails",
             headers: {
                 'authorization': authToken
             }
@@ -49,11 +49,11 @@ mainApp.factory("queueMonitorService", function ($http, authService) {
     };
 
     var getSingleQueueStats = function (queue) {
-        //dashboard.104.131.67.21.xip.io
+        //dashboard.app.veery.cloud
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/QueueSingleDetail/" + queue,
+            url: "http://dashboard.app.veery.cloud/DashboardEvent/QueueSingleDetail/" + queue,
             headers: {
                 'authorization': authToken
             }
@@ -68,11 +68,11 @@ mainApp.factory("queueMonitorService", function ($http, authService) {
     };
 
     var getSingleQueueGraph = function (queue) {
-        //dashboard.104.131.67.21.xip.io
+        //dashboard.app.veery.cloud
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/ConcurrentQueued/"+ queue+"/5",
+            url: "http://dashboard.app.veery.cloud/DashboardGraph/ConcurrentQueued/"+ queue+"/5",
             headers: {
                 'authorization': authToken
             }

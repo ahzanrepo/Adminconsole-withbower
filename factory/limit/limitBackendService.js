@@ -10,7 +10,7 @@ mainApp.factory('limitBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Limit/Info',
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Limit/Info',
                 headers: {
                     'authorization': authToken
                 }})
@@ -22,7 +22,7 @@ mainApp.factory('limitBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Limit',
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Limit',
                 headers: {
                     'authorization': authToken
                 },
@@ -37,7 +37,7 @@ mainApp.factory('limitBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Limit/'+limitId+'/Max/'+maxLimit,
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Limit/'+limitId+'/Max/'+maxLimit,
                 headers: {
                     'authorization': authToken
                 }
@@ -50,7 +50,7 @@ mainApp.factory('limitBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Limit/'+limitId+'/Activate/'+status,
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Limit/'+limitId+'/Activate/'+status,
                 headers: {
                     'authorization': authToken
                 }

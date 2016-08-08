@@ -13,7 +13,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRules',
+                url: 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRules',
                 headers: {
                     'authorization': authToken
                 }
@@ -27,7 +27,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRules/Direction/INBOUND',
+                url: 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRules/Direction/INBOUND',
                 headers: {
                     'authorization': authToken
                 }
@@ -41,7 +41,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRules/Direction/OUTBOUND',
+                url: 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRules/Direction/OUTBOUND',
                 headers: {
                     'authorization': authToken
                 }
@@ -65,7 +65,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
 
             return $http({
                 method: 'POST',
-                url: 'http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule',
+                url: 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRule',
                 headers: {
                     'authorization': authToken
                 },
@@ -81,7 +81,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
 
             return $http({
                 method: 'GET',
-                url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Contexts',
+                url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Contexts',
                 headers: {
                     'authorization': authToken
                 }
@@ -97,7 +97,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
 
             return $http({
                 method: 'GET',
-                url: 'http://phonenumbertrunkservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumbers',
+                url: 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumbers',
                 headers: {
                     'authorization': authToken
                 }
@@ -112,7 +112,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rule.id,
+                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rule.id,
                 headers: {
                     'authorization': authToken
                 }
@@ -127,7 +127,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID,
+                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID,
                 headers: {
                     'authorization': authToken
                 }
@@ -143,7 +143,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Applications",
+                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Applications",
                 headers: {
                     'authorization': authToken
                 }
@@ -158,7 +158,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/Translations",
+                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/Translations",
                 headers: {
                     'authorization': authToken
                 }
@@ -172,7 +172,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
              var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID+"/SetDNISTranslation/"+dtID,
+                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID+"/SetDNISTranslation/"+dtID,
                 headers: {
                     'authorization': authToken
                 }
@@ -187,7 +187,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID+"/SetANITranslation/"+atID,
+                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID+"/SetANITranslation/"+atID,
                 headers: {
                     'authorization': authToken
                 }
@@ -202,7 +202,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/'+rule.id,
+                url: 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRule/'+rule.id,
                 headers: {
                     'authorization': authToken
                 },
@@ -219,7 +219,7 @@ mainApp.factory('ruleconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID+"/SetApplication/"+aID,
+                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/CallRule/"+rID+"/SetApplication/"+aID,
                 headers: {
                     'authorization': authToken
                 }

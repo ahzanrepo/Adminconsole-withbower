@@ -94,7 +94,7 @@
         }
 
         //remove cookie
-        //http://userservice.104.131.67.21.xip.io
+        //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function clearCookie(key) {
             localStorageService.remove(key);
@@ -109,7 +109,7 @@
         function Logoff(parm, callback) {
 
             var decodeToken = getTokenDecode();
-            $http.delete("http://userservice.104.131.67.21.xip.io/oauth/token/revoke/"+decodeToken.jti,  {
+            $http.delete("http://userservice.app.veery.cloud/oauth/token/revoke/"+decodeToken.jti,  {
                 headers: {
                     Authorization: 'Bearer '+getToken()
                 }
@@ -127,10 +127,10 @@
 
 
         // user login
-        //http://userservice.104.131.67.21.xip.io
+        //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function Login(parm, callback) {
-            $http.post("http://userservice.104.131.67.21.xip.io/oauth/token", {
+            $http.post("http://userservice.app.veery.cloud/oauth/token", {
                 grant_type: "password",
                 username: parm.userName,
                 password: parm.password,
@@ -154,10 +154,10 @@
 
 
         //get my packages
-        //http://userservice.104.131.67.21.xip.io
+        //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getMyPackages(callback) {
-            $http.get("http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/MyOrganization/mypackages", {
+            $http.get("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/MyOrganization/mypackages", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -175,10 +175,10 @@
         }
 
         //get package details
-        //http://userservice.104.131.67.21.xip.io
+        //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getAllPackages(callback) {
-            $http.get("http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Packages", {
+            $http.get("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Packages", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -193,10 +193,10 @@
         }
 
         //buy my package details
-        //http://userservice.104.131.67.21.xip.io
+        //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function buyMyPackage(packageName, callback) {
-            $http.put("http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Organisation/Package/" + packageName, {}, {
+            $http.put("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Organisation/Package/" + packageName, {}, {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -212,7 +212,7 @@
         //user login in to console
         //get current user navigation
         function getUserNavigation(callback) {
-            $http.get("http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
+            $http.get("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -236,7 +236,7 @@
         //is can access
         function getNavigationAccess(callback) {
             mynavigations = {};
-            $http.get("http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
+            $http.get("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -281,7 +281,7 @@
 //$scope.Register = function () {
 //
 //
-//    var url = "http://userservice.104.131.67.21.xip.io/oauth/token";
+//    var url = "http://userservice.app.veery.cloud/oauth/token";
 //    var encoded = $base64.encode("ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048");
 //    var config = {
 //        headers: {

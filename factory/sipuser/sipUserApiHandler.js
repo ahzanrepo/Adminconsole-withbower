@@ -10,7 +10,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Users',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Users',
         headers: {
           'authorization': authToken
         }
@@ -25,7 +25,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/User/' + usr,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/User/' + usr,
         headers: {
           'authorization': authToken
         }
@@ -40,7 +40,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
         headers: {
           'authorization': authToken
         }
@@ -54,7 +54,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Groups',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Groups',
         headers: {
           'authorization': authToken
         }
@@ -69,7 +69,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'DELETE',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Group/' + grpId,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Group/' + grpId,
         headers: {
           'authorization': authToken
         }
@@ -84,7 +84,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Group/' + id,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Group/' + id,
         headers: {
           'authorization': authToken
         }
@@ -99,7 +99,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Users/InGroup/' + id,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Users/InGroup/' + id,
         headers: {
           'authorization': authToken
         }
@@ -114,7 +114,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/User/' + username,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/User/' + username,
         headers: {
           'authorization': authToken
         }
@@ -129,7 +129,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/' + extId,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + extId,
         headers: {
           'authorization': authToken
         }
@@ -145,7 +145,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/' + usrId + '/AssignToGroup/' + grpId,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/' + usrId + '/AssignToGroup/' + grpId,
         headers: {
           'authorization': authToken
         }
@@ -160,7 +160,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/' + usrId + '/RemoveFromGroup/' + grpId,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/' + usrId + '/RemoveFromGroup/' + grpId,
         headers: {
           'authorization': authToken
         }
@@ -175,7 +175,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/User',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/User',
         headers: {
           'authorization': authToken
         },
@@ -191,7 +191,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/DuoWorldUser',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/DuoWorldUser',
         headers: {
           'authorization': authToken
         },
@@ -207,7 +207,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/TransferCodes',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCodes',
         headers: {
           'authorization': authToken
         },
@@ -223,7 +223,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'PUT',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/TransferCode/' + transCodes.id,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCode/' + transCodes.id,
         headers: {
           'authorization': authToken
         },
@@ -239,7 +239,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/TransferCode',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCode',
         headers: {
           'authorization': authToken
         }
@@ -254,7 +254,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Group',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Group',
         headers: {
           'authorization': authToken
         },
@@ -270,7 +270,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'PUT',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Group/' + grpObj.id,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Group/' + grpObj.id,
         headers: {
           'authorization': authToken
         },
@@ -286,7 +286,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Context',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Context',
         headers: {
           'authorization': authToken
         }
@@ -301,7 +301,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/' + ext + '/AssignToSipUser/' + sipUserId,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + ext + '/AssignToSipUser/' + sipUserId,
         headers: {
           'authorization': authToken
         }
@@ -316,7 +316,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/' + ext + '/AssignToGroup/' + grpId,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + ext + '/AssignToGroup/' + grpId,
         headers: {
           'authorization': authToken
         }
@@ -331,7 +331,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension',
         headers: {
           'authorization': authToken
         },
@@ -347,7 +347,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'DELETE',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
         headers: {
           'authorization': authToken
         }
@@ -362,7 +362,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Schedules/byCompany',
+        url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedules/byCompany',
         headers: {
           'authorization': authToken
         }
@@ -377,7 +377,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/Files/' + refId + '/PABX/USER/GREETING',
+        url: 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/Files/' + refId + '/PABX/USER/GREETING',
         headers: {
           'authorization': authToken
         }
@@ -393,7 +393,7 @@
 
       return $http({
         method: 'PUT',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/User/' + usrObj.SipUsername,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/User/' + usrObj.SipUsername,
         headers: {
           'authorization': authToken
         },
@@ -409,7 +409,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://clusterconfig.104.131.67.21.xip.io/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUsers',
+        url: 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUsers',
         headers: {
           'authorization': authToken
         }

@@ -14,7 +14,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://ardsliteservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/requestmeta",
+                url: "http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta",
                 headers: {
                     'authorization':authToken
                 }
@@ -28,7 +28,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/Tasks",
+                url: "http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/Tasks",
                 headers: {
                     'authorization':authToken
                 }
@@ -43,7 +43,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/Groups",
+                url: "http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/Groups",
                 headers: {
                     'authorization':authToken
                 }
@@ -58,7 +58,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'post',
-                url: "http://ardsliteservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/requestmeta",
+                url: "http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta",
                 headers: {
                     'authorization':authToken
                 },
@@ -74,7 +74,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: "http://ardsliteservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/requestmeta",
+                url: "http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta",
                 headers: {
                     'authorization':authToken
                 },
@@ -89,7 +89,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://ardsliteservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/requestmeta/'+serverType+'/'+requestType,
+                url: 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta/'+serverType+'/'+requestType,
                 headers: {
                     'authorization':authToken
                 }
@@ -105,7 +105,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://ardsliteservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/requestservers/*/*",
+                url: "http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestservers/*/*",
                 headers: {
                     'authorization':authToken
                 }

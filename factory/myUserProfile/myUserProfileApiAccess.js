@@ -13,7 +13,7 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Myprofile',
+                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Myprofile',
                 headers: {
                     'authorization': authToken
                 }
@@ -31,7 +31,7 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Myprofile/contact/' + contact,
+                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Myprofile/contact/' + contact,
                 headers: {
                     'authorization': authToken
                 },
@@ -54,7 +54,7 @@
 
             return $http({
                     method: 'PUT',
-                    url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Myprofile',
+                    url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Myprofile',
                     headers: {
                         'authorization': authToken
                     },
@@ -70,7 +70,7 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/Myprofile/contact/' + contact,
+                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Myprofile/contact/' + contact,
                 headers: {
                     'authorization': authToken
                 }

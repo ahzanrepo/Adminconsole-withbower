@@ -9,7 +9,7 @@
         var getCDRForTimeRange = function(startDate, endDate, limit, offsetId)
         {
             var authToken = authService.GetToken();
-            var url = 'http://cdrprocessor.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallCDR/GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if(offsetId)
             {
@@ -31,7 +31,7 @@
         var getAbandonCDRForTimeRange = function(startDate, endDate, limit, offsetId)
         {
             var authToken = authService.GetToken();
-            var url = 'http://cdrprocessor.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallCDR/GetAbandonCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/GetAbandonCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if(offsetId)
             {

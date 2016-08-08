@@ -14,7 +14,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://clusterconfig.104.131.67.21.xip.io/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUsers",
+                url: "http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUsers",
                 headers: {
                     'authorization':authToken
                 }
@@ -29,7 +29,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://clusterconfig.104.131.67.21.xip.io/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUser",
+                url: "http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUser",
                 headers: {
                     'authorization':authToken
                 },
@@ -46,7 +46,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
 
             return $http({
                 method: 'PUT',
-                url: "http://clusterconfig.104.131.67.21.xip.io/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUser/"+resource.id,
+                url: "http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUser/"+resource.id,
                 headers: {
                     'authorization':authToken
                 },
@@ -61,7 +61,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://clusterconfig.104.131.67.21.xip.io/DVP/API/1.0.0.0/CloudConfiguration/Clouds",
+                url: "http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/Clouds",
                 headers: {
                     'authorization':authToken
                 }
@@ -74,7 +74,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Contexts",
+                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Contexts",
                 headers: {
                     'authorization':authToken
                 }
@@ -88,7 +88,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Context",
+                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Context",
                 headers: {
                     'authorization':authToken
                 },
@@ -104,7 +104,7 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
 
             return $http({
                 method: 'DELETE',
-                url: "http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Context/"+resource.Context,
+                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Context/"+resource.Context,
                 headers: {
                     'authorization':authToken
                 }

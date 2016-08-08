@@ -30,16 +30,16 @@ mainApp.run(['$anchorScroll', function($anchorScroll) {
 }]);
 
 var baseUrls = {
-    'monitorrestapi': 'http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl': 'http://userservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/',
-    'resourceServiceBaseUrl': 'http://resourceservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/ResourceManager/',
-    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/',
-    'fileServiceUrl': 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
-    'fileServiceInternalUrl': 'http://internalfileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/',
-    'clusterconfigUrl':'http://clusterconfig.104.131.67.21.xip.io/DVP/API/1.0.0.0/CloudConfiguration/',
-    'conferenceUrl':'http://conference.104.131.67.21.xip.io/DVP/API/1.0.0.0/',
-    'sipUserendpoint': 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/',
-    'pbxUrl': 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXUser'
+    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
+    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
+    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
+    'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
+    'fileServiceInternalUrl': 'http://internalfileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
+    'clusterconfigUrl':'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
+    'conferenceUrl':'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
+    'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
+    'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -382,7 +382,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 controller: "translationController",
                 data: {
                     requireLogin: true,
-                    navigation: "RULES"
+                    navigation: "TRANSLATIONS"
                 }
             })
 

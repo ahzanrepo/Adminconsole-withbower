@@ -10,7 +10,7 @@
 
       return $http({
         method: 'GET',
-        url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXMasterData',
+        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXMasterData',
         headers: {
           'authorization': authService.GetToken()
         }
@@ -25,7 +25,7 @@
 
       return $http({
         method: 'GET',
-        url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/FeatureCodes',
+        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/FeatureCodes',
         headers: {
           'authorization': authService.GetToken()
         }
@@ -41,7 +41,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/PBXMasterData',
+        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXMasterData',
         headers: {
           'authorization': authService.GetToken()
         },
@@ -56,7 +56,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PBXService/FeatureCodeTemplate',
+        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/FeatureCodeTemplate',
         headers: {
           'authorization': authService.GetToken()
         },
@@ -72,7 +72,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/EmergencyNumbers',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/EmergencyNumbers',
         headers: {
           'authorization': authService.GetToken()
         }
@@ -86,7 +86,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/TransferCode',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCode',
         headers: {
           'authorization': authService.GetToken()
         }
@@ -100,7 +100,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/TransferCode',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCode',
         headers: {
           'authorization': authService.GetToken()
         },
@@ -115,7 +115,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/EmergencyNumber/' + emergencyNum,
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/EmergencyNumber/' + emergencyNum,
         headers: {
           'authorization': authService.GetToken()
         }
@@ -129,7 +129,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/EmergencyNumber',
+        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/EmergencyNumber',
         headers: {
           'authorization': authService.GetToken()
         },

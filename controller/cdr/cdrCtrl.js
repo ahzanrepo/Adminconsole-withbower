@@ -51,7 +51,7 @@
 
             if (decodedToken && decodedToken.company && decodedToken.tenant)
             {
-                $scope.DownloadFileUrl = 'http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.wav';
+                $scope.DownloadFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.wav';
             }
 
         };
@@ -72,7 +72,7 @@
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant)
                 {
-                    $scope.fileToPlay = ngAudio.load('http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.wav');
+                    $scope.fileToPlay = ngAudio.load('http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.wav');
 
                     $scope.fileToPlay.play();
                 }

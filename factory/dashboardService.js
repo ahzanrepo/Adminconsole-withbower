@@ -8,10 +8,10 @@ mainApp.factory("dashboardService", function ($http, authService) {
 
     var getAllCalls = function () {
         var authToken = authService.GetToken();
-        //dashboard.104.131.67.21.xip.io
+        //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/Calls/5",
+            url: "http://dashboard.app.veery.cloud/DashboardGraph/Calls/5",
             headers: {
                 'authorization': authToken
             }
@@ -25,10 +25,10 @@ mainApp.factory("dashboardService", function ($http, authService) {
     };
     var getAllQueued = function () {
         var authToken = authService.GetToken();
-        //dashboard.104.131.67.21.xip.io
+        //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/Queued/5",
+            url: "http://dashboard.app.veery.cloud/DashboardGraph/Queued/5",
             headers: {
                 'authorization': authToken
             }
@@ -43,10 +43,10 @@ mainApp.factory("dashboardService", function ($http, authService) {
     };
     var getAllBriged = function () {
         var authToken = authService.GetToken();
-        //dashboard.104.131.67.21.xip.io
+        //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/Bridge/5",
+            url: "http://dashboard.app.veery.cloud/DashboardGraph/Bridge/5",
             headers: {
                 'authorization': authToken
             }
@@ -60,10 +60,10 @@ mainApp.factory("dashboardService", function ($http, authService) {
     };
     var getAllChannels = function () {
         var authToken = authService.GetToken();
-        //dashboard.104.131.67.21.xip.io
+        //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardGraph/Channels/5",
+            url: "http://dashboard.app.veery.cloud/DashboardGraph/Channels/5",
             headers: {
                 'authorization': authToken
             }
@@ -81,7 +81,7 @@ mainApp.factory("dashboardService", function ($http, authService) {
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/TotalCount/CALLS/*/*",
+            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/CALLS/*/*",
             headers: {
                 'authorization': authToken
             }
@@ -99,10 +99,10 @@ mainApp.factory("dashboardService", function ($http, authService) {
     var getTotalQueued = function () {
         var authToken = authService.GetToken();
         //
-        //dashboard.104.131.67.21.xip.io
+        //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/TotalCount/QUEUE/*/*",
+            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/QUEUE/*/*",
             headers: {
                 'authorization': authToken
             }
@@ -121,7 +121,7 @@ mainApp.factory("dashboardService", function ($http, authService) {
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/TotalCount/QUEUEANSWERED/*/*",
+            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/QUEUEANSWERED/*/*",
             headers: {
                 'authorization': authToken
             }
@@ -141,7 +141,7 @@ mainApp.factory("dashboardService", function ($http, authService) {
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/TotalCount/QUEUEDROPPED/*/*",
+            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/QUEUEDROPPED/*/*",
             headers: {
                 'authorization': authToken
             }
@@ -167,7 +167,7 @@ mainApp.factory("dashboardService", function ($http, authService) {
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/CurrentCount/QUEUE/*/*",
+            url: "http://dashboard.app.veery.cloud/DashboardEvent/CurrentCount/QUEUE/*/*",
             headers: {
                 'authorization': authToken
             }
@@ -184,7 +184,7 @@ mainApp.factory("dashboardService", function ($http, authService) {
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.104.131.67.21.xip.io/DashboardEvent/TotalCount/BRIDGE/*/*",
+            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/BRIDGE/*/*",
             headers: {
                 'authorization': authToken
             }
@@ -209,7 +209,7 @@ mainApp.factory("dashboardService", function ($http, authService) {
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Calls/Count",
+            url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Calls/Count",
             headers: {
                 'authorization': authToken
             }
@@ -230,7 +230,7 @@ mainApp.factory("dashboardService", function ($http, authService) {
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/MONITORING/resources",
+            url: "http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/MONITORING/resources",
             headers: {
                 'authorization': authToken
             }

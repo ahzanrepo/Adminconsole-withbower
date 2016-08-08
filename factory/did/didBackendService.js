@@ -11,7 +11,7 @@ mainApp.factory('didBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/DidNumbers',
+                url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/DidNumbers',
                 headers: {
                     'authorization': authToken
                 }})
@@ -23,7 +23,7 @@ mainApp.factory('didBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/DidNumber/'+id,
+                url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/DidNumber/'+id,
                 headers: {
                     'authorization': authToken
                 }})
@@ -35,7 +35,7 @@ mainApp.factory('didBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/Extensions',
+                url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extensions',
                 headers: {
                     'authorization': authToken
                 }})
@@ -47,7 +47,7 @@ mainApp.factory('didBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: 'http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/DidNumber/'+didNum+'/AssignToExt/'+extension,
+                url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/DidNumber/'+didNum+'/AssignToExt/'+extension,
                 headers: {
                     'authorization': authToken
                 }})
@@ -60,7 +60,7 @@ mainApp.factory('didBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://sipuserendpointservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/SipUser/DidNumber",
+                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/DidNumber",
                 headers: {
                     'authorization':authToken
                 },

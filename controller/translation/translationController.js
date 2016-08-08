@@ -73,7 +73,7 @@ mainApp.controller("translationController", function ($scope,$state, transBacken
         $state.reload();
     };
 
-    $scope.GetTranslations = function () {
+    $scope.GetAllTranslations = function () {
         transBackendService.getTranslations().then(function (response) {
 
             if(response.data.Exception)
@@ -92,7 +92,7 @@ mainApp.controller("translationController", function ($scope,$state, transBacken
             $scope.showAlert("Error","Error in Loading translation data","error");
         }
     };
-    $scope.SaveTranslations = function () {
+    $scope.saveNewTranslations = function () {
         transBackendService.saveTranslations($scope.newTransltion).then(function (response) {
 
             if(response.data.IsSuccess)
@@ -123,7 +123,7 @@ mainApp.controller("translationController", function ($scope,$state, transBacken
 
 
 
-    $scope.GetTranslations();
+    $scope.GetAllTranslations();
 
 });
 

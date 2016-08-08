@@ -10,7 +10,7 @@ mainApp.factory('transBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/Translations",
+                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/Translations",
                 headers: {
                     'authorization':authToken
                 }
@@ -25,7 +25,7 @@ mainApp.factory('transBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/Translation",
+                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/Translation",
                 headers: {
                     'authorization':authToken
                 },
@@ -42,7 +42,7 @@ mainApp.factory('transBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://ruleservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/CallRuleApi/Translation/"+translation.id,
+                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/Translation/"+translation.id,
                 headers: {
                     'authorization':authToken
                 }

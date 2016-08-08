@@ -10,7 +10,7 @@ mainApp.factory('queueSummaryBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://ardsmonitoring.104.131.67.21.xip.io/DVP/API/1.0.0.0/ARDS/MONITORING/QUEUE/Summary/from/"+fromDate+"/to/"+toDate,
+                url: "http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/MONITORING/QUEUE/Summary/from/"+fromDate+"/to/"+toDate,
                 headers: {
                     'authorization':authToken
                 }

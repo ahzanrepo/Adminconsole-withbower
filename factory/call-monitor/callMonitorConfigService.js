@@ -10,7 +10,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Calls",
+                url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Calls",
                 headers: {
                     'authorization':authToken
                 }
@@ -25,7 +25,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
 
             return $http({
                 method: 'POST',
-                url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/barge",
+                url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/barge",
                 headers: {
                     'authorization':authToken
                 },
@@ -45,7 +45,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/listen",
+                url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/listen",
                 headers: {
                     'authorization':authToken
                 },
@@ -64,7 +64,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://monitorrestapi.104.131.67.21.xip.io/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/threeway",
+                url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/threeway",
                 headers: {
                     'authorization':authToken
                 },

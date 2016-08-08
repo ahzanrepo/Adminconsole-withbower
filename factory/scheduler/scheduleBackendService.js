@@ -10,7 +10,7 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Schedules",
+                url: "http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedules",
                 headers: {
                     'authorization':authToken
                 }
@@ -24,7 +24,7 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Schedule/' + scheduleId + '/Appointments',
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/' + scheduleId + '/Appointments',
                 headers: {
                     'authorization':authToken
                 }
@@ -39,7 +39,7 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Schedule",
+                url: "http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule",
                 headers: {
                     'authorization':authToken
                 },
@@ -56,7 +56,7 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment",
+                url: "http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment",
                 headers: {
                     'authorization':authToken
                 },
@@ -73,7 +73,7 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Schedule/' + resource.id,
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/' + resource.id,
                 headers: {
                     'authorization':authToken
                 },
@@ -89,7 +89,7 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment/' + resource.id,
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment/' + resource.id,
                 headers: {
                     'authorization':authToken
                 },
@@ -105,7 +105,7 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
 
             return $http({
                 method: 'DELETE',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Schedule/' + scheduleId,
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/' + scheduleId,
                 headers: {
                     'authorization':authToken
                 }
@@ -120,7 +120,7 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
 
             return $http({
                 method: 'DELETE',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Appointment/' + appointmentId,
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Appointment/' + appointmentId,
                 headers: {
                     'authorization':authToken
                 }

@@ -11,7 +11,7 @@
         {
             return $http({
                 method: 'GET',
-                url: 'http://phonenumbertrunkservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumbers',
+                url: 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumbers',
                 headers: {
                     'authorization': authToken
                 }
@@ -25,7 +25,7 @@
         {
             return $http({
                 method: 'GET',
-                url: 'http://limithandler.104.131.67.21.xip.io/DVP/API/1.0.0.0/LimitAPI/Limit/Info',
+                url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Limit/Info',
                 headers: {
                     'authorization': authToken
                 }
@@ -44,7 +44,7 @@
 
             return $http({
                 method: 'POST',
-                url: 'http://phonenumbertrunkservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumber',
+                url: 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumber',
                 headers: {
                     'authorization': authToken
                 },
@@ -60,7 +60,7 @@
 
             return $http({
                 method: 'POST',
-                url: 'http://phonenumbertrunkservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumber/' + trunkNumber + '/SetInboundLimit/' + limitId,
+                url: 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumber/' + trunkNumber + '/SetInboundLimit/' + limitId,
                 headers: {
                     'authorization': authToken
                 }
@@ -75,7 +75,7 @@
 
             return $http({
                 method: 'POST',
-                url: 'http://phonenumbertrunkservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumber/' + trunkNumber + '/SetOutboundLimit/' + limitId,
+                url: 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumber/' + trunkNumber + '/SetOutboundLimit/' + limitId,
                 headers: {
                     'authorization': authToken
                 }
@@ -91,7 +91,7 @@
 
             return $http({
                 method: 'POST',
-                url: 'http://phonenumbertrunkservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumber/' + trunkNumber + '/SetBothLimit/' + limitId,
+                url: 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/PhoneNumberTrunkApi/TrunkNumber/' + trunkNumber + '/SetBothLimit/' + limitId,
                 headers: {
                     'authorization': authToken
                 }

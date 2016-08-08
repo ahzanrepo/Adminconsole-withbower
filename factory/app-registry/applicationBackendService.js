@@ -10,7 +10,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Applications",
+                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Applications",
                 headers: {
                     'authorization':authToken
                 }
@@ -25,7 +25,7 @@ mainApp.factory('appBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application",
+                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application",
                 headers: {
                     'authorization':authToken
                 },
@@ -42,7 +42,7 @@ mainApp.factory('appBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId,
+                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId,
                 headers: {
                     'authorization':authToken
                 }
@@ -58,7 +58,7 @@ mainApp.factory('appBackendService', function ($http, authService)
 
             return $http({
                 method: 'PUT',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
+                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
                 headers: {
                     'authorization':authToken
                 },
@@ -75,7 +75,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
+                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
                 headers: {
                     'authorization':authToken
                 }
@@ -90,7 +90,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/Files?fileCategory=IVRCLIPS&fileFormat=audio/wav&assignedState=false",
+                url: "http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/Files?fileCategory=IVRCLIPS&fileFormat=audio/wav&assignedState=false",
                 headers: {
                     'authorization':authToken
                 }
@@ -105,7 +105,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/Files/Info/"+appID,
+                url: "http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/Files/Info/"+appID,
                 headers: {
                     'authorization':authToken
                 }
@@ -121,7 +121,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/"+fileID+"/AssignToApplication/"+appID,
+                url: "http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/File/"+fileID+"/AssignToApplication/"+appID,
                 headers: {
                     'authorization':authToken
                 }
@@ -136,7 +136,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://fileservice.104.131.67.21.xip.io/DVP/API/1.0.0.0/FileService/File/"+fileID+"/DetachFromApplication",
+                url: "http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/File/"+fileID+"/DetachFromApplication",
                 headers: {
                     'authorization':authToken
                 }
@@ -151,7 +151,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Developers",
+                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Developers",
                 headers: {
                     'authorization':authToken
                 }
@@ -167,7 +167,7 @@ mainApp.factory('appBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://appregistry.104.131.67.21.xip.io/DVP/API/1.0.0.0/APPRegistry/Application/"+appId+"/AssignToDeveloper/"+devId,
+                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application/"+appId+"/AssignToDeveloper/"+devId,
                 headers: {
                     'authorization':authToken
                 }
