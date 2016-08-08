@@ -41,7 +41,7 @@ mainApp.factory('transBackendService', function ($http, authService)
             var authToken = authService.GetToken();
 
             return $http({
-                method: 'POST',
+                method: 'DELETE',
                 url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/Translation/"+translation.id,
                 headers: {
                     'authorization':authToken

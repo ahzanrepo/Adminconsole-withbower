@@ -11,7 +11,7 @@
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="row">
                                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left"
+                                    <input type="text" name="textTransName"class="form-control has-feedback-left"
                                            ng-model="newTransltion.TransName"
                                            placeholder="Translation Name">
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
@@ -63,8 +63,9 @@
                                 </div>
 
                                 <div class="col-md-6 col-sm-3 col-xs-12 form-group has-feedback">
+
                                     <input type="checkbox"
-                                           ng-model="newTransltion.Enabled"/>
+                                           ng-model="newTransltion.Enabled" class="js-switch"/> Availability
 
                                 </div>
 
@@ -82,8 +83,8 @@
                                 </div>
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                     <button type="button" class="btn btn-success btn-block  btn- pull-right"
-                                            ng-click="saveNewTranslations()">
-                                        Add
+                                            ng-click="saveNewTranslations()" ng-disabled="!newTransltion.TransName">
+                                        Save
                                     </button>
                                 </div>
                             </div>

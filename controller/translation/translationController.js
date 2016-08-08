@@ -98,18 +98,20 @@ mainApp.controller("translationController", function ($scope,$state, transBacken
             if(response.data.IsSuccess)
             {
                 $scope.TranslationList.splice(0, 0, response.data.Result);
-                $scope.$scope.newTransltion={};
+                $scope.newTransltion={};
                 console.log("New transliation saved successfully ");
                 $scope.showAlert("Success","Translation successfully saved","success");
+                $state.reload();
             }
             else
             {
                 console.log("New transliation saving error ",response.data.Exception);
                $scope.showAlert("Error","Translation adding failed","error");
+                $state.reload();
             }
 
 
-            $state.reload();
+
 
         }), function (error) {
             console.log("New transliation saving error ",error);
