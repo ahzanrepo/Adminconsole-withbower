@@ -35,7 +35,7 @@ var baseUrls = {
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
-    'fileServiceInternalUrl': 'http://internalfileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
+    'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl':'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
     'conferenceUrl':'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
