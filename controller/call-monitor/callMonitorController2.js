@@ -341,7 +341,7 @@ mainApp.controller("loginModalController2", function ($scope,$rootScope, $uibMod
         $uibModalInstance.close($scope.password);
     };
 
-    $scope.login= function () {
+    $scope.loginPhone= function () {
         pickPassword($scope.userPasssword);
         $scope.showModal=false;
         $uibModalInstance.close($scope.password);
