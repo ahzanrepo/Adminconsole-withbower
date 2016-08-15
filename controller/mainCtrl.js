@@ -138,6 +138,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goTranslations: function () {
             $state.go('console.translations');
+        },
+        goTicketTrigger: function () {
+            $state.go('console.trigger');
         }
     };
 
