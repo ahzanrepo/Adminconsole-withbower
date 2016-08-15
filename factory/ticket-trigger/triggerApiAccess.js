@@ -4,7 +4,7 @@
 
 (function(){
     var triggerApiAccess = function($http, authService){
-
+//create ticket trigger
         var createTrigger = function(trigger){
             var authToken = authService.GetToken();
             return $http({
