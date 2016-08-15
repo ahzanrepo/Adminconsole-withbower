@@ -384,6 +384,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "TRANSLATIONS"
                 }
+            }).state('console.templatecreater', {
+                url: "/templatecreater",
+                templateUrl: "views/template-generator/templateview.html",
+                controller: "templateController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TEMPLATEMAKER"
+                }
             })
 
 

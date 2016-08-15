@@ -76,6 +76,11 @@
                                     <li ng-show="accessNavigation.COMPANYCONFIG"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goCompanyConfig()">Company configuration</a>
                                     </li>
+
+                                    <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
+                                                                                    ng-click="clickDirective.goTemplateCreater()">Template Maker
+                                        Configuration</a>
+                                    </li>
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>
                                     </li>-->
@@ -134,6 +139,7 @@
                                                                           ng-click="clickDirective.goDID()">DID
                                         Configuration</a>
                                     </li>
+
                                 </ul>
                             </li>
                             <li ng-show="accessNavigation.ATTRIBUTES || accessNavigation.RESOURCES "><a
