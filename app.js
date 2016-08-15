@@ -392,6 +392,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "TICKET_TRIGGER"
                 }
+            }).state('console.templatecreater', {
+                url: "/templatecreater",
+                templateUrl: "views/template-generator/templateview.html",
+                controller: "templateController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TEMPLATEMAKER"
+                }
             })
 
 
