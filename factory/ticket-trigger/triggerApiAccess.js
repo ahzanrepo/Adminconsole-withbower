@@ -39,7 +39,7 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://localhost:3636/DVP/API/1.0.0.0/Triggers',
+                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Triggers',
                 headers: {
                     'authorization': authToken
                 }
