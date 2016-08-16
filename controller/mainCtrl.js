@@ -139,8 +139,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         goTranslations: function () {
             $state.go('console.translations');
         },
-        goTicketTrigger: function () {
+        goTicketTrigger: function ()
+        {
             $state.go('console.trigger');
+        },
+        goTemplateCreater: function () {
+            $state.go('console.templatecreater');
         }
     };
 

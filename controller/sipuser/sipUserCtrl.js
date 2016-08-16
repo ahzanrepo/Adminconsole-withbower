@@ -163,6 +163,7 @@
             $scope.basicConfig.TransExternalEnable = false;
             $scope.basicConfig.TransConferenceEnable = false;
             $scope.basicConfig.TransGroupEnable = false;
+            $scope.basicConfig.DenyOutboundFor = 'NONE';
         };
 
         $scope.onSavePressed = function () {
