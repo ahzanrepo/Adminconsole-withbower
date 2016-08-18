@@ -26,11 +26,11 @@
                                     </select>
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
-
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <textarea class="resizable_textarea form-control" ng-model="newTemplate.TemplateContent" placeholder="Enter content here"></textarea>
 
                                 </div>
+
                                 <div class="row">
 
                                     <div class="col-md-10 col-sm-12 col-xs-12 form-group has-feedback">
@@ -94,7 +94,7 @@
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="Template in Templates">
                         <templatemakerdir template="Template" template-list="Templates" update-application="removeDeleted(App)"
-                                         reloadpage="reloadPage()"></templatemakerdir>
+                                          reloadpage="reloadPage()"></templatemakerdir>
                     </li>
 
                     <paging ng-show="showPaging"

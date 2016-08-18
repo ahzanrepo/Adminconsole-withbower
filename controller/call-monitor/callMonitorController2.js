@@ -245,7 +245,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
             moduleSt=["notice","Unregistered"];
         }
 
-        $scope.showAlert("Info","Call monitor module "+moduleSt[1],moduleSt[0]);
+        $scope.showAlert("Info"," Supervisor call monitor module "+moduleSt[1],moduleSt[0]);
 
 
         if($scope.isRegistered && actionObject && actionObject.action=="LISTEN")
