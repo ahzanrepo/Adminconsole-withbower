@@ -392,6 +392,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "TICKET_TRIGGER"
                 }
+            }).state("console.triggerConfiguration", {
+                url: "/triggerConfiguration/:triggerId/:title",
+                templateUrl: "views/ticket-trigger/configTrigger.html",
+                controller: "triggerConfigController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_TRIGGER"
+                }
             }).state('console.templatecreater', {
                 url: "/templatecreater",
                 templateUrl: "views/template-generator/templateview.html",

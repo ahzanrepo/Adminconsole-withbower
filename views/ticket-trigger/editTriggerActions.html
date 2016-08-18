@@ -1,0 +1,71 @@
+<div class="block">
+    <div class="tags">
+        <a class="tag">
+            <span>{{action.field}}</span>
+        </a>
+    </div>
+    <div class="block_content">
+        <div class="row invoice-info">
+            <div class="col-sm-6 invoice-col ">
+                <h2 class="font-300 ">
+                    <a ng-hide="editMode" class="ng-binding" style="">Field : {{action.field}}</a>
+                </h2>
+                <h2 class="font-300 ">
+                    <a ng-hide="editMode" class="ng-binding" style="">Value : {{action.value}}</a>
+                </h2>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6 invoice-col">
+                <div class="pull-left attribute-edit-wrap">
+                    <a ng-disabled="true" class="inline-block" ng-click="deleteAttribute(attribute)"
+                       style="cursor: pointer"><i
+                            class="fa fa-trash-o"></i></a>
+                    <br>
+                    <a ng-disabled="true" class="inline-block" ng-click="editAction()" style="cursor: pointer"><i
+                            class="fa fa-edit"></i></a>
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-xs-12 edit-main-wrap" style="margin-top: -93px;margin-left: -15px;" ng-show="editMode">
+                <div class="col-sm-12">
+                    <div class="col-sm-6">
+                        <h2 class="font-robot font-300 text-uppercase font-15">Edit {{action.field}}</h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="edit-close pull-right">
+                            <i class="fa fa-close" ng-click="editAction()"></i>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                    <div class="tile-stats m-top15">
+                        <form class="form-horizontal form-label-left input_mask">
+                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                                <input type="text" class="form-control has-feedback-left" ng-model="attribute.Attribute"
+                                       id="AttributeId" placeholder="Attribute">
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                                <input type="text" class="form-control has-feedback-left" ng-model="attribute.OtherData"
+                                       style="" id="OtherData" placeholder="Other">
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <button type="button" class="btn btn-success btn-sm pull-right "
+                                        ng-click="updateAttributes(attribute)">
+                                    Update
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
