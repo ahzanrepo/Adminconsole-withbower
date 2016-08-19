@@ -20,7 +20,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate','ngMessages', 'ui.b
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker'
+    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker',
+    'angularBootstrapNavTree'
 ]);
 
 
