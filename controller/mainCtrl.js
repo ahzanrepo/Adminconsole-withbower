@@ -145,6 +145,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goTemplateCreater: function () {
             $state.go('console.templatecreater');
+        },
+        goTriggerConfiguration: function () {
+            $state.go('console.trigger.triggerConfiguration');
         }
     };
 

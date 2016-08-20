@@ -204,7 +204,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
             $scope.WSUri="wss://" + values[1] + ":7443";
             $scope.realm=values[1];
             $scope.username=values[0];
-            $scope.displayname=values[0];
+            $scope.displayname=decodeData.context.veeryaccount.display;
             $scope.loginData ={
                 realm:$scope.realm,
                 impi:$scope.displayname,
@@ -237,7 +237,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
         var moduleSt=[];
         if(args)
         {
-           moduleSt=["success","Registered"];
+            moduleSt=["success","Registered"];
 
         }
         else
@@ -245,7 +245,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
             moduleSt=["notice","Unregistered"];
         }
 
-        $scope.showAlert("Info","Call monitor module "+moduleSt[1],moduleSt[0]);
+        $scope.showAlert("Info"," Supervisor call monitor module "+moduleSt[1],moduleSt[0]);
 
 
         if($scope.isRegistered && actionObject && actionObject.action=="LISTEN")

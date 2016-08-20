@@ -4,7 +4,7 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var ticketDirective = function($filter, triggerApiAccess){
+    var ticketDirective = function($filter, $state, triggerApiAccess){
         return {
             restrict: "EAA",
             scope: {
@@ -93,7 +93,7 @@
 
                 scope.removeTrigger = function(){
                     scope.showConfirm("Delete Trigger", "Delete", "ok", "cancel", "Do you want to delete " + scope.title, function (obj) {
-                        triggerApiAccess.deleteTrigger(scope.trigger.id.toString()).then(function (response) {
+                        triggerApiAccess.deleteTrigger(scope.trigger._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
                                 scope.updateTrigger(scope.trigger);
                                 scope.showAlert('Success', 'info', response.CustomMessage);
@@ -117,6 +117,11 @@
                     }, function () {
 
                     }, scope.trigger);
+                };
+
+                scope.viewConfigurations = function()
+                {
+                    $state.go('console.triggerConfiguration', {triggerId: scope.trigger._id.toString(), title: scope.trigger.title});
                 };
 
             }

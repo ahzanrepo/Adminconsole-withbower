@@ -20,7 +20,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate','ngMessages', 'ui.b
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker'
+    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker',
+    'angularBootstrapNavTree'
 ]);
 
 
@@ -388,6 +389,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 url: "/trigger",
                 templateUrl: "views/ticket-trigger/trigger.html",
                 controller: "triggerController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_TRIGGER"
+                }
+            }).state("console.triggerConfiguration", {
+                url: "/triggerConfiguration/:triggerId/:title",
+                templateUrl: "views/ticket-trigger/configTrigger.html",
+                controller: "triggerConfigController",
                 data: {
                     requireLogin: true,
                     navigation: "TICKET_TRIGGER"
