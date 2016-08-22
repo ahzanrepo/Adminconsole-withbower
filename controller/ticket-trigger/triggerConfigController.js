@@ -219,6 +219,27 @@
 
         };
 
+        $scope.removeDeletedFilter = function (item, itemType) {
+            switch (itemType){
+                case "any":
+                    var indexAny = $scope.filterAny.indexOf(item);
+                    if (indexAny != -1) {
+                        $scope.filterAny.splice(indexAny, 1);
+                    }
+                    break;
+                case "all":
+                    var indexAll = $scope.filterAll.indexOf(item);
+                    if (indexAll != -1) {
+                        $scope.filterAll.splice(indexAll, 1);
+                    }
+                    break;
+                default :
+                    break;
+            }
+
+
+        };
+
         //---------------insertNewData-----------------------------
         $scope.addTriggerAction = function(){
             console.log(JSON.stringify($scope.triggerAction));
