@@ -92,12 +92,12 @@
                 };
 
                 scope.removeTrigger = function(){
-                    scope.showConfirm("Delete Trigger", "Delete", "ok", "cancel", "Do you want to delete " + scope.title, function (obj) {
+                    scope.showConfirm("Delete Trigger", "Delete", "ok", "cancel", "Do you want to delete " + scope.trigger.title, function (obj) {
                         triggerApiAccess.deleteTrigger(scope.trigger._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
                                 scope.updateTrigger(scope.trigger);
                                 scope.showAlert('Success', 'info', response.CustomMessage);
-                                state.reload();
+                                $state.reload();
                             }
                             else {
                                 var errMsg = response.CustomMessage;

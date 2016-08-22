@@ -1,7 +1,7 @@
 <div class="block">
     <div class="tags">
         <a class="tag">
-            <span>{{action.field}}</span>
+            <span>{{actionIndex + 1}}</span>
         </a>
     </div>
     <div class="block_content">
@@ -17,12 +17,12 @@
             <!-- /.col -->
             <div class="col-sm-6 invoice-col">
                 <div class="pull-left attribute-edit-wrap">
-                    <a ng-disabled="true" class="inline-block" ng-click="deleteAttribute(attribute)"
+                    <a ng-disabled="true" class="inline-block" ng-click="deleteAction()"
                        style="cursor: pointer"><i
                             class="fa fa-trash-o"></i></a>
                     <br>
-                    <a ng-disabled="true" class="inline-block" ng-click="editAction()" style="cursor: pointer"><i
-                            class="fa fa-edit"></i></a>
+                    <!--<a ng-disabled="true" class="inline-block" ng-click="editAction()" style="cursor: pointer"><i
+                            class="fa fa-edit"></i></a>-->
                 </div>
             </div>
             <!-- /.col -->
@@ -39,18 +39,18 @@
                 </div>
 
 
-                <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                <!--<div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
                     <div class="tile-stats m-top15">
                         <form class="form-horizontal form-label-left input_mask">
                             <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="attribute.Attribute"
-                                       id="AttributeId" placeholder="Attribute">
+                                <input type="text" class="form-control has-feedback-left" ng-model="action.field"
+                                       id="actionField" placeholder="Field">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
                             <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="attribute.OtherData"
-                                       style="" id="OtherData" placeholder="Other">
+                                <input type="text" class="form-control has-feedback-left" ng-model="action.value"
+                                       style="" id="actionValue" placeholder="Value">
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
@@ -62,7 +62,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
 

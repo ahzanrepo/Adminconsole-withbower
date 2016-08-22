@@ -16,7 +16,7 @@
                 },
                 data: trigger
             }).then(function(response){
-                    return response.data;
+                return response.data;
             });
         };
 
@@ -24,7 +24,7 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger',
+                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+trigger._id,
                 headers: {
                     'authorization': authToken,
                     'Content-Type': 'application/json'
@@ -269,6 +269,40 @@
         };
     };
 
+    var triggerUserServiceAccess = function($http, authService){
+        var getUsers = function(){
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Users',
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var getUserGroups = function(){
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/UserGroups',
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        return{
+            getUsers: getUsers,
+            getUserGroups: getUserGroups
+        };
+    };
+
     var module = angular.module('veeryConsoleApp');
     module.factory('triggerApiAccess', triggerApiAccess);
+    module.factory('triggerUserServiceAccess', triggerUserServiceAccess);
 }());
