@@ -149,7 +149,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "myNumbersCtrl",
             data: {
                 requireLogin: true,
-                navigation: "CDR"
+                navigation: "MY_NUMBERS"
             }
         }).state("console.sipuser", {
             url: "/sipuser",
