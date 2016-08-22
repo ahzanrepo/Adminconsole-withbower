@@ -222,18 +222,32 @@
 
                                 });
 
+                                var secondaryLeg = null;
+
                                 var filteredOutb = curCdr.filter(function (item)
                                 {
-                                    if (item.Direction === 'outbound')
-                                    {
-                                        return true;
-                                    }
-                                    else
-                                    {
-                                        return false;
-                                    }
-
+                                    return item.Direction === 'outbound';
                                 });
+
+                                if(filteredOutb.length > 1)
+                                {
+                                    var filteredOutbAnswered = filteredOutb.filter(function (item2)
+                                    {
+                                        return item2.IsAnswered;
+                                    });
+
+                                    if(filteredOutbAnswered && filteredOutbAnswered.length > 0)
+                                    {
+                                        secondaryLeg = filteredOutbAnswered[0];
+                                    }
+                                }
+                                else
+                                {
+                                    if(filteredOutb && filteredOutb.length > 0)
+                                    {
+                                        secondaryLeg = filteredOutb[0];
+                                    }
+                                }
 
 
                                 //process inbound legs first
@@ -265,7 +279,7 @@
 
                                     cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
 
-                                    if (cdrAppendObj.DVPCallDirection === 'INBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'inbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
@@ -295,38 +309,36 @@
                                 //process outbound legs next
 
 
-                                for (j = 0; j < filteredOutb.length; j++)
+                                if(secondaryLeg)
                                 {
-                                    var curProcessingLeg = filteredOutb[j];
+                                    callHangupDirectionB = secondaryLeg.HangupDisposition;
 
-                                    callHangupDirectionB = curProcessingLeg.HangupDisposition;
-
-                                    cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
-                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                    cdrAppendObj.RecievedBy = secondaryLeg.SipToUser;
+                                    cdrAppendObj.AnswerSec = secondaryLeg.AnswerSec;
 
 
-                                    if (cdrAppendObj.DVPCallDirection === 'OUTBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'outbound')
                                     {
-                                        cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                        cdrAppendObj.HoldSec = secondaryLeg.HoldSec;
                                     }
 
-                                    cdrAppendObj.BillSec = curProcessingLeg.BillSec;
+                                    cdrAppendObj.BillSec = secondaryLeg.BillSec;
 
                                     if (!cdrAppendObj.ObjType)
                                     {
-                                        cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                        cdrAppendObj.ObjType = secondaryLeg.ObjType;
                                     }
 
                                     if (!cdrAppendObj.ObjCategory)
                                     {
-                                        cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                        cdrAppendObj.ObjCategory = secondaryLeg.ObjCategory;
                                     }
 
                                     outLegProcessed = true;
 
                                     if (!outLegAnswered)
                                     {
-                                        if (curProcessingLeg.BillSec > 0)
+                                        if (secondaryLeg.BillSec > 0)
                                         {
                                             outLegAnswered = true;
                                         }
@@ -349,7 +361,7 @@
 
                                 cdrAppendObj.IsAnswered = outLegAnswered;
 
-                                if (isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec)
+                                if (outLegProcessed && cdrAppendObj.BillSec)
                                 {
                                     cdrAppendObj.ShowButton = true;
                                 }
@@ -501,18 +513,32 @@
 
                                 });
 
+                                var secondaryLeg = null;
+
                                 var filteredOutb = curCdr.filter(function (item)
                                 {
-                                    if (item.Direction === 'outbound')
-                                    {
-                                        return true;
-                                    }
-                                    else
-                                    {
-                                        return false;
-                                    }
-
+                                    return item.Direction === 'outbound';
                                 });
+
+                                if(filteredOutb.length > 1)
+                                {
+                                    var filteredOutbAnswered = filteredOutb.filter(function (item2)
+                                    {
+                                        return item2.IsAnswered;
+                                    });
+
+                                    if(filteredOutbAnswered && filteredOutbAnswered.length > 0)
+                                    {
+                                        secondaryLeg = filteredOutbAnswered[0];
+                                    }
+                                }
+                                else
+                                {
+                                    if(filteredOutb && filteredOutb.length > 0)
+                                    {
+                                        secondaryLeg = filteredOutb[0];
+                                    }
+                                }
 
 
                                 //process inbound legs first
@@ -556,7 +582,7 @@
 
                                     cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
 
-                                    if (cdrAppendObj.DVPCallDirection === 'INBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'inbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
@@ -586,44 +612,42 @@
                                 //process outbound legs next
 
 
-                                for (j = 0; j < filteredOutb.length; j++)
+                                if(secondaryLeg)
                                 {
-                                    var curProcessingLeg = filteredOutb[j];
-
-                                    callHangupDirectionB = curProcessingLeg.HangupDisposition;
+                                    callHangupDirectionB = secondaryLeg.HangupDisposition;
 
                                     if (!bottomSet && count === cdrLen)
                                     {
-                                        $scope.bottom = curProcessingLeg.id;
+                                        $scope.bottom = secondaryLeg.id;
                                         bottomSet = true;
                                     }
 
-                                    cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
-                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                    cdrAppendObj.RecievedBy = secondaryLeg.SipToUser;
+                                    cdrAppendObj.AnswerSec = secondaryLeg.AnswerSec;
 
 
-                                    if (cdrAppendObj.DVPCallDirection === 'OUTBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'outbound')
                                     {
-                                        cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
+                                        cdrAppendObj.HoldSec = secondaryLeg.HoldSec;
                                     }
 
-                                    cdrAppendObj.BillSec = curProcessingLeg.BillSec;
+                                    cdrAppendObj.BillSec = secondaryLeg.BillSec;
 
                                     if (!cdrAppendObj.ObjType)
                                     {
-                                        cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                        cdrAppendObj.ObjType = secondaryLeg.ObjType;
                                     }
 
                                     if (!cdrAppendObj.ObjCategory)
                                     {
-                                        cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                        cdrAppendObj.ObjCategory = secondaryLeg.ObjCategory;
                                     }
 
                                     outLegProcessed = true;
 
                                     if (!outLegAnswered)
                                     {
-                                        if (curProcessingLeg.BillSec > 0)
+                                        if (secondaryLeg.BillSec > 0)
                                         {
                                             outLegAnswered = true;
                                         }

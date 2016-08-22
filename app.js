@@ -149,7 +149,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "myNumbersCtrl",
             data: {
                 requireLogin: true,
-                navigation: "CDR"
+                navigation: "MY_NUMBERS"
             }
         }).state("console.sipuser", {
             url: "/sipuser",
@@ -407,6 +407,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 data: {
                     requireLogin: true,
                     navigation: "TEMPLATEMAKER"
+                }
+            }).state('console.callsummary', {
+                url: "/callsummary",
+                templateUrl: "views/cdr/callSummaryReport.html",
+                controller: "callSummaryCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
                 }
             })
 

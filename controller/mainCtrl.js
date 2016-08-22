@@ -148,6 +148,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goTriggerConfiguration: function () {
             $state.go('console.trigger.triggerConfiguration');
+        },
+        goCallSummary: function () {
+            $state.go('console.callsummary');
         }
     };
 
