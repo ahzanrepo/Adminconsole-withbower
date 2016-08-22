@@ -715,7 +715,7 @@
 
                                 cdrAppendObj.IsAnswered = outLegAnswered;
 
-                                if (isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec)
+                                if (outLegProcessed && cdrAppendObj.BillSec)
                                 {
                                     cdrAppendObj.ShowButton = true;
                                 }
