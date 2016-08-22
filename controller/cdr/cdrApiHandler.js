@@ -50,9 +50,27 @@
             })
         };
 
+        var getCallSummaryForHr = function(date, tz)
+        {
+            var authToken = authService.GetToken();
+            var url = 'http://localhost:9093/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         return {
             getCDRForTimeRange: getCDRForTimeRange,
-            getAbandonCDRForTimeRange: getAbandonCDRForTimeRange
+            getAbandonCDRForTimeRange: getAbandonCDRForTimeRange,
+            getCallSummaryForHr: getCallSummaryForHr
         };
     };
 
