@@ -151,6 +151,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goTagManager: function () {
             $state.go('console.tagmanager');
+        },
+        goCallSummary: function () {
+            $state.go('console.callsummary');
+
         }
     };
 

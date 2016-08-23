@@ -10,6 +10,7 @@
             scope: {
                 triggerId: "=",
                 action: "=",
+                actionIndex: "=",
                 'updateActions': '&'
             },
 
