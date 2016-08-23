@@ -8,7 +8,8 @@
         $scope.title = $stateParams.title;
         $scope.triggerId = $stateParams.triggerId;
         $scope.triggerAction = {};
-        $scope.triggerFilter = {};
+        $scope.triggerFilter = {}
+        $scope.triggerOperation = {};
         $scope.filterTypeAny = "any";
         $scope.filterTypeAll = "all";
         $scope.triggerAction.value = "";
@@ -254,6 +255,15 @@
                     break;
             }
 
+
+        };
+
+        $scope.removeDeletedOperation = function (item) {
+
+            var index = $scope.triggerOperations.indexOf(item);
+            if (index != -1) {
+                $scope.triggerOperations.splice(index, 1);
+            }
 
         };
 
