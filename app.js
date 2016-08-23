@@ -408,6 +408,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "TEMPLATEMAKER"
                 }
+            }).state('console.tagmanager', {
+                url: "/tagmanager",
+                templateUrl: "views/tag-manager/tagView.html",
+                controller: "tagcontroller",
+                data: {
+                    requireLogin: true,
+                    navigation: "TEMPLATEMAKER"
+                }
             }).state('console.callsummary', {
                 url: "/callsummary",
                 templateUrl: "views/cdr/callSummaryReport.html",
@@ -415,6 +423,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 data: {
                     requireLogin: true,
                     navigation: "CDR"
+
                 }
             })
 
