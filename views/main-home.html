@@ -42,6 +42,7 @@
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.AGENT_PRODUCTIVITY"><a
                                             ng-click="clickDirective.goProductivity()">Agent Productivity </a></li>
+
                                     <li ng-show="accessNavigation.CALL_MONITOR"><a href="javascript:void(0)"
                                                                                    ng-click="clickDirective.goCallMonitor()">Call
                                         Monitor</a></li>
@@ -49,7 +50,7 @@
                                             ng-click="clickDirective.goRealTimeQueued()">Queued</a></li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANYCONFIG">
+                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANYCONFIG || accessNavigation.TEMPLATEMAKER">
                                 <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -87,7 +88,7 @@
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN">
+                            <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.CDR || accessNavigation.EXTENSION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN">
                                 <a class="font-robot font-300 "><i class="fa fa-user"></i> User <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -118,7 +119,7 @@
 
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.CDR || accessNavigation.APPLICATIONS || accessNavigation.RULES">
+                            <li ng-show="accessNavigation.MY_NUMBERS || accessNavigation.APPLICATIONS || accessNavigation.RULES || accessNavigation.TRANSLATIONS || accessNavigation.DID">
                                 <a class="font-robot font-300 "><i class="fa fa-volume-control-phone"></i> Call
                                     Rules <span
                                             class="fa fa-chevron-down"></span></a>
@@ -142,7 +143,7 @@
 
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.ATTRIBUTES || accessNavigation.RESOURCES "><a
+                            <li ng-show="accessNavigation.ATTRIBUTES || accessNavigation.RESOURCES || accessNavigation.ARDS_CONFIGURATION "><a
                                     class="font-robot font-300 "><i class="fa fa-code-fork"></i> Request Router <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">

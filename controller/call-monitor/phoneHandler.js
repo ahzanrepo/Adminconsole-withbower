@@ -206,7 +206,18 @@ function makeCall(ext) {
 function Initiate(loginData,onRegistrationCompleted,onCallDisconnected,onCallConnected,onUnRegisterCompleted)
 {
     regData=loginData;
-    SIPml.init(readyCallback, errorCallback);
+
+    if(SIPml.isInitialized())
+    {
+        createSipStack();
+    }
+    else
+
+    {
+        SIPml.init(readyCallback, errorCallback);
+    }
+
+
     onRegCompleted=onRegistrationCompleted;
     onDisconnection=onCallDisconnected;
     onCallConnect=onCallConnected;
