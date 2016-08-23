@@ -27,11 +27,11 @@
                 scope.deleteFilter = function() {
 
                     scope.showConfirm("Delete Filter", "Delete", "ok", "cancel", "Do you want to delete " + scope.filter.field, function (obj) {
-                        switch (filterType){
+                        switch (scope.filterType){
                             case "any":
                                 triggerApiAccess.removeFilterAny(scope.triggerId, scope.filter._id.toString()).then(function (response) {
                                     if (response) {
-                                        scope.updateFiltersAny(scope.filter, filterType);
+                                        scope.updateFilters(scope.filter, scope.filterType);
                                         scope.showAlert("Deleted", "Deleted", "ok", "File " + scope.filter.field + " Deleted successfully");
                                     }
                                     else
@@ -43,7 +43,7 @@
                             case "all":
                                 triggerApiAccess.removeFilterAll(scope.triggerId, scope.filter._id.toString()).then(function (response) {
                                     if (response) {
-                                        scope.updateFiltersAll(scope.filter, filterType);
+                                        scope.updateFilters(scope.filter, scope.filterType);
                                         scope.showAlert("Deleted", "Deleted", "ok", "File " + scope.filter.field + " Deleted successfully");
                                     }
                                     else

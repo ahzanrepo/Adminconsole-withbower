@@ -68,6 +68,12 @@
                             }else{
                                 return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User Group" ng-model="ngModel"> <option value="" disabled selected>No User Group</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                             }
+                        case "channel":
+                            return '<div><input type="text" class="form-control has-feedback-left" ng-model="ngModel" style="" id="actionValue" placeholder="Value"> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span></div>';
+                        case "tags":
+                            return '<div><input type="text" class="form-control has-feedback-left" ng-model="ngModel" style="" id="actionValue" placeholder="Value"> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span></div>';
+                        case "SLAViolated":
+                            return '<checkbox class="btn-success" ng-model="ngModel" ng-init="ngModel=false"></checkbox> <label> <small>Violated</small> </label>';
                         default :
                             break;
                     }

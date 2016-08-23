@@ -11,7 +11,7 @@
                                 <form class="form-horizontal form-label-left input_mask">
                                     <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                         <select class="form-control has-feedback-left" placeholder="Select Field"
-                                                ng-model="triggerAction.field">
+                                                ng-model="triggerFilter.field">
                                             <option value="" disabled selected>Select Field</option>
                                             <option ng-repeat="ticketSchemaKey in ticketSchemaKeys" value="{{ticketSchemaKey}}">
                                                 {{ticketSchemaKey}}
@@ -19,15 +19,36 @@
                                         </select>
                                         <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                                     </div>
+                                    <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                        <select class="form-control has-feedback-left" placeholder="Select Field"
+                                                ng-model="triggerFilter.type">
+                                            <option value="" disabled selected>Select Fiter Type</option>
+                                            <option value="any"> ANY </option>
+                                            <option value="all"> ALL </option>
+                                        </select>
+                                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                        <select class="form-control has-feedback-left" placeholder="Select Field"
+                                                ng-model="triggerFilter.operator">
+                                            <option value="" disabled selected>Select Operator Type</option>
+                                            <option value="is"> IS </option>
+                                            <option value="less_than"> LESS THAN </option>
+                                            <option value="greater_than"> GREATER THAN </option>
+                                            <option value="is_not"> IS NOT </option>
+                                            <option value="included"> INCLUDED </option>
+                                            <option value="not_included"> NOT INCLUDED </option>
+                                            <option value="greater_than_or_equal"> GREATER THAN OR EQUAL </option>
+                                            <option value="less_than_or_equal"> LESS THAN OR EQUAL</option>
+                                        </select>
+                                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                        <!--<input type="text" class="form-control has-feedback-left" ng-model="triggerAction.value"
-                                               style="" id="actionValue" placeholder="Value">
-                                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>-->
-                                        <div><ticket-dynamic-field  company-users="users" company-user-groups="userGroups" ng-model="triggerAction.value" ticket-field="triggerAction.field" ticket-schema="ticketSchema"></ticket-dynamic-field></div>
+                                        <div><ticket-dynamic-field  company-users="users" company-user-groups="userGroups" ng-model="triggerFilter.value" ticket-field="triggerFilter.field" ticket-schema="ticketSchema"></ticket-dynamic-field></div>
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-success btn-sm pull-right attribute-btn  "
-                                                ng-click="addTriggerAction()">
+                                                ng-click="addTriggerFilter()">
                                             Add
                                         </button>
                                     </div>
@@ -47,8 +68,8 @@
                                     <h1 class="font-robot font-300 text-uppercase font-15">ANY</h1>
                                     <ul class="list-unstyled timeline">
                                 <li ng-repeat="filter in filterAny">
-                                    <edit-filter trigger-id= "triggerId" filter="filter" filter-index="$index" filter-type="any"
-                                                 update-filters="removeDeletedFilter(filter, any)">
+                                    <edit-filter trigger-id= "triggerId" filter="filter" filter-index="$index" filter-type="filterTypeAny"
+                                                 update-filters="removeDeletedFilter(filter, filterTypeAny)">
                                     </edit-filter>
                                 </li>
 
@@ -73,8 +94,8 @@
                                     <h1 class="font-robot font-300 text-uppercase font-15">ALL</h1>
                                     <ul class="list-unstyled timeline">
                                         <li ng-repeat="filter in filterAll">
-                                            <edit-filter trigger-id= "triggerId" filter="filter" filter-index="$index" filter-type="all"
-                                                         update-filters="removeDeletedFilter(filter, all)">
+                                            <edit-filter trigger-id= "triggerId" filter="filter" filter-index="$index" filter-type="filterTypeAll"
+                                                         update-filters="removeDeletedFilter(filter, filterTypeAll)">
                                             </edit-filter>
                                         </li>
 

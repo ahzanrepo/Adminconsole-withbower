@@ -8,6 +8,9 @@
         $scope.title = $stateParams.title;
         $scope.triggerId = $stateParams.triggerId;
         $scope.triggerAction = {};
+        $scope.triggerFilter = {};
+        $scope.filterTypeAny = "any";
+        $scope.filterTypeAll = "all";
         $scope.triggerAction.value = "";
         $scope.users = [{_id:"1", firstname: "abc"}];
         $scope.userGroups = {};
@@ -23,7 +26,10 @@
             "priority",
             "status",
             "assignee",
-            "assignee_group"
+            "assignee_group",
+            "channel",
+            "tags",
+            "SLAViolated"
         ];
         $scope.ticketSchema = {
             due_at: {type: "Date"},
@@ -36,7 +42,18 @@
             priority: {type: "String", enum : ["urgent","high","normal","low"]},
             status: {type: "String", enum : ["new","open","progressing","parked","solved","closed"]},
             assignee: {type: "ObjectId",ref: "User"},
-            assignee_group: {type: "ObjectId",ref: "UserGroup"}
+            assignee_group: {type: "ObjectId",ref: "UserGroup"},
+            channel: {type: String},
+            tags: [String],
+            SLAViolated: Boolean
+        };
+
+        $scope.filterActionSchemaKeys = function(value){
+            if(value === "channel" || value === "tags" || value === "SLAViolated"){
+                return false;
+            }else{
+                return true;
+            }
         };
 
         $scope.showAlert = function (title,content,type) {
@@ -268,6 +285,68 @@
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
+        };
+
+        $scope.addTriggerFilter = function(){
+            console.log(JSON.stringify($scope.triggerFilter));
+            switch ($scope.triggerFilter.type){
+                case "any":
+                    triggerApiAccess.addFilterAny($scope.triggerId, $scope.triggerFilter).then(function(response){
+                        if(response.IsSuccess)
+                        {
+                            $scope.loadFilterAny();
+                            $scope.showAlert('Success', 'info', response.CustomMessage);
+                            //$state.reload();
+                        }
+                        else
+                        {
+                            var errMsg = response.CustomMessage;
+
+                            if(response.Exception)
+                            {
+                                errMsg = response.Exception.Message;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+                        }
+                    }, function(err){
+                        var errMsg = "Error occurred while saving trigger filters";
+                        if(err.statusText)
+                        {
+                            errMsg = err.statusText;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                    });
+                    break;
+                case "all":
+                    triggerApiAccess.addFilterAll($scope.triggerId, $scope.triggerFilter).then(function(response){
+                        if(response.IsSuccess)
+                        {
+                            $scope.loadFilterAll();
+                            $scope.showAlert('Success', 'info', response.CustomMessage);
+                            //$state.reload();
+                        }
+                        else
+                        {
+                            var errMsg = response.CustomMessage;
+
+                            if(response.Exception)
+                            {
+                                errMsg = response.Exception.Message;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+                        }
+                    }, function(err){
+                        var errMsg = "Error occurred while saving trigger filters";
+                        if(err.statusText)
+                        {
+                            errMsg = err.statusText;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                    });
+                    break;
+                default :
+                    break;
+            }
         };
 
         //---------------load initialData--------------------------
