@@ -36,7 +36,24 @@ mainApp.factory('tagBackendService', function ($http, authService)
             {
                 return response;
             });
-        }
+        },
+
+     saveAndAttachNewTag: function (tagID,resource) {
+      var authToken = authService.GetToken();
+
+      return $http({
+       method: 'POST',
+       url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+tagID,
+       headers: {
+        'authorization':authToken
+       },
+       data:resource
+
+      }).then(function(response)
+      {
+       return response;
+      });
+     }
         /*,
 
          saveNewApplication: function (resource) {

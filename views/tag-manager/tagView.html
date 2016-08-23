@@ -1,15 +1,4 @@
-Skip to content
-Personal Open source Business Explore
-Sign upSign inPricingBlogSupport
-This repository
-Search
-Watch 50  Star 632  Fork 283 nickperkinslondon/angular-bootstrap-nav-tree
-Code  Issues 55  Pull requests 12  Pulse  Graphs
-Branch: master Find file Copy pathangular-bootstrap-nav-tree/test/bs3_ng120_test_page.html
-489feb2  on Mar 17, 2014
-@nickperkinslondon nickperkinslondon Added the "tree-control" interface, providing an API to control the t…
-1 contributor
-RawBlameHistory     95 lines (95 sloc)  4.38 KB
+
 <!DOCTYPE html>
 <html ng-app="AbnTest">
 <head>
@@ -92,9 +81,9 @@ RawBlameHistory     95 lines (95 sloc)  4.38 KB
                     <td style="vertical-align:top">
                         <div style="width:250px;margin-left:100px;background:whitesmoke;border:1px solid lightgray;border-radius:5px;">
                             <span ng-if="doing_async">...loading...</span>
-<div ng-show="my_data.length>0">
-    <abn-tree tree-data="my_data" tree-control="my_tree" on-select="my_tree_handler(branch)" expand-level="2" initial-selection="Granny Smith" new-child-data="newChildObject"></abn-tree>
-</div>
+                            <div ng-show="my_data.length>0">
+                                <abn-tree tree-data="my_data" tree-control="my_tree" on-select="my_tree_handler(branch)" expand-level="2" initial-selection="Granny Smith" new-child-data="newChildObject"></abn-tree>
+                            </div>
 
                         </div>
                     </td>
