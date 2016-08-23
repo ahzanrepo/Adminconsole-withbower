@@ -409,6 +409,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "TEMPLATEMAKER"
                 }
+            }).state('console.tagmanager', {
+                url: "/tagmanager",
+                templateUrl: "views/tag-manager/tagView.html",
+                controller: "tagcontroller",
+                data: {
+                    requireLogin: true,
+                    navigation: "TEMPLATEMAKER"
+                }
             })
 
 
