@@ -114,7 +114,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "application_access_management/view/appAccessManage.html",
             data: {
                 requireLogin: true,
-                navigation: "APPLICATIONS"
+                navigation: "USERS"
             }
         }).state('login', {
             url: "/login",
