@@ -20,7 +20,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate','ngMessages', 'ui.b
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker'
+    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree'
 ]);
 
 
@@ -411,7 +411,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             }).state('console.tagmanager', {
                 url: "/tagmanager",
                 templateUrl: "views/tag-manager/tagView.html",
-                controller: "tagcontroller",
+                controller: "tagcontroller2",
                 data: {
                     requireLogin: true,
                     navigation: "TEMPLATEMAKER"
