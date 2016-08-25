@@ -46,6 +46,8 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 try {
                     if (agent) {
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
+                        if(ids[0]){
+
                         var agentProductivity = {
                             "data": [{
                                 value: ids[0].AcwTime ? ids[0].AcwTime : 0,
@@ -67,7 +69,8 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                             "Chatid": agent.ResourceId
                         };
 
-                        $scope.Productivitys.push(agentProductivity);
+                            $scope.Productivitys.push(agentProductivity);
+                        }
                     }
                 } catch (ex) {
                     console.log(ex);
