@@ -180,6 +180,10 @@
                                                                           ng-click="clickDirective.goAbandonCallList()">Abandon
                                         Call Report</a>
                                     </li>
+
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goCallSummary()">Call Summary Report</a>
+                                    </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goQueueSummary()">Queue
                                         Summary</a>

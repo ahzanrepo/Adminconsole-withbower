@@ -392,6 +392,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "TEMPLATEMAKER"
                 }
+            }).state('console.callsummary', {
+                url: "/callsummary",
+                templateUrl: "views/cdr/callSummaryReport.html",
+                controller: "callSummaryCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
             })
 
 
