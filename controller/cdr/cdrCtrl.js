@@ -51,7 +51,7 @@
 
             if (decodedToken && decodedToken.company && decodedToken.tenant)
             {
-                $scope.DownloadFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.wav';
+                $scope.DownloadFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
             }
 
         };
@@ -72,7 +72,7 @@
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant)
                 {
-                    $scope.fileToPlay = ngAudio.load('http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.wav');
+                    $scope.fileToPlay = ngAudio.load('http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3');
 
                     $scope.fileToPlay.play();
                 }
@@ -265,7 +265,7 @@
 
                                     cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
 
-                                    if (cdrAppendObj.DVPCallDirection === 'INBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'inbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
@@ -305,7 +305,7 @@
                                     cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
 
-                                    if (cdrAppendObj.DVPCallDirection === 'OUTBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'outbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
@@ -349,7 +349,7 @@
 
                                 cdrAppendObj.IsAnswered = outLegAnswered;
 
-                                if (isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec)
+                                if (outLegProcessed && cdrAppendObj.BillSec)
                                 {
                                     cdrAppendObj.ShowButton = true;
                                 }
@@ -556,7 +556,7 @@
 
                                     cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
 
-                                    if (cdrAppendObj.DVPCallDirection === 'INBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'inbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
@@ -602,7 +602,7 @@
                                     cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
 
-                                    if (cdrAppendObj.DVPCallDirection === 'OUTBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'outbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
@@ -715,7 +715,7 @@
 
                                 cdrAppendObj.IsAnswered = outLegAnswered;
 
-                                if (isInboundHTTAPI && outLegProcessed && cdrAppendObj.AnswerSec)
+                                if (outLegProcessed && cdrAppendObj.BillSec)
                                 {
                                     cdrAppendObj.ShowButton = true;
                                 }

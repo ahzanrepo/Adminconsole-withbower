@@ -210,7 +210,7 @@
 
                                     cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
 
-                                    if (cdrAppendObj.DVPCallDirection === 'INBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'inbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
@@ -250,7 +250,7 @@
                                     cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
 
-                                    if (cdrAppendObj.DVPCallDirection === 'OUTBOUND')
+                                    if (cdrAppendObj.DVPCallDirection === 'outbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
@@ -304,15 +304,12 @@
                                     DVPCallDirection: cdrAppendObj.DVPCallDirection,
                                     SipFromUser: cdrAppendObj.SipFromUser,
                                     SipToUser: cdrAppendObj.SipToUser,
-                                    RecievedBy: cdrAppendObj.RecievedBy,
                                     AgentSkill: cdrAppendObj.AgentSkill,
                                     IsAnswered: cdrAppendObj.IsAnswered,
                                     CreatedTime: cdrAppendObj.CreatedTime,
                                     Duration: cdrAppendObj.Duration,
-                                    BillSec: cdrAppendObj.BillSec,
                                     AnswerSec: cdrAppendObj.AnswerSec,
                                     QueueSec: cdrAppendObj.QueueSec,
-                                    HoldSec: cdrAppendObj.HoldSec,
                                     ObjType: cdrAppendObj.ObjType,
                                     ObjCategory: cdrAppendObj.ObjCategory,
                                     HangupParty: cdrAppendObj.HangupParty
@@ -501,7 +498,7 @@
 
                                     cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
 
-                                    if(cdrAppendObj.DVPCallDirection === 'INBOUND')
+                                    if(cdrAppendObj.DVPCallDirection === 'inbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }
@@ -540,7 +537,7 @@
                                     cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
                                     cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
-                                    if(cdrAppendObj.DVPCallDirection === 'OUTBOUND')
+                                    if(cdrAppendObj.DVPCallDirection === 'outbound')
                                     {
                                         cdrAppendObj.HoldSec = curProcessingLeg.HoldSec;
                                     }

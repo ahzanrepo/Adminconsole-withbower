@@ -327,8 +327,24 @@
                     </div>
                 </div>
 
+                <div class="col-md-12 col-lg-12 col-xs-12">
+                    <div class="col-md-6 col-lg-6 col-xs-6 animated fadeIn">
+                        <h3><label>Deny Outbound For</label></h3>
+                        <p><select class="select2_single form-control" tabindex="-1"
+                                   aria-hidden="true"
+                                   name="denyOutboundFor" ng-model="basicConfig.DenyOutboundFor"
+                                   ng-model-options="{trackBy: '$value'}">
+                            <option>ALL</option>
+                            <option>GATEWAY</option>
+                            <option>NONE</option>
+                        </select></p>
+                    </div>
+                </div>
+
+
+
                 <div class="col-lg-12">
-                    <div class="sip-user-btn-wrap text-left">
+                    <div class="sip-user-btn-wrap text-left" style="padding-left: 11px;">
                         <button class="btn btn-primary" ng-click="onSavePressed()">
                             Save
                         </button>

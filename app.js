@@ -114,7 +114,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             templateUrl: "application_access_management/view/appAccessManage.html",
             data: {
                 requireLogin: true,
-                navigation: "APPLICATIONS"
+                navigation: "USERS"
             }
         }).state('login', {
             url: "/login",
@@ -149,7 +149,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "myNumbersCtrl",
             data: {
                 requireLogin: true,
-                navigation: "CDR"
+                navigation: "MY_NUMBERS"
             }
         }).state("console.sipuser", {
             url: "/sipuser",
@@ -374,7 +374,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 controller: "companyConfigController",
                 data: {
                     requireLogin: true,
-                    navigation: "COMPANYCONFIG"
+                    navigation: "COMPANY_CONFIGURATION"
                 }
             }).state('console.translations', {
                 url: "/translation",
@@ -383,6 +383,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 data: {
                     requireLogin: true,
                     navigation: "TRANSLATIONS"
+                }
+            }).state('console.templatecreater', {
+                url: "/templatecreater",
+                templateUrl: "views/template-generator/templateview.html",
+                controller: "templateController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TEMPLATEMAKER"
                 }
             })
 
