@@ -204,10 +204,10 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
             $scope.WSUri="wss://" + values[1] + ":7443";
             $scope.realm=values[1];
             $scope.username=values[0];
-            $scope.displayname=values[0];
+            $scope.displayname=decodeData.context.veeryaccount.display;
             $scope.loginData ={
                 realm:$scope.realm,
-                impi:$scope.displayname,
+                impi:$scope.username,
                 impu:$scope.sipUri,
                 display_name:decodeData.iss,
                 websocket_proxy_url:$scope.WSUri
