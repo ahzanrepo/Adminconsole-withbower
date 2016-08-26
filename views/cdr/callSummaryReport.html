@@ -10,20 +10,19 @@
             <div class="row">
                 <uib-tabset active="0">
                 <uib-tab index="0" heading="Hourly Summary (By Day)">
-                    </br></br>
+
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-md-1 col-sm-1 col-xs-1">
-                            <label>Day</label>
-                        </div>
+                        <br>
                         <div class="col-md-2 col-sm-2 col-xs-2">
+                            <label>Day</label>
                             <input type="text" class="form-control" ng-model="obj.dateofmonth" ng-change="onDateChange()" name="dayofmonth" datepicker>
                         </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div class="col-md-2 col-sm-2 col-xs-2" style="line-height: 7.3em;">
                             <button type="button" class="btn btn-success" ng-click="getCallSummary()">
                                 Search
                             </button>
                         </div>
-                        <div class="col-md-7 col-sm-7 col-xs-7"></div>
+                        <div class="col-md-8 col-sm-8 col-xs-8"></div>
                     </div>
 
                     <div class="search-main-wrap col-md-12 col-sm-12 col-xs-12" ng-if="obj.isTableLoadingHr==0">
@@ -127,15 +126,17 @@
                     </div>
                 </uib-tab>
                 <uib-tab index="1" heading="Daily Summary (By Month)">
-                    </br></br>
+                    </br>
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label>Start Day</label>
                             <input type="text" class="form-control" ng-model="obj2.startDay" name="startDay" datepicker>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3">
+                            <label>End Day</label>
                             <input type="text" class="form-control" ng-model="obj2.endDay" name="endDay" datepicker>
                         </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div class="col-md-2 col-sm-2 col-xs-2" style="line-height: 7.3em;">
                             <button type="button" class="btn btn-success" ng-click="getCallSummaryDaily()">
                                 Search
                             </button>
