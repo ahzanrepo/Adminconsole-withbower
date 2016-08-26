@@ -120,7 +120,7 @@
 
                                 <!--<p>{{file.FileCategory.Category}}</p>-->
 
-                                <p ng-hide="showDeleteSelection">{{file.createdAt| date}}</p>
+                                <p ng-hide="showDeleteSelection">{{file.createdAt| date:'yyyy-MM-dd HH:mm'}}</p>
 
                                 <input ng-show="showDeleteSelection" type="checkbox" class="flat" ng-model="file.delete"
                                        ng-change="addToDelete(file)">
