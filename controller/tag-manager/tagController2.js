@@ -3,10 +3,24 @@
  */
 mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModal, jwtHelper,authService,tagBackendService)
 {
-    var apple_selected, tree, treedata_avm=[], treedata_geography;
+    var  tree, treedata_avm=[];
 
     $scope.my_data=[];
     $scope.newChildObject={};
+    $scope.tagCategories=[];
+    $scope.currentCatID="";
+
+
+    $scope.showAlert = function (tittle,content,type) {
+
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
 
     $scope.loadTagDetails = function (tagID,callback) {
         if(tagID)
@@ -48,6 +62,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
                 }
                 else
                 {
+
                     var newChild=$scope.try_adding_a_branch(motherBranch,tagResponse);
 
                     if(tagResponse.tags.length>0)
@@ -62,7 +77,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
     }
 
     $scope.loadCategoryData = function () {
-        tagBackendService.getTagCategories("57bc1a43c71845e82377daea").then(function (response) {
+        tagBackendService.getTagCategories().then(function (response) {
 
             if(!response.data.IsSuccess)
             {
@@ -73,29 +88,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
             }
             else
             {
-                console.log("Success");
-                console.log(response.data.Result);
-
-                var rootData=
-                {
-                    label: response.data.Result.name,
-                    catId: response.data.Result._id,
-                    children:[]
-
-
-                }
-                var childTags=response.data.Result.tags;
-                treedata_avm.push(rootData);
-                console.log("Tree data found ",JSON.stringify(treedata_avm));
-                $scope.my_data = treedata_avm;
-                $scope.my_tree_handler(treedata_avm[0]);
-
-                $scope.childTreeGenerator(childTags,treedata_avm[0]);
-
-
-
-
-
+                $scope.tagCategories=response.data.Result;
             }
 
         }), function (error) {
@@ -103,11 +96,153 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
 
 
         }
+
+
     };
+
+    $scope.saveNewTagData = function (parentTag,newTagData) {
+
+        var rootBranch=tree.get_first_branch();
+        if(rootBranch==parentTag)
+        {
+            tagBackendService.saveAndAttachNewTagToCategory(rootBranch._id,newTagData).then(function (response) {
+
+                if(response)
+                {
+                    if(!response.data.IsSuccess)
+                    {
+                        console.log("New Tag adding failed");
+                        $scope.showAlert("Error","New tag adding failed","error");
+                    }
+                    else
+                    {
+                        console.log("New Tag adding succeeded");
+                        $scope.showAlert("Success","New Tag added successfully","success");
+                        newTagData._id=response.data.Result.newTagID;
+                        $scope.try_adding_a_branch(parentTag,newTagData);
+                    }
+                }
+                else
+                {
+                    console.log("New Tag adding failed");
+                    $scope.showAlert("Error","New tag adding failed","error");
+
+                }
+
+
+            }), function (error) {
+                console.log("New Tag adding to category failed",error);
+                $scope.showAlert("Error","New tag adding failed","error");
+            }
+
+        }
+        else
+        {
+            tagBackendService.saveAndAttachNewTag(parentTag._id,newTagData).then(function (response) {
+
+                if(response)
+                {
+                    if(!response.data.IsSuccess)
+                    {
+                        console.log("New Tag adding failed");
+                        $scope.showAlert("Error","New tag adding failed","error");
+                    }
+                    else
+                    {
+                        console.log("New Tag adding succeeded");
+                        $scope.showAlert("Success","New Tag added successfully","success");
+                        newTagData._id=response.data.Result.newTagID;
+                        $scope.try_adding_a_branch(parentTag,newTagData);
+                    }
+                }
+                else
+                {
+                    console.log("New Tag adding failed");
+                    $scope.showAlert("Error","New tag adding failed","error");
+                }
+
+
+            }), function (error) {
+                console.log("New Tag adding failed",error);
+                $scope.showAlert("Error","New tag adding failed","error");
+
+            }
+        }
+
+
+
+
+
+
+
+    };
+
+    $scope.deleteTag = function () {
+        var selectedBranch;
+        selectedBranch = tree.get_selected_branch();
+
+        var rootBranch = tree.get_first_branch();
+
+        var parent_ID = selectedBranch.parent_id;
+
+
+        if(!parent_ID)
+        {
+            console.log("You cannot delete this Tag/Tag category");
+        }
+        else
+        {
+            if(parent_ID==rootBranch._id)
+            {
+                tagBackendService.detachTagFromCategory(parent_ID,selectedBranch._id).then(function (response) {
+                    console.log("success");
+                    $scope.showAlert("Success","Tag detached from Category successfully","success");
+                    $state.reload();
+                }), function (error) {
+                    console.log("error");
+                    $scope.showAlert("Error","Tag detached from Category failed","error");
+                };
+            }
+            else
+            {
+                tagBackendService.detachTagFromTag(parent_ID,selectedBranch._id).then(function (response) {
+                    console.log("success");
+                    $scope.showAlert("Success","Tag detached from Tag successfully","success");
+                    $state.reload();
+                }), function (error) {
+                    console.log("error");
+                    $scope.showAlert("Error","Tag detached from Tag failed","error");
+                };
+            }
+        }
+
+
+    }
+
+
+    $scope.showModal= function (selectedBranch) {
+        //modal show
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/tag-manager/partials/tagModal.html',
+            controller: 'NewChildTagController',
+            size: 'sm',
+            resolve: {
+                parentTag: function () {
+                    return selectedBranch;
+                },
+                saveNewTagData : function () {
+                    return $scope.saveNewTagData;
+                }
+            }
+        });
+    };
+
 
     $scope.$watch('my_data', function() {
 
     });
+
 
     $scope.loadCategoryData();
 
@@ -118,125 +253,12 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
             return $scope.output += '(' + branch.data.description + ')';
         }
     };
-    apple_selected = function(branch) {
-        return $scope.output = "APPLE! : " + branch.label;
-    };
-    /* treedata_avm = [
-     {
-     label: 'Animal',
-     children: [
-     {
-     label: 'Dog',
-     data: {
-     description: "man's best friend"
-     }
-     }, {
-     label: 'Cat',
-     data: {
-     description: "Felis catus"
-     }
-     }, {
-     label: 'Hippopotamus',
-     data: {
-     description: "hungry, hungry"
-     }
-     }, {
-     label: 'Chicken',
-     children: ['White Leghorn', 'Rhode Island Red', 'Jersey Giant']
-     }
-     ]
-     }, {
-     label: 'Vegetable',
-     data: {
-     definition: "A plant or part of a plant used as food, typically as accompaniment to meat or fish, such as a cabbage, potato, carrot, or bean.",
-     data_can_contain_anything: true
-     },
-     onSelect: function(branch) {
-     return $scope.output = "Vegetable: " + branch.data.definition;
-     },
-     children: [
-     {
-     label: 'Oranges'
-     }, {
-     label: 'Apples',
-     children: [
-     {
-     label: 'Granny Smith',
-     onSelect: apple_selected
-     }, {
-     label: 'Red Delicous',
-     onSelect: apple_selected
-     }, {
-     label: 'Fuji',
-     onSelect: apple_selected
-     }
-     ]
-     }
-     ]
-     }, {
-     label: 'Mineral',
-     children: [
-     {
-     label: 'Rock',
-     children: ['Igneous', 'Sedimentary', 'Metamorphic']
-     }, {
-     label: 'Metal',
-     children: ['Aluminum', 'Steel', 'Copper']
-     }, {
-     label: 'Plastic',
-     children: [
-     {
-     label: 'Thermoplastic',
-     children: ['polyethylene', 'polypropylene', 'polystyrene', ' polyvinyl chloride']
-     }, {
-     label: 'Thermosetting Polymer',
-     children: ['polyester', 'polyurethane', 'vulcanized rubber', 'bakelite', 'urea-formaldehyde']
-     }
-     ]
-     }
-     ]
-     }
-     ];*/
-    treedata_geography = [
-        {
-            label: 'North America',
-            children: [
-                {
-                    label: 'Canada',
-                    children: ['Toronto', 'Vancouver']
-                }, {
-                    label: 'USA',
-                    children: ['New York', 'Los Angeles']
-                }, {
-                    label: 'Mexico',
-                    children: ['Mexico City', 'Guadalajara']
-                }
-            ]
-        }, {
-            label: 'South America',
-            children: [
-                {
-                    label: 'Venezuela',
-                    children: ['Caracas', 'Maracaibo']
-                }, {
-                    label: 'Brazil',
-                    children: ['Sao Paulo', 'Rio de Janeiro']
-                }, {
-                    label: 'Argentina',
-                    children: ['Buenos Aires', 'Cordoba']
-                }
-            ]
-        }
-    ];
+
     $scope.my_data = treedata_avm;
-    $scope.try_changing_the_tree_data = function() {
-        if ($scope.my_data === treedata_avm) {
-            return $scope.my_data = treedata_geography;
-        } else {
-            return $scope.my_data = treedata_avm;
-        }
-    };
+
+
     $scope.my_tree = tree = {};
+
     $scope.try_async_load = function() {
         $scope.my_data = [];
         $scope.doing_async = true;
@@ -250,168 +272,149 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
             return tree.expand_all();
         }, 1000);
     };
+
+    $scope.showNewChildModal = function () {
+        var selectedBranch;
+        selectedBranch = tree.get_selected_branch();
+
+        var rootBranch=tree.get_first_branch();
+
+
+        if(selectedBranch)
+        {
+            console.log(selectedBranch.label+ " Selected");
+            $scope.showModal(selectedBranch);
+        }
+        else
+        {
+            console.log("Branch selection error");
+        }
+
+
+
+    };
+
+    $scope.treeBuilder = function () {
+        if(!$scope.currentCatID)
+        {
+            console.log("Invalid Category");
+            $scope.showAlert("Error","Invalid Category","error");
+        }
+        else
+        {
+            $scope.my_data=[];
+            $scope.newChildObject={};
+            treedata_avm=[];
+            tagBackendService.getTagCategory($scope.currentCatID).then(function (response) {
+
+                if(!response.data.IsSuccess)
+                {
+
+                    console.info("Error in adding new Application "+response.data.Exception);
+                    $scope.showAlert("Error","Invalid Category Data found","error");
+
+                    //$scope.showAlert("Error",)
+                }
+                else
+                {
+                    console.log("Success");
+                    console.log(response.data.Result);
+
+                    var rootData=
+                    {
+                        label: response.data.Result.name,
+                        _id: response.data.Result._id,
+                        children:[]
+
+
+                    }
+                    var childTags=response.data.Result.tags;
+                    treedata_avm.push(rootData);
+                    console.log("Tree data found ",JSON.stringify(treedata_avm));
+                    $scope.my_data = treedata_avm;
+                    $scope.my_tree_handler(treedata_avm[0]);
+
+                    $scope.childTreeGenerator(childTags,treedata_avm[0]);
+
+
+
+
+
+                }
+
+            }), function (error) {
+                console.info("Error in adding new Application "+error);
+                $scope.showAlert("Error","Invalid Category","error");
+
+
+            }
+        }
+
+    };
+
+
+
     return $scope.try_adding_a_branch = function(currentBranch,childDetails) {
-        var b;
-        b = tree.get_selected_branch();
+
+        var parentBranch = tree.get_selected_branch();
 
         return tree.add_branch(currentBranch, {
             label: childDetails.name,
-            tagID:childDetails._id,
+            _id:childDetails._id,
+            parent_id:currentBranch._id,
             children:[]
 
         });
     };
 
-    /*var apple_selected, tree, treedata_avm, treedata_geography;
-    $scope.my_tree_handler = function(branch) {
-        var _ref;
-        $scope.output = "You selected: " + branch.label;
-        if ((_ref = branch.data) != null ? _ref.description : void 0) {
-            return $scope.output += '(' + branch.data.description + ')';
-        }
-    };
-    apple_selected = function(branch) {
-        return $scope.output = "APPLE! : " + branch.label;
-    };
-    treedata_avm = [
+
+
+
+});
+
+mainApp.controller("NewChildTagController", function ($scope,$rootScope, $uibModalInstance,parentTag,saveNewTagData) {
+
+
+    $scope.showModal=true;
+
+    $scope.ok = function () {
+        var childTag =
         {
-            label: 'Animal',
-            children: [
-                {
-                    label: 'Dog',
-                    data: {
-                        description: "man's best friend"
-                    }
-                }, {
-                    label: 'Cat',
-                    data: {
-                        description: "Felis catus"
-                    }
-                }, {
-                    label: 'Hippopotamus',
-                    data: {
-                        description: "hungry, hungry"
-                    }
-                }, {
-                    label: 'Chicken',
-                    children: ['White Leghorn', 'Rhode Island Red', 'Jersey Giant']
-                }
-            ]
-        }, {
-            label: 'Vegetable',
-            data: {
-                definition: "A plant or part of a plant used as food, typically as accompaniment to meat or fish, such as a cabbage, potato, carrot, or bean.",
-                data_can_contain_anything: true
-            },
-            onSelect: function(branch) {
-                return $scope.output = "Vegetable: " + branch.data.definition;
-            },
-            children: [
-                {
-                    label: 'Oranges'
-                }, {
-                    label: 'Apples',
-                    children: [
-                        {
-                            label: 'Granny Smith',
-                            onSelect: apple_selected
-                        }, {
-                            label: 'Red Delicous',
-                            onSelect: apple_selected
-                        }, {
-                            label: 'Fuji',
-                            onSelect: apple_selected
-                        }
-                    ]
-                }
-            ]
-        }, {
-            label: 'Mineral',
-            children: [
-                {
-                    label: 'Rock',
-                    children: ['Igneous', 'Sedimentary', 'Metamorphic']
-                }, {
-                    label: 'Metal',
-                    children: ['Aluminum', 'Steel', 'Copper']
-                }, {
-                    label: 'Plastic',
-                    children: [
-                        {
-                            label: 'Thermoplastic',
-                            children: ['polyethylene', 'polypropylene', 'polystyrene', ' polyvinyl chloride']
-                        }, {
-                            label: 'Thermosetting Polymer',
-                            children: ['polyester', 'polyurethane', 'vulcanized rubber', 'bakelite', 'urea-formaldehyde']
-                        }
-                    ]
-                }
-            ]
+            name:$scope.tagNameData,
+            descricption : $scope.tagDesc
         }
-    ];
-    treedata_geography = [
+        saveNewTagData(parentTag,childTag);
+        $scope.showModal=false;
+        $uibModalInstance.close();
+
+    };
+
+    $scope.saveNewTag= function () {
+
+        var childTag =
         {
-            label: 'North America',
-            children: [
-                {
-                    label: 'Canada',
-                    children: ['Toronto', 'Vancouver']
-                }, {
-                    label: 'USA',
-                    children: ['New York', 'Los Angeles']
-                }, {
-                    label: 'Mexico',
-                    children: ['Mexico City', 'Guadalajara']
-                }
-            ]
-        }, {
-            label: 'South America',
-            children: [
-                {
-                    label: 'Venezuela',
-                    children: ['Caracas', 'Maracaibo']
-                }, {
-                    label: 'Brazil',
-                    children: ['Sao Paulo', 'Rio de Janeiro']
-                }, {
-                    label: 'Argentina',
-                    children: ['Buenos Aires', 'Cordoba']
-                }
-            ]
+            name:$scope.tagNameData,
+            descricption : $scope.tagDesc
         }
-    ];
-    $scope.my_data = treedata_avm;
-    $scope.try_changing_the_tree_data = function() {
-        if ($scope.my_data === treedata_avm) {
-            return $scope.my_data = treedata_geography;
-        } else {
-            return $scope.my_data = treedata_avm;
-        }
+        saveNewTagData(parentTag,childTag);
+        $scope.showModal=false;
+        $uibModalInstance.close();
+
+
     };
-    $scope.my_tree = tree = {};
-    $scope.try_async_load = function() {
-        $scope.my_data = [];
-        $scope.doing_async = true;
-        return $timeout(function() {
-            if (Math.random() < 0.5) {
-                $scope.my_data = treedata_avm;
-            } else {
-                $scope.my_data = treedata_geography;
-            }
-            $scope.doing_async = false;
-            return tree.expand_all();
-        }, 1000);
+
+    $scope.closeModal = function () {
+        saveNewTagData(parentTag,null);
+        $scope.showModal=false;
+        $uibModalInstance.dismiss('cancel');
     };
-    return $scope.try_adding_a_branch = function() {
-        var b;
-        b = tree.get_selected_branch();
-        return tree.add_branch(b, {
-            label: 'New Branch',
-            data: {
-                something: 42,
-                "else": 43
-            }
-        });
+
+    $scope.cancel = function () {
+        saveNewTagData(parentTag,null);
+        $scope.showModal=false;
+        $uibModalInstance.dismiss('cancel');
     };
-*/
+
+
+
 });

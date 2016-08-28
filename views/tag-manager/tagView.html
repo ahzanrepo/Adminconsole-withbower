@@ -1,24 +1,25 @@
+<!--
 
 <!DOCTYPE html>
 <html ng-app="AbnTest">
 <head>
-    <!--/-->
-    <!-- Bootstrap 2 or Bootstrap 3 ?-->
-    <!---->
+    &lt;!&ndash;/&ndash;&gt;
+    &lt;!&ndash; Bootstrap 2 or Bootstrap 3 ?&ndash;&gt;
+    &lt;!&ndash;&ndash;&gt;
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
-    <!---->
-    <!-- Angular 1.1.5 or 1.2.12 ?-->
-    <!---->
+    &lt;!&ndash;&ndash;&gt;
+    &lt;!&ndash; Angular 1.1.5 or 1.2.12 ?&ndash;&gt;
+    &lt;!&ndash;&ndash;&gt;
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-animate.js"></script>
-    <!-- Font Awesome (optional)-->
-    <!-- Live Reload ( for development )-->
-    <!--/-->
-    <!-- abn-tree ( the thing we are testing )-->
-    <!---->
+    &lt;!&ndash; Font Awesome (optional)&ndash;&gt;
+    &lt;!&ndash; Live Reload ( for development )&ndash;&gt;
+    &lt;!&ndash;/&ndash;&gt;
+    &lt;!&ndash; abn-tree ( the thing we are testing )&ndash;&gt;
+    &lt;!&ndash;&ndash;&gt;
     <script src="../dist/abn_tree_directive.js">		</script>
     <link rel="stylesheet" href="../dist/abn_tree.css">
-    <!-- js for this test page:-->
+    &lt;!&ndash; js for this test page:&ndash;&gt;
     <script src="test_page.js"></script>
 </head>
 <body ng-controller="AbnTestController" style="margin:20px">
@@ -28,8 +29,8 @@
         <td style="vertical-align:top;padding:20px">
             <h6>by Nick Perkins</h6>
             <a href="https://github.com/nickperkinslondon/angular-bootstrap-nav-tree">The code is on Github</a>
-            <!-- All 4 of these pages are generated ( by Grunt ) -->
-            <!-- from this one jade file-->
+            &lt;!&ndash; All 4 of these pages are generated ( by Grunt ) &ndash;&gt;
+            &lt;!&ndash; from this one jade file&ndash;&gt;
             <hr>
             <ul class="nav nav-list list-group">
                 <li>
@@ -97,3 +98,72 @@
 </table>
 </body>
 </html>
+-->
+
+
+<div class="row">
+
+    <div class="col-md-12 col-sm-6 col-xs-12">
+
+        <!-- application list -->
+        <div class="x_panel bg-light-gray animated fadeIn">
+            <div class="x_title border-0">
+                <h2 class="font-robot font-300 text-uppercase font-15">Choose Tag Categoty</h2>
+                <div class="col-xs-12">
+                    <div class="tile-stats m-top15">
+                        <form class="form-horizontal form-label-left input_mask">
+
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                    <select class="form-control has-feedback-left ng-pristine ng-untouched ng-valid ng-empty"
+                                            ng-model="currentCatID"
+                                            ng-model-options="{trackBy: '$value'}">
+                                        <option value="" disabled="" selected="">Select an category
+                                        </option>
+                                        <option ng-repeat="tagCategory in tagCategories"
+                                                value="{{tagCategory._id}}">
+                                            {{tagCategory.name}}
+                                        </option>
+                                    </select>
+                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+
+
+                                <div class="col-md-2 col-sm-2 col-xs-12  ">
+                                    <button type="button" class="btn btn-success btn-block  btn- pull-right"
+                                            ng-click="treeBuilder()">
+                                       Show
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- end -->
+
+        <!-- view application users -->
+
+        <div class="col-md-4 col-sm-12 col-xs-12 edit-main-wrap" ng-show="my_data.length>0">
+            <abn-tree tree-data="my_data" tree-control="my_tree" on-select="my_tree_handler(branch)" expand-level="2" initial-selection="Granny Smith" new-child-data="newChildObject" add-new-child="showNewChildModal()"></abn-tree>
+
+        </div>
+        <div>
+
+            <button type="submit" class="btn btn-primary" ng-click="deleteTag()">Delete</button>
+        </div>
+        <!-- end -->
+    </div>
+
+</div>
+
+</div>
+
+
+
+
+
+
