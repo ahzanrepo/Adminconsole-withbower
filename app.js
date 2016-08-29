@@ -374,7 +374,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 controller: "companyConfigController",
                 data: {
                     requireLogin: true,
-                    navigation: "COMPANYCONFIG"
+                    navigation: "COMPANY_CONFIGURATION"
                 }
             }).state('console.translations', {
                 url: "/translation",
