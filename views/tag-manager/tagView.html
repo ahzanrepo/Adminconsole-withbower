@@ -101,13 +101,13 @@
             </div>
 
             <div class="col-md- col-sm-12 col-xs-12 edit-main-wrap" ng-show="my_data.length>0 && isTreeView">
-                <abn-tree tree-data="my_data" tree-control="my_tree" on-select="my_tree_handler(branch)" expand-level="2" initial-selection="Granny Smith" new-child-data="newChildObject" add-new-child="showNewChildModal()"></abn-tree>
+                <abn-tree tree-data="my_data" tree-control="my_tree" on-select="my_tree_handler(branch)" expand-level="2" initial-selection="Granny Smith" new-child-data="newChildObject" add-new-child="showNewChildModal()" delete_tag="detachTag()"></abn-tree>
 
             </div>
-            <div>
+            <!--<div>
 
                 <button type="submit" class="btn btn-primary" ng-click="detachTag()">Detach</button>
-            </div>
+            </div>-->
 
         </div>
 
@@ -215,7 +215,7 @@
                                 </span>
                             </div>
                         </div>
-
+                        <button type="submit" class="btn btn-primary" ng-click="showNewTagModal()"><span class="fa fa-plus" aria-hidden="true"></span>New</button>
                         <div id="datatable-responsive_wrapper2"
                              class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             <div class="row">

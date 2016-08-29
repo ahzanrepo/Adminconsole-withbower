@@ -379,6 +379,28 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
         }
     }
 
+    $scope.addNewTagObject = function (newTagData) {
+        tagBackendService.addNewTagDetails(newTagData).then(function (response) {
+
+            if(!response.data.IsSuccess)
+            {
+                console.log("Tag adding failed");
+                $scope.showAlert("Error","Tag adding failed","error");
+            }
+            else
+            {
+                console.log("Tag adding succeeded");
+                $scope.showAlert("Success","Tag adding succeeded","success");
+                $scope.tagList.push(response.data.Result);
+
+            }
+
+        }), function (error) {
+            console.log("Tag adding failed",error);
+            $scope.showAlert("Error","Tag adding failed","error");
+        };
+    };
+
 
     $scope.showModal= function (selectedBranch) {
         //modal show
@@ -392,7 +414,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
                     return selectedBranch;
                 },
                 saveNewTagData : function () {
-                    return $scope.saveNewTagData;
+                    return $scope.addNewTag;
                 }
             }
         });
@@ -433,7 +455,20 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
             }
         });
     };
-
+    $scope.showNewTagModal= function () {
+        //modal show
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/tag-manager/partials/newTagModal.html',
+            controller: 'NewTagController',
+            size: 'sm',
+            resolve: {
+                addNewTagData : function () {
+                    return $scope.addNewTagObject;
+                }
+            }
+        });
+    };
 
     $scope.$watch('my_data', function() {
 
@@ -716,3 +751,62 @@ mainApp.controller("NewTagCategoryController", function ($scope,$rootScope, $uib
 
 
 });
+mainApp.controller("NewTagController", function ($scope,$rootScope, $uibModalInstance,addNewTagData) {
+
+
+    $scope.showModal=true;
+
+    $scope.ok = function () {
+        var tagData={};
+
+        tagData =
+        {
+            name:$scope.tagNameData,
+            description:$scope.tagDesc
+
+        }
+
+
+        addNewTagData(tagData);
+        $scope.showModal=false;
+        $uibModalInstance.close();
+    };
+
+    $scope.addNewTag= function () {
+        var tagData={};
+
+        tagData =
+        {
+            name:$scope.tagNameData,
+            description:$scope.tagDesc
+
+        }
+
+
+        addNewTagData(tagData);
+        $scope.showModal=false;
+        $uibModalInstance.close();
+
+    };
+
+    $scope.closeModal = function () {
+        saveNewTagData(parentTag,null);
+        $scope.showModal=false;
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    $scope.cancel = function () {
+        saveNewTagCatData(parentTag,null);
+        $scope.showModal=false;
+        $uibModalInstance.dismiss('cancel');
+    };
+
+
+
+
+
+
+
+
+});
+
