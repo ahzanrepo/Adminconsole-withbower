@@ -1,13 +1,17 @@
 /**
- * Created by Pawan on 8/19/2016.
+ * Created by Pawan on 8/23/2016.
  */
+/**
+ * Created by Pawan on 8/23/2016.
+ */
+
+
 mainApp.controller('tagcontroller', function ($scope,$rootScope,$state,$uibModal, jwtHelper,authService,tagBackendService)
 {
     var apple_selected, tree, treedata_avm=[], treedata_geography;
+
     $scope.my_data=[];
     $scope.newChildObject={};
-
-
 
     $scope.loadTagDetails = function (tagID,callback) {
         if(tagID)
@@ -111,8 +115,6 @@ mainApp.controller('tagcontroller', function ($scope,$rootScope,$state,$uibModal
     });
 
     $scope.loadCategoryData();
-
-    $scope.my_tree = tree = {};
 
     $scope.my_tree_handler = function(branch) {
         var _ref;
@@ -231,7 +233,7 @@ mainApp.controller('tagcontroller', function ($scope,$rootScope,$state,$uibModal
             ]
         }
     ];
-
+    $scope.my_data = treedata_avm;
     $scope.try_changing_the_tree_data = function() {
         if ($scope.my_data === treedata_avm) {
             return $scope.my_data = treedata_geography;
@@ -239,8 +241,7 @@ mainApp.controller('tagcontroller', function ($scope,$rootScope,$state,$uibModal
             return $scope.my_data = treedata_avm;
         }
     };
-
-
+    $scope.my_tree = tree = {};
     $scope.try_async_load = function() {
         $scope.my_data = [];
         $scope.doing_async = true;
@@ -254,7 +255,7 @@ mainApp.controller('tagcontroller', function ($scope,$rootScope,$state,$uibModal
             return tree.expand_all();
         }, 1000);
     };
-    return   $scope.try_adding_a_branch = function(currentBranch,childDetails) {
+    return $scope.try_adding_a_branch = function(currentBranch,childDetails) {
         var b;
         b = tree.get_selected_branch();
 
@@ -266,59 +267,6 @@ mainApp.controller('tagcontroller', function ($scope,$rootScope,$state,$uibModal
         });
     };
 
-    $scope.showModal= function (User) {
-        //modal show
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/tag-manager/partials/tagModal.html',
-            controller: 'loginModalController2',
-            size: 'sm',
-            resolve: {
-                user: function () {
-                    return User;
-                },
-                pickPassword : function () {
-                    return $scope.pickPassword;
-                }
-            }
-        });
-    };
-
-
-
 });
 
-mainApp.controller("loginModalController2", function ($scope,$rootScope, $uibModalInstance,user,pickPassword) {
 
-
-    $scope.showModal=true;
-
-    $scope.username=user;
-
-    $scope.ok = function () {
-        pickPassword($scope.userPasssword);
-        $scope.showModal=false;
-        $uibModalInstance.close($scope.password);
-    };
-
-    $scope.loginPhone= function () {
-        pickPassword($scope.userPasssword);
-        $scope.showModal=false;
-        $uibModalInstance.close($scope.password);
-    };
-
-    $scope.closeModal = function () {
-        pickPassword(null);
-        $scope.showModal=false;
-        $uibModalInstance.dismiss('cancel');
-    };
-
-    $scope.cancel = function () {
-        pickPassword(null);
-        $scope.showModal=false;
-        $uibModalInstance.dismiss('cancel');
-    };
-
-
-
-});
