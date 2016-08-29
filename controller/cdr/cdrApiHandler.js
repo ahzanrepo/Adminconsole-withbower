@@ -53,7 +53,7 @@
         var getCallSummaryForHr = function(date, tz)
         {
             var authToken = authService.GetToken();
-            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
+            var url = 'http://localhost:9093/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
 
             return $http({
                 method: 'GET',
@@ -67,10 +67,10 @@
             })
         };
 
-        var getCallSummaryForDay = function(date, tz)
+        var getCallSummaryForDay = function(sdate, edate, tz)
         {
             var authToken = authService.GetToken();
-            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
+            var url = 'http://localhost:9093/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Daily?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
 
             return $http({
                 method: 'GET',
@@ -87,7 +87,8 @@
         return {
             getCDRForTimeRange: getCDRForTimeRange,
             getAbandonCDRForTimeRange: getAbandonCDRForTimeRange,
-            getCallSummaryForHr: getCallSummaryForHr
+            getCallSummaryForHr: getCallSummaryForHr,
+            getCallSummaryForDay: getCallSummaryForDay
         };
     };
 

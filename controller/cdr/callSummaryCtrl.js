@@ -24,18 +24,18 @@
 
 
         $scope.obj = {
-            dateofmonth : moment().format("YYYY-MM-DD"),
+            dateofmonth : moment().format("YYYY-MM-DD")
+        };
+
+        $scope.obj2 = {
             startDay : moment().format("YYYY-MM-DD"),
             endDay : moment().format("YYYY-MM-DD")
         };
 
-        $scope.onDateChange = function ()
-        {
-            console.log($scope.obj.dayofmonth);
-        };
 
-        $scope.obj.isTableLoadingHr = 3;
+
         $scope.callSummaryHrList = [];
+        $scope.callSummaryDayList = [];
 
 
         var isEmpty = function (map) {
@@ -110,21 +110,21 @@
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 momentTz = momentTz.replace("+", "%2B");
 
-                $scope.obj.isTableLoadingHr = 0;
+                $scope.obj.isTableLoadingDay = 0;
 
-                cdrApiHandler.getCallSummaryForHr($scope.obj.dateofmonth, momentTz).then(function (sumResp)
+                cdrApiHandler.getCallSummaryForDay($scope.obj2.startDay, $scope.obj2.endDay, momentTz).then(function (sumResp)
                 {
                     if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result)
                     {
                         if (!isEmpty(sumResp.Result))
                         {
-                            $scope.callSummaryHrList = sumResp.Result;
-                            $scope.obj.isTableLoadingHr = 1;
+                            $scope.callSummaryDayList = sumResp.Result;
+                            $scope.obj.isTableLoadingDay = 1;
                         }
                         else
                         {
                             $scope.showAlert('Info', 'info', 'No records to load');
-                            $scope.obj.isTableLoadingHr = 1;
+                            $scope.obj.isTableLoadingDay = 1;
 
                         }
 
@@ -133,7 +133,7 @@
                     else
                     {
                         $scope.showAlert('Error', 'error', 'Error occurred while loading call summary');
-                        $scope.obj.isTableLoadingHr = 1;
+                        $scope.obj.isTableLoadingDay = 1;
                     }
 
 
@@ -141,13 +141,13 @@
                 }, function (err)
                 {
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading call summary');
-                    $scope.obj.isTableLoadingHr = 1;
+                    $scope.obj.isTableLoadingDay = 1;
                 })
             }
             catch (ex)
             {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading call summary');
-                $scope.obj.isTableLoadingHr = 1;
+                $scope.obj.isTableLoadingDay = 1;
             }
 
         };

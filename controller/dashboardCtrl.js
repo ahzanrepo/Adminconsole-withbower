@@ -230,12 +230,19 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                     resonseAvailability = response[i].Status.State;
                                     resonseStatus = response[i].Status.Reason;
                                 }
+                                if(response[i].ConcurrencyInfo[0].IsRejectCountExceeded){
+                                    resonseAvailability = "NotAvailable";
+                                    resonseStatus = "Suspended";
+                                }
 
 
                                 var reservedDate = response[i].ConcurrencyInfo[0].
                                     SlotInfo[0].StateChangeTime;
 
-                                if (resonseAvailability == "NotAvailable") {
+                                if(resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded"){
+                                    profile.slotState = resonseStatus;
+                                    profile.other = "Reject";
+                                } else if (resonseAvailability == "NotAvailable") {
                                     profile.slotState = resonseStatus;
                                     profile.other = "Break";
                                     reservedDate = response[i].Status.StateChangeTime;
