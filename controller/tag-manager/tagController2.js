@@ -414,7 +414,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
                     return selectedBranch;
                 },
                 saveNewTagData : function () {
-                    return $scope.addNewTag;
+                    return $scope.saveNewTagData;
                 }
             }
         });
