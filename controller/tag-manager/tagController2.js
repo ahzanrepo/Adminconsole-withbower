@@ -432,7 +432,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
             {
                 console.log("Tag Category adding succeeded");
                 $scope.showAlert("Success","Tag Category adding succeeded","success");
-                $state.reload();
+                $scope.tagCategories.push(response.data.Result);
             }
         }), function (error) {
             console.log("Tag Category adding failed");
