@@ -4,16 +4,16 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var triggerConfigController = function ($scope, $state, $stateParams, triggerApiAccess, triggerUserServiceAccess) {
+    var triggerConfigController = function ($scope, $state, $stateParams, triggerApiAccess, triggerUserServiceAccess, triggerTemplateServiceAccess, triggerArdsServiceAccess) {
         $scope.title = $stateParams.title;
         $scope.triggerId = $stateParams.triggerId;
         $scope.triggerAction = {};
-        $scope.triggerFilter = {}
+        $scope.triggerFilter = {};
         $scope.triggerOperation = {};
         $scope.filterTypeAny = "any";
         $scope.filterTypeAll = "all";
         $scope.triggerAction.value = "";
-        $scope.users = [{_id:"1", firstname: "abc"}];
+        $scope.users = {};
         $scope.userGroups = {};
 
         $scope.ticketSchemaKeys = [
@@ -69,6 +69,11 @@
         //$scope.reloadPage = function () {
         //    $state.reload();
         //};
+
+        //---------------ResetData-------------------------------
+        $scope.updateValue = function(){
+            $scope.triggerFilter.value = undefined;
+        };
 
         //---------------functions Initial Data-------------------
         $scope.loadFilterAll = function(){
@@ -227,6 +232,66 @@
             });
         };
 
+        $scope.loadAttributes = function(){
+            triggerArdsServiceAccess.getReqMetaData().then(function(response){
+                if(response.IsSuccess)
+                {
+                    $scope.attributes = [];
+                    if(response.Result) {
+                        var jResult = JSON.parse(response.Result);
+                        if(jResult.AttributeMeta){
+                            for(var i = 0; i < jResult.AttributeMeta.length; i++){
+                                $scope.attributes.push(jResult.AttributeMeta[i].AttributeDetails);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                }
+            }, function(err){
+                var errMsg = "Error occurred while loading attributes";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+
+        $scope.loadTemplateInfo = function(){
+            triggerTemplateServiceAccess.getTemplates().then(function(response){
+                if(response.IsSuccess)
+                {
+                    $scope.templates = response.Result;
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                }
+            }, function(err){
+                var errMsg = "Error occurred while loading templates";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+
         //---------------updateCollections-----------------------
         $scope.removeDeletedAction = function (item) {
 
@@ -270,6 +335,15 @@
         //---------------insertNewData-----------------------------
         $scope.addTriggerAction = function(){
             console.log(JSON.stringify($scope.triggerAction));
+
+
+            if($scope.triggerAction.value === "TRUE"){
+                $scope.triggerAction.value = true;
+            }else if($scope.triggerAction.value === "FALSE"){
+                $scope.triggerAction.value = false;
+            }
+
+
             triggerApiAccess.addAction($scope.triggerId, $scope.triggerAction).then(function(response){
                 if(response.IsSuccess)
                 {
@@ -299,6 +373,13 @@
 
         $scope.addTriggerFilter = function(){
             console.log(JSON.stringify($scope.triggerFilter));
+
+            if($scope.triggerFilter.value === "TRUE"){
+                $scope.triggerFilter.value = true;
+            }else if($scope.triggerFilter.value === "FALSE"){
+                $scope.triggerFilter.value = false;
+            }
+
             switch ($scope.triggerFilter.type){
                 case "any":
                     triggerApiAccess.addFilterAny($scope.triggerId, $scope.triggerFilter).then(function(response){
@@ -359,6 +440,35 @@
             }
         };
 
+        $scope.addTriggerOperation = function(){
+            console.log(JSON.stringify($scope.triggerOperation));
+            triggerApiAccess.addOperations($scope.triggerId, $scope.triggerOperation).then(function(response){
+                if(response.IsSuccess)
+                {
+                    $scope.loadTriggerOperations();
+                    $scope.showAlert('Success', 'info', response.CustomMessage);
+                    //$state.reload();
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                }
+            }, function(err){
+                var errMsg = "Error occurred while saving trigger operation";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+
         //---------------load initialData--------------------------
         $scope.loadFilterAll();
         $scope.loadFilterAny();
@@ -366,6 +476,8 @@
         $scope.loadTriggerOperations();
         $scope.loadUsers();
         $scope.loadUserGroups();
+        $scope.loadTemplateInfo();
+        $scope.loadAttributes();
     };
 
     app.controller('triggerConfigController', triggerConfigController);

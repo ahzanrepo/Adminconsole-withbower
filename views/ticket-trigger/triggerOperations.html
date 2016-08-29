@@ -22,11 +22,9 @@
                                         </select>
                                         <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
 
-                                        <div><ticket-dynamic-field  company-users="users" company-user-groups="userGroups" ng-model="triggerAction.value" ticket-field="triggerAction.field" ticket-schema="ticketSchema"></ticket-dynamic-field></div>
+                                    <div><dynamic-operation operation-name="triggerOperation.name" render-templates="templates" ards-attributes="attributes" ng-model="triggerOperation"></dynamic-operation></div>
 
-                                    </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-success btn-sm pull-right attribute-btn  "
                                                 ng-click="addTriggerAction()">

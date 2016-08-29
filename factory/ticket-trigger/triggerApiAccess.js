@@ -302,7 +302,47 @@
         };
     };
 
+    var triggerTemplateServiceAccess = function($http, authService){
+        var getTemplates = function(){
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/Templates',
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        return{
+            getTemplates: getTemplates
+        };
+    };
+
+    var triggerArdsServiceAccess = function($http, authService){
+        var getReqMetaData = function(){
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta/TICKETSERVER/TICKET',
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        return{
+            getReqMetaData: getReqMetaData
+        };
+    };
+
     var module = angular.module('veeryConsoleApp');
     module.factory('triggerApiAccess', triggerApiAccess);
     module.factory('triggerUserServiceAccess', triggerUserServiceAccess);
+    module.factory('triggerTemplateServiceAccess', triggerTemplateServiceAccess);
+    module.factory('triggerArdsServiceAccess', triggerArdsServiceAccess);
 }());
