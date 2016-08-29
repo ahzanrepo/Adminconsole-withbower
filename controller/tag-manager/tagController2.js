@@ -585,7 +585,7 @@ mainApp.controller("NewChildTagController", function ($scope,$rootScope, $uibMod
         var childTag =
         {
             name:$scope.tagNameData,
-            descricption : $scope.tagDesc
+            description : $scope.tagDesc
         }
         saveNewTagData(parentTag,childTag);
         $scope.showModal=false;
