@@ -49,6 +49,19 @@ mainApp.factory('tagBackendService', function ($http, authService)
     return response;
    });
   },
+  getAllTags: function () {
+   var authToken = authService.GetToken();
+   return $http({
+    method: 'GET',
+    url: "http://localhost:3636/DVP/API/1.0.0.0/Tags",
+    headers: {
+     'authorization':authToken
+    }
+   }).then(function(response)
+   {
+    return response;
+   });
+  },
 
   saveAndAttachNewTag: function (tagID,resource) {
    var authToken = authService.GetToken();
@@ -84,6 +97,22 @@ mainApp.factory('tagBackendService', function ($http, authService)
    });
   },
 
+  attachTagToCategory: function (tagCatID,tagID) {
+   var authToken = authService.GetToken();
+
+   return $http({
+    method: 'PUT',
+    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+tagID+"/AttachToCategory/"+tagCatID,
+    headers: {
+     'authorization':authToken
+    }
+
+   }).then(function(response)
+   {
+    return response;
+   });
+  },
+
   detachTagFromTag: function (parentID,childID) {
    var authToken = authService.GetToken();
    return $http({
@@ -110,7 +139,66 @@ mainApp.factory('tagBackendService', function ($http, authService)
    {
     return response;
    });
-  }
+  },
+
+  attachTagToTag: function (parentTagID,childTagID) {
+   var authToken = authService.GetToken();
+
+   return $http({
+    method: 'PUT',
+    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+childTagID+"/AttachToTag/"+parentTagID,
+    headers: {
+     'authorization':authToken
+    }
+
+   }).then(function(response)
+   {
+    return response;
+   });
+  },
+
+  deleteTagFromDB: function (tagID) {
+   var authToken = authService.GetToken();
+   return $http({
+    method: 'DELETE',
+    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+tagID,
+    headers: {
+     'authorization':authToken
+    }
+   }).then(function(response)
+   {
+    return response;
+   });
+  },
+  deleteTagCategoryFromDB: function (tagCatID) {
+   var authToken = authService.GetToken();
+   return $http({
+    method: 'DELETE',
+    url: "http://localhost:3636/DVP/API/1.0.0.0/TagCategory/"+tagCatID,
+    headers: {
+     'authorization':authToken
+    }
+   }).then(function(response)
+   {
+    return response;
+   });
+  },
+  addNewTagCategory: function (resource) {
+   var authToken = authService.GetToken();
+   return $http({
+    method: 'POST',
+    url: "http://localhost:3636/DVP/API/1.0.0.0/TagCategory",
+    headers: {
+     'authorization':authToken
+    },
+    data:resource
+   }).then(function(response)
+   {
+    return response;
+   });
+  },
+
+
 
  }
 });
