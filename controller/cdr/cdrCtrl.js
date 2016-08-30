@@ -691,7 +691,28 @@
                                 }
 
 
-                                $scope.cdrList.push(cdrAppendObj);
+                                var cdrCsv =
+                                {
+                                    DVPCallDirection: cdrAppendObj.DVPCallDirection,
+                                    SipFromUser: cdrAppendObj.SipFromUser,
+                                    SipToUser: cdrAppendObj.SipToUser,
+                                    RecievedBy: cdrAppendObj.RecievedBy,
+                                    AgentSkill: cdrAppendObj.AgentSkill,
+                                    IsAnswered: cdrAppendObj.IsAnswered,
+                                    CreatedTime: cdrAppendObj.CreatedTime,
+                                    Duration: cdrAppendObj.Duration,
+                                    BillSec: cdrAppendObj.BillSec,
+                                    AnswerSec: cdrAppendObj.AnswerSec,
+                                    QueueSec: cdrAppendObj.QueueSec,
+                                    HoldSec: cdrAppendObj.HoldSec,
+                                    ObjType: cdrAppendObj.ObjType,
+                                    ObjCategory: cdrAppendObj.ObjCategory,
+                                    HangupParty: cdrAppendObj.HangupParty,
+                                    TransferredParties: cdrAppendObj.TransferredParties
+                                };
+
+
+                                cdrListForCSV.push(cdrCsv);
                             }
 
 
