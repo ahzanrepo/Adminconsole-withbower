@@ -6,10 +6,27 @@
 
     var cdrApiHandler = function($http, authService)
     {
-        var getCDRForTimeRange = function(startDate, endDate, limit, offsetId)
+        var getCDRForTimeRange = function(startDate, endDate, limit, offsetId, agent, skill, direction, record)
         {
             var authToken = authService.GetToken();
             var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+
+            if(agent)
+            {
+                url = url + '&agent=' + agent;
+            }
+            if(skill)
+            {
+                url = url + '&skill=' + skill;
+            }
+            if(direction)
+            {
+                url = url + '&direction=' + direction;
+            }
+            if(record)
+            {
+                url = url + '&recording=' + record;
+            }
 
             if(offsetId)
             {
@@ -53,7 +70,7 @@
         var getCallSummaryForHr = function(date, tz)
         {
             var authToken = authService.GetToken();
-            var url = 'http://localhost:9093/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
+            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
 
             return $http({
                 method: 'GET',
@@ -70,7 +87,7 @@
         var getCallSummaryForDay = function(sdate, edate, tz)
         {
             var authToken = authService.GetToken();
-            var url = 'http://localhost:9093/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Daily?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
+            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Daily?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
 
             return $http({
                 method: 'GET',
