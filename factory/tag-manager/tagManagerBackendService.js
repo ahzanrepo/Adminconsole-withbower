@@ -5,7 +5,7 @@
  * Created by Pawan on 6/8/2016.
  */
 
-mainApp.factory('tagBackendService', function ($http, authService)
+mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
 {
  return {
 
@@ -13,7 +13,7 @@ mainApp.factory('tagBackendService', function ($http, authService)
    var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/TagCategories",
+    url: baseUrls.liteticket+"TagCategories",
     headers: {
      'authorization':authToken
     }
@@ -22,11 +22,12 @@ mainApp.factory('tagBackendService', function ($http, authService)
     return response;
    });
   },
+
   getTagCategory: function (tagCatID) {
    var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/TagCategory/"+tagCatID,
+    url: baseUrls.liteticket+"TagCategory"+tagCatID,
     headers: {
      'authorization':authToken
     }
@@ -40,7 +41,7 @@ mainApp.factory('tagBackendService', function ($http, authService)
    var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+tagID,
+    url: baseUrls.liteticket+"Tag/"+tagID,
     headers: {
      'authorization':authToken
     }
@@ -49,11 +50,12 @@ mainApp.factory('tagBackendService', function ($http, authService)
     return response;
    });
   },
+
   getAllTags: function () {
    var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/Tags",
+    url: baseUrls.liteticket+"Tags",
     headers: {
      'authorization':authToken
     }
@@ -68,7 +70,7 @@ mainApp.factory('tagBackendService', function ($http, authService)
 
    return $http({
     method: 'POST',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+tagID,
+    url: baseUrls.liteticket+"Tag/"+tagID,
     headers: {
      'authorization':authToken
     },
@@ -85,7 +87,7 @@ mainApp.factory('tagBackendService', function ($http, authService)
 
    return $http({
     method: 'PUT',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/TagCategory/"+tagCatID+"/Tag",
+    url: baseUrls.liteticket+"TagCategory/"+tagCatID+"/Tag",
     headers: {
      'authorization':authToken
     },
@@ -102,7 +104,7 @@ mainApp.factory('tagBackendService', function ($http, authService)
 
    return $http({
     method: 'PUT',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+tagID+"/AttachToCategory/"+tagCatID,
+    url: baseUrls.liteticket+"Tag/"+tagID+"/AttachToCategory/"+tagCatID,
     headers: {
      'authorization':authToken
     }
@@ -117,7 +119,7 @@ mainApp.factory('tagBackendService', function ($http, authService)
    var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+childID+"/DetachFrom/"+parentID,
+    url: baseUrls.liteticket+"/Tag/"+childID+"/DetachFrom/"+parentID,
     headers: {
      'authorization':authToken
     }
@@ -131,7 +133,7 @@ mainApp.factory('tagBackendService', function ($http, authService)
    var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+childID+"/DetachFromCategory/"+parentID,
+    url: baseUrls.liteticket+"Tag/"+childID+"/DetachFromCategory/"+parentID,
     headers: {
      'authorization':authToken
     }
@@ -146,7 +148,7 @@ mainApp.factory('tagBackendService', function ($http, authService)
 
    return $http({
     method: 'PUT',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+childTagID+"/AttachToTag/"+parentTagID,
+    url: baseUrls.liteticket+"Tag/"+childTagID+"/AttachToTag/"+parentTagID,
     headers: {
      'authorization':authToken
     }
@@ -161,7 +163,7 @@ mainApp.factory('tagBackendService', function ($http, authService)
    var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag/"+tagID,
+    url: baseUrls.liteticket+"Tag/"+tagID,
     headers: {
      'authorization':authToken
     }
@@ -170,11 +172,12 @@ mainApp.factory('tagBackendService', function ($http, authService)
     return response;
    });
   },
+
   deleteTagCategoryFromDB: function (tagCatID) {
    var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/TagCategory/"+tagCatID,
+    url: baseUrls.liteticket+"TagCategory/"+tagCatID,
     headers: {
      'authorization':authToken
     }
@@ -183,11 +186,12 @@ mainApp.factory('tagBackendService', function ($http, authService)
     return response;
    });
   },
+
   addNewTagCategory: function (resource) {
    var authToken = authService.GetToken();
    return $http({
     method: 'POST',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/TagCategory",
+    url: baseUrls.liteticket+"TagCategory",
     headers: {
      'authorization':authToken
     },
@@ -197,11 +201,12 @@ mainApp.factory('tagBackendService', function ($http, authService)
     return response;
    });
   },
+
   addNewTagDetails: function (resource) {
    var authToken = authService.GetToken();
    return $http({
     method: 'POST',
-    url: "http://localhost:3636/DVP/API/1.0.0.0/Tag",
+    url: baseUrls.liteticket+"Tag",
     headers: {
      'authorization':authToken
     },
@@ -211,7 +216,6 @@ mainApp.factory('tagBackendService', function ($http, authService)
     return response;
    });
   }
-
 
 
  }
