@@ -184,7 +184,7 @@
 
 
                 var lim = parseInt($scope.recLimit);
-                cdrApiHandler.getCDRForTimeRange(startTime, endTime, 0, 0).then(function (cdrResp)
+                cdrApiHandler.getCDRForTimeRange(startTime, endTime, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                     {
@@ -478,7 +478,7 @@
 
                 var lim = parseInt($scope.recLimit);
                 $scope.isTableLoading = 0;
-                cdrApiHandler.getCDRForTimeRange(startTime, endTime, lim, offset).then(function (cdrResp)
+                cdrApiHandler.getCDRForTimeRange(startTime, endTime, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                     {
