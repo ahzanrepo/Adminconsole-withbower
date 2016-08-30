@@ -111,13 +111,18 @@
                                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
-                                                'break':resource.other=='Break'}"
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                                'break':resource.slotState=='Break'}"
                                     ng-repeat="resource in profile">
                                     <a class="pull-left border-aero profile_thumb">
                                         <i class="fa fa-user font-blue500"></i>
                                     </a>
                                     <div class="media-body">
-                                        <a class="title" href="javascript:void(0)">{{resource.name}}</a>
+                                        <a class="title" href="javascript:void(0)">
+                                            {{resource.name}}
+                                        </a>
                                         <p>{{resource.LastReservedTime}} </p>
                                         <p>
                                             <small>
