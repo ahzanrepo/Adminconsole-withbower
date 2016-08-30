@@ -5,7 +5,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
     $scope.summaryText = "Table";
     $scope.summary = false;
     $scope.changeView = function () {
-        $scope.summary = !$scope.summary;
+        $scope.summary =  !$scope.summary;
         $scope.summaryText = $scope.summary ? "Card" : "Table";
     };
 
@@ -20,7 +20,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
             $scope.showAlert("Error", "Error", "ok", "Fail To Get productivity.");
         });
     };
-
+    $scope.GetProductivity();
     $scope.showCallDetails = false;
     var calculateProductivity = function () {
         $scope.Productivitys = [];$scope.showCallDetails = false;
@@ -28,7 +28,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
             angular.forEach($scope.profile, function (agent) {
                 try {
                     if (agent) {
-                        var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
+                        var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId},true);//"ResourceId":"1"
 
                         /*var agentProductivity = {
                          "data": [{
@@ -76,7 +76,8 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
                                 "HoldTime": ids[0].HoldTime,
                                 "OnCallTime": ids[0].OnCallTime,
                                 "IdleTime": ids[0].IdleTime,
-                                "StaffedTime": ids[0].StaffedTime
+                                "StaffedTime": ids[0].StaffedTime,
+                                "slotState":{}
                             };
 
 
@@ -130,7 +131,9 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
                                 var task = {};
                                 task.taskType = item.HandlingType;
                                 task.percentage = item.Percentage;
-                                var data = $filter('filter')($scope.attributesList, {AttributeId: item.Attribute});
+                                //$filter('filter')(array, expression, comparator, anyPropertyKey)
+                                //var filteredData =  $filter('filter')($scope.gridUserData.data,{ Id: userid },true);
+                               var data = $filter('filter')($scope.attributesList, {AttributeId: parseInt(item.Attribute)},true);
                                 if (data.length > 0)
                                     task.skill = data[0].Attribute;
                                 agentProductivity.taskList.push(task);
