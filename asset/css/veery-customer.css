@@ -234,6 +234,7 @@ a {
     padding: 6px 11px;
 }
 
+/*reserved*/
 .reserved > .media-body > p > small {
     border-color: #db4114 !important;
     color: #f8b01d !important;
@@ -253,6 +254,7 @@ a {
     color: #2ba89c !important;
 }
 
+/*available*/
 .available > a {
     background: #FFFFFF;
     border-color: rgb(43, 168, 156) !important;
@@ -262,6 +264,7 @@ a {
     color: #2BA89C !important;
 }
 
+/*connected*/
 .connected > .media-body > p > small {
     border-color: #114858 !important;
     color: #114858 !important;
@@ -276,6 +279,52 @@ a {
     color: #db4114 !important;
 }
 
+/*AfterWork*/
+.afterWork > .media-body > p > small {
+    border-color: #45bf55 !important;
+    color: #45bf55 !important;
+}
+
+.afterWork > a {
+    background: #2b4d52;
+    border-color: #36ba45 !important;
+}
+
+.afterWork > a > i {
+    color: #36ba45 !important;
+}
+
+/*outbound*/
+.outbound > .media-body > p > small {
+    border-color: #85a5cc !important;
+    color: #85a5cc !important;
+}
+
+.outbound > a {
+    background: #30395c;
+    border-color: #85a5cc !important;
+}
+
+.outbound > a > i {
+    color: #85a5cc !important;
+}
+
+/*suspended*/
+.suspended > .media-body > p > small {
+    border-color: #fff !important;
+    color: #000 !important;
+}
+
+.suspended > a {
+    background: #000;
+    border-color: #ff8c00 !important;
+}
+
+.suspended > a > i {
+    color: #ff8c00 !important;
+}
+
+/*break*/
 .break > a {
     background: #db4114;
     border-color: #114858 !important;
@@ -1902,6 +1951,256 @@ div > ul.count3 > li > span {
 }
 
 /*end Connected*/
+
+/*afterWork */
+.agent-main-wrap.afterWork > .x_content >
+div > div > .widget_profile_box {
+    background: #17373c;
+}
+
+.agent-main-wrap.afterWork > .x_content >
+div > div > .widget_profile_box > div > div > .profile_img {
+    background: #a1d700;
+}
+
+.agent-main-wrap.afterWork > .x_content >
+h3.name {
+    margin-bottom: 5px;
+    color: #36ba45;
+}
+
+.agent-main-wrap.afterWork > .x_content >
+div > ul > li.slot-state {
+    color: #36ba45;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    font-size: 12px;
+    padding-top: 3px
+}
+
+.agent-main-wrap.afterWork > .x_content >
+h3.name {
+    margin-bottom: 5px;
+    color: #36ba45;
+}
+
+.agent-main-wrap.afterWork > .x_content >
+div > ul > li.slot-state {
+    color: #a1d700;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    font-size: 12px;
+    padding-top: 3px
+}
+
+.agent-main-wrap.afterWork > .x_content >
+div.last-reserved-time > p {
+    margin-bottom: 2px;
+    font-family: 'Roboto', sans-serif !important;
+    color: #0d1c33;
+}
+
+.agent-main-wrap.afterWork > .x_content >
+div.last-reserved-time > small {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #36ba45;
+}
+
+.agent-main-wrap.afterWork > .x_content >
+div > ul.count3 > li > h3 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #2ba89c;
+}
+
+.agent-main-wrap.afterWork > .x_content >
+div > ul.count3 > li > span {
+    font-family: 'Roboto', sans-serif !important;
+    color: #114858 !important;
+}
+
+.agent-main-wrap.afterWork > .x_content >
+div > ul.count3 > li > h3 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #049b4d;
+}
+
+.agent-main-wrap.afterWork > .x_content >
+div > ul.count3 > li > span {
+    font-family: 'Roboto', sans-serif !important;
+    color: #264f7f;
+}
+
+/*end afterWork*/
+
+/*suspended */
+.agent-main-wrap.suspended > .x_content >
+div > div > .widget_profile_box {
+    background: #000;
+}
+
+.agent-main-wrap.suspended > .x_content >
+div > div > .widget_profile_box > div > div > .profile_img {
+    background: #ff8c00;
+}
+
+.agent-main-wrap.suspended > .x_content >
+h3.name {
+    margin-bottom: 5px;
+    color: #ff8c00;
+}
+
+.agent-main-wrap.suspended > .x_content >
+div > ul > li.slot-state {
+    color: #ff8c00;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    font-size: 12px;
+    padding-top: 3px
+}
+
+.agent-main-wrap.suspended > .x_content >
+h3.name {
+    margin-bottom: 5px;
+    color: #ff8c00;
+}
+
+.agent-main-wrap.suspended > .x_content >
+div > ul > li.slot-state {
+    color: #ff8c00;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    font-size: 12px;
+    padding-top: 3px
+}
+
+.agent-main-wrap.suspended > .x_content >
+div.last-reserved-time > p {
+    margin-bottom: 2px;
+    font-family: 'Roboto', sans-serif !important;
+    color: #ff8c00;
+}
+
+.agent-main-wrap.suspended > .x_content >
+div.last-reserved-time > small {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #36ba45;
+}
+
+.agent-main-wrap.suspended > .x_content >
+div > ul.count3 > li > h3 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #2ba89c;
+}
+
+.agent-main-wrap.suspended > .x_content >
+div > ul.count3 > li > span {
+    font-family: 'Roboto', sans-serif !important;
+    color: #114858 !important;
+}
+
+.agent-main-wrap.suspended > .x_content >
+div > ul.count3 > li > h3 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #ff8c00;
+}
+
+.agent-main-wrap.suspended > .x_content >
+div > ul.count3 > li > span {
+    font-family: 'Roboto', sans-serif !important;
+    color: #264f7f;
+}
+
+/*end suspended*/
+
+
+/*outbound */
+.agent-main-wrap.outbound > .x_content >
+div > div > .widget_profile_box {
+    background: #30395c;
+}
+
+.agent-main-wrap.outbound > .x_content >
+div > div > .widget_profile_box > div > div > .profile_img {
+    background: #85a5cc;
+}
+
+.agent-main-wrap.outbound > .x_content >
+h3.name {
+    margin-bottom: 5px;
+    color: #85a5cc;
+}
+
+.agent-main-wrap.outbound > .x_content >
+div > ul > li.slot-state {
+    color: #85a5cc;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    font-size: 12px;
+    padding-top: 3px
+}
+
+.agent-main-wrap.outbound > .x_content >
+h3.name {
+    margin-bottom: 5px;
+    color: #85a5cc;
+}
+
+.agent-main-wrap.outbound > .x_content >
+div > ul > li.slot-state {
+    color: #85a5cc;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    font-size: 12px;
+    padding-top: 3px
+}
+
+.agent-main-wrap.outbound > .x_content >
+div.last-reserved-time > p {
+    margin-bottom: 2px;
+    font-family: 'Roboto', sans-serif !important;
+    color: #85a5cc;
+}
+
+.agent-main-wrap.outbound > .x_content >
+div.last-reserved-time > small {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #30395c;
+}
+
+.agent-main-wrap.outbound > .x_content >
+div > ul.count3 > li > h3 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #2ba89c;
+}
+
+.agent-main-wrap.outbound > .x_content >
+div > ul.count3 > li > span {
+    font-family: 'Roboto', sans-serif !important;
+    color: #114858 !important;
+}
+
+.agent-main-wrap.outbound > .x_content >
+div > ul.count3 > li > h3 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #4a6491;
+}
+
+.agent-main-wrap.outbound > .x_content >
+div > ul.count3 > li > span {
+    font-family: 'Roboto', sans-serif !important;
+    color: #264f7f;
+}
+
+/*end outbound*/
 
 ul.count3 li {
     width: 48%;

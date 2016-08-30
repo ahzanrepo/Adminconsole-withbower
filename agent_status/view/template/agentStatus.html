@@ -3,7 +3,10 @@
          ng-class="{'reserved':productivity.slotState=='Reserved',
                     'available':productivity.slotState=='Available',
                     'connected':productivity.slotState=='Connected',
-                    'break':productivity.other=='Break'}">
+                    'afterWork':productivity.slotState=='AfterWork',
+                    'suspended':productivity.slotState=='Suspended',
+                    'outbound':productivity.slotState=='Outbound',
+                    'break':productivity.slotState=='Break'}">
         <div class="x_content">
             <div class="flex">
 
@@ -33,7 +36,8 @@
             </div>
             <h3 class="name">{{profile.name}}</h3>
 
-            <div class="last-reserved-time connected-caller" ng-repeat="call in productivity.callInfos" ng-if="productivity.callInfos.length!=0">
+            <div class="last-reserved-time connected-caller" ng-repeat="call in productivity.callInfos"
+                 ng-if="productivity.callInfos.length!=0">
                 <p>Caller</p>
                 <small>{{call["Caller-Caller-ID-Number"]}}</small>
             </div>
@@ -86,7 +90,7 @@
             <div class="other-agent-details"
                  ng-mouseover="viewOtherScroll()"
                  ng-mouseleave="hideOtherScroll()"
-                    >
+            >
                 <div class="row">
                     <div class="col-md-4 tile">
                         <span>Idle Time</span>

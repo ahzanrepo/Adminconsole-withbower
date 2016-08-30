@@ -99,6 +99,9 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
                                 agentProductivity.slotState = resonseStatus;
                                 agentProductivity.other = "Break";
                                 reservedDate = agent.Status.StateChangeTime;
+                            } else if(agent.ConcurrencyInfo[0].IsRejectCountExceeded) {
+                                agentProductivity.slotState = "Suspended";
+                                agentProductivity.other = "Reject";
                             } else {
                                 agentProductivity.slotState = agent.ConcurrencyInfo[0].SlotInfo[0].State;
 
