@@ -9,6 +9,8 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     //#
     $scope.isGrid=false;
     $scope.summaryText="Table";
+    $scope.isLoaded=false;
+    $scope.refreshTime = 10000;
 
     $scope.pieoption = {
         animate: {
@@ -48,8 +50,9 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     $scope.queues = [];
 
     $scope.GetAllQueueStatistics = function () {
-        $scope.queues = [];
+
         queueMonitorService.GetAllQueueStats().then(function (response) {
+            $scope.queues = [];
             $scope.queues = response.map(function (c, index) {
                 var item = c.QueueInfo;
                 item.id = c.QueueId;
@@ -114,7 +117,19 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     })();
 
 
+    var getAllRealTime = function () {
+        $scope.GetAllQueueStatistics();
+        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+    };
 
+    // getAllRealTime();
+    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+
+    $scope.$on("$destroy", function () {
+        if (getAllRealTimeTimer) {
+            $timeout.cancel(getAllRealTimeTimer);
+        }
+    });
 
 });
 
