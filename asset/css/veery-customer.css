@@ -326,16 +326,16 @@ a {
 
 /*break*/
 .break > a {
-    background: #db4114;
-    border-color: #114858 !important;
+    background: #cc1e2d;
+    border-color: #731630 !important;
 }
 
 .break > a > i {
-    color: #114858 !important;
+    color: #731630 !important;
 }
 
 .break > .media-body > p > small {
-    color: #db4114 !important;
+    color: #731630 !important;
 }
 
 .connected > .media-body > p > small,
@@ -1701,14 +1701,14 @@ h3.name {
     color: #f8b01d;
 }
 
-.agent-main-wrap.reserved > .x_content >
-div > ul > li.slot-state {
-    color: #f8b01d;
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    font-size: 12px;
-    padding-top: 3px
-}
+/*.agent-main-wrap.reserved > .x_content >*/
+/*div > ul > li.slot-state {*/
+/*color: #f8b01d;*/
+/*font-family: 'Roboto', sans-serif !important;*/
+/*font-weight: 600;*/
+/*font-size: 12px;*/
+/*padding-top: 3px*/
+/*}*/
 
 .agent-main-wrap.reserved > .x_content >
 div.last-reserved-time > p {
@@ -1766,21 +1766,6 @@ div > ul > li.slot-state {
 }
 
 .agent-main-wrap.available > .x_content >
-h3.name {
-    margin-bottom: 5px;
-    color: #2ba89c;
-}
-
-.agent-main-wrap.available > .x_content >
-div > ul > li.slot-state {
-    color: #f8b01d;
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    font-size: 12px;
-    padding-top: 3px
-}
-
-.agent-main-wrap.available > .x_content >
 div.last-reserved-time > p {
     margin-bottom: 2px;
     font-family: 'Roboto', sans-serif !important;
@@ -1817,7 +1802,7 @@ div > div > .widget_profile_box {
 
 .agent-main-wrap.break > .x_content >
 div > div > .widget_profile_box > div > div > .profile_img {
-    background: #114858;
+    background: #731630;
 }
 
 .widget_profile_box > div > .slot-state {
@@ -1831,8 +1816,15 @@ div > ul > li {
 }
 
 .agent-main-wrap.break > .x_content >
+div > ul.count3 > li > h3 {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 600;
+    color: #cc1e2d;
+}
+
+.agent-main-wrap.break > .x_content >
 div > ul > li.slot-state {
-    color: #114858;
+    color: #731630;
     font-family: 'Roboto', sans-serif !important;
     font-weight: 600;
     font-size: 12px;
@@ -1863,7 +1855,7 @@ div.last-reserved-time > p {
 div.last-reserved-time > small {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 600;
-    color: #114858;
+    color: #731630;
 }
 
 /*end break*/
@@ -1883,15 +1875,6 @@ div > div > .widget_profile_box > div > div > .profile_img {
 h3.name {
     margin-bottom: 5px;
     color: #264f7f;
-}
-
-.agent-main-wrap.connected > .x_content >
-div > ul > li.slot-state {
-    color: #264f7f;
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    font-size: 12px;
-    padding-top: 3px
 }
 
 .agent-main-wrap.connected > .x_content >
@@ -1924,13 +1907,6 @@ div.last-reserved-time > small {
 }
 
 .agent-main-wrap.connected > .x_content >
-div > ul.count3 > li > h3 {
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    color: #2ba89c;
-}
-
-.agent-main-wrap.connected > .x_content >
 div > ul.count3 > li > span {
     font-family: 'Roboto', sans-serif !important;
     color: #114858 !important;
@@ -1941,12 +1917,6 @@ div > ul.count3 > li > h3 {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 600;
     color: #049b4d;
-}
-
-.agent-main-wrap.connected > .x_content >
-div > ul.count3 > li > span {
-    font-family: 'Roboto', sans-serif !important;
-    color: #264f7f;
 }
 
 /*end Connected*/
@@ -1984,15 +1954,6 @@ h3.name {
 }
 
 .agent-main-wrap.afterWork > .x_content >
-div > ul > li.slot-state {
-    color: #a1d700;
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    font-size: 12px;
-    padding-top: 3px
-}
-
-.agent-main-wrap.afterWork > .x_content >
 div.last-reserved-time > p {
     margin-bottom: 2px;
     font-family: 'Roboto', sans-serif !important;
@@ -2017,19 +1978,6 @@ div > ul.count3 > li > h3 {
 div > ul.count3 > li > span {
     font-family: 'Roboto', sans-serif !important;
     color: #114858 !important;
-}
-
-.agent-main-wrap.afterWork > .x_content >
-div > ul.count3 > li > h3 {
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    color: #049b4d;
-}
-
-.agent-main-wrap.afterWork > .x_content >
-div > ul.count3 > li > span {
-    font-family: 'Roboto', sans-serif !important;
-    color: #264f7f;
 }
 
 /*end afterWork*/
@@ -2067,15 +2015,6 @@ h3.name {
 }
 
 .agent-main-wrap.suspended > .x_content >
-div > ul > li.slot-state {
-    color: #ff8c00;
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    font-size: 12px;
-    padding-top: 3px
-}
-
-.agent-main-wrap.suspended > .x_content >
 div.last-reserved-time > p {
     margin-bottom: 2px;
     font-family: 'Roboto', sans-serif !important;
@@ -2099,24 +2038,10 @@ div > ul.count3 > li > h3 {
 .agent-main-wrap.suspended > .x_content >
 div > ul.count3 > li > span {
     font-family: 'Roboto', sans-serif !important;
-    color: #114858 !important;
-}
-
-.agent-main-wrap.suspended > .x_content >
-div > ul.count3 > li > h3 {
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    color: #ff8c00;
-}
-
-.agent-main-wrap.suspended > .x_content >
-div > ul.count3 > li > span {
-    font-family: 'Roboto', sans-serif !important;
     color: #264f7f;
 }
 
 /*end suspended*/
-
 
 /*outbound */
 .agent-main-wrap.outbound > .x_content >
@@ -2151,15 +2076,6 @@ h3.name {
 }
 
 .agent-main-wrap.outbound > .x_content >
-div > ul > li.slot-state {
-    color: #85a5cc;
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    font-size: 12px;
-    padding-top: 3px
-}
-
-.agent-main-wrap.outbound > .x_content >
 div.last-reserved-time > p {
     margin-bottom: 2px;
     font-family: 'Roboto', sans-serif !important;
@@ -2178,19 +2094,6 @@ div > ul.count3 > li > h3 {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 600;
     color: #2ba89c;
-}
-
-.agent-main-wrap.outbound > .x_content >
-div > ul.count3 > li > span {
-    font-family: 'Roboto', sans-serif !important;
-    color: #114858 !important;
-}
-
-.agent-main-wrap.outbound > .x_content >
-div > ul.count3 > li > h3 {
-    font-family: 'Roboto', sans-serif !important;
-    font-weight: 600;
-    color: #4a6491;
 }
 
 .agent-main-wrap.outbound > .x_content >

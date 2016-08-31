@@ -114,7 +114,11 @@
                                                'afterWork':resource.slotState=='AfterWork',
                                                'outbound':resource.slotState=='Outbound',
                                                'suspended':resource.slotState=='Suspended',
-                                                'break':resource.slotState=='Break'}"
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                                     ng-repeat="resource in profile">
                                     <a class="pull-left border-aero profile_thumb">
                                         <i class="fa fa-user font-blue500"></i>
