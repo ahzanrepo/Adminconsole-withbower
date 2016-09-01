@@ -161,6 +161,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             $scope.isLoading = false;
         });
     };
+
     $scope.loadFileList($scope.pageSize, 1);
 
     $scope.reloadPage =function(){
@@ -176,7 +177,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     $scope.getFilesCategoryID = function (category, currentPage) {
         $scope.isLoading = true;
         $scope.noDataToshow = false;
-
+        $scope.pageSize = "50";
         $scope.pageTotal = category.fileCount.Count;
         $scope.currentPage = 1;
         $scope.categoryId = category.id;
@@ -346,7 +347,45 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             if (index > 0)
                 $scope.fileToDelete.splice(index, 1);
         }
-    }
+    };
+
+
+    // search
+    $scope.StartTime = {
+        date: new Date()
+    };
+    $scope.EndTime = {
+        date: new Date()
+    };
+    $scope.openCalendar = function (name) {
+        if (name == 'StartTime') {
+            $scope.StartTime.open = true;
+        }
+        else {
+            $scope.EndTime.open = true;
+        }
+
+    };
+    $scope.fileSerach = {};
+    $scope.fileSerach.StartTime= new Date();
+    $scope.fileSerach.EndTime=new Date();
+
+    $scope.SearchFiles = function () {
+        $scope.files = [];
+        $scope.noDataToshow = false;
+        if($scope.categoryId <= 0){
+            $scope.categoryId = -1;
+        }
+        fileService.SearchFiles($scope.categoryId,$scope.fileSerach.StartTime,$scope.fileSerach.EndTime).then(function (response) {
+            $scope.files = response;
+            $scope.noDataToshow = response ? (response.length == 0) : true;
+            $scope.isLoading = false;
+            $scope.showPaging = false;
+            //$scope.pageSize = "50";
+        }, function (err) {
+            $scope.isLoading = false;
+        });
+    };
 });
 
 app.controller('SidebarController', function ($scope, sidebar) {
