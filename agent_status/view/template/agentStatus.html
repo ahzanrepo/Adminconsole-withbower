@@ -1,12 +1,16 @@
 <div ng-hide="showSummary" class="col-md-4 col-sm-4  widget_tally_box">
-    <div class="x_panel fixed_height_480 agent-main-wrap"
+    <div class="x_panel fixed_height_480 agent-main-wrap   "
          ng-class="{'reserved':productivity.slotState=='Reserved',
                     'available':productivity.slotState=='Available',
                     'connected':productivity.slotState=='Connected',
                     'afterWork':productivity.slotState=='AfterWork',
                     'suspended':productivity.slotState=='Suspended',
                     'outbound':productivity.slotState=='Outbound',
-                    'break':productivity.slotState=='Break'}">
+                    'break': productivity.slotState == 'MeetingBreak' ||
+                    productivity.slotState == 'MealBreak' || productivity.slotState == 'TrainingBreak' ||
+                    productivity.slotState == 'TeaBreak' || productivity.slotState == 'OfficialBreak' ||
+                    productivity.slotState == 'AUXBreak' ||
+                    productivity.slotState == 'ProcessRelatedBreak'}">
         <div class="x_content">
             <div class="flex">
 

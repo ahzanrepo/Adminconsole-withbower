@@ -44,6 +44,12 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, ag
 
                     for(var j=0;j<summaryData[i].Summary.length;j++)
                     {
+                        summaryData[i].Summary[j].IdleTime=TimeFromatter(summaryData[i].Summary[j].IdleTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].AfterWorkTime=TimeFromatter(summaryData[i].Summary[j].AfterWorkTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].AverageHandlingTime=TimeFromatter(summaryData[i].Summary[j].AverageHandlingTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].StaffTime=TimeFromatter(summaryData[i].Summary[j].StaffTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].TalkTime=TimeFromatter(summaryData[i].Summary[j].TalkTime,"HH:mm:ss");
+
                         $scope.agentSummaryList.push(summaryData[i].Summary[j]);
                     }
                 }
@@ -78,7 +84,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, ag
 
         for(var i=0;i<$scope.agentSummaryList.length;i++)
         {
-            $scope.agentSummaryList[i].AverageHandlingTime=Math.round($scope.agentSummaryList[i].AverageHandlingTime * 100) / 100;
+            //$scope.agentSummaryList[i].AverageHandlingTime=Math.round($scope.agentSummaryList[i].AverageHandlingTime * 100) / 100;
             for(var j=0;j<$scope.Agents.length;j++)
             {
                 if($scope.Agents[j].ResourceId==$scope.agentSummaryList[i].Agent)
@@ -88,6 +94,51 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, ag
                 }
             }
         }
+    };
+
+    var TimeFromatter = function (mins,timeFormat) {
+
+        var secondsData = mins;
+
+
+        var hourData = parseInt( secondsData / 3600 );
+        if(hourData<10)
+        {
+            hourData="0"+hourData;
+        }
+
+        secondsData=secondsData%3600;
+
+        var minutesData = parseInt( secondsData / 60 );
+        if(minutesData<10)
+        {
+            minutesData="0"+minutesData;
+        }
+        secondsData = secondsData % 60;
+
+        if(secondsData.length > 2)
+        {
+            secondsData = secondsData.substring(0,2);
+        }
+        secondsData=parseInt(secondsData);
+        if(secondsData<10)
+        {
+            secondsData="0"+secondsData;
+        }
+
+
+        if(timeFormat=="HH:mm:ss")
+        {
+            return hourData+":"+minutesData+":"+secondsData;
+        }
+        else
+        {
+            return minutesData+":"+secondsData;
+        }
+
+
+
+
     }
 
     $scope.getAgents();
