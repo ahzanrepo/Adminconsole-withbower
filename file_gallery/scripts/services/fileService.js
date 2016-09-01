@@ -54,7 +54,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
   var searchFiles = function (categoryId,startTime,endTime) {
     return $http({
       method: 'get',
-      url: baseUrls.fileServiceUrl+ 'Files/infoByCategory/'+categoryId+'?startDateTime='+startTime+'&endDateTime='+endTime,
+      url: baseUrls.fileServiceUrl+ 'Files/infoByCategoryID/'+categoryId+'?startDateTime='+startTime+'&endDateTime='+endTime,
       headers: {
         'authorization': authService.GetToken()
       }
