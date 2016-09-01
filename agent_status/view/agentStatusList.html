@@ -2,12 +2,16 @@
     <div class="x_panel">
         <div class="x_title">
             <h2 class="font-robot font-300 text-uppercase font-15">Agent List
-               <!-- <small>{{refreshTime| millisecondsToDateTime | date:'HH:mm:ss'}}</small>    -->
+                <!-- <small>{{refreshTime| millisecondsToDateTime | date:'HH:mm:ss'}}</small>    -->
             </h2>
             <div class="clearfix">
                 <button type="button" class="btn btn-success btn-sm pull-right attribute-btn"
                         ng-click="changeView();">
                     {{summaryText}}
+                </button>
+                <button type="button" class="btn btn-success btn-sm pull-right attribute-btn"
+                        ng-click="showAgentSummary();">
+                    Summary
                 </button>
             </div>
         </div>

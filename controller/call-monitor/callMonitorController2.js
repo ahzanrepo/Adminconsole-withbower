@@ -172,15 +172,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
 
 
     $scope.LoadCurrentCalls = function () {
-        if($scope.isRegistered)
-        {
             callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
-        }
-        else
-        {
-
-        }
-
     };
 
     $scope.RegisterThePhone = function () {

@@ -89,6 +89,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         goAgentStatus: function () {
             $state.go('console.AgentStatus');
         },
+        goAgentProfileSummary: function () {
+            $state.go('console.AgentProfileSummary');
+        },
         goRule: function () {
             $state.go('console.rule');
         },
