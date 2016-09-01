@@ -17,13 +17,23 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     });
     $scope.refreshTime = 1000;
 
-    $scope.ReservedProfile = []; $scope.AvailableProfile = []; $scope.ConnectedProfile = [];
-    $scope.AfterWorkProfile = []; $scope.OutboundProfile = []; $scope.SuspendedProfile  = []; $scope.BreakProfile = [];
+    $scope.ReservedProfile = [];
+    $scope.AvailableProfile = [];
+    $scope.ConnectedProfile = [];
+    $scope.AfterWorkProfile = [];
+    $scope.OutboundProfile = [];
+    $scope.SuspendedProfile = [];
+    $scope.BreakProfile = [];
     $scope.profile = [];
     $scope.getProfileDetails = function () {
         dashboardService.GetProfileDetails().then(function (response) {
-            $scope.ReservedProfile = []; $scope.AvailableProfile = []; $scope.ConnectedProfile = [];
-            $scope.AfterWorkProfile = []; $scope.OutboundProfile = []; $scope.SuspendedProfile  = []; $scope.BreakProfile = [];
+            $scope.ReservedProfile = [];
+            $scope.AvailableProfile = [];
+            $scope.ConnectedProfile = [];
+            $scope.AfterWorkProfile = [];
+            $scope.OutboundProfile = [];
+            $scope.SuspendedProfile = [];
+            $scope.BreakProfile = [];
             $scope.profile = [];
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
@@ -74,7 +84,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         if (reservedDate == "") {
                             profile.LastReservedTime = null;
                         } else {
-                            profile.LastReservedTime = moment(reservedDate).format('lll');
+                            profile.LastReservedTime = moment(reservedDate).format("h:mm a");
                         }
 
                         if (profile.slotState == 'Reserved') {

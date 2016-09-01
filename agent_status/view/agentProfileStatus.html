@@ -1,224 +1,273 @@
-<div class="col-md-12 col-sm-12 col-xs-12" >
-    <div>
-        <div class="x_title">
-            <h2>All Profiles</h2>
-            <div class="clearfix"></div>
+<div class="profile-status-wrapper">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+
+        <!-- SUSPEND  PROFILE -->
+        <div class="x_panel" ng-hide="!SuspendedProfile.length">
+            <h2>Suspended Profile
+            </h2>
+            <ul class="list-unstyled top-profile-shadow scroll-view">
+                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                    ng-class="{'reserved':resource.slotState=='Reserved',
+        'available':resource.slotState=='Available',
+        'connected':resource.slotState=='Connected',
+        'afterWork':resource.slotState=='AfterWork',
+        'outbound':resource.slotState=='Outbound',
+        'suspended':resource.slotState=='Suspended',
+        'break':resource.slotState=='Break'}"
+                    ng-repeat="resource in SuspendedProfile">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user font-blue500"></i>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="javascript:void(0)">
+                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                        </a>
+                        <p>{{resource.LastReservedTime}} </p>
+                        <p>
+                            <small>
+                                {{resource.slotState}}
+                            </small>
+                        </p>
+                    </div>
+                </li>
+            </ul>
         </div>
+        <!-- END SUSPEND PROFILE -->
 
-        <ul class="list-unstyled top_profiles scroll-view">
-            <li class="col-md-3 col-sm-3 col-xs-3 media event "
-                ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                                'break':resource.slotState=='Break'}"
-                ng-repeat="resource in BreakProfile">
-                <a class="pull-left border-aero profile_thumb">
-                    <i class="fa fa-user font-blue500"></i>
-                </a>
-                <div class="media-body">
-                    <a class="title" href="javascript:void(0)">
-                        {{resource.name}}
-                    </a>
-                    <p>{{resource.LastReservedTime}} </p>
-                    <p>
-                        <small>
-                            {{resource.slotState}}
-                        </small>
-                    </p>
-                </div>
-            </li>
-        </ul>
 
-        <ul class="list-unstyled top_profiles scroll-view">
-            <li class="col-md-3 col-sm-3 col-xs-3 media event "
-                ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                                'break':resource.slotState=='Break'}"
-                ng-repeat="resource in SuspendedProfile">
-                <a class="pull-left border-aero profile_thumb">
-                    <i class="fa fa-user font-blue500"></i>
-                </a>
-                <div class="media-body">
-                    <a class="title" href="javascript:void(0)">
-                        {{resource.name}}
+        <!-- AVAILABLE  PROFILE -->
+        <div class="x_panel" ng-hide="!AvailableProfile.length">
+            <h2>Available Profile
+            </h2>
+            <ul class="list-unstyled top-profile-shadow scroll-view">
+                <li class="col-md-2 col-sm-2 col-xs-2 media event "
+                    ng-class="{'reserved':resource.slotState=='Reserved',
+        'available':resource.slotState=='Available',
+        'connected':resource.slotState=='Connected',
+        'afterWork':resource.slotState=='AfterWork',
+        'outbound':resource.slotState=='Outbound',
+        'suspended':resource.slotState=='Suspended',
+        'break':resource.slotState=='Break'}"
+                    ng-repeat="resource in AvailableProfile">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user font-blue500"></i>
                     </a>
-                    <p>{{resource.LastReservedTime}} </p>
-                    <p>
-                        <small>
-                            {{resource.slotState}}
-                        </small>
-                    </p>
-                </div>
-            </li>
-        </ul>
+                    <div class="media-body">
+                        <a class="title" href="javascript:void(0)">
+                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                        </a>
+                        <p>{{resource.LastReservedTime}} </p>
+                        <p>
+                            <small>
+                                {{resource.slotState}}
+                            </small>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- END AVAILABLE PROFILE -->
 
-        <ul class="list-unstyled top_profiles scroll-view">
-            <li class="col-md-3 col-sm-3 col-xs-3 media event "
-                ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                                'break':resource.slotState=='Break'}"
-                ng-repeat="resource in OutboundProfile">
-                <a class="pull-left border-aero profile_thumb">
-                    <i class="fa fa-user font-blue500"></i>
-                </a>
-                <div class="media-body">
-                    <a class="title" href="javascript:void(0)">
-                        {{resource.name}}
+        <!-- CONNECTED  PROFILE -->
+        <div class="x_panel" ng-hide="!ConnectedProfile.length">
+            <h2>Connected Profile
+            </h2>
+            <ul class="list-unstyled top-profile-shadow scroll-view">
+                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                    ng-class="{'reserved':resource.slotState=='Reserved',
+        'available':resource.slotState=='Available',
+        'connected':resource.slotState=='Connected',
+        'afterWork':resource.slotState=='AfterWork',
+        'outbound':resource.slotState=='Outbound',
+        'suspended':resource.slotState=='Suspended',
+        'break':resource.slotState=='Break'}"
+                    ng-repeat="resource in ConnectedProfile">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user font-blue500"></i>
                     </a>
-                    <p>{{resource.LastReservedTime}} </p>
-                    <p>
-                        <small>
-                            {{resource.slotState}}
-                        </small>
-                    </p>
-                </div>
-            </li>
-        </ul>
+                    <div class="media-body">
+                        <a class="title" href="javascript:void(0)">
+                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                        </a>
+                        <p>{{resource.LastReservedTime}} </p>
+                        <p>
+                            <small>
+                                {{resource.slotState}}
+                            </small>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- END CONNECTED PROFILE -->
 
-        <ul class="list-unstyled top_profiles scroll-view">
-            <li class="col-md-3 col-sm-3 col-xs-3 media event "
-                ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                                'break':resource.slotState=='Break'}"
-                ng-repeat="resource in AfterWorkProfile">
-                <a class="pull-left border-aero profile_thumb">
-                    <i class="fa fa-user font-blue500"></i>
-                </a>
-                <div class="media-body">
-                    <a class="title" href="javascript:void(0)">
-                        {{resource.name}}
-                    </a>
-                    <p>{{resource.LastReservedTime}} </p>
-                    <p>
-                        <small>
-                            {{resource.slotState}}
-                        </small>
-                    </p>
-                </div>
-            </li>
-        </ul>
 
-        <ul class="list-unstyled top_profiles scroll-view">
-            <li class="col-md-3 col-sm-3 col-xs-3 media event "
-                ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                                'break':resource.slotState=='Break'}"
-                ng-repeat="resource in ConnectedProfile">
-                <a class="pull-left border-aero profile_thumb">
-                    <i class="fa fa-user font-blue500"></i>
-                </a>
-                <div class="media-body">
-                    <a class="title" href="javascript:void(0)">
-                        {{resource.name}}
+        <!-- BREAK PROFILE -->
+        <div class="x_panel" ng-hide="!BreakProfile.length">
+            <h2>Break Profile
+            </h2>
+            <ul class="list-unstyled top-profile-shadow scroll-view">
+                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                    ng-class="{'reserved':resource.slotState=='Reserved',
+    'available':resource.slotState=='Available',
+    'connected':resource.slotState=='Connected',
+    'afterWork':resource.slotState=='AfterWork',
+    'outbound':resource.slotState=='Outbound',
+    'suspended':resource.slotState=='Suspended',
+    'break':resource.slotState=='Break'}"
+                    ng-repeat="resource in BreakProfile">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user font-blue500"></i>
                     </a>
-                    <p>{{resource.LastReservedTime}} </p>
-                    <p>
-                        <small>
-                            {{resource.slotState}}
-                        </small>
-                    </p>
-                </div>
-            </li>
-        </ul>
+                    <div class="media-body">
+                        <a class="title" href="javascript:void(0)">
+                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                        </a>
+                        <p>{{resource.LastReservedTime}} </p>
+                        <p>
+                            <small>
+                                {{resource.slotState}}
+                            </small>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- END BREAK PROFILE -->
 
-        <ul class="list-unstyled top_profiles scroll-view">
-            <li class="col-md-3 col-sm-3 col-xs-3 media event "
-                ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                                'break':resource.slotState=='Break'}"
-                ng-repeat="resource in AvailableProfile">
-                <a class="pull-left border-aero profile_thumb">
-                    <i class="fa fa-user font-blue500"></i>
-                </a>
-                <div class="media-body">
-                    <a class="title" href="javascript:void(0)">
-                        {{resource.name}}
-                    </a>
-                    <p>{{resource.LastReservedTime}} </p>
-                    <p>
-                        <small>
-                            {{resource.slotState}}
-                        </small>
-                    </p>
-                </div>
-            </li>
-        </ul>
 
-        <ul class="list-unstyled top_profiles scroll-view">
-            <li class="col-md-3 col-sm-3 col-xs-3 media event "
-                ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                                'break':resource.slotState=='Break'}"
-                ng-repeat="resource in ReservedProfile">
-                <a class="pull-left border-aero profile_thumb">
-                    <i class="fa fa-user font-blue500"></i>
-                </a>
-                <div class="media-body">
-                    <a class="title" href="javascript:void(0)">
-                        {{resource.name}}
+        <!-- OUTBOUND  PROFILE -->
+        <div class="x_panel" ng-hide="!OutboundProfile.length">
+            <h2>Outbound Profile
+            </h2>
+            <ul class="list-unstyled top-profile-shadow scroll-view">
+                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                    ng-class="{'reserved':resource.slotState=='Reserved',
+        'available':resource.slotState=='Available',
+        'connected':resource.slotState=='Connected',
+        'afterWork':resource.slotState=='AfterWork',
+        'outbound':resource.slotState=='Outbound',
+        'suspended':resource.slotState=='Suspended',
+        'break':resource.slotState=='Break'}"
+                    ng-repeat="resource in OutboundProfile">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user font-blue500"></i>
                     </a>
-                    <p>{{resource.LastReservedTime}} </p>
-                    <p>
-                        <small>
-                            {{resource.slotState}}
-                        </small>
-                    </p>
-                </div>
-            </li>
-        </ul>
+                    <div class="media-body">
+                        <a class="title" href="javascript:void(0)">
+                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                        </a>
+                        <p>{{resource.LastReservedTime}} </p>
+                        <p>
+                            <small>
+                                {{resource.slotState}}
+                            </small>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- END OUTBOUND PROFILE -->
 
-        <ul class="list-unstyled top_profiles scroll-view">
-            <li class="col-md-3 col-sm-3 col-xs-3 media event "
-                ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                                'break':resource.slotState=='Break'}"
-                ng-repeat="resource in profile">
-                <a class="pull-left border-aero profile_thumb">
-                    <i class="fa fa-user font-blue500"></i>
-                </a>
-                <div class="media-body">
-                    <a class="title" href="javascript:void(0)">
-                        {{resource.name}}
+        <!-- OUTBOUND  PROFILE -->
+        <div class="x_panel" ng-hide="!AfterWorkProfile.length">
+            <h2>After Work Profile
+            </h2>
+            <ul class="list-unstyled top-profile-shadow scroll-view">
+                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                    ng-class="{'reserved':resource.slotState=='Reserved',
+        'available':resource.slotState=='Available',
+        'connected':resource.slotState=='Connected',
+        'afterWork':resource.slotState=='AfterWork',
+        'outbound':resource.slotState=='Outbound',
+        'suspended':resource.slotState=='Suspended',
+        'break':resource.slotState=='Break'}"
+                    ng-repeat="resource in AfterWorkProfile">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user font-blue500"></i>
                     </a>
-                    <p>{{resource.LastReservedTime}} </p>
-                    <p>
-                        <small>
-                            {{resource.slotState}}
-                        </small>
-                    </p>
-                </div>
-            </li>
-        </ul>
+                    <div class="media-body">
+                        <a class="title" href="javascript:void(0)">
+                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                        </a>
+                        <p>{{resource.LastReservedTime}} </p>
+                        <p>
+                            <small>
+                                {{resource.slotState}}
+                            </small>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- END OUTBOUND PROFILE -->
+
+
+        <!-- RESERVED  PROFILE -->
+        <div class="x_panel" ng-hide="!ReservedProfile.length">
+            <h2>Reserved Profile
+            </h2>
+            <ul class="list-unstyled top-profile-shadow scroll-view">
+                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                    ng-class="{'reserved':resource.slotState=='Reserved',
+        'available':resource.slotState=='Available',
+        'connected':resource.slotState=='Connected',
+        'afterWork':resource.slotState=='AfterWork',
+        'outbound':resource.slotState=='Outbound',
+        'suspended':resource.slotState=='Suspended',
+        'break':resource.slotState=='Break'}"
+                    ng-repeat="resource in ReservedProfile">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user font-blue500"></i>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="javascript:void(0)">
+                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                        </a>
+                        <p>{{resource.LastReservedTime}} </p>
+                        <p>
+                            <small>
+                                {{resource.slotState}}
+                            </small>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- END AVAILABLE PROFILE -->
+
+
+        <!-- RESERVED  PROFILE -->
+        <div class="x_panel" ng-hide="!profile.length">
+            <h2> Other
+            </h2>
+            <ul class="list-unstyled top-profile-shadow scroll-view">
+                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                    ng-class="{'reserved':resource.slotState=='Reserved',
+        'available':resource.slotState=='Available',
+        'connected':resource.slotState=='Connected',
+        'afterWork':resource.slotState=='AfterWork',
+        'outbound':resource.slotState=='Outbound',
+        'suspended':resource.slotState=='Suspended',
+        'break':resource.slotState=='Break'}"
+                    ng-repeat="resource in profile">
+                    <a class="pull-left border-aero profile_thumb">
+                        <i class="fa fa-user font-blue500"></i>
+                    </a>
+                    <div class="media-body">
+                        <a class="title" href="javascript:void(0)">
+                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                        </a>
+                        <p>{{resource.LastReservedTime}} </p>
+                        <p>
+                            <small>
+                                {{resource.slotState}}
+                            </small>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- END AVAILABLE PROFILE -->
     </div>
 </div>
