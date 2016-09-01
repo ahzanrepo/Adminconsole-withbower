@@ -6,7 +6,7 @@
 
     var cdrApiHandler = function($http, authService)
     {
-        var getCDRForTimeRange = function(startDate, endDate, limit, offsetId, agent, skill, direction, record)
+        var getCDRForTimeRange = function(startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber)
         {
             var authToken = authService.GetToken();
             var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
@@ -31,6 +31,11 @@
             if(offsetId)
             {
                 url = url + '&offset=' + offsetId;
+            }
+
+            if(custNumber)
+            {
+                url = url + '&custnumber=' + custNumber;
             }
 
             return $http({
