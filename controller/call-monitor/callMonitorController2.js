@@ -2,12 +2,13 @@
  * Created by Pawan on 7/21/2016.
  */
 
-mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibModal, callMonitorSrv, notificationService,jwtHelper,authService)
+mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibModal,$timeout, callMonitorSrv, notificationService,jwtHelper,authService)
 {
 
     $scope.CallObj = {};
     $scope.isRegistered=false;
     $scope.currentSessionID = null;
+    $scope.refreshTime = 10000;
     var authToken = authService.GetToken();
 
     $rootScope.$on("is_registered", function (events,args) {
@@ -319,6 +320,22 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
         $scope.RegisterThePhone();
     }
 
+
+
+    var getAllRealTime = function () {
+        $scope.LoadCurrentCalls();
+
+        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+    };
+
+    // getAllRealTime();
+    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+
+    $scope.$on("$destroy", function () {
+        if (getAllRealTimeTimer) {
+            $timeout.cancel(getAllRealTimeTimer);
+        }
+    });
 
 
 
