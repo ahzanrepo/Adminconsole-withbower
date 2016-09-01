@@ -8,12 +8,16 @@
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-3 col-sm-3 col-xs-3 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
-        'available':resource.slotState=='Available',
-        'connected':resource.slotState=='Connected',
-        'afterWork':resource.slotState=='AfterWork',
-        'outbound':resource.slotState=='Outbound',
-        'suspended':resource.slotState=='Suspended',
-        'break':resource.slotState=='Break'}"
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in SuspendedProfile">
                     <a class="pull-left border-aero profile_thumb">
                         <i class="fa fa-user font-blue500"></i>
@@ -42,12 +46,16 @@
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
-        'available':resource.slotState=='Available',
-        'connected':resource.slotState=='Connected',
-        'afterWork':resource.slotState=='AfterWork',
-        'outbound':resource.slotState=='Outbound',
-        'suspended':resource.slotState=='Suspended',
-        'break':resource.slotState=='Break'}"
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in AvailableProfile">
                     <a class="pull-left border-aero profile_thumb">
                         <i class="fa fa-user font-blue500"></i>
@@ -73,14 +81,18 @@
             <h2>Connected Profile
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                <li class="col-md-2 col-sm-2 col-xs-2 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
-        'available':resource.slotState=='Available',
-        'connected':resource.slotState=='Connected',
-        'afterWork':resource.slotState=='AfterWork',
-        'outbound':resource.slotState=='Outbound',
-        'suspended':resource.slotState=='Suspended',
-        'break':resource.slotState=='Break'}"
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in ConnectedProfile">
                     <a class="pull-left border-aero profile_thumb">
                         <i class="fa fa-user font-blue500"></i>
@@ -107,14 +119,18 @@
             <h2>Break Profile
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                <li class="col-md-2 col-sm-2 col-xs-2 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
-    'available':resource.slotState=='Available',
-    'connected':resource.slotState=='Connected',
-    'afterWork':resource.slotState=='AfterWork',
-    'outbound':resource.slotState=='Outbound',
-    'suspended':resource.slotState=='Suspended',
-    'break':resource.slotState=='Break'}"
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in BreakProfile">
                     <a class="pull-left border-aero profile_thumb">
                         <i class="fa fa-user font-blue500"></i>
@@ -141,14 +157,18 @@
             <h2>Outbound Profile
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                <li class="col-md-2 col-sm-2 col-xs-2 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
-        'available':resource.slotState=='Available',
-        'connected':resource.slotState=='Connected',
-        'afterWork':resource.slotState=='AfterWork',
-        'outbound':resource.slotState=='Outbound',
-        'suspended':resource.slotState=='Suspended',
-        'break':resource.slotState=='Break'}"
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in OutboundProfile">
                     <a class="pull-left border-aero profile_thumb">
                         <i class="fa fa-user font-blue500"></i>
@@ -174,14 +194,18 @@
             <h2>After Work Profile
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                <li class="col-md-2 col-sm-2 col-xs-2 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
-        'available':resource.slotState=='Available',
-        'connected':resource.slotState=='Connected',
-        'afterWork':resource.slotState=='AfterWork',
-        'outbound':resource.slotState=='Outbound',
-        'suspended':resource.slotState=='Suspended',
-        'break':resource.slotState=='Break'}"
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in AfterWorkProfile">
                     <a class="pull-left border-aero profile_thumb">
                         <i class="fa fa-user font-blue500"></i>
@@ -208,14 +232,18 @@
             <h2>Reserved Profile
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                <li class="col-md-2 col-sm-2 col-xs-2 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
-        'available':resource.slotState=='Available',
-        'connected':resource.slotState=='Connected',
-        'afterWork':resource.slotState=='AfterWork',
-        'outbound':resource.slotState=='Outbound',
-        'suspended':resource.slotState=='Suspended',
-        'break':resource.slotState=='Break'}"
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in ReservedProfile">
                     <a class="pull-left border-aero profile_thumb">
                         <i class="fa fa-user font-blue500"></i>
@@ -242,14 +270,18 @@
             <h2> Other
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-3 col-sm-3 col-xs-3 media event "
+                <li class="col-md-2 col-sm-2 col-xs-2 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
-        'available':resource.slotState=='Available',
-        'connected':resource.slotState=='Connected',
-        'afterWork':resource.slotState=='AfterWork',
-        'outbound':resource.slotState=='Outbound',
-        'suspended':resource.slotState=='Suspended',
-        'break':resource.slotState=='Break'}"
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in profile">
                     <a class="pull-left border-aero profile_thumb">
                         <i class="fa fa-user font-blue500"></i>
