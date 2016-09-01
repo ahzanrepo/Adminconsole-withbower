@@ -1,9 +1,13 @@
 <div class="profile-status-wrapper">
     <div class="col-md-12 col-sm-12 col-xs-12">
-
+        <div class="page-title">
+            <div class="title_left">
+                <h3 class="font-robot font-600 ">All Profiles</h3>
+            </div>
+        </div>
         <!-- SUSPEND  PROFILE -->
-        <div class="x_panel" ng-hide="!SuspendedProfile.length">
-            <h2>Suspended Profile
+        <div class="x_panel">
+            <h2>Suspended <b class="profile-status-right">{{SuspendedProfile.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-3 col-sm-3 col-xs-3 media event "
@@ -40,8 +44,8 @@
 
 
         <!-- AVAILABLE  PROFILE -->
-        <div class="x_panel" ng-hide="!AvailableProfile.length">
-            <h2>Available Profile
+        <div class="x_panel">
+            <h2>Available <b class="profile-status-right">{{AvailableProfile.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -77,8 +81,8 @@
         <!-- END AVAILABLE PROFILE -->
 
         <!-- CONNECTED  PROFILE -->
-        <div class="x_panel" ng-hide="!ConnectedProfile.length">
-            <h2>Connected Profile
+        <div class="x_panel">
+            <h2>Connected <b class="profile-status-right">{{ConnectedProfile.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -115,8 +119,8 @@
 
 
         <!-- BREAK PROFILE -->
-        <div class="x_panel" ng-hide="!BreakProfile.length">
-            <h2>Break Profile
+        <div class="x_panel">
+            <h2>Break <b class="profile-status-right">{{BreakProfile.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -153,8 +157,8 @@
 
 
         <!-- OUTBOUND  PROFILE -->
-        <div class="x_panel" ng-hide="!OutboundProfile.length">
-            <h2>Outbound Profile
+        <div class="x_panel">
+            <h2>Outbound <b class="profile-status-right">{{OutboundProfile.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -190,8 +194,8 @@
         <!-- END OUTBOUND PROFILE -->
 
         <!-- OUTBOUND  PROFILE -->
-        <div class="x_panel" ng-hide="!AfterWorkProfile.length">
-            <h2>After Work Profile
+        <div class="x_panel">
+            <h2>After Work <b class="profile-status-right">{{AfterWorkProfile.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -228,8 +232,8 @@
 
 
         <!-- RESERVED  PROFILE -->
-        <div class="x_panel" ng-hide="!ReservedProfile.length">
-            <h2>Reserved Profile
+        <div class="x_panel">
+            <h2>Reserved <b class="profile-status-right">{{ReservedProfile.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -266,8 +270,8 @@
 
 
         <!-- RESERVED  PROFILE -->
-        <div class="x_panel" ng-hide="!profile.length">
-            <h2> Other
+        <div class="x_panel">
+            <h2> Other <b class="profile-status-right">{{profile.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "

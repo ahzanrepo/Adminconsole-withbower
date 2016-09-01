@@ -2845,3 +2845,16 @@ tags-input .tags.focused {
     overflow: hidden;
     height: auto;
 }
+
+.profile-status-right {
+    float: right;
+    width: auto;
+    border-radius: 50%;
+    background: #2ba89c;
+    text-align: center;
+    padding-top: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    color: #fff;
+}
