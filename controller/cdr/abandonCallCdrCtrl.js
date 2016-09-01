@@ -92,6 +92,25 @@
             return true;
         };
 
+        var convertToMMSS = function(sec)
+        {
+            var minutes = Math.floor(sec / 60);
+
+            if(minutes < 10)
+            {
+                minutes = '0' + minutes;
+            }
+
+            var seconds = sec - minutes * 60;
+
+            if(seconds < 10)
+            {
+                seconds = '0' + seconds;
+            }
+
+            return minutes + ':' + seconds;
+        };
+
         $scope.getProcessedCDRForCSV = function ()
         {
             $scope.DownloadFileName = 'ABANDONCALLCDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
@@ -304,6 +323,12 @@
                                 {
                                     cdrAppendObj.ShowButton = true;
                                 }
+
+                                cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
+                                cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
+                                cdrAppendObj.AnswerSec = convertToMMSS(cdrAppendObj.AnswerSec);
+                                cdrAppendObj.QueueSec = convertToMMSS(cdrAppendObj.QueueSec);
+                                cdrAppendObj.HoldSec = convertToMMSS(cdrAppendObj.HoldSec);
 
                                 var cdrCsv =
                                 {
@@ -599,6 +624,12 @@
                                 {
                                     cdrAppendObj.ShowButton = true;
                                 }
+
+                                cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
+                                cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
+                                cdrAppendObj.AnswerSec = convertToMMSS(cdrAppendObj.AnswerSec);
+                                cdrAppendObj.QueueSec = convertToMMSS(cdrAppendObj.QueueSec);
+                                cdrAppendObj.HoldSec = convertToMMSS(cdrAppendObj.HoldSec);
 
 
                                 $scope.cdrList.push(cdrAppendObj);
