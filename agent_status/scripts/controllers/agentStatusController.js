@@ -1,4 +1,4 @@
-mainApp.controller("agentStatusController", function ($scope, $filter, $stateParams, $timeout, $log,$anchorScroll, agentStatusService) {
+mainApp.controller("agentStatusController", function ($scope,$state ,$filter, $stateParams, $timeout, $log,$anchorScroll, agentStatusService) {
 
     $anchorScroll();
     $scope.showCallInfos = false;
@@ -7,6 +7,9 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
     $scope.changeView = function () {
         $scope.summary =  !$scope.summary;
         $scope.summaryText = $scope.summary ? "Card" : "Table";
+    };
+    $scope.showAgentSummary = function () {
+        $state.go('console.AgentProfileSummary');
     };
 
     $scope.productivity = [];
@@ -133,7 +136,7 @@ mainApp.controller("agentStatusController", function ($scope, $filter, $statePar
                                 task.percentage = item.Percentage;
                                 //$filter('filter')(array, expression, comparator, anyPropertyKey)
                                 //var filteredData =  $filter('filter')($scope.gridUserData.data,{ Id: userid },true);
-                               var data = $filter('filter')($scope.attributesList, {AttributeId: parseInt(item.Attribute)},true);
+                                var data = $filter('filter')($scope.attributesList, {AttributeId: parseInt(item.Attribute)},true);
                                 if (data.length > 0)
                                     task.skill = data[0].Attribute;
                                 agentProductivity.taskList.push(task);

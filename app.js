@@ -3,7 +3,7 @@
  */
 
 
-var mainApp = angular.module('veeryConsoleApp', ['ngAnimate','ngMessages', 'ui.bootstrap',
+var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.bootstrap',
     'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
@@ -20,12 +20,12 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate','ngMessages', 'ui.b
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker'
+    'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker'
 ]);
 
 
 mainApp.constant('moment', moment);
-mainApp.run(['$anchorScroll', function($anchorScroll) {
+mainApp.run(['$anchorScroll', function ($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }]);
 //resourceservice.app.veery.cloud
@@ -36,8 +36,8 @@ var baseUrls = {
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
-    'clusterconfigUrl':'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
-    'conferenceUrl':'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
+    'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
+    'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser'
 };
@@ -105,6 +105,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/AgentStatus",
             templateUrl: "agent_status/view/agentStatusList.html",
             controller: "agentStatusController",
+            data: {
+                requireLogin: true,
+                navigation: "RESOURCES"
+            }
+        }).state('console.AgentProfileSummary', {
+            url: "/AgentProfileSummary",
+            templateUrl: "agent_status/view/agentProfileStatus.html",
+            controller: "AgentSummaryController",
             data: {
                 requireLogin: true,
                 navigation: "RESOURCES"
@@ -289,57 +297,57 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 navigation: "CONFERENCE"
             }
         })/*.state('console.conferencemonitor', {
-            url: "/conference",
-            templateUrl: "conference_app/views/conferenceMonitor.html",
-            controller: "conferenceMonitorController",
-            data: {
-                requireLogin: true,
-                navigation: "CONFERENCE"
-            }
-        })*/.state('console.queuesummary', {
-            url: "/queuesummary",
-            templateUrl: "views/queue-summary/queue-summary.html",
-            controller: "queueSummaryController",
-            data: {
-                requireLogin: true,
-                navigation: "CDR"
-            }
-        }).state('console.agentsummary', {
-            url: "/agentsummary",
-            templateUrl: "views/agent-productivity-summary/agentSummary.html",
-            controller: "agentSummaryController",
-            data: {
-                requireLogin: true,
-                navigation: "CDR"
-            }
-        }).state('console.AgentTblList', {
-            url: "/AgentTblList",
-            templateUrl: "agent_status/view/agentStatusTblList.html",
-            controller: "agentStatusController",
-            data: {
-                requireLogin: true,
-                navigation: "CDR"
-            }
-        }).state('console.extension', {
-            url: "/extensions",
-            templateUrl: "views/extension/extension.html",
-            controller: "extensionController",
-            data: {
-                requireLogin: true,
-                navigation: "EXTENSION"
-            }
-        }).
-        state('console.ardsconfig', {
-            url: "/ardsconfig",
-            templateUrl: "views/ards-config/ardsconfig.html",
-            controller: "ardsController",
+         url: "/conference",
+         templateUrl: "conference_app/views/conferenceMonitor.html",
+         controller: "conferenceMonitorController",
+         data: {
+         requireLogin: true,
+         navigation: "CONFERENCE"
+         }
+         })*/.state('console.queuesummary', {
+                url: "/queuesummary",
+                templateUrl: "views/queue-summary/queue-summary.html",
+                controller: "queueSummaryController",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+            }).state('console.agentsummary', {
+                url: "/agentsummary",
+                templateUrl: "views/agent-productivity-summary/agentSummary.html",
+                controller: "agentSummaryController",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+            }).state('console.AgentTblList', {
+                url: "/AgentTblList",
+                templateUrl: "agent_status/view/agentStatusTblList.html",
+                controller: "agentStatusController",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+            }).state('console.extension', {
+                url: "/extensions",
+                templateUrl: "views/extension/extension.html",
+                controller: "extensionController",
+                data: {
+                    requireLogin: true,
+                    navigation: "EXTENSION"
+                }
+            }).
+            state('console.ardsconfig', {
+                url: "/ardsconfig",
+                templateUrl: "views/ards-config/ardsconfig.html",
+                controller: "ardsController",
 
                 data: {
                     requireLogin: true,
                     navigation: "ARDS_CONFIGURATION"
                 }
 
-        }).
+            }).
 
             state('console.myprofile', {
                 url: "/myprofile",
