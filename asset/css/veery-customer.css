@@ -2879,3 +2879,7 @@ tags-input .tags.focused {
 .tile-stats.title-stats-gallery > h3 {
     color: #ffffff;
 }
+
+.title-stats-gallery-active > .title-stats-gallery {
+    background: #2ba89c;
+}
