@@ -8,7 +8,6 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
     $scope.CallObj = {};
     $scope.isRegistered=false;
     $scope.currentSessionID = null;
-    $scope.refreshTime = 10000;
     var authToken = authService.GetToken();
 
     $rootScope.$on("is_registered", function (events,args) {
@@ -173,14 +172,8 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
 
 
     $scope.LoadCurrentCalls = function () {
-        if($scope.isRegistered)
-        {
-            callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
-        }
-        else
-        {
 
-        }
+        callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
 
     };
 
@@ -321,21 +314,6 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
     }
 
 
-
-    var getAllRealTime = function () {
-        $scope.LoadCurrentCalls();
-
-        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-    };
-
-    // getAllRealTime();
-    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-
-    $scope.$on("$destroy", function () {
-        if (getAllRealTimeTimer) {
-            $timeout.cancel(getAllRealTimeTimer);
-        }
-    });
 
 
 
