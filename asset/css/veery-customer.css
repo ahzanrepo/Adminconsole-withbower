@@ -2858,3 +2858,28 @@ tags-input .tags.focused {
     padding-bottom: 4px;
     color: #fff;
 }
+
+.tile-stats.title-stats-gallery {
+    background: #114858;
+}
+
+.tile-stats.title-stats-gallery:hover {
+    background: #2ba89c;
+}
+
+.tile-stats.title-stats-gallery > .count {
+    color: #DB4114;
+}
+
+.tile-stats.title-stats-gallery > .icon {
+    color: #F8B01D;
+}
+
+.tile-stats.title-stats-gallery > p,
+.tile-stats.title-stats-gallery > h3 {
+    color: #ffffff;
+}
+
+.title-stats-gallery-active > .title-stats-gallery {
+    background: #2ba89c;
+}
