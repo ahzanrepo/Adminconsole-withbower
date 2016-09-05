@@ -10,21 +10,40 @@
         <div class="row">
             <div class="x_panel">
                 <div class="x_title bottom-gray-200 m-bottom20 col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-10 col-sm-10 col-xs-10">
-                        <h4 class="font-robot font-300 text-uppercase font-15">Search option
-                        </h4>
+
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <input type="text" class="form-control" name="agent" ng-model="agentFilter" placeholder="Agent">
                     </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <input type="text" class="form-control" name="skillFilter" ng-model="skillFilter" placeholder="Skill">
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <input type="text" class="form-control" name="custFilter" ng-model="custFilter" placeholder="Customer Number">
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <select name="directionFilter" ng-model="directionFilter"
+                                    aria-controls="datatable-responsive" class="form-control">
+                                <option value="">DIRECTION - ANY</option>
+                                <option value="inbound">DIRECTION - INBOUND</option>
+                                <option value="outbound">DIRECTION - OUTBOUND</option>
+                            </select>
+                        </div>
+
+                    </div>
+
                     <div class="col-md-2 col-sm-2 col-xs-2">
                         <div class="col-md-6 col-sm-6 col-xs-6">
                             <label><h5>Download</h5></label>
                         </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="col-md-2 col-sm-2 col-xs-2">
                             <button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" csv-header="['Call Direction', 'From', 'To', 'ReceivedBy', 'AgentSkill', 'Answered', 'Call Time', 'Total Duration', 'Bill Duration', 'Answer Duration', 'Queue Duration', 'Hold Duration', 'Call Type', 'Call Category', 'Hangup Party']" ng-csv="getProcessedCDRForCSV()" filename="{{DownloadFileName}}.csv"></button>
                         </div>
 
                     </div>
                     <div class="clearfix"></div>
                 </div>
+
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Start Date</label>
@@ -212,6 +231,10 @@
                                                 rowspan="1"
                                                 colspan="1" aria-label="Hangup Party">Hangup Party
                                             </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
+                                                colspan="1" aria-label="Transferred Party">Transferred Party
+                                            </th>
                                         </thead>
                                         <tbody>
                                         <tr role="row" class="odd"
@@ -231,6 +254,7 @@
                                             <td>{{cdr.ObjType}}</td>
                                             <td>{{cdr.ObjCategory}}</td>
                                             <td>{{cdr.HangupParty}}</td>
+                                            <td>{{cdr.TransferredParties}}</td>
                                             <td>
                             <span ng-show="cdr.ShowButton">
 

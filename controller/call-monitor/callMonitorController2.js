@@ -172,9 +172,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
 
 
     $scope.LoadCurrentCalls = function () {
-
         callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
-
     };
 
     $scope.RegisterThePhone = function () {
@@ -201,7 +199,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
             $scope.displayname=decodeData.context.veeryaccount.display;
             $scope.loginData ={
                 realm:$scope.realm,
-                impi:$scope.displayname,
+                impi:$scope.username,
                 impu:$scope.sipUri,
                 display_name:decodeData.iss,
                 websocket_proxy_url:$scope.WSUri

@@ -1,6 +1,6 @@
 <div class="container body" ng-controller="mainCtrl">
     <div class="main_container">
-        <div class="col-md-3 left_col ">
+        <div class="col-md-3 left_col  ">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="index.html" class="site_title">
@@ -26,9 +26,8 @@
                 <br>
                 <!-- sidebar menu -->
                 <div id="sidebar-menu"
-
                      menu-collapse
-                     class="main_menu_side hidden-print main_menu">
+                     >
                     <div class="menu_section active">
                         <h3 class="font-gry-200">General</h3>
                         <ul class="nav side-menu" style="">
@@ -42,11 +41,15 @@
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.AGENT_PRODUCTIVITY"><a
                                             ng-click="clickDirective.goProductivity()">Agent Productivity </a></li>
+
                                     <li ng-show="accessNavigation.CALL_MONITOR"><a href="javascript:void(0)"
                                                                                    ng-click="clickDirective.goCallMonitor()">Call
                                         Monitor</a></li>
                                     <li ng-show="accessNavigation.DASHBOARD"><a
                                             ng-click="clickDirective.goRealTimeQueued()">Queued</a></li>
+                                    <li ng-show="accessNavigation.RESOURCES"><a href="javascript:void(0);"
+                                                                                ng-click="clickDirective.goAgentProfileSummary()">Agent
+                                        Summary</a></li>
                                 </ul>
                             </li>
                             <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER">
@@ -71,16 +74,18 @@
                                                                                  ng-click="clickDirective.goConference()">Conference</a>
                                     </li>
                                     <li ng-show="accessNavigation.SCHEDULER"><a href="javascript:void(0);"
-                                                                                 ng-click="clickDirective.goSchedule()">Scheduler</a>
+                                                                                ng-click="clickDirective.goSchedule()">Scheduler</a>
                                     </li>
                                     <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goCompanyConfig()">Company configuration</a>
+
                                     </li>
                                     <li ng-show="accessNavigation.TICKET_TRIGGER"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goTicketTrigger()">Ticket Trigger</a>
 
                                     <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
-                                                                                    ng-click="clickDirective.goTemplateCreater()">Template Maker
+                                                                                    ng-click="clickDirective.goTemplateCreater()">Template
+                                        Maker
                                         Configuration</a>
                                     </li>
                                     <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
@@ -92,7 +97,7 @@
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN">
+                            <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.CDR || accessNavigation.EXTENSION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN">
                                 <a class="font-robot font-300 "><i class="fa fa-user"></i> User <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -114,23 +119,24 @@
                                     <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION"><a
                                             href="javascript:void(0);" ng-click="clickDirective.goRingGroup()">Ring
                                         Group</a></li>
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
-                                                                          ng-click="clickDirective.goAgentStatus()">Agent
-                                        Status</a></li>
+
                                     <li ng-show="accessNavigation.EXTENSION"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goExtension()">Extension</a>
                                     </li>
 
                                 </ul>
                             </li>
+<<<<<<< HEAD
                             <li ng-show="accessNavigation.CDR || accessNavigation.APPLICATIONS || accessNavigation.RULES || accessNavigation.TRANSLATIONS">
+=======
+                            <li ng-show="accessNavigation.MY_NUMBERS || accessNavigation.APPLICATIONS || accessNavigation.RULES || accessNavigation.TRANSLATIONS || accessNavigation.DID">
+>>>>>>> remotes/origin/master
                                 <a class="font-robot font-300 "><i class="fa fa-volume-control-phone"></i> Call
                                     Rules <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.MY_NUMBERS"><a href="javascript:void(0);"
-                                                                          ng-click="clickDirective.goMyNumbers()">My
-                                        Numbers</a></li>
+                                                                                 ng-click="clickDirective.goMyNumbers()">My Numbers</a></li>
                                     <li ng-show="accessNavigation.APPLICATIONS"><a href="javascript:void(0);"
                                                                                    ng-click="clickDirective.goApplications()">Applications</a>
                                     </li>
@@ -138,7 +144,7 @@
                                                                             ng-click="clickDirective.goRule()">Rules</a>
                                     </li>
                                     <li ng-show="accessNavigation.TRANSLATIONS"><a href="javascript:void(0);"
-                                                                            ng-click="clickDirective.goTranslations()">Translations</a>
+                                                                                   ng-click="clickDirective.goTranslations()">Translations</a>
                                     </li>
                                     <li ng-show="accessNavigation.DID"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goDID()">DID
@@ -147,9 +153,11 @@
 
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.ATTRIBUTES || accessNavigation.RESOURCES "><a
-                                    class="font-robot font-300 "><i class="fa fa-code-fork"></i> Request Router <span
-                                    class="fa fa-chevron-down"></span></a>
+                            <li ng-show="accessNavigation.ATTRIBUTES || accessNavigation.RESOURCES || accessNavigation.ARDS_CONFIGURATION ">
+                                <a
+                                        class="font-robot font-300 "><i class="fa fa-code-fork"></i> Request
+                                    Router <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.ATTRIBUTES"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goAttributeList()">Attributes </a>
@@ -184,6 +192,7 @@
                                                                           ng-click="clickDirective.goAbandonCallList()">Abandon
                                         Call Report</a>
                                     </li>
+
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goCallSummary()">Call Summary Report</a>
                                     </li>
@@ -202,6 +211,8 @@
 
                 </div>
                 <!-- /sidebar menu -->
+
+                <!-- /menu footer buttons -->
 
             </div>
         </div>

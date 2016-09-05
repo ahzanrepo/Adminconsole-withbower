@@ -19,7 +19,7 @@
                             <label><h5>Download</h5></label>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-6">
-                            <button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" csv-header="['Call Direction', 'From', 'To', 'ReceivedBy', 'AgentSkill', 'Answered', 'Call Time', 'Total Duration', 'Bill Duration', 'Answer Duration', 'Queue Duration', 'Hold Duration', 'Call Type', 'Call Category', 'Hangup Party']" ng-csv="getProcessedCDRForCSV()" filename="{{DownloadFileName}}.csv"></button>
+                            <button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" csv-header="['Call Direction', 'From', 'To', 'AgentSkill', 'Call Time', 'Total Duration', 'Answer Duration', 'Queue Duration', 'Call Type', 'Call Category']" ng-csv="getProcessedCDRForCSV()" filename="{{DownloadFileName}}.csv"></button>
                         </div>
 
                     </div>
@@ -166,10 +166,6 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
-                                                colspan="1" aria-label="ReceivedBy">ReceivedBy
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                                rowspan="1"
                                                 colspan="1" aria-label="AgentSkill">AgentSkill
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -203,7 +199,6 @@
                                             <td>{{cdr.DVPCallDirection}}</td>
                                             <td>{{cdr.SipFromUser}}</td>
                                             <td>{{cdr.SipToUser}}</td>
-                                            <td>{{cdr.RecievedBy}}</td>
                                             <td>{{cdr.AgentSkill}}</td>
                                             <td>{{cdr.CreatedTime}}</td>
                                             <td>{{cdr.Duration}}</td>

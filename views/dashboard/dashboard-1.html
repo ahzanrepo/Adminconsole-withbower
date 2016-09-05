@@ -1,4 +1,6 @@
 <div ng-controller="dashboardCtrl">
+
+
     <div class>
         <div class="row top_tiles">
             <div class="animated flipInY col-lg-2 col-md-2 col-sm-3 col-xs-12">
@@ -76,21 +78,21 @@
                                   options="myChartOptions"></flot>
                         </div>
                         <div class="tiles">
-                            <div class="col-md-4  tile m-top45 p-top-10">
+                            <div class="col-md-4 col-sm-12 col-xs-12  tile m-top45 p-top-10">
                                 <span class="font-robot small-chat-header"> Queued</span>
                                 <div class="sparkline11 demo-container m-top15" style="height:160px">
                                     <flot dataset="dataSetQueued"
                                           options="myChartOptions2"></flot>
                                 </div>
                             </div>
-                            <div class="col-md-4  tile m-top45 p-top-10">
+                            <div class="col-md-4 col-sm-12 col-xs-12  tile m-top45 p-top-10">
                                 <span class="font-robot small-chat-header"> Briged</span>
                                 <div class="sparkline11 demo-container m-top15" style="height:160px">
                                     <flot dataset="dataSetBriged"
                                           options="myChartOptions3"></flot>
                                 </div>
                             </div>
-                            <div class="col-md-4  tile m-top45 p-top-10">
+                            <div class="col-md-4 col-sm-12 col-xs-12 tile m-top45 p-top-10">
                                 <span class="font-robot small-chat-header"> Channels</span>
                                 <div class="demo-container m-top15" style="height:160px">
                                     <flot dataset="dataSetChannels"
@@ -111,13 +113,22 @@
                                     ng-class="{'reserved':resource.slotState=='Reserved',
                                                'available':resource.slotState=='Available',
                                                'connected':resource.slotState=='Connected',
-                                                'break':resource.other=='Break'}"
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break': resource.slotState == 'MeetingBreak' ||
+                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
+                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
+                                                resource.slotState == 'AUXBreak' ||
+                                                resource.slotState == 'ProcessRelatedBreak'}"
                                     ng-repeat="resource in profile">
                                     <a class="pull-left border-aero profile_thumb">
                                         <i class="fa fa-user font-blue500"></i>
                                     </a>
                                     <div class="media-body">
-                                        <a class="title" href="javascript:void(0)">{{resource.name}}</a>
+                                        <a class="title" href="javascript:void(0)">
+                                            {{resource.name}}
+                                        </a>
                                         <p>{{resource.LastReservedTime}} </p>
                                         <p>
                                             <small>

@@ -161,12 +161,13 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             $scope.isLoading = false;
         });
     };
+
     $scope.loadFileList($scope.pageSize, 1);
 
-    $scope.reloadPage =function(){
+    $scope.reloadPage = function () {
         $scope.fileToDelete = [];
         $scope.loadCatagories();
-        $scope.getPageData("Paging",1, $scope.pageSize, $scope.pageTotal);
+        $scope.getPageData("Paging", 1, $scope.pageSize, $scope.pageTotal);
     };
 
     $scope.loadFilesByCat = function (cat) {
@@ -176,7 +177,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     $scope.getFilesCategoryID = function (category, currentPage) {
         $scope.isLoading = true;
         $scope.noDataToshow = false;
-
+        $scope.pageSize = "50";
         $scope.pageTotal = category.fileCount.Count;
         $scope.currentPage = 1;
         $scope.categoryId = category.id;
@@ -189,6 +190,17 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
 
         }, function (err) {
         });
+
+        angular.forEach($scope.Catagories, function (item) {
+            var videoLocal = document.getElementById(item.id);
+            if (category.id === item.id) {
+                videoLocal.classList.add("title-stats-gallery-active");
+            }
+            else {
+                videoLocal.classList.remove("title-stats-gallery-active");
+            }
+        });
+
     };
 
     $scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
@@ -209,10 +221,10 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
                 history: false
             }
         })).get().on('pnotify.confirm', function () {
-                OkCallback("confirm");
-            }).on('pnotify.cancel', function () {
+            OkCallback("confirm");
+        }).on('pnotify.cancel', function () {
 
-            });
+        });
 
     };
 
@@ -258,20 +270,20 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
 
     $scope.deleteMultipleFiles = function () {
 
-        $scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete Selected["+$scope.fileToDelete.length+"] Files.", function () {
+        $scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete Selected[" + $scope.fileToDelete.length + "] Files.", function () {
 
-            var delCount=0;
-            angular.forEach($scope.fileToDelete,function(file){
+            var delCount = 0;
+            angular.forEach($scope.fileToDelete, function (file) {
 
                 fileService.DeleteFile(file).then(function (response) {
                     delCount++;
-                    if($scope.fileToDelete.length===delCount){
+                    if ($scope.fileToDelete.length === delCount) {
                         $scope.reloadPage();
                         $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
                     }
                 }, function (error) {
                     delCount++;
-                    if($scope.fileToDelete.length===delCount){
+                    if ($scope.fileToDelete.length === delCount) {
                         $scope.reloadPage();
                         $scope.showAlert("Deleted", "Deleted", "ok", "Delete Process Complete.");
                     }
@@ -332,8 +344,8 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     /* Video Modal*/
 
     $scope.showDeleteSelection = false;
-    $scope.showDelete=function(){
-        $scope.showDeleteSelection=!$scope.showDeleteSelection;
+    $scope.showDelete = function () {
+        $scope.showDeleteSelection = !$scope.showDeleteSelection;
     };
 
     $scope.fileToDelete = [];
@@ -346,7 +358,45 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             if (index > 0)
                 $scope.fileToDelete.splice(index, 1);
         }
-    }
+    };
+
+
+    // search
+    $scope.StartTime = {
+        date: new Date()
+    };
+    $scope.EndTime = {
+        date: new Date()
+    };
+    $scope.openCalendar = function (name) {
+        if (name == 'StartTime') {
+            $scope.StartTime.open = true;
+        }
+        else {
+            $scope.EndTime.open = true;
+        }
+
+    };
+    $scope.fileSerach = {};
+    $scope.fileSerach.StartTime = new Date();
+    $scope.fileSerach.EndTime = new Date();
+
+    $scope.SearchFiles = function () {
+        $scope.files = [];
+        $scope.noDataToshow = false;
+        if ($scope.categoryId <= 0) {
+            $scope.categoryId = -1;
+        }
+        fileService.SearchFiles($scope.categoryId, $scope.fileSerach.StartTime, $scope.fileSerach.EndTime).then(function (response) {
+            $scope.files = response;
+            $scope.noDataToshow = response ? (response.length == 0) : true;
+            $scope.isLoading = false;
+            $scope.showPaging = false;
+            //$scope.pageSize = "50";
+        }, function (err) {
+            $scope.isLoading = false;
+        });
+    };
 });
 
 app.controller('SidebarController', function ($scope, sidebar) {
@@ -408,7 +458,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, b
         preload: "auto",
         sources: [
             {
-                src: $sce.trustAsResourceUrl(baseUrls.fileServiceInternalUrl + "File/Download/" + file.TenantId + "/" + file.CompanyId + "/" + file.UniqueId+ "/" + file.Filename),
+                src: $sce.trustAsResourceUrl(baseUrls.fileServiceInternalUrl + "File/Download/" + file.TenantId + "/" + file.CompanyId + "/" + file.UniqueId + "/" + file.Filename),
                 type: file.FileStructure
             }
         ],
