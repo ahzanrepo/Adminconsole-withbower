@@ -2,7 +2,7 @@
  * Created by Pawan on 7/21/2016.
  */
 
-mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibModal, callMonitorSrv, notificationService,jwtHelper,authService)
+mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibModal,$timeout, callMonitorSrv, notificationService,jwtHelper,authService)
 {
 
     $scope.CallObj = {};
@@ -172,15 +172,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
 
 
     $scope.LoadCurrentCalls = function () {
-        if($scope.isRegistered)
-        {
-            callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
-        }
-        else
-        {
-
-        }
-
+        callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
     };
 
     $scope.RegisterThePhone = function () {
@@ -207,7 +199,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
             $scope.displayname=decodeData.context.veeryaccount.display;
             $scope.loginData ={
                 realm:$scope.realm,
-                impi:$scope.displayname,
+                impi:$scope.username,
                 impu:$scope.sipUri,
                 display_name:decodeData.iss,
                 websocket_proxy_url:$scope.WSUri
@@ -318,6 +310,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
         console.log("going to register");
         $scope.RegisterThePhone();
     }
+
 
 
 

@@ -37,7 +37,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
             angular.forEach(scope.resource.ResResourceTask, function (item) {
                 try {
                     if (item) {
-                        var items = $filter('filter')(scope.availableTask, {TaskId: item.TaskId})
+                        var items = $filter('filter')(scope.availableTask, {TaskId: parseInt( item.TaskId)},true);
                         if (items) {
                             var index = scope.availableTask.indexOf(items[0]);
                             if (index > -1) {
@@ -197,7 +197,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                     resourceService.AssignTaskToResource(selectedItem.resourceId, selectedItem.task.TaskId, selectedItem.task.Concurrency).then(function (response) {
                         if (response.IsSuccess) {
                             scope.GetTaskAttachToResource();
-                            var items = $filter('filter')(scope.attachedTask, {TaskId: response.Result.TaskId});
+                            var items = $filter('filter')(scope.attachedTask, {TaskId: parseInt(  response.Result.TaskId)},true);
                             if (items) {
                                 var index = scope.attachedTask.indexOf(items[0]);
                                 if (index > -1) {
@@ -261,7 +261,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
 
                         try {
                             if (item) {
-                                var items = $filter('filter')(scope.assignSkill_selectedTask.attributes, {AttributeId: item.AttributeId})
+                                var items = $filter('filter')(scope.assignSkill_selectedTask.attributes, {AttributeId: parseInt(  item.AttributeId)},true);
                                 if (items) {
                                     var index = scope.assignSkill_selectedTask.attributes.indexOf(items[0]);
                                     if (index > -1) {
