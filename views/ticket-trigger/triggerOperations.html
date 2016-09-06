@@ -11,9 +11,9 @@
                                 <form class="form-horizontal form-label-left input_mask">
                                     <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                         <select class="form-control has-feedback-left" placeholder="Select Operation"
-                                                ng-model="triggerOperation.name">
+                                                ng-model="triggerOperation.name" ng-change="OnChangeTriggerOperation()">
                                             <option value="" disabled selected>Select Operation</option>
-                                            <option value="AddInteraction"> Add Interaction </option>
+                                            <!--<option value="AddInteraction"> Add Interaction </option>-->
                                             <option value="SendMessage"> Send Message </option>
                                             <option value="PickAgent"> Assign To ARDS User </option>
                                             <option value="SendEmail"> Send Email </option>
@@ -27,7 +27,7 @@
 
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-success btn-sm pull-right attribute-btn  "
-                                                ng-click="addTriggerAction()">
+                                                ng-click="addTriggerOperation()">
                                             Add
                                         </button>
                                     </div>

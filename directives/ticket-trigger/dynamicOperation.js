@@ -14,19 +14,36 @@
             },
             template: '<div ng-include="dynamicTemplateUrl"></div>',
             link: function (scope, element) {
+                scope.currentDragItem = {};
                 scope.selectedAttributes = [];
-                scope.assignAttributeToTask = function(){
 
+                scope.assignAttributeToTask = function(){
+                    if(scope.ngModel.value && Array.isArray(scope.ngModel.value) && scope.ngModel.value.length > 0){
+                        scope.ngModel.value.push(scope.currentDragItem.Id);
+                    }else{
+                        scope.ngModel.value = [scope.currentDragItem.Id];
+                    }
                 };
                 scope.deleteAttributeAssignToTask = function(item){
-
+                    for(var i = 0; i < scope.ngModel.value.length; i++){
+                        if(scope.currentDragItem.Id === scope.ngModel.value[i]){
+                            scope.ngModel.value.splice(i,1);
+                        }
+                    }
                 };
-                scope.curentDragAttribute = function(item){
 
+                scope.currentDragAttribute = function(item){
+                    scope.currentDragItem = item;
                 };
                 scope.$watch('operationName', function(newValue, oldValue) {
                     if (newValue) {
                         scope.getTemplate(newValue);
+                    }
+                }, true);
+
+                scope.$watch('ngModel', function(newValue, oldValue) {
+                    if (newValue) {
+                        scope.ngModel = newValue;
                     }
                 }, true);
 

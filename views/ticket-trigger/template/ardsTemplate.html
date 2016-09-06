@@ -6,13 +6,13 @@
                 <!-- add permission -->
                 <div class="drop-header">
                     <i class="fa fa-unlock"></i>
-                    <h2 class="text-center">Access : Permission</h2>
+                    <h2 class="text-center">Selected Skills</h2>
                 </div>
                 <div class="thumbnaildrag drop-area-wrap" data-drop="true" ng-model='selectedAttributes'
                      data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=selectedAttributes])'}"
                      jqyoui-droppable="{multiple:false,onDrop: 'assignAttributeToTask'}">
                     <div class="caption">
-                        <div ng-dblclick="deleteAttributeAssignToTask(item)" ng-click="curentDragAttribute(item)"
+                        <div ng-click="currentDragAttribute(item)"
                              class="btn btn-round
                                  btn-warning btn-draggable  draggable-item"
                              ng-repeat="item in selectedAttributes" ng-show="item.Name"
@@ -32,19 +32,19 @@
                 <!-- delete permission -->
                 <div class="drop-header">
                     <i class="fa fa-lock"></i>
-                    <h2 class="text-center">Access denied : Permissions </h2>
+                    <h2 class="text-center">Available Skills </h2>
                 </div>
                 <div class="thumbnaildrag drop-area-wrap" data-drop="true" ng-model='ardsAttributes'
                      data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=ardsAttributes])'}"
                      jqyoui-droppable="{multiple:false,onDrop: 'deleteAttributeAssignToTask'}">
                     <div class="caption">
-                        <div ng-click="curentDragAttribute(item)" class="btn btn-round btn-primary
+                        <div ng-click="currentDragAttribute(item)" class="btn btn-round btn-primary
                                  btn-draggable  draggable-item"
-                             ng-repeat="item in ardsAttributes" ng-show="item"
+                             ng-repeat="item in ardsAttributes" ng-show="item.Name"
                              data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
                              ng-model="ardsAttributes"
                              jqyoui-draggable="{index: {{$index}},animate:true}">
-                            {{item}}
+                            {{item.Name}}
                         </div>
                         <div class="drop-area-text" ng-if="ardsAttributes.length==0">
                             drop area

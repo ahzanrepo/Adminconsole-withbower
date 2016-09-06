@@ -75,6 +75,11 @@
             $scope.triggerFilter.value = undefined;
         };
 
+        $scope.OnChangeTriggerOperation = function(){
+            $scope.triggerOperation.field = undefined;
+            $scope.triggerOperation.value = undefined;
+        };
+
         //---------------functions Initial Data-------------------
         $scope.loadFilterAll = function(){
             triggerApiAccess.getFiltersAll($stateParams.triggerId).then(function(response){
@@ -241,7 +246,12 @@
                         var jResult = JSON.parse(response.Result);
                         if(jResult.AttributeMeta){
                             for(var i = 0; i < jResult.AttributeMeta.length; i++){
-                                $scope.attributes.push(jResult.AttributeMeta[i].AttributeDetails);
+                                if(jResult.AttributeMeta[i].AttributeDetails) {
+                                    for (var j = 0; j < jResult.AttributeMeta[i].AttributeDetails.length; j++) {
+
+                                        $scope.attributes.push(jResult.AttributeMeta[i].AttributeDetails[j]);
+                                    }
+                                }
                             }
                         }
                     }
