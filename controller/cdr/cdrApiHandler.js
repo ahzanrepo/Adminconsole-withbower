@@ -89,6 +89,23 @@
             })
         };
 
+        var getAgentStatusList = function(startDate, endDate)
+        {
+            var authToken = authService.GetToken();
+            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/AgentStatus?startDate=' + startDate + '&endDate=' + endDate;
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getCallSummaryForDay = function(sdate, edate, tz)
         {
             var authToken = authService.GetToken();
@@ -110,7 +127,8 @@
             getCDRForTimeRange: getCDRForTimeRange,
             getAbandonCDRForTimeRange: getAbandonCDRForTimeRange,
             getCallSummaryForHr: getCallSummaryForHr,
-            getCallSummaryForDay: getCallSummaryForDay
+            getCallSummaryForDay: getCallSummaryForDay,
+            getAgentStatusList: getAgentStatusList
         };
     };
 
