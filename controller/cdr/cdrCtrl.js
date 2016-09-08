@@ -23,8 +23,25 @@
             });
         };
 
-        $scope.startTimeNow = '00:00';
-        $scope.endTimeNow = '00:00';
+        $scope.startTimeNow = '12:00 AM';
+        $scope.endTimeNow = '12:00 AM';
+
+        $scope.timeEnabled = 'Date Only';
+        $scope.timeEnabledStatus = false;
+
+        $scope.changeTimeAvailability = function()
+        {
+            if($scope.timeEnabled === 'Date Only')
+            {
+                $scope.timeEnabled = 'Date & Time';
+                $scope.timeEnabledStatus = true;
+            }
+            else
+            {
+                $scope.timeEnabled = 'Date Only';
+                $scope.timeEnabledStatus = false;
+            }
+        };
 
 
         $scope.onDateChange = function ()
@@ -176,34 +193,24 @@
             try
             {
 
-                var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
-                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");
-
-                var startYear = startDateMoment.year().toString();
-                var startMonth = (startDateMoment.month() + 1).toString();
-                var startDay = startDateMoment.date().toString();
-
-                var endYear = endDateMoment.year().toString();
-                var endMonth = (endDateMoment.month() + 1).toString();
-                var endDay = endDateMoment.date().toString();
-
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 //var encodedTz = encodeURI(momentTz);
                 momentTz = momentTz.replace("+", "%2B");
 
-                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
-                var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTimeNow + ':59' + momentTz;
+                var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+                var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
 
-                if ($scope.startTimeNow === '00:00' && $scope.endTimeNow === '00:00')
+                var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+                var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+                if(!$scope.timeEnabledStatus)
                 {
-                    //use date only
-                    startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
-                    endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+                    startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                    endDate = $scope.endDate + ' 23:59:59' + momentTz;
                 }
 
 
-                var lim = parseInt($scope.recLimit);
-                cdrApiHandler.getCDRForTimeRange(startTime, endTime, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
+                cdrApiHandler.getCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                     {
@@ -581,22 +588,34 @@
                 $scope.isPreviousDisabled = true;
 
 
-                var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
-                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");
+                /*var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
+                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");*/
 
-                var startYear = startDateMoment.year().toString();
+                /*var startYear = startDateMoment.year().toString();
                 var startMonth = (startDateMoment.month() + 1).toString();
                 var startDay = startDateMoment.date().toString();
 
                 var endYear = endDateMoment.year().toString();
                 var endMonth = (endDateMoment.month() + 1).toString();
-                var endDay = endDateMoment.date().toString();
+                var endDay = endDateMoment.date().toString();*/
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 //var encodedTz = encodeURI(momentTz);
                 momentTz = momentTz.replace("+", "%2B");
 
-                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
+                var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+                var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
+
+                var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+                var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+                if(!$scope.timeEnabledStatus)
+                {
+                    startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                    endDate = $scope.endDate + ' 23:59:59' + momentTz;
+                }
+
+                /*var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
                 var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTimeNow + ':59' + momentTz;
 
                 if ($scope.startTimeNow === '00:00' && $scope.endTimeNow === '00:00')
@@ -604,12 +623,12 @@
                     //use date only
                     startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
                     endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
-                }
+                }*/
 
 
                 var lim = parseInt($scope.recLimit);
                 $scope.isTableLoading = 0;
-                cdrApiHandler.getCDRForTimeRange(startTime, endTime, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
+                cdrApiHandler.getCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                     {
