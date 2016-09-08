@@ -6,8 +6,37 @@
 {
     var app = angular.module("veeryConsoleApp");
 
-    var cdrCtrl = function ($scope, $filter, $q, cdrApiHandler, ngAudio, loginService)
+    var cdrCtrl = function ($scope, $filter, $q, $sce, cdrApiHandler, ngAudio, loginService)
     {
+
+
+        $scope.config = {
+            preload: "auto",
+            tracks: [
+                {
+                    src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
+                    kind: "subtitles",
+                    srclang: "en",
+                    label: "English",
+                    default: ""
+                }
+            ],
+            theme: {
+                url: "bower_components/videogular-themes-default/videogular.css"
+            },
+            "analytics": {
+                "category": "Videogular",
+                "label": "Main",
+                "events": {
+                    "ready": true,
+                    "play": true,
+                    "pause": true,
+                    "stop": true,
+                    "complete": true,
+                    "progress": 10
+                }
+            }
+        };
 
         $scope.enableSearchButton = true;
 
@@ -61,6 +90,8 @@
         $scope.hstep = 1;
         $scope.mstep = 15;
 
+        var videogularAPI = null;
+
 
         $scope.SetDownloadPath = function (uuid)
         {
@@ -73,33 +104,34 @@
 
         };
 
-        $scope.playStopFile = function (uuid, playState, stopState)
+        $scope.onPlayerReady = function(API)
         {
-            if (playState)
+            videogularAPI = API;
+
+        };
+
+        $scope.playStopFile = function (uuid)
+        {
+            if(videogularAPI)
             {
-
-                if ($scope.currentPlayingFile)
-                {
-                    $scope.fileToPlay.stop();
-                }
-                $scope.currentPlayingFile = uuid;
-
                 var decodedToken = loginService.getTokenDecode();
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant)
                 {
-                    $scope.fileToPlay = ngAudio.load('http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3');
+                    var fileToPlay = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
 
-                    $scope.fileToPlay.play();
+                    var arr = [
+                        {
+                            src: $sce.trustAsResourceUrl(fileToPlay),
+                            type: 'audio/mp3'
+                        }
+                    ];
+
+                    $scope.config.sources = arr;
+
+
+                    videogularAPI.play();
                 }
-
-
-            }
-            else if (stopState)
-            {
-                $scope.currentPlayingFile = null;
-
-                $scope.fileToPlay.stop();
             }
 
 
