@@ -68,6 +68,7 @@
     "bootstrap-ui-datetime-picker": "^2.4.0",
     "ng-csv": "^0.3.6",
     "flip": "^1.1.1",
-    "angular-drag-and-drop-lists": "^1.4.0"
+    "angular-drag-and-drop-lists": "^1.4.0",
+    "bootstrap-timepicker": "^0.5.2"
   }
 }

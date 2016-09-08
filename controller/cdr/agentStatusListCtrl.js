@@ -24,6 +24,26 @@
             endDay : moment().format("YYYY-MM-DD")
         };
 
+        $scope.startTime = '12:00 AM';
+        $scope.endTime = '12:00 AM';
+
+        $scope.timeEnabled = 'Time Disabled';
+        $scope.timeEnabledStatus = false;
+
+        $scope.changeTimeAvailability = function()
+        {
+            if($scope.timeEnabled === 'Time Disabled')
+            {
+                $scope.timeEnabled = 'Time Enabled';
+                $scope.timeEnabledStatus = true;
+            }
+            else
+            {
+                $scope.timeEnabled = 'Time Disabled';
+                $scope.timeEnabledStatus = false;
+            }
+        };
+
 
         var isEmpty = function (map) {
             for (var key in map) {
@@ -37,12 +57,20 @@
 
         $scope.getAgentStatusList = function ()
         {
+            var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm:ss");
+            var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm:ss");
             $scope.obj.isTableLoading = 0;
             var momentTz = moment.parseZone(new Date()).format('Z');
             momentTz = momentTz.replace("+", "%2B");
 
-            var startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
-            var endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
+            var startDate = $scope.obj.startDay + ' ' + st + momentTz;
+            var endDate = $scope.obj.endDay + ' ' + et + momentTz;
+
+            if(timeEnabledStatus)
+            {
+                startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
+                endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
+            }
 
             try
             {

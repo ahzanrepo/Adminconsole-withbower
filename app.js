@@ -310,7 +310,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 controller: "queueSummaryController",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "QUEUE_SUMMARY"
                 }
             }).state('console.agentsummary', {
                 url: "/agentsummary",
