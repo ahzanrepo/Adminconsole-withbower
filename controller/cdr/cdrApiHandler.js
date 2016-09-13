@@ -41,6 +41,7 @@
             return $http({
                 method: 'GET',
                 url: url,
+                timeout: 240000,
                 headers: {
                     'authorization': authToken
                 }
@@ -63,6 +64,7 @@
             return $http({
                 method: 'GET',
                 url: url,
+                timeout: 240000,
                 headers: {
                     'authorization': authToken
                 }
