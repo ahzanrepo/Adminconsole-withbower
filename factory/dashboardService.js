@@ -247,6 +247,27 @@ mainApp.factory("dashboardService", function ($http, authService) {
     };
 
 
+    var getCompanyTasks = function () {
+        var authToken = authService.GetToken();
+        //
+        //dashboard.app.veery.cloud
+        return $http({
+            method: 'GET',
+            url: "http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/Tasks",
+            headers: {
+                'authorization': authToken
+            }
+        }).then(function (response) {
+            if (response.data) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
     return {
         GetAll: getAllCalls,
         GetAllQueued: getAllQueued,
@@ -259,7 +280,8 @@ mainApp.factory("dashboardService", function ($http, authService) {
         GetCurrentWaiting: getCurrentWaiting,
         GetTotalBriged: getTotalBriged,
         GetTotalOnGoing: getTotalOnGoing,
-        GetProfileDetails: getProfileDetails
+        GetProfileDetails: getProfileDetails,
+        getCompanyTasks: getCompanyTasks
 
     }
 });

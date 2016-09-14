@@ -110,18 +110,18 @@
                             </div>
                             <ul class="list-unstyled top_profiles scroll-view">
                                 <li class="media event "
-                                    ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                               'break': resource.slotState == 'MeetingBreak' ||
-                                                resource.slotState == 'MealBreak' || resource.slotState == 'TrainingBreak' ||
-                                                resource.slotState == 'TeaBreak' || resource.slotState == 'OfficialBreak' ||
-                                                resource.slotState == 'AUXBreak' ||
-                                                resource.slotState == 'ProcessRelatedBreak'}"
-                                    ng-repeat="resource in profile">
+                                    ng-class="{'reserved':resource.slotInfo[0].slotState=='Reserved',
+                                               'available':resource.slotInfo[0].slotState=='Available',
+                                               'connected':resource.slotInfo[0].slotState=='Connected',
+                                               'afterWork':resource.slotInfo[0].slotState=='AfterWork',
+                                               'outbound':resource.slotInfo[0].slotState=='Outbound',
+                                               'suspended':resource.slotInfo[0].slotState=='Suspended',
+                                               'break': resource.slotInfo[0].slotState == 'MeetingBreak' ||
+                                                resource.slotInfo[0].slotState == 'MealBreak' || resource.slotInfo[0].slotState == 'TrainingBreak' ||
+                                                resource.slotInfo[0].slotState == 'TeaBreak' || resource.slotInfo[0].slotState == 'OfficialBreak' ||
+                                                resource.slotInfo[0].slotState == 'AUXBreak' ||
+                                                resource.slotInfo[0].slotState == 'ProcessRelatedBreak'}"
+                                    ng-repeat="resource in ResourceTask.CALL">
                                     <a class="pull-left border-aero profile_thumb">
                                         <i class="fa fa-user font-blue500"></i>
                                     </a>
@@ -129,10 +129,10 @@
                                         <a class="title" href="javascript:void(0)">
                                             {{resource.name}}
                                         </a>
-                                        <p>{{resource.LastReservedTime}} </p>
+                                        <p>{{resource.slotInfo[0].LastReservedTime}} </p>
                                         <p>
                                             <small>
-                                                {{resource.slotState}}
+                                                {{resource.slotInfo[0].slotState}}
                                             </small>
                                         </p>
                                     </div>
