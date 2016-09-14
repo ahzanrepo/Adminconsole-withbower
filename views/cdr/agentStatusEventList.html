@@ -1,0 +1,109 @@
+<div>
+    <div class="page-title">
+        <div class="title_left">
+            <h3 class="font-robot font-600 ">Agent Status Event Summary</h3>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 col-sm-12 col-xs-12 animated fadeIn">
+        <div class="row">
+            <div class="x_panel">
+
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                    <label>Start Date</label>
+                    <input type="text" class="form-control" ng-model="obj.startDay" name="startDate" datepicker>
+                </div>
+
+                <fieldset class="col-md-2 col-sm-2 col-xs-12" ng-disabled="!timeEnabledStatus">
+                    <label>Start Time</label>
+                    <div class="bootstrap-timepicker">
+                        <input id="timepickerSt" type="text" class="form-control" ng-model="startTime">
+                        <i class="icon-time"></i>
+                    </div>
+                </fieldset>
+
+
+
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                    <label>End Date</label>
+                    <input type="text" class="form-control" ng-model="obj.endDay" name="endDate" datepicker>
+                </div>
+
+                <fieldset class="col-md-2 col-sm-2 col-xs-12" ng-disabled="!timeEnabledStatus">
+                    <label>End Time</label>
+                    <div class="bootstrap-timepicker">
+                        <input id="timepickerEt" type="text" class="form-control" ng-model="endTime">
+                        <i class="icon-time"></i>
+                    </div>
+                </fieldset>
+
+                <div class="col-md-1 col-sm-1 col-xs-12"></div>
+
+
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="x_content btn-wrap-header">
+                        <button type="button" class="btn btn-primary" ng-click="changeTimeAvailability()">{{timeEnabled}}</button>
+                        <button type="button" class="btn btn-success" ng-click="getAgentStatusList()">
+                            Search
+                        </button>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="search-main-wrap" ng-if="obj.isTableLoading==0">
+        <div class="row ">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="data-state-wrap">
+                    Please Wait...
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12" ng-if="obj.isTableLoading==1">
+        <uib-accordion>
+            <div uib-accordion-group class="panel-default" ng-repeat="(resourceId, sessions) in agentStatusList">
+                <uib-accordion-heading>
+                    {{resourceId}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': true, 'glyphicon-chevron-right': false}"></i>
+                </uib-accordion-heading>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div ng-repeat="event in sessions">
+                        <div class="col-md-12 col-sm-12 col-xs-12" style="border: 1px solid #ccc!important; padding: 15px; border-radius: 10px; font-size: 15px">
+                            <div class="col-md-2 col-sm-2 col-xs-2">{{event.Reason}}</div>
+                            <div class="col-md-2 col-sm-2 col-xs-2"></div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">{{moment(event.createdAt).local().format("YYYY-MM-DD HH:mm:ss")}}</div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-accordion>
+    </div>
+
+
+
+
+</div>
+
+<script type="text/javascript">
+    $('#timepickerSt').timepicker({
+        template: false,
+        showInputs: false,
+        minuteStep: 5
+    });
+</script>
+
+<script type="text/javascript">
+    $('#timepickerEt').timepicker({
+        template: false,
+        showInputs: false,
+        minuteStep: 5
+    });
+</script>

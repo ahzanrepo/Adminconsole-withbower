@@ -150,6 +150,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goCallSummary: function () {
             $state.go('console.callsummary');
+        },
+        goAgentStatusEvt: function(){
+            $state.go('console.agentstatusevents');
         }
     };
 

@@ -41,6 +41,7 @@
             return $http({
                 method: 'GET',
                 url: url,
+                timeout: 240000,
                 headers: {
                     'authorization': authToken
                 }
@@ -63,6 +64,7 @@
             return $http({
                 method: 'GET',
                 url: url,
+                timeout: 240000,
                 headers: {
                     'authorization': authToken
                 }
@@ -76,6 +78,23 @@
         {
             var authToken = authService.GetToken();
             var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getAgentStatusList = function(startDate, endDate)
+        {
+            var authToken = authService.GetToken();
+            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/AgentStatus?startDate=' + startDate + '&endDate=' + endDate;
 
             return $http({
                 method: 'GET',
@@ -110,7 +129,8 @@
             getCDRForTimeRange: getCDRForTimeRange,
             getAbandonCDRForTimeRange: getAbandonCDRForTimeRange,
             getCallSummaryForHr: getCallSummaryForHr,
-            getCallSummaryForDay: getCallSummaryForDay
+            getCallSummaryForDay: getCallSummaryForDay,
+            getAgentStatusList: getAgentStatusList
         };
     };
 

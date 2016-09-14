@@ -38,6 +38,9 @@
         $scope.startTimeNow = '00:00';
         $scope.endTimeNow = '00:00';
 
+        $scope.startDate = moment().format("YYYY-MM-DD");
+        $scope.endDate = moment().format("YYYY-MM-DD");
+
         $scope.hstep = 1;
         $scope.mstep = 15;
 
@@ -59,8 +62,26 @@
         $scope.top = -1;
         $scope.bottom = -1;
 
-        $scope.startDate = moment().format("YYYY-MM-DD");
-        $scope.endDate = moment().format("YYYY-MM-DD");
+        $scope.startTimeNow = '12:00 AM';
+        $scope.endTimeNow = '12:00 AM';
+
+        $scope.timeEnabled = 'Date Only';
+        $scope.timeEnabledStatus = false;
+
+        $scope.changeTimeAvailability = function()
+        {
+            if($scope.timeEnabled === 'Date Only')
+            {
+                $scope.timeEnabled = 'Date & Time';
+                $scope.timeEnabledStatus = true;
+            }
+            else
+            {
+                $scope.timeEnabled = 'Date Only';
+                $scope.timeEnabledStatus = false;
+            }
+        };
+
         $scope.dateValid = true;
 
         $scope.offset = -1;
@@ -122,34 +143,25 @@
             try
             {
 
-                var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
-                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");
-
-                var startYear = startDateMoment.year().toString();
-                var startMonth = (startDateMoment.month() + 1).toString();
-                var startDay = startDateMoment.date().toString();
-
-                var endYear = endDateMoment.year().toString();
-                var endMonth = (endDateMoment.month() + 1).toString();
-                var endDay = endDateMoment.date().toString();
-
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 //var encodedTz = encodeURI(momentTz);
                 momentTz = momentTz.replace("+", "%2B");
 
-                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
-                var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTimeNow + ':59' + momentTz;
+                var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+                var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
 
-                if ($scope.startTimeNow === '00:00' && $scope.endTimeNow === '00:00')
+                var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+                var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+                if(!$scope.timeEnabledStatus)
                 {
-                    //use date only
-                    startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
-                    endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+                    startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                    endDate = $scope.endDate + ' 23:59:59' + momentTz;
                 }
 
 
                 var lim = parseInt($scope.recLimit);
-                cdrApiHandler.getAbandonCDRForTimeRange(startTime, endTime, 0, 0).then(function (cdrResp)
+                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                     {
@@ -402,35 +414,25 @@
                 $scope.isPreviousDisabled = true;
 
 
-                var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
-                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");
-
-                var startYear = startDateMoment.year().toString();
-                var startMonth = (startDateMoment.month() + 1).toString();
-                var startDay = startDateMoment.date().toString();
-
-                var endYear = endDateMoment.year().toString();
-                var endMonth = (endDateMoment.month() + 1).toString();
-                var endDay = endDateMoment.date().toString();
-
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 //var encodedTz = encodeURI(momentTz);
                 momentTz = momentTz.replace("+", "%2B");
 
-                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
-                var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTimeNow + ':59' + momentTz;
+                var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+                var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
 
-                if($scope.startTimeNow === '00:00' && $scope.endTimeNow === '00:00')
+                var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+                var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+                if(!$scope.timeEnabledStatus)
                 {
-                    //use date only
-                    startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
-                    endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+                    startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                    endDate = $scope.endDate + ' 23:59:59' + momentTz;
                 }
-
 
                 var lim = parseInt($scope.recLimit);
                 $scope.isTableLoading = 0;
-                cdrApiHandler.getAbandonCDRForTimeRange(startTime, endTime, lim, offset).then(function (cdrResp) {
+                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset).then(function (cdrResp) {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
                             var topSet = false;

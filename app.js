@@ -20,7 +20,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker'
+    'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker', 'ui.bootstrap.accordion'
 ]);
 
 
@@ -319,7 +319,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 controller: "queueSummaryController",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "QUEUE_SUMMARY"
                 }
             }).state('console.agentsummary', {
                 url: "/agentsummary",
@@ -416,6 +416,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 data: {
                     requireLogin: true,
                     navigation: "CDR"
+                }
+            }).state("console.agentstatusevents", {
+                url: "/agent_status_list",
+                templateUrl: "views/cdr/agentStatusEventList.html",
+                controller: "agentStatusListCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+
                 }
             })
 
