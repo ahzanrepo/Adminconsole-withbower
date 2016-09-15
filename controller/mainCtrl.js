@@ -157,6 +157,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goCallSummary: function () {
             $state.go('console.callsummary');
+        },
+        goTicketSla: function ()
+        {
+            $state.go('console.sla');
         }
     };
 

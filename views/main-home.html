@@ -52,7 +52,7 @@
                                         Summary</a></li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER">
+                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER || accessNavigation.TICKET_SLA">
                                 <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -82,7 +82,7 @@
                                     </li>
                                     <li ng-show="accessNavigation.TICKET_TRIGGER"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goTicketTrigger()">Ticket Trigger</a>
-
+                                    </li>
                                     <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goTemplateCreater()">Template
                                         Maker
@@ -90,6 +90,9 @@
                                     </li>
                                     <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goTagManager()">Tag Manager</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                                                                     ng-click="clickDirective.goTicketSla()">Ticket SLA</a>
                                     </li>
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>

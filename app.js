@@ -433,6 +433,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "CDR"
                 }
+            }).state('console.sla', {
+                url: "/sla",
+                templateUrl: "views/ticket-sla/sla.html",
+                controller: "slaController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+            }).state("console.slaConfiguration", {
+                url: "/slaConfiguration/:slaId/:title",
+                templateUrl: "views/ticket-sla/configSla.html",
+                controller: "slaConfigController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
             })
 
 
