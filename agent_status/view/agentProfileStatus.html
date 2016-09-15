@@ -31,6 +31,7 @@
                             {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
                         </a>
                         <p>{{resource.LastReservedTime}} </p>
+                        <p><time-ago from-time='{{ resource.LastReservedTime }}' format='MM/dd/yyyy'></time-ago> </p>
                         <p>
                             <small>
                                 {{resource.slotState}}
