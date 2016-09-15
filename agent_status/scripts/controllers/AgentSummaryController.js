@@ -41,6 +41,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         name: '',
                         slotState: null,
                         LastReservedTime: 0,
+                        LastReservedTimeT: 0,
                         other: null
                     };
 
@@ -80,7 +81,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                             }
                         }
 
-
+                        profile.LastReservedTimeT = reservedDate;
                         if (reservedDate == "") {
                             profile.LastReservedTime = null;
                         } else {
