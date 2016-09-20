@@ -69,6 +69,7 @@
     "ng-csv": "^0.3.6",
     "flip": "^1.1.1",
     "angular-drag-and-drop-lists": "^1.4.0",
-    "jsPlumb": "jsplumb#^2.1.7"
+    "jsPlumb": "jsplumb#^2.1.7",
+    "angular-timeago": "^0.4.3"
   }
 }
