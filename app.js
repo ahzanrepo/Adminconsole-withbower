@@ -1,5 +1,5 @@
 /**
- * Created by Damith on 5/27/2016.
+ * Created by Veery Team on 5/27/2016.
  */
 
 
@@ -20,7 +20,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker', 'ui.bootstrap.accordion'
+    'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker', 'ui.bootstrap.accordion','yaru22.angular-timeago'
 ]);
 
 
