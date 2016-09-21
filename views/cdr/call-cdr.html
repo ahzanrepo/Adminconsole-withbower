@@ -5,6 +5,15 @@
         </div>
     </div>
 
+    <div class="videogular-container audio">
+        <videogular vg-auto-play="true" vg-player-ready="onPlayerReady($API)">
+            <vg-media vg-src="config.sources"
+                      vg-tracks="config.tracks"
+                      vg-native-controls="true" vg-type="audio">
+            </vg-media>
+        </videogular>
+    </div>
+
 
     <div class="col-md-12 col-sm-12 col-xs-12 animated fadeIn">
         <div class="row">
@@ -41,90 +50,68 @@
                         </div>
 
                     </div>
-                    <div class="clearfix"></div>
+
                 </div>
 
-
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                    <label>Start Date</label>
-                    <input type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()"
-                           name="startDate"
-                           datepicker>
-                </div>
-
-                <div class="col-md-1 col-sm-1 col-xs-6">
-                    <label>HH:MM</label>
-                    <input type="text" class="form-control" ng-model="startTimeNow" name="startTimeNow">
-
-                    <!--<time-picker id="ee" name="ii" ng-model="startTime"></time-picker>-->
-                </div>
-
-                <div class="col-md-1 col-sm-1 col-xs-6"></div>
-
-
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                    <label>End Date</label>
-                    <input type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
-                           datepicker>
-                </div>
-                <div class="col-md-1 col-sm-1 col-xs-6">
-                    <label>HH:MM</label>
-                    <input type="text" class="form-control" ng-model="endTimeNow" name="endTimeNow">
-                    <!--<time-picker id="ww" name="oo" ng-model="endTimeSS"></time-picker>-->
-                </div>
-                <div class="col-md-1 col-sm-1 col-xs-6"></div>
-                <div class="col-md-2 col-sm-2 col-xs-6">
-                    <div class="dataTables_length" id="datatable-responsive_length">
-                        <label>Show
-                            <select name="datatable-responsive_length" ng-model="recLimit"
-                                    aria-controls="datatable-responsive" class="form-control select-limit">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select> </label>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                    <div class="x_content btn-wrap-header">
-                        <button type="button" class="btn btn-success" ng-click="getProcessedCDR(0, true)"
-                                ng-disabled="!dateValid || !enableSearchButton">
-                            Search
-                        </button>
-                        <button type="button" class="btn btn-primary">Reset</button>
-                    </div>
-                </div>
                 <div class="clearfix"></div>
 
-                <!--<div class="col-md-2 col-sm-2 col-xs-6">
-                    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
-                        <label>HH</label>
-                        <input type="text" class="form-control"
-                               ng-model="startHr" ng-change="onChangeHr('START')"
-                               name="startHr" maxlength="2" ng-init="startHr='00'"/>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
-                        <label>MM</label>
-                        <input type="text" class="form-control"
-                               ng-model="startMin"
-                               name="startMin" maxlength="2" ng-init="startMin='00'" ng-change="onChangeMin('START')"/>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <label>Start Date</label>
+                        <input type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()"
+                               name="startDate"
+                               datepicker>
                     </div>
 
-                </div>-->
 
-                <div class="col-md-1 col-sm-1 col-xs-1"></div>
-                <!--<div class="col-md-1 col-sm-1 col-xs-3 form-group">
-                    <label>HH</label>
-                    <input type="text" class="form-control"
-                           ng-model="endHr"
-                           name="endHr" maxlength="2" ng-init="endHr='00'" ng-change="onChangeHr('END')"/>
+
+                    <fieldset class="col-md-2 col-sm-2 col-xs-6" ng-disabled="!timeEnabledStatus">
+                        <label>Start Time</label>
+                        <div class="bootstrap-timepicker">
+                            <input id="timepickerSt" type="text" class="form-control" ng-model="startTimeNow">
+                            <i class="icon-time"></i>
+                        </div>
+                    </fieldset>
+
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <label>End Date</label>
+                        <input type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
+                               datepicker>
+                    </div>
+                    <fieldset class="col-md-2 col-sm-2 col-xs-6" ng-disabled="!timeEnabledStatus">
+                        <label>End Time</label>
+                        <div class="bootstrap-timepicker">
+                            <input id="timepickerEt" type="text" class="form-control" ng-model="endTimeNow">
+                            <i class="icon-time"></i>
+                        </div>
+                    </fieldset>
+                    <div class="col-md-1 col-sm-1 col-xs-6">
+                        <div class="dataTables_length" id="datatable-responsive_length">
+                            <label>Show
+                                <select name="datatable-responsive_length" ng-model="recLimit"
+                                        aria-controls="datatable-responsive" class="form-control select-limit">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select> </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="col-md-1 col-sm-1 col-xs-1">
+                        </div>
+                        <div class="col-md-11 col-sm-11 col-xs-11">
+                            <div class="x_content btn-wrap-header">
+                                <button type="button" class="btn btn-primary" ng-click="changeTimeAvailability()">{{timeEnabled}}</button>
+                                <button type="button" class="btn btn-success" ng-click="getProcessedCDR(0, true)"
+                                        ng-disabled="!dateValid || !enableSearchButton">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="col-md-1 col-sm-1 col-xs-3 form-group">
-                    <label>MM</label>
-                    <input type="text" class="form-control"
-                           ng-model="endMin"
-                           name="endMin" maxlength="2" ng-init="endMin='00'" ng-change="onChangeMin('END')"/>
-                </div>-->
             </div>
         </div>
     </div>
@@ -259,23 +246,9 @@
                             <span ng-show="cdr.ShowButton">
 
                                 <a href="">
-                                    <i class="fa fa-stop"
-                                       ng-if="cdr.Uuid == currentPlayingFile && ((fileToPlay.progress > 0 && fileToPlay.progress < 1) || fileToPlay.remaining == 'Infinity')"
-                                       ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
-                                    fileToPlay.progress == 0 || fileToPlay.progress == 1) && fileToPlay.remaining != 'Infinity')),
-                                     (cdr.Uuid == currentPlayingFile && ((fileToPlay.progress > 0 && fileToPlay.progress < 1) || fileToPlay.remaining == 'Infinity')))"></i>
-                                </a>
-
-                                <a href="">
                                     <i class="fa fa-play"
-                                       ng-if="!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
-                                    fileToPlay.progress == 0 || fileToPlay.progress == 1) && fileToPlay.remaining != 'Infinity')"
-                                       ng-click="playStopFile(cdr.Uuid, (!currentPlayingFile || (cdr.Uuid != currentPlayingFile) || ((fileToPlay.progress == '' ||
-                                    fileToPlay.progress == 0 || fileToPlay.progress == 1) && fileToPlay.remaining != 'Infinity')),
-                                   (cdr.Uuid == currentPlayingFile && ((fileToPlay.progress > 0 && fileToPlay.progress < 1) || fileToPlay.remaining == 'Infinity')))"></i>
+                                       ng-click="playStopFile(cdr.Uuid)"></i>
                                 </a>
-
-
 
 
                                 <a class="fa fa-download" target="_self" href="{{DownloadFileUrl}}"
@@ -311,3 +284,19 @@
 
 
 </div>
+
+<script type="text/javascript">
+    $('#timepickerSt').timepicker({
+        template: false,
+        showInputs: false,
+        minuteStep: 5
+    });
+</script>
+
+<script type="text/javascript">
+    $('#timepickerEt').timepicker({
+        template: false,
+        showInputs: false,
+        minuteStep: 5
+    });
+</script>

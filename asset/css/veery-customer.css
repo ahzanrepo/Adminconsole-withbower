@@ -2883,3 +2883,12 @@ tags-input .tags.focused {
 .title-stats-gallery-active > .title-stats-gallery {
     background: #2ba89c;
 }
+
+/*video player*/
+.videogular-container {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    padding-right: 10px;
+}

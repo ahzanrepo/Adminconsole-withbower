@@ -6,8 +6,37 @@
 {
     var app = angular.module("veeryConsoleApp");
 
-    var cdrCtrl = function ($scope, $filter, $q, cdrApiHandler, ngAudio, loginService)
+    var cdrCtrl = function ($scope, $filter, $q, $sce, cdrApiHandler, ngAudio, loginService)
     {
+
+
+        $scope.config = {
+            preload: "auto",
+            tracks: [
+                {
+                    src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
+                    kind: "subtitles",
+                    srclang: "en",
+                    label: "English",
+                    default: ""
+                }
+            ],
+            theme: {
+                url: "bower_components/videogular-themes-default/videogular.css"
+            },
+            "analytics": {
+                "category": "Videogular",
+                "label": "Main",
+                "events": {
+                    "ready": true,
+                    "play": true,
+                    "pause": true,
+                    "stop": true,
+                    "complete": true,
+                    "progress": 10
+                }
+            }
+        };
 
         $scope.enableSearchButton = true;
 
@@ -23,8 +52,25 @@
             });
         };
 
-        $scope.startTimeNow = '00:00';
-        $scope.endTimeNow = '00:00';
+        $scope.startTimeNow = '12:00 AM';
+        $scope.endTimeNow = '12:00 AM';
+
+        $scope.timeEnabled = 'Date Only';
+        $scope.timeEnabledStatus = false;
+
+        $scope.changeTimeAvailability = function()
+        {
+            if($scope.timeEnabled === 'Date Only')
+            {
+                $scope.timeEnabled = 'Date & Time';
+                $scope.timeEnabledStatus = true;
+            }
+            else
+            {
+                $scope.timeEnabled = 'Date Only';
+                $scope.timeEnabledStatus = false;
+            }
+        };
 
 
         $scope.onDateChange = function ()
@@ -44,6 +90,8 @@
         $scope.hstep = 1;
         $scope.mstep = 15;
 
+        var videogularAPI = null;
+
 
         $scope.SetDownloadPath = function (uuid)
         {
@@ -56,33 +104,34 @@
 
         };
 
-        $scope.playStopFile = function (uuid, playState, stopState)
+        $scope.onPlayerReady = function(API)
         {
-            if (playState)
+            videogularAPI = API;
+
+        };
+
+        $scope.playStopFile = function (uuid)
+        {
+            if(videogularAPI)
             {
-
-                if ($scope.currentPlayingFile)
-                {
-                    $scope.fileToPlay.stop();
-                }
-                $scope.currentPlayingFile = uuid;
-
                 var decodedToken = loginService.getTokenDecode();
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant)
                 {
-                    $scope.fileToPlay = ngAudio.load('http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3');
+                    var fileToPlay = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
 
-                    $scope.fileToPlay.play();
+                    var arr = [
+                        {
+                            src: $sce.trustAsResourceUrl(fileToPlay),
+                            type: 'audio/mp3'
+                        }
+                    ];
+
+                    $scope.config.sources = arr;
+
+
+                    videogularAPI.play();
                 }
-
-
-            }
-            else if (stopState)
-            {
-                $scope.currentPlayingFile = null;
-
-                $scope.fileToPlay.stop();
             }
 
 
@@ -176,34 +225,24 @@
             try
             {
 
-                var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
-                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");
-
-                var startYear = startDateMoment.year().toString();
-                var startMonth = (startDateMoment.month() + 1).toString();
-                var startDay = startDateMoment.date().toString();
-
-                var endYear = endDateMoment.year().toString();
-                var endMonth = (endDateMoment.month() + 1).toString();
-                var endDay = endDateMoment.date().toString();
-
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 //var encodedTz = encodeURI(momentTz);
                 momentTz = momentTz.replace("+", "%2B");
 
-                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
-                var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTimeNow + ':59' + momentTz;
+                var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+                var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
 
-                if ($scope.startTimeNow === '00:00' && $scope.endTimeNow === '00:00')
+                var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+                var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+                if(!$scope.timeEnabledStatus)
                 {
-                    //use date only
-                    startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
-                    endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
+                    startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                    endDate = $scope.endDate + ' 23:59:59' + momentTz;
                 }
 
 
-                var lim = parseInt($scope.recLimit);
-                cdrApiHandler.getCDRForTimeRange(startTime, endTime, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
+                cdrApiHandler.getCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                     {
@@ -581,22 +620,34 @@
                 $scope.isPreviousDisabled = true;
 
 
-                var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
-                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");
+                /*var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
+                var endDateMoment = moment($scope.endDate, "YYYY-MM-DD");*/
 
-                var startYear = startDateMoment.year().toString();
+                /*var startYear = startDateMoment.year().toString();
                 var startMonth = (startDateMoment.month() + 1).toString();
                 var startDay = startDateMoment.date().toString();
 
                 var endYear = endDateMoment.year().toString();
                 var endMonth = (endDateMoment.month() + 1).toString();
-                var endDay = endDateMoment.date().toString();
+                var endDay = endDateMoment.date().toString();*/
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 //var encodedTz = encodeURI(momentTz);
                 momentTz = momentTz.replace("+", "%2B");
 
-                var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
+                var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+                var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
+
+                var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+                var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+                if(!$scope.timeEnabledStatus)
+                {
+                    startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                    endDate = $scope.endDate + ' 23:59:59' + momentTz;
+                }
+
+                /*var startTime = startYear + '-' + startMonth + '-' + startDay + ' ' + $scope.startTimeNow + ':00' + momentTz;
                 var endTime = endYear + '-' + endMonth + '-' + endDay + ' ' + $scope.endTimeNow + ':59' + momentTz;
 
                 if ($scope.startTimeNow === '00:00' && $scope.endTimeNow === '00:00')
@@ -604,12 +655,12 @@
                     //use date only
                     startTime = startYear + '-' + startMonth + '-' + startDay + ' 00:00:00' + momentTz;
                     endTime = endYear + '-' + endMonth + '-' + endDay + ' 23:59:59' + momentTz;
-                }
+                }*/
 
 
                 var lim = parseInt($scope.recLimit);
                 $scope.isTableLoading = 0;
-                cdrApiHandler.getCDRForTimeRange(startTime, endTime, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
+                cdrApiHandler.getCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                     {

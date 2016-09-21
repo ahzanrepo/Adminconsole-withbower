@@ -1,10 +1,3 @@
-/**
- * Created by dinusha on 6/15/2016.
- */
-/**
- * Created by dinusha on 5/28/2016.
- */
-
 (function () {
     var app = angular.module("veeryConsoleApp");
 
@@ -31,7 +24,6 @@
             startDay : moment().format("YYYY-MM-DD"),
             endDay : moment().format("YYYY-MM-DD")
         };
-
 
 
         $scope.callSummaryHrList = [];

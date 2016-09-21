@@ -70,6 +70,7 @@
     "flip": "^1.1.1",
     "angular-drag-and-drop-lists": "^1.4.0",
     "jsPlumb": "jsplumb#^2.1.7",
+    "bootstrap-timepicker": "^0.5.2",
     "angular-timeago": "^0.4.3"
   }
 }
