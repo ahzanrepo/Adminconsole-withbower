@@ -73,7 +73,84 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 		});
 
 	};
+
+	$scope.saveProfileForm = function()
+	{
+		var obj = {
+			ticket_form : $scope.currentTicketForm,
+			profile_form : $scope.currentProfileForm
+		};
+
+		if($scope.currentProfileForm || $scope.currentTicketForm)
+		{
+			//Update
+			ticketService.updateFormProfile(obj).then(function(resp)
+			{
+				if(resp && resp.IsSuccess)
+				{
+					$scope.showAlert("Operation Successful", "Form Profile Saved Successfully");
+
+				}
+				else
+				{
+					$scope.showError("Error updating profile", "Fail To Update Profile");
+				}
+
+			}).catch(function(err)
+			{
+				$scope.showError("Error updating profile", "Fail To Update Profile");
+
+			})
+		}
+		else
+		{
+			//Save
+
+			ticketService.saveFormProfile(obj).then(function(resp)
+			{
+				if(resp && resp.IsSuccess)
+				{
+					$scope.showAlert("Operation Successful", "Form Profile Saved Successfully");
+
+				}
+				else
+				{
+					$scope.showError("Error saving profile", "Fail To Save Profile");
+				}
+
+			}).catch(function(err)
+			{
+				$scope.showError("Error saving profile", "Fail To Save Profile");
+
+			})
+		}
+	};
+
+	var getFormProfileData = function()
+	{
+		ticketService.getFormProfile().then(function(resp)
+		{
+			if(resp && resp.Result)
+			{
+				if(resp.Result.profile_form)
+				{
+					$scope.currentProfileForm = resp.Result.profile_form._id;
+				}
+				if(resp.Result.ticket_form)
+				{
+					$scope.currentTicketForm = resp.Result.ticket_form._id;
+				}
+
+			}
+
+		}).catch(function(err)
+		{
+			$scope.showError("Error loading profile", "Fail To Load Profile");
+
+		})
+	};
 	$scope.LoadFormList();
+	getFormProfileData();
 
 	$scope.newField = {};
 	/*$scope.fields = [ {
