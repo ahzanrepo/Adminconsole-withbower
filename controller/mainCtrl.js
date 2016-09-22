@@ -86,6 +86,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         GoApplicationAccessManager: function () {
             $state.go('console.applicationAccessManager');
         },
+        goDynamicForm: function () {
+            $state.go('console.FormDesign');
+        },
         goAgentStatus: function () {
             $state.go('console.AgentStatus');
         },
@@ -147,6 +150,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goCallSummary: function () {
             $state.go('console.callsummary');
+        },
+        goAgentStatusEvt: function(){
+            $state.go('console.agentstatusevents');
         }
     };
 
