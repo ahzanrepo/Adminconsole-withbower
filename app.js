@@ -409,8 +409,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     navigation: "CDR"
                 }
             })
-
-
     }]);
 
 
