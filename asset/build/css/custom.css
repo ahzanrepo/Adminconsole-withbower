@@ -5362,3 +5362,12 @@ ul.notifications {
 }
 
 /** /Dropzone.js **/
+
+.product_price {
+    margin: 20px 0;
+    padding: 5px 10px;
+    background-color: #f7f7f7;
+    text-align: left;
+    border: 2px solid#f7f7f7;
+    border-radius: 10px;
+}

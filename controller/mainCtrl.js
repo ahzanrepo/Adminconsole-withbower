@@ -153,6 +153,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goAgentStatusEvt: function(){
             $state.go('console.agentstatusevents');
+        },
+        goTickerAgentDashboard: function(){
+            $state.go('console.agentTicketDashboard"');
         }
     };
 
