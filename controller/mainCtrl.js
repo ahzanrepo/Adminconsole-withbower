@@ -145,11 +145,25 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         goTranslations: function () {
             $state.go('console.translations');
         },
+        goTicketTrigger: function ()
+        {
+            $state.go('console.trigger');
+        },
         goTemplateCreater: function () {
             $state.go('console.templatecreater');
         },
+        goTriggerConfiguration: function () {
+            $state.go('console.trigger.triggerConfiguration');
+        },
+        goTagManager: function () {
+            $state.go('console.tagmanager');
+        },
         goCallSummary: function () {
             $state.go('console.callsummary');
+        },
+        goTicketSla: function ()
+        {
+            $state.go('console.sla');
         },
         goAgentStatusEvt: function(){
             $state.go('console.agentstatusevents');

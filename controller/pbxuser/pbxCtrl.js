@@ -46,6 +46,38 @@
 
         };
 
+        var loadPABXBasicConf = function () {
+            pbxUserApiHandler.getSIPUsers().then(function (data) {
+                $scope.sipUserList = data.Result;
+
+            }, function (err) {
+                $scope.showAlert('Error', 'error', 'Error loading user list');
+
+            });
+        };
+
+        loadPABXBasicConf();
+
+        $scope.onUserSelect = function () {
+
+            pbxUserApiHandler.getPABXUser($scope.currentUserUuid).then(function (data) {
+                if (data.Result) {
+                    $scope.showAlert('Warning', 'warn', 'User already added as a PABX user');
+                    $scope.allowAdd = false;
+                }
+                else {
+                    $scope.allowAdd = true;
+                    $scope.$emit('PABX_SetNewUserUuid', $scope.currentUserUuid);
+                }
+
+            }).catch(function (err) {
+                $scope.showAlert('Error', 'error', 'User validation failed');
+                $scope.allowAdd = false;
+
+            });
+
+        };
+
         //$scope.newUser = function()
         //{
         //
@@ -223,9 +255,18 @@
 
         //update code damtih
         $scope.onClickLoadPBXconfig = function () {
-            $("#pbxConfig").animate({
-                top: "0"
-            });
+
+            if($scope.allowAdd)
+            {
+                $("#pbxConfig").animate({
+                    top: "0"
+                });
+            }
+            else
+            {
+                $scope.showAlert('Warning', 'warn', 'User already added as a PABX user');
+            }
+
         };
 
         $scope.onClickPBXclose = function () {

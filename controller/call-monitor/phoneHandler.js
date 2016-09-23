@@ -216,8 +216,6 @@ function Initiate(loginData,onRegistrationCompleted,onCallDisconnected,onCallCon
     {
         SIPml.init(readyCallback, errorCallback);
     }
-
-
     onRegCompleted=onRegistrationCompleted;
     onDisconnection=onCallDisconnected;
     onCallConnect=onCallConnected;

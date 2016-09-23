@@ -55,6 +55,12 @@
             $scope.currentUserUuid = null;
         };
 
+        $rootScope.$on('PABX_SetNewUserUuid', function(event, args)
+        {
+            $scope.currentUserUuid = args;
+
+        });
+
         $scope.onUserSelect = function () {
             pbxUserApiHandler.getPABXUser($scope.currentUserUuid).then(function (data) {
                 if (data.Result) {
@@ -143,7 +149,7 @@
         };
 
 
-        loadPABXBasicConf();
+        //loadPABXBasicConf();
 
         //update code damtih
         $scope.onClickLoadPBXconfig = function () {

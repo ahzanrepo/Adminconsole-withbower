@@ -9,6 +9,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     //#
     $scope.isGrid=false;
     $scope.summaryText="Table";
+    $scope.isLoaded=false;
     $scope.refreshTime = 10000;
 
     $scope.pieoption = {
@@ -130,7 +131,19 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     });
 
 
+    var getAllRealTime = function () {
+        $scope.GetAllQueueStatistics();
+        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+    };
 
+    // getAllRealTime();
+    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+
+    $scope.$on("$destroy", function () {
+        if (getAllRealTimeTimer) {
+            $timeout.cancel(getAllRealTimeTimer);
+        }
+    });
 
 });
 
