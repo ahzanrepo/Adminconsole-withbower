@@ -465,6 +465,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "CDR"
                 }
+            }).state("console.agentTicketDashboard", {
+                url: "/agentTicketDashboard",
+                templateUrl: "views/dashboard/dashboardTicket.html",
+                controller: "agentStatusListCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
             })
 
 
