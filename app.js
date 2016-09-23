@@ -57,7 +57,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             }
         }).state('console.dashboard', {
             url: "/dashboard",
-            templateUrl: "views/dashboard/dashboard-1.html",
+            templateUrl: "views/dashboard/dashboardContactCenter.html",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"
