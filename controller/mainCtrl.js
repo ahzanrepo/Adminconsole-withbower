@@ -169,7 +169,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
             $state.go('console.agentstatusevents');
         },
         goTickerAgentDashboard: function(){
-            $state.go('console.agentTicketDashboard"');
+            $state.go('console.agentTicketDashboard');
         }
     };
 
