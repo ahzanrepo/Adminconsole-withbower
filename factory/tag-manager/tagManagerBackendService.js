@@ -13,7 +13,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: baseUrls.liteticket+"TagCategories",
+    url: baseUrls.ticketUrl+"TagCategories",
     headers: {
      'authorization':authToken
     }
@@ -27,7 +27,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: baseUrls.liteticket+"TagCategory"+tagCatID,
+    url: baseUrls.ticketUrl+"TagCategory/"+tagCatID,
     headers: {
      'authorization':authToken
     }
@@ -41,7 +41,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: baseUrls.liteticket+"Tag/"+tagID,
+    url: baseUrls.ticketUrl+"Tag/"+tagID,
     headers: {
      'authorization':authToken
     }
@@ -55,7 +55,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: baseUrls.liteticket+"Tags",
+    url: baseUrls.ticketUrl+"Tags",
     headers: {
      'authorization':authToken
     }
@@ -70,7 +70,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
 
    return $http({
     method: 'POST',
-    url: baseUrls.liteticket+"Tag/"+tagID,
+    url: baseUrls.ticketUrl+"Tag/"+tagID,
     headers: {
      'authorization':authToken
     },
@@ -87,7 +87,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
 
    return $http({
     method: 'PUT',
-    url: baseUrls.liteticket+"TagCategory/"+tagCatID+"/Tag",
+    url: baseUrls.ticketUrl+"TagCategory/"+tagCatID+"/Tag",
     headers: {
      'authorization':authToken
     },
@@ -104,7 +104,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
 
    return $http({
     method: 'PUT',
-    url: baseUrls.liteticket+"Tag/"+tagID+"/AttachToCategory/"+tagCatID,
+    url: baseUrls.ticketUrl+"Tag/"+tagID+"/AttachToCategory/"+tagCatID,
     headers: {
      'authorization':authToken
     }
@@ -119,7 +119,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: baseUrls.liteticket+"/Tag/"+childID+"/DetachFrom/"+parentID,
+    url: baseUrls.ticketUrl+"/Tag/"+childID+"/DetachFrom/"+parentID,
     headers: {
      'authorization':authToken
     }
@@ -133,7 +133,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: baseUrls.liteticket+"Tag/"+childID+"/DetachFromCategory/"+parentID,
+    url: baseUrls.ticketUrl+"Tag/"+childID+"/DetachFromCategory/"+parentID,
     headers: {
      'authorization':authToken
     }
@@ -148,7 +148,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
 
    return $http({
     method: 'PUT',
-    url: baseUrls.liteticket+"Tag/"+childTagID+"/AttachToTag/"+parentTagID,
+    url: baseUrls.ticketUrl+"Tag/"+childTagID+"/AttachToTag/"+parentTagID,
     headers: {
      'authorization':authToken
     }
@@ -163,7 +163,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: baseUrls.liteticket+"Tag/"+tagID,
+    url: baseUrls.ticketUrl+"Tag/"+tagID,
     headers: {
      'authorization':authToken
     }
@@ -177,7 +177,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: baseUrls.liteticket+"TagCategory/"+tagCatID,
+    url: baseUrls.ticketUrl+"TagCategory/"+tagCatID,
     headers: {
      'authorization':authToken
     }
@@ -191,7 +191,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'POST',
-    url: baseUrls.liteticket+"TagCategory",
+    url: baseUrls.ticketUrl+"TagCategory",
     headers: {
      'authorization':authToken
     },
@@ -206,7 +206,7 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
    var authToken = authService.GetToken();
    return $http({
     method: 'POST',
-    url: baseUrls.liteticket+"Tag",
+    url: baseUrls.ticketUrl+"Tag",
     headers: {
      'authorization':authToken
     },
