@@ -57,10 +57,10 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
     };
 
 
-    $scope.loadTagDetails = function (tagID,callback) {
-        if(tagID)
+    $scope.loadTagDetails = function (tagData,callback) {
+        if(tagData)
         {
-            tagBackendService.getTagDetails(tagID).then(function (response) {
+            tagBackendService.getTagDetails(tagData._id).then(function (response) {
 
                 if(!response.data.IsSuccess)
                 {
