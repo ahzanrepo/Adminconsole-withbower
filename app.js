@@ -431,7 +431,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 controller: "tagcontroller2",
                 data: {
                     requireLogin: true,
-                    navigation: "TEMPLATEMAKER"
+                    navigation: "TAGMANAGER"
                 }
             }).state('console.callsummary', {
                 url: "/callsummary",
