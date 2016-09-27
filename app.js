@@ -20,7 +20,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago'
+    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
+    'ui.bootstrap.pagination'
 ]);
 
 
@@ -477,6 +478,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 url: "/ticketSummary",
                 templateUrl: "views/ticket-reports/ticketSummary.html",
                 controller: "ticketSummaryCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+            }).state("console.ticketDetailReport", {
+                url: "/ticketDetailReport",
+                templateUrl: "views/ticket-reports/ticketDetailReport.html",
+                controller: "ticketDetailReportCtrl",
                 data: {
                     requireLogin: true,
                     navigation: "CDR"

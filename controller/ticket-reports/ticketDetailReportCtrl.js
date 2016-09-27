@@ -18,17 +18,29 @@
 
         $scope.moment = moment;
 
+        $scope.pagination = {
+            currentPage: 1,
+            maxSize: 5,
+            totalItems: 64
+        };
+
+        $scope.recLimit = '10';
+
 
         $scope.obj = {
             startDay : moment().format("YYYY-MM-DD"),
             endDay : moment().format("YYYY-MM-DD")
         };
 
-        $scope.summaryDetails = {
-
-        };
+        $scope.ticketList = [];
+        $scope.extUserList = [];
 
         $scope.tagList = [];
+
+        $scope.pageChanged = function()
+        {
+            $scope.getTicketSummary();
+        };
 
 
         var isEmpty = function (map) {
@@ -38,6 +50,40 @@
                 }
             }
             return true;
+        };
+
+        var getExternalUserList = function()
+        {
+
+            ticketReportsService.getExternalUsers().then(function (extUserList)
+            {
+                if(extUserList && extUserList.Result && extUserList.Result.length > 0)
+                {
+                    $scope.extUserList = extUserList.Result;
+                }
+
+
+            }).catch(function(err)
+            {
+
+            });
+        };
+
+        var getUserList = function()
+        {
+
+            ticketReportsService.getUsers().then(function (userList)
+            {
+                if(userList && userList.Result && userList.Result.length > 0)
+                {
+                    $scope.userList = userList.Result;
+                }
+
+
+            }).catch(function(err)
+            {
+
+            });
         };
 
 
@@ -111,6 +157,8 @@
 
 
         populateToTagList();
+        getExternalUserList();
+        getUserList();
 
 
         $scope.getTicketSummary = function ()
@@ -132,11 +180,14 @@
                 {
                     tagName = $scope.selectedTag.name;
                 }
-                ticketReportsService.getTicketSummary(startDate, endDate, tagName, $scope.channelType, $scope.priorityType, $scope.ticketType).then(function (ticketSummaryResp)
+
+                var limit = parseInt($scope.recLimit);
+                var skip = ($scope.pagination.currentPage - 1)*limit;
+                ticketReportsService.getTicketDetails(startDate, endDate, skip, limit).then(function (ticketSummaryResp)
                 {
-                    if(ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0 && ticketSummaryResp.Result[0].statistics)
+                    if(ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0)
                     {
-                        $scope.summaryDetails = ticketSummaryResp.Result[0].statistics;
+                        $scope.ticketList = ticketSummaryResp.Result;
                         $scope.obj.isTableLoading = 1;
 
                     }

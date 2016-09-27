@@ -1,6 +1,6 @@
 (function() {
 
-    var ticketReportsService = function($http, authService)
+    var ticketReportsService = function($http, authService, baseUrls)
     {
         var getTicketSummary = function(sdate, edate, tag, channel, priority, type)
         {
@@ -48,6 +48,61 @@
             })
         };
 
+        var getTicketDetails = function(sdate, edate, skipCount, limitCount)
+        {
+            var authToken = authService.GetToken();
+            var url = 'http://localhost:3636/DVP/API/1.0.0.0/TicketDetailReport/data/' + skipCount + '/' + limitCount + '?from=' + sdate + '&to=' + edate;
+
+            return $http({
+                method: 'POST',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getExternalUsers = function()
+        {
+
+            var authToken = authService.GetToken();
+            var url = baseUrls.UserServiceBaseUrl + 'ExternalUsers';
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            });
+
+        };
+
+        var getUsers = function()
+        {
+
+            var authToken = authService.GetToken();
+            var url = baseUrls.UserServiceBaseUrl + 'Users';
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            });
+
+        };
+
         var getTagList = function()
         {
             var authToken = authService.GetToken();
@@ -84,8 +139,11 @@
 
         return {
             getTicketSummary: getTicketSummary,
+            getTicketDetails: getTicketDetails,
             getCategoryList: getCategoryList,
-            getTagList: getTagList
+            getTagList: getTagList,
+            getExternalUsers: getExternalUsers,
+            getUsers: getUsers
         };
     };
 
