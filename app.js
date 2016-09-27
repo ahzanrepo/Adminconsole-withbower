@@ -473,6 +473,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                     requireLogin: true,
                     navigation: "CDR"
                 }
+            }).state("console.ticketSummary", {
+                url: "/ticketSummary",
+                templateUrl: "views/ticket-reports/ticketSummary.html",
+                controller: "ticketSummaryCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
             })
 
 
