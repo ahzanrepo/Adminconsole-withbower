@@ -29,6 +29,7 @@
                     <label>Requester</label>
                     <select name="requesterList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
                             ng-model="selectedExtUser" ng-model-options="{trackBy: '$value'}">
+                        <option value=""></option>
                         <option ng-repeat="extUsr in extUserList" value="{{extUsr._id}}">
                             {{extUsr.name}}
                         </option>
@@ -39,6 +40,7 @@
                     <label>Assignee</label>
                     <select name="assigneeList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
                             ng-model="selectedAssignee" ng-model-options="{trackBy: '$value'}">
+                        <option value=""></option>
                         <option ng-repeat="usr in userList" value="{{usr._id}}">
                             {{usr.name}}
                         </option>
@@ -49,6 +51,7 @@
                     <label>Submitter</label>
                     <select name="submitterList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
                             ng-model="selectedSubmitter" ng-model-options="{trackBy: '$value'}">
+                        <option value=""></option>
                         <option ng-repeat="usr in userList" value="{{usr._id}}">
                             {{usr.name}}
                         </option>
@@ -156,7 +159,7 @@
 
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="x_content btn-wrap-header">
-                        <button type="button" class="btn btn-success" ng-click="getTicketSummary()">
+                        <button type="button" class="btn btn-success" ng-click="searchWithNewFilter()">
                             Search
                         </button>
                     </div>
@@ -243,14 +246,14 @@
                                 ng-repeat="ticket in ticketList">
                                 <td>{{ticket.reference}}</td>
                                 <td>{{ticket.subject}}</td>
-                                <td>{{ticket.QueuedCallsCount}}</td>
-                                <td>{{ticket.AbandonPercentage}}</td>
-                                <td>{{ticket.DropPercentage}}</td>
-                                <td>{{ticket.HoldAverage}}</td>
-                                <td>{{ticket.IvrAverage}}</td>
-                                <td>{{ticket.RingAverage}}</td>
-                                <td>{{ticket.TalkAverage}}</td>
-                                <td>{{ticket.AnswerPercentage}}</td>
+                                <td>{{ticket.assignee ? ticket.assignee.name : ''}}</td>
+                                <td>{{ticket.submitter ? ticket.submitter.name : ''}}</td>
+                                <td>{{ticket.requester ? ticket.requester.name : ''}}</td>
+                                <td>{{ticket.channel}}</td>
+                                <td>{{ticket.status}}</td>
+                                <td>{{ticket.priority}}</td>
+                                <td>{{ticket.type}}</td>
+                                <td>{{ticket.ticket_matrix ? ticket.ticket_matrix.sla_violated : false}}</td>
                             </tbody>
                         </table>
                     </div>
@@ -260,7 +263,6 @@
 
         <div class="col-md-12 col-sm-12 col-xs-12">
             <ul uib-pagination total-items="pagination.totalItems" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="pageChanged()"></ul>
-            <pre>Page: {{currentPage}} / {{numPages}}</pre>
         </div>
 
     </div>
