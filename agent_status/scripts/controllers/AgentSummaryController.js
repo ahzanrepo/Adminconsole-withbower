@@ -37,7 +37,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             $scope.profile = [];
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
-                    var profile = {
+                    /*var profile = {
                         name: '',
                         slotState: null,
                         LastReservedTime: 0,
@@ -45,39 +45,87 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         other: null
                     };
 
-                    profile.name = response[i].ResourceName;
-                    if (response[i].ConcurrencyInfo.length > 0 &&
-                        response[i].ConcurrencyInfo[0].SlotInfo.length > 0) {
+                    profile.name = response[i].ResourceName;*/
+                    if (response[i].ConcurrencyInfo.length > 0) {
 
-                        // is user state Reason
-                        var resonseStatus = null,
-                            resonseAvailability = null;
-                        if (response[i].Status.Reason && response[i].Status.State) {
-                            resonseAvailability = response[i].Status.State;
-                            resonseStatus = response[i].Status.Reason;
-                        }
-                        if (response[i].ConcurrencyInfo[0].IsRejectCountExceeded) {
-                            resonseAvailability = "NotAvailable";
-                            resonseStatus = "Suspended";
-                        }
+                        for(var j = 0; j < response[i].ConcurrencyInfo.length; j++){
+                            var resourceTask = response[i].ConcurrencyInfo[j].HandlingType;
+
+                            var profile = {
+                                name: '',
+                                slotInfo:[]
+                            };
+
+                            profile.name = response[i].ResourceName;
+
+                            if(response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
+                                for (var k = 0; k < response[i].ConcurrencyInfo[j].SlotInfo.length; k++) {
+                                    var resonseStatus = null,
+                                        resonseAvailability = null;
+                                    if (response[i].Status.Reason && response[i].Status.State) {
+                                        resonseAvailability = response[i].Status.State;
+                                        resonseStatus = response[i].Status.Reason;
+                                    }
+                                    if (response[i].ConcurrencyInfo[j].IsRejectCountExceeded) {
+                                        resonseAvailability = "NotAvailable";
+                                        resonseStatus = "Suspended";
+                                    }
 
 
-                        var reservedDate = response[i].ConcurrencyInfo[0].
-                            SlotInfo[0].StateChangeTime;
+                                    var reservedDate = response[i].ConcurrencyInfo[j].
+                                        SlotInfo[k].StateChangeTime;
 
-                        if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Reject";
-                        } else if (resonseAvailability == "NotAvailable") {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Break";
-                            reservedDate = response[i].Status.StateChangeTime;
-                        } else {
-                            profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
+                                    var slotInfo = {slotState: null, LastReservedTime: 0, other: null};
 
-                            if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
+                                    if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
+                                        slotInfo.slotState = resonseStatus;
+                                        slotInfo.other = "Reject";
+                                    } else if (resonseAvailability == "NotAvailable") {
+                                        slotInfo.slotState = resonseStatus;
+                                        slotInfo.other = "Break";
+                                        reservedDate = response[i].Status.StateChangeTime;
+                                    } else {
+                                        slotInfo.slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
 
-                                reservedDate = response[i].Status.StateChangeTime;
+                                        if (response[i].ConcurrencyInfo[j].SlotInfo[k].State == "Available") {
+                                            var slotStateTime = moment(reservedDate);
+                                            var resourceStateTime = moment(response[i].Status.StateChangeTime);
+                                            if(slotStateTime.isBefore(resourceStateTime)){
+                                                reservedDate = response[i].Status.StateChangeTime;
+                                            }
+                                        }
+                                    }
+                                    if (reservedDate == "") {
+                                        slotInfo.LastReservedTime = null;
+                                    } else {
+                                        slotInfo.LastReservedTime = moment(reservedDate).format("h:mm a");
+                                    }
+
+                                    profile.slotInfo.push(slotInfo);
+                                    if (slotInfo.slotState == 'Reserved') {
+                                        $scope.ReservedProfile[resourceTask].push(profile);
+                                    }
+                                    else if (slotInfo.slotState == 'Available') {
+                                        $scope.AvailableProfile[resourceTask].push(profile);
+                                    }
+                                    else if (slotInfo.slotState == 'Connected') {
+                                        $scope.ConnectedProfile[resourceTask].push(profile);
+                                    } else if (slotInfo.slotState == 'AfterWork') {
+                                        $scope.AfterWorkProfile[resourceTask].push(profile);
+                                    } else if (slotInfo.slotState == 'Outbound') {
+                                        $scope.OutboundProfile[resourceTask].push(profile);
+                                    } else if (slotInfo.slotState == 'Suspended') {
+                                        $scope.SuspendedProfile[resourceTask].push(profile);
+                                    } else if (slotInfo.slotState == 'Break' ||slotInfo.slotState == 'MeetingBreak' ||
+                                        slotInfo.slotState == 'MealBreak' || slotInfo.slotState == 'TrainingBreak' ||
+                                        slotInfo.slotState == 'TeaBreak' || slotInfo.slotState == 'OfficialBreak' ||
+                                        slotInfo.slotState == 'AUXBreak' ||
+                                        slotInfo.slotState == 'ProcessRelatedBreak') {
+                                        $scope.BreakProfile[resourceTask].push(profile);
+                                    } else {
+                                        $scope.profile[resourceTask].push(profile);
+                                    }
+                                }
                             }
                         }
 
