@@ -96,7 +96,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 data1 = response.map(function (c, index) {
                     var item = [];
                     item[0] = c[1];
-                    item[1] = c[0];
+                    item[1] = c[0]?c[0]:0;
                     return item;
                 });
                 bindDataToChart();
@@ -113,7 +113,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 data2 = response.map(function (c, index) {
                     var item = [];
                     item[0] = c[1];
-                    item[1] = c[0];
+                    item[1] = c[0]?c[0]:0;
                     return item;
                 });
                 bindDataToChart();
@@ -130,7 +130,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketDif[0].data = response.map(function (c, index) {
                     var item = [];
                     item[0] = c[1];
-                    item[1] = c[0];
+                    item[1] = c[0]?c[0]:0;
                     return item;
                 });
 
@@ -159,6 +159,22 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             }
         }, function (err) {
             $scope.newTicket = 0;
+            console.log(err);
+        });
+    };
+    $scope.getNewTicketCount();
+
+    $scope.totalTicket = 0;
+    $scope.getNewTicketCount = function () {
+        dashboardService.GetTotalTicketCount("NEWTICKET").then(function (response) {
+            if (response) {
+                $scope.totalTicket = response;
+            }
+            else {
+                $scope.totalTicket = 0;
+            }
+        }, function (err) {
+            $scope.totalTicket = 0;
             console.log(err);
         });
     };
@@ -303,7 +319,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.getTicketResolutionTime = function () {
         dashboardService.GetTotalTicketAvg("TICKETRESOLUTION").then(function (response) {
             if (response) {
-                $scope.ticketResolutionTime = response.toFixed(2);
+                $scope.ticketResolutionTime = response;
             }
             else {
                 $scope.ticketResolutionTime = 0;
@@ -319,7 +335,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.getAverageResponseTime = function () {
         dashboardService.GetTotalTicketAvg("NEWTICKET").then(function (response) {
             if (response) {
-                $scope.averageResponseTime = response.toFixed(2);
+                $scope.averageResponseTime =  response;
             }
             else {
                 $scope.averageResponseTime = 0;
@@ -338,7 +354,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
 
     $scope.reopenPercentage = 0;
     var calculateReopenPercentage = function () {
-        $scope.reopenPercentage = (($scope.reopenTicket / $scope.newTicket) * 100).toFixed(2);
+        $scope.reopenPercentage = (($scope.reopenTicket / $scope.totalTicket) * 100).toFixed(2);
     };
 
 
