@@ -176,6 +176,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goTicketDetailReport: function(){
             $state.go('console.ticketDetailReport');
+        },
+        goTimeSheet:function(){
+            $state.go('console.timeSheet');
         }
     };
 

@@ -21,7 +21,7 @@
         $scope.pagination = {
             currentPage: 1,
             maxSize: 5,
-            totalItems: 64
+            totalItems: 0
         };
 
         $scope.recLimit = '10';
@@ -39,6 +39,12 @@
 
         $scope.pageChanged = function()
         {
+            $scope.getTicketSummary();
+        };
+
+        $scope.searchWithNewFilter = function()
+        {
+            $scope.FilterData = null;
             $scope.getTicketSummary();
         };
 
@@ -164,16 +170,17 @@
         $scope.getTicketSummary = function ()
         {
             $scope.obj.isTableLoading = 0;
-            var momentTz = moment.parseZone(new Date()).format('Z');
-            momentTz = momentTz.replace("+", "%2B");
 
-            var startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
-            var tempEndDate = $scope.obj.endDay;
-
-            var endDate = moment(tempEndDate).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00' + momentTz;
-
-            try
+            if(!$scope.FilterData)
             {
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                momentTz = momentTz.replace("+", "%2B");
+
+                var startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
+                var tempEndDate = $scope.obj.endDay;
+
+                var endDate = moment(tempEndDate).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00' + momentTz;
+
                 var tagName = null;
 
                 if($scope.selectedTag)
@@ -182,20 +189,62 @@
                 }
 
                 var limit = parseInt($scope.recLimit);
-                var skip = ($scope.pagination.currentPage - 1)*limit;
-                ticketReportsService.getTicketDetails(startDate, endDate, skip, limit).then(function (ticketSummaryResp)
-                {
-                    if(ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0)
-                    {
-                        $scope.ticketList = ticketSummaryResp.Result;
-                        $scope.obj.isTableLoading = 1;
 
-                    }
-                    else
+                $scope.FilterData = {
+                    sdate: startDate,
+                    edate: endDate,
+                    limitCount: limit,
+                    skipCount: 0,
+                    requester: $scope.selectedExtUser,
+                    assignee: $scope.selectedAssignee,
+                    submitter: $scope.selectedSubmitter,
+                    tag: tagName,
+                    channel: $scope.channelType,
+                    priority: $scope.priorityType,
+                    type: $scope.ticketType,
+                    status: $scope.ticketStatus,
+                    slaViolated: $scope.slaStatus
+
+                }
+            }
+            else
+            {
+                $scope.FilterData.skipCount = ($scope.pagination.currentPage - 1)*$scope.FilterData.limitCount;
+            }
+
+
+            try
+            {
+
+                ticketReportsService.getTicketDetailsCount($scope.FilterData).then(function (ticketCount)
+                {
+                    if(ticketCount && ticketCount.IsSuccess)
                     {
-                        $scope.obj.isTableLoading = -1;
-                        $scope.summaryDetails = {};
+                        $scope.pagination.totalItems = ticketCount.Result;
                     }
+
+                    ticketReportsService.getTicketDetails($scope.FilterData).then(function (ticketDetailsResp)
+                    {
+                        if(ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0)
+                        {
+                            $scope.ticketList = ticketDetailsResp.Result;
+                            $scope.obj.isTableLoading = 1;
+
+                        }
+                        else
+                        {
+                            $scope.obj.isTableLoading = -1;
+                            $scope.ticketList = [];
+                        }
+
+
+
+                    }).catch(function(err)
+                    {
+                        $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
+                        $scope.obj.isTableLoading = -1;
+                        $scope.ticketList = [];
+                    });
 
 
 
@@ -203,8 +252,11 @@
                 {
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                     $scope.obj.isTableLoading = -1;
-                    $scope.summaryDetails = {};
+                    $scope.ticketList = [];
                 });
+
+
+
 
 
             }
@@ -212,7 +264,7 @@
             {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                 $scope.obj.isTableLoading = -1;
-                $scope.summaryDetails = {};
+                $scope.ticketList = [];
             }
 
         };
