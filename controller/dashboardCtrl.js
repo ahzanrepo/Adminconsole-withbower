@@ -244,11 +244,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                     var profile = {
                                         name: '',
-                                        slotInfo:[{slotState: null,
-                                            LastReservedTime: 0,
-                                            other: null}]
+                                        slotInfo:[]
                                     };
-
                                     profile.name = response[i].ResourceName;
 
                                     if(response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
@@ -268,29 +265,36 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                             var reservedDate = response[i].ConcurrencyInfo[j].
                                                 SlotInfo[k].StateChangeTime;
 
+                                            var slotInfo = {slotState: null, LastReservedTime: 0, other: null};
+
                                             if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
-                                                profile.slotInfo[k].slotState = resonseStatus;
-                                                profile.slotInfo[k].other = "Reject";
+                                                slotInfo.slotState = resonseStatus;
+                                                slotInfo.other = "Reject";
                                             } else if (resonseAvailability == "NotAvailable") {
-                                                profile.slotInfo[k].slotState = resonseStatus;
-                                                profile.slotInfo[k].other = "Break";
+                                                slotInfo.slotState = resonseStatus;
+                                                slotInfo.other = "Break";
                                                 reservedDate = response[i].Status.StateChangeTime;
                                             } else {
-                                                profile.slotInfo[k].slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
+                                                slotInfo.slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
 
                                                 if (response[i].ConcurrencyInfo[j].SlotInfo[k].State == "Available") {
 
-                                                    reservedDate = response[i].Status.StateChangeTime;
+                                                    var slotStateTime = moment(reservedDate);
+                                                    var resourceStateTime = moment(response[i].Status.StateChangeTime);
+                                                    if(slotStateTime.isBefore(resourceStateTime)){
+                                                        reservedDate = response[i].Status.StateChangeTime;
+                                                    }
                                                 }
                                             }
 
 
                                             if (reservedDate == "") {
-                                                profile.slotInfo[k].LastReservedTime = null;
+                                                slotInfo.LastReservedTime = null;
                                             } else {
-                                                profile.slotInfo[k].LastReservedTime = moment(reservedDate).format("h:mm a");
+                                                slotInfo.LastReservedTime = moment(reservedDate).format("h:mm a");
                                             }
 
+                                            profile.slotInfo.push(slotInfo);
                                             $scope.ResourceTask[resourceTask].push(profile);
                                             //$scope.profile.push(profile);
                                         }
