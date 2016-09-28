@@ -1,10 +1,10 @@
 /**
- * Created by Damith on 5/28/2016.
+ * Created by Rajinda on 5/28/2016.
  */
 
 'use strict';
 
-mainApp.factory("dashboardService", function ($http, authService) {
+mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
     var getAllCalls = function () {
         var authToken = authService.GetToken();
@@ -268,6 +268,149 @@ mainApp.factory("dashboardService", function ($http, authService) {
 
     };
 
+
+    /*ticket*/
+    var getTicketCount = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/CurrentCount/"+status+"/total/total",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.status===200) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+    };
+
+    var getTotalTicketCount = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/"+status+"/total/total",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.status===200) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+    };
+
+    var getTotalTicketAvg = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageTime/"+status+"/total/total",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.status===200) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+    };
+
+    /*var getTotalTicketCount = function (status) {
+     return $http({
+     method: 'GET',
+     url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/SLAVIOLATED/total/total",
+     headers: {
+     'authorization': authService.GetToken()
+     }
+     }).then(function (response) {
+     if (response.status===200) {
+     return response.data;
+     } else {
+     return 0;
+     }
+     });
+
+     };
+
+     var getTotalTicketCount = function (status) {
+     return $http({
+     method: 'GET',
+     url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/FIRSTCALLRESOLUTION/total/total",
+     headers: {
+     'authorization': authService.GetToken()
+     }
+     }).then(function (response) {
+     if (response.status===200) {
+     return response.data;
+     } else {
+     return 0;
+     }
+     });
+
+     };*/
+
+    var getCreatedTicketSeries = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardGraph/NewTicket/30",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
+                return response.data[0].datapoints;
+            } else {
+
+                return {};
+            }
+        });
+
+    };
+
+    var getResolvedTicketSeries = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardGraph/ClosedTicket/30",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
+                return response.data[0].datapoints;
+            } else {
+
+                return {};
+            }
+        });
+
+    };
+
+    var getDeferenceResolvedTicketSeries = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardGraph/ClosedVsOpenTicket/30",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
+                return response.data[0].datapoints;
+            } else {
+
+                return {};
+            }
+        });
+
+    };
+
+    /*ticket*/
+
     return {
         GetAll: getAllCalls,
         GetAllQueued: getAllQueued,
@@ -281,7 +424,13 @@ mainApp.factory("dashboardService", function ($http, authService) {
         GetTotalBriged: getTotalBriged,
         GetTotalOnGoing: getTotalOnGoing,
         GetProfileDetails: getProfileDetails,
-        getCompanyTasks: getCompanyTasks
+        getCompanyTasks: getCompanyTasks,
+        GetTicketCount:getTicketCount,
+        GetCreatedTicketSeries:getCreatedTicketSeries,
+        GetResolvedTicketSeries:getResolvedTicketSeries,
+        GetDeferenceResolvedTicketSeries:getDeferenceResolvedTicketSeries,
+        GetTotalTicketCount:getTotalTicketCount,
+        GetTotalTicketAvg:getTotalTicketAvg
 
     }
 });

@@ -53,9 +53,23 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
         });
     };
 
-    var getProductivity = function () {
+    /*var getProductivity = function () {
 
         return $http.get(baseUrls.resourceServiceBaseUrl+ "Resources/Productivity",
+            {
+                headers:{authorization:authService.GetToken()}
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return {};
+                }
+            });
+    }; */
+
+    var getProductivity = function () {
+
+        return $http.get("http://localhost:8832/DVP/API/1.0.0.0/ResourceManager/Resources/Productivity",
             {
                 headers:{authorization:authService.GetToken()}
             }).then(function (response) {

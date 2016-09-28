@@ -20,7 +20,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree'
+    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
+    'ui.bootstrap.pagination'
 ]);
 
 
@@ -34,13 +35,14 @@ var baseUrls = {
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
-    'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
+    'fileServiceUrl': 'http://192.168.0.67:5645/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
-    'liteticket':'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/'
+    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
+    'dashBordUrl': 'http://dashboard.app.veery.cloud/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -57,7 +59,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             }
         }).state('console.dashboard', {
             url: "/dashboard",
-            templateUrl: "views/dashboard/dashboard-1.html",
+            templateUrl: "views/dashboard/dashboardContactCenter.html",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"
@@ -109,6 +111,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             data: {
                 requireLogin: true,
                 navigation: "RESOURCES"
+            }
+        }).state('console.FormDesign', {
+            url: "/FormDesign",
+            templateUrl: "dynamicForm/view/formDesign.html",
+            controller: "FormBuilderCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "DYNAMICFORM"
             }
         }).state('console.AgentProfileSummary', {
             url: "/AgentProfileSummary",
@@ -311,7 +321,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 controller: "queueSummaryController",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "QUEUE_SUMMARY"
                 }
             }).state('console.agentsummary', {
                 url: "/agentsummary",
@@ -423,7 +433,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 controller: "tagcontroller2",
                 data: {
                     requireLogin: true,
-                    navigation: "TEMPLATEMAKER"
+                    navigation: "TAGMANAGER"
                 }
             }).state('console.callsummary', {
                 url: "/callsummary",
@@ -448,6 +458,38 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 data: {
                     requireLogin: true,
                     navigation: "TICKET_SLA"
+                }
+            }).state("console.agentstatusevents", {
+                url: "/agent_status_list",
+                templateUrl: "views/cdr/agentStatusEventList.html",
+                controller: "agentStatusListCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+            }).state("console.agentTicketDashboard", {
+                url: "/agentTicketDashboard",
+                templateUrl: "views/dashboard/dashboardTicket.html",
+                controller: "agentStatusListCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+            }).state("console.ticketSummary", {
+                url: "/ticketSummary",
+                templateUrl: "views/ticket-reports/ticketSummary.html",
+                controller: "ticketSummaryCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+            }).state("console.ticketDetailReport", {
+                url: "/ticketDetailReport",
+                templateUrl: "views/ticket-reports/ticketDetailReport.html",
+                controller: "ticketDetailReportCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
                 }
             })
 

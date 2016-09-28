@@ -50,6 +50,8 @@
                                     <li ng-show="accessNavigation.RESOURCES"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goAgentProfileSummary()">Agent
                                         Summary</a></li>
+                                    <li ng-show="accessNavigation.DASHBOARD"><a
+                                            ng-click="clickDirective.goTickerAgentDashboard()">Ticket Dasshboard</a></li>
                                 </ul>
                             </li>
                             <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER || accessNavigation.TICKET_SLA">
@@ -88,11 +90,15 @@
                                         Maker
                                         Configuration</a>
                                     </li>
-                                    <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.TAGMANAGER"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goTagManager()">Tag Manager</a>
                                     </li>
                                     <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
                                                                                      ng-click="clickDirective.goTicketSla()">Ticket SLA</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.DYNAMICFORM"><a href="javascript:void(0);"
+                                                                                ng-click="clickDirective.goDynamicForm()">
+                                        Dynamic Form</a>
                                     </li>
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>
@@ -195,13 +201,24 @@
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goCallSummary()">Call Summary Report</a>
                                     </li>
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.QUEUE_SUMMARY"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goQueueSummary()">Queue
                                         Summary</a>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goAgentSummary()">Agent
                                         productivity Summary</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goAgentStatusEvt()">Agent
+                                        Status Events</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goTicketSummary()">Ticket Summary</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goTicketDetailReport()">Ticket Detail Report</a>
+                                    </li>
                                 </ul>
                             </li>
 

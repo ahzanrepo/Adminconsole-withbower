@@ -2883,3 +2883,30 @@ tags-input .tags.focused {
 .title-stats-gallery-active > .title-stats-gallery {
     background: #2ba89c;
 }
+
+/*video player*/
+.videogular-container {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    padding-right: 10px;
+}
+
+.progress.progress_sm-2 {
+    border-radius: 0;
+    margin-bottom: 7px;
+    height: 22px !important;
+    border-radius: 5px;
+}
+
+.progress.progress_sm-2 .progress-bar {
+    height: 22px !important;
+}
+
+.bg-green2 {
+    background: #26b99a  !important;
+    /* border: 1px solid #1ABB9C !important; */
+    color: #fff;
+
+}

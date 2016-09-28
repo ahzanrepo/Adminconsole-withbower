@@ -177,6 +177,9 @@
 <script type="text/javascript" src="bower_components/angular-base64/angular-base64.js"></script>
 <script type="text/javascript" src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
 
+<!-- timepicker -->
+<script type="text/javascript" src="bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+
 <!-- main app JS -->
 <script type="text/javascript" src="app.js"></script>
 
@@ -196,6 +199,7 @@
 <script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/abandonCallCdrCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
+<script type="text/javascript" src="controller/cdr/agentStatusListCtrl.js"></script>
 <script type="text/javascript" src="controller/sipuser/sipUserCtrl.js"></script>
 <script type="text/javascript" src="factory/userprofile/userProfileApiAccess.js"></script>
 <script type="text/javascript" src="controller/ringGroup/ringGroupCtrl.js"></script>
@@ -211,6 +215,10 @@
 <script type="text/javascript" src="auth/controller/loginCtrl.js"></script>
 <script type="text/javascript" src="auth/controller/signUpCtrl.js"></script>
 <script type="text/javascript" src="auth/controller/pricingCtrl.js"></script>
+
+<!-- agent dashboard -->
+<script type="text/javascript" src="controller/agentDashboardCtrl.js"></script>
+
 
 
 <!-- Agent productivity -->
@@ -375,6 +383,15 @@
 <script type="text/javascript" src="controller/agent-productivity-summary/agentSummaryController.js"></script>
 <script type="text/javascript" src="factory/agent-productivity-summery/agentSummaryBackendService.js"></script>
 
+
+<!-- ticket summary -->
+
+<script type="text/javascript" src="factory/ticket-reports/ticketReportsService.js"></script>
+<script type="text/javascript" src="controller/ticket-reports/ticketSummaryCtrl.js"></script>
+
+<!-- ticket detail report -->
+<script type="text/javascript" src="controller/ticket-reports/ticketDetailReportCtrl.js"></script>
+
 <!-- extension -->
 <script type="text/javascript" src="controller/extension/extenstionController.js"></script>
 <script type="text/javascript" src="factory/extension/extensionBackendService.js"></script>
@@ -442,7 +459,6 @@
 <script src="bower_components/d3/d3.min.js"></script>
 <script src="bower_components/ng-knob/dist/ng-knob.min.js"></script>
 <script src="bower_components/angular-rangeslider/angular.rangeSlider.js"></script>
-
 <!-- ticket trigger -->
 
 <script type="text/javascript" src="controller/ticket-trigger/triggerController.js"></script>
@@ -466,5 +482,11 @@
 <script type="text/javascript" src="controller/ticket-sla/slaConfigController.js"></script>
 <!--<script type="text/javascript" src="directives/ticket-trigger/ticketDynamicField.js"></script>
 <script type="text/javascript" src="directives/ticket-trigger/dynamicOperation.js"></script>-->
+<!-- dynamic Form -->
+<script type="text/javascript" src="dynamicForm/scripts/ngDynamicForms.js"></script>
+<script type="text/javascript" src="dynamicForm/scripts/services/ticketService.js"></script>
+
+<!-- timeago -->
+<script src="bower_components/angular-timeago/dist/angular-timeago.min.js"></script>
 
 </html>

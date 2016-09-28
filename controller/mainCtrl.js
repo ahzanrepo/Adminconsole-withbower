@@ -86,6 +86,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         GoApplicationAccessManager: function () {
             $state.go('console.applicationAccessManager');
         },
+        goDynamicForm: function () {
+            $state.go('console.FormDesign');
+        },
         goAgentStatus: function () {
             $state.go('console.AgentStatus');
         },
@@ -161,6 +164,18 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         goTicketSla: function ()
         {
             $state.go('console.sla');
+        },
+        goAgentStatusEvt: function(){
+            $state.go('console.agentstatusevents');
+        },
+        goTickerAgentDashboard: function(){
+            $state.go('console.agentTicketDashboard');
+        },
+        goTicketSummary: function(){
+            $state.go('console.ticketSummary');
+        },
+        goTicketDetailReport: function(){
+            $state.go('console.ticketDetailReport');
         }
     };
 

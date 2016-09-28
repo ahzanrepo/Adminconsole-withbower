@@ -57,10 +57,10 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
     };
 
 
-    $scope.loadTagDetails = function (tagID,callback) {
-        if(tagID)
+    $scope.loadTagDetails = function (tagData,callback) {
+        if(tagData)
         {
-            tagBackendService.getTagDetails(tagID).then(function (response) {
+            tagBackendService.getTagDetails(tagData._id).then(function (response) {
 
                 if(!response.data.IsSuccess)
                 {
@@ -186,7 +186,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
                         {
                             console.log("New Tag adding succeeded");
                             $scope.showAlert("Success","New Tag added successfully","success");
-                            newTagData._id=response.data.Result.newTagID;
+                            newTagData._id=response.data.Result._id;
                             $scope.try_adding_a_branch(parentTag,newTagData);
                         }
                     }
