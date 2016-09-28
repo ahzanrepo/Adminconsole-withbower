@@ -17,24 +17,24 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     });
     $scope.refreshTime = 1000;
 
-    $scope.ReservedProfile = [];
-    $scope.AvailableProfile = [];
-    $scope.ConnectedProfile = [];
-    $scope.AfterWorkProfile = [];
-    $scope.OutboundProfile = [];
-    $scope.SuspendedProfile = [];
-    $scope.BreakProfile = [];
-    $scope.profile = [];
+    $scope.ReservedProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+    $scope.AvailableProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+    $scope.ConnectedProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+    $scope.AfterWorkProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+    $scope.OutboundProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+    $scope.SuspendedProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+    $scope.BreakProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+    $scope.profile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
     $scope.getProfileDetails = function () {
         dashboardService.GetProfileDetails().then(function (response) {
-            $scope.ReservedProfile = [];
-            $scope.AvailableProfile = [];
-            $scope.ConnectedProfile = [];
-            $scope.AfterWorkProfile = [];
-            $scope.OutboundProfile = [];
-            $scope.SuspendedProfile = [];
-            $scope.BreakProfile = [];
-            $scope.profile = [];
+            $scope.ReservedProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+            $scope.AvailableProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+            $scope.ConnectedProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+            $scope.AfterWorkProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+            $scope.OutboundProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+            $scope.SuspendedProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+            $scope.BreakProfile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+            $scope.profile = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
                     /*var profile = {
@@ -129,36 +129,36 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                             }
                         }
 
-                        profile.LastReservedTimeT = reservedDate;
-                        if (reservedDate == "") {
-                            profile.LastReservedTime = null;
-                        } else {
-                            profile.LastReservedTime = moment(reservedDate).format("h:mm a");
-                        }
-
-                        if (profile.slotState == 'Reserved') {
-                            $scope.ReservedProfile.push(profile);
-                        }
-                        else if (profile.slotState == 'Available') {
-                            $scope.AvailableProfile.push(profile);
-                        }
-                        else if (profile.slotState == 'Connected') {
-                            $scope.ConnectedProfile.push(profile);
-                        } else if (profile.slotState == 'AfterWork') {
-                            $scope.AfterWorkProfile.push(profile);
-                        } else if (profile.slotState == 'Outbound') {
-                            $scope.OutboundProfile.push(profile);
-                        } else if (profile.slotState == 'Suspended') {
-                            $scope.SuspendedProfile.push(profile);
-                        } else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
-                            profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
-                            profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
-                            profile.slotState == 'AUXBreak' ||
-                            profile.slotState == 'ProcessRelatedBreak') {
-                            $scope.BreakProfile.push(profile);
-                        } else {
-                            $scope.profile.push(profile);
-                        }
+                        //profile.LastReservedTimeT = reservedDate;
+                        //if (reservedDate == "") {
+                        //    profile.LastReservedTime = null;
+                        //} else {
+                        //    profile.LastReservedTime = moment(reservedDate).format("h:mm a");
+                        //}
+                        //
+                        //if (profile.slotState == 'Reserved') {
+                        //    $scope.ReservedProfile.push(profile);
+                        //}
+                        //else if (profile.slotState == 'Available') {
+                        //    $scope.AvailableProfile.push(profile);
+                        //}
+                        //else if (profile.slotState == 'Connected') {
+                        //    $scope.ConnectedProfile.push(profile);
+                        //} else if (profile.slotState == 'AfterWork') {
+                        //    $scope.AfterWorkProfile.push(profile);
+                        //} else if (profile.slotState == 'Outbound') {
+                        //    $scope.OutboundProfile.push(profile);
+                        //} else if (profile.slotState == 'Suspended') {
+                        //    $scope.SuspendedProfile.push(profile);
+                        //} else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
+                        //    profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
+                        //    profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
+                        //    profile.slotState == 'AUXBreak' ||
+                        //    profile.slotState == 'ProcessRelatedBreak') {
+                        //    $scope.BreakProfile.push(profile);
+                        //} else {
+                        //    $scope.profile.push(profile);
+                        //}
 
                     }
                 }

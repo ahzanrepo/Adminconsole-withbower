@@ -85,114 +85,120 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         return {
             getDataAll: function () {
                 dashboardService.GetAll().then(function (response) {
-                    response.pop();
-                    var max = 0;
-                    $scope.dataSetAll[0].data = response.map(function (c, index) {
-                        var item = [];
-                        item[0] = c[1];
-                        item[1] = c[0];
+                    if(response && response.length >0) {
+                        response.pop();
+                        var max = 0;
+                        $scope.dataSetAll[0].data = response.map(function (c, index) {
+                            var item = [];
+                            item[0] = c[1];
+                            item[1] = c[0];
 
 
-                        if (c[0] > max) {
+                            if (c[0] > max) {
 
-                            max = c[0];
+                                max = c[0];
+                            }
+
+                            return item;
+                        });
+
+                        if (max == 0) {
+                            max = 1;
                         }
 
-                        return item;
-                    });
+                        if ($scope.chartymax.calls != Math.ceil(max)) {
 
-                    if (max == 0) {
-                        max = 1;
-                    }
-
-                    if ($scope.chartymax.calls != Math.ceil(max)) {
-
-                        $scope.chartymax.calls = Math.ceil(max);
-                        $scope.myChartOptions.yaxis.max = $scope.chartymax.calls;
+                            $scope.chartymax.calls = Math.ceil(max);
+                            $scope.myChartOptions.yaxis.max = $scope.chartymax.calls;
+                        }
                     }
                 });
             }, getAllQueued: function () {
                 dashboardService.GetAllQueued().then(function (response) {
-                    response.pop();
-                    var max = 0;
-                    $scope.dataSetQueued[0].data = response.map(function (c, index) {
-                        var item = [];
-                        item[0] = c[1];
-                        item[1] = c[0];
-                        if (c[0] > max) {
+                    if(response && response.length >0) {
+                        response.pop();
+                        var max = 0;
+                        $scope.dataSetQueued[0].data = response.map(function (c, index) {
+                            var item = [];
+                            item[0] = c[1];
+                            item[1] = c[0];
+                            if (c[0] > max) {
 
-                            max = c[0];
+                                max = c[0];
+                            }
+
+
+                            return item;
+                        });
+
+
+                        if (max == 0) {
+                            max = 1;
                         }
 
+                        if ($scope.chartymax.queued != Math.ceil(max)) {
 
-                        return item;
-                    });
-
-
-                    if (max == 0) {
-                        max = 1;
+                            $scope.chartymax.queued = Math.ceil(max);
+                            $scope.myChartOptions2.yaxis.max = $scope.chartymax.queued;
+                        }
                     }
-
-                    if ($scope.chartymax.queued != Math.ceil(max)) {
-
-                        $scope.chartymax.queued = Math.ceil(max);
-                        $scope.myChartOptions2.yaxis.max = $scope.chartymax.queued;
-                    }
-
                 });
             }, getAllBriged: function () {
                 dashboardService.GetAllBriged().then(function (response) {
-                    response.pop();
-                    var max = 0;
-                    $scope.dataSetBriged[0].data = response.map(function (c, index) {
-                        var item = [];
-                        item[0] = c[1];
-                        item[1] = c[0];
+                    if(response && response.length >0) {
+                        response.pop();
 
-                        if (c[0] > max) {
+                        var max = 0;
+                        $scope.dataSetBriged[0].data = response.map(function (c, index) {
+                            var item = [];
+                            item[0] = c[1];
+                            item[1] = c[0];
 
-                            max = c[0];
+                            if (c[0] > max) {
+
+                                max = c[0];
+                            }
+
+                            return item;
+                        });
+
+
+                        if (max == 0) {
+                            max = 1;
                         }
 
-                        return item;
-                    });
+                        if ($scope.chartymax.briged != Math.ceil(max)) {
 
-
-                    if (max == 0) {
-                        max = 1;
+                            $scope.chartymax.briged = Math.ceil(max);
+                            $scope.myChartOptions3.yaxis.max = $scope.chartymax.briged;
+                        }
                     }
-
-                    if ($scope.chartymax.briged != Math.ceil(max)) {
-
-                        $scope.chartymax.briged = Math.ceil(max);
-                        $scope.myChartOptions3.yaxis.max = $scope.chartymax.briged;
-                    }
-
                 });
             }, getAllChannels: function () {
                 dashboardService.GetAllChannels().then(function (response) {
-                    response.pop();
-                    var max = 0;
-                    $scope.dataSetChannels[0].data = response.map(function (c, index) {
-                        var item = [];
-                        item[0] = c[1];
-                        item[1] = c[0];
+                        if(response && response.length >0) {
+                            response.pop();
+                            var max = 0;
+                            $scope.dataSetChannels[0].data = response.map(function (c, index) {
+                                var item = [];
+                                item[0] = c[1];
+                                item[1] = c[0];
 
-                        if (c[0] > max) {
-                            max = c[0];
+                                if (c[0] > max) {
+                                    max = c[0];
+                                }
+                                return item;
+                            });
+
+                            if (max == 0) {
+                                max = 1;
+                            }
+
+                            if ($scope.chartymax.channels != Math.ceil(max)) {
+                                $scope.chartymax.channels = Math.ceil(max);
+                                $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
+                            }
                         }
-                        return item;
-                    });
-
-                    if (max == 0) {
-                        max = 1;
-                    }
-
-                    if ($scope.chartymax.channels != Math.ceil(max)) {
-                        $scope.chartymax.channels = Math.ceil(max);
-                        $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
-                    }
-
                 });
             },
             getTotalCall: function () {
