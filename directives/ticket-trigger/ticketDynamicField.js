@@ -74,7 +74,8 @@
                         case "tags":
                             return '<div><input type="text" class="form-control has-feedback-left" ng-model="ngModel.value" style="" id="actionValue" placeholder="Value"> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span></div>';
                         case "SLAViolated":
-                            return '<checkbox class="btn-success" ng-model="ngModel.value"></checkbox> <label> <small>Violated</small> </label>';
+                            return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" ng-model="ngModel.value"> <option>TRUE</option> <option>FALSE</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+                            //return '<checkbox class="btn-success" ng-model="ngModel.value"></checkbox> <label> <small>Violated</small> </label>';
                         default :
                             break;
                     }
