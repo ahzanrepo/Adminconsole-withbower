@@ -45,9 +45,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                             var profile = {
                                 name: '',
-                                slotInfo:[{slotState: null,
-                                    LastReservedTime: 0,
-                                    other: null}]
+                                slotInfo:[]
                             };
 
                             profile.name = response[i].ResourceName;
@@ -69,49 +67,54 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                                     var reservedDate = response[i].ConcurrencyInfo[j].
                                         SlotInfo[k].StateChangeTime;
 
+                                    var slotInfo = {slotState: null, LastReservedTime: 0, other: null};
+
                                     if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
-                                        profile.slotInfo[k].slotState = resonseStatus;
-                                        profile.slotInfo[k].other = "Reject";
+                                        slotInfo.slotState = resonseStatus;
+                                        slotInfo.other = "Reject";
                                     } else if (resonseAvailability == "NotAvailable") {
-                                        profile.slotInfo[k].slotState = resonseStatus;
-                                        profile.slotInfo[k].other = "Break";
+                                        slotInfo.slotState = resonseStatus;
+                                        slotInfo.other = "Break";
                                         reservedDate = response[i].Status.StateChangeTime;
                                     } else {
-                                        profile.slotInfo[k].slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
+                                        slotInfo.slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
 
                                         if (response[i].ConcurrencyInfo[j].SlotInfo[k].State == "Available") {
-
-                                            reservedDate = response[i].Status.StateChangeTime;
+                                            var slotStateTime = moment(reservedDate);
+                                            var resourceStateTime = moment(response[i].Status.StateChangeTime);
+                                            if(slotStateTime.isBefore(resourceStateTime)){
+                                                reservedDate = response[i].Status.StateChangeTime;
+                                            }
                                         }
                                     }
 
 
                                     if (reservedDate == "") {
-                                        profile.slotInfo[k].LastReservedTime = null;
+                                        slotInfo.LastReservedTime = null;
                                     } else {
-                                        profile.slotInfo[k].LastReservedTime = moment(reservedDate).format("h:mm a");
+                                        slotInfo.LastReservedTime = moment(reservedDate).format("h:mm a");
                                     }
 
-
-                                    if (profile.slotInfo[k].slotState == 'Reserved') {
+                                    profile.slotInfo.push(slotInfo);
+                                    if (slotInfo.slotState == 'Reserved') {
                                         $scope.ReservedProfile[resourceTask].push(profile);
                                     }
-                                    else if (profile.slotInfo[k].slotState == 'Available') {
+                                    else if (slotInfo.slotState == 'Available') {
                                         $scope.AvailableProfile[resourceTask].push(profile);
                                     }
-                                    else if (profile.slotInfo[k].slotState == 'Connected') {
+                                    else if (slotInfo.slotState == 'Connected') {
                                         $scope.ConnectedProfile[resourceTask].push(profile);
-                                    } else if (profile.slotInfo[k].slotState == 'AfterWork') {
+                                    } else if (slotInfo.slotState == 'AfterWork') {
                                         $scope.AfterWorkProfile[resourceTask].push(profile);
-                                    } else if (profile.slotInfo[k].slotState == 'Outbound') {
+                                    } else if (slotInfo.slotState == 'Outbound') {
                                         $scope.OutboundProfile[resourceTask].push(profile);
-                                    } else if (profile.slotInfo[k].slotState == 'Suspended') {
+                                    } else if (slotInfo.slotState == 'Suspended') {
                                         $scope.SuspendedProfile[resourceTask].push(profile);
-                                    } else if (profile.slotInfo[k].slotState == 'Break' ||profile.slotInfo[k].slotState == 'MeetingBreak' ||
-                                        profile.slotInfo[k].slotState == 'MealBreak' || profile.slotInfo[k].slotState == 'TrainingBreak' ||
-                                        profile.slotInfo[k].slotState == 'TeaBreak' || profile.slotInfo[k].slotState == 'OfficialBreak' ||
-                                        profile.slotInfo[k].slotState == 'AUXBreak' ||
-                                        profile.slotInfo[k].slotState == 'ProcessRelatedBreak') {
+                                    } else if (slotInfo.slotState == 'Break' ||slotInfo.slotState == 'MeetingBreak' ||
+                                        slotInfo.slotState == 'MealBreak' || slotInfo.slotState == 'TrainingBreak' ||
+                                        slotInfo.slotState == 'TeaBreak' || slotInfo.slotState == 'OfficialBreak' ||
+                                        slotInfo.slotState == 'AUXBreak' ||
+                                        slotInfo.slotState == 'ProcessRelatedBreak') {
                                         $scope.BreakProfile[resourceTask].push(profile);
                                     } else {
                                         $scope.profile[resourceTask].push(profile);
