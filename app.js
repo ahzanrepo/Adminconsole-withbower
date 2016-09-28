@@ -20,7 +20,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago'
+    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
+    'ui.bootstrap.pagination'
 ]);
 
 
@@ -40,7 +41,8 @@ var baseUrls = {
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
-    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/'
+    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
+    'dashBordUrl': 'http://dashboard.app.veery.cloud/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -431,7 +433,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 controller: "tagcontroller2",
                 data: {
                     requireLogin: true,
-                    navigation: "TEMPLATEMAKER"
+                    navigation: "TAGMANAGER"
                 }
             }).state('console.callsummary', {
                 url: "/callsummary",
@@ -469,6 +471,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 url: "/agentTicketDashboard",
                 templateUrl: "views/dashboard/dashboardTicket.html",
                 controller: "agentStatusListCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+            }).state("console.ticketSummary", {
+                url: "/ticketSummary",
+                templateUrl: "views/ticket-reports/ticketSummary.html",
+                controller: "ticketSummaryCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CDR"
+                }
+            }).state("console.ticketDetailReport", {
+                url: "/ticketDetailReport",
+                templateUrl: "views/ticket-reports/ticketDetailReport.html",
+                controller: "ticketDetailReportCtrl",
                 data: {
                     requireLogin: true,
                     navigation: "CDR"

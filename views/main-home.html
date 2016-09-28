@@ -90,7 +90,7 @@
                                         Maker
                                         Configuration</a>
                                     </li>
-                                    <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.TAGMANAGER"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goTagManager()">Tag Manager</a>
                                     </li>
                                     <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
@@ -208,9 +208,17 @@
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goAgentSummary()">Agent
                                         productivity Summary</a>
+                                    </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goAgentStatusEvt()">Agent
                                         Status Events</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goTicketSummary()">Ticket Summary</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goTicketDetailReport()">Ticket Detail Report</a>
+                                    </li>
                                 </ul>
                             </li>
 

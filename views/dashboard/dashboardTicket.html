@@ -8,29 +8,37 @@
                     <div class="clearfix"></div>
                 </div>
 
+
                 <div class="x_content" >
-                    <div style="height:300px;width: 100%">
-                        <flot dataset="myDataa"
-                              options="myChartOptionss"></flot>
+                    <div id="createVsResolved"  style="height:300px;width: 100%">
                     </div>
 
-                    <div style="height:150px;width: 100%;margin-top: 20px;">
+
+                    <!-- <div id="difCreateVsResolved"  style="height:300px;width: 100%">
+                     </div>-->
+
+                    <!-- <div style="height:300px;width: 100%">
                         <flot dataset="myDataa"
                               options="myChartOptionss"></flot>
+                    </div>-->
+                    <div style="height:150px;width: 100%;margin-top: 20px;">
+                        <flot dataset="ticketDif"
+                              options="difCreateVsResolvedChartOptions"></flot>
                     </div>
+
                 </div>
 
                 <div class="col-lg-12">
                     <div class="col-md-6">
                         <div class="product_price ">
-                            <h1 class="price  text-center">5</h1>
+                            <h1 class="price  text-center">{{openTicket}}</h1>
                             <div class="price-tax  text-center">Open</div>
                             <br>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="product_price">
-                            <h1 class="price text-center">12</h1>
+                            <h1 class="price text-center">{{solvedTicket}}</h1>
                             <div class="price-tax text-center">Resolved</div>
                             <br>
                         </div>
@@ -41,45 +49,61 @@
 
 
         <div class="col-md-4">
-            <h2 class="line_30">Lorem Ipsum is simply</h2>
+            <h2 class="line_30">Summary</h2>
 
             <table class="countries_list">
                 <tbody>
                 <tr>
+                    <td>New</td>
+                    <td class="fs15 fw700 text-right">{{newTicket}}</td>
+                </tr>
+                <tr>
                     <td>Open</td>
-                    <td class="fs15 fw700 text-right">5</td>
+                    <td class="fs15 fw700 text-right">{{openTicket}}</td>
+                </tr>
+                <tr>
+                    <td>Progress</td>
+                    <td class="fs15 fw700 text-right">{{progressTicket}}</td>
+                </tr>
+                <tr>
+                    <td>Closed</td>
+                    <td class="fs15 fw700 text-right">{{closedTicket}}</td>
                 </tr>
                 <tr>
                     <td>Resolved</td>
-                    <td class="fs15 fw700 text-right">8</td>
+                    <td class="fs15 fw700 text-right">{{solvedTicket}}</td>
                 </tr>
                 <tr>
                     <td>Reopen</td>
-                    <td class="fs15 fw700 text-right">16</td>
+                    <td class="fs15 fw700 text-right">{{reopenTicket}}</td>
+                </tr>
+                <tr>
+                    <td>Parked</td>
+                    <td class="fs15 fw700 text-right">{{parkedTicket}}</td>
                 </tr>
                 <tr>
                     <td>SLA Compliance</td>
-                    <td class="fs15 fw700 text-right">16</td>
+                    <td class="fs15 fw700 text-right">{{slaViolated}}</td>
                 </tr>
                 <tr>
                     <td>First Call Resolution</td>
-                    <td class="fs15 fw700 text-right">16</td>
+                    <td class="fs15 fw700 text-right">{{firstCallResolution}}</td>
                 </tr>
                 <tr>
                     <td>Average Response Time</td>
-                    <td class="fs15 fw700 text-right">2</td>
+                    <td class="fs15 fw700 text-right">{{averageResponseTime}} s</td>
                 </tr>
                 <tr>
                     <td>Average Resolution Time</td>
-                    <td class="fs15 fw700 text-right">3</td>
+                    <td class="fs15 fw700 text-right">{{ticketResolutionTime}} s</td>
                 </tr>
                 <tr>
-                    <td>SLA Presentation</td>
-                    <td class="fs15 fw700 text-right">1%</td>
+                    <td>SLA Percentage</td>
+                    <td class="fs15 fw700 text-right">{{slaCompliance}}%</td>
                 </tr>
                 <tr>
-                    <td>Reopen Presentation</td>
-                    <td class="fs15 fw700 text-right">8%</td>
+                    <td>Reopen Percentage</td>
+                    <td class="fs15 fw700 text-right">{{reopenPercentage}}%</td>
                 </tr>
 
                 </tbody>
@@ -98,7 +122,7 @@
                             <div class="progress-bar bg-green2"
                                  aria-valuenow="60" aria-valuemin="0"
                                  role="progressbar" data-transitiongoal="80"
-                                  style="width: 80%;">60%</div>
+                                 style="width: 80%;">60%</div>
                         </div>
                     </div>
                 </div>
