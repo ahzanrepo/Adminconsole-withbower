@@ -2910,3 +2910,10 @@ tags-input .tags.focused {
     color: #fff;
 
 }
+
+/*time sheet */
+.time-grid {
+    width: 100%;
+    min-height: 400px;
+    height: auto;
+}
