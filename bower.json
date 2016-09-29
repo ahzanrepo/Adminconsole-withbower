@@ -37,7 +37,7 @@
     "echarts": "^3.1.10",
     "angular-pnotify": "^0.0.6",
     "jquery.easy-pie-chart": "^2.1.6",
-    "angular-strap": "^2.3.8",
+    "angular-strap": "^2.3.9",
     "angular-filter": "^0.5.8",
     "angular-download": "~0.0.2",
     "angular-file-saver": "^1.1.1",
@@ -71,6 +71,7 @@
     "jsPlumb": "jsplumb#^2.1.7",
     "bootstrap-timepicker": "^0.5.2",
     "angular-timeago": "^0.4.3",
-    "angular-file-upload": "^2.3.4"
+    "angular-file-upload": "^2.3.4",
+    "angular-ui-grid": "^3.2.9"
   }
 }

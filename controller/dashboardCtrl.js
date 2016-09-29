@@ -396,7 +396,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
-    })
+    });
 
 
     $scope.myChartOptions = {
@@ -460,6 +460,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             }
         }
     };
+
     $scope.myChartOptions4 = {
         grid: {
             borderColor: '#fff',

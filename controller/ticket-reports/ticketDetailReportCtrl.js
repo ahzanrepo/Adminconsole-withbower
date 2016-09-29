@@ -44,6 +44,7 @@
 
         $scope.searchWithNewFilter = function()
         {
+            $scope.pagination.currentPage = 1;
             $scope.FilterData = null;
             $scope.getTicketSummary();
         };
@@ -65,7 +66,22 @@
             {
                 if(extUserList && extUserList.Result && extUserList.Result.length > 0)
                 {
-                    $scope.extUserList = extUserList.Result;
+                    //$scope.extUserList.push.apply($scope.extUserList, extUserList.Result);
+
+                    $scope.extUserList = extUserList.Result.map(function(obj){
+                        var rObj = {
+                            UniqueId: obj._id,
+                            Display: obj.firstname + ' ' + obj.lastname
+                        };
+
+                        return rObj;
+                    });
+
+
+                    /*$scope.extUserList.push({name: 'sukitha', age:'rrr'});
+                    $scope.extUserList.push({name: 'ddd', age:'eee'});
+                    $scope.extUserList.push({name: 'eeee', age:'rrrs'});*/
+                    //$scope.extUserList = extUserList.Result;
                 }
 
 
@@ -82,7 +98,16 @@
             {
                 if(userList && userList.Result && userList.Result.length > 0)
                 {
-                    $scope.userList = userList.Result;
+                    //$scope.userList = userList.Result;
+
+                    $scope.userList = userList.Result.map(function(obj){
+                        var rObj = {
+                            UniqueId: obj._id,
+                            Display: obj.name
+                        };
+
+                        return rObj;
+                    });
                 }
 
 
