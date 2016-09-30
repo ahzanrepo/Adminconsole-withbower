@@ -4,7 +4,9 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var triggerConfigController = function ($scope, $state, $stateParams, triggerApiAccess, triggerUserServiceAccess, triggerTemplateServiceAccess, triggerArdsServiceAccess) {
+    var triggerConfigController = function ($scope, $state, $stateParams, triggerApiAccess,
+                                            triggerUserServiceAccess, triggerTemplateServiceAccess,
+                                            triggerArdsServiceAccess) {
         $scope.title = $stateParams.title;
         $scope.triggerId = $stateParams.triggerId;
         $scope.triggerAction = {};

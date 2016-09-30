@@ -179,6 +179,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         },
         goTimeSheet:function(){
             $state.go('console.timeSheet');
+        },goFilter:function(){
+            $state.go('console.createFilter');
         }
     };
 
