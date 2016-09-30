@@ -22,7 +22,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular.plugins.overlayplay',
     'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
     'ui.bootstrap.pagination',
-    'ui.grid', 'ui.grid.treeView',
+    'ui.grid', 'ui.grid.grouping',
     'mgcrea.ngStrap'
 ]);
 
@@ -496,6 +496,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state("console.timeSheet", {
             url: "/timeSheet",
             templateUrl: "views/timeSheet/time-sheet.html",
+            controller: "timeSheetCtrl",
             data: {
                 requireLogin: true
             }

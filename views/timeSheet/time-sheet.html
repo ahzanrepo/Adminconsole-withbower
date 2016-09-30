@@ -15,28 +15,28 @@
                 <div class="clearfix"></div>
                 <div class="col-md-6 col-sm-4 col-xs-12">
                     <label>Agent Name</label>
-                    <select name="datatable-responsive_length" ng-model="recLimit"
+                    <select name="datatable-responsive_length" ng-model="searchObj.userId"
                             aria-controls="datatable-responsive" class="form-control col-md-12 ">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+                        <option value="" disabled selected>Select User</option>
+                        <option ng-repeat="user in userDataList" value="{{user._id}}">
+                            {{user.username}}
+                        </option>
                     </select>
 
                 </div>
                 <div class="col-md-3 col-sm-4 col-xs-12">
                     <label>From</label>
-                    <input type="text" class="form-control" ng-model="obj.startDay" name="startDate" datepicker>
+                    <input type="text" class="form-control" ng-model="searchObj.startDate" name="startDate" datepicker>
                 </div>
 
                 <div class="col-md-3 col-sm-4 col-xs-12">
                     <label>TO</label>
-                    <input type="text" class="form-control" ng-model="obj.endDay" name="endDate" datepicker>
+                    <input type="text" class="form-control" ng-model="searchObj.endDate" name="endDate" datepicker>
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="x_content btn-wrap-header">
-                        <button type="button" class="btn btn-success">
+                        <button type="button" class="btn btn-success" ng-click="searchSheetData()">
                             Search
                         </button>
                     </div>
