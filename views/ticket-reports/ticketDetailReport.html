@@ -27,35 +27,51 @@
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Requester</label>
-                    <select name="requesterList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                    <!--<select name="requesterList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
                             ng-model="selectedExtUser" ng-model-options="{trackBy: '$value'}">
                         <option value=""></option>
                         <option ng-repeat="extUsr in extUserList" value="{{extUsr._id}}">
                             {{extUsr.name}}
                         </option>
-                    </select>
+                    </select>-->
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="selectedExtUser" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="extUsr.UniqueId as extUsr.Display for extUsr in extUserList" placeholder="Requester" bs-typeahead>
+                    </div>
+
+                    <!--<div class="form-group">
+                        <input type="text" class="form-control" ng-model="selectedExtUser" data-min-length="0" data-html="2" data-auto-select="true" bs-options='extUsr._id as (extUsr.firstname + " " + extUsr.lastname) for extUsr in extUserList' placeholder="Enter icon" bs-typeahead>
+                    </div>-->
                 </div>
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Assignee</label>
-                    <select name="assigneeList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="selectedAssignee" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.UniqueId as usr.Display for usr in userList" placeholder="Assignee" bs-typeahead>
+                    </div>
+
+                    <!--<select name="assigneeList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
                             ng-model="selectedAssignee" ng-model-options="{trackBy: '$value'}">
                         <option value=""></option>
                         <option ng-repeat="usr in userList" value="{{usr._id}}">
                             {{usr.name}}
                         </option>
-                    </select>
+                    </select>-->
                 </div>
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Submitter</label>
-                    <select name="submitterList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="selectedSubmitter" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.UniqueId as usr.Display for usr in userList" placeholder="Submitter" bs-typeahead>
+                    </div>
+                    <!--<select name="submitterList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
                             ng-model="selectedSubmitter" ng-model-options="{trackBy: '$value'}">
                         <option value=""></option>
                         <option ng-repeat="usr in userList" value="{{usr._id}}">
                             {{usr.name}}
                         </option>
-                    </select>
+                    </select>-->
                 </div>
 
                 <div class="col-md-2 col-sm-2 col-xs-2">
