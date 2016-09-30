@@ -23,12 +23,16 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
         showGridFooter: true,
         showColumnFooter: true,
         columnDefs: [
-            {name: 'TicketId', width: '10%', field: 'ticket.tid',grouping: { groupPriority: 1 }},
+            {name: 'TicketId', grouping: { groupPriority: 0 }, sort: { priority: 0, direction: 'asc' }, width: '10%', field: 'ticket.tid',grouping: { groupPriority: 1 }},
             {name: 'Subject', width: '40%', field: 'ticket.subject'},
-            {name: 'Date', width: '10%', field: 'startTime'},
-            { name: 'Duration', width: '25%', field: 'time', treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
-                aggregation.rendered = aggregation.value;
-            } }
+            {name: 'Date', grouping: { groupPriority: 1 }, sort: { priority: 1, direction: 'asc' }, width: '10%', field: 'startTime'},
+            {name: 'Duration', width: '10%', field: 'time', cellFilter: 'durationFilter',treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
+                //aggregation.rendered = aggregation.value;
+
+                var durationObj = moment.duration(aggregation.value);
+                aggregation.rendered = durationObj._data.days+'d::'+durationObj._data.hours+'h::'+durationObj._data.minutes+'m::'+durationObj._data.seconds+'s';
+
+            }},
         ],
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
@@ -76,6 +80,7 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
         });*/
 
 
+
     $scope.expandAll = function () {
         $scope.gridApi.treeBase.expandAllRows();
     };
@@ -87,6 +92,18 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
     $scope.toggleExpandNoChildren = function () {
         $scope.gridOptions.showTreeExpandNoChildren = !$scope.gridOptions.showTreeExpandNoChildren;
         $scope.gridApi.grid.refresh();
+    };
+
+    $scope.changeGroupingDate = function() {
+        $scope.gridApi.grouping.clearGrouping();
+        $scope.gridApi.grouping.groupColumn('Date');
+        $scope.gridApi.grouping.aggregateColumn('TicketId', uiGridGroupingConstants.aggregation.COUNT);
+    };
+
+    $scope.changeGroupingTicket = function() {
+        $scope.gridApi.grouping.clearGrouping();
+        $scope.gridApi.grouping.groupColumn('TicketId');
+        $scope.gridApi.grouping.aggregateColumn('Duration', uiGridGroupingConstants.aggregation.COUNT);
     };
 
     $scope.loadUserData = function(){
@@ -120,9 +137,6 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
                             var result = response.Result[i];
                             if(result && result.ticket){
                                 result.startTime =  moment(result.startTime).format("MM-DD-YYYY");
-                                var durationObj = moment.duration(result.time);
-                                //result.$$treeLevel = i;
-                                result.time = durationObj._data.days+'d::'+durationObj._data.hours+'h::'+durationObj._data.minutes+'m::'+durationObj._data.seconds+'s';
                                 gidData.push(result);
                             }
                         }

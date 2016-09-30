@@ -46,12 +46,16 @@
     </div>
 
     <div class="col-md-12">
+        <!--
         <button id="expandAll" type="button" class="btn btn-success" ng-click="expandAll()">Expand All</button>
         <button id="toggleFirstRow" type="button" class="btn btn-success" ng-click="toggleRow(0)">Toggle First Row
         </button>
         <button id="toggleSecondRow" type="button" class="btn btn-success" ng-click="toggleRow(1)">Toggle Second Row
         </button>
-        <div id="grid1" ui-grid="gridOptions" ui-grid-tree-view class="time-grid"></div>
+
+        <button id="changeGroupingDate" type="button" class="btn btn-success" ng-click="changeGroupingDate()">Group By Date</button>
+        <button id="changeGroupingTicket" type="button" class="btn btn-success" ng-click="changeGroupingTicket()">Group By Ticket</button>-->
+        <div id="grid1" ui-grid="gridOptions" ui-grid-grouping class="time-grid"></div>
     </div>
 
 </div>

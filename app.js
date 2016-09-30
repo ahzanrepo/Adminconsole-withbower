@@ -37,7 +37,7 @@ var baseUrls = {
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
-    'fileServiceUrl': 'http://192.168.0.67:5645/DVP/API/1.0.0.0/FileService/',
+    'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -508,6 +508,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             }
         })
     }]);
+
+
+mainApp.filter('durationFilter', function () {
+    return function (value) {
+        var durationObj = moment.duration(value);
+        return durationObj._data.days+'d::'+durationObj._data.hours+'h::'+durationObj._data.minutes+'m::'+durationObj._data.seconds+'s';
+
+    }
+});
 
 
 //main console directive
