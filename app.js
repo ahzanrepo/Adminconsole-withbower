@@ -498,6 +498,12 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             data: {
                 requireLogin: true
             }
+        }).state("console.createFilter", {
+            url: "/createFilter",
+            templateUrl: "views/ticket-trigger/create-filter.html",
+            data: {
+                requireLogin: true
+            }
         })
     }]);
 

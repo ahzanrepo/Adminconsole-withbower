@@ -4,6 +4,8 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
+
+
     var triggerController = function($scope, $state, triggerApiAccess) {
         $scope.triggers = [];
         $scope.trigger = {};

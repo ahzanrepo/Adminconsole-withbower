@@ -2905,7 +2905,7 @@ tags-input .tags.focused {
 }
 
 .bg-green2 {
-    background: #26b99a  !important;
+    background: #26b99a !important;
     /* border: 1px solid #1ABB9C !important; */
     color: #fff;
 
@@ -2916,4 +2916,26 @@ tags-input .tags.focused {
     width: 100%;
     min-height: 400px;
     height: auto;
+}
+
+.btn-add-form {
+    background-color: #f7f7f7;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: #2ba89c;
+    padding-top: 4px;
+    float: right;
+    margin-top: 17px;
+    cursor: pointer;
+}
+
+.btn-add-form.remove {
+    background-color: #f70b1f;
+    color: #ffffff;
+}
+
+.btn-add-form:hover {
+    background-color: #f8b01d;
+
 }
