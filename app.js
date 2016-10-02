@@ -214,6 +214,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 requireLogin: true,
                 navigation: "PABX_ADMIN"
             }
+        }).state("console.autoattendance", {
+            url: "/autoattendance",
+            templateUrl: "views/auto-attendance/autoAttendanceList.html",
+            controller: "autoattendancelistcontroller",
+            data: {
+                requireLogin: true,
+                navigation: "PABX_ADMIN"
+            }
+        }).state('console.newautoattendance', {
+            url: "/autoattendance/new",
+            templateUrl: "views/auto-attendance/newAutoAttendance.html",
+            controller: "newautoattendancecontroller",
+            data: {
+                requireLogin: true,
+                navigation: "PABX_ADMIN"
+            }
         }).state("console.ringGroup", {
             url: "/ringGroup",
             templateUrl: "views/ringGroup/ringGroup.html",

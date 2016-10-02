@@ -1,0 +1,59 @@
+
+
+<div class="block">
+
+    <div class="block_content">
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <br>
+
+            <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                <div class="tile-stats">
+
+                    <form class="form-horizontal form-label-left input_mask">
+
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">Name</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.Name" >
+                        </div>
+
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">Code</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.Code" >
+                        </div>
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">Extention</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.Extention" >
+                        </div>
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">MenuSound</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.MenuSound" >
+                        </div>
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">Tries</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="number" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.Tries" >
+                        </div>
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">TimeOut</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input type="number" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.TimeOut" >
+                        </div>
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">EnableExtention</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <select ng-model="newObj.EnableExtention" ng-options="o.v as o.n for o in [{ n: 'Enable Extention', v: true }, { n: 'Disable Extention', v: false }]">
+                            </select>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <button class="btn btn-success" ng-click="backToList()">Cancel</button>
+                            <button class="btn btn-success" ng-click="saveNewAA()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+</div>
