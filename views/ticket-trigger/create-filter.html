@@ -319,9 +319,8 @@
                             <label>Order By</label>
                             <select name="datatable-responsive_length"
                                     ng-model="currentFilter.order.ascending"
-                                    aria-controls="datatable-responsive" class="form-control col-md-12 ">
-                                <option value=true>Ascending</option>
-                                <option value=false>Descending</option>
+                                    aria-controls="datatable-responsive" class="form-control col-md-12" ng-options="o.v as o.n for o in [{ n: 'Ascending', v: true }, { n: 'Descending', v: false }]">
+
                             </select>
 
                         </div>
