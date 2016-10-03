@@ -263,13 +263,19 @@
                     </div>
 
                     <div class="col-lg-12">
-                        <div class="col-md-12 animated fadeIn">
+                        <div class="col-md-8 animated fadeIn">
                             <h3><label for="newEmail">Email Address</label></h3>
                             <p><input type="text" class="form-control "
                                       id="newEmail"
                                       name="email"
                                       placeholder="Email Address"
                                       ng-model="basicConfig.EmailAddress"></p>
+                        </div>
+                        <div class="col-md-4">
+                            <h3><label>Voicemail as Email</label></h3>
+                            <checkbox class="btn-success" ng-model="basicConfig.VoicemailAsEmail"
+                                      ng-init="basicConfig.VoicemailAsEmail=false"></checkbox>
+
                         </div>
                     </div>
 
