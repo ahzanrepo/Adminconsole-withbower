@@ -1,6 +1,4 @@
-/**
- * Created by Pawan on 6/3/2016.
- */
+
 
 'use strict';
 
@@ -38,12 +36,15 @@ mainApp.controller('autoattendancelistcontroller', function ($scope,$state, auto
         $state.go('console.newautoattendance');
     };
 
+    $scope.editAA = function (aa) {
+        $state.go('console.editautoattendance',{aa: aa});
+    };
+
     var onGetAllAAs = function (response) {
         if (response.data.Exception) {
             onError(response.data.Exception.Message);
         }
         else {
-
 
             $scope.aas =response.data.Result ;
             console.log($scope.aas);
@@ -58,13 +59,8 @@ mainApp.controller('autoattendancelistcontroller', function ($scope,$state, auto
             onError(response.data.Exception.Message);
         }
         else {
-
-
             $scope.showAlert("Deleted","Successfully deleted","success");
             getAllAAS();
-
-
-
         }
 
     };
