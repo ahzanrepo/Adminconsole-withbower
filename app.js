@@ -22,7 +22,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular.plugins.overlayplay',
     'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
     'ui.bootstrap.pagination',
-    'ui.grid', 'ui.grid.treeView',
+    'ui.grid', 'ui.grid.grouping',
     'mgcrea.ngStrap'
 ]);
 
@@ -37,7 +37,7 @@ var baseUrls = {
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
-    'fileServiceUrl': 'http://192.168.0.67:5645/DVP/API/1.0.0.0/FileService/',
+    'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -210,6 +210,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/pbxadmin",
             templateUrl: "views/pabxAdmin/pabxCompanyConfig.html",
             controller: "pbxAdminCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "PABX_ADMIN"
+            }
+        }).state("console.autoattendance", {
+            url: "/autoattendance",
+            templateUrl: "views/auto-attendance/autoAttendanceList.html",
+            controller: "autoattendancelistcontroller",
+            data: {
+                requireLogin: true,
+                navigation: "PABX_ADMIN"
+            }
+        }).state('console.newautoattendance', {
+            url: "/autoattendance/new",
+            templateUrl: "views/auto-attendance/newAutoAttendance.html",
+            controller: "newautoattendancecontroller",
             data: {
                 requireLogin: true,
                 navigation: "PABX_ADMIN"
@@ -496,6 +512,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state("console.timeSheet", {
             url: "/timeSheet",
             templateUrl: "views/timeSheet/time-sheet.html",
+            controller: "timeSheetCtrl",
             data: {
                 requireLogin: true
             }
@@ -507,6 +524,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             }
         })
     }]);
+
+
+mainApp.filter('durationFilter', function () {
+    return function (value) {
+        var durationObj = moment.duration(value);
+        return durationObj._data.days+'d::'+durationObj._data.hours+'h::'+durationObj._data.minutes+'m::'+durationObj._data.seconds+'s';
+
+    }
+});
 
 
 //main console directive

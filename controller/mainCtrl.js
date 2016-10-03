@@ -77,6 +77,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         goPbxAdmin: function () {
             $state.go('console.pbxadmin');
         },
+
+        goAutoAttendance: function () {
+            $state.go('console.autoattendance');
+        },
+
         goMyNumbers: function () {
             $state.go('console.myNumbers');
         },

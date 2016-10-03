@@ -6,7 +6,7 @@
         {
             var postData = {};
             var authToken = authService.GetToken();
-            var url = 'http://localhost:3636/DVP/API/1.0.0.0/TicketReport?from=' + sdate + '&to=' + edate;
+            var url = 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/TicketReport?from=' + sdate + '&to=' + edate;
 
             if(tag)
             {
@@ -52,7 +52,7 @@
         {
             var authToken = authService.GetToken();
             var postData = {};
-            var url = 'http://localhost:3636/DVP/API/1.0.0.0/TicketDetailReport/data/' + filterData.skipCount + '/' + filterData.limitCount + '?from=' + filterData.sdate + '&to=' + filterData.edate;
+            var url = 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/TicketDetailReport/data/' + filterData.skipCount + '/' + filterData.limitCount + '?from=' + filterData.sdate + '&to=' + filterData.edate;
 
             if(filterData.tag)
             {
@@ -122,7 +122,7 @@
         {
             var authToken = authService.GetToken();
             var postData = {};
-            var url = 'http://localhost:3636/DVP/API/1.0.0.0/TicketDetailReport/count' + '?from=' + filterData.sdate + '&to=' + filterData.edate;
+            var url = 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/TicketDetailReport/count' + '?from=' + filterData.sdate + '&to=' + filterData.edate;
 
             if(filterData.tag)
             {
@@ -230,7 +230,7 @@
         var getTagList = function()
         {
             var authToken = authService.GetToken();
-            var url = 'http://localhost:3636/DVP/API/1.0.0.0/Tags';
+            var url = 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Tags';
 
             return $http({
                 method: 'GET',
@@ -247,7 +247,7 @@
         var getCategoryList = function()
         {
             var authToken = authService.GetToken();
-            var url = 'http://localhost:3636/DVP/API/1.0.0.0/TagCategories';
+            var url = 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/TagCategories';
 
             return $http({
                 method: 'GET',
