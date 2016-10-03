@@ -23,7 +23,9 @@
                         </div>
                         <label class="control-label col-md-2 col-sm-6 col-xs-12">Extention</label>
                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
-                            <input type="text" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.Extention" >
+                            <!--input type="text" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.Extention" -->
+                            <select class="form-control" ng-options="ext.Extension for ext in extentions " name="status" data-ng-model="newObj.Extention">
+                            </select>
                         </div>
                         <label class="control-label col-md-2 col-sm-6 col-xs-12">MenuSound</label>
                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
@@ -31,11 +33,11 @@
                         </div>
                         <label class="control-label col-md-2 col-sm-6 col-xs-12">Tries</label>
                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
-                            <input type="number" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.Tries" >
+                            <input type="number" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.Tries" min="0" max="5">
                         </div>
                         <label class="control-label col-md-2 col-sm-6 col-xs-12">TimeOut</label>
                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
-                            <input type="number" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.TimeOut" >
+                            <input type="number" class="form-control" placeholder="" name="txt_desc" ng-model="newObj.TimeOut" min="0"  >
                         </div>
                         <label class="control-label col-md-2 col-sm-6 col-xs-12">EnableExtention</label>
                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">

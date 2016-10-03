@@ -82,6 +82,14 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
             $state.go('console.autoattendance');
         },
 
+        goEditAutoAttendance: function () {
+            $state.go('console.editautoattendance');
+        },
+
+        goNewAutoAttendance: function () {
+            $state.go('console.newautoattendance');
+        },
+
         goMyNumbers: function () {
             $state.go('console.myNumbers');
         },
