@@ -24,7 +24,7 @@ mainApp.controller('editautoattendancecontroller', function ($scope, autottendan
 
     var loadExtentions = function(){
 
-        extensionBackendService.getExtensions().then(onExtentionCompleted, onError);
+        extensionBackendService.getExtensionsByCategory('AUTO_ATTENDANT').then(onExtentionCompleted, onError);
     }
 
     var onExtentionCompleted = function (response) {
