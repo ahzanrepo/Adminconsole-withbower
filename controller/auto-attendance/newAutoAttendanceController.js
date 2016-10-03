@@ -58,7 +58,7 @@ mainApp.controller('newautoattendancecontroller', function ($scope, autottendanc
         else {
 
 
-            $scope.extentions = response.data.Result;
+            $scope.extentions = response.data.Result.map;
         }
     };
 
