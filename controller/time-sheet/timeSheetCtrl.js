@@ -25,61 +25,26 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
         columnDefs: [
             {name: 'TicketId', grouping: { groupPriority: 0 }, sort: { priority: 0, direction: 'asc' }, width: '10%', field: 'ticket.tid',grouping: { groupPriority: 1 }},
             {name: 'Subject', width: '40%', field: 'ticket.subject'},
-            {name: 'Date', grouping: { groupPriority: 1 }, sort: { priority: 1, direction: 'asc' }, width: '10%', field: 'startTime'},
-            {name: 'Duration', width: '10%', field: 'time', cellFilter: 'durationFilter',treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
+            {name: 'Date', grouping: { groupPriority: 1 }, sort: { priority: 1, direction: 'asc' }, width: '15%', field: 'startTime'},
+            {name: 'Duration', width: '15%', field: 'time', cellFilter: 'durationFilter',treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
                 //aggregation.rendered = aggregation.value;
 
                 var durationObj = moment.duration(aggregation.value);
                 aggregation.rendered = durationObj._data.days+'d::'+durationObj._data.hours+'h::'+durationObj._data.minutes+'m::'+durationObj._data.seconds+'s';
 
             }},
+            {name: 'DurationSummary', width: '15%', field: 'time', treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
+                //aggregation.rendered = aggregation.value;
+
+                var durationObj = moment.duration(aggregation.value);
+                aggregation.rendered = durationObj._data.days+'d::'+durationObj._data.hours+'h::'+durationObj._data.minutes+'m::'+durationObj._data.seconds+'s';
+
+            }}
         ],
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
-            /*$scope.gridApi.treeBase.on.rowExpanded($scope, function (row) {
-                if (row.entity.$$hashKey === $scope.gridOptions.data[50].$$hashKey && !$scope.nodeLoaded) {
-                    $interval(function () {
-                        $scope.gridOptions.data.splice(51, 0,
-                            {
-                                name: 'Dynamic 1',
-                                gender: 'female',
-                                age: 53,
-                                company: 'Griddable grids',
-                                balance: 38000,
-                                $$treeLevel: 1
-                            },
-                            {
-                                name: 'Dynamic 2',
-                                gender: 'male',
-                                age: 18,
-                                company: 'Griddable grids',
-                                balance: 29000,
-                                $$treeLevel: 1
-                            }
-                        );
-                        $scope.nodeLoaded = true;
-                    }, 2000, 1);
-                }
-            });*/
         }
     };// grid option
-
-    /*$http.get('https://cdn.rawgit.com/angular-ui/ui-grid.info/gh-pages/data/500_complex.json')
-        .success(function (data) {
-            for (var i = 0; i < data.length; i++) {
-                data[i].balance = Number(data[i].balance.slice(1).replace(/,/, ''));
-            }
-            data[0].$$treeLevel = 0;
-            data[1].$$treeLevel = 1;
-            data[10].$$treeLevel = 1;
-            data[20].$$treeLevel = 0;
-            data[25].$$treeLevel = 1;
-            data[50].$$treeLevel = 0;
-            data[51].$$treeLevel = 0;
-            $scope.gridOptions.data = data;
-        });*/
-
-
 
     $scope.expandAll = function () {
         $scope.gridApi.treeBase.expandAllRows();
@@ -161,120 +126,3 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
     $scope.loadUserData();
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridGroupingConstants', function ($scope, $http, $interval, uiGridGroupingConstants ) {
-    $scope.gridOptions = {
-        enableFiltering: true,
-        treeRowHeaderAlwaysVisible: false,
-        columnDefs: [
-            { name: 'name', width: '30%' },
-            { name: 'gender', grouping: { groupPriority: 1 }, sort: { priority: 1, direction: 'asc' }, width: '20%', cellFilter: 'mapGender' },
-            { name: 'age', treeAggregationType: uiGridGroupingConstants.aggregation.MAX, width: '20%' },
-            { name: 'company', width: '25%' },
-            { name: 'registered', width: '40%', cellFilter: 'date', type: 'date' },
-            { name: 'state', grouping: { groupPriority: 0 }, sort: { priority: 0, direction: 'desc' }, width: '35%', cellTemplate: '<div><div ng-if="!col.grouping || col.grouping.groupPriority === undefined || col.grouping.groupPriority === null || ( row.groupHeader && col.grouping.groupPriority === row.treeLevel )" class="ui-grid-cell-contents" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div></div>' },
-            { name: 'balance', width: '25%', cellFilter: 'currency', treeAggregationType: uiGridGroupingConstants.aggregation.SUM, customTreeAggregationFinalizerFn: function( aggregation ) {
-                aggregation.rendered = aggregation.value;
-            } }
-        ],
-        onRegisterApi: function( gridApi ) {
-            $scope.gridApi = gridApi;
-        }
-    };
-
-    $http.get('https://cdn.rawgit.com/angular-ui/ui-grid.info/gh-pages/data/500_complex.json')
-        .success(function(data) {
-            for ( var i = 0; i < data.length; i++ ){
-                var registeredDate = new Date( data[i].registered );
-                data[i].state = data[i].address.state;
-                data[i].gender = data[i].gender === 'male' ? 1: 2;
-                data[i].balance = Number( data[i].balance.slice(1).replace(/,/,'') );
-                data[i].registered = new Date( registeredDate.getFullYear(), registeredDate.getMonth(), 1 )
-            }
-            delete data[2].age;
-            $scope.gridOptions.data = data;
-        });
-
-    $scope.expandAll = function(){
-        $scope.gridApi.treeBase.expandAllRows();
-    };
-
-    $scope.toggleRow = function( rowNum ){
-        $scope.gridApi.treeBase.toggleRowTreeState($scope.gridApi.grid.renderContainers.body.visibleRowCache[rowNum]);
-    };
-
-    $scope.changeGrouping = function() {
-        $scope.gridApi.grouping.clearGrouping();
-        $scope.gridApi.grouping.groupColumn('age');
-        $scope.gridApi.grouping.aggregateColumn('state', uiGridGroupingConstants.aggregation.COUNT);
-    };
-
-    $scope.getAggregates = function() {
-        var aggregatesTree = [];
-        var gender
-
-        var recursiveExtract = function( treeChildren ) {
-            return treeChildren.map( function( node ) {
-                var newNode = {};
-                angular.forEach(node.row.entity, function( attributeCol ) {
-                    if( typeof(attributeCol.groupVal) !== 'undefined' ) {
-                        newNode.groupVal = attributeCol.groupVal;
-                        newNode.aggVal = attributeCol.value;
-                    }
-                });
-                newNode.otherAggregations = node.aggregations.map( function( aggregation ) {
-                    return { colName: aggregation.col.name, value: aggregation.value, type: aggregation.type };
-                });
-                if( node.children ) {
-                    newNode.children = recursiveExtract( node.children );
-                }
-                return newNode;
-            });
-        }
-
-        aggregatesTree = recursiveExtract( $scope.gridApi.grid.treeBase.tree );
-
-        console.log(aggregatesTree);
-    };
-}])
-    .filter('mapGender', function() {
-        var genderHash = {
-            1: 'male',
-            2: 'female'
-        };
-
-        return function(input) {
-            var result;
-            var match;
-            if (!input){
-                return '';
-            } else if (result = genderHash[input]) {
-                return result;
-            } else if ( ( match = input.match(/(.+)( \(\d+\))/) ) && ( result = genderHash[match[1]] ) ) {
-                return result + match[2];
-            } else {
-                return input;
-            }
-        };
-    });
