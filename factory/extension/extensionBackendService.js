@@ -23,6 +23,20 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             });
         },
 
+        getExtensionsByCategory: function (category) {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/ExtensionsByCategory/"+category,
+                headers: {
+                    'authorization':authToken
+                }
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+
         saveNewExtension: function (resource) {
             var authToken = authService.GetToken();
             return $http({
