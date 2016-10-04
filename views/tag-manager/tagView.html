@@ -132,13 +132,16 @@
                                   <button class="btn btn-default" type="button">Go!</button>
                                 </span>
                             </div>
-                            <button type="submit" class="btn btn-primary" ng-click="showNewCategoryModal()"><span class="fa fa-plus" aria-hidden="true"></span>New</button>
+
                         </div>
+                        <button type="submit" class="btn btn-primary" ng-click="showNewCategoryModal()"><span class="fa fa-plus" aria-hidden="true"></span>New</button>
 
                         <div id="datatable-responsive_wrapper"
                              class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-2">
+                                </div>
+                                <div class="col-sm-6">
                                     <div class="table-wrapper"
                                          ng-slimscroll horizontal-scroll="true"
                                          height="100%"
@@ -151,19 +154,16 @@
                                                aria-describedby="datatable-responsive_info">
                                             <thead>
                                             <tr role="row">
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                                    rowspan="1"
-                                                    colspan="1" aria-label="Call Direction">Tag category Name
+                                                <th  tabindex="0" aria-controls="datatable-responsive"
+                                                     rowspan="1"
+                                                     colspan="1" aria-label="Call Direction">Tag category Name
                                                 </th>
 
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                                    rowspan="1"
-                                                    colspan="1" aria-label="To">
+                                                <th  tabindex="0" aria-controls="datatable-responsive"
+                                                     rowspan="1"
+                                                     colspan="1" aria-label="To"> Actions
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                                    rowspan="1"
-                                                    colspan="1" aria-label="To">
-                                                </th>
+
 
                                             </thead>
                                             <tbody>
@@ -171,7 +171,7 @@
                                                 ng-repeat="tagCat in tagCategories">
                                                 <td>{{tagCat.name}}</td>
 
-                                                <td>
+                                                <td class="col-sm-2">
                                                     <button type="submit" class="btn btn-primary" ng-click="deleteCategory(tagCat)"><span class="fa fa-trash-o" aria-hidden="true"></span>Delete</button>
 
                                                 </td>
@@ -181,6 +181,8 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
+                                <div class="col-sm-2">
                                 </div>
                             </div>
 
@@ -219,7 +221,9 @@
                         <div id="datatable-responsive_wrapper2"
                              class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-2">
+                                </div>
+                                <div class="col-sm-8">
                                     <div class="table-wrapper"
                                          ng-slimscroll horizontal-scroll="true"
                                          height="100%"
@@ -232,16 +236,16 @@
                                                aria-describedby="datatable-responsive_info">
                                             <thead>
                                             <tr role="row">
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="Call Direction">Tag Name
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="Call Direction">Tag description
                                                 </th>
 
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="To">Action
                                                 </th>
@@ -252,7 +256,7 @@
                                                 ng-repeat="tag in tagList">
                                                 <td>{{tag.name}}</td>
                                                 <td>{{tag.description}}</td>
-                                                <td>
+                                                <td class="col-md-2">
                                                     <button type="submit" class="btn btn-primary" ng-click="deleteTag(tag)"><span class="fa fa-trash-o" aria-hidden="true"></span>Delete</button>
                                                 </td>
 
@@ -261,6 +265,8 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
+                                <div class="col-sm-2">
                                 </div>
                             </div>
 
