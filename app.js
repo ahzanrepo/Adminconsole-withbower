@@ -44,7 +44,8 @@ var baseUrls = {
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
-    'dashBordUrl': 'http://dashboard.app.veery.cloud/'
+    'dashBordUrl': 'http://dashboard.app.veery.cloud/',
+    'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -220,7 +221,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "autoattendancelistcontroller",
             data: {
                 requireLogin: true,
-                navigation: "PABX_ADMIN"
+                navigation: "AUTOATTENDANCE"
             }
         }).state('console.newautoattendance', {
             url: "/autoattendance/new",
@@ -228,7 +229,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "newautoattendancecontroller",
             data: {
                 requireLogin: true,
-                navigation: "PABX_ADMIN"
+                navigation: "AUTOATTENDANCE"
             }
         }).state('console.editautoattendance', {
             url: "/autoattendance/edit",
@@ -239,7 +240,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             },
             data: {
                 requireLogin: true,
-                navigation: "PABX_ADMIN"
+                navigation: "AUTOATTENDANCE"
             }
         }).state("console.ringGroup", {
             url: "/ringGroup",

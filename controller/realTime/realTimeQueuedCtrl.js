@@ -185,7 +185,7 @@ var qs=[{id:1,name:'p'},{id:2,name:'q'}];
     })();
 
     var getAllRealTime = function () {
-        $scope.GetAllQueueStatistics();
+        //$scope.GetAllQueueStatistics();
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 

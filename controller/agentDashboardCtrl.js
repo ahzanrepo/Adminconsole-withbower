@@ -96,7 +96,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 data1 = response.map(function (c, index) {
                     var item = [];
                     item[0] = c[1];
-                    item[1] = c[0]?c[0]:0;
+                    item[1] = c[0] ? c[0] : 0;
                     return item;
                 });
                 bindDataToChart();
@@ -113,7 +113,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 data2 = response.map(function (c, index) {
                     var item = [];
                     item[0] = c[1];
-                    item[1] = c[0]?c[0]:0;
+                    item[1] = c[0] ? c[0] : 0;
                     return item;
                 });
                 bindDataToChart();
@@ -130,7 +130,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketDif[0].data = response.map(function (c, index) {
                     var item = [];
                     item[0] = c[1];
-                    item[1] = c[0]?c[0]:0;
+                    item[1] = c[0] ? c[0] : 0;
                     return item;
                 });
 
@@ -179,6 +179,22 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
         });
     };
     $scope.getNewTicketCount();
+
+    $scope.totalCloseTicket = 0;
+    $scope.getCloseTicketCount = function () {
+        dashboardService.GetTotalTicketCount("CLOSEDTICKET").then(function (response) {
+            if (response) {
+                $scope.totalCloseTicket = response;
+            }
+            else {
+                $scope.totalCloseTicket = 0;
+            }
+        }, function (err) {
+            $scope.totalCloseTicket = 0;
+            console.log(err);
+        });
+    };
+    $scope.getCloseTicketCount();
 
     $scope.openTicket = 0;
     $scope.getOpenTicketCount = function () {
@@ -335,7 +351,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.getAverageResponseTime = function () {
         dashboardService.GetTotalTicketAvg("NEWTICKET").then(function (response) {
             if (response) {
-                $scope.averageResponseTime =  response;
+                $scope.averageResponseTime = response;
             }
             else {
                 $scope.averageResponseTime = 0;
@@ -347,14 +363,92 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
     $scope.getAverageResponseTime();
 
+    $scope.ticketViaCall = 0;
+    $scope.ticketViaCallCount = 0;
+    $scope.getTicketViaCall = function () {
+        dashboardService.GetNewTicketCountViaChannel("call").then(function (response) {
+            if (response) {
+                $scope.ticketViaCallCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaCall = ((response / $scope.totalTicket) * 100).toFixed(2);
+            }
+            else {
+                $scope.ticketViaCall = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaCall = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaCall();
+
+    $scope.ticketViaSms = 0;
+    $scope.ticketViaSmsCount = 0;
+    $scope.getTicketViaSms = function () {
+        dashboardService.GetNewTicketCountViaChannel("SMS").then(function (response) {
+            if (response) {
+                $scope.ticketViaSmsCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaSms = ((response / $scope.totalTicket) * 100).toFixed(2);
+            }
+            else {
+                $scope.ticketViaSms = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaSms = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaSms();
+
+    $scope.ticketViaFacebook = 0;
+    $scope.ticketViaFacebookCount = 0;
+    $scope.getTicketViaFB = function () {
+        dashboardService.GetNewTicketCountViaChannel("FACEBOOK").then(function (response) {
+            if (response) {
+                $scope.ticketViaFacebookCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaFacebook = ((response / $scope.totalTicket) * 100).toFixed(2);
+            }
+            else {
+                $scope.ticketViaFacebook = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaFacebook = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaFB();
+
+    $scope.ticketViaTwitter = 0;
+    $scope.ticketViaTwitterCount = 0;
+    $scope.getTicketViaTwitter = function () {
+        dashboardService.GetNewTicketCountViaChannel("TWITTER").then(function (response) {
+            if (response) {
+                $scope.ticketViaTwitterCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaTwitter = ((response / $scope.totalTicket) * 100).toFixed(2);
+            }
+            else {
+                $scope.ticketViaTwitter = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaTwitter = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaTwitter();
+
     $scope.slaCompliance = 0;
     var SlaCompliance = function () {
-        $scope.slaCompliance = (($scope.slaViolated / $scope.newTicket) * 100).toFixed(2);
+        if ($scope.newTicket > 0)
+            $scope.slaCompliance = (($scope.slaViolated / $scope.newTicket) * 100).toFixed(2);
     };
 
     $scope.reopenPercentage = 0;
     var calculateReopenPercentage = function () {
-        $scope.reopenPercentage = (($scope.reopenTicket / $scope.totalTicket) * 100).toFixed(2);
+        if ($scope.totalTicket > 0)
+            $scope.reopenPercentage = (($scope.reopenTicket / $scope.totalTicket) * 100).toFixed(2);
     };
 
 
@@ -374,6 +468,10 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
         $scope.getSlaViolatedTicketCount();
         $scope.getTicketResolutionTime();
         $scope.getAverageResponseTime();
+        $scope.getTicketViaSms();
+        $scope.getTicketViaCall();
+        $scope.getTicketViaTwitter();
+        $scope.getTicketViaFB();
         getAllRealTimeTimer = $timeout(getAllRealTime, 1800000);//30min
     };
     getAllRealTime();
