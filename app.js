@@ -43,7 +43,7 @@ var baseUrls = {
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
-    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ticketUrl': 'http://localhost:3636/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/'
 };
 
@@ -226,6 +226,17 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/autoattendance/new",
             templateUrl: "views/auto-attendance/newAutoAttendance.html",
             controller: "newautoattendancecontroller",
+            data: {
+                requireLogin: true,
+                navigation: "PABX_ADMIN"
+            }
+        }).state('console.editautoattendance', {
+            url: "/autoattendance/edit",
+            templateUrl: "views/auto-attendance/editAutoAttendance.html",
+            controller: "editautoattendancecontroller",
+            params: {
+                aa: null
+            },
             data: {
                 requireLogin: true,
                 navigation: "PABX_ADMIN"

@@ -1,12 +1,15 @@
 
 'use strict';
 
-mainApp.controller('newautoattendancecontroller', function ($scope, autottendanceconfigservice,extensionBackendService, $state,$stateParams) {
+mainApp.controller('editautoattendancecontroller', function ($scope, autottendanceconfigservice, extensionBackendService, $state,$stateParams) {
 
 
     $scope.newObj={};
+    $scope.newAction = {};
     $scope.extentions = [];
 
+    console.log($state.params.aa);
+    $scope.newObj = $state.params.aa;
 
     $scope.showAlert = function (title,content,type) {
 
@@ -19,36 +22,10 @@ mainApp.controller('newautoattendancecontroller', function ($scope, autottendanc
     };
 
 
-
-    $scope.saveNewAA = function () {
-        autottendanceconfigservice.addNewAutoAttendance($scope.newObj).then(onSaveCompleted, onError);
-    };
-
-
-
-
-    var onSaveCompleted = function (response) {
-
-        if (response.data.Exception) {
-            onError(response.data.Exception.Message);
-        }
-        else {
-
-            $scope.showAlert("Success","Successfully saved","success");
-            $scope.backToList();
-        }
-    };
-
-    var onError = function (reason) {
-        $scope.showAlert("Error","There is an error","error");
-        console.log(reason);
-    };
-
     var loadExtentions = function(){
 
         extensionBackendService.getExtensionsByCategory('AUTO_ATTENDANT').then(onExtentionCompleted, onError);
     }
-
 
     var onExtentionCompleted = function (response) {
 
@@ -57,18 +34,92 @@ mainApp.controller('newautoattendancecontroller', function ($scope, autottendanc
         }
         else {
 
-
-            $scope.extentions = response.data.Result.map;
+            $scope.extentions = response.data.Result;
         }
     };
 
+
+    $scope.updateAA = function () {
+        autottendanceconfigservice.updateAutoAttendance($scope.newObj).then(onSaveCompleted, onError);
+    };
+
+
+    $scope.addNewAction= function () {
+
+        autottendanceconfigservice.setAction( $scope.newObj.Name, $scope.newAction.OnEvent, $scope.newAction).then(onActionAddCompleted, onError);
+
+    }
+
+    $scope.getAutoAttendance= function () {
+        autottendanceconfigservice.getAutoAttendance( $scope.newObj.Name).then(onGetAutoAttendanceCompleted, onError);
+    }
+
+
+    $scope.deleteAction= function (action) {
+
+        autottendanceconfigservice.deleteAction($scope.newObj.Name, action.id).then(onDeleteActionCompleted, onError);
+    }
+
+
+    $scope.clearAction = function(){
+        $scope.newAction = {};
+    }
+
+
+
+
+    var onDeleteActionCompleted = function (response) {
+
+        if (response.data.Exception) {
+            onError(response.data.Exception.Message);
+        }
+        else {
+            $scope.showAlert("Success","Successfully deleted","success");
+            $scope.getAutoAttendance();
+        }
+    };
+
+    var onActionAddCompleted = function (response) {
+
+        $scope.newAction = {};
+        if (response.data.Exception) {
+            onError(response.data.Exception.Message);
+        }
+        else {
+            $scope.showAlert("Success","Successfully saved","success");
+            $scope.getAutoAttendance();
+        }
+    };
+
+    var onGetAutoAttendanceCompleted = function (response) {
+
+        $scope.newAction = {};
+        if (response.data.Exception) {
+            onError(response.data.Exception.Message);
+        }
+        else {
+            $scope.newObj =response.data.Result ;
+            console.log($scope.aas);
+        }
+    };
+
+
+
+    var onSaveCompleted = function (response) {
+        $scope.showAlert("Success","Successfully saved","success");
+        //$scope.backToList();
+    };
+
+    var onError = function (reason) {
+        $scope.showAlert("Error","There is an error","error");
+        console.log(reason);
+    };
 
 
     $scope.backToList =function()
     {
         $state.go('console.autoattendance');
     };
-
 
 
     loadExtentions();

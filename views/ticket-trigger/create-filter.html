@@ -13,8 +13,8 @@
                 <div class="x_content">
                     <div class="pull-right">
                         <button class="btn btn-default"
-                                ng-click="createNewView()"
-                        >Create new
+                                ng-click="loadNewTicketView()"
+                        >Create New
                         </button>
                     </div>
                     <table class="table table-hover">
@@ -32,7 +32,7 @@
                             <td>{{all.created_at}}</td>
                             <td>{{all.public}}</td>
                             <td>
-                                <button class="btn btn-default">edit</button>
+                                <button class="btn btn-default" ng-click="loadSpecificTicketView(all._id)">edit</button>
                             </td>
                         </tr>
                         </tbody>
@@ -61,17 +61,30 @@
                     <!-- title --->
 
                     <div class="col-md-8">
-                        <input type="text" class="form-control ng-pristine ng-valid ng-empty ng-touched" name="agent"
-                               ng-model="agentFilter" placeholder="Agent" style="">
+                        <input type="text" class="form-control ng-pristine ng-valid ng-empty ng-touched" name="title"
+                               ng-model="currentFilter.title" placeholder="Title" style="">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="checkbox">
                             <label class="">
                                 <div class="icheckbox_flat-green checked" style="position:
-                                 relative;"><input type="checkbox" class="flat" checked="checked">
+                                 relative;">
+                                    <input type="checkbox" ng-model="currentFilter.public" class="flat" checked="checked">
                                     <ins class="iCheck-helper"></ins>
                                 </div>
                                 Public
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="checkbox">
+                            <label class="">
+                                <div class="icheckbox_flat-green checked" style="position:
+                                 relative;">
+                                    <input type="checkbox" ng-model="currentFilter.active" class="flat" checked="checked">
+                                    <ins class="iCheck-helper"></ins>
+                                </div>
+                                Active
                             </label>
                         </div>
                     </div>
@@ -83,14 +96,14 @@
             <div class="row">
                 <div class="x_panel">
                     <div>ALL</div>
-                    <fieldset ng-repeat="filter in filters track by $index">
+                    <fieldset ng-repeat="filter in currentFilter.conditions.all track by $index">
                         <div class="row" style="margin-top: 15px;">
                             <div class="col-md-3">
                                 <label>Select Field</label>
-                                <select name="datatable-responsive_length"
+                                <!--<select name="datatable-responsive_length"
                                         id="filedList"
-                                        ng-model="filter.selectedFiled"
-                                        ng-change="updateValue(filter.selectedFiled,this)"
+                                        ng-model="filter.fieldType"
+                                        ng-change="updateValue(filter.fieldType,this)"
                                         aria-controls="datatable-responsive" class="form-control col-md-12 ">
                                     <option value="" disabled selected>Select Field</option>
                                     <option ng-repeat="(indexX, filedName) in data track by indexX"
@@ -98,12 +111,22 @@
                                             value="{{filedName.type}}">
                                         {{filedName.field}}
                                     </option>
+                                </select>-->
+
+                                <select name="datatable-responsive_length" id="filedList" class="form-control col-md-12" tabindex="-1" aria-hidden="true"
+                                        ng-model="filter.field" ng-model-options="{trackBy: '$value'}" ng-change="updateValue(filter)">
+                                    <option value=""></option>
+                                    <option ng-repeat="field in data" value="{{field.field}}">
+                                        {{field.field}}
+                                    </option>
                                 </select>
+
+
                             </div>
                             <div class="col-md-3">
-                                <label>Conditione</label>
+                                <label>Condition</label>
                                 <select name="datatable-responsive_length"
-                                        ng-model="filter.condition"
+                                        ng-model="filter.operator"
                                         aria-controls="datatable-responsive" class="form-control col-md-12 ">
                                     <option value="" disabled selected>Select condition</option>
                                     <option ng-repeat="condition in conditiones track by $index"
@@ -113,12 +136,12 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                {{filter.selectedFiled}}
-                                <label>Agent Name</label>
-                                <div class="" ng-show="!filter.selectedFiled">
+                                {{filter.type}}
+                                <label> - Value</label>
+                                <div class="" ng-show="!filter.type">
                                     select filed type
                                 </div>
-                                <div ng-switch on="filter.selectedFiled">
+                                <div ng-switch on="filter.type">
                                     <!-- date -->
                                     <div ng-switch-when="Date">
                                         <input type="text" class="form-control" ng-model="filter.value" name="startDate"
@@ -127,8 +150,7 @@
                                     <!-- String -->
                                     <div ng-switch-when="String">
                                         <input type="text" ng-model="filter.value"
-                                               class="form-control has-feedback-left"
-                                               placeholder="">
+                                               class="form-control has-feedback-left">
                                     </div>
                                     <!--boolean -->
                                     <div ng-switch-when="Boolean">
@@ -136,21 +158,19 @@
                                                 ng-model="filter.value"
                                                 aria-controls="datatable-responsive" class="form-control col-md-12 ">
                                             <option value="" disabled selected>Select Field</option>
-                                            <option value="10">True</option>
-                                            <option value="25">False</option>
+                                            <option value=true>True</option>
+                                            <option value=false>False</option>
                                         </select>
                                     </div>
-                                    <div ng-switch-when="Number"><input type="text"
-                                                                        class="form-control has-feedback-left"
-
-                                                                        placeholder=""></div>
+                                    <div ng-switch-when="Number">
+                                        <input type="text" class="form-control has-feedback-left" ng-model="filter.value"></div>
                                     <!-- select -->
                                     <div ng-switch-when="Select">
                                         <select name="datatable-responsive_length"
                                                 ng-model="filter.value"
                                                 aria-controls="datatable-responsive" class="form-control col-md-12 ">
                                             <option value="" disabled selected>Select Field</option>
-                                            <option ng-repeat="value in selectedValues track by $index"
+                                            <option ng-repeat="value in filter.selectedValues track by $index"
                                                     value="{{value}}">
                                                 {{value}}
                                             </option>
@@ -158,26 +178,23 @@
                                     </div>
                                     <!-- object ID -->
                                     <div ng-switch-when="ObjectID"><input type="text" ng-model="filter.value"
-                                                                          class="form-control has-feedback-left"
-                                                                          placeholder=""></div>
+                                                                          class="form-control has-feedback-left"></div>
                                     <!-- array-->
                                     <div ng-switch-when="Array"><input type="text" ng-model="filter.value"
-                                                                       class="form-control has-feedback-left"
-                                                                       placeholder=""></div>
+                                                                       class="form-control has-feedback-left"></div>
                                     <!-- embedded -->
                                     <div ng-switch-when="Embedded"><input type="text" ng-model="filter.value"
-                                                                          class="form-control has-feedback-left"
-                                                                          placeholder=""></div>
+                                                                          class="form-control has-feedback-left"></div>
                                 </div>
 
 
                             </div>
                             <div class="col-md-3 text-center">
                                 <div class="btn-add-form remove" ng-if="!$last" ng-show="filter.length!=1"
-                                     ng-click="removeFilter(filter.id);">
+                                     ng-click="removeAllFilter(filter.uniqueId);">
                                     <i class="ti-close"></i>
                                 </div>
-                                <div class="btn-add-form " ng-show="$last" ng-click="addNewFilter();">
+                                <div class="btn-add-form " ng-show="$last" ng-click="addNewFilterToAll();">
                                     <i class="ti-plus"></i>
                                 </div>
                             </div>
@@ -190,27 +207,22 @@
                 <!-- ANY -->
                 <div class="x_panel">
                     <div>ANY</div>
-                    <fieldset ng-repeat="filter in filters track by $index">
+                    <fieldset ng-repeat="filter in currentFilter.conditions.any track by $index">
                         <div class="row" style="margin-top: 15px;">
                             <div class="col-md-3">
                                 <label>Select Field</label>
-                                <select name="datatable-responsive_length"
-                                        id="filedListAny"
-                                        ng-model="filter.selectedFiled"
-                                        ng-change="updateValue(filter.selectedFiled,this)"
-                                        aria-controls="datatable-responsive" class="form-control col-md-12 ">
-                                    <option value="" disabled selected>Select Field</option>
-                                    <option ng-repeat="(indexX, filedName) in data track by indexX"
-                                            data-index="{{indexX}}"
-                                            value="{{filedName.type}}">
-                                        {{filedName.field}}
+                                <select name="datatable-responsive_length" id="filedListAny" class="form-control col-md-12" tabindex="-1" aria-hidden="true"
+                                        ng-model="filter.field" ng-model-options="{trackBy: '$value'}" ng-change="updateValue(filter)">
+                                    <option value=""></option>
+                                    <option ng-repeat="field in data" value="{{field.field}}">
+                                        {{field.field}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label>Conditione</label>
+                                <label>Condition</label>
                                 <select name="datatable-responsive_length"
-                                        ng-model="filter.condition"
+                                        ng-model="filter.operator"
                                         aria-controls="datatable-responsive" class="form-control col-md-12 ">
                                     <option value="" disabled selected>Select condition</option>
                                     <option ng-repeat="condition in conditiones track by $index"
@@ -220,12 +232,11 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                {{filter.selectedFiled}}
-                                <label>Agent Name</label>
-                                <div class="" ng-show="!filter.selectedFiled">
+                                {{filter.type}} <label> - Value</label>
+                                <div class="" ng-show="!filter.type">
                                     select filed type
                                 </div>
-                                <div ng-switch on="filter.selectedFiled">
+                                <div ng-switch on="filter.type">
                                     <!-- date -->
                                     <div ng-switch-when="Date">
                                         <input type="text" class="form-control" ng-model="filter.value" name="startDate"
@@ -234,8 +245,7 @@
                                     <!-- String -->
                                     <div ng-switch-when="String">
                                         <input type="text" ng-model="filter.value"
-                                               class="form-control has-feedback-left"
-                                               placeholder="">
+                                               class="form-control has-feedback-left">
                                     </div>
                                     <!--boolean -->
                                     <div ng-switch-when="Boolean">
@@ -243,48 +253,45 @@
                                                 ng-model="filter.value"
                                                 aria-controls="datatable-responsive" class="form-control col-md-12 ">
                                             <option value="" disabled selected>Select Field</option>
-                                            <option value="10">True</option>
-                                            <option value="25">False</option>
+                                            <option value=true>True</option>
+                                            <option value=false>False</option>
                                         </select>
                                     </div>
-                                    <div ng-switch-when="Number"><input type="text"
-                                                                        class="form-control has-feedback-left"
-
-                                                                        placeholder=""></div>
+                                    <div ng-switch-when="Number"><input type="text" ng-model="filter.value" class="form-control has-feedback-left">
+                                    </div>
                                     <!-- select -->
                                     <div ng-switch-when="Select">
                                         <select name="datatable-responsive_length"
                                                 ng-model="filter.value"
                                                 aria-controls="datatable-responsive" class="form-control col-md-12 ">
                                             <option value="" disabled selected>Select Field</option>
-                                            <option ng-repeat="value in selectedValues track by $index"
+                                            <option ng-repeat="value in filter.selectedValues track by $index"
                                                     value="{{value}}">
                                                 {{value}}
                                             </option>
                                         </select>
+
+
                                     </div>
                                     <!-- object ID -->
                                     <div ng-switch-when="ObjectID"><input type="text" ng-model="filter.value"
-                                                                          class="form-control has-feedback-left"
-                                                                          placeholder=""></div>
+                                                                          class="form-control has-feedback-left"></div>
                                     <!-- array-->
                                     <div ng-switch-when="Array"><input type="text" ng-model="filter.value"
-                                                                       class="form-control has-feedback-left"
-                                                                       placeholder=""></div>
+                                                                       class="form-control has-feedback-left"></div>
                                     <!-- embedded -->
                                     <div ng-switch-when="Embedded"><input type="text" ng-model="filter.value"
-                                                                          class="form-control has-feedback-left"
-                                                                          placeholder=""></div>
+                                                                          class="form-control has-feedback-left"></div>
                                 </div>
 
 
                             </div>
                             <div class="col-md-3 text-center">
                                 <div class="btn-add-form remove" ng-if="!$last" ng-show="filter.length!=1"
-                                     ng-click="removeFilter(filter.id);">
+                                     ng-click="removeAnyFilter(filter.uniqueId);">
                                     <i class="ti-close"></i>
                                 </div>
-                                <div class="btn-add-form " ng-show="$last" ng-click="addNewFilter();">
+                                <div class="btn-add-form " ng-show="$last" ng-click="addNewFilterToAny();">
                                     <i class="ti-plus"></i>
                                 </div>
                             </div>
@@ -294,9 +301,35 @@
                     </fieldset>
                 </div>
 
+                <div class="x_panel">
+                    <div>ORDER BY</div>
+                    <fieldset class="row" style="margin-top: 15px;">
+                        <div class="col-md-3">
+                            <label>Select Field</label>
+
+                            <select name="datatable-responsive_length" id="filedListOrder" class="form-control col-md-12" tabindex="-1" aria-hidden="true"
+                                    ng-model="currentFilter.order.by" ng-model-options="{trackBy: '$value'}">
+                                <option value=""></option>
+                                <option ng-repeat="field in data" value="{{field.field}}">
+                                    {{field.field}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Order By</label>
+                            <select name="datatable-responsive_length"
+                                    ng-model="currentFilter.order.ascending"
+                                    aria-controls="datatable-responsive" class="form-control col-md-12" ng-options="o.v as o.n for o in [{ n: 'Ascending', v: true }, { n: 'Descending', v: false }]">
+
+                            </select>
+
+                        </div>
+                    </fieldset>
+                </div>
+
                 <div class="x_content">
-                    <button type="button" class="btn btn-info">SUBMIT</button>
-                    <button type="button" class="btn btn-info" ng-click="createNewView();">CANCEL</button>
+                    <button type="button" class="btn btn-info" ng-click="saveFilter()">SUBMIT</button>
+                    <button type="button" class="btn btn-info" ng-click="createNewView()">CANCEL</button>
                 </div>
             </div>
         </div>
