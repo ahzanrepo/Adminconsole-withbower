@@ -29,8 +29,9 @@ mainApp.controller('editautoattendancecontroller', function ($scope, autottendan
 
     var onExtentionCompleted = function (response) {
 
-        if (response.data.Exception) {
-            onError(response.data.Exception.Message);
+        if (!response.data.IsSuccess) {
+            if(response.data.Exception.Message)
+                onError(response.data.Exception.Message);
         }
         else {
 
@@ -70,8 +71,9 @@ mainApp.controller('editautoattendancecontroller', function ($scope, autottendan
 
     var onDeleteActionCompleted = function (response) {
 
-        if (response.data.Exception) {
-            onError(response.data.Exception.Message);
+        if (!response.data.IsSuccess) {
+            if(response.data.Exception.Message)
+                onError(response.data.Exception.Message);
         }
         else {
             $scope.showAlert("Success","Successfully deleted","success");
@@ -82,7 +84,7 @@ mainApp.controller('editautoattendancecontroller', function ($scope, autottendan
     var onActionAddCompleted = function (response) {
 
         $scope.newAction = {};
-        if (response.data.Exception) {
+        if (!response.data.IsSuccess) {
             onError(response.data.Exception.Message);
         }
         else {
@@ -94,8 +96,9 @@ mainApp.controller('editautoattendancecontroller', function ($scope, autottendan
     var onGetAutoAttendanceCompleted = function (response) {
 
         $scope.newAction = {};
-        if (response.data.Exception) {
-            onError(response.data.Exception.Message);
+        if (!response.data.IsSuccess) {
+            if(response.data.Exception.Message)
+                onError(response.data.Exception.Message);
         }
         else {
             $scope.newObj =response.data.Result ;

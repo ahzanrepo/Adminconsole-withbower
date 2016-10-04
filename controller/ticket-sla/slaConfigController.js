@@ -69,6 +69,10 @@
             });
         };
 
+        $scope.backToList =function()
+        {
+            $state.go('console.sla');
+        };
         //$scope.reloadPage = function () {
         //    $state.reload();
         //};

@@ -14,30 +14,30 @@
                     <a ng-hide="editMode" class="ng-binding" style="">Criteria : {{matrix.criteria}}</a>
                 </h2>
                 <h2 class="font-300 ">
-                    <a ng-hide="editMode" class="ng-binding" style="">Target : {{matrix.target}}</a>
+                    <a ng-hide="editMode" class="ng-binding" style="">Target : {{matrix.target}} min</a>
                 </h2>
                 <h2 class="font-300 ">
-                    <a ng-hide="editMode" class="ng-binding" style="">Threshold : {{matrix.threshold}}</a>
+                    <a ng-hide="editMode" class="ng-binding" style="">Threshold : {{matrix.threshold}} min</a>
                 </h2>
                 <h2 class="font-300 ">
                     <a ng-hide="editMode" class="ng-binding" style="">On Fail : </a>
-                    <ul class="list-unstyled timeline">
-                        <li ng-repeat="onFailed in matrix.on_fail">
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                                <p>{{onFailed.name}} </p>
-                            </div>
-                        </li>
-                    </ul>
+                    <table border="0">
+                        <tr ng-repeat="onFailed in matrix.on_fail">
+                            <td>
+                                - {{onFailed.name}}
+                            </td>
+                        </tr>
+                    </table>
                 </h2>
                 <h2 class="font-300 ">
                     <a ng-hide="editMode" class="ng-binding" style="">On Threshold : </a>
-                    <ul class="list-unstyled timeline">
-                        <li ng-repeat="onThreshold in matrix.on_threshold">
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                                <p>{{onThreshold.name}} </p>
-                            </div>
-                        </li>
-                    </ul>
+                    <table border="0">
+                        <tr ng-repeat="onThreshold in matrix.on_threshold">
+                            <td>
+                                - {{onThreshold.name}}
+                            </td>
+                        </tr>
+                    </table>
                 </h2>
             </div>
             <!-- /.col -->
