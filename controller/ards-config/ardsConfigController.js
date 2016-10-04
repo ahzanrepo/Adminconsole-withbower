@@ -124,7 +124,7 @@ mainApp.controller("ardsController", function ($scope,$state, ardsBackendService
     $scope.GetARDSRecords = function () {
         ardsBackendService.getArdsRecords().then(function (response) {
 
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in picking Ards list "+response.data.Exception);
             }

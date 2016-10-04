@@ -70,6 +70,24 @@ mainApp.factory('didBackendService', function ($http, authService) {
             {
                 return response;
             });
-        }
+        },
+        pickPhoneNumbers: function () {
+            console.log("Did Data "+JSON.stringify(didData));
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'POST',
+                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/DidNumber",
+                headers: {
+                    'authorization':authToken
+                },
+                data:didData
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+
+
     }
 });
