@@ -48,7 +48,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     };
 
     $scope.queues = [];
-    $scope.updatedQueues=[];
+
 
 
     /*$scope.GetAllQueueStatistics = function () {
@@ -73,7 +73,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         });
     };*/
 
-var qs=[{id:1,name:'p'},{id:2,name:'q'}];
+
     $scope.checkQueueAvailability = function (itemID) {
 
         var value=$filter('filter')($scope.queues, {id: itemID})[0];
@@ -85,18 +85,17 @@ var qs=[{id:1,name:'p'},{id:2,name:'q'}];
         {
             return true;
         }
-        console.log("Item Data",value);
+
 
     }
 
-    $scope.checkQueueAvailability(3);
 
     $scope.GetAllQueueStatistics = function () {
 
         queueMonitorService.GetAllQueueStats().then(function (response) {
 
-            $scope.updatedQueues = [];
-            $scope.updatedQueues = response.map(function (c, index) {
+            var updatedQueues = [];
+            updatedQueues = response.map(function (c, index) {
 
 
 
@@ -118,12 +117,12 @@ var qs=[{id:1,name:'p'},{id:2,name:'q'}];
                 return item;
             });
 
-            if(response.length==$scope.updatedQueues.length)
+            if(response.length==updatedQueues.length)
             {
                 //$scope.queues=$scope.updatedQueues;
                 angular.forEach($scope.queues, function (item)
                 {
-                    var value=$filter('filter')($scope.updatedQueues, {id: item.id})[0];
+                    var value=$filter('filter')(updatedQueues, {id: item.id})[0];
                     if(!value)
                     {
                         $scope.queues.splice($scope.queues.indexOf(item),1);
