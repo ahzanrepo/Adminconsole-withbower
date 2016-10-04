@@ -88,6 +88,17 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
       return response.data.Result;
     });
   };
+  var getFilesByCategoryName = function (categoryName) {
+    return $http({
+      method: 'get',
+      url: baseUrls.fileServiceUrl+ 'Files/infoByCategory/'+categoryName,
+      headers: {
+        'authorization': authService.GetToken()
+      }
+    }).then(function (response) {
+      return response.data.Result;
+    });
+  };
 
   var getFileCountCategoryID = function (categoryId) {
     return $http({
@@ -133,6 +144,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     GetCatagories: getCatagories,
     GetFilesCategoryID:getFilesCategoryID,
     GetFileCountCategoryID:getFileCountCategoryID,
+    GetFilesByCategoryName:getFilesByCategoryName,
     UploadUrl: baseUrls.fileServiceUrl+ "File/Upload",
     File: {},
     Headers: {'Authorization':  authService.GetToken()}

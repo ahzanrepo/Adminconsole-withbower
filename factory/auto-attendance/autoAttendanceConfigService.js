@@ -1,5 +1,5 @@
 
-mainApp.factory('autottendanceconfigservice', function ($http, authService) {
+mainApp.factory('autottendanceconfigservice', function ($http, authService,baseUrls) {
 
     return {
 
@@ -7,7 +7,7 @@ mainApp.factory('autottendanceconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/AutoAttendants',
+                url: baseUrls.autoattendantUrl+ 'AutoAttendants',
                 headers: {
                     'authorization': authToken
                 }
@@ -21,7 +21,7 @@ mainApp.factory('autottendanceconfigservice', function ($http, authService) {
 
             return $http({
                 method: 'POST',
-                url: 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/AutoAttendant',
+                url: baseUrls.autoattendantUrl+ 'AutoAttendant',
                 headers: {
                     'authorization': authToken
                 },
@@ -35,7 +35,7 @@ mainApp.factory('autottendanceconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: "http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/AutoAttendant/" + name,
+                url: baseUrls.autoattendantUrl+ "AutoAttendant/" + name,
                 headers: {
                     'authorization': authToken
                 }
@@ -50,7 +50,7 @@ mainApp.factory('autottendanceconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/AutoAttendant/" + name,
+                url: baseUrls.autoattendantUrl+ "AutoAttendant/" + name,
                 headers: {
                     'authorization': authToken
                 }
@@ -65,7 +65,7 @@ mainApp.factory('autottendanceconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/AutoAttendant/' + newAAObj.Name,
+                url: baseUrls.autoattendantUrl+ 'AutoAttendant/' + newAAObj.Name,
                 headers: {
                     'authorization': authToken
                 },
@@ -81,7 +81,7 @@ mainApp.factory('autottendanceconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/AutoAttendant/' + name + '/Action/' + on,
+                url: baseUrls.autoattendantUrl+ 'AutoAttendant/' + name + '/Action/' + on,
                 headers: {
                     'authorization': authToken
                 },
@@ -97,7 +97,7 @@ mainApp.factory('autottendanceconfigservice', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/AutoAttendant/' + name + '/Action/' + id,
+                url: baseUrls.autoattendantUrl+ 'AutoAttendant/' + name + '/Action/' + id,
                 headers: {
                     'authorization': authToken
                 }
@@ -106,7 +106,7 @@ mainApp.factory('autottendanceconfigservice', function ($http, authService) {
             });
 
 
-        },
+        }
 
 
     }
