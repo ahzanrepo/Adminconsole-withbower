@@ -29,7 +29,7 @@ mainApp.controller('newautoattendancecontroller', function ($scope, autottendanc
 
     var onSaveCompleted = function (response) {
 
-        if (response.data.Exception) {
+        if (response.data.IsSuccess) {
             onError(response.data.Exception.Message);
         }
         else {
@@ -52,7 +52,7 @@ mainApp.controller('newautoattendancecontroller', function ($scope, autottendanc
 
     var onExtentionCompleted = function (response) {
 
-        if (response.data.Exception) {
+        if (response.data.IsSuccess) {
             onError(response.data.Exception.Message);
         }
         else {
