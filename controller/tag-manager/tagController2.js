@@ -295,7 +295,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
                 tagBackendService.detachTagFromCategory(parent_ID,selectedBranch._id).then(function (response) {
                     console.log("success");
                     $scope.showAlert("Success","Tag detached from Category successfully","success");
-                    $state.reload();
+                    $scope.treeBuilder();
                 }), function (error) {
                     console.log("error");
                     $scope.showAlert("Error","Tag detached from Category failed","error");
@@ -306,7 +306,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
                 tagBackendService.detachTagFromTag(parent_ID,selectedBranch._id).then(function (response) {
                     console.log("success");
                     $scope.showAlert("Success","Tag detached from Tag successfully","success");
-                    $state.reload();
+                    $scope.treeBuilder();
                 }), function (error) {
                     console.log("error");
                     $scope.showAlert("Error","Tag detached from Tag failed","error");
@@ -699,9 +699,8 @@ mainApp.controller("NewTagCategoryController", function ($scope,$rootScope, $uib
     $scope.showModal=true;
 
     $scope.ok = function () {
-        var tagCategory={};
 
-        tagCategoryData =
+        var tagCategoryData =
         {
             name:$scope.tagCatNameData
 
@@ -732,8 +731,7 @@ mainApp.controller("NewTagCategoryController", function ($scope,$rootScope, $uib
     };
 
     $scope.closeModal = function () {
-        saveNewTagData(parentTag,null);
-        $scope.showModal=false;
+
         $uibModalInstance.dismiss('cancel');
     };
 
