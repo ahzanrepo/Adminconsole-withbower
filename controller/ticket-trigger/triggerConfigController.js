@@ -68,6 +68,10 @@
             });
         };
 
+        $scope.backToList =function()
+        {
+            $state.go('console.trigger');
+        };
         //$scope.reloadPage = function () {
         //    $state.reload();
         //};
