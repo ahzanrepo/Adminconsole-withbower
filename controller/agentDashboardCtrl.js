@@ -180,6 +180,22 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
     $scope.getNewTicketCount();
 
+    $scope.totalCloseTicket = 0;
+    $scope.getCloseTicketCount = function () {
+        dashboardService.GetTotalTicketCount("CLOSEDTICKET").then(function (response) {
+            if (response) {
+                $scope.totalCloseTicket = response;
+            }
+            else {
+                $scope.totalCloseTicket = 0;
+            }
+        }, function (err) {
+            $scope.totalCloseTicket = 0;
+            console.log(err);
+        });
+    };
+    $scope.getCloseTicketCount();
+
     $scope.openTicket = 0;
     $scope.getOpenTicketCount = function () {
         dashboardService.GetTicketCount("OPENTICKET").then(function (response) {
