@@ -117,22 +117,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     })();
 
     var getAllRealTime = function () {
-        $scope.GetAllQueueStatistics();
-        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-    };
-
-    // getAllRealTime();
-    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-
-    $scope.$on("$destroy", function () {
-        if (getAllRealTimeTimer) {
-            $timeout.cancel(getAllRealTimeTimer);
-        }
-    });
-
-
-    var getAllRealTime = function () {
-        $scope.GetAllQueueStatistics();
+        //$scope.GetAllQueueStatistics();
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 
