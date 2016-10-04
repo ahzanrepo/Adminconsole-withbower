@@ -28,18 +28,19 @@
                     <div class="form-group col-md-12 col-sm-12 col-xs-12" ng-show="showNewForm">
                         Type new Tag Name here
                         <input type="text" class="form-control" placeholder=""  ng-model="tagNameData" ng-show="showNewForm"required>
-
-                    </div>
-                    <div class="form-group col-md-12 col-sm-12 col-xs-12" ng-show="showNewForm">
                         Type new Tag description here
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <input type="text" class="form-control" placeholder=""  ng-model="tagDesc" ng-show="showNewForm"required>
-                        </div>
+                        <input type="text" class="form-control" placeholder=""  ng-model="tagDesc" ng-show="showNewForm"required>
+                        <!--<div class="col-md-12 col-sm-12 col-xs-12">
 
+                        </div>-->
                     </div>
+                    <!--<div class="form-group col-md-12 col-sm-12 col-xs-12" ng-show="showNewForm">
+
+
+                    </div>-->
 
                     <div class="form-group">
-                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-7">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-10">
                             <button type="submit" class="btn btn-success" ng-click="saveNewTag()">Save</button>
 
                         </div>
