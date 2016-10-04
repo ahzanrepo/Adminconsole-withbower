@@ -221,7 +221,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "autoattendancelistcontroller",
             data: {
                 requireLogin: true,
-                navigation: "PABX_ADMIN"
+                navigation: "AUTOATTENDANCE"
             }
         }).state('console.newautoattendance', {
             url: "/autoattendance/new",
@@ -229,7 +229,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "newautoattendancecontroller",
             data: {
                 requireLogin: true,
-                navigation: "PABX_ADMIN"
+                navigation: "AUTOATTENDANCE"
             }
         }).state('console.editautoattendance', {
             url: "/autoattendance/edit",
@@ -240,7 +240,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             },
             data: {
                 requireLogin: true,
-                navigation: "PABX_ADMIN"
+                navigation: "AUTOATTENDANCE"
             }
         }).state("console.ringGroup", {
             url: "/ringGroup",
