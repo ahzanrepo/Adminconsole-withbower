@@ -1,7 +1,7 @@
 
 'use strict';
 
-mainApp.controller('newautoattendancecontroller', function ($scope, autottendanceconfigservice,extensionBackendService, $state,$stateParams) {
+mainApp.controller('newautoattendancecontroller', function ($scope, autottendanceconfigservice,extensionBackendService, $state,$stateParams,fileService) {
 
 
     $scope.newObj={};
@@ -47,7 +47,7 @@ mainApp.controller('newautoattendancecontroller', function ($scope, autottendanc
     var loadExtentions = function(){
 
         extensionBackendService.getExtensionsByCategory('AUTO_ATTENDANT').then(onExtentionCompleted, onError);
-    }
+    };
 
 
     var onExtentionCompleted = function (response) {
@@ -58,7 +58,7 @@ mainApp.controller('newautoattendancecontroller', function ($scope, autottendanc
         else {
 
 
-            $scope.extentions = response.data.Result.map;
+            $scope.extentions = response.data.Result;
         }
     };
 
@@ -73,6 +73,15 @@ mainApp.controller('newautoattendancecontroller', function ($scope, autottendanc
 
     loadExtentions();
 
+    $scope.ivrFileList = [];
+    $scope.LoadIvrFiles = function () {
+        fileService.GetFilesByCategoryName('IVRCLIPS').then(function (response) {
+            $scope.ivrFileList = response;
+        }, function (error) {
+            $scope.showAlert("IVR Clips","Fail To Get IVR File List.","error");
+        });
+    };
+    $scope.LoadIvrFiles();
     //if($stateParams.id)
     //{
     //    $scope.ruleID=$stateParams.id;
