@@ -94,20 +94,71 @@
 
         };
 
-        var cleanUpEmptyFilters = function(filterArr)
+        var cleanUpEmptyFilters = function(currentFilter)
         {
+            var cloneFilter = {};
+            var allFilterArr = [];
+            var anyFilterArr = [];
 
-        }
+            angular.copy(currentFilter, cloneFilter);
+            if(cloneFilter)
+            {
+                if(cloneFilter.conditions.all)
+                {
+                    var allFilterArr = cloneFilter.conditions.all.filter(function(item)
+                    {
+                        if(item.field && item.operator && item.value !== '' && item.value !== null)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    })
+
+                    if(allFilterArr && allFilterArr.length > 0)
+                    {
+                        cloneFilter.conditions.all = allFilterArr;
+                    }
+                }
+
+                if(cloneFilter.conditions.any)
+                {
+                    var anyFilterArr = cloneFilter.conditions.any.filter(function(item)
+                    {
+                        if(item.field && item.operator && item.value !== '' && item.value !== null)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    })
+
+                    if(anyFilterArr && anyFilterArr.length > 0)
+                    {
+                        cloneFilter.conditions.any = anyFilterArr;
+                    }
+                }
+            }
+
+            return cloneFilter;
+
+        };
 
 
         $scope.saveFilter = function()
         {
             //create body
+            var curFilter = cleanUpEmptyFilters($scope.currentFilter);
 
             if($scope.IsNewFilterSchema)
             {
+
                 //save
-                ticketFilterService.addTicketView($scope.currentFilter).then(function(addResult)
+                ticketFilterService.addTicketView(curFilter).then(function(addResult)
                 {
                     if(addResult.IsSuccess)
                     {
@@ -127,7 +178,7 @@
             else
             {
                 //update
-                ticketFilterService.updateTicketViewById($scope.currentFilter._id, $scope.currentFilter).then(function(updateResult)
+                ticketFilterService.updateTicketViewById(curFilter._id, curFilter).then(function(updateResult)
                 {
                     if(updateResult.IsSuccess)
                     {
