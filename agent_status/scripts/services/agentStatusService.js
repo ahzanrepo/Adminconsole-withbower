@@ -69,7 +69,7 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
 
     var getProductivity = function () {
 
-        return $http.get(baseUrls.resourceServiceBaseUrl+"Resources/Productivity",
+        return $http.get(baseUrls.productivityServiceBaseUrl+"Resources/Productivity",
             {
                 headers:{authorization:authService.GetToken()}
             }).then(function (response) {
