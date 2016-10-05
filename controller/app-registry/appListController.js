@@ -79,7 +79,7 @@ mainApp.controller("applicationController", function ($scope,$state, appBackendS
     $scope.GetApplications = function () {
         appBackendService.getApplications().then(function (response) {
 
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in picking App list "+response.data.Exception);
             }

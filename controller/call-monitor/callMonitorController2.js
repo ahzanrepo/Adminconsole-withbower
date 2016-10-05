@@ -23,7 +23,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
 
     var onCallsDataReceived = function (response) {
 
-        if (response.data.Exception) {
+        if (!response.data.IsSuccess) {
             onError(response.data.Exception.Message);
         }
         else {
