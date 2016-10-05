@@ -36,7 +36,7 @@ mainApp.controller("translationController", function ($scope,$state, transBacken
     $scope.GetAllTranslations = function () {
         transBackendService.getTranslations().then(function (response) {
 
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in Loading translation data "+response.data.Exception);
                 $scope.showAlert("Error","Error in Loading translation data","error");

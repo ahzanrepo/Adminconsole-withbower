@@ -120,7 +120,7 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     $scope.GetEndUser = function () {
         companyConfigBackendService.getCloudEndUser().then(function (response) {
 
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in picking EndUsers "+response.data.Exception);
 
@@ -165,7 +165,7 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     $scope.GetClusters = function () {
 
         companyConfigBackendService.getClusters().then(function (response) {
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in picking Clusters "+response.data.Exception);
 
@@ -191,7 +191,7 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     $scope.GetContexts = function () {
         companyConfigBackendService.getContexts().then(function (response) {
 
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in picking Contexts "+response.data.Exception);
 

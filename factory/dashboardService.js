@@ -96,6 +96,23 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
     };
 
+    var getNewTicketCountViaChenal = function (chenal) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/NEWTICKET/via_"+chenal+"/*",//http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/NEWTICKET/via_CALL/*
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+    };
+
     var getTotalQueued = function () {
         var authToken = authService.GetToken();
         //
@@ -373,6 +390,8 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
     };
 
+
+
     var getResolvedTicketSeries = function (status) {
         return $http({
             method: 'GET',
@@ -430,7 +449,7 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
         GetResolvedTicketSeries:getResolvedTicketSeries,
         GetDeferenceResolvedTicketSeries:getDeferenceResolvedTicketSeries,
         GetTotalTicketCount:getTotalTicketCount,
-        GetTotalTicketAvg:getTotalTicketAvg
-
+        GetTotalTicketAvg:getTotalTicketAvg,
+        GetNewTicketCountViaChannel:getNewTicketCountViaChenal
     }
 });

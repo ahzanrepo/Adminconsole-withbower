@@ -61,31 +61,31 @@ mainApp.controller("extensionController", function ($scope,$state, extensionBack
                     if(response.data.IsSuccess)
                     {
                         console.log("Dod assigned to Extension");
-                        $scope.showAlert("Success","Extension "+response.data.Result.Extension+" saved successfully","success");
+                        $scope.showAlert("Success","Extension saved successfully","success");
                         $scope.reloadPage();
                     }
                     else
                     {
                         console.log("Error in assigning DOD to Extension ",response.data.Exception.Message);
-                        $scope.showAlert("Error","Extension "+response.data.Result.Extension+" saving failed ","error");
+                        $scope.showAlert("Error","Extension saving failed ","error");
                         $scope.reloadPage();
                     }
                 }, function (error) {
                     console.log("Extension in assigning DOD to Extension ",error);
-                    $scope.showAlert("Error","Extension "+resource.Extension+" saving error ","error");
+                    $scope.showAlert("Error","Extension saving error ","error");
                     $scope.reloadPage();
                 });
             }
             else
             {
-                $scope.showAlert("Error","Extension "+resource.Extension+" saving error ","error");
+                $scope.showAlert("Error","Extension saving error ","error");
                 console.log("Extension saving error ",response.data.Exception.Message);
                 $scope.reloadPage();
             }
 
 
         }, function (error) {
-            $scope.showAlert("Error","Extension "+resource.Extension+" saving error ","error");
+            $scope.showAlert("Error","Extension saving error ","error");
             $scope.reloadPage();
         });
     };
@@ -94,7 +94,7 @@ mainApp.controller("extensionController", function ($scope,$state, extensionBack
     $scope.GetExtensions = function () {
         extensionBackendService.getExtensions().then(function (response) {
 
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in picking limit list "+response.data.Exception.Message);
             }

@@ -110,6 +110,11 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,did
         });
     };
 
+    scope.loadDidNumbers = function () {
+        
+    }
+    
+    
     $scope.updateDid = function (extensionId) {
         if($scope.did.id)
         {
