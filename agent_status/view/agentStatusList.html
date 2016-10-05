@@ -9,10 +9,10 @@
                         ng-click="changeView();">
                     {{summaryText}}
                 </button>
-                <!--<button type="button" class="btn btn-success btn-sm pull-right attribute-btn"
+                <button type="button" class="btn btn-success btn-sm pull-right attribute-btn"
                         ng-click="showAgentSummary();">
                     Summary
-                </button>-->
+                </button>
             </div>
         </div>
         <div class="x_content">
@@ -21,149 +21,13 @@
             <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div ng-hide="summary" ng-repeat="productivity in Productivitys" class="col-md-4 col-sm-4  widget_tally_box">
-                        <div class="x_panel fixed_height_480 agent-main-wrap   "
-                             ng-class="{'reserved':productivity.slotState=='Reserved',
-                    'available':productivity.slotState=='Available',
-                    'connected':productivity.slotState=='Connected',
-                    'afterWork':productivity.slotState=='AfterWork',
-                    'suspended':productivity.slotState=='Suspended',
-                    'outbound':productivity.slotState=='Outbound',
-                    'break': productivity.slotState == 'MeetingBreak' ||
-                    productivity.slotState == 'MealBreak' || productivity.slotState == 'TrainingBreak' ||
-                    productivity.slotState == 'TeaBreak' || productivity.slotState == 'OfficialBreak' ||
-                    productivity.slotState == 'AUXBreak' ||
-                    productivity.slotState == 'ProcessRelatedBreak'}">
-                            <div class="x_content">
-                                <div class="flex">
+                    <div class="row">
+                        <agentstatus call-infos="showCallInfos" show-summary="summary" productivity-list="Productivitys"
+                                     res-item="res"
 
-                                    <div class="col-lg-12 ">
-                                        <div class="list-inline widget_profile_box">
-                                            <div class="col-md-4">
-                                                <div class="slot-state">
-                                                    {{productivity.slotState}}<br/>
-                                                    <small>{{productivity.callInfos[0].Number}}</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4" style="margin-top: -28px;">
-                                                <div class="text-center">
-                                                    <img src="images/user.png" alt="..."
-                                                         class="img-circle profile_img boarder-0a">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="text-right">
-                                                    {{productivity.slotStateTime}}
-                                                    <br/>
-                                                    <small>{{productivity.callInfos[0].CallDirection}}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                     active-call-list="activeCalls"
+                                     attributes-list="attributesList" ng-repeat="res in profile"></agentstatus>
 
-                                </div>
-                                <h3 class="name">{{productivity.ResourceName}}</h3>
-
-                                <!--<div class="last-reserved-time connected-caller" ng-repeat="call in productivity.callInfos">
-                                    <p>Caller</p>
-                                    <small>{{call.Number}}</small>
-                                    <small>{{call.CallDirection}}</small>
-                                </div>-->
-
-                                <div class="last-reserved-time" >
-                                    <p>Last Reserved Time</p>
-                                    <small>{{productivity.LastReservedTime}}</small>
-                                </div>
-
-                                <div class="flex">
-                                    <ul class="list-inline count2 count3">
-                                        <li>
-                                            <h3>{{productivity.StaffedTime | secondsToDateTime | date:'HH:mm:ss'}}</h3>
-                                            <span> Staffed Time </span>
-                                        </li>
-                                        <li>
-                                            <h3>{{productivity.OnCallTime | secondsToDateTime | date:'HH:mm:ss'}}</h3>
-                                            <span>On Call Time</span>
-                                        </li>
-                                    </ul>
-                                </div>
-
-
-                                <!-- task -->
-                                <div class="task-wrap" ng-slimscroll
-                                     ng-mouseover="viewScroll()"
-                                     ng-mouseleave="hideScroll()"
-                                     opacity="0.1"
-                                     distance="5px"
-                                     enabled="{{ scrollEnabled }}"
-                                     width="100%">
-                                    <table class="table table-striped task-tbl">
-                                        <thead>
-                                        <tr>
-                                            <th class="fs15 text-left">Task Type</th>
-                                            <th class="fs15 text-right">Skill</th>
-                                            <th class="fs15 text-right">Percentage</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="task in productivity.taskList">
-                                            <td class="text-left">{{task.taskType}}</td>
-                                            <td class="fs15 fw700 text-right"> {{task.skill}}</td>
-                                            <td class="fs15 fw700 text-right">{{task.percentage}}%</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <!-- other details -->
-                                <div class="other-agent-details"
-                                     ng-mouseover="viewOtherScroll()"
-                                     ng-mouseleave="hideOtherScroll()"
-                                        >
-                                    <div class="row">
-                                        <div class="col-md-4 tile">
-                                            <span>Idle Time</span>
-
-                                            <p> {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</p>
-                                        </div>
-                                        <div class="col-md-4 tile">
-                                            <span>Break Time</span>
-
-                                            <p>{{productivity.BreakTime | secondsToDateTime | date:'HH:mm:ss'}}</p>
-                                        </div>
-                                        <div class="col-md-4 tile">
-                                            <span>Acw Time</span>
-
-                                            <p>{{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</p>
-                                        </div>
-                                        <div class="col-md-4 tile">
-                                            <span>Hold Time</span>
-
-                                            <p>{{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 tile">
-                                        <span>Miss Call</span>
-
-                                        <p> {{productivity.MissCallCount}}</p>
-                                    </div>
-                                    <div class="col-md-4 tile">
-                                        <span>Incoming Call</span>
-
-                                        <p> {{productivity.IncomingCallCount}}</p>
-                                    </div>
-                                    <div class="col-md-4 tile">
-                                        <span>Transfer Call</span>
-
-                                        <p> {{productivity.TransferCallCount}}</p>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-
-                        </div>
                     </div>
 
 
@@ -282,6 +146,67 @@
                             </tbody>
                         </table>
                     </div>
+
+
+                    <!--<div ng-show="summary" class="col-md-12 col-sm-12 col-xs-12">
+                        <table class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
+                            <thead>
+                            <tr>
+                                <th class="fs15 text-right">Tasks</th>
+                                <th class="fs15 text-left" ng-show="showCallDetails" >Call Info</th>
+                                <th class="fs15 text-left">Name</th>
+                                <th class="fs15 text-right">State</th>
+                                <th class="fs15 text-right">State Time</th>
+                                &lt;!&ndash;<th class="fs15 text-right">Staffed Time</th>&ndash;&gt;
+                                <th class="fs15 text-right">AcwTime</th>
+                                <th class="fs15 text-right">BreakTime</th>
+                                <th class="fs15 text-right">HoldTime</th>
+                                <th class="fs15 text-right">OnCallTime</th>
+                                <th class="fs15 text-right">IdleTime</th>
+                                <th class="fs15 text-right">StaffedTime</th>
+                                <th class="fs15 text-right">IncomingCallCount</th>
+                                <th class="fs15 text-right">MissCallCount</th>
+                                <th class="fs15 text-right">TransferCallCount</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr  ng-repeat="productivity in Productivitys">
+
+                                <th class="fs15 text-right">&lt;!&ndash; task &ndash;&gt;
+                                    <div ng-repeat="task in productivity.taskList">
+                                        <small>{{task.taskType}}</small>
+                                        <small>{{task.skill}}</small>
+                                        <small>{{task.percentage}}%</small>
+                                    </div>
+                                </th>
+                                <th class="fs15 text-left" ng-show="showCallDetails" >
+                                    <div ng-repeat="call in productivity.callInfos">
+                                        <small>connect with : {{call["Caller-Caller-ID-Number"]}}</small>
+                                        <small>Direction : {{call["DVP-Call-Direction"]}}</small>
+                                    </div>
+                                </th>
+                                <th class="fs15 text-left">{{productivity.ResourceName}}</th>
+                                <th class="fs15 text-right">{{productivity.slotState}}</th>
+                                <th class="fs15 text-right">{{productivity.slotStateTime}}</th>
+                                <th class="fs15 text-right">{{productivity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{productivity.BreakTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{productivity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{productivity.OnCallTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right"> {{productivity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{productivity.StaffedTime | secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{productivity.IncomingCallCount}}</th>
+                                <th class="fs15 text-right">{{productivity.MissCallCount}}</th>
+                                <th class="fs15 text-right">{{productivity.TransferCallCount}}</th>
+
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>-->
 
                 </div>
 
