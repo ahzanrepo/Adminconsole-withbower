@@ -45,7 +45,7 @@
                 scope.getTemplate = function(field){
                     switch (field){
                         case "due_at":
-                            return '<div class="col-sm-3"> <label>Due Date</label> <input type="text" class="form-control" ng-model="ngModel.value" name="DueDate" datepicker> </div>';
+                            return '<div class="col-sm-5"><input type="text" class="form-control" ng-model="ngModel.value" name="DueDate" datepicker> </div>';
                         case "active":
                             return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" ng-model="ngModel.value"> <option>TRUE</option> <option>FALSE</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                         case "is_sub_ticket":
@@ -59,20 +59,20 @@
                         case "description":
                             return '<div><input type="text" class="form-control has-feedback-left" ng-model="ngModel.value" style="" id="actionValue" placeholder="Value"> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span></div>';
                         case "priority":
-                            return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select Priority" ng-model="ngModel.value"> <option value="" disabled selected>Select Priority</option> <option ng-repeat="priority in ticketSchema.priority.enum" value="{{priority}}"> {{priority}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+                            return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select Priority" ng-model="ngModel.value"> <option value="" disabled selected>Select Priority</option> <option ng-repeat="priority in ticketSchema.priority.enum" value="{{priority}}"> {{priority}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                         case "status":
-                            return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select Status" ng-model="ngModel.value"> <option value="" disabled selected>Select Status</option> <option ng-repeat="status in ticketSchema.status.enum" value="{{status}}"> {{status}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+                            return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select Status" ng-model="ngModel.value"> <option value="" disabled selected>Select Status</option> <option ng-repeat="status in ticketSchema.status.enum" value="{{status}}"> {{status}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                         case "assignee":
                             if(companyUsers){
-                                return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User" ng-model="ngModel.value"> <option value="" disabled selected>Select User</option> <option ng-repeat="user in companyUsers" value="{{user._id}}"> {{user.firstname}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+                                return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User" ng-model="ngModel.value"> <option value="" disabled selected>Select User</option> <option ng-repeat="user in companyUsers" value="{{user._id}}"> {{user.firstname}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                             }else{
-                                return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User" ng-model="ngModel.value"> <option value="" disabled selected>No User</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+                                return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User" ng-model="ngModel.value"> <option value="" disabled selected>No User</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                             }
                         case "assignee_group":
                             if(companyUserGroups){
-                                return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User Group" ng-model="ngModel.value"> <option value="" disabled selected>Select User Group</option> <option ng-repeat="group in companyUserGroups" value="{{group._id}}"> {{group.name}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+                                return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User Group" ng-model="ngModel.value"> <option value="" disabled selected>Select User Group</option> <option ng-repeat="group in companyUserGroups" value="{{group._id}}"> {{group.name}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                             }else{
-                                return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User Group" ng-model="ngModel.value"> <option value="" disabled selected>No User Group</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+                                return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select User Group" ng-model="ngModel.value"> <option value="" disabled selected>No User Group</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                             }
                         case "channel":
                             return '<div><input type="text" class="form-control has-feedback-left" ng-model="ngModel.value" style="" id="actionValue" placeholder="Value"> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span></div>';
