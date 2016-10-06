@@ -21,6 +21,17 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
 
             scope.dayList=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
+
+            scope.showAlert = function (title,content,type) {
+
+                new PNotify({
+                    title: title,
+                    text: content,
+                    type: type,
+                    styling: 'bootstrap3'
+                });
+            };
+
             scope.removeDeleted = function (item) {
 
                 console.log("Hit remDel");
@@ -152,13 +163,13 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
                     {
 
                         console.info("Error in adding new appointment "+response.data.Exception.Message);
-                        //scope.showAlert("Error", "There is an error in saving appointment ","error");
+                        scope.showAlert("Error", "There is an error in saving new appointment ","error");
                         //$scope.showAlert("Error",)
                     }
                     else
                     {
 
-                        //scope.showAlert("Success", "New appointment added successfully.","success");
+                        scope.showAlert("Success", "New appointment added successfully.","success");
 
                         scope.AppointmetList.splice(0, 0, response.data.Result);
                         scope.newAppointment={};

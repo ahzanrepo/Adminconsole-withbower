@@ -20,7 +20,7 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
     $scope.GetHoldMusic = function () {
         holdMusicBackendService.getHoldMusic().then(function (response) {
 
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in picking Hold Music list "+response.data.Exception);
             }
@@ -38,7 +38,7 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
     $scope.GetHoldMusicFiles = function () {
         holdMusicBackendService.getHoldMusicFiles().then(function (response) {
 
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in picking Hold Music list "+response.data.Exception);
             }

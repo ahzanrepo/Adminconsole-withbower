@@ -72,7 +72,7 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
     $scope.GetSchedules = function () {
         scheduleBackendService.getSchedules().then(function (response) {
 
-            if(response.data.Exception)
+            if(!response.data.IsSuccess)
             {
                 console.info("Error in picking App list "+response.data.Exception);
             }

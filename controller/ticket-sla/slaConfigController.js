@@ -18,6 +18,7 @@
         $scope.filterTypeAll = "all";
         $scope.users = {};
         $scope.userGroups = {};
+        $scope.addNewMatrix = false;
 
         $scope.ticketSchemaKeys = [
             "due_at",
@@ -72,6 +73,14 @@
         $scope.backToList =function()
         {
             $state.go('console.sla');
+        };
+
+        $scope.addNewSlaMatrix = function(){
+            if($scope.addNewMatrix === true){
+                $scope.addNewMatrix = false;
+            }else {
+                $scope.addNewMatrix = true;
+            }
         };
         //$scope.reloadPage = function () {
         //    $state.reload();
