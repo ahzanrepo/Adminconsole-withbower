@@ -97,8 +97,6 @@
         var cleanUpEmptyFilters = function(currentFilter)
         {
             var cloneFilter = {};
-            var allFilterArr = [];
-            var anyFilterArr = [];
 
             angular.copy(currentFilter, cloneFilter);
             if(cloneFilter)
