@@ -12,7 +12,7 @@
                                 <form class="form-horizontal form-label-left input_mask">
                                     <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                         <select class="form-control has-feedback-left" placeholder="Select Field"
-                                                ng-model="triggerAction.field">
+                                                ng-model="triggerAction.field" ng-change="OnChangeTriggerAction()">
                                             <option value="" disabled selected>Select Field</option>
                                             <option ng-repeat="ticketSchemaKey in ticketSchemaKeys | filter: filterActionSchemaKeys" value="{{ticketSchemaKey}}">
                                                 {{ticketSchemaKey}}

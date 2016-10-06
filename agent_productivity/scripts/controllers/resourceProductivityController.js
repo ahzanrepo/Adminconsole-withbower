@@ -318,7 +318,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     //-----------------------------------------------
 
-    var myObject = {}
+    var myObject = {};
     $scope.echartDonutSetOption = function () {
         angular.forEach($scope.Productivitys, function (productivity) {
             myObject[productivity.Chatid] = echarts.init(document.getElementById(productivity.ResourceId), theme);
@@ -336,6 +336,8 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 toolbox: {
                     show: true,
                     feature: {
+                        mark : {show: true},
+                        //dataView : {show: true, readOnly: false},
                         magicType: {
                             show: true,
                             type: ['pie', 'funnel'],

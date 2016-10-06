@@ -21,7 +21,8 @@
         $scope.pagination = {
             currentPage: 1,
             maxSize: 5,
-            totalItems: 0
+            totalItems: 0,
+            itemsPerPage: 10
         };
 
         $scope.recLimit = '10';
@@ -214,6 +215,8 @@
                 }
 
                 var limit = parseInt($scope.recLimit);
+
+                $scope.pagination.itemsPerPage = limit;
 
                 $scope.FilterData = {
                     sdate: startDate,

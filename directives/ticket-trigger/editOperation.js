@@ -24,17 +24,27 @@
 
                 scope.deleteOperation = function() {
 
-                    scope.showConfirm("Delete Action", "Delete", "ok", "cancel", "Do you want to delete " + scope.operation.name, function (obj) {
+                    scope.showConfirm("Delete Operation", "Delete", "ok", "cancel", "Do you want to delete " + scope.operation.name, function (obj) {
 
                         triggerApiAccess.removeOperations(scope.triggerId, scope.operation._id.toString()).then(function (response) {
-                            if (response) {
+                            if (response.IsSuccess) {
                                 scope.updateOperations(scope.operation);
-                                scope.showAlert("Deleted", "Deleted", "ok", "File " + scope.operation.name + " Deleted successfully");
+                                scope.showAlert('Trigger Operation', response.CustomMessage, 'success');
                             }
-                            else
-                                scope.showError("Error", "Error", "ok", "There is an error ");
+                            else {
+                                var errMsg = response.CustomMessage;
+
+                                if (response.Exception) {
+                                    errMsg = response.Exception.Message;
+                                }
+                                scope.showAlert('Trigger Operation', errMsg, 'error');
+                            }
                         }, function (error) {
-                            scope.showError("Error", "Error", "ok", "There is an error ");
+                            var errMsg = "Error occurred while deleting operation";
+                            if (error.statusText) {
+                                errMsg = error.statusText;
+                            }
+                            scope.showAlert('Trigger Operation', errMsg, 'error');
                         });
 
                     }, function () {
@@ -69,22 +79,12 @@
 
                 };
 
-                scope.showAlert = function (tittle, label, button, content) {
+                scope.showAlert = function (title,content,type) {
 
                     new PNotify({
-                        title: tittle,
+                        title: title,
                         text: content,
-                        type: 'success',
-                        styling: 'bootstrap3'
-                    });
-                };
-
-                scope.showError = function (tittle,content) {
-
-                    new PNotify({
-                        title: tittle,
-                        text: content,
-                        type: 'error',
+                        type: type,
                         styling: 'bootstrap3'
                     });
                 };
