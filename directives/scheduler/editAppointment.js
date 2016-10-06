@@ -23,7 +23,71 @@ mainApp.directive("editappointment", function ($filter,$uibModal,scheduleBackend
             scope.currentDayList =[];
             scope.newDayList=[];
             scope.dayString;
+
+
+            scope.summaryText="";
+            scope.showSummary=false;
+            scope.appointmentSummary = function (AppointmentData) {
+
+                var appointmentName=AppointmentData.AppointmentName;
+                var recPattern=AppointmentData.RecurrencePattern;
+                var sDate=AppointmentData.StartDate;
+                var eDate=AppointmentData.EndDate;
+                var sTime=AppointmentData.StartTime;
+                var eTime=AppointmentData.EndTime;
+                var weekDays=scope.newDayList;
+
+
+                if(appointmentName)
+                {
+                    scope.showSummary=true;
+                }
+                else
+                {
+                    scope.showSummary=false;
+                }
+
+
+                scope.summaryText = "*Appointment "+appointmentName+" will work ";
+
+
+                if(sDate && eDate && sTime && eTime)
+                {
+                    scope.summaryText+="from "+sDate+" "+sTime+" to "+eDate+" "+eTime;
+                }
+                if(sDate && eDate && (!sTime||!eTime))
+                {
+                    scope.summaryText+="from "+sDate+" to "+eDate;
+                }
+                if(sTime && eTime && (!sDate||!eDate))
+                {
+                    scope.summaryText+="from "+sTime+" to "+eTime;
+                }
+                if(recPattern=="NONE")
+                {
+                    scope.summaryText+="everyday";
+                }
+                if(recPattern=="WEEKLY" && weekDays && weekDays.length==0)
+                {
+                    scope.summaryText+="on every weekday";
+                }
+                if(recPattern=="WEEKLY" && weekDays && weekDays.length>0)
+                {
+                    var daysSelected="";
+                    angular.forEach(weekDays, function (item) {
+
+                        daysSelected+=item+" , ";
+                    })
+                    scope.summaryText+=" on every "+daysSelected;
+                }
+
+
+            }
+
+
+
             scope.optionChanger = function (option) {
+
 
                 if(option=="RecurrencePattern")
                 {
@@ -50,6 +114,7 @@ mainApp.directive("editappointment", function ($filter,$uibModal,scheduleBackend
                         scope.dayListMode=false;
                     }
                 }
+                scope.appointmentSummary(scope.appointment);
 
             };
             scope.optionChanger("RecurrencePattern");
@@ -173,30 +238,32 @@ mainApp.directive("editappointment", function ($filter,$uibModal,scheduleBackend
 
                 /* scope.currentDayList.push(chip.DayName);*/
                 scope.newDayList.push(chip.DayName);
-                console.log(scope.currentDayList);
+                console.log(scope.newDayList);
+                scope.appointmentSummary(scope.appointment);
 
 
             };
             scope.onChipDelete = function (chip) {
 
-                var index=scope.currentDayList.indexOf(chip);
-                console.log("index ",index);
-                if(index>-1)
+                var indexCurList=scope.currentDayList.indexOf(chip);
+                console.log("index ",indexCurList);
+                if(indexCurList>-1)
                 {
-                    scope.currentDayList.splice(index,1);
+                    scope.currentDayList.splice(indexCurList,1);
                     console.log(scope.currentDayList);
 
                 }
 
-                var index=scope.newDayList.indexOf(chip.DayName);
-                console.log("index ",index);
-                if(index>-1)
+                var indexNewList=scope.newDayList.indexOf(chip.DayName);
+                console.log("index ",indexNewList);
+                if(indexNewList>-1)
                 {
-                    scope.newDayList.splice(index,1);
-                    console.log(scope.currentDayList);
+                    scope.newDayList.splice(indexNewList,1);
+                    console.log(scope.newDayList);
 
                 }
 
+                scope.appointmentSummary(scope.appointment);
 
             };
 
@@ -307,6 +374,7 @@ mainApp.directive("editappointment", function ($filter,$uibModal,scheduleBackend
             scope.hideEdit = function () {
                 scope.editMode = !scope.editMode;
             }
+
 
 
         }
