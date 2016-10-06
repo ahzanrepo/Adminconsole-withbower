@@ -46,7 +46,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Trigger', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading triggers";
@@ -54,7 +54,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Trigger', errMsg, 'error');
             });
         };
 
@@ -63,7 +63,7 @@
                 if(response.IsSuccess)
                 {
                     $scope.triggers = response.Result;
-                    $scope.showAlert('Success', 'info', response.CustomMessage);
+                    $scope.showAlert('Trigger', response.CustomMessage, 'success');
                     $state.reload();
                 }
                 else
@@ -74,7 +74,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Trigger', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while saving trigger";
@@ -82,7 +82,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Trigger', errMsg, 'error');
             });
         };
 

@@ -29,15 +29,28 @@
 
                     scope.showConfirm("Delete Matrix", "Delete", "ok", "cancel", "Do you want to delete Matrix?", function (obj) {
                         slaApiAccess.removeMatrix(scope.slaId, scope.matrix._id.toString()).then(function (response) {
-                                    if (response) {
-                                        scope.updateMatrices(scope.matrix, scope.filterType);
-                                        scope.showAlert("Deleted", "Deleted", "ok", "File " + scope.filter.field + " Deleted successfully");
-                                    }
-                                    else
-                                        scope.showError("Error", "Error", "ok", "There is an error ");
-                                }, function (error) {
-                                    scope.showError("Error", "Error", "ok", "There is an error ");
-                                });
+                            if(response.IsSuccess)
+                            {
+                                scope.showAlert('Matrix', response.CustomMessage, 'success');
+                                scope.updateMatrices(scope.matrix, scope.filterType);
+                            }
+                            else
+                            {
+                                var errMsg = response.CustomMessage;
+
+                                if(response.Exception)
+                                {
+                                    errMsg = response.Exception.Message;
+                                }
+                                scope.showAlert('SLA', errMsg, 'error');
+                            }
+                        }, function (error) {
+                            var errMsg = "Error occurred while deleting matrix";
+                            if (error.statusText) {
+                                errMsg = error.statusText;
+                            }
+                            scope.showAlert('Matrix', errMsg, 'error');
+                        });
                     }, function () {
 
                     }, scope.matrix);
@@ -70,22 +83,12 @@
 
                 };
 
-                scope.showAlert = function (tittle, label, button, content) {
+                scope.showAlert = function (title,content,type) {
 
                     new PNotify({
-                        title: tittle,
+                        title: title,
                         text: content,
-                        type: 'success',
-                        styling: 'bootstrap3'
-                    });
-                };
-
-                scope.showError = function (tittle,content) {
-
-                    new PNotify({
-                        title: tittle,
-                        text: content,
-                        type: 'error',
+                        type: type,
                         styling: 'bootstrap3'
                     });
                 };

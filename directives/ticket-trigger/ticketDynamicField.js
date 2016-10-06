@@ -36,6 +36,11 @@
                         ticketSchema = newValue;
                     }
                 }, true);
+                scope.$watch('ngModel', function(newValue, oldValue) {
+                    if (newValue) {
+                        ngModel = newValue;
+                    }
+                }, true);
 
                 scope.getTemplate = function(field){
                     switch (field){
