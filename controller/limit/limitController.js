@@ -26,7 +26,7 @@ mainApp.controller("limitController", function ($scope,$state,$uibModal, limitBa
         });
     };
 
-    $scope.showModal= function (limId,limitData) {
+    $scope.showModal= function (limId,limitData,saveStatus) {
         //modal show
         var modalInstance = $uibModal.open({
             animation: true,
@@ -36,6 +36,9 @@ mainApp.controller("limitController", function ($scope,$state,$uibModal, limitBa
             resolve: {
                 limId: function () {
                     return limId;
+                },
+                saveStatus: function () {
+                    return saveStatus;
                 },
                 limitData : function () {
                     return limitData;
@@ -58,8 +61,14 @@ mainApp.controller("limitController", function ($scope,$state,$uibModal, limitBa
 
 });
 
-mainApp.controller("limitModalController", function ($scope, $uibModalInstance,limitBackendService,limId,limitData,reloadPage) {
+mainApp.controller("limitModalController", function ($scope, $uibModalInstance,limitBackendService,limId,limitData,reloadPage,saveStatus) {
     $scope.showModal=true;
+    $scope.limitMax=0;
+
+    if(saveStatus=="UPDATE")
+    {
+        $scope.isLimNameAvailable= true;
+    }
 
     $scope.showAlert = function (title,content,type) {
 
@@ -74,12 +83,15 @@ mainApp.controller("limitModalController", function ($scope, $uibModalInstance,l
     if(limId)
     {
         $scope.limitData=limitData;
+        $scope.limitMax=limitData.MaxCount;
     }
 
     $scope.saveOrUpdateLimit = function (limitData) {
 
+        limitData.MaxCount=$scope.limitMax;
         if(!limId)
         {
+
             $scope.saveLimit(limitData);
         }
         else
@@ -100,6 +112,7 @@ mainApp.controller("limitModalController", function ($scope, $uibModalInstance,l
                 console.log("successfully Saved new Limit ");
                 $scope.showAlert("Success","New Limit added successfully","success");
                 $scope.closeModal();
+                reloadPage();
             }
             else
             {
@@ -126,6 +139,7 @@ mainApp.controller("limitModalController", function ($scope, $uibModalInstance,l
                     $scope.showAlert("Success","Limit updated successfully","success");
                     console.log("successfully Saved  Limit MAx ");
                     $scope.closeModal();
+                    //reloadPage();
                 }
                 else {
                     $scope.showAlert("Error","Limit updating failed","error");
@@ -170,7 +184,7 @@ mainApp.controller("limitModalController", function ($scope, $uibModalInstance,l
 
     $scope.closeModal= function () {
         $uibModalInstance.dismiss('cancel');
-        reloadPage();
+        //reloadPage();
     }
 
 

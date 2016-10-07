@@ -3,7 +3,7 @@
  */
 
 
-mainApp.factory('didBackendService', function ($http, authService) {
+mainApp.factory('didBackendService', function ($http, authService,baseUrls) {
 
     return {
 
@@ -72,21 +72,36 @@ mainApp.factory('didBackendService', function ($http, authService) {
             });
         },
         pickPhoneNumbers: function () {
-            console.log("Did Data "+JSON.stringify(didData));
+
             var authToken = authService.GetToken();
             return $http({
-                method: 'POST',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/DidNumber",
+                method: 'GET',
+                url: baseUrls.TrunkServiceURL+"PhoneNumberTrunkApi/TrunkNumbers",
                 headers: {
                     'authorization':authToken
-                },
-                data:didData
+                }
 
             }).then(function(response)
             {
                 return response;
             });
         },
+
+        pickAllocatedDIDNumbers: function () {
+
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.sipUserendpoint+"DidNumbers",
+                headers: {
+                    'authorization':authToken
+                }
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        }
 
 
     }
