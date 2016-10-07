@@ -46,7 +46,9 @@ var baseUrls = {
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
-    'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/'
+    'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
+    'TrunkServiceURL':'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/'
+
 };
 
 mainApp.constant('baseUrls', baseUrls);

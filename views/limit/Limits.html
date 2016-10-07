@@ -11,9 +11,10 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2 class="font-robot font-300 text-uppercase font-15">
-                    <button type="button" class="btn btn-success" ng-click="showModal(null,null)">
+                    <button type="button" class="btn btn-success" ng-click="showModal(null,null,'NEW')">
                         New
                     </button>
+
                 </h2>
                 <div class="clearfix"></div>
             </div>
@@ -44,7 +45,7 @@
                             <td class="valAlgn">{{limit.Enable}}</td>
 
                             <td class="lstCol">
-                                <button type="submit" class="btn btn-primary" ng-click="showModal(limit.LimitId,limit)"><span class="fa fa-edit" aria-hidden="true"></span>Edit</button>
+                                <button type="submit" class="btn btn-primary" ng-click="showModal(limit.LimitId,limit,'UPDATE')"><span class="fa fa-edit" aria-hidden="true"></span>Edit</button>
 
 
                                 <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->

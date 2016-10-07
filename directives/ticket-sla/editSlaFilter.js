@@ -32,26 +32,52 @@
                         switch (scope.filterType){
                             case "any":
                                 slaApiAccess.removeFilterAny(scope.slaId, scope.filter._id.toString()).then(function (response) {
-                                    if (response) {
+                                    if(response.IsSuccess)
+                                    {
+                                        scope.showAlert('Filter', response.CustomMessage, 'success');
                                         scope.updateFilters(scope.filter, scope.filterType);
-                                        scope.showAlert("Deleted", "Deleted", "ok", "File " + scope.filter.field + " Deleted successfully");
                                     }
                                     else
-                                        scope.showError("Error", "Error", "ok", "There is an error ");
+                                    {
+                                        var errMsg = response.CustomMessage;
+
+                                        if(response.Exception)
+                                        {
+                                            errMsg = response.Exception.Message;
+                                        }
+                                        scope.showAlert('Filter', errMsg, 'error');
+                                    }
                                 }, function (error) {
-                                    scope.showError("Error", "Error", "ok", "There is an error ");
+                                    var errMsg = "Error occurred while deleting filter";
+                                    if (error.statusText) {
+                                        errMsg = error.statusText;
+                                    }
+                                    scope.showAlert('Filter', errMsg, 'error');
                                 });
                                 break;
                             case "all":
                                 slaApiAccess.removeFilterAll(scope.slaId, scope.filter._id.toString()).then(function (response) {
-                                    if (response) {
+                                    if(response.IsSuccess)
+                                    {
+                                        scope.showAlert('Filter', response.CustomMessage, 'success');
                                         scope.updateFilters(scope.filter, scope.filterType);
-                                        scope.showAlert("Deleted", "Deleted", "ok", "File " + scope.filter.field + " Deleted successfully");
                                     }
                                     else
-                                        scope.showError("Error", "Error", "ok", "There is an error ");
+                                    {
+                                        var errMsg = response.CustomMessage;
+
+                                        if(response.Exception)
+                                        {
+                                            errMsg = response.Exception.Message;
+                                        }
+                                        scope.showAlert('Filter', errMsg, 'error');
+                                    }
                                 }, function (error) {
-                                    scope.showError("Error", "Error", "ok", "There is an error ");
+                                    var errMsg = "Error occurred while deleting filter";
+                                    if (error.statusText) {
+                                        errMsg = error.statusText;
+                                    }
+                                    scope.showAlert('Filter', errMsg, 'error');
                                 });
                                 break;
                             default :
@@ -89,22 +115,12 @@
 
                 };
 
-                scope.showAlert = function (tittle, label, button, content) {
+                scope.showAlert = function (title,content,type) {
 
                     new PNotify({
-                        title: tittle,
+                        title: title,
                         text: content,
-                        type: 'success',
-                        styling: 'bootstrap3'
-                    });
-                };
-
-                scope.showError = function (tittle,content) {
-
-                    new PNotify({
-                        title: tittle,
-                        text: content,
-                        type: 'error',
+                        type: type,
                         styling: 'bootstrap3'
                     });
                 };

@@ -42,7 +42,7 @@
                                 <label>Appointment Name</label>
                                 <input type="text" class="form-control has-feedback-left"
                                        ng-model="appointment.AppointmentName"
-                                       placeholder="Appointment Name" ng-disabled="true">
+                                       placeholder="Appointment Name" ng-disabled="true" >
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
@@ -62,7 +62,6 @@
                                         ng-model="appointment.RecurrencePattern" ng-change="optionChanger('RecurrencePattern')">
                                     <option value="" disabled selected>Select Recurrence Pattern</option>
                                     <option selected>NONE</option>
-                                    <option>DAILY</option>
                                     <option>WEEKLY</option>
 
                                 </select>
@@ -71,24 +70,26 @@
                             <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>Start Date</label>
-                                <input type="text" class="form-control" ng-model="appointment.StartDate" ng-change="onDateChange()" name="startDate"
+                                <input type="text" class="form-control" ng-model="appointment.StartDate" ng-change="appointmentSummary(newAppointment)" name="startDate" ng-required="appointment.EndDate"
                                        datepicker>
                             </div>
                             <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>Start Time</label>
-                                <input type="text" class="form-control" name="startTime" ng-model="appointment.StartTime" placeholder="hh:mm" />
+                                <input type="text" class="form-control" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" name="startTime" ng-model="appointment.StartTime" ng-change="appointmentSummary(appointment)" />
+                                <span style="color: blue" class="pull-right"> (ex :- 01:30 , 23:22)</span>
                             </div>
                             <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>End Date</label>
-                                <input type="text" class="form-control" ng-model="appointment.EndDate" ng-change="onDateChange()" name="startDate"
+                                <input type="text" class="form-control" ng-model="appointment.EndDate" ng-change="appointmentSummary(newAppointment)" ng-required="newAppointment.StartDate" name="startDate"
                                        datepicker>
                             </div>
                             <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>End Time</label>
-                                <input type="text" class="form-control" name="startTime" ng-model="appointment.EndTime" placeholder="hh:mm" />
+                                <input type="text" class="form-control" name="startTime" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" ng-model="appointment.EndTime" ng-required="appointment.StartTime" ng-change="appointmentSummary(appointment)" />
+                                <span style="color: blue" class="pull-right"> (ex :- 01:30 , 23:22)</span>
                             </div>
 
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
@@ -99,7 +100,7 @@
 
                                                     add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
                                                     on-tag-removed="onChipDelete($tag)" ng-disabled="!dayListMode" min-length="1"
-                                                    placeholder="Add Days">
+                                                    placeholder="Add Days" ng-change="appointmentSummary(appointment)" ng-required="appointment.RecurrencePattern=='WEEKLY'">
                                             <auto-complete source="querySearch($query)" load-on-empty="true"
                                                            load-on-focus="true" min-length="1"></auto-complete>
                                         </tags-input>
@@ -115,9 +116,10 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <button type="button" class="btn btn-success btn-sm pull-right"
-                                            ng-click="modifyAppointment()">
+                                            ng-click="modifyAppointment()" ng-disabled="newApp.$invalid">
                                         Update
                                     </button>
+                                    <div ng-show="showSummary">{{summaryText}}</div>
                                 </div>
                             </div>
 
