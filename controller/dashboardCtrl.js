@@ -175,7 +175,34 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     }
                 });
             }, getAllChannels: function () {
-                dashboardService.GetAllChannels().then(function (response) {
+                /*dashboardService.GetAllChannels().then(function (response) {
+                        if(response && response.length >0) {
+                            response.pop();
+                            var max = 0;
+                            $scope.dataSetChannels[0].data = response.map(function (c, index) {
+                                var item = [];
+                                item[0] = c[1];
+                                item[1] = c[0];
+
+                                if (c[0] > max) {
+                                    max = c[0];
+                                }
+                                return item;
+                            });
+
+                            if (max == 0) {
+                                max = 1;
+                            }
+
+                            if ($scope.chartymax.channels != Math.ceil(max)) {
+                                $scope.chartymax.channels = Math.ceil(max);
+                                $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
+                            }
+                        }
+                });*/
+            },
+            getTotalQueueHit: function () {
+                dashboardService.GetTotalQueueHit().then(function (response) {
                         if(response && response.length >0) {
                             response.pop();
                             var max = 0;
@@ -318,7 +345,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 ServerHandler.getDataAll();
                 ServerHandler.getAllQueued();
                 ServerHandler.getAllBriged();
-                ServerHandler.getAllChannels();
+                ServerHandler.getTotalQueueHit();//ServerHandler.getAllChannels();
+
             },
             getAllNumTotal: function () {
                 ServerHandler.getTotalCall();
