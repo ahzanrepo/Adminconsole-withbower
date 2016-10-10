@@ -2,14 +2,14 @@
  * Created by Damith on 5/29/2016.
  */
 
-mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,$filter, queueMonitorService) {
+mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService) {
 
     //$scope.percent = 65;
 
     //#
-    $scope.isGrid=false;
-    $scope.summaryText="Table";
-    $scope.isLoaded=false;
+    $scope.isGrid = false;
+    $scope.summaryText = "Table";
+    $scope.isLoaded = false;
     $scope.refreshTime = 10000;
 
     $scope.pieoption = {
@@ -50,39 +50,36 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     $scope.queues = [];
 
 
-
     /*$scope.GetAllQueueStatistics = function () {
 
-        queueMonitorService.GetAllQueueStats().then(function (response) {
+     queueMonitorService.GetAllQueueStats().then(function (response) {
 
-            $scope.queues = [];
-            $scope.queues = response.map(function (c, index) {
+     $scope.queues = [];
+     $scope.queues = response.map(function (c, index) {
 
-                if(c.QueueId)
+     if(c.QueueId)
 
-                var item = c.QueueInfo;
-                item.id = c.QueueId;
-                item.queuename= c.QueueName;
-                item.AverageWaitTime = Math.round(item.AverageWaitTime*100)/100;
+     var item = c.QueueInfo;
+     item.id = c.QueueId;
+     item.queuename= c.QueueName;
+     item.AverageWaitTime = Math.round(item.AverageWaitTime*100)/100;
 
-                if (c.QueueInfo.TotalQueued > 0) {
-                    item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
-                }
-                return item;
-            });
-        });
-    };*/
+     if (c.QueueInfo.TotalQueued > 0) {
+     item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
+     }
+     return item;
+     });
+     });
+     };*/
 
 
     $scope.checkQueueAvailability = function (itemID) {
 
-        var value=$filter('filter')($scope.queues, {id: itemID})[0];
-        if(value)
-        {
+        var value = $filter('filter')($scope.queues, {id: itemID})[0];
+        if (value) {
             return false;
         }
-        else
-        {
+        else {
             return true;
         }
 
@@ -98,18 +95,16 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
             updatedQueues = response.map(function (c, index) {
 
 
-
                 var item = c.QueueInfo;
                 item.id = c.QueueId;
-                item.queuename= c.QueueName;
-                item.AverageWaitTime = Math.round(item.AverageWaitTime*100)/100;
+                item.queuename = c.QueueName;
+                item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
 
                 if (c.QueueInfo.TotalQueued > 0) {
                     item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
                 }
 
-                if($scope.checkQueueAvailability(item.id))
-                {
+                if ($scope.checkQueueAvailability(item.id)) {
                     $scope.queues.push(item);
                 }
 
@@ -117,15 +112,12 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                 return item;
             });
 
-            if(response.length==updatedQueues.length)
-            {
+            if (response.length == updatedQueues.length) {
                 //$scope.queues=$scope.updatedQueues;
-                angular.forEach($scope.queues, function (item)
-                {
-                    var value=$filter('filter')(updatedQueues, {id: item.id})[0];
-                    if(!value)
-                    {
-                        $scope.queues.splice($scope.queues.indexOf(item),1);
+                angular.forEach($scope.queues, function (item) {
+                    var value = $filter('filter')(updatedQueues, {id: item.id})[0];
+                    if (!value) {
+                        $scope.queues.splice($scope.queues.indexOf(item), 1);
                     }
                 });
             }
@@ -159,14 +151,12 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
 
     $scope.changeView = function () {
-        $scope.isGrid=!$scope.isGrid;
-        if($scope.isGrid)
-        {
-            $scope.summaryText="Card";
+        $scope.isGrid = !$scope.isGrid;
+        if ($scope.isGrid) {
+            $scope.summaryText = "Card";
         }
-        else
-        {
-            $scope.summaryText="Table";
+        else {
+            $scope.summaryText = "Table";
         }
     }
 
@@ -198,10 +188,6 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     });
 
 
-
-
-
-
 });
 
 mainApp.directive('queued', function (queueMonitorService, $timeout) {
@@ -224,9 +210,10 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
             scope.que = {};
             scope.options = {};
             scope.que.CurrentWaiting = 0;
+            scope.que.CurrentMaxWaitTime = 0;
             scope.que.presentage = 0;
             scope.maxy = 10;
-            scope.val = "";
+            scope.val = "0";
 
             scope.dataSet = [{
                 data: [],
@@ -235,8 +222,6 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
                     lineWidth: 2
                 }
             }];
-
-
 
 
             scope.queueoption = {
@@ -268,8 +253,8 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
                     scope.que = response.QueueInfo;
                     scope.que.id = response.QueueId;
 
-                    scope.val= response.QueueName;
-                    scope.que.AverageWaitTime = Math.round(scope.que.AverageWaitTime*100)/100;
+                    scope.val = response.QueueName;
+                    scope.que.AverageWaitTime = Math.round(scope.que.AverageWaitTime * 100) / 100;
 
                     if (scope.que.TotalQueued > 0) {
                         scope.que.presentage = Math.round((scope.que.TotalAnswered / scope.que.TotalQueued) * 100);
@@ -278,7 +263,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
             };
 
 
-            var qStats = function(){
+            var qStats = function () {
 
                 //GetSingleQueueStats
                 queueMonitorService.GetSingleQueueGraph(scope.name).then(function (response) {
@@ -330,12 +315,11 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
             //updateRealtime();
 
 
-            scope.$on("$destroy", function() {
+            scope.$on("$destroy", function () {
                 if (updatetimer) {
                     $timeout.cancel(updatetimer);
                 }
             })
-
 
 
             /*
@@ -356,7 +340,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
     }
 });
 
-mainApp.directive('queuedlist', function (queueMonitorService,$timeout) {
+mainApp.directive('queuedlist', function (queueMonitorService, $timeout) {
     return {
 
         restrict: 'EA',
@@ -368,33 +352,32 @@ mainApp.directive('queuedlist', function (queueMonitorService,$timeout) {
             name: "@"
         },
 
-        template: "<th class=\"fs15 text-left\">{{val}}</th>"+"<th class=\"fs15 text-right\">{{que.CurrentWaiting}}</th>"
-        +"<th class=\"fs15 text-right\">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th>"
-        +"<th class=\"fs15 text-right\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
-        +"<th class=\"fs15 text-right\">{{que.presentage}}</th>",
+        template: "<th class=\"fs15 text-left\">{{val}}</th>" + "<th class=\"fs15 text-right\">{{que.CurrentWaiting}}</th>"
+        + "<th class=\"fs15 text-right\">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th>"
+        + "<th class=\"fs15 text-right\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
+        + "<th class=\"fs15 text-right\">{{que.presentage}}</th>",
 
         link: function (scope, element, attributes) {
-
 
 
             scope.que = {};
             scope.options = {};
             scope.que.CurrentWaiting = 0;
+            scope.que.CurrentMaxWaitTime = 0;
             scope.que.presentage = 0;
             scope.maxy = 10;
             scope.val = "";
-
 
 
             var qData = function () {
 
                 queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
                     scope.que = response.QueueInfo;
-                    console.log("que  ",scope.que);
+                    console.log("que  ", scope.que);
                     scope.que.id = response.QueueId;
 
-                    scope.val= response.QueueName;
-                    scope.que.AverageWaitTime = Math.round(scope.que.AverageWaitTime*100)/100;
+                    scope.val = response.QueueName;
+                    scope.que.AverageWaitTime = Math.round(scope.que.AverageWaitTime * 100) / 100;
 
                     if (scope.que.TotalQueued > 0) {
                         scope.que.presentage = Math.round((scope.que.TotalAnswered / scope.que.TotalQueued) * 100);
@@ -403,11 +386,7 @@ mainApp.directive('queuedlist', function (queueMonitorService,$timeout) {
             };
 
 
-
-
-
             qData();
-
 
 
             var updateRealtime = function () {
@@ -424,12 +403,11 @@ mainApp.directive('queuedlist', function (queueMonitorService,$timeout) {
             //updateRealtime();
 
 
-            scope.$on("$destroy", function() {
+            scope.$on("$destroy", function () {
                 if (updatetimer) {
                     $timeout.cancel(updatetimer);
                 }
             })
-
 
 
             /*

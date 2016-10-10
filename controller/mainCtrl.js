@@ -23,13 +23,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
 
     $scope.clickDirective = {
         goLogout: function () {
-
             loginService.Logoff(undefined, function (issuccess) {
-
                 if (issuccess) {
-
                     $state.go('login');
-
                 } else {
 
                 }
@@ -158,8 +154,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         goTranslations: function () {
             $state.go('console.translations');
         },
-        goTicketTrigger: function ()
-        {
+        goTicketTrigger: function () {
             $state.go('console.trigger');
         },
         goTemplateCreater: function () {
@@ -174,26 +169,28 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         goCallSummary: function () {
             $state.go('console.callsummary');
         },
-        goTicketSla: function ()
-        {
+        goTicketSla: function () {
             $state.go('console.sla');
         },
-        goAgentStatusEvt: function(){
+        goAgentStatusEvt: function () {
             $state.go('console.agentstatusevents');
         },
-        goTickerAgentDashboard: function(){
+        goTickerAgentDashboard: function () {
             $state.go('console.agentTicketDashboard');
         },
-        goTicketSummary: function(){
+        goTicketSummary: function () {
             $state.go('console.ticketSummary');
         },
-        goTicketDetailReport: function(){
+        goTicketDetailReport: function () {
             $state.go('console.ticketDetailReport');
         },
-        goTimeSheet:function(){
+        goTimeSheet: function () {
             $state.go('console.timeSheet');
-        },goFilter:function(){
+        }, goFilter: function () {
             $state.go('console.createFilter');
+        },
+        goToFullScreen: function () {
+
         }
     };
 
@@ -415,7 +412,72 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
             });
             $scope.isToggleMenu = true;
         }
-    }
+    };
+
+
+    //toggle menu option
+    //text function
+    var CURRENT_URL = window.location.href.split("?")[0], $BODY = $("body"), $MENU_TOGGLE = $("#menu_toggle"), $SIDEBAR_MENU = $("#sidebar-menu"),
+        $SIDEBAR_FOOTER = $(".sidebar-footer"), $LEFT_COL = $(".left_col"), $RIGHT_COL = $(".right_col"), $NAV_MENU = $(".nav_menu"), $FOOTER = $("footer");
+
+    // TODO: This is some kind of easy fix, maybe we can improve this
+    var setContentHeight = function () {
+        // reset height
+        $RIGHT_COL.css('min-height', $(window).height());
+
+        var bodyHeight = $BODY.outerHeight(),
+            footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height(),
+            leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
+            contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
+
+        // normalize content
+        contentHeight -= $NAV_MENU.height() + footerHeight;
+
+        $RIGHT_COL.css('min-height', contentHeight);
+    };
+
+
+    $SIDEBAR_MENU.find('a').on('click', function (ev) {
+        var $li = $(this).parent();
+
+        if ($li.is('.active')) {
+            $li.removeClass('active');
+            $('ul:first', $li).slideUp(function () {
+                setContentHeight();
+            });
+        } else {
+            // prevent closing menu if we are on child menu
+            if (!$li.parent().is('.child_menu')) {
+                $SIDEBAR_MENU.find('li').removeClass('active');
+                $SIDEBAR_MENU.find('li ul').slideUp();
+            }
+
+            $li.addClass('active');
+
+            $('ul:first', $li).slideDown(function () {
+                setContentHeight();
+            });
+        }
+    });
+    // toggle small or large menu
+    $MENU_TOGGLE.on('click', function () {
+        if ($BODY.hasClass('nav-md')) {
+            $BODY.removeClass('nav-md').addClass('nav-sm');
+
+            if ($SIDEBAR_MENU.find('li').hasClass('active')) {
+                $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+            }
+        } else {
+            $BODY.removeClass('nav-sm').addClass('nav-md');
+
+            if ($SIDEBAR_MENU.find('li').hasClass('active-sm')) {
+                $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
+            }
+        }
+        // setContentHeight();
+    });
+
+    //get screen height
 
 
 });
