@@ -1831,7 +1831,8 @@ span.right {
     padding: 5px 0 0 0;
     position: fixed;
     width: 230px;
-    background: #2A3F54;
+    background: #383b3b;
+    z-index: 20;
 }
 
 .sidebar-footer a {
@@ -1841,11 +1842,16 @@ span.right {
     font-size: 17px;
     display: block;
     float: left;
-    background: #172D44;
+    background-color: rgba(255, 255, 255, 0.06);
 }
 
 .sidebar-footer a:hover {
-    background: #425567;
+    background: #383b3b;
+}
+
+.sidebar-footer > a > span {
+    color: #2ba89c;
+    cursor: pointer;
 }
 
 /** top tiles  */
@@ -5368,6 +5374,6 @@ ul.notifications {
     padding: 5px 10px;
     background-color: #f7f7f7;
     text-align: left;
-    border: 2px solid#f7f7f7;
+    border: 2px solid #f7f7f7;
     border-radius: 10px;
 }

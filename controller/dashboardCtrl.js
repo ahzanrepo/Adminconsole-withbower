@@ -19,26 +19,24 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     //#profile object
     $scope.AvailableTask = [];
-    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: []};
     $scope.profile = [];
 
 
-    $scope.LoadCompanyTasks = function(){
-        dashboardService.getCompanyTasks().then(function(response){
-            if(response.IsSuccess)
-            {
-                if(response.Result && response.Result.length > 0){
-                    for(var i = 0; i < response.Result.length; i++){
+    $scope.LoadCompanyTasks = function () {
+        dashboardService.getCompanyTasks().then(function (response) {
+            if (response.IsSuccess) {
+                if (response.Result && response.Result.length > 0) {
+                    for (var i = 0; i < response.Result.length; i++) {
                         var TaskType = response.Result[i].ResTaskInfo.TaskType;
                         $scope.AvailableTask.push(TaskType);
                     }
                 }
             }
-            else
-            {
+            else {
                 $scope.AvailableTask = ["CALL", "CHAT", "SMS", "SOCIAL", "TICKET"];
             }
-        }, function(err){
+        }, function (err) {
             $scope.AvailableTask = ["CALL", "CHAT", "SMS", "SOCIAL", "TICKET"];
         });
     };
@@ -85,7 +83,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         return {
             getDataAll: function () {
                 dashboardService.GetAll().then(function (response) {
-                    if(response && response.length >0) {
+                    if (response && response.length > 0) {
                         response.pop();
                         var max = 0;
                         $scope.dataSetAll[0].data = response.map(function (c, index) {
@@ -115,7 +113,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 });
             }, getAllQueued: function () {
                 dashboardService.GetAllQueued().then(function (response) {
-                    if(response && response.length >0) {
+                    if (response && response.length > 0) {
                         response.pop();
                         var max = 0;
                         $scope.dataSetQueued[0].data = response.map(function (c, index) {
@@ -145,7 +143,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 });
             }, getAllBriged: function () {
                 dashboardService.GetAllBriged().then(function (response) {
-                    if(response && response.length >0) {
+                    if (response && response.length > 0) {
                         response.pop();
 
                         var max = 0;
@@ -176,56 +174,56 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 });
             }, getAllChannels: function () {
                 /*dashboardService.GetAllChannels().then(function (response) {
-                        if(response && response.length >0) {
-                            response.pop();
-                            var max = 0;
-                            $scope.dataSetChannels[0].data = response.map(function (c, index) {
-                                var item = [];
-                                item[0] = c[1];
-                                item[1] = c[0];
+                 if(response && response.length >0) {
+                 response.pop();
+                 var max = 0;
+                 $scope.dataSetChannels[0].data = response.map(function (c, index) {
+                 var item = [];
+                 item[0] = c[1];
+                 item[1] = c[0];
 
-                                if (c[0] > max) {
-                                    max = c[0];
-                                }
-                                return item;
-                            });
+                 if (c[0] > max) {
+                 max = c[0];
+                 }
+                 return item;
+                 });
 
-                            if (max == 0) {
-                                max = 1;
-                            }
+                 if (max == 0) {
+                 max = 1;
+                 }
 
-                            if ($scope.chartymax.channels != Math.ceil(max)) {
-                                $scope.chartymax.channels = Math.ceil(max);
-                                $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
-                            }
-                        }
-                });*/
+                 if ($scope.chartymax.channels != Math.ceil(max)) {
+                 $scope.chartymax.channels = Math.ceil(max);
+                 $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
+                 }
+                 }
+                 });*/
             },
             getTotalQueueHit: function () {
                 dashboardService.GetTotalQueueHit().then(function (response) {
-                        if(response && response.length >0) {
-                            response.pop();
-                            var max = 0;
-                            $scope.dataSetChannels[0].data = response.map(function (c, index) {
-                                var item = [];
-                                item[0] = c[1];
-                                item[1] = c[0];
+                    if (response && response.length > 0) {
+                        response.pop();
+                        var max = 0;
+                        $scope.dataSetChannels[0].data = response.map(function (c, index) {
+                            var item = [];
+                            item[0] = c[1];
+                            item[1] = c[0];
 
-                                if (c[0] > max) {
-                                    max = c[0];
-                                }
-                                return item;
-                            });
-
-                            if (max == 0) {
-                                max = 1;
+                            if (c[0] > max) {
+                                max = c[0];
                             }
+                            return item;
+                        });
 
-                            if ($scope.chartymax.channels != Math.ceil(max)) {
-                                $scope.chartymax.channels = Math.ceil(max);
-                                $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
-                            }
+                        if (max == 0) {
+                            max = 1;
                         }
+
+                        if ($scope.chartymax.channels != Math.ceil(max)) {
+                            $scope.chartymax.channels = Math.ceil(max);
+                            $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
+                        }
+                    }
                 });
             },
             getTotalCall: function () {
@@ -266,22 +264,22 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             getProfileDetails: function () {
                 dashboardService.GetProfileDetails().then(function (response) {
                     //$scope.profile = [];
-                    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL:[], TICKET:[]};
+                    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: []};
                     if (response.length > 0) {
                         for (var i = 0; i < response.length; i++) {
 
                             if (response[i].ConcurrencyInfo.length > 0) {
 
-                                for(var j = 0; j < response[i].ConcurrencyInfo.length; j++){
+                                for (var j = 0; j < response[i].ConcurrencyInfo.length; j++) {
                                     var resourceTask = response[i].ConcurrencyInfo[j].HandlingType;
 
                                     var profile = {
                                         name: '',
-                                        slotInfo:[]
+                                        slotInfo: []
                                     };
                                     profile.name = response[i].ResourceName;
 
-                                    if(response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
+                                    if (response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
                                         for (var k = 0; k < response[i].ConcurrencyInfo[j].SlotInfo.length; k++) {
                                             var resonseStatus = null,
                                                 resonseAvailability = null;
@@ -314,7 +312,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                                     var slotStateTime = moment(reservedDate);
                                                     var resourceStateTime = moment(response[i].Status.StateChangeTime);
-                                                    if(slotStateTime.isBefore(resourceStateTime)){
+                                                    if (slotStateTime.isBefore(resourceStateTime)) {
                                                         reservedDate = response[i].Status.StateChangeTime;
                                                     }
                                                 }
@@ -323,8 +321,10 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                             if (reservedDate == "") {
                                                 slotInfo.LastReservedTime = null;
+                                                //slotInfo.unixTime = 0;
                                             } else {
                                                 slotInfo.LastReservedTime = moment(reservedDate).format("h:mm a");
+                                                //slotInfo.unixTime = moment(reservedDate).unix();
                                             }
 
                                             profile.slotInfo.push(slotInfo);
@@ -511,4 +511,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         }
     };
     //chart js
+
+
 });
