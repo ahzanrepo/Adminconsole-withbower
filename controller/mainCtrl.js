@@ -3,7 +3,7 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, loginService, authService) {
+mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout, jwtHelper, loginService, authService,notifiSenderService) {
 
 
     //added by pawan
@@ -13,6 +13,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
     $scope.callListStatus = false;
     $scope.isRegistered = false;
     $scope.inCall = false;
+
+
+
+    // Notification sender
+
+    $scope.agentList = [];
+
 
     //check my navigation
     //is can access
@@ -237,7 +244,15 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
 
 
     var authToken = authService.GetToken();
-
+    $scope.showAlert = function (tittle, type, msg) {
+        new PNotify({
+            title: tittle,
+            text: msg,
+            type: type,
+            styling: 'bootstrap3',
+            icon: false
+        });
+    };
 
     var getRegistrationData = function (authToken, password) {
 
@@ -416,6 +431,260 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
             $scope.isToggleMenu = true;
         }
     }
+
+
+
+    var getAllRealTimeTimer = {};
+
+
+
+    $scope.users = [];
+    $scope.notificationMsg = {};
+    $scope.naviSelectedUser={};
+    $scope.userGroups = [];
+    $scope.loadUserGroups = function () {
+        notifiSenderService.getUserGroupList().then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                $scope.userGroups = response.data.Result;
+            }
+        }, function (err) {
+            $scope.showAlert("Load User Groups", "error", "Fail To Get User Groups.")
+        });
+    };
+    $scope.loadUserGroups();
+
+    $scope.loadUsers = function () {
+        notifiSenderService.getUserList().then(function (response) {
+            $scope.users = response;
+        }, function (err) {
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+    };
+    $scope.loadUsers();
+
+    var FilterByID = function (array, field, value) {
+        if (array) {
+            for (var i = array.length - 1; i >= 0; i--) {
+                if (array[i].hasOwnProperty(field)) {
+                    if (array[i][field] == value) {
+                        return array[i];
+                    }
+                }
+            }
+            return null;
+        } else {
+            return null;
+        }
+    };
+
+    var loadOnlineAgents = function () {
+        notifiSenderService.getProfileDetails().then(function (response) {
+            if (response) {
+                var onlineAgentList = [];
+                var offlineAgentList = [];
+                $scope.agentList = [];
+                var onlineAgents = response.Result;
+
+                if ($scope.users) {
+                    for (var i = 0; i < $scope.users.length; i++) {
+                        var user = $scope.users[i];
+                        user.listType = "User";
+
+                        if (user.resourceid) {
+                            var resource = FilterByID(onlineAgents, "ResourceId", user.resourceid);
+                            if (resource) {
+                                user.status = resource.Status.State;
+                                if (user.status === "NotAvailable") {
+                                    offlineAgentList.push(user);
+                                } else {
+                                    onlineAgentList.push(user);
+                                }
+                            } else {
+                                user.status = "NotAvailable";
+                                offlineAgentList.push(user);
+                            }
+                        } else {
+                            user.status = "NotAvailable";
+                            offlineAgentList.push(user);
+                        }
+                    }
+
+                    onlineAgentList.sort(function (a, b) {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                        return 0;
+                    });
+                    offlineAgentList.sort(function (a, b) {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                        return 0;
+                    });
+
+                    $scope.agentList = onlineAgentList.concat(offlineAgentList);
+                }
+
+                if ($scope.userGroups) {
+                    var userGroupList = [];
+
+                    for (var j = 0; j < $scope.userGroups.length; j++) {
+                        var userGroup = $scope.userGroups[j];
+
+                        userGroup.status = "Available";
+                        userGroup.listType = "Group";
+                        userGroupList.push(userGroup);
+                    }
+
+                    userGroupList.sort(function (a, b) {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                        return 0;
+                    });
+
+                    $scope.agentList = userGroupList.concat($scope.agentList)
+                }
+            }
+            else {
+                /*var errMsg = response.CustomMessage;
+
+                 if (response.Exception) {
+                 errMsg = response.Exception.Message;
+                 }*/
+                $scope.showAlert('Error', 'error', "Error");
+            }
+        }, function (err) {
+            var errMsg = "Error occurred while loading online agents";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Error', 'error', errMsg);
+        });
+    };
+
+
+
+    var getAllRealTime = function () {
+        loadOnlineAgents();
+        getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+    };
+
+    $scope.showMessageBlock = function (selectedUser) {
+        $scope.naviSelectedUser = selectedUser;
+        divModel.model('#sendMessage', 'display-block');
+    };
+    $scope.closeMessage = function () {
+        divModel.model('#sendMessage', 'display-none');
+    };
+
+    $scope.showRightSideNav=false;
+
+    $scope.openNav = function () {
+
+        if(!$scope.showRightSideNav)
+        {
+            getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+            document.getElementById("mySidenav").style.width = "300px";
+            $scope.showRightSideNav=true;
+        }
+        else
+        {
+            if (getAllRealTimeTimer) {
+                $timeout.cancel(getAllRealTimeTimer);
+            }
+            document.getElementById("mySidenav").style.width = "0";
+            $scope.showRightSideNav=false;
+        }
+
+
+        //document.getElementById("main").style.marginRight = "285px";
+        // document.getElementById("navBar").style.marginRight = "300px";
+    };
+    /* Set the width of the side navigation to 0 */
+    $scope.closeNav = function () {
+
+        //document.getElementById("main").style.marginRight = "0";
+        //  document.getElementById("navBar").style.marginRight = "0";
+    };
+
+
+    $scope.sendNotification = function () {
+
+        $scope.loginName=$scope.userName;
+        if ($scope.naviSelectedUser) {
+
+            $scope.notificationMsg.From = $scope.loginName;
+            $scope.notificationMsg.Direction = "STATELESS";
+            if ($scope.naviSelectedUser.listType === "Group") {
+                if ($scope.naviSelectedUser.users) {
+                    var clients = [];
+                    for (var i = 0; i < $scope.naviSelectedUser.users.length; i++) {
+                        var gUser = $scope.naviSelectedUser.users[i];
+                        if (gUser && gUser.username && gUser.username != $scope.loginName) {
+                            clients.push(gUser.username);
+                        }
+                    }
+                    $scope.notificationMsg.clients = clients;
+
+                    notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
+                        $scope.notificationMsg = {};
+                        console.log("send notification success :: " + JSON.stringify(clients));
+                    }, function (err) {
+                        var errMsg = "Send Notification Failed";
+                        if (err.statusText) {
+                            errMsg = err.statusText;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                    });
+                } else {
+                    $scope.showAlert('Error', 'error', "Send Notification Failed");
+                }
+
+            } else {
+
+                $scope.notificationMsg.To = $scope.naviSelectedUser.username;
+
+                notifiSenderService.sendNotification($scope.notificationMsg, "message", "").then(function (response) {
+                    console.log("send notification success :: " + $scope.notificationMsg.To);
+                    $scope.notificationMsg = {};
+                }, function (err) {
+                    var errMsg = "Send Notification Failed";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                });
+            }
+
+        } else {
+            $scope.showAlert('Error', 'error', "Send Notification Failed");
+        }
+    };
+
+
+
+
+
+
+    $scope.usersToNotify=[];
+
+    $scope.checkUser = function ($event,agent) {
+
+        if($event.target.checked)
+        {
+            if($scope.usersToNotify.indexOf(agent.username)==-1)
+            {
+                $scope.usersToNotify.push(agent.username);
+            }
+
+        }
+        else
+        {
+            if($scope.usersToNotify.indexOf(agent.username)==-1)
+            {
+                $scope.usersToNotify.splice($scope.usersToNotify.indexOf(agent.username),1);
+            }
+        }
+    }
+
 
 
 });

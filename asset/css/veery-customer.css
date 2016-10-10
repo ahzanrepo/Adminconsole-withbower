@@ -2939,3 +2939,240 @@ tags-input .tags.focused {
     background-color: #f8b01d;
 
 }
+
+/*side panel */
+/* The side navigation menu */
+.sidenav {
+    height: 94%;
+    width: 0;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    z-index: 100;
+    -webkit-box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);
+    box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);
+}
+
+.sidenav a:hover, .offcanvas a:focus {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-right: 50px;
+}
+#main,
+#navBar {
+    transition: margin-right .5s;
+}
+
+.notification-user {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 45px;
+    cursor: pointer;
+    -moz-transition: padding-left .2s ease-in;
+    -o-transition: padding-left .2s ease-in;
+    -webkit-transition: padding-left .2s ease-in;
+    transition: padding-left .2s ease-in;
+}
+
+.notification-user:hover {
+    padding-left: 3px;
+}
+
+.chat-icon {
+    display: inline-block;
+    padding-right: 8px;
+    text-align: center;
+    color: #45bf55;
+}
+
+.chat-ico > i {
+    font-size: 15px;
+}
+
+.notification-user > .user-img {
+    float: left;
+    display: inline-block;
+}
+
+.notification-user >
+.notification-details {
+    float: right;
+    text-align: right;
+    display: inline-block;
+    padding-top: 14px
+}
+
+.notification-details >
+.user-state {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    position: relative;
+    display: inline-block;
+}
+
+.notification-user > .user-img > img {
+    width: 45px;
+    height: 45px;
+    padding: 3px 5px 0px 0px;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.nav-search-text {
+    width: auto;
+    background: #f7f5f5;
+    border: 0px;
+}
+
+.nav-bottom-icon {
+    float: right;
+    display: inline-block;
+    padding-top: 7px;
+    padding-left: 7px;
+    margin-right: 7px;
+}
+
+.nav-bottom-icon > i {
+    color: #14d0a0;
+    font-size: 18px;
+    cursor: pointer;
+}
+.nav-bottom-tool {
+    background: #f7f5f5;
+    width: 100%;
+    /* height: 35px; */
+    z-index: 0;
+    display: block;
+}
+.message-close {
+    color: #d2c242 !important;
+    cursor: pointer;
+}
+#sendMessage {
+    transition-property: top, left,
+    border-radius, background-color;
+    transition-duration: 2s, 1s, 0.5s, 0.5s;
+    transition-delay: 0s, 0.5s, 1s, 1.5s;
+}
+
+.message-close:hover {
+    color: #36ba45;
+}
+
+.people-view > .people-view-img {
+    float: left;
+    margin-right: 10px;
+}
+
+.people-view > .people-view-img > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.people-view-img > i {
+    position: absolute;
+    top: 30px;
+    left: 35px;
+    color: #fff;
+}
+
+.people-view-details {
+    padding-left: 10px;
+}
+
+.people-view {
+    margin-bottom: 15px;
+}
+
+.txt-notification-search {
+    height: 27px;
+    width: 117px;
+    border: 1px solid #8298ae;
+}
+
+.send-notification-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    width: 315px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    border-radius: 0px;
+}
+
+.send-notification-wrapper > .wrap {
+    padding: 100px 20px 10px 10px;
+    margin-top: 200px;
+}
+
+
+.notification-text {
+    color: #8298ae !important;
+    padding: 5px 2px 0px 4px;
+    font-size: 13px;
+}
+
+.notification-icon,
+.ticket-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 12px;
+}
+
+.notification-icon.user-list,
+.ticket-icon.user-list {
+    padding-top: 0px;
+}
+
+.notification-icon.user-list > img,
+.ticket-icon.user-list > img {
+    width: 55px;
+    height: auto;
+}
+
+.notification-icon > i {
+    font-size: 23px;
+}
+.message-close {
+    color: #d2c242 !important;
+    cursor: pointer;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.display-block {
+    display: block !important;
+}
+
+.notify-img-large {
+    margin: 0 auto;
+    text-align: center;
+    position: absolute;
+    top: 70px;
+    width: 100%;
+    min-height: 50%;
+}
+.notify-img-large> img {
+    border-radius: 70%;
+    width: 150px;
+    height: auto;
+    overflow:visible;
+    position:relative;
+}
