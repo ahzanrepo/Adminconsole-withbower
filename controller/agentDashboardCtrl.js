@@ -439,6 +439,80 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
     $scope.getTicketViaTwitter();
 
+    $scope.ticketViaOther = 0;
+    $scope.ticketViaOtherCount = 0;
+    var calculateOther = function(){
+        $scope.ticketViaOtherCount = $scope.ticketViaWidgetCount + $scope.ticketViaSkypeCount + $scope.ticketViaApiCount;
+        if ($scope.totalTicket > 0)
+            $scope.ticketViaOther = (($scope.ticketViaOtherCount / $scope.totalTicket) * 100).toFixed(2);
+    };
+
+    $scope.ticketViaSkype = 0;
+    $scope.ticketViaSkypeCount = 0;
+    $scope.getTicketViaSkype = function () {
+        dashboardService.GetNewTicketCountViaChannel("SKYPE").then(function (response) {
+            if (response) {
+                $scope.ticketViaSkypeCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaSkype = ((response / $scope.totalTicket) * 100).toFixed(2);
+                calculateOther();
+            }
+            else {
+                $scope.ticketViaSkype = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaSkype = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaSkype();
+
+    $scope.ticketViaApi = 0;
+    $scope.ticketViaApiCount = 0;
+    $scope.getTicketViaApi = function () {
+        dashboardService.GetNewTicketCountViaChannel("API").then(function (response) {
+            if (response) {
+                $scope.ticketViaApiCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaApi = ((response / $scope.totalTicket) * 100).toFixed(2);
+                calculateOther();
+            }
+            else {
+                $scope.ticketViaApi = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaApi = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaApi();
+
+
+    $scope.ticketViaWidget = 0;
+    $scope.ticketViaWidgetCount = 0;
+    $scope.getTicketViaWidget = function () {
+        dashboardService.GetNewTicketCountViaChannel("WIDGET").then(function (response) {
+            if (response) {
+                $scope.ticketViaWidgetCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaWidget = ((response / $scope.totalTicket) * 100).toFixed(2);
+                calculateOther();
+            }
+            else {
+                $scope.ticketViaWidget = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaWidget = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaWidget();
+
+    $scope.showOtherDetail=false;
+    $scope.showOtherDetails= function(){
+        $scope.showOtherDetail= !$scope.showOtherDetail;
+    };
+
     $scope.slaCompliance = 0;
     var SlaCompliance = function () {
         if ($scope.newTicket > 0)

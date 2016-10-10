@@ -42,9 +42,9 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>Server Type</label>
-                                <select class="form-control" ng-model="ards.ServerType"   ng-model-options="{trackBy: '$value'}" ng-disabled="true">
-                                    <option ng-repeat="server in RequestServers" value="{{server.ServerType}}" >{{server.ServerType}}</option>
-                                </select>
+                                <input type="text" class="form-control has-feedback-left "
+                                       ng-model="ards.ServerType"
+                                       ng-disabled="true">
                             </div>
 
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"
@@ -143,7 +143,7 @@
 
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                 <tags-input ng-model="attributeGroups" display-property="GroupName" add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)" on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1" placeholder="Add a group">
                                     <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1" ></auto-complete>
                                 </tags-input>
