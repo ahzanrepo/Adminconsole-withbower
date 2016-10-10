@@ -247,11 +247,11 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
                 }
                 if(recPattern=="NONE")
                 {
-                    scope.summaryText+="everyday";
+                    scope.summaryText+=" everyday";
                 }
                 if(recPattern=="WEEKLY" && weekDays && weekDays.length==0)
                 {
-                    scope.summaryText+="on every weekday";
+                    scope.summaryText+=" on every weekday";
                 }
                 if(recPattern=="WEEKLY" && weekDays && weekDays.length>0)
                 {
