@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ticketDetailReportCtrl = function ($scope, $filter, ticketReportsService) {
+    var ticketDetailReportCtrl = function ($scope, $filter, $q, ticketReportsService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -294,6 +294,122 @@
                 $scope.obj.isTableLoading = -1;
                 $scope.ticketList = [];
             }
+
+        };
+
+        $scope.getTicketSummaryCSV = function ()
+        {
+            $scope.DownloadFileName = 'TICKET_' + $scope.obj.startDay + '_' + $scope.obj.endDay;
+
+            var deferred = $q.defer();
+
+            var ticketListForCSV = [];
+
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            momentTz = momentTz.replace("+", "%2B");
+
+            var startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
+            var tempEndDate = $scope.obj.endDay;
+
+            var endDate = moment(tempEndDate).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00' + momentTz;
+
+            var tagName = null;
+
+            if($scope.selectedTag)
+            {
+                tagName = $scope.selectedTag.name;
+            }
+
+            $scope.FilterData = {
+                sdate: startDate,
+                edate: endDate,
+                requester: $scope.selectedExtUser,
+                assignee: $scope.selectedAssignee,
+                submitter: $scope.selectedSubmitter,
+                tag: tagName,
+                channel: $scope.channelType,
+                priority: $scope.priorityType,
+                type: $scope.ticketType,
+                status: $scope.ticketStatus,
+                slaViolated: $scope.slaStatus
+
+            };
+
+
+
+            try
+            {
+
+                ticketReportsService.getTicketDetailsNoPaging($scope.FilterData).then(function (ticketDetailsResp)
+                {
+                    if(ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0)
+                    {
+                        $scope.ticketList = ticketDetailsResp.Result;
+
+                        ticketDetailsResp.Result.forEach(function(ticketInfo)
+                        {
+                            var ticketInfoTemp =
+                            {
+                                reference: ticketInfo.reference,
+                                subject: ticketInfo.subject,
+                                assignee: (ticketInfo.assignee ? ticketInfo.assignee.name : ''),
+                                submitter: (ticketInfo.submitter ? ticketInfo.submitter.name : ''),
+                                requester: (ticketInfo.requester ? ticketInfo.requester.name : ''),
+                                channel: ticketInfo.channel,
+                                status: ticketInfo.status,
+                                priority: ticketInfo.priority,
+                                type: ticketInfo.type,
+                                slaViolated: (ticketInfo.ticket_matrix ? ticketInfo.ticket_matrix.sla_violated : false)
+
+                            };
+
+                            if(ticketInfo.isolated_tags)
+                            {
+                                for(i=0; i<ticketInfo.isolated_tags.length; i++)
+                                {
+                                    if(i > 5)
+                                    {
+                                        break;
+                                    }
+                                    var tagName = 'Tag' + i+1;
+                                    ticketInfoTemp[tagName] = ticketInfo.isolated_tags[i];
+                                }
+                            }
+
+                            ticketListForCSV.push(ticketInfoTemp);
+
+                        });
+
+                        deferred.resolve(ticketListForCSV);
+
+
+
+                    }
+                    else
+                    {
+                        deferred.resolve(ticketListForCSV);
+                    }
+
+
+
+                }).catch(function(err)
+                {
+                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
+                    deferred.resolve(ticketListForCSV);
+                });
+
+
+
+
+
+            }
+            catch (ex)
+            {
+                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
+                deferred.resolve(ticketListForCSV);
+            }
+
+            return deferred.promise;
 
         };
 
