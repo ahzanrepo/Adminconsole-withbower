@@ -47,7 +47,8 @@ var baseUrls = {
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
-    'TrunkServiceURL':'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/'
+    'TrunkServiceURL':'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/'
 
 };
 
@@ -66,6 +67,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('console.dashboard', {
             url: "/dashboard",
             templateUrl: "views/dashboard/dashboardContactCenter.html",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+
+            }
+        }).state('console.fb', {
+            url: "/fb",
+            templateUrl: "socialConnectors/views/socialConnector.html",
+            controller: "socialConnectorController",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"
