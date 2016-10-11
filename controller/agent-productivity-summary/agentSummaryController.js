@@ -49,6 +49,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, ag
                         summaryData[i].Summary[j].AverageHandlingTime=TimeFromatter(summaryData[i].Summary[j].AverageHandlingTime,"HH:mm:ss");
                         summaryData[i].Summary[j].StaffTime=TimeFromatter(summaryData[i].Summary[j].StaffTime,"HH:mm:ss");
                         summaryData[i].Summary[j].TalkTime=TimeFromatter(summaryData[i].Summary[j].TalkTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].BreakTime=TimeFromatter(summaryData[i].Summary[j].BreakTime,"HH:mm:ss");
 
                         $scope.agentSummaryList.push(summaryData[i].Summary[j]);
                     }
