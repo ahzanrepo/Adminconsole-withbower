@@ -69,7 +69,7 @@
                     slaApiAccess.updateSla(scope.sla).then(function(response){
                         if(response.IsSuccess)
                         {
-                            scope.showAlert('Success', 'info', response.CustomMessage);
+                            scope.showAlert('SLA', response.CustomMessage, 'success');
                             scope.reloadpage();
                         }
                         else
@@ -80,7 +80,7 @@
                             {
                                 errMsg = response.Exception.Message;
                             }
-                            scope.showAlert('Error', 'error', errMsg);
+                            scope.showAlert('SLA', errMsg, 'error');
                         }
                     }, function(err){
                         var errMsg = "Error occurred while updating sla";
@@ -88,7 +88,7 @@
                         {
                             errMsg = err.statusText;
                         }
-                        scope.showAlert('Error', 'error', errMsg);
+                        scope.showAlert('SLA', errMsg, 'error');
                     });
                 };
 
@@ -97,7 +97,7 @@
                         slaApiAccess.deleteSla(scope.sla._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
                                 scope.updateSla(scope.sla);
-                                scope.showAlert('Success', 'info', response.CustomMessage);
+                                scope.showAlert('SLA', response.CustomMessage, 'success');
                                 $state.reload();
                             }
                             else {
@@ -106,14 +106,14 @@
                                 if (response.Exception) {
                                     errMsg = response.Exception.Message;
                                 }
-                                scope.showAlert('Error', 'error', errMsg);
+                                scope.showAlert('SLA', errMsg, 'error');
                             }
                         }, function (err) {
                             var errMsg = "Error occurred while deleting sla";
                             if (err.statusText) {
                                 errMsg = err.statusText;
                             }
-                            scope.showAlert('Error', 'error', errMsg);
+                            scope.showAlert('SLA', errMsg, 'error');
                         });
                     }, function () {
 

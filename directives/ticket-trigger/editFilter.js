@@ -30,26 +30,46 @@
                         switch (scope.filterType){
                             case "any":
                                 triggerApiAccess.removeFilterAny(scope.triggerId, scope.filter._id.toString()).then(function (response) {
-                                    if (response) {
+                                    if (response.IsSuccess) {
                                         scope.updateFilters(scope.filter, scope.filterType);
-                                        scope.showAlert("Deleted", "Deleted", "ok", "File " + scope.filter.field + " Deleted successfully");
+                                        scope.showAlert('Trigger Filter', response.CustomMessage, 'success');
                                     }
-                                    else
-                                        scope.showError("Error", "Error", "ok", "There is an error ");
+                                    else {
+                                        var errMsg = response.CustomMessage;
+
+                                        if (response.Exception) {
+                                            errMsg = response.Exception.Message;
+                                        }
+                                        scope.showAlert('Trigger Filter', errMsg, 'error');
+                                    }
                                 }, function (error) {
-                                    scope.showError("Error", "Error", "ok", "There is an error ");
+                                    var errMsg = "Error occurred while deleting trigger";
+                                    if (error.statusText) {
+                                        errMsg = error.statusText;
+                                    }
+                                    scope.showAlert('Trigger Filter', errMsg, 'error');
                                 });
                                 break;
                             case "all":
                                 triggerApiAccess.removeFilterAll(scope.triggerId, scope.filter._id.toString()).then(function (response) {
-                                    if (response) {
+                                    if (response.IsSuccess) {
                                         scope.updateFilters(scope.filter, scope.filterType);
-                                        scope.showAlert("Deleted", "Deleted", "ok", "File " + scope.filter.field + " Deleted successfully");
+                                        scope.showAlert('Trigger Filter', response.CustomMessage, 'success');
                                     }
-                                    else
-                                        scope.showError("Error", "Error", "ok", "There is an error ");
+                                    else {
+                                        var errMsg = response.CustomMessage;
+
+                                        if (response.Exception) {
+                                            errMsg = response.Exception.Message;
+                                        }
+                                        scope.showAlert('Trigger Filter', errMsg, 'error');
+                                    }
                                 }, function (error) {
-                                    scope.showError("Error", "Error", "ok", "There is an error ");
+                                    var errMsg = "Error occurred while deleting trigger";
+                                    if (error.statusText) {
+                                        errMsg = error.statusText;
+                                    }
+                                    scope.showAlert('Trigger Filter', errMsg, 'error');
                                 });
                                 break;
                             default :
@@ -87,22 +107,12 @@
 
                 };
 
-                scope.showAlert = function (tittle, label, button, content) {
+                scope.showAlert = function (title,content,type) {
 
                     new PNotify({
-                        title: tittle,
+                        title: title,
                         text: content,
-                        type: 'success',
-                        styling: 'bootstrap3'
-                    });
-                };
-
-                scope.showError = function (tittle,content) {
-
-                    new PNotify({
-                        title: tittle,
-                        text: content,
-                        type: 'error',
+                        type: type,
                         styling: 'bootstrap3'
                     });
                 };

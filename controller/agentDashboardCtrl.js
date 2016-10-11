@@ -18,10 +18,10 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.difCreateVsResolvedChartOptions = {
         grid: {
             borderWidth: 1,
-            borderColor: '#bfbfbf',
+            borderColor: '#fff',
             show: true
         },
-        series: {shadowSize: 0, color: "#f8b01d"},
+        series: {fill: true,shadowSize: 0, color: "#63a5a2"},
         color: {color: '#63a5a2'},
         legend: {
             container: '#legend',
@@ -29,9 +29,9 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
         },
         yaxis: {
             min: 0,
-            color: '#f7f5f5'
+            color: '#F7F7F7'
         }, xaxis: {
-            color: '#f7f5f5',
+            color: '#F7F7F7',
             tickFormatter: function (val, axis) {
                 return moment.unix(val).format("DD-MMM"); //moment.unix(val).date();
             }
@@ -41,12 +41,13 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     var createVsResolvedChartOptions = {
         grid: {
             borderWidth: 1,
-            borderColor: '#bfbfbf',
+            borderColor: '#F7F7F7',
             show: true
         },
         series: {
             lines: {show: true, fill: true, color: "#114858"},
             points: {show: true},
+            shadowSize: 0
         },
         color: {color: '#63a5a2'},
         legend: {
@@ -54,10 +55,10 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
         },
         yaxis: {
             min: 0,
-            color: '#f7f5f5',
+            color: '#F7F7F7',
             /*title: 'Ticket Count',  titleTextStyle: {color: '#333'}*/
         }, xaxis: {
-            color: '#f7f5f5',
+            color: '#F7F7F7',
             /*title: 'Day',  titleTextStyle: {color: '#333'},*/
             tickFormatter: function (val, axis) {
                 return moment.unix(val).format("DD-MMM");// moment.unix(val).date();
@@ -66,12 +67,10 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
 
     var bindDataToChart = function () {
-        var data = [{data: data1, label: "Created", lines: {show: true}}, {
-            data: data2,
-            label: "Resolved",
-            lines: {show: true},
-            points: {show: true}
-        }];
+        var data = [
+            {color: '#db4114', data: data1, label: "Created", lines: {show: true}},
+            {color: '#63a5a2', data: data2, label: "Resolved", lines: {show: true}, points: {show: true}}
+        ];
         chart = $.plot($("#createVsResolved"), data, createVsResolvedChartOptions);
         /*var axes = chart.getAxes();
          axes.xaxis.axisLabel = "test";
@@ -438,6 +437,80 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
         });
     };
     $scope.getTicketViaTwitter();
+
+    $scope.ticketViaOther = 0;
+    $scope.ticketViaOtherCount = 0;
+    var calculateOther = function () {
+        $scope.ticketViaOtherCount = $scope.ticketViaWidgetCount + $scope.ticketViaSkypeCount + $scope.ticketViaApiCount;
+        if ($scope.totalTicket > 0)
+            $scope.ticketViaOther = (($scope.ticketViaOtherCount / $scope.totalTicket) * 100).toFixed(2);
+    };
+
+    $scope.ticketViaSkype = 0;
+    $scope.ticketViaSkypeCount = 0;
+    $scope.getTicketViaSkype = function () {
+        dashboardService.GetNewTicketCountViaChannel("SKYPE").then(function (response) {
+            if (response) {
+                $scope.ticketViaSkypeCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaSkype = ((response / $scope.totalTicket) * 100).toFixed(2);
+                calculateOther();
+            }
+            else {
+                $scope.ticketViaSkype = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaSkype = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaSkype();
+
+    $scope.ticketViaApi = 0;
+    $scope.ticketViaApiCount = 0;
+    $scope.getTicketViaApi = function () {
+        dashboardService.GetNewTicketCountViaChannel("API").then(function (response) {
+            if (response) {
+                $scope.ticketViaApiCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaApi = ((response / $scope.totalTicket) * 100).toFixed(2);
+                calculateOther();
+            }
+            else {
+                $scope.ticketViaApi = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaApi = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaApi();
+
+
+    $scope.ticketViaWidget = 0;
+    $scope.ticketViaWidgetCount = 0;
+    $scope.getTicketViaWidget = function () {
+        dashboardService.GetNewTicketCountViaChannel("WIDGET").then(function (response) {
+            if (response) {
+                $scope.ticketViaWidgetCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaWidget = ((response / $scope.totalTicket) * 100).toFixed(2);
+                calculateOther();
+            }
+            else {
+                $scope.ticketViaWidget = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaWidget = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaWidget();
+
+    $scope.showOtherDetail = false;
+    $scope.showOtherDetails = function () {
+        $scope.showOtherDetail = !$scope.showOtherDetail;
+    };
 
     $scope.slaCompliance = 0;
     var SlaCompliance = function () {

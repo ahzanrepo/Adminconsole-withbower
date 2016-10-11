@@ -77,6 +77,8 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
         });
     };
 
+
+
     var getTotalCalls = function () {
         var authToken = authService.GetToken();
         return $http({
@@ -133,7 +135,24 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
 
     };
+    var getTotalQueueHit = function () {
+        var authToken = authService.GetToken();
+        //dashboard.app.veery.cloud
+        return $http({
+            method: 'GET',
+            url: "http://dashboard.app.veery.cloud/DashboardGraph/AllConcurrentQueued/5",
+            headers: {
+                'authorization': authToken
+            }
+        }).then(function (response) {
+            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
+                return response.data[0].datapoints;
+            } else {
 
+                return {};
+            }
+        });
+    };
     var getTotalQueueAnswered = function () {
         var authToken = authService.GetToken();
         return $http({
@@ -437,6 +456,7 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
         GetAllChannels: getAllChannels,
         GetTotalCalls: getTotalCalls,
         GetTotalQueued: getTotalQueued,
+        GetTotalQueueHit:getTotalQueueHit,
         GetTotalQueueAnswered: getTotalQueueAnswered,
         GetTotalQueueDropped: getTotalQueueDropped,
         GetCurrentWaiting: getCurrentWaiting,

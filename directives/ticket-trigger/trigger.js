@@ -68,7 +68,7 @@
                     triggerApiAccess.updateTrigger(scope.trigger).then(function(response){
                         if(response.IsSuccess)
                         {
-                            scope.showAlert('Success', 'info', response.CustomMessage);
+                            scope.showAlert('Trigger', response.CustomMessage, 'success');
                             scope.reloadpage();
                         }
                         else
@@ -79,7 +79,7 @@
                             {
                                 errMsg = response.Exception.Message;
                             }
-                            scope.showAlert('Error', 'error', errMsg);
+                            scope.showAlert('Trigger', errMsg, 'error');
                         }
                     }, function(err){
                         var errMsg = "Error occurred while updating trigger";
@@ -87,7 +87,7 @@
                         {
                             errMsg = err.statusText;
                         }
-                        scope.showAlert('Error', 'error', errMsg);
+                        scope.showAlert('Trigger', errMsg, 'error');
                     });
                 };
 
@@ -96,7 +96,7 @@
                         triggerApiAccess.deleteTrigger(scope.trigger._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
                                 scope.updateTrigger(scope.trigger);
-                                scope.showAlert('Success', 'info', response.CustomMessage);
+                                scope.showAlert('Trigger', response.CustomMessage, 'success');
                                 $state.reload();
                             }
                             else {
@@ -105,14 +105,14 @@
                                 if (response.Exception) {
                                     errMsg = response.Exception.Message;
                                 }
-                                scope.showAlert('Error', 'error', errMsg);
+                                scope.showAlert('Trigger', errMsg, 'error');
                             }
                         }, function (err) {
                             var errMsg = "Error occurred while deleting trigger";
                             if (err.statusText) {
                                 errMsg = err.statusText;
                             }
-                            scope.showAlert('Error', 'error', errMsg);
+                            scope.showAlert('Trigger', errMsg, 'error');
                         });
                     }, function () {
 

@@ -3,7 +3,7 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, loginService, authService) {
+mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout, jwtHelper, loginService, authService,notifiSenderService,veeryNotification,$q) {
 
 
     //added by pawan
@@ -14,6 +14,69 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
     $scope.isRegistered = false;
     $scope.inCall = false;
 
+    $scope.newNotifications=[];
+
+
+// Register for notifications
+
+    $scope.showAlert = function (tittle, type, msg) {
+        new PNotify({
+            title: tittle,
+            text: msg,
+            type: type,
+            styling: 'bootstrap3',
+            icon: false
+        });
+    };
+
+    $scope.OnMessage = function (data) {
+        var objMessage = {
+            "id": data.TopicKey,
+            "header": data.Message,
+            "type": "menu",
+            "icon": "main-icon-2-speech-bubble",
+            "time": new Date(),
+            "read": false
+        };
+        /*if (data.TopicKey) {
+         var audio = new Audio('assets/sounds/notification-1.mp3');
+         audio.play();
+         $scope.notifications.unshift(objMessage);
+         $('#notificationAlarm').addClass('animated swing');
+         $scope.unredNotifications = $scope.getCountOfUnredNotifications()
+         setTimeout(function () {
+         $('#notificationAlarm').removeClass('animated swing');
+         }, 500);
+         }*/
+
+        if(data.From)
+        {
+            $scope.newNotifications.push(data);
+        }
+
+
+        //$scope.showAlert("Success","success","Got");
+        //console.log(data);
+
+
+    };
+
+    var notificationEvent = {
+        OnMessageReceived: $scope.OnMessage
+    };
+
+    $scope.veeryNotification = function () {
+        veeryNotification.connectToServer(authService.TokenWithoutBearer(), baseUrls.notification, notificationEvent);
+    };
+
+    $scope.veeryNotification();
+
+
+
+    // Notification sender
+    $scope.agentList = [];
+
+
     //check my navigation
     //is can access
     loginService.getNavigationAccess(function (result) {
@@ -23,13 +86,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
 
     $scope.clickDirective = {
         goLogout: function () {
-
             loginService.Logoff(undefined, function (issuccess) {
-
                 if (issuccess) {
-
                     $state.go('login');
-
                 } else {
 
                 }
@@ -158,8 +217,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         goTranslations: function () {
             $state.go('console.translations');
         },
-        goTicketTrigger: function ()
-        {
+        goTicketTrigger: function () {
             $state.go('console.trigger');
         },
         goTemplateCreater: function () {
@@ -174,26 +232,28 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
         goCallSummary: function () {
             $state.go('console.callsummary');
         },
-        goTicketSla: function ()
-        {
+        goTicketSla: function () {
             $state.go('console.sla');
         },
-        goAgentStatusEvt: function(){
+        goAgentStatusEvt: function () {
             $state.go('console.agentstatusevents');
         },
-        goTickerAgentDashboard: function(){
+        goTickerAgentDashboard: function () {
             $state.go('console.agentTicketDashboard');
         },
-        goTicketSummary: function(){
+        goTicketSummary: function () {
             $state.go('console.ticketSummary');
         },
-        goTicketDetailReport: function(){
+        goTicketDetailReport: function () {
             $state.go('console.ticketDetailReport');
         },
-        goTimeSheet:function(){
+        goTimeSheet: function () {
             $state.go('console.timeSheet');
-        },goFilter:function(){
+        }, goFilter: function () {
             $state.go('console.createFilter');
+        },
+        goToFullScreen: function () {
+
         }
     };
 
@@ -237,7 +297,15 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
 
 
     var authToken = authService.GetToken();
-
+    /*$scope.showAlert = function (tittle, type, msg) {
+     new PNotify({
+     title: tittle,
+     text: msg,
+     type: type,
+     styling: 'bootstrap3',
+     icon: false
+     });
+     };*/
 
     var getRegistrationData = function (authToken, password) {
 
@@ -415,7 +483,326 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, jwtHelper, 
             });
             $scope.isToggleMenu = true;
         }
+    };
+
+
+    //toggle menu option
+    //text function
+    var CURRENT_URL = window.location.href.split("?")[0], $BODY = $("body"), $MENU_TOGGLE = $("#menu_toggle"), $SIDEBAR_MENU = $("#sidebar-menu"),
+        $SIDEBAR_FOOTER = $(".sidebar-footer"), $LEFT_COL = $(".left_col"), $RIGHT_COL = $(".right_col"), $NAV_MENU = $(".nav_menu"), $FOOTER = $("footer");
+
+    // TODO: This is some kind of easy fix, maybe we can improve this
+    var setContentHeight = function () {
+        // reset height
+        $RIGHT_COL.css('min-height', $(window).height());
+
+        var bodyHeight = $BODY.outerHeight(),
+            footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height(),
+            leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
+            contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
+
+        // normalize content
+        contentHeight -= $NAV_MENU.height() + footerHeight;
+
+        $RIGHT_COL.css('min-height', contentHeight);
+    };
+
+
+    $SIDEBAR_MENU.find('a').on('click', function (ev) {
+        var $li = $(this).parent();
+
+        if ($li.is('.active')) {
+            $li.removeClass('active');
+            $('ul:first', $li).slideUp(function () {
+                setContentHeight();
+            });
+        } else {
+            // prevent closing menu if we are on child menu
+            if (!$li.parent().is('.child_menu')) {
+                $SIDEBAR_MENU.find('li').removeClass('active');
+                $SIDEBAR_MENU.find('li ul').slideUp();
+            }
+
+            $li.addClass('active');
+
+            $('ul:first', $li).slideDown(function () {
+                setContentHeight();
+            });
+        }
+    });
+    // toggle small or large menu
+    $MENU_TOGGLE.on('click', function () {
+        if ($BODY.hasClass('nav-md')) {
+            $BODY.removeClass('nav-md').addClass('nav-sm');
+
+            if ($SIDEBAR_MENU.find('li').hasClass('active')) {
+                $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+            }
+        } else {
+            $BODY.removeClass('nav-sm').addClass('nav-md');
+
+            if ($SIDEBAR_MENU.find('li').hasClass('active-sm')) {
+                $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
+            }
+        }
+        // setContentHeight();
+    });
+
+    //get screen height
+
+
+
+    var getAllRealTimeTimer = {};
+
+
+
+    $scope.users = [];
+    $scope.notificationMsg = {};
+    $scope.naviSelectedUser={};
+    $scope.userGroups = [];
+    $scope.loadUserGroups = function () {
+        notifiSenderService.getUserGroupList().then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                $scope.userGroups = response.data.Result;
+            }
+        }, function (err) {
+            $scope.showAlert("Load User Groups", "error", "Fail To Get User Groups.")
+        });
+    };
+    $scope.loadUserGroups();
+
+    $scope.loadUsers = function () {
+        notifiSenderService.getUserList().then(function (response) {
+            $scope.users = response;
+        }, function (err) {
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+    };
+    $scope.loadUsers();
+
+    var FilterByID = function (array, field, value) {
+        if (array) {
+            for (var i = array.length - 1; i >= 0; i--) {
+                if (array[i].hasOwnProperty(field)) {
+                    if (array[i][field] == value) {
+                        return array[i];
+                    }
+                }
+            }
+            return null;
+        } else {
+            return null;
+        }
+    };
+
+    var loadOnlineAgents = function () {
+        notifiSenderService.getProfileDetails().then(function (response) {
+            if (response) {
+                var onlineAgentList = [];
+                var offlineAgentList = [];
+                $scope.agentList = [];
+                var onlineAgents = response.Result;
+
+                if ($scope.users) {
+                    for (var i = 0; i < $scope.users.length; i++) {
+                        var user = $scope.users[i];
+                        user.listType = "User";
+
+                        if (user.resourceid) {
+                            var resource = FilterByID(onlineAgents, "ResourceId", user.resourceid);
+                            if (resource) {
+                                user.status = resource.Status.State;
+                                if (user.status === "NotAvailable") {
+                                    offlineAgentList.push(user);
+                                } else {
+                                    onlineAgentList.push(user);
+                                }
+                            } else {
+                                user.status = "NotAvailable";
+                                offlineAgentList.push(user);
+                            }
+                        } else {
+                            user.status = "NotAvailable";
+                            offlineAgentList.push(user);
+                        }
+                    }
+
+                    onlineAgentList.sort(function (a, b) {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                        return 0;
+                    });
+                    offlineAgentList.sort(function (a, b) {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                        return 0;
+                    });
+
+                    $scope.agentList = onlineAgentList.concat(offlineAgentList);
+                }
+
+                if ($scope.userGroups) {
+                    var userGroupList = [];
+
+                    for (var j = 0; j < $scope.userGroups.length; j++) {
+                        var userGroup = $scope.userGroups[j];
+
+                        userGroup.status = "Available";
+                        userGroup.listType = "Group";
+                        userGroupList.push(userGroup);
+                    }
+
+                    userGroupList.sort(function (a, b) {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                        return 0;
+                    });
+
+                    $scope.agentList = userGroupList.concat($scope.agentList)
+                }
+            }
+            else {
+                /*var errMsg = response.CustomMessage;
+
+                 if (response.Exception) {
+                 errMsg = response.Exception.Message;
+                 }*/
+                $scope.showAlert('Error', 'error', "Error");
+            }
+        }, function (err) {
+            var errMsg = "Error occurred while loading online agents";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Error', 'error', errMsg);
+        });
+    };
+
+
+
+    var getAllRealTime = function () {
+        loadOnlineAgents();
+        getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+    };
+
+    $scope.showMessageBlock = function (selectedUser) {
+        $scope.naviSelectedUser = selectedUser;
+        divModel.model('#sendMessage', 'display-block');
+    };
+    $scope.closeMessage = function () {
+        divModel.model('#sendMessage', 'display-none');
+    };
+
+    $scope.showRightSideNav=false;
+
+    $scope.openNav = function () {
+
+        if(!$scope.showRightSideNav)
+        {
+            getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+            document.getElementById("mySidenav").style.width = "300px";
+            $scope.showRightSideNav=true;
+        }
+        else
+        {
+            if (getAllRealTimeTimer) {
+                $timeout.cancel(getAllRealTimeTimer);
+            }
+            document.getElementById("mySidenav").style.width = "0";
+            $scope.showRightSideNav=false;
+        }
+
+
+        //document.getElementById("main").style.marginRight = "285px";
+        // document.getElementById("navBar").style.marginRight = "300px";
+    };
+    /* Set the width of the side navigation to 0 */
+    $scope.closeNav = function () {
+
+        //document.getElementById("main").style.marginRight = "0";
+        //  document.getElementById("navBar").style.marginRight = "0";
+    };
+
+
+    $scope.sendNotification = function () {
+
+        $scope.loginName=$scope.userName;
+        if ($scope.naviSelectedUser) {
+
+            $scope.notificationMsg.From = $scope.loginName;
+            $scope.notificationMsg.Direction = "STATELESS";
+            if ($scope.naviSelectedUser.listType === "Group") {
+                if ($scope.naviSelectedUser.users) {
+                    var clients = [];
+                    for (var i = 0; i < $scope.naviSelectedUser.users.length; i++) {
+                        var gUser = $scope.naviSelectedUser.users[i];
+                        if (gUser && gUser.username && gUser.username != $scope.loginName) {
+                            clients.push(gUser.username);
+                        }
+                    }
+                    $scope.notificationMsg.clients = clients;
+
+                    notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
+                        $scope.notificationMsg = {};
+                        console.log("send notification success :: " + JSON.stringify(clients));
+                    }, function (err) {
+                        var errMsg = "Send Notification Failed";
+                        if (err.statusText) {
+                            errMsg = err.statusText;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                    });
+                } else {
+                    $scope.showAlert('Error', 'error', "Send Notification Failed");
+                }
+
+            } else {
+
+                $scope.notificationMsg.To = $scope.naviSelectedUser.username;
+
+                notifiSenderService.sendNotification($scope.notificationMsg, "message", "").then(function (response) {
+                    console.log("send notification success :: " + $scope.notificationMsg.To);
+                    $scope.notificationMsg = {};
+                }, function (err) {
+                    var errMsg = "Send Notification Failed";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                });
+            }
+
+        } else {
+            $scope.showAlert('Error', 'error', "Send Notification Failed");
+        }
+    };
+
+
+
+
+
+
+    $scope.usersToNotify=[];
+
+    $scope.checkUser = function ($event,agent) {
+
+        if($event.target.checked)
+        {
+            if($scope.usersToNotify.indexOf(agent.username)==-1)
+            {
+                $scope.usersToNotify.push(agent.username);
+            }
+
+        }
+        else
+        {
+            if($scope.usersToNotify.indexOf(agent.username)==-1)
+            {
+                $scope.usersToNotify.splice($scope.usersToNotify.indexOf(agent.username),1);
+            }
+        }
     }
+
 
 
 });

@@ -95,7 +95,6 @@
             $scope.triggerOperation.field = undefined;
             $scope.triggerOperation.value = undefined;
         };
-
         //---------------functions Initial Data-------------------
         $scope.loadFilterAll = function(){
             slaApiAccess.getFiltersAll($stateParams.slaId).then(function(response){
@@ -111,7 +110,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('SLA Filter', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading filters";
@@ -119,7 +118,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('SLA Filter', errMsg, 'error');
             });
         };
 
@@ -137,7 +136,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('SLA Filter', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading filters";
@@ -145,7 +144,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('SLA Filter', errMsg, 'error');
             });
         };
 
@@ -163,7 +162,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('SLA Matrix', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading sla matrix";
@@ -171,7 +170,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('SLA Matrix', errMsg, 'error');
             });
         };
 
@@ -189,7 +188,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Users', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading users";
@@ -197,7 +196,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Users', errMsg, 'error');
             });
         };
 
@@ -215,7 +214,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('User Groups', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading user groups";
@@ -223,7 +222,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('User Groups', errMsg, 'error');
             });
         };
 
@@ -254,7 +253,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Attributes', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading attributes";
@@ -262,7 +261,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Attributes', errMsg, 'error');
             });
         };
 
@@ -280,7 +279,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Template', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading templates";
@@ -288,7 +287,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Template', errMsg, 'error');
             });
         };
 
@@ -339,8 +338,7 @@
                         if(response.IsSuccess)
                         {
                             $scope.loadFilterAny();
-                            $scope.showAlert('Success', 'info', response.CustomMessage);
-                            //$state.reload();
+                            $scope.showAlert('SLA Filter', response.CustomMessage, 'success');
                         }
                         else
                         {
@@ -350,7 +348,7 @@
                             {
                                 errMsg = response.Exception.Message;
                             }
-                            $scope.showAlert('Error', 'error', errMsg);
+                            $scope.showAlert('SLA Filter', errMsg, 'error');
                         }
                     }, function(err){
                         var errMsg = "Error occurred while saving sla filters";
@@ -358,7 +356,7 @@
                         {
                             errMsg = err.statusText;
                         }
-                        $scope.showAlert('Error', 'error', errMsg);
+                        $scope.showAlert('SLA Filter', errMsg, 'error');
                     });
                     break;
                 case "all":
@@ -366,8 +364,7 @@
                         if(response.IsSuccess)
                         {
                             $scope.loadFilterAll();
-                            $scope.showAlert('Success', 'info', response.CustomMessage);
-                            //$state.reload();
+                            $scope.showAlert('SLA Filter', response.CustomMessage, 'success');
                         }
                         else
                         {
@@ -377,7 +374,7 @@
                             {
                                 errMsg = response.Exception.Message;
                             }
-                            $scope.showAlert('Error', 'error', errMsg);
+                            $scope.showAlert('SLA Filter', errMsg, 'error');
                         }
                     }, function(err){
                         var errMsg = "Error occurred while saving sla filters";
@@ -385,7 +382,7 @@
                         {
                             errMsg = err.statusText;
                         }
-                        $scope.showAlert('Error', 'error', errMsg);
+                        $scope.showAlert('SLA Filter', errMsg, 'error');
                     });
                     break;
                 default :
@@ -399,8 +396,7 @@
                 if(response.IsSuccess)
                 {
                     $scope.loadSlaMatrices();
-                    $scope.showAlert('Success', 'info', response.CustomMessage);
-                    //$state.reload();
+                    $scope.showAlert('SLA Matrix', response.CustomMessage, 'success');
                 }
                 else
                 {
@@ -410,7 +406,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('SLA Matrix', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while saving sla Matrix";
@@ -418,7 +414,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('SLA Matrix', errMsg, 'error');
             });
         };
 

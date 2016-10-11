@@ -48,6 +48,9 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                             if (result) {
                                 loginService.getUserNavigation(function (isnavigation) {
                                     $state.go('console');
+
+
+
                                 })
                             } else {
 

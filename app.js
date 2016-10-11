@@ -23,7 +23,9 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
     'ui.bootstrap.pagination',
     'ui.grid', 'ui.grid.grouping',
-    'mgcrea.ngStrap'
+    'mgcrea.ngStrap',
+    'btford.socket-io',
+    'veeryNotificationMod'
 ]);
 
 
@@ -46,7 +48,11 @@ var baseUrls = {
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
-    'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/'
+    'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
+    'TrunkServiceURL':'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
+    'notification': 'http://notificationservice.app.veery.cloud/'
+
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -64,6 +70,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         }).state('console.dashboard', {
             url: "/dashboard",
             templateUrl: "views/dashboard/dashboardContactCenter.html",
+            data: {
+                requireLogin: true,
+                navigation: "DASHBOARD"
+
+            }
+        }).state('console.fb', {
+            url: "/fb",
+            templateUrl: "socialConnectors/views/socialConnector.html",
+            controller: "socialConnectorController",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"
@@ -565,53 +580,6 @@ var setContentHeight = function () {
     $RIGHT_COL.css('min-height', contentHeight);
 };
 
-mainApp.directive('menuCollapse', function () {
-    return {
-        link: function (scope, element, att) {
-            var $element = element.find('a');
-            $element.on('click', function (ev) {
-                var $li = $(this).parent();
-                if ($li.is('.active')) {
-                    $li.removeClass('active');
-                    $('ul:first', $li).slideUp(function () {
-                        setContentHeight();
-                    });
-                } else {
-                    // prevent closing menu if we are on child menu
-                    if (!$li.parent().is('.child_menu')) {
-                        $SIDEBAR_MENU.find('li').removeClass('active');
-                        $SIDEBAR_MENU.find('li ul').slideUp();
-                    }
-                    $li.addClass('active');
-                    $('ul:first', $li).slideDown(function () {
-                        setContentHeight();
-                    });
-                }
-            });
-        }
-    }
-}).directive('navToggle', function () {
-    return {
-        link: function (scope, element, att) {
-            element.on('click', function () {
-                var $BODY = $('body');
-                if ($BODY.hasClass('nav-md')) {
-                    $BODY.removeClass('nav-md').addClass('nav-sm');
-                    if ($SIDEBAR_MENU.find('li').hasClass('active')) {
-                        $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
-                    }
-                } else {
-                    $BODY.removeClass('nav-sm').addClass('nav-md');
-
-                    if ($SIDEBAR_MENU.find('li').hasClass('active-sm')) {
-                        $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
-                    }
-                }
-            });
-            setContentHeight();
-        }
-    }
-});
 
 mainApp.directive('datepicker', function () {
     return {

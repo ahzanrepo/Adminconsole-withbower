@@ -86,6 +86,10 @@
             $scope.triggerOperation.value = undefined;
         };
 
+        $scope.OnChangeTriggerAction = function(){
+            $scope.triggerAction.value = undefined;
+        };
+
         //---------------functions Initial Data-------------------
         $scope.loadFilterAll = function(){
             triggerApiAccess.getFiltersAll($stateParams.triggerId).then(function(response){
@@ -101,7 +105,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Filter', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading filters";
@@ -109,7 +113,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Filter', errMsg, 'error');
             });
         };
 
@@ -127,7 +131,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Filter', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading filters";
@@ -135,7 +139,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Filter', errMsg, 'error');
             });
         };
 
@@ -153,7 +157,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Trigger Actions', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading trigger actions";
@@ -161,7 +165,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Trigger Actions', errMsg, 'error');
             });
         };
 
@@ -179,7 +183,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Trigger Operations', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading trigger operations";
@@ -187,7 +191,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Trigger Operations', errMsg, 'error');
             });
         };
 
@@ -205,7 +209,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Users', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading users";
@@ -213,7 +217,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Users', errMsg, 'error');
             });
         };
 
@@ -231,7 +235,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('User Groups', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading user groups";
@@ -239,7 +243,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('User Groups', errMsg, 'error');
             });
         };
 
@@ -270,7 +274,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Attributes', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading attributes";
@@ -278,7 +282,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Attributes', errMsg, 'error');
             });
         };
 
@@ -296,7 +300,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Template', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while loading templates";
@@ -304,7 +308,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Template', errMsg, 'error');
             });
         };
 
@@ -363,9 +367,9 @@
             triggerApiAccess.addAction($scope.triggerId, $scope.triggerAction).then(function(response){
                 if(response.IsSuccess)
                 {
+                    $scope.OnChangeTriggerAction();
                     $scope.loadTriggerActions();
-                    $scope.showAlert('Success', 'info', response.CustomMessage);
-                    //$state.reload();
+                    $scope.showAlert('Trigger Action', response.CustomMessage, 'success');
                 }
                 else
                 {
@@ -375,7 +379,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Trigger Action', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while saving trigger action";
@@ -383,7 +387,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Trigger Action', errMsg, 'error');
             });
         };
 
@@ -402,8 +406,7 @@
                         if(response.IsSuccess)
                         {
                             $scope.loadFilterAny();
-                            $scope.showAlert('Success', 'info', response.CustomMessage);
-                            //$state.reload();
+                            $scope.showAlert('Trigger Filter', response.CustomMessage, 'success');
                         }
                         else
                         {
@@ -413,7 +416,7 @@
                             {
                                 errMsg = response.Exception.Message;
                             }
-                            $scope.showAlert('Error', 'error', errMsg);
+                            $scope.showAlert('Trigger Filter', errMsg, 'error');
                         }
                     }, function(err){
                         var errMsg = "Error occurred while saving trigger filters";
@@ -421,7 +424,7 @@
                         {
                             errMsg = err.statusText;
                         }
-                        $scope.showAlert('Error', 'error', errMsg);
+                        $scope.showAlert('Trigger Filter', errMsg, 'error');
                     });
                     break;
                 case "all":
@@ -429,8 +432,7 @@
                         if(response.IsSuccess)
                         {
                             $scope.loadFilterAll();
-                            $scope.showAlert('Success', 'info', response.CustomMessage);
-                            //$state.reload();
+                            $scope.showAlert('Trigger Filter', response.CustomMessage, 'success');
                         }
                         else
                         {
@@ -440,7 +442,7 @@
                             {
                                 errMsg = response.Exception.Message;
                             }
-                            $scope.showAlert('Error', 'error', errMsg);
+                            $scope.showAlert('Trigger Filter', errMsg, 'error');
                         }
                     }, function(err){
                         var errMsg = "Error occurred while saving trigger filters";
@@ -448,7 +450,7 @@
                         {
                             errMsg = err.statusText;
                         }
-                        $scope.showAlert('Error', 'error', errMsg);
+                        $scope.showAlert('Trigger Filter', errMsg, 'error');
                     });
                     break;
                 default :
@@ -462,8 +464,7 @@
                 if(response.IsSuccess)
                 {
                     $scope.loadTriggerOperations();
-                    $scope.showAlert('Success', 'info', response.CustomMessage);
-                    //$state.reload();
+                    $scope.showAlert('Trigger Operation', response.CustomMessage, 'success');
                 }
                 else
                 {
@@ -473,7 +474,7 @@
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Error', 'error', errMsg);
+                    $scope.showAlert('Trigger Operation', errMsg, 'error');
                 }
             }, function(err){
                 var errMsg = "Error occurred while saving trigger operation";
@@ -481,7 +482,7 @@
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Error', 'error', errMsg);
+                $scope.showAlert('Trigger Operation', errMsg, 'error');
             });
         };
 
