@@ -3179,3 +3179,11 @@ tags-input .tags.focused {
     position:relative;
     z-index: 0;
 }
+
+/*add social connector disable*/
+.avoid-clicks {
+    display: block;
+    background: rgba(51,51,51,0.85);
+    pointer-events: none;
+    color: whitesmoke;
+}
