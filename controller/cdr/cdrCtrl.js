@@ -213,6 +213,35 @@
         };
 
 
+        $scope.prepareDownloadCSV = function()
+        {
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            //var encodedTz = encodeURI(momentTz);
+            momentTz = momentTz.replace("+", "%2B");
+
+            var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+            var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
+
+            var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+            var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+            if(!$scope.timeEnabledStatus)
+            {
+                startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                endDate = $scope.endDate + ' 23:59:59' + momentTz;
+            }
+
+            cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, 'csv', momentTz).then(function (cdrResp)
+            {
+
+            }).catch(function(err)
+            {
+
+            });
+
+        };
+
+
         $scope.getProcessedCDRForCSV = function ()
         {
 
