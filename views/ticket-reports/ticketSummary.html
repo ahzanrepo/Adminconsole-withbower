@@ -110,39 +110,51 @@
     </div>
 
     <div class="x_panel col-md-12 col-sm-12 col-xs-12" ng-if="obj.isTableLoading==1">
-        <h4>
-            Tickets In Progress : {{summaryDetails.progressing}}
-        </h4>
-        <h4>
-            New Tickets : {{summaryDetails.new}}
-        </h4>
-        <h4>
-            Closed Tickets : {{summaryDetails.closed}}
-        </h4>
-        <h4>
-            Resolved Tickets : {{summaryDetails.resolved}}
-        </h4>
-        <h4>
-            RE-Opened Tickets : {{summaryDetails.reopen}}
-        </h4>
-        <h4>
-            SLA Violated Tickets : {{summaryDetails.sla_violated}}
-        </h4>
-        <h4>
-            Overdue Tickets : {{summaryDetails.overdue_working}}
-        </h4>
-        <h4>
-            Completed Overdue Tickets : {{summaryDetails.overdue_done}}
-        </h4>
-        <h4>
-            First Call Resolved Tickets : {{summaryDetails.first_call_resolved}}
-        </h4>
-        <h4>
-            Average Resolution : {{summaryDetails.average_resolution}}
-        </h4>
-        <h4>
-            Average Response : {{summaryDetails.average_response}}
-        </h4>
+
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">Tickets In Progress</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.progressing}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">New Tickets</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.new}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">Closed Tickets</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.closed}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">Resolved Tickets</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.resolved}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">RE-Opened Tickets</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.reopen}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">SLA Violated Tickets</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.sla_violated}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">Overdue Tickets</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.overdue_working}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">Completed Overdue Tickets</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.overdue_done}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">First Call Resolved Tickets</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.first_call_resolved}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">Average Resolution</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.average_resolution}}</div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
+            <div class="col-md-10 col-sm-10 col-xs-10">Average Response</div>
+            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.average_response}}</div>
+        </div>
     </div>
 
 

@@ -201,6 +201,7 @@
 
             if(!$scope.FilterData)
             {
+                var slaStatus = $scope.slaStatus ? ($scope.slaStatus === 'true') : null;
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 momentTz = momentTz.replace("+", "%2B");
 
@@ -233,7 +234,7 @@
                     priority: $scope.priorityType,
                     type: $scope.ticketType,
                     status: $scope.ticketStatus,
-                    slaViolated: $scope.slaStatus
+                    slaViolated: slaStatus
 
                 }
             }
