@@ -51,6 +51,44 @@
             })
         };
 
+        var getProcessedCDRByFilter = function(startDate, endDate, agent, skill, direction, record, custNumber)
+        {
+            var authToken = authService.GetToken();
+            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/GetProcessedCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate;
+
+            if(agent)
+            {
+                url = url + '&agent=' + agent;
+            }
+            if(skill)
+            {
+                url = url + '&skill=' + skill;
+            }
+            if(direction)
+            {
+                url = url + '&direction=' + direction;
+            }
+            if(record)
+            {
+                url = url + '&recording=' + record;
+            }
+
+            if(custNumber)
+            {
+                url = url + '&custnumber=' + custNumber;
+            }
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var prepareDownloadCDRByType = function(startDate, endDate, agent, skill, direction, record, custNumber, fileType, tz)
         {
             var authToken = authService.GetToken();
@@ -197,7 +235,8 @@
             getCallSummaryForHr: getCallSummaryForHr,
             getCallSummaryForDay: getCallSummaryForDay,
             getAgentStatusList: getAgentStatusList,
-            prepareDownloadCDRByType: prepareDownloadCDRByType
+            prepareDownloadCDRByType: prepareDownloadCDRByType,
+            getProcessedCDRByFilter: getProcessedCDRByFilter
         };
     };
 
