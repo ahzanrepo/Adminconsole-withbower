@@ -180,11 +180,20 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                </div>
+
+                <div class="col-md-1 col-sm-1 col-xs-12">
+                    <label style="position: relative; top: 26px;">Tag Count</label>
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-12">
+                    <input style="position: relative; top: 18px;" type="number" min="1" max="1000" class="form-control" name="tagCount"
+                           ng-model="tagCount">
 
                 </div>
                 <div class="col-md-1 col-sm-1 col-xs-12">
-                    <button type="button" style="position: relative; top: 20px; width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" csv-header="['Reference', 'Subject', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated', 'Tag1', 'Tag2', 'Tag3', 'Tag4', 'Tag5']" ng-csv="getTicketSummaryCSV()" filename="{{DownloadFileName}}.csv"></button>
+                    <button type="button" style="position: relative; top: 20px; width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" csv-header="tagHeaders" ng-csv="getTicketSummaryCSV()" filename="{{DownloadFileName}}.csv"></button>
                 </div>
                 <div class="clearfix"></div>
 

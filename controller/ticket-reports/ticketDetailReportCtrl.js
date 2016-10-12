@@ -16,6 +16,8 @@
             });
         };
 
+        $scope.tagHeaders = "['Reference', 'Subject', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated']";
+
         $scope.moment = moment;
 
         $scope.pagination = {
@@ -299,6 +301,22 @@
 
         $scope.getTicketSummaryCSV = function ()
         {
+            $scope.tagHeaders = ['Reference', 'Subject', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
+
+            if(!$scope.tagCount)
+            {
+                $scope.tagCount = 0;
+            }
+
+            if($scope.tagCount)
+            {
+                for(j=0; j<$scope.tagCount; j++)
+                {
+                    $scope.tagHeaders.push('Tag' + (j+1));
+                }
+            }
+
+
             $scope.DownloadFileName = 'TICKET_' + $scope.obj.startDay + '_' + $scope.obj.endDay;
 
             var deferred = $q.defer();
@@ -367,11 +385,11 @@
                             {
                                 for(i=0; i<ticketInfo.isolated_tags.length; i++)
                                 {
-                                    if(i > 5)
+                                    if(i >= $scope.tagCount)
                                     {
                                         break;
                                     }
-                                    var tagName = 'Tag' + i+1;
+                                    var tagName = 'Tag' + (i+1);
                                     ticketInfoTemp[tagName] = ticketInfo.isolated_tags[i];
                                 }
                             }

@@ -2,6 +2,7 @@
 
     var ticketReportsService = function($http, authService, baseUrls)
     {
+
         var getTicketSummary = function(sdate, edate, tag, channel, priority, type)
         {
             var postData = {};
@@ -50,6 +51,7 @@
 
         var getTicketDetailsNoPaging = function(filterData)
         {
+
             var authToken = authService.GetToken();
             var postData = {};
             var url = 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/TicketDetailReport/data' + '?from=' + filterData.sdate + '&to=' + filterData.edate;
