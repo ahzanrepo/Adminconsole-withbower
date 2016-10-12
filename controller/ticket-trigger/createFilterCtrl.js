@@ -31,6 +31,8 @@
             });
         };
 
+        $scope.moment = moment;
+
         $scope.currentFilter = {
             conditions:{
                 all:[],
