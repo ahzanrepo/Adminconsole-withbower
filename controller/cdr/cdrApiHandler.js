@@ -139,14 +139,28 @@
             })
         };
 
-        var getAbandonCDRForTimeRange = function(startDate, endDate, limit, offsetId)
+        var getAbandonCDRForTimeRange = function(startDate, endDate, limit, offsetId, agent, skill, custNumber)
         {
             var authToken = authService.GetToken();
             var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/GetAbandonCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
+
             if(offsetId)
             {
                 url = url + '&offset=' + offsetId;
+            }
+
+            if(agent)
+            {
+                url = url + '&agent=' + agent;
+            }
+            if(skill)
+            {
+                url = url + '&skill=' + skill;
+            }
+            if(custNumber)
+            {
+                url = url + '&custnumber=' + custNumber;
             }
 
             return $http({

@@ -161,7 +161,7 @@
 
 
                 var lim = parseInt($scope.recLimit);
-                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0).then(function (cdrResp)
+                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                     {
@@ -432,7 +432,7 @@
 
                 var lim = parseInt($scope.recLimit);
                 $scope.isTableLoading = 0;
-                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset).then(function (cdrResp) {
+                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp) {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
                             var topSet = false;
