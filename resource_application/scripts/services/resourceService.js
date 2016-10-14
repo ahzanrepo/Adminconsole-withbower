@@ -63,6 +63,23 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
+    var getResourcesWithoutPaging = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.resourceServiceBaseUrl + "Resources",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return {};
+            }
+        });
+
+    };
+
     var getTaskAttachToResource = function (resourceId) {
         return $http({
             method: 'GET',
@@ -311,7 +328,8 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         DeleteAttributeAssignToTask: deleteAttributeAssignToTask,
         ResourceNameIsExsists: resourceNameIsExsists,
         GetResourcesCount: getResourcesCount,
-        SetResourceToProfile:setResourceToProfile
+        SetResourceToProfile:setResourceToProfile,
+        getResourcesWithoutPaging: getResourcesWithoutPaging
     }
 
 });

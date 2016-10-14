@@ -23,7 +23,9 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
     'ui.bootstrap.pagination',
     'ui.grid', 'ui.grid.grouping',
-    'mgcrea.ngStrap'
+    'mgcrea.ngStrap',
+    'btford.socket-io',
+    'veeryNotificationMod'
 ]);
 
 
@@ -49,7 +51,7 @@ var baseUrls = {
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL':'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
-    'notification': 'http://notificationservice.app.veery.cloud/DVP/API/1.0.0.0/'
+    'notification': 'http://notificationservice.app.veery.cloud/'
 
 };
 

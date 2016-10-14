@@ -13,6 +13,8 @@
         $scope.filter = {};
         $scope.matrix = {};
         $scope.matrix.on_fail = [];
+        $scope.matrix.target = 0;
+        $scope.matrix.threshold = 0;
         $scope.matrix.on_threshold = [];
         $scope.filterTypeAny = "any";
         $scope.filterTypeAll = "all";
@@ -392,30 +394,38 @@
 
         $scope.addSlaMatrix = function(){
             console.log(JSON.stringify($scope.matrix));
-            slaApiAccess.addMatrix($scope.slaId, $scope.matrix).then(function(response){
-                if(response.IsSuccess)
-                {
-                    $scope.loadSlaMatrices();
-                    $scope.showAlert('SLA Matrix', response.CustomMessage, 'success');
-                }
-                else
-                {
-                    var errMsg = response.CustomMessage;
+            if(!$scope.matrix.priority || !$scope.matrix.criteria){
+                $scope.showAlert('SLA Matrix', "Priority and criteria should be selected", 'error');
+            }else if($scope.matrix.threshold > $scope.matrix.target){
+                $scope.showAlert('SLA Matrix', "Threshold value should be less than the target value", 'error');
+            }else {
+                slaApiAccess.addMatrix($scope.slaId, $scope.matrix).then(function (response) {
+                    if (response.IsSuccess) {
+                        $scope.addNewSlaMatrix()
+                        $scope.loadSlaMatrices();
+                        $scope.showAlert('SLA Matrix', response.CustomMessage, 'success');
+                        $scope.matrix = {};
+                        $scope.matrix.on_fail = [];
+                        $scope.matrix.target = 0;
+                        $scope.matrix.threshold = 0;
+                        $scope.matrix.on_threshold = [];
+                    }
+                    else {
+                        var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
-                        errMsg = response.Exception.Message;
+                        if (response.Exception) {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert('SLA Matrix', errMsg, 'error');
+                    }
+                }, function (err) {
+                    var errMsg = "Error occurred while saving sla Matrix";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
                     }
                     $scope.showAlert('SLA Matrix', errMsg, 'error');
-                }
-            }, function(err){
-                var errMsg = "Error occurred while saving sla Matrix";
-                if(err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('SLA Matrix', errMsg, 'error');
-            });
+                });
+            }
         };
 
         //---------------load initialData--------------------------

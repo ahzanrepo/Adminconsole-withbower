@@ -49,7 +49,7 @@
                                                                                 ng-click="clickDirective.goAgentProfileSummary()">Agent
                                         Summary</a></li>
                                     <li ng-show="accessNavigation.DASHBOARD"><a
-                                            ng-click="clickDirective.goTickerAgentDashboard()">Ticket Dasshboard</a>
+                                            ng-click="clickDirective.goTickerAgentDashboard()">Ticket Dashboard</a>
                                     </li>
                                 </ul>
                             </li>
@@ -304,19 +304,19 @@
                             <!--<span class="badge bg-green">6</span>-->
                         </a>
                         <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                            <li>
+                            <li ng-repeat="notification in newNotifications" >
                                 <a>
                                     <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
                         <span>
-                          <span>John Smith</span>
+                          <span>{{notification.From}}</span>
                           <span class="time">3 mins ago</span>
                         </span>
                         <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                          {{notification.Message}}
                         </span>
                                 </a>
                             </li>
-                            <li>
+                            <!--<li>
                                 <a>
                                     <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
                         <span>
@@ -359,7 +359,7 @@
                                         <i class="fa fa-angle-right"></i>
                                     </a>
                                 </div>
-                            </li>
+                            </li>-->
                         </ul>
                     </li>
                         <li role="presentation" >

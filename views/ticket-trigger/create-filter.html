@@ -29,7 +29,7 @@
                         <tbody>
                         <tr ng-repeat="all in ticketViewsAll">
                             <td>{{all.title}}</td>
-                            <td>{{all.created_at}}</td>
+                            <td>{{moment(all.created_at).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
                             <td>{{all.public}}</td>
                             <td>
                                 <button class="btn btn-default" ng-click="loadSpecificTicketView(all._id)">edit</button>
