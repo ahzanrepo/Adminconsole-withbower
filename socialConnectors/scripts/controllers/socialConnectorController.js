@@ -51,24 +51,24 @@ mainApp.controller('socialConnectorController', function FormBuilderCtrl($scope,
             } else {
                 console.log('User cancelled login or did not fully authorize.');
             }
-        }, {scope: 'email,user_photos,user_videos'});
+        }, {scope: 'manage_pages,publish_pages,publish_actions,email'});
 
-
+        //scope: 'public_profile,user_posts,email,manage_pages,publish_pages,read_page_mailboxes,read_page_mailboxes,pages_show_list,pages_manage_cta,pages_manage_instant_articles'
+        //scope=manage_pages,publish_pages,publish_actions
     };
 
     $scope.fbPageList = [];
-
+    $scope.auth = "";
     $scope.getUserPageList = function (auth) {
-        FB.api('/me?fields=accounts{access_token,category,name,id,picture},picture,email,name&access_token=', function (response) {//me/accounts?fields=id,picture,category,email,name&access_token=
+        FB.api('/me?fields=accounts{access_token,category,name,id,picture.type(large)},picture,email,name&access_token=', function (response) {//me/accounts?fields=id,picture,category,email,name&access_token=
             $scope.safeApply(function () {
                 $scope.fbPageList = response.accounts.data.map(function(item,index){
                     item.auth = auth;
                     item.email = response.email;
-                    item.picture = response.picture;
                     return item;
                 });
             });
-
+            $scope.auth = auth.accessToken;
 
             /*
 
@@ -118,7 +118,7 @@ mainApp.controller('socialConnectorController', function FormBuilderCtrl($scope,
                 "pageID": page.id,
                 "pagePicture":page.picture.data.url,
                 "firstName": page.name,
-                "lastName": " ",
+                "lastName": page.category,
                 "email": page.email,
                 "ticketToPost": true,
                 "subscribe": true,
@@ -141,10 +141,84 @@ mainApp.controller('socialConnectorController', function FormBuilderCtrl($scope,
             console.error("AddFacebookPageToSystem err");
         });
     };
+    $scope.isLoading = true;
+    $scope.GetFacebookAccounts = function () {
+        $scope.isLoading = true;
+        socialConnectorService.GetFacebookAccounts().then(function (response) {
+            $scope.isLoading = false;
+            $scope.exssitingPageList = response;
+        }, function (error) {
+            console.error("AddFacebookPageToSystem err");
+            $scope.isLoading = false;
+        });
+    };
+    $scope.GetFacebookAccounts();
 
-    $scope.removePage = function (page) {
-        var a = $scope.fbPageList.indexOf(page);
-        $scope.fbPageList.splice(a, 1);
+    $scope.DeleteFacebookAccount = function (page) {
+        socialConnectorService.DeleteFacebookAccount(page._id).then(function (response) {
+            if(response){
+                $scope.GetFacebookAccounts();
+                $scope.showAlert("Remove FB Page", 'success',"Successfully Remove Page from System.");
+            }
+            else{
+                $scope.showAlert("Remove FB Page", 'error',"Fail To Remove Page.");
+            }
+        }, function (error) {
+            console.error("AddFacebookPageToSystem err");
+            $scope.isLoading = false;
+        });
+
+
+       /* var a = $scope.fbPageList.indexOf(page);
+        $scope.fbPageList.splice(a, 1);*/
+    };
+
+    $scope.updatePicture = function (page) {
+        FB.api('/1138274299552708/picture?type=large', function (response) {//me/accounts?fields=id,picture,category,email,name&access_token=
+            if(response){
+                socialConnectorService.UpdatePagePicture(page._id,{"picture":response.data.url}).then(function (response) {
+                    if(response){
+                        $scope.GetFacebookAccounts();
+                        $scope.showAlert("FB Page", 'success',"Successfully Update Profile Picture.");
+                    }
+                    else{
+                        $scope.showAlert("FB Page", 'error',"Fail To Update.");
+                    }
+                }, function (error) {
+                    console.error("AddFacebookPageToSystem err");
+                    $scope.isLoading = false;
+                });
+            }
+        });
+    };
+
+    $scope.ActivateFacebookAccount = function (page) {
+        if(!$scope.auth){
+            $scope.showAlert("FB Page", 'error',"Please Login to Facebook.");
+            return;
+        }
+        var data = {
+            "id": page.id,
+            "fb": {
+                "access_token": $scope.auth
+            }
+        };
+        socialConnectorService.ActivateFacebookAccount(page._id,data).then(function (response) {
+            if(response){
+                $scope.GetFacebookAccounts();
+                $scope.showAlert("Remove FB Page", 'success',"Successfully Remove Page from System.");
+            }
+            else{
+                $scope.showAlert("Remove FB Page", 'error',"Fail To Remove Page.");
+            }
+        }, function (error) {
+            console.error("AddFacebookPageToSystem err");
+            $scope.isLoading = false;
+        });
+
+
+       /* var a = $scope.fbPageList.indexOf(page);
+        $scope.fbPageList.splice(a, 1);*/
     };
 
 // Load the SDK asynchronously
