@@ -225,7 +225,7 @@
                          height="100%"
                          horizontal-scroll-position="bottom"
                          size="5px" opacity="0.4">
-                        <table id="datatable-responsive"
+                        <table id="datatable-responsive" dt-options="dtOptions" datatable="ng"
                                class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
                                cellspacing="0" width="100%" role="grid"
                                aria-describedby="datatable-responsive_info">
@@ -290,6 +290,7 @@
                                 <td>{{ticket.type}}</td>
                                 <td>{{ticket.ticket_matrix ? ticket.ticket_matrix.sla_violated : false}}</td>
                                 <td ng-if="ticket.tags && ticket.tags.length > 0">{{ticket.tags[0]}}</td>
+                                <td ng-if="!ticket.tags || ticket.tags.length <= 0"></td>
                             </tbody>
                         </table>
                     </div>

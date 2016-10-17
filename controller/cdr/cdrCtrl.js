@@ -6,9 +6,10 @@
 {
     var app = angular.module("veeryConsoleApp");
 
+
     var cdrCtrl = function ($scope, $filter, $q, $sce, cdrApiHandler, ngAudio, loginService)
     {
-
+        $scope.dtOptions = { paging: false, searching: false, info: false, order: [6, 'asc'] };
 
         $scope.config = {
             preload: "auto",
@@ -37,6 +38,7 @@
                 }
             }
         };
+
 
         $scope.enableSearchButton = true;
 
@@ -1131,6 +1133,7 @@
                             }
 
                             $scope.isTableLoading = 1;
+
 
                         }
                         else

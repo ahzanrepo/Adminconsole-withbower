@@ -16,6 +16,8 @@
             });
         };
 
+        $scope.dtOptions = { paging: false, searching: false, info: false, order: [6, 'asc'] };
+
         $scope.tagHeaders = "['Reference', 'Subject', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated']";
 
         $scope.moment = moment;
@@ -258,6 +260,7 @@
                     {
                         if(ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0)
                         {
+
                             $scope.ticketList = ticketDetailsResp.Result;
                             $scope.obj.isTableLoading = 1;
 
