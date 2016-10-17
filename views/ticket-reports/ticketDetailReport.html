@@ -253,6 +253,10 @@
                                 </th>
                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                     rowspan="1"
+                                    colspan="1" aria-label="Created">Created At
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                    rowspan="1"
                                     colspan="1" aria-label="Channel">Channel
                                 </th>
                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -284,6 +288,7 @@
                                 <td>{{ticket.assignee ? ticket.assignee.name : ''}}</td>
                                 <td>{{ticket.submitter ? ticket.submitter.name : ''}}</td>
                                 <td>{{ticket.requester ? ticket.requester.name : ''}}</td>
+                                <td>{{moment(ticket.created_at).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
                                 <td>{{ticket.channel}}</td>
                                 <td>{{ticket.status}}</td>
                                 <td>{{ticket.priority}}</td>

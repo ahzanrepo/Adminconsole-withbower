@@ -16,7 +16,7 @@
             });
         };
 
-        $scope.dtOptions = { paging: false, searching: false, info: false, order: [6, 'asc'] };
+        $scope.dtOptions = { paging: false, searching: false, info: false, order: [5, 'asc'] };
 
         $scope.tagHeaders = "['Reference', 'Subject', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated']";
 

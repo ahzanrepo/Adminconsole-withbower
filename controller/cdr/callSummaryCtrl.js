@@ -13,7 +13,7 @@
             });
         };
 
-        $scope.dtOptions = { paging: false, searching: false, info: false, order: [6, 'asc'] };
+        $scope.dtOptions = { paging: false, searching: false, info: false, order: [0, 'asc'] };
 
 
         $scope.obj = {

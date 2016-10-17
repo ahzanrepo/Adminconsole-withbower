@@ -13,7 +13,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, ag
     $scope.agentSummaryList = [];
     $scope.Agents=[];
 
-    $scope.dtOptions = { paging: false, searching: false, info: false, order: [6, 'asc'] };
+    $scope.dtOptions = { paging: false, searching: false, info: false, order: [2, 'asc'] };
 
 
     $scope.onDateChange = function()

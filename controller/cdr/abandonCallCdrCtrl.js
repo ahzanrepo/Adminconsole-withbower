@@ -12,7 +12,7 @@
 
         $scope.enableSearchButton = true;
 
-        $scope.dtOptions = { paging: false, searching: false, info: false, order: [6, 'asc'] };
+        $scope.dtOptions = { paging: false, searching: false, info: false, order: [4, 'asc'] };
 
 
         $scope.showAlert = function (tittle, type, content) {
