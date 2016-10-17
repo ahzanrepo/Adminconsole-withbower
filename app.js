@@ -25,7 +25,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.grid', 'ui.grid.grouping',
     'mgcrea.ngStrap',
     'btford.socket-io',
-    'veeryNotificationMod','stripe-payment-tools'
+    'veeryNotificationMod','stripe-payment-tools',
     'datatables'
 ]);
 
