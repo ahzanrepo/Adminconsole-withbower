@@ -79,11 +79,26 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
 
 
-    var getTotalCalls = function () {
+    var getTotalCalls = function (param1, param2) {
+
+        var tempParam1 = '*';
+
+        if(param1)
+        {
+            tempParam1 = param1;
+        }
+
+        var tempParam2 = '*';
+
+        if(param2)
+        {
+            tempParam2 = param2;
+        }
+
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/CALLS/*/*",
+            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/CALLS/" + tempParam1 + "/" + tempParam2,
             headers: {
                 'authorization': authToken
             }
@@ -94,7 +109,6 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
                 return 0;
             }
         });
-
 
     };
 
@@ -241,11 +255,18 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
     };
 
-    var getTotalOnGoing = function () {
+    var getTotalOnGoing = function (callDirection) {
+
+        var url = "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Calls/Count";
+
+        if(callDirection)
+        {
+            url = url + '?direction=' + callDirection;
+        }
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Calls/Count",
+            url: url,
             headers: {
                 'authorization': authToken
             }

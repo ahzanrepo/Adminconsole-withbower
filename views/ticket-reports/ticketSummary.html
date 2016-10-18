@@ -34,7 +34,8 @@
                         </option>
                     </select>-->
 
-                    <select class="select2_single form-control" tabindex="-1" aria-hidden="true" ng-options="tag.name group by tag.TagType for tag in tagList"
+                    <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                            ng-options="tag.name group by tag.TagType for tag in tagList"
                             ng-model="selectedTag">
                         <option value=""></option>
                     </select>
@@ -83,7 +84,6 @@
                 <div class="clearfix"></div>
 
 
-
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="x_content btn-wrap-header">
                         <button type="button" class="btn btn-success" ng-click="getTicketSummary()">
@@ -109,57 +109,75 @@
         </div>
     </div>
 
-    <div class="x_panel col-md-12 col-sm-12 col-xs-12" ng-if="obj.isTableLoading==1">
 
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">Tickets In Progress</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.progressing}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">New Tickets</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.new}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">Closed Tickets</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.closed}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">Resolved Tickets</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.resolved}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">RE-Opened Tickets</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.reopen}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">SLA Violated Tickets</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.sla_violated}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">Overdue Tickets</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.overdue_working}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">Completed Overdue Tickets</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.overdue_done}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">First Call Resolved Tickets</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.first_call_resolved}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">Average Resolution</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.average_resolution}}</div>
-        </div>
-        <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #383b3b; font-weight: bold; font-size: 15px; color: white; border: 1px solid #ccc!important; padding: 15px; border-radius: 10px;">
-            <div class="col-md-10 col-sm-10 col-xs-10">Average Response</div>
-            <div class="col-md-2 col-sm-2 col-xs-2">{{summaryDetails.average_response}}</div>
+    <div class="col-lg-12" ng-if="obj.isTableLoading==1">
+        <div class="row">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="col-lg-12">
+                        <ul class="stats-overview ticket-summary">
+                            <li class="hidden-phone">
+                                <span class="name"> Tickets In Progress </span>
+                                <span class="value text-success"> {{summaryDetails.progressing}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name"> New Tickets </span>
+                                <span class="value text-success"> {{summaryDetails.new}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Closed Tickets </span>
+                                <span class="value text-success"> {{summaryDetails.closed}} </span>
+                            </li>
+
+                        </ul>
+                        <ul class="stats-overview ticket-summary">
+                            <li class="hidden-phone">
+                                <span class="name">Resolved Tickets </span>
+                                <span class="value text-success"> {{summaryDetails.resolved}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">RE-Opened Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.reopen}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Overdue Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.overdue_working}} </span>
+                            </li>
+                        </ul>
+                        <ul class="stats-overview ticket-summary">
+                            <li class="hidden-phone">
+                                <span class="name">SLA Violated Tickets </span>
+                                <span class="value text-success"> {{summaryDetails.sla_violated}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Completed Overdue Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.overdue_done}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Overdue Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.overdue_working}} </span>
+                            </li>
+                        </ul>
+                        <ul class="stats-overview ticket-summary">
+                            <li class="hidden-phone">
+                                <span class="name">First Call Resolved Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.first_call_resolved}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Average Resolution</span>
+                                <span class="value text-success"> {{summaryDetails.average_resolution}}</span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Average Response</span>
+                                <span class="value text-success"> {{summaryDetails.average_response}} </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-
 </div>
 
 <!--
