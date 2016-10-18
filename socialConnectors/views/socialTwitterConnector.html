@@ -2,37 +2,41 @@
     <div class="col-md-12 col-lg-12  col-sm-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-bars"></i> Add Facebook Pages <small id="message"></small></h2>
+                <h2><i class="fa fa-bars"></i> Add Twitter <small id="message"></small></h2>
                 <div class="clearfix"></div>
             </div>
             </br>
 
             <div class="x_content">
-                <div id="fb-root"></div>
-
-                <div id="status">
-                     <img src="asset/images/LoginWithFacebook.png" style="cursor:pointer;" ng-click="Login()"/>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button ng-click="connectButton()" id="connectButton" type="button" class="btn btn-primary">Connect Twitter</button>
+                        <!--<button ng-click="refreshTimeline()" id="getTimelineButton" type="button" class="btn btn-info" style="display:none;">Get My Timeline</button>-->
+                        <button ng-click="signOut()" id="signOut" type="button" class="btn btn-info" style="display:none;">Sign Out</button>
+                        <!--<button ng-click="signOut()" id="signOut" type="button" class="btn btn-link" style="display:none;">Sign Out</button>-->
+                    </div>
                 </div>
+
                 <br/>
                 <div class="row">
 
                     <p>Page List</p>
 
-                    <div  class="col-md-55" ng-repeat="page in fbPageList">
-                        <div id="{{page.id}}" class="thumbnail">
+                    <div  class="col-md-55" ng-if="tweetProfile.name!=undefined">
+                        <div id="{{tweetProfile.id}}" class="thumbnail">
                             <div class="image view view-first">
-                                <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.picture.data.url}}" alt="image" />
+                                <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{tweetProfile.avatar}}" alt="image" />
                                 <div class="mask no-caption">
                                     <div class="tools tools-bottom">
-                                        <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="addPageToSystem(page);" title="Add To System"></i></a>
+                                        <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="addPageToSystem(tweetProfile);" title="Add To System"></i></a>
 
                                     </div>
                                 </div>
                             </div>
                             <div class="caption">
-                                <p><strong>{{page.name}}</strong>
+                                <p><strong>{{tweetProfile.name}}</strong>
                                 </p>
-                                <p>{{page.category}}</p>
+                                <!--<p>{{tweetProfile.category}}</p>-->
                             </div>
                         </div>
                     </div>
@@ -104,3 +108,28 @@
     </div>
 
 </div>
+
+
+<!--
+<div class="container" >
+    <h1>Twitter OAuth.io Example</h1>
+    <div class="row">
+        &lt;!&ndash;<div class="col-xs-12">
+            <button ng-click="connectButton()" id="connectButton" type="button" class="btn btn-primary">Connect Twitter</button>
+            <button ng-click="refreshTimeline()" id="getTimelineButton" type="button" class="btn btn-info" style="display:none;">Get My Timeline</button>
+            <button ng-click="signOut()" id="signOut" type="button" class="btn btn-link" style="display:none;">Sign Out</button>
+        </div>&ndash;&gt;
+    </div>
+    <div class="row">
+        <div class="col-xs-12" id="results">
+            <div class="row" ng-repeat="t in tweets">
+                <div class="col-xs-2 col-sm-1">
+                    <img ng-src="{{t.user.profile_image_url}}" class="img-circle">
+                </div>
+                <div class="col-xs-10 col-sm-11">
+                    <small>{{t.user.name}}</small><br>{{t.text}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
