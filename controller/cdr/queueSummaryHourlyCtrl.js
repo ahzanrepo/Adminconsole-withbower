@@ -6,6 +6,8 @@
 
     var queueSummaryHourlyCtrl = function ($scope, $filter, cdrApiHandler, resourceService) {
 
+        $scope.dtOptions = { paging: false, searching: false, info: false, order: [0, 'asc'] };
+
         $scope.showAlert = function (tittle, type, content) {
 
             new PNotify({
@@ -19,6 +21,25 @@
         $scope.moment = moment;
 
         $scope.summaryArr = [];
+
+        var convertToMMSS = function(sec)
+        {
+            var minutes = Math.floor(sec / 60);
+
+            if(minutes < 10)
+            {
+                minutes = '0' + minutes;
+            }
+
+            var seconds = sec - minutes * 60;
+
+            if(seconds < 10)
+            {
+                seconds = '0' + seconds;
+            }
+
+            return minutes + ':' + seconds;
+        };
 
 
         $scope.obj = {
@@ -163,6 +184,7 @@
 
             try
             {
+                $scope.summaryArr = [];
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 momentTz = momentTz.replace("+", "%2B");
@@ -187,61 +209,6 @@
             {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading call summary');
                 $scope.obj.isTableLoadingHr = 1;
-            }
-
-        };
-
-
-        $scope.getAgentStatusList = function ()
-        {
-            var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
-            var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
-            $scope.obj.isTableLoading = 0;
-            var momentTz = moment.parseZone(new Date()).format('Z');
-            momentTz = momentTz.replace("+", "%2B");
-
-            var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
-            var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
-
-            if(!$scope.timeEnabledStatus)
-            {
-                startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
-                endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
-            }
-
-            try
-            {
-                cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.skillFilter).then(function (agentListResp)
-                {
-                    $scope.agentStatusList = {};
-                    if(agentListResp && agentListResp.Result)
-                    {
-                        for(var resource in agentListResp.Result)
-                        {
-                            if(agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName)
-                            {
-                                var caption = agentListResp.Result[resource][0].ResResource.ResourceName;
-                                $scope.agentStatusList[caption] = agentListResp.Result[resource];
-                            }
-
-                        }
-
-                    }
-
-                    $scope.obj.isTableLoading = 1;
-
-                }).catch(function(err)
-                {
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
-                    $scope.obj.isTableLoading = 1;
-                });
-
-
-            }
-            catch (ex)
-            {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
-                $scope.obj.isTableLoading = 1;
             }
 
         };

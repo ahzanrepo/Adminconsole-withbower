@@ -32,18 +32,18 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label>Queues</label>
-                        <tags-input ng-model="skillFilter" display-property="Attribute" add-from-autocomplete-only="true">
-                            <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1"></auto-complete>
+                        <tags-input ng-model="skillFilter" display-property="Attribute" add-from-autocomplete-only="true" min-length="1">
+                            <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>
                         </tags-input>
                     </div>
 
                 </div>
 
-                <div class="col-md-12 col-sm-12 col-xs-12" style="z-index:0" ng-if="obj.isTableLoading==1">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="z-index:0" ng-if="obj.isTableLoadingHr==1">
                     <uib-accordion>
-                        <div uib-accordion-group class="panel-default" ng-repeat="(Skill, Data) in skillFilter">
+                        <div uib-accordion-group class="panel-default" ng-repeat="summary in summaryArr">
                             <uib-accordion-heading>
-                                {{Skill}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': true, 'glyphicon-chevron-right': false}"></i>
+                                {{summary.Skill}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': true, 'glyphicon-chevron-right': false}"></i>
                             </uib-accordion-heading>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="x_panel">
@@ -109,7 +109,7 @@
                                                             </thead>
                                                             <tbody>
                                                             <tr role="row" class="odd"
-                                                                ng-repeat="sumDay in Data">
+                                                                ng-repeat="sumDay in summary.Data">
                                                                 <td>{{sumDay.Caption}}</td>
                                                                 <td>{{sumDay.IVRCallsCount}}</td>
                                                                 <td>{{sumDay.QueuedCallsCount}}</td>
@@ -140,7 +140,7 @@
         </div>
     </div>
 
-    <div class="search-main-wrap" ng-if="obj.isTableLoading==0">
+    <div class="search-main-wrap" ng-if="obj.isTableLoadingHr==0">
         <div class="row ">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="data-state-wrap">
