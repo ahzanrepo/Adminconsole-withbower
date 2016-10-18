@@ -5,13 +5,33 @@
                 <!-- <small>{{refreshTime| millisecondsToDateTime | date:'HH:mm:ss'}}</small>    -->
             </h2>
             <div class="clearfix">
-                <button type="button" class="btn btn-success btn-sm pull-right attribute-btn"
-                        ng-click="changeView();">
-                    {{summaryText}}
+                <button type="button"
+                        ng-class="{'active-btn':showDetails==true,
+                        '':showDetails==false}"
+                        class="btn btn-success btn-sm pull-right attribute-btn"
+                        ng-click="showDetailsCard();">
+                    Details Card
                 </button>
-                <button type="button" class="btn btn-success btn-sm pull-right attribute-btn"
-                        ng-click="showAgentSummary();">
-                    Summary
+                <button type="button"
+                        ng-class="{'active-btn':largeCard==true,
+                        '':largeCard==false}"
+                        class="btn btn-success btn-sm pull-right attribute-btn"
+                        ng-click="showLargeCard();">
+                    Large Card
+                </button>
+                <button type="button"
+                        ng-class="{'active-btn':smallCard==true,
+                        '':smallCard==false}"
+                        class="btn btn-success btn-sm pull-right attribute-btn"
+                        ng-click="showSmallCard();">
+                    Small Card
+                </button>
+                <button type="button"
+                        ng-class="{'active-btn':summary==true,
+                        '':summary==false}"
+                        class="btn btn-success btn-sm pull-right attribute-btn"
+                        ng-click="showTableCard();">
+                    Table
                 </button>
             </div>
         </div>
@@ -21,15 +41,30 @@
             <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="row">
-                        <agentstatus call-infos="showCallInfos" show-summary="summary" productivity-list="Productivitys"
+                    <div class="row" ng-show="showDetails">
+                        <agentstatus call-infos="showCallInfos" show-summary="summary"
+                                     productivity-list="Productivitys"
                                      res-item="res"
-
                                      active-call-list="activeCalls"
+                                     view-state="1"
                                      attributes-list="attributesList" ng-repeat="res in profile"></agentstatus>
-
                     </div>
 
+                    <div class="row" ng-show="smallCard">
+                        <agentstatus call-infos="showCallInfos" show-summary="summary" productivity-list="Productivitys"
+                                     res-item="res"
+                                     active-call-list="activeCalls"
+                                     view-state="2"
+                                     attributes-list="attributesList" ng-repeat="res in profile">
+                    </div>
+
+                    <div class="row" ng-show="largeCard">
+                        <agentstatus call-infos="showCallInfos" show-summary="summary" productivity-list="Productivitys"
+                                     res-item="res"
+                                     active-call-list="activeCalls"
+                                     view-state="3"
+                                     attributes-list="attributesList" ng-repeat="res in profile">
+                    </div>
 
                     <div ng-show="summary" class="table-wrapper"
                          ng-slimscroll horizontal-scroll="true"

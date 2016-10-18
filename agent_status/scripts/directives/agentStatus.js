@@ -11,15 +11,14 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
             attributesList: '=',
             activeCallList: '=',
             productivityList: '=',
-            showSummary:'='
+            showSummary: '=',
+            viewState: '='
         },
 
         templateUrl: 'agent_status/view/template/agentStatus.html',
 
 
         link: function (scope, element, attributes) {
-
-
             var productivityData = $filter('filter')(scope.productivityList, {ResourceId: scope.resItem.ResourceId});
             if (productivityData.length > 0)
                 scope.productivity = productivityData[0];
@@ -34,44 +33,44 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
 
             scope.profile.name = scope.resItem.ResourceName;
 
-           /* /!* Set ConcurrencyInfo *!/
-            var sessionIds = [];
-            angular.forEach(scope.resItem.ConcurrencyInfo, function (item) {
-                try {
-                    var slotInfo = $filter('filter')(item.SlotInfo, {State: "Connected"});
-                    if (slotInfo.length > 0) {
-                        var sid = slotInfo[0].HandlingRequest;
-                        sessionIds.push(sid);
-                    }
-                }
-                catch (ex) {
-                    console.info(ex);
-                }
-            });
+            /* /!* Set ConcurrencyInfo *!/
+             var sessionIds = [];
+             angular.forEach(scope.resItem.ConcurrencyInfo, function (item) {
+             try {
+             var slotInfo = $filter('filter')(item.SlotInfo, {State: "Connected"});
+             if (slotInfo.length > 0) {
+             var sid = slotInfo[0].HandlingRequest;
+             sessionIds.push(sid);
+             }
+             }
+             catch (ex) {
+             console.info(ex);
+             }
+             });
 
-            /!*Get Call info base on sid*!/
-            scope.callInfos = [];
-            angular.forEach(scope.activeCallList, function (item) {
-                try {
-                    var inboundCalls = $filter('filter')(item, {'Call-Direction': "inbound"});
-                    angular.forEach(sessionIds, function (sid) {
-                        try {
-                            var callInfo = $filter('filter')(inboundCalls, {'Unique-ID': sid});
-                            if (callInfo.length > 0) {
+             /!*Get Call info base on sid*!/
+             scope.callInfos = [];
+             angular.forEach(scope.activeCallList, function (item) {
+             try {
+             var inboundCalls = $filter('filter')(item, {'Call-Direction': "inbound"});
+             angular.forEach(sessionIds, function (sid) {
+             try {
+             var callInfo = $filter('filter')(inboundCalls, {'Unique-ID': sid});
+             if (callInfo.length > 0) {
 
-                                scope.callInfos.push(callInfo[0]);
-                            }
-                        } catch (ex) {
-                            console.info(ex);
-                        }
-                    })
-                }
-                catch (ex) {
-                    console.info(ex);
-                }
-            });
+             scope.callInfos.push(callInfo[0]);
+             }
+             } catch (ex) {
+             console.info(ex);
+             }
+             })
+             }
+             catch (ex) {
+             console.info(ex);
+             }
+             });
 
-            /!* Set ConcurrencyInfo*!/*/
+             /!* Set ConcurrencyInfo*!/*/
 
             /*update damith */
             scope.safeApply = function (fn) {
@@ -111,12 +110,13 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
             };
         }
 
+
     }
 });
 
 mainApp.filter('secondsToDateTime', [function () {
     return function (seconds) {
-        if(!seconds){
+        if (!seconds) {
             return new Date(1970, 0, 1).setSeconds(0);
         }
         return new Date(1970, 0, 1).setSeconds(seconds);

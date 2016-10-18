@@ -1379,8 +1379,8 @@ small > i {
 }
 
 .attribute-btn {
-    width: 60px;
-    height: 34px;
+    width: auto;
+    height: auto;
 }
 
 .bg-light-gray {
@@ -1671,6 +1671,13 @@ ul.widget_profile_box li .profile_img {
 
 .fixed_height_480 {
     height: 650px;
+}
+
+.height-agent-status {
+    min-height: 250px;
+    height: auto;
+    max-height: 650px;
+    overflow: hidden;
 }
 
 .widget_profile_box {
@@ -3227,3 +3234,20 @@ ul.stats-overview.ticket-summary > .hidden-phone > .value {
 .back-btn-wrapper:hover {
     background: #2ba89c;
 }
+
+.tb-scroller-en-summery {
+    height: 250px;
+    overflow: auto;
+
+}
+
+.active-btn {
+    background: #114858 !important;
+}
+
+.active-btn:active,
+.active-btn:hover,
+.active-btn:focus {
+    background: #114858 !important;
+}
+
