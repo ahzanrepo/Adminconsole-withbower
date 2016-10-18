@@ -74,15 +74,17 @@
                         </div>
                     </div>
 
+                    <p>Active Page List</p>
                     <div ng-hide="isLoading"   class="col-md-55" ng-repeat="page in exssitingPageList" ng-if='page.fb.status == true'>
                         <div class="thumbnail">
                             <div class="image view view-first">
                                 <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.fb.pagePicture}}" alt="image" />
                                 <div class="mask no-caption">
                                     <div class="tools tools-bottom">
-                                        <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateFacebookAccount(page)" title="Update Account"></i></a>
-                                        <a href="javascript:void(0);"><i class="fa fa-times" ng-click="DeleteFacebookAccount(page);" title="Delete Account"></i></a>
                                         <a href="javascript:void(0);"><i class="fa fa-image" ng-click="updatePicture(page)" title="Update Picture"></i></a>
+                                        <!--<a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateFacebookAccount(page)" title="Update Account"></i></a>-->
+                                        <a href="javascript:void(0);"><i class="fa fa-times" ng-click="DeleteFacebookAccount(page);" title="Delete Account"></i></a>
+
                                     </div>
                                 </div>
                             </div>
@@ -96,8 +98,9 @@
 
                 </div>
                 <br/>
+                <div class="ln_solid"></div>
                 </br>
-
+                <p>Deleted Page List</p>
                 <div ng-hide="isLoading"   class="col-md-55" ng-repeat="page in exssitingPageList" ng-if='page.fb.status == false'>
                     <div class="thumbnail">
                         <div class="image view view-first">

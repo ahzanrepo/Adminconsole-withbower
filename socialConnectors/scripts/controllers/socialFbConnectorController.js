@@ -206,14 +206,15 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
         socialConnectorService.ActivateFacebookAccount(page._id,data).then(function (response) {
             if(response){
                 $scope.GetFacebookAccounts();
-                $scope.showAlert("Remove FB Page", 'success',"Successfully Remove Page from System.");
+                $scope.showAlert("FB Page", 'success',"Page Added Back To System.");
             }
             else{
-                $scope.showAlert("Remove FB Page", 'error',"Fail To Remove Page.");
+                $scope.showAlert("FB Page", 'error',"Fail To Add.");
             }
         }, function (error) {
             console.error("AddFacebookPageToSystem err");
             $scope.isLoading = false;
+            $scope.showAlert("FB Page", 'error',"Fail To Add.");
         });
 
 
