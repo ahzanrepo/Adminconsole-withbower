@@ -45,7 +45,7 @@ mainApp.factory('notifiSenderService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: baseUrls.notification + "NotificationService/Notification/Broadcast",
+                url: baseUrls.notification + "DVP/API/1.0.0.0/NotificationService/Notification/Broadcast",
                 headers: {
                     'authorization':authToken
                 },
@@ -74,7 +74,7 @@ mainApp.factory('notifiSenderService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: baseUrls.notification + "NotificationService/Notification/initiate",
+                url: baseUrls.notification + "DVP/API/1.0.0.0/NotificationService/Notification/initiate",
 
                 headers: {
                     'authorization': authToken,

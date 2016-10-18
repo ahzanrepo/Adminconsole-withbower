@@ -3,7 +3,7 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout, jwtHelper, loginService, authService,notifiSenderService) {
+mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout, jwtHelper, loginService, authService,notifiSenderService,veeryNotification,$q) {
 
 
     //added by pawan
@@ -14,10 +14,66 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout, jw
     $scope.isRegistered = false;
     $scope.inCall = false;
 
+    $scope.newNotifications=[];
+
+
+// Register for notifications
+
+    $scope.showAlert = function (tittle, type, msg) {
+        new PNotify({
+            title: tittle,
+            text: msg,
+            type: type,
+            styling: 'bootstrap3',
+            icon: false
+        });
+    };
+
+    $scope.OnMessage = function (data) {
+        var objMessage = {
+            "id": data.TopicKey,
+            "header": data.Message,
+            "type": "menu",
+            "icon": "main-icon-2-speech-bubble",
+            "time": new Date(),
+            "read": false
+        };
+        /*if (data.TopicKey) {
+         var audio = new Audio('assets/sounds/notification-1.mp3');
+         audio.play();
+         $scope.notifications.unshift(objMessage);
+         $('#notificationAlarm').addClass('animated swing');
+         $scope.unredNotifications = $scope.getCountOfUnredNotifications()
+         setTimeout(function () {
+         $('#notificationAlarm').removeClass('animated swing');
+         }, 500);
+         }*/
+
+        if(data.From)
+        {
+            $scope.newNotifications.push(data);
+        }
+
+
+        //$scope.showAlert("Success","success","Got");
+        //console.log(data);
+
+
+    };
+
+    var notificationEvent = {
+        OnMessageReceived: $scope.OnMessage
+    };
+
+    $scope.veeryNotification = function () {
+        veeryNotification.connectToServer(authService.TokenWithoutBearer(), baseUrls.notification, notificationEvent);
+    };
+
+    $scope.veeryNotification();
+
 
 
     // Notification sender
-
     $scope.agentList = [];
 
 
@@ -241,15 +297,15 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout, jw
 
 
     var authToken = authService.GetToken();
-    $scope.showAlert = function (tittle, type, msg) {
-        new PNotify({
-            title: tittle,
-            text: msg,
-            type: type,
-            styling: 'bootstrap3',
-            icon: false
-        });
-    };
+    /*$scope.showAlert = function (tittle, type, msg) {
+     new PNotify({
+     title: tittle,
+     text: msg,
+     type: type,
+     styling: 'bootstrap3',
+     icon: false
+     });
+     };*/
 
     var getRegistrationData = function (authToken, password) {
 

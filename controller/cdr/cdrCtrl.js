@@ -6,9 +6,10 @@
 {
     var app = angular.module("veeryConsoleApp");
 
+
     var cdrCtrl = function ($scope, $filter, $q, $sce, cdrApiHandler, ngAudio, loginService)
     {
-
+        $scope.dtOptions = { paging: false, searching: false, info: false, order: [6, 'asc'] };
 
         $scope.config = {
             preload: "auto",
@@ -37,6 +38,7 @@
                 }
             }
         };
+
 
         $scope.enableSearchButton = true;
 
@@ -210,6 +212,82 @@
             }
 
             return minutes + ':' + seconds;
+        };
+
+
+        $scope.getProcessedCDRCSVDownload = function()
+        {
+            $scope.DownloadFileName = 'CDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
+
+            var deferred = $q.defer();
+
+            var cdrListForCSV = [];
+
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            //var encodedTz = encodeURI(momentTz);
+            momentTz = momentTz.replace("+", "%2B");
+
+            var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+            var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
+
+            var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+            var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+            if(!$scope.timeEnabledStatus)
+            {
+                startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                endDate = $scope.endDate + ' 23:59:59' + momentTz;
+            }
+
+            cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
+            {
+                if(!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
+                {
+                    cdrResp.Result.forEach(function(cdr)
+                    {
+
+                        var cdrCsv =
+                        {
+                            DVPCallDirection: cdr.DVPCallDirection,
+                            SipFromUser: cdr.SipFromUser,
+                            SipToUser: cdr.SipToUser,
+                            RecievedBy: cdr.RecievedBy,
+                            AgentSkill: cdr.AgentSkill,
+                            IsAnswered: cdr.IsAnswered,
+                            CreatedTime: moment(cdr.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss"),
+                            Duration: convertToMMSS(cdr.Duration),
+                            BillSec: convertToMMSS(cdr.BillSec),
+                            AnswerSec: convertToMMSS(cdr.AnswerSec),
+                            QueueSec: convertToMMSS(cdr.QueueSec),
+                            HoldSec: convertToMMSS(cdr.HoldSec),
+                            ObjType: cdr.ObjType,
+                            ObjCategory: cdr.ObjCategory,
+                            HangupParty: cdr.HangupParty,
+                            TransferredParties: cdr.TransferredParties
+                        };
+
+
+                        cdrListForCSV.push(cdrCsv);
+                    });
+
+                    deferred.resolve(cdrListForCSV);
+
+
+                }
+                else
+                {
+                    $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
+                    deferred.resolve(cdrListForCSV);
+                }
+
+            }).catch(function(err)
+            {
+                $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
+                deferred.resolve(cdrListForCSV);
+            });
+
+            return deferred.promise;
+
         };
 
 
@@ -1055,6 +1133,7 @@
                             }
 
                             $scope.isTableLoading = 1;
+
 
                         }
                         else

@@ -180,6 +180,21 @@
                         </button>
                     </div>
                 </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                </div>
+
+                <div class="col-md-1 col-sm-1 col-xs-12">
+                    <label style="position: relative; top: 26px;">Tag Count</label>
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-12">
+                    <input style="position: relative; top: 18px;" type="number" min="1" max="1000" class="form-control" name="tagCount"
+                           ng-model="tagCount">
+
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-12">
+                    <button type="button" style="position: relative; top: 20px; width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" csv-header="tagHeaders" ng-csv="getTicketSummaryCSV()" filename="{{DownloadFileName}}.csv"></button>
+                </div>
                 <div class="clearfix"></div>
 
 
@@ -210,7 +225,7 @@
                          height="100%"
                          horizontal-scroll-position="bottom"
                          size="5px" opacity="0.4">
-                        <table id="datatable-responsive"
+                        <table id="datatable-responsive" dt-options="dtOptions" datatable="ng"
                                class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
                                cellspacing="0" width="100%" role="grid"
                                aria-describedby="datatable-responsive_info">
@@ -238,6 +253,10 @@
                                 </th>
                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                     rowspan="1"
+                                    colspan="1" aria-label="Created">Created At
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                    rowspan="1"
                                     colspan="1" aria-label="Channel">Channel
                                 </th>
                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -256,6 +275,10 @@
                                     rowspan="1"
                                     colspan="1" aria-label="SLA Violated">SLA Violated
                                 </th>
+                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Tags">Tags
+                                </th>
                             </thead>
                             <tbody>
                             <tr role="row" class="odd"
@@ -265,11 +288,14 @@
                                 <td>{{ticket.assignee ? ticket.assignee.name : ''}}</td>
                                 <td>{{ticket.submitter ? ticket.submitter.name : ''}}</td>
                                 <td>{{ticket.requester ? ticket.requester.name : ''}}</td>
+                                <td>{{moment(ticket.created_at).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
                                 <td>{{ticket.channel}}</td>
                                 <td>{{ticket.status}}</td>
                                 <td>{{ticket.priority}}</td>
                                 <td>{{ticket.type}}</td>
                                 <td>{{ticket.ticket_matrix ? ticket.ticket_matrix.sla_violated : false}}</td>
+                                <td ng-if="ticket.tags && ticket.tags.length > 0">{{ticket.tags[0]}}</td>
+                                <td ng-if="!ticket.tags || ticket.tags.length <= 0"></td>
                             </tbody>
                         </table>
                     </div>
