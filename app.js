@@ -377,7 +377,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "queueSummaryController",
             data: {
                 requireLogin: true,
-                navigation: "QUEUE_SUMMARY"
+                navigation: "CDR"
             }
         }).state('console.agentsummary', {
             url: "/agentsummary",
@@ -495,6 +495,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             url: "/callsummary",
             templateUrl: "views/cdr/callSummaryReport.html",
             controller: "callSummaryCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
+
+        }).state('console.queueHourlySummary', {
+            url: "/queueHourlySummary",
+            templateUrl: "views/cdr/queueSummaryHourly.html",
+            controller: "queueSummaryHourlyCtrl",
             data: {
                 requireLogin: true,
                 navigation: "CDR"
