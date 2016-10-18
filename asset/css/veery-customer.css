@@ -3207,3 +3207,23 @@ ul.stats-overview.ticket-summary > .hidden-phone > .value {
     font-size: 16px;
     color: #2ba89c;
 }
+
+.back-btn-wrapper {
+    width: 100px;
+    height: 35px;
+    background: #114858;
+    text-align: center;
+    border-radius: 5px;
+    float: right;
+    cursor: pointer;
+    overflow: hidden;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-top: 7px;
+    color: #fff;
+}
+
+.back-btn-wrapper:hover {
+    background: #2ba89c;
+}
