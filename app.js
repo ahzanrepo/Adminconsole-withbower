@@ -76,14 +76,21 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 navigation: "DASHBOARD"
 
             }
-        }).state('console.fb', {
-            url: "/fb",
-            templateUrl: "socialConnectors/views/socialConnector.html",
-            controller: "socialConnectorController",
+        }).state('console.facebook', {
+            url: "/social/facebook",
+            templateUrl: "socialConnectors/views/socialFbConnector.html",
+            controller: "socialFbConnectorController",
             data: {
                 requireLogin: true,
-                navigation: "DASHBOARD"
-
+                navigation: "FACEBOOK"
+            }
+        }).state('console.twitter', {
+            url: "/social/twitter",
+            templateUrl: "socialConnectors/views/socialTwitterConnector.html",
+            controller: "socialTwitterConnectorController",
+            data: {
+                requireLogin: true,
+                navigation: "TWITTER"
             }
         }).state('console.productivity', {
             url: "/productivity",
