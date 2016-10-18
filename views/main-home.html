@@ -215,9 +215,13 @@
                                                                           ng-click="clickDirective.goCallSummary()">Call
                                         Summary Report</a>
                                     </li>
-                                    <li ng-show="accessNavigation.QUEUE_SUMMARY"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goQueueSummary()">Queue
                                         Summary</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goQueueHourlySummary()">Queue
+                                        Hourly Breakdown</a>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goAgentSummary()">Agent

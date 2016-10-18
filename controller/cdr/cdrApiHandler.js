@@ -193,6 +193,40 @@
             })
         };
 
+        var getCallSummaryForQueueHr = function(date, skill, tz)
+        {
+            var authToken = authService.GetToken();
+            var url = 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill;
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getAttributeList = function()
+        {
+            var authToken = authService.GetToken();
+            var url = 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/Attributes';
+
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'authorization': authToken
+                }
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getAgentStatusList = function(startDate, endDate, statusList, agentList)
         {
             var authToken = authService.GetToken();
@@ -250,7 +284,9 @@
             getCallSummaryForDay: getCallSummaryForDay,
             getAgentStatusList: getAgentStatusList,
             prepareDownloadCDRByType: prepareDownloadCDRByType,
-            getProcessedCDRByFilter: getProcessedCDRByFilter
+            getProcessedCDRByFilter: getProcessedCDRByFilter,
+            getCallSummaryForQueueHr: getCallSummaryForQueueHr,
+            getAttributeList: getAttributeList
         };
     };
 
