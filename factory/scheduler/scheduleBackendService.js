@@ -2,8 +2,7 @@
  * Created by Pawan on 7/26/2016.
  */
 
-mainApp.factory('scheduleBackendService', function ($http, authService)
-{
+mainApp.factory('scheduleBackendService', function ($http, authService, baseUrls) {
     return {
 
         getSchedules: function () {
@@ -12,10 +11,9 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
                 method: 'GET',
                 url: "http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedules",
                 headers: {
-                    'authorization':authToken
+                    'authorization': authToken
                 }
-            }).then(function(response)
-            {
+            }).then(function (response) {
                 return response;
             });
         },
@@ -26,10 +24,9 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
                 method: 'GET',
                 url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/' + scheduleId + '/Appointments',
                 headers: {
-                    'authorization':authToken
+                    'authorization': authToken
                 }
-            }).then(function(response)
-            {
+            }).then(function (response) {
                 return response;
             });
         },
@@ -41,12 +38,11 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
                 method: 'POST',
                 url: "http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule",
                 headers: {
-                    'authorization':authToken
+                    'authorization': authToken
                 },
-                data:resource
+                data: resource
 
-            }).then(function(response)
-            {
+            }).then(function (response) {
                 return response;
             });
         },
@@ -58,12 +54,11 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
                 method: 'POST',
                 url: "http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment",
                 headers: {
-                    'authorization':authToken
+                    'authorization': authToken
                 },
-                data:resource
+                data: resource
 
-            }).then(function(response)
-            {
+            }).then(function (response) {
                 return response;
             });
         },
@@ -75,12 +70,11 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
                 method: 'POST',
                 url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/' + resource.id,
                 headers: {
-                    'authorization':authToken
+                    'authorization': authToken
                 },
-                data:resource
+                data: resource
 
-            }).then(function(response)
-            {
+            }).then(function (response) {
                 return response;
             });
         },
@@ -91,12 +85,11 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
                 method: 'POST',
                 url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment/' + resource.id,
                 headers: {
-                    'authorization':authToken
+                    'authorization': authToken
                 },
-                data:resource
+                data: resource
 
-            }).then(function(response)
-            {
+            }).then(function (response) {
                 return response;
             });
         },
@@ -107,11 +100,10 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
                 method: 'DELETE',
                 url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/' + scheduleId,
                 headers: {
-                    'authorization':authToken
+                    'authorization': authToken
                 }
 
-            }).then(function(response)
-            {
+            }).then(function (response) {
                 return response;
             });
         },
@@ -122,14 +114,26 @@ mainApp.factory('scheduleBackendService', function ($http, authService)
                 method: 'DELETE',
                 url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Appointment/' + appointmentId,
                 headers: {
-                    'authorization':authToken
+                    'authorization': authToken
                 }
 
-            }).then(function(response)
-            {
+            }).then(function (response) {
                 return response;
             });
         },
+        getAppointmentActions: function () {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.appointment + "Actions",
+                headers: {
+                    'authorization': authToken
+                }
+
+            }).then(function (response) {
+                return response;
+            });
+        }
 
 
     }

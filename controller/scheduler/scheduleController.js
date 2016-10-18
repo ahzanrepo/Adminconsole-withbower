@@ -44,14 +44,10 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
 
                 $scope.ScheduleList.splice(0, 0, response.data.Result);
                 $scope.newSchedule={};
-
-
             }
-            $state.reload();
         }), function (error) {
             console.info("Error in adding new Application "+error);
             $scope.showAlert("Error", "There is an Exception in saving Application "+error,"error");
-            $state.reload();
         }
     };
 
@@ -66,7 +62,7 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
 
     };
     $scope.reloadPage = function () {
-        $state.reload();
+        $scope.GetSchedules();
     };
 
     $scope.GetSchedules = function () {
@@ -90,8 +86,6 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
     $scope.cancleEdit = function () {
         $scope.addNew=false;
     };
-
-
 
     $scope.GetSchedules();
 

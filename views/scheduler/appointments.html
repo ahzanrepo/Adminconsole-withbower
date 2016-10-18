@@ -1,7 +1,6 @@
 <div class="row">
 
 
-
     <div class="col-md-12 col-sm-6 col-xs-12">
 
         <!-- application list -->
@@ -22,26 +21,53 @@
                                     <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                         <input type="text" class="form-control has-feedback-left"
                                                ng-model="newAppointment.AppointmentName"
-                                               placeholder="Appointment Name" ng-change="appointmentSummary(newAppointment)" required>
+                                               placeholder="Appointment Name"
+                                               ng-change="appointmentSummary(newAppointment)" required>
                                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                     </div>
 
-                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                        <input type="text" class="form-control has-feedback-left"
-                                               ng-model="newAppointment.Action"
-                                               placeholder="Action">
-                                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                    <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                        <div class="col-md-6">
+                                            <select class="form-control "
+                                                    ng-model="application"
+                                                    ng-change="changeApplication(application)"
+                                                    placeholder="select Recurrence Pattern">
+                                                <option value="" disabled selected>Application</option>
+                                                {{applications}}
+                                                <option value="{{application.value}}"
+                                                        ng-repeat="application in applications track by $index">
+                                                    {{application.value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control "
+                                                    ng-model="newAppointment.Action"
+                                                    placeholder="select Recurrence Pattern">
+                                                <option value="" disabled selected>PBX Status</option>
+                                                <option value="{{PBX.id}}" ng-repeat="PBX in pbxStatus track by $index">
+                                                    {{PBX.value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!--<input type="text" class="form-control has-feedback-left"-->
+                                        <!--ng-model="newAppointment.Action"-->
+                                        <!--placeholder="Action">-->
+                                        <!--<span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>-->
                                     </div>
 
-                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                        <select class="form-control has-feedback-left" placeholder="select Recurrence Pattern"
-                                                ng-model="newAppointment.RecurrencePattern" ng-change="optionChanger('RecurrencePattern')">
+                                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                        <select class="form-control has-feedback-left"
+                                                placeholder="select Recurrence Pattern"
+                                                ng-model="newAppointment.RecurrencePattern"
+                                                ng-change="optionChanger('RecurrencePattern')">
                                             <option value="" disabled selected>Select Recurrence Pattern</option>
                                             <option selected>NONE</option>
                                             <option>WEEKLY</option>
 
                                         </select>
-                                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                        <span class="fa fa-envelope form-control-feedback left"
+                                              aria-hidden="true"></span>
                                     </div>
 
 
@@ -49,35 +75,46 @@
                                 <div class="row">
                                     <div class="col-md-3 col-sm-6 col-xs-12">
                                         <span style="color: grey"> Start Date</span>
-                                        <input type="text" class="form-control" ng-model="newAppointment.StartDate"  ng-change="appointmentSummary(newAppointment)" name="startDate" ng-required="newAppointment.EndDate"
-                                               datepicker >
+                                        <input type="text" class="form-control" ng-model="newAppointment.StartDate"
+                                               ng-change="appointmentSummary(newAppointment)" name="startDate"
+                                               ng-required="newAppointment.EndDate"
+                                               datepicker>
                                     </div>
                                     <div class="col-md-3 col-sm-6 col-xs-12">
                                         <span style="color: grey"> Start Time</span>
 
 
-
-                                        <input type="text" class="form-control"  pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" ng-model="newAppointment.StartTime" ng-required="newAppointment.EndTime" ng-change="appointmentSummary(newAppointment)"/>
+                                        <input type="text" class="form-control" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                                               ng-model="newAppointment.StartTime" ng-required="newAppointment.EndTime"
+                                               ng-change="appointmentSummary(newAppointment)"/>
                                         <span style="color: blue" class="pull-right"> (ex :- 01:30 , 23:22)</span>
                                     </div>
                                     <div class="col-md-3 col-sm-6 col-xs-12">
                                         <span style="color: grey"> End Date</span>
-                                        <input type="text" class="form-control" ng-model="newAppointment.EndDate"  ng-change="appointmentSummary(newAppointment)" name="endDate" ng-required="newAppointment.StartDate"
-                                               datepicker >
+                                        <input type="text" class="form-control" ng-model="newAppointment.EndDate"
+                                               ng-change="appointmentSummary(newAppointment)" name="endDate"
+                                               ng-required="newAppointment.StartDate"
+                                               datepicker>
                                     </div>
                                     <div class="col-md-3 col-sm-6 col-xs-12">
                                         <span style="color: grey"> End Time</span>
-                                        <input type="text" class="form-control"  pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" ng-model="newAppointment.EndTime" ng-required="newAppointment.StartTime" ng-change="appointmentSummary(newAppointment)"/>
+                                        <input type="text" class="form-control" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                                               ng-model="newAppointment.EndTime" ng-required="newAppointment.StartTime"
+                                               ng-change="appointmentSummary(newAppointment)"/>
                                         <span style="color: blue" class="pull-right"> (ex :- 01:30 , 23:22)</span>
                                     </div>
 
-                                    <div class="col-md-12 col-sm-6 col-xs-12 form-group">
+                                    <div class="col-md-12 col-sm-6 col-xs-12 form-group"
+                                         style="margin-top: 15px;margin-bottom: 15px;">
 
                                         <tags-input ng-model="newAppointment.newDaysOfWeek" display-property="DayName"
 
                                                     add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
-                                                    on-tag-removed="onChipDelete($tag)" ng-disabled="!dayListMode" min-length="1"
-                                                    placeholder="Add Days" ng-required="newAppointment.RecurrencePattern=='WEEKLY'" ng-change="appointmentSummary(newAppointment)">
+                                                    on-tag-removed="onChipDelete($tag)" ng-disabled="!dayListMode"
+                                                    min-length="1"
+                                                    placeholder="Add Days"
+                                                    ng-required="newAppointment.RecurrencePattern=='WEEKLY'"
+                                                    ng-change="appointmentSummary(newAppointment)">
                                             <auto-complete source="querySearch($query)" load-on-empty="true"
                                                            load-on-focus="true" min-length="1"></auto-complete>
                                         </tags-input>
@@ -86,7 +123,6 @@
                                 </div>
 
 
-
                                 <div class="row">
 
 
@@ -101,8 +137,9 @@
                                     </div>
 
                                     <div class="col-md-3 col-sm-3 col-xs-12  ">
-                                        <button id="addBtn" type="button" class="btn btn-success btn-block  btn- pull-right"
-                                                ng-click="saveAppointment()" ng-disabled="newApp.$invalid" >
+                                        <button id="addBtn" type="button"
+                                                class="btn btn-success btn-block  btn- pull-right"
+                                                ng-click="saveAppointment()" ng-disabled="newApp.$invalid">
                                             Add
                                         </button>
 
@@ -125,10 +162,11 @@
         <!-- view application users -->
         <div class="x_panel">
             <div class="x_content">
-                <ul class="list-unstyled timeline">
+                <ul class="list-unstyled">
                     <li ng-repeat="Appointment in AppointmetList">
 
-                        <editappointment schedule="schedule" appointment="Appointment" appointmentList="AppointmetList" show-edit="showEdits()" update-appointment="removeDeleted(Appointment)"
+                        <editappointment schedule="schedule" appointment="Appointment" appointmentList="AppointmetList"
+                                         show-edit="showEdits()" update-appointment="removeDeleted(Appointment)"
                                          reloadpage="reloadPage()"></editappointment>
 
 
