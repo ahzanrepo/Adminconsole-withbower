@@ -2,7 +2,7 @@
  * Created by Pawan on 7/26/2016.
  */
 
-mainApp.directive("editschedule", function ($filter,$uibModal,scheduleBackendService) {
+mainApp.directive("editschedule", function ($filter, $uibModal, scheduleBackendService) {
     console.log("Hit");
 
     return {
@@ -11,16 +11,16 @@ mainApp.directive("editschedule", function ($filter,$uibModal,scheduleBackendSer
             schedule: "=",
             scheduleList: "=",
             'updateSchedule': '&',
-            'reloadpage':'&'
+            'reloadpage': '&'
         },
 
         templateUrl: 'views/scheduler/partials/editSchedule.html',
 
         link: function (scope) {
 
-            console.log("+++++++++++++++++++++++++++ "+scope.schedule+" ++++++++++++++++++++++++");
+            console.log("+++++++++++++++++++++++++++ " + scope.schedule + " ++++++++++++++++++++++++");
             scope.editMode = false;
-            scope.configMode=false;
+            scope.configMode = false;
 
             scope.editAppointment = function () {
                 scope.editMode = !scope.editMode;
@@ -46,15 +46,15 @@ mainApp.directive("editschedule", function ($filter,$uibModal,scheduleBackendSer
                         history: false
                     }
                 })).get().on('pnotify.confirm', function () {
-                        OkCallback("confirm");
-                    }).on('pnotify.cancel', function () {
+                    OkCallback("confirm");
+                }).on('pnotify.cancel', function () {
 
-                    });
+                });
 
             };
 
 
-            scope.showAlert = function (title,content,type) {
+            scope.showAlert = function (title, content, type) {
 
                 new PNotify({
                     title: title,
@@ -65,7 +65,7 @@ mainApp.directive("editschedule", function ($filter,$uibModal,scheduleBackendSer
             };
 
 
-            scope.showConig= function (appid) {
+            scope.showConig = function (appid) {
                 //modal show
                 var modalInstance = $uibModal.open({
                     animation: true,
@@ -80,42 +80,37 @@ mainApp.directive("editschedule", function ($filter,$uibModal,scheduleBackendSer
                 });
             };
 
-            scope.cancelUpdate=function()
-            {
-                scope.editMode=false;
+            scope.cancelUpdate = function () {
+                scope.editMode = false;
             };
 
             scope.showAppointments = function () {
-                console.log("hit show "+ scope.configMode);
-                scope.configMode=!scope.configMode;
+                console.log("hit show " + scope.configMode);
+                scope.configMode = !scope.configMode;
 
             };
 
             scope.modifySchedule = function () {
 
                 scheduleBackendService.updateSchedule(scope.schedule).then(function (response) {
-                    if(response.data.IsSuccess)
-                    {
+                    if (response.data.IsSuccess) {
 
 
-                        scope.showAlert("Updated","Schedule " + scope.schedule.schedule + " updated successfully","success");
-                        scope.editMode=false;
-
-
+                        scope.showAlert("Updated", "Schedule " + scope.schedule.schedule + " updated successfully", "success");
+                        scope.editMode = false;
 
 
                     }
-                    else
-                    {
-                        scope.showAlert("Error","Schedule " + scope.schedule.schedule + " updating failed","error");
-                        console.info("Error in updating app "+response.data.Exception);
+                    else {
+                        scope.showAlert("Error", "Schedule " + scope.schedule.schedule + " updating failed", "error");
+                        console.info("Error in updating app " + response.data.Exception);
                     }
-                    scope.editMode=false;
+                    scope.editMode = false;
 
                 }, function (error) {
-                    scope.showAlert("Error","Schedule " + scope.schedule.schedule + " updating failed","error");
-                    console.info("Error in updating application "+error);
-                    scope.editMode=false;
+                    scope.showAlert("Error", "Schedule " + scope.schedule.schedule + " updating failed", "error");
+                    console.info("Error in updating application " + error);
+                    scope.editMode = false;
                 });
 
 
@@ -128,7 +123,7 @@ mainApp.directive("editschedule", function ($filter,$uibModal,scheduleBackendSer
                     scheduleBackendService.removeSchedule(schedule.id).then(function (response) {
                         if (response) {
                             scope.updateSchedule(schedule);
-                            scope.showAlert("Deleted","Schedule " + schedule.ScheduleName + " Deleted successfully","success");
+                            scope.showAlert("Deleted", "Schedule " + schedule.ScheduleName + " Deleted successfully", "success");
                         }
                         else
                             scope.showAlert("Error", "Error in schedule removing", "error");
@@ -139,10 +134,12 @@ mainApp.directive("editschedule", function ($filter,$uibModal,scheduleBackendSer
                 }, function () {
 
                 }, schedule);
+
+
+
+
             }
-
-
         }
-
     }
+
 });

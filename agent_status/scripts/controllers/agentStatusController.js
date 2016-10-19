@@ -1,15 +1,36 @@
-mainApp.controller("agentStatusController", function ($scope,$state ,$filter, $stateParams, $timeout, $log,$anchorScroll, agentStatusService) {
+mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log,
+                                                      $anchorScroll, agentStatusService, notifiSenderService) {
 
     $anchorScroll();
     $scope.showCallInfos = false;
     $scope.summaryText = "Table";
     $scope.summary = false;
-    $scope.changeView = function () {
-        $scope.summary =  !$scope.summary;
-        $scope.summaryText = $scope.summary ? "Card" : "Table";
+    $scope.largeCard = false;
+    $scope.smallCard = false;
+    $scope.showDetails = true;
+    $scope.showTableCard = function () {
+        $scope.summary = true;
+        $scope.largeCard = false;
+        $scope.smallCard = false;
+        $scope.showDetails = false;
     };
-    $scope.showAgentSummary = function () {
-        $state.go('console.AgentProfileSummary');
+    $scope.showSmallCard = function () {
+        $scope.summary = false;
+        $scope.largeCard = false;
+        $scope.smallCard = true;
+        $scope.showDetails = false;
+    };
+    $scope.showLargeCard = function () {
+        $scope.summary = false;
+        $scope.largeCard = true;
+        $scope.smallCard = false;
+        $scope.showDetails = false;
+    };
+    $scope.showDetailsCard = function () {
+        $scope.summary = false;
+        $scope.largeCard = false;
+        $scope.smallCard = false;
+        $scope.showDetails = true;
     };
 
     $scope.productivity = [];
@@ -26,12 +47,13 @@ mainApp.controller("agentStatusController", function ($scope,$state ,$filter, $s
     $scope.GetProductivity();
     $scope.showCallDetails = false;
     var calculateProductivity = function () {
-        $scope.Productivitys = [];$scope.showCallDetails = false;
+        $scope.Productivitys = [];
+        $scope.showCallDetails = false;
         if ($scope.profile) {
             angular.forEach($scope.profile, function (agent) {
                 try {
                     if (agent) {
-                        var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId},true);//"ResourceId":"1"
+                        var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId}, true);//"ResourceId":"1"
 
                         /*var agentProductivity = {
                          "data": [{
@@ -80,7 +102,7 @@ mainApp.controller("agentStatusController", function ($scope,$state ,$filter, $s
                                 "OnCallTime": ids[0].OnCallTime,
                                 "IdleTime": ids[0].IdleTime,
                                 "StaffedTime": ids[0].StaffedTime,
-                                "slotState":{}
+                                "slotState": {}
                             };
 
 
@@ -103,7 +125,7 @@ mainApp.controller("agentStatusController", function ($scope,$state ,$filter, $s
                                 agentProductivity.slotState = resonseStatus;
                                 agentProductivity.other = "Break";
                                 reservedDate = agent.Status.StateChangeTime;
-                            } else if(agent.ConcurrencyInfo[0].IsRejectCountExceeded) {
+                            } else if (agent.ConcurrencyInfo[0].IsRejectCountExceeded) {
                                 agentProductivity.slotState = "Suspended";
                                 agentProductivity.other = "Reject";
                             } else {
@@ -136,7 +158,7 @@ mainApp.controller("agentStatusController", function ($scope,$state ,$filter, $s
                                 task.percentage = item.Percentage;
                                 //$filter('filter')(array, expression, comparator, anyPropertyKey)
                                 //var filteredData =  $filter('filter')($scope.gridUserData.data,{ Id: userid },true);
-                                var data = $filter('filter')($scope.attributesList, {AttributeId: parseInt(item.Attribute)},true);
+                                var data = $filter('filter')($scope.attributesList, {AttributeId: parseInt(item.Attribute)}, true);
                                 if (data.length > 0)
                                     task.skill = data[0].Attribute;
                                 agentProductivity.taskList.push(task);
@@ -174,7 +196,7 @@ mainApp.controller("agentStatusController", function ($scope,$state ,$filter, $s
 
                                             agentProductivity.callInfos.push(callInfo[0]);
                                             console.info(callInfo);
-                                            $scope.showCallDetails=true;
+                                            $scope.showCallDetails = true;
                                         }
                                     } catch (ex) {
                                         console.info(ex);
@@ -316,15 +338,6 @@ mainApp.controller("agentStatusController", function ($scope,$state ,$filter, $s
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
 
-
-
-
-
-
-
-
-
-
     $scope.$on("$destroy", function () {
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
@@ -366,7 +379,12 @@ mainApp.controller("agentStatusController", function ($scope,$state ,$filter, $s
         });
     };
 
-
+    //GetUserProfileList
+    notifiSenderService.getUserList().then(function (response) {
+        $scope.userList = response;
+    }, function (error) {
+        $log.debug("get user list error.....");
+    });
 });
 
 

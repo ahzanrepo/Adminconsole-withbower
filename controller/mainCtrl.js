@@ -112,6 +112,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout, jw
         goAttributeList: function () {
             $state.go('console.attributes');
         },
+        goFacebookApp: function () {
+            $state.go('console.facebook');
+        },
+        goTwitterApp: function () {
+            $state.go('console.twitter');
+        },
         goResourceList: function () {
             $state.go('console.resources');
         },
@@ -190,6 +196,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout, jw
          },*/
         goQueueSummary: function () {
             $state.go('console.queuesummary');
+        },
+        goQueueHourlySummary: function () {
+            $state.go('console.queueHourlySummary');
         },
         goAgentSummary: function () {
             $state.go('console.agentsummary');

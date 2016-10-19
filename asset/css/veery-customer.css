@@ -1379,8 +1379,8 @@ small > i {
 }
 
 .attribute-btn {
-    width: 60px;
-    height: 34px;
+    width: auto;
+    height: auto;
 }
 
 .bg-light-gray {
@@ -1671,6 +1671,13 @@ ul.widget_profile_box li .profile_img {
 
 .fixed_height_480 {
     height: 650px;
+}
+
+.height-agent-status {
+    min-height: 250px;
+    height: auto;
+    max-height: 650px;
+    overflow: hidden;
 }
 
 .widget_profile_box {
@@ -2968,6 +2975,7 @@ tags-input .tags.focused {
     font-size: 36px;
     margin-right: 50px;
 }
+
 #main,
 #navBar {
     transition: margin-right .5s;
@@ -3049,6 +3057,7 @@ tags-input .tags.focused {
     font-size: 18px;
     cursor: pointer;
 }
+
 .nav-bottom-tool {
     background: #f7f5f5;
     width: 100%;
@@ -3056,11 +3065,13 @@ tags-input .tags.focused {
     z-index: 0;
     display: block;
 }
+
 .message-close {
     color: #d2c242 !important;
     cursor: pointer;
     z-index: 10;
 }
+
 #sendMessage {
     transition-property: top, left,
     border-radius, background-color;
@@ -3118,7 +3129,6 @@ tags-input .tags.focused {
     margin-top: 200px;
 }
 
-
 .notification-text {
     color: #8298ae !important;
     padding: 5px 2px 0px 4px;
@@ -3150,6 +3160,7 @@ tags-input .tags.focused {
 .notification-icon > i {
     font-size: 23px;
 }
+
 .message-close {
     color: #d2c242 !important;
     cursor: pointer;
@@ -3171,19 +3182,72 @@ tags-input .tags.focused {
     width: 100%;
     min-height: 150px;
 }
-.notify-img-large> img {
+
+.notify-img-large > img {
     border-radius: 70%;
     width: 150px;
     height: 150px;
-    overflow:visible;
-    position:relative;
+    overflow: visible;
+    position: relative;
     z-index: 0;
 }
 
 /*add social connector disable*/
 .avoid-clicks {
     display: block;
-    background: rgba(51,51,51,0.85);
+    background: rgba(51, 51, 51, 0.85);
     pointer-events: none;
     color: whitesmoke;
 }
+
+ul.stats-overview.ticket-summary {
+    padding-bottom: 25px;
+    margin-bottom: 13px;
+}
+
+ul.stats-overview.ticket-summary > .hidden-phone > .name {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+ul.stats-overview.ticket-summary > .hidden-phone > .value {
+    font-size: 16px;
+    color: #2ba89c;
+}
+
+.back-btn-wrapper {
+    width: 100px;
+    height: 35px;
+    background: #114858;
+    text-align: center;
+    border-radius: 5px;
+    float: right;
+    cursor: pointer;
+    overflow: hidden;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-top: 7px;
+    color: #fff;
+}
+
+.back-btn-wrapper:hover {
+    background: #2ba89c;
+}
+
+.tb-scroller-en-summery {
+    height: 250px;
+    overflow: auto;
+
+}
+
+.active-btn {
+    background: #114858 !important;
+}
+
+.active-btn:active,
+.active-btn:hover,
+.active-btn:focus {
+    background: #114858 !important;
+}
+
