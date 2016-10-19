@@ -39,6 +39,7 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'authServiceBaseUrl': 'http://192.168.86:3637/oauth/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
@@ -56,36 +57,41 @@ var baseUrls = {
     'notification': 'http://notificationservice.app.veery.cloud/',
     'appointment': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment/',
     'authProviderUrl':'http://localhost:3637/',
-    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/'
+    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
+    'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
 
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authProvider",
-    function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider,baseUrls) {
+    function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider) {
 
+        var authProviderUrl = 'http://192.168.86:3637/';
         $urlRouterProvider.otherwise('/login');
 
         /////////////////////////////////////////////////////////
 
 
-        $authProvider.loginUrl = baseUrls.authProviderUrl+'auth/login';
-        $authProvider.signupUrl = baseUrls.authProviderUrl+'auth/signup';
+        $authProvider.loginUrl = authProviderUrl+'auth/login';
+        $authProvider.signupUrl = authProviderUrl+'auth/signup';
 
 
         $authProvider.facebook({
-            url: baseUrls.authProviderUrl+'auth/facebook',
+            url: authProviderUrl+'auth/facebook',
             clientId: '1237176756312189'
             //responseType: 'token'
         });
 
         $authProvider.google({
-            url: baseUrls.authProviderUrl+'auth/google',
+            url: authProviderUrl+'auth/google',
             clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com'
         });
 
         $authProvider.github({
-            url: baseUrls.authProviderUrl+'auth/github',
+            url: authProviderUrl+'auth/github',
             clientId: 'f725eae279e6727c68c7'
         });
 

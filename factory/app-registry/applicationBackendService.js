@@ -10,7 +10,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Applications",
+                url: "APPRegistry/Applications",
                 headers: {
                     'authorization':authToken
                 }
