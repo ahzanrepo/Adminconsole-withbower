@@ -5,7 +5,7 @@
  * Created by Pawan on 6/8/2016.
  */
 
-mainApp.factory('extensionBackendService', function ($http, authService) {
+mainApp.factory('extensionBackendService', function ($http, authService,baseUrls) {
 
     return {
 
@@ -13,10 +13,7 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extensions",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.sipUserendpoint +"Extensions"
             }).then(function(response)
             {
                 return response;
@@ -27,10 +24,7 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/ExtensionsByCategory/"+category,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.sipUserendpoint +"ExtensionsByCategory/"+category
             }).then(function(response)
             {
                 return response;
@@ -41,10 +35,7 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.sipUserendpoint +"Extension",
                 data:resource
 
             }).then(function(response)
@@ -61,10 +52,7 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/DodNumber",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.sipUserendpoint +"DodNumber",
                 data:dodData
 
             }).then(function(response)
@@ -76,10 +64,7 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/"+extension,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.sipUserendpoint +"Extension/"+extension
 
             }).then(function(response)
             {
@@ -90,10 +75,7 @@ mainApp.factory('extensionBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/"+extension.Extension,
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.sipUserendpoint +"Extension/"+extension.Extension,
                 data:extension
 
             }).then(function(response)

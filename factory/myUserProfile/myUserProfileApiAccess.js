@@ -4,19 +4,15 @@
 
 (function() {
 
-    var myUserProfileApiAccess = function($http, authService)
+    var myUserProfileApiAccess = function($http, baseUrls)
     {
 
 
         var getMyProfile = function()
         {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Myprofile',
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.UserServiceBaseUrl+'Myprofile'
             }).then(function(resp)
             {
                 return resp.data;
@@ -28,13 +24,9 @@
 
         var addContactToMyProfile = function( contact, type)
         {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Myprofile/contact/' + contact,
-                headers: {
-                    'authorization': authToken
-                },
+                url: baseUrls.UserServiceBaseUrl+'Myprofile/contact/' + contact,
                 data:{
                     type: type
                 }
@@ -48,32 +40,24 @@
 
         var updateMyProfile = function(profileInfo)
         {
-            var authToken = authService.GetToken();
             profileInfo.birthday = profileInfo.dob.year+"-"+ profileInfo.dob.month+"-" + profileInfo.dob.day;
             var jsonStr = JSON.stringify(profileInfo);
 
             return $http({
                     method: 'PUT',
-                    url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Myprofile',
-                    headers: {
-                        'authorization': authToken
-                    },
+                    url: baseUrls.UserServiceBaseUrl+'Myprofile',
                     data:jsonStr
                 }).then(function(resp)
                 {
                     return resp.data;
                 })
-        }
+        };
 
         var deleteContactFromMyProfile = function( contact)
         {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Myprofile/contact/' + contact,
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.UserServiceBaseUrl+'Myprofile/contact/' + contact
             }).then(function(resp)
             {
                 return resp.data;
