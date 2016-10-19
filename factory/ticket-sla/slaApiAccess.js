@@ -3,15 +3,13 @@
  */
 
 (function(){
-    var slaApiAccess = function($http, authService){
+    var slaApiAccess = function($http, baseUrls){
 //create ticket trigger
         var createSla = function(sla){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA',
+                url: baseUrls.ticketUrl+'SLA',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: sla
@@ -21,12 +19,10 @@
         };
 
         var updateSla = function(sla){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+sla._id,
+                url: baseUrls.ticketUrl+'SLA/'+sla._id,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: sla
@@ -36,25 +32,19 @@
         };
 
         var getAllSla = function(){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLAs',
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.ticketUrl+'SLAs'
             }).then(function(response){
                 return response.data;
             });
         };
 
         var getSla = function(slaId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId,
+                url: baseUrls.ticketUrl+'SLA/'+slaId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -63,12 +53,10 @@
         };
 
         var deleteSla = function(slaId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId,
+                url: baseUrls.ticketUrl+'SLA/'+slaId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -77,12 +65,10 @@
         };
 
         var addFilterAll = function(slaId, filterAll){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId+'/Filter/All',
+                url: baseUrls.ticketUrl+'SLA/'+slaId+'/Filter/All',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: filterAll
@@ -92,12 +78,10 @@
         };
 
         var getFiltersAll = function(slaId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId+'/Filters/All',
+                url: baseUrls.ticketUrl+'SLA/'+slaId+'/Filters/All',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -106,12 +90,10 @@
         };
 
         var removeFilterAll = function(slaId, filterId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId+'/Filter/All/'+filterId,
+                url: baseUrls.ticketUrl+'SLA/'+slaId+'/Filter/All/'+filterId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -120,12 +102,10 @@
         };
 
         var addFilterAny = function(slaId, filterAny){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId+'/Filter/Any',
+                url: baseUrls.ticketUrl+'SLA/'+slaId+'/Filter/Any',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: filterAny
@@ -135,12 +115,10 @@
         };
 
         var getFiltersAny = function(slaId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId+'/Filters/Any',
+                url: baseUrls.ticketUrl+'SLA/'+slaId+'/Filters/Any',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -149,12 +127,10 @@
         };
 
         var removeFilterAny = function(slaId, filterId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId+'/Filter/Any/'+filterId,
+                url: baseUrls.ticketUrl+'SLA/'+slaId+'/Filter/Any/'+filterId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -163,12 +139,10 @@
         };
 
         var addMatrix = function(slaId, matrix){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId+'/Matrix',
+                url: baseUrls.ticketUrl+'SLA/'+slaId+'/Matrix',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: matrix
@@ -178,12 +152,10 @@
         };
 
         var getMatrices = function(slaId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId+'/Matrixs',
+                url: baseUrls.ticketUrl+'SLA/'+slaId+'/Matrixs',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -192,12 +164,10 @@
         };
 
         var removeMatrix = function(slaId, matrixId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/SLA/'+slaId+'/Matrix/'+matrixId,
+                url: baseUrls.ticketUrl+'SLA/'+slaId+'/Matrix/'+matrixId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){

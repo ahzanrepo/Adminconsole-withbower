@@ -42,7 +42,9 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         $state.go('signUp');
     };
 
+    $scope.isSocialMedia = false;
     $scope.authenticate = function (provider) {
+        $scope.isSocialMedia = true;
         $auth.authenticate(provider)
             .then(function () {
                 //toastr.success('You have successfully signed in with ' + provider + '!');
@@ -50,23 +52,24 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                     if (status == 200) {
                         if (result) {
                             loginService.getUserNavigation(function (isnavigation) {
-
+                                $scope.isSocialMedia = false;
                                 $state.go('console');
 
                             })
                         } else {
-
+                            $scope.isSocialMedia = false;
                             $state.go('pricing');
                         }
                     } else {
-
                         loginService.getUserNavigation(function (isnavigation) {
+                            $scope.isSocialMedia = false;
                             $state.go('console');
                         })
                     }
                 });
             })
             .catch(function (error) {
+                $scope.isSocialMedia = false;
                 if (error.message) {
                     loginService.clearCookie();
                     showAlert('Error', 'error', error.message);

@@ -2,19 +2,14 @@
  * Created by Pawan on 8/11/2016.
  */
 
-mainApp.factory('templateMakerBackendService', function ($http, authService)
+mainApp.factory('templateMakerBackendService', function ($http, baseUrls)
 {
     return {
 
         saveTemplate: function (resource) {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/Template",
-                headers: {
-                    'authorization':authToken
-                },
-
+                url: baseUrls.templatesUrl+'RenderService/Template',
                 data:resource
             }).then(function(response)
             {
@@ -23,14 +18,10 @@ mainApp.factory('templateMakerBackendService', function ($http, authService)
         },
 
         pickTemplates: function () {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'GET',
-                url: "http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/Templates",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.templatesUrl+'RenderService/Templates'
 
             }).then(function(response)
             {
@@ -39,14 +30,10 @@ mainApp.factory('templateMakerBackendService', function ($http, authService)
         },
 
         renderTemplate: function (templateName,paramData) {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'POST',
-                url: "http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/RenderTemplate/"+templateName,
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.templatesUrl+'RenderService/RenderTemplate/'+templateName,
                 data:paramData
 
             }).then(function(response)
@@ -56,14 +43,10 @@ mainApp.factory('templateMakerBackendService', function ($http, authService)
         },
 
         deleteTemplates : function (templateName) {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'DELETE',
-                url: "http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/Template/"+templateName,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.templatesUrl+'RenderService/Template/'+templateName,
 
             }).then(function(response)
             {
@@ -71,14 +54,10 @@ mainApp.factory('templateMakerBackendService', function ($http, authService)
             });
         },
         deleteStylesOfTemplate : function (templateId,styleId) {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'DELETE',
-                url: "http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/Template/"+templateId+"/Style/"+styleId,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.templatesUrl+'RenderService/Template/'+templateId+'/Style/'+styleId
 
             }).then(function(response)
             {
@@ -87,14 +66,10 @@ mainApp.factory('templateMakerBackendService', function ($http, authService)
         },
 
         updateTemplateContentData: function (templateId,resource) {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'PUT',
-                url: "http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/Template/"+templateId,
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.templatesUrl+'RenderService/Template/'+templateId,
                 data:resource
 
             }).then(function(response)
@@ -103,14 +78,10 @@ mainApp.factory('templateMakerBackendService', function ($http, authService)
             });
         },
         updateTemplateAssignedStyles: function (templateId,resource) {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'PUT',
-                url: "http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/Template/"+templateId+"/AllStyles",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.templatesUrl+'RenderService/Template/'+templateId+'/AllStyles',
                 data:resource
 
             }).then(function(response)
@@ -119,14 +90,10 @@ mainApp.factory('templateMakerBackendService', function ($http, authService)
             });
         },
         addTemplateNewStyles: function (templateId,resource) {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'POST',
-                url: "http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/Template/"+templateId+"/Styles",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.templatesUrl+'RenderService/Template/'+templateId+'/Styles',
                 data:resource
 
             }).then(function(response)

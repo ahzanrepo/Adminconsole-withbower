@@ -2,7 +2,7 @@
  * Created by Pawan on 5/28/2016.
  */
 
-mainApp.factory('callMonitorSrv', function ($http, authService) {
+mainApp.factory('callMonitorSrv', function ($http, authService,baseUrls) {
 
     return {
 
@@ -10,10 +10,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Calls",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.monitorrestapi+"Calls"
             }).then(function(response)
             {
                 return response;
@@ -25,10 +22,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
 
             return $http({
                 method: 'POST',
-                url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/barge",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/barge",
                 data:
                 {
                     protocol:protocol,
@@ -45,10 +39,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/listen",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/listen",
                 data:
                 {
                     protocol:protocol,
@@ -64,10 +55,7 @@ mainApp.factory('callMonitorSrv', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Dispatch/"+bargeID+"/threeway",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/threeway",
                 data:
                 {
                     protocol:protocol,
