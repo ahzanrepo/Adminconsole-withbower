@@ -44,8 +44,11 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
     $scope.isSocialMedia = false;
     $scope.authenticate = function (provider) {
+
+        para.scope =  ["all_all", "profile_veeryaccount"];
+
         $scope.isSocialMedia = true;
-        $auth.authenticate(provider)
+        $auth.authenticate(provider,para)
             .then(function () {
                 //toastr.success('You have successfully signed in with ' + provider + '!');
                 loginService.getMyPackages(function (result, status) {
@@ -86,12 +89,14 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.onClickLogin = function () {
         para.userName = $scope.userName;
         para.password = $scope.password;
+        para.scope =  ["all_all", "profile_veeryaccount"]
         //parameter option
         //username
         //password
         //decode clientID
         $scope.isLogin = true;
         $scope.loginFrm.$invalid = true;
+
 
 
         $auth.login(para)
