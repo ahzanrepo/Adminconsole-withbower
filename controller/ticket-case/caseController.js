@@ -58,7 +58,7 @@
         };
 
         $scope.saveCase = function(){
-            slaApiAccess.createCase($scope.caseInfo).then(function(response){
+            caseApiAccess.createCase($scope.caseInfo).then(function(response){
                 if(response.IsSuccess)
                 {
                     $scope.caseInfos = response.Result;

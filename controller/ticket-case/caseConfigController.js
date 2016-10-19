@@ -59,7 +59,7 @@
         };
 
         $scope.saveCaseConfig = function(){
-            slaApiAccess.createCaseConfiguration($scope.caseConfig).then(function(response){
+            caseApiAccess.createCaseConfiguration($scope.caseConfig).then(function(response){
                 if(response.IsSuccess)
                 {
                     $scope.caseConfigs = response.Result;

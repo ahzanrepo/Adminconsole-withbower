@@ -38,7 +38,7 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 //resourceservice.app.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl': 'http://192.168.86:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://192.168.86:3637/oauth/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
@@ -653,7 +653,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                     requireLogin: true,
                     navigation: "TICKET_SLA"
                 }
-        })
+        }).state("console.configCase", {
+                url: "/configCase/:caseId/:title",
+                templateUrl: "views/ticket-case/configCase.html",
+                controller: "configCaseController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+            })
     }]);
 
 

@@ -107,7 +107,7 @@
                                 scope.showAlert('Case', errMsg, 'error');
                             }
                         }, function (err) {
-                            var errMsg = "Error occurred while deleting sla";
+                            var errMsg = "Error occurred while deleting Case";
                             if (err.statusText) {
                                 errMsg = err.statusText;
                             }
