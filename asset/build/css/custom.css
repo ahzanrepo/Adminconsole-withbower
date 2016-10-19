@@ -4045,6 +4045,7 @@ a.hiddenanchor {
     position: absolute;
     top: 0px;
     width: 100%;
+    overflow: hidden;
 }
 
 .registration_form {
@@ -4155,34 +4156,32 @@ a.hiddenanchor {
 }
 
 /*.login_content h1:before, .login_content h1:after {*/
-    /*content: "";*/
-    /*height: 1px;*/
-    /*position: absolute;*/
-    /*top: 10px;*/
-    /*width: 27%;*/
+/*content: "";*/
+/*height: 1px;*/
+/*position: absolute;*/
+/*top: 10px;*/
+/*width: 27%;*/
 /*}*/
 
 /*.login_content h1:after {*/
-    /*background: #7e7e7e;*/
-    /*background: -moz-linear-gradient(left, #7e7e7e 0%, white 100%);*/
-    /*background: -webkit-linear-gradient(left, #7e7e7e 0%, white 100%);*/
-    /*background: -o-linear-gradient(left, #7e7e7e 0%, white 100%);*/
-    /*background: -ms-linear-gradient(left, #7e7e7e 0%, white 100%);*/
-    /*background: linear-gradient(left, #7e7e7e 0%, white 100%);*/
-    /*right: 0;*/
+/*background: #7e7e7e;*/
+/*background: -moz-linear-gradient(left, #7e7e7e 0%, white 100%);*/
+/*background: -webkit-linear-gradient(left, #7e7e7e 0%, white 100%);*/
+/*background: -o-linear-gradient(left, #7e7e7e 0%, white 100%);*/
+/*background: -ms-linear-gradient(left, #7e7e7e 0%, white 100%);*/
+/*background: linear-gradient(left, #7e7e7e 0%, white 100%);*/
+/*right: 0;*/
 /*}*/
 
 /*.login_content h1:before {*/
-    /*background: #7e7e7e;*/
-    /*background: -moz-linear-gradient(right, #7e7e7e 0%, white 100%);*/
-    /*background: -webkit-linear-gradient(right, #7e7e7e 0%, white 100%);*/
-    /*background: -o-linear-gradient(right, #7e7e7e 0%, white 100%);*/
-    /*background: -ms-linear-gradient(right, #7e7e7e 0%, white 100%);*/
-    /*background: linear-gradient(right, #7e7e7e 0%, white 100%);*/
-    /*left: 0;*/
+/*background: #7e7e7e;*/
+/*background: -moz-linear-gradient(right, #7e7e7e 0%, white 100%);*/
+/*background: -webkit-linear-gradient(right, #7e7e7e 0%, white 100%);*/
+/*background: -o-linear-gradient(right, #7e7e7e 0%, white 100%);*/
+/*background: -ms-linear-gradient(right, #7e7e7e 0%, white 100%);*/
+/*background: linear-gradient(right, #7e7e7e 0%, white 100%);*/
+/*left: 0;*/
 /*}*/
-
-
 
 .login_content form {
     margin: 20px 0;

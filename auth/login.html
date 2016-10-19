@@ -3,11 +3,14 @@
     <div>
         <div class="login_wrapper">
             <div class="form login_form">
+                <div ng-show="isSocialMedia" class="is-social-media-wrapper">
+                    Authentication...
+                </div>
                 <section class="login_content">
                     <div class="login-header">
                         <img src="images/logo_130x130yellow.png" width="120" height="120"/>
                     </div>
-                    <div ng-show="isSocialMedia" class="is-social-media-wrapper"></div>
+
                     <form name="loginFrm">
                         <h1 class="font-robot font-300">Login </h1>
                         <div class="validation-area">
@@ -85,16 +88,13 @@
                         <div class="login-with-social">
                             <ul>
                                 <li ng-click="authenticate('facebook')">
-                                    <i ng-show="!isSocialMedia" class="fa fa-facebook hover hvr-bob "></i>
-                                    <i ng-show="isSocialMedia" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                    <i class="fa fa-facebook hover hvr-bob "></i>
                                 </li>
                                 <li ng-click="authenticate('google')">
-                                    <i ng-show="!isSocialMedia" class="fa fa-google-plus hover hvr-bob "></i>
-                                    <i ng-show="isSocialMedia" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                    <i class="fa fa-google-plus hover hvr-bob "></i>
                                 </li>
                                 <li ng-click="authenticate('github')">
-                                    <i ng-show="!isSocialMedia" class="fa fa-github hover hvr-bob "></i>
-                                    <i ng-show="isSocialMedia" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                    <i class="fa fa-github hover hvr-bob "></i>
                                 </li>
                                 <li><i class="fa fa-twitter disable"></i></li>
                                 <li><i class="fa fa-linkedin disable"></i></li>
