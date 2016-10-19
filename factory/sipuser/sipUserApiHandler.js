@@ -7,13 +7,9 @@
   {
     var getSIPUsers = function()
     {
-      var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Users',
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Users'
       }).then(function(resp)
       {
         return resp.data;
@@ -22,13 +18,10 @@
 
     var validateUsername = function (usr)
     {
-      var authToken = authService.GetToken();
+      
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'User/' + usr,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'User/' + usr
       }).then(function (resp)
       {
         return resp.data;
@@ -37,13 +30,10 @@
 
     var validateExtension = function(ext)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Extension/' + ext,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Extension/' + ext
       }).then(function (resp) {
         return resp.data;
       })
@@ -51,13 +41,10 @@
 
     var getGroups = function()
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Groups',
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Groups'
       }).then(function(resp)
       {
         return resp.data;
@@ -66,13 +53,10 @@
 
     var deleteGroup = function(grpId)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'DELETE',
-        url: baseUrls.sipUserendpoint + 'Group/' + grpId,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Group/' + grpId
       }).then(function(resp)
       {
         return resp.data;
@@ -81,13 +65,10 @@
 
     var getGroup = function(id)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Group/' + id,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Group/' + id
       }).then(function(resp)
       {
         return resp.data;
@@ -96,13 +77,10 @@
 
     var getUsersForGroup = function(id)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Users/InGroup/' + id,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Users/InGroup/' + id
       }).then(function(resp)
       {
         return resp.data;
@@ -111,13 +89,10 @@
 
     var getSIPUser = function(username)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'User/' + username,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'User/' + username
       }).then(function(resp)
       {
         return resp.data;
@@ -126,13 +101,10 @@
 
     var getExtension = function(extId)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Extension/' + extId,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Extension/' + extId
       }).then(function(resp)
       {
         return resp.data;
@@ -142,13 +114,10 @@
 
     var addUserToGroup = function(usrId, grpId)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + usrId + '/AssignToGroup/' + grpId,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + usrId + '/AssignToGroup/' + grpId
       }).then(function(resp)
       {
         return resp.data;
@@ -157,13 +126,10 @@
 
     var removeUserFromGroup = function(usrId, grpId)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + usrId + '/RemoveFromGroup/' + grpId,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + usrId + '/RemoveFromGroup/' + grpId
       }).then(function(resp)
       {
         return resp.data;
@@ -172,13 +138,10 @@
 
     var saveSIPUser = function(usrObj)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'POST',
         url: baseUrls.sipUserendpoint + 'User',
-        headers: {
-          'authorization': authToken
-        },
         data:usrObj
       }).then(function(resp)
       {
@@ -188,13 +151,10 @@
 
     var setPublicUser = function(usrObj)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'POST',
         url: baseUrls.sipUserendpoint + 'DuoWorldUser',
-        headers: {
-          'authorization': authToken
-        },
         data:usrObj
       }).then(function(resp)
       {
@@ -204,13 +164,10 @@
 
     var saveTransferCodes = function(transCodes)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'POST',
         url: baseUrls.sipUserendpoint + 'TransferCodes',
-        headers: {
-          'authorization': authToken
-        },
         data:transCodes
       }).then(function(resp)
       {
@@ -220,13 +177,10 @@
 
     var updateTransferCodes = function(transCodes)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'PUT',
         url: baseUrls.sipUserendpoint + 'TransferCode/' + transCodes.id,
-        headers: {
-          'authorization': authToken
-        },
         data:transCodes
       }).then(function(resp)
       {
@@ -236,13 +190,10 @@
 
     var getTransferCodes = function()
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'TransferCode',
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'TransferCode'
       }).then(function(resp)
       {
         return resp.data;
@@ -251,13 +202,10 @@
 
     var saveGroup = function(grpObj)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'POST',
         url: baseUrls.sipUserendpoint + 'Group',
-        headers: {
-          'authorization': authToken
-        },
         data:grpObj
       }).then(function(resp)
       {
@@ -267,13 +215,10 @@
 
     var updateGroup = function(grpObj)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'PUT',
         url: baseUrls.sipUserendpoint + 'Group/' + grpObj.id,
-        headers: {
-          'authorization': authToken
-        },
         data:grpObj
       }).then(function(resp)
       {
@@ -283,13 +228,10 @@
 
     var getContexts = function()
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Context',
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Context'
       }).then(function(resp)
       {
         return resp.data;
@@ -298,13 +240,10 @@
 
     var assignExtensionToUser = function(ext, sipUserId)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'Extension/' + ext + '/AssignToSipUser/' + sipUserId,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Extension/' + ext + '/AssignToSipUser/' + sipUserId
       }).then(function(resp)
       {
         return resp.data;
@@ -313,13 +252,10 @@
 
     var assignExtensionToGroup = function(ext, grpId)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'POST',
-        url: baseUrls.sipUserendpoint + 'Extension/' + ext + '/AssignToGroup/' + grpId,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Extension/' + ext + '/AssignToGroup/' + grpId
       }).then(function(resp)
       {
         return resp.data;
@@ -328,13 +264,10 @@
 
     var addNewExtension = function(extObj)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'POST',
         url: baseUrls.sipUserendpoint + 'Extension',
-        headers: {
-          'authorization': authToken
-        },
         data:extObj
       }).then(function(resp)
       {
@@ -344,13 +277,10 @@
 
     var deleteExtension = function(ext)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'DELETE',
-        url: baseUrls.sipUserendpoint + 'Extension/' + ext,
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.sipUserendpoint + 'Extension/' + ext
       }).then(function(resp)
       {
         return resp.data;
@@ -359,13 +289,10 @@
 
     var getSchedules = function()
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.limitHandlerUrl + 'LimitAPI/Schedules/byCompany',
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.limitHandlerUrl + 'LimitAPI/Schedules/byCompany'
       }).then(function(resp)
       {
         return resp.data;
@@ -374,13 +301,10 @@
 
     var getGreetingFileMetadata = function(refId)
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.fileServiceUrl + 'Files/' + refId + '/PABX/USER/GREETING',
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.fileServiceUrl + 'Files/' + refId + '/PABX/USER/GREETING'
       }).then(function(resp)
       {
         return resp.data;
@@ -389,14 +313,10 @@
 
     var updateUser = function(usrObj)
     {
-      var authToken = authService.GetToken();
 
       return $http({
         method: 'PUT',
         url: baseUrls.sipUserendpoint + 'User/' + usrObj.SipUsername,
-        headers: {
-          'authorization': authToken
-        },
         data: usrObj
       }).then(function(resp)
       {
@@ -406,13 +326,10 @@
 
     var getDomains = function()
     {
-      var authToken = authService.GetToken();
+
       return $http({
         method: 'GET',
-        url: baseUrls.clusterconfigUrl + 'CloudEndUsers',
-        headers: {
-          'authorization': authToken
-        }
+        url: baseUrls.clusterconfigUrl + 'CloudEndUsers'
       }).then(function(resp)
       {
         return resp.data;
