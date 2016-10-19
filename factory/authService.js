@@ -3,39 +3,22 @@
  */
 
 angular.module('authServiceModule' ,[])
-.service('authService', function (localStorageService, jwtHelper) {
+.service('authService', function (localStorageService, jwtHelper, $auth) {
 
 
         this.GetToken = function(){
 
 
-            var data = localStorageService.get("@loginToken");
+            return "bearer " + $auth.getToken();
 
-            if(data && data.access_token){
 
-                if(!jwtHelper.isTokenExpired(data.access_token)){
-                    return "bearer " + data.access_token;
-
-                }
-            }
-
-            return undefined;
 
         };
 
         this.TokenWithoutBearer = function(){
 
 
-            var data = localStorageService.get("@loginToken");
-
-            if(data && data.access_token){
-
-                if(!jwtHelper.isTokenExpired(data.access_token)){
-                    return data.access_token;
-
-                }
-            }
-            return undefined;
+            return $auth.getToken();
         };
 
        /* this.UserService= this.GetToken();
