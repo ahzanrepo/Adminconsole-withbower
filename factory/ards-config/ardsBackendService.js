@@ -5,7 +5,7 @@
  * Created by Pawan on 6/8/2016.
  */
 
-mainApp.factory('ardsBackendService', function ($http, authService) {
+mainApp.factory('ardsBackendService', function ($http, authService,baseUrls) {
 
     return {
 
@@ -14,10 +14,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.ardsLiteServiceUrl+"ARDS/requestmeta"
             }).then(function(response)
             {
                 return response;
@@ -28,10 +25,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/Tasks",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.resourceServiceBaseUrl+"Tasks"
 
             }).then(function(response)
             {
@@ -43,10 +37,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/Groups",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.resourceServiceBaseUrl+"Groups"
 
             }).then(function(response)
             {
@@ -58,10 +49,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'post',
-                url: "http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.ardsLiteServiceUrl+"ARDS/requestmeta",
                 data:resource
 
             }).then(function(response)
@@ -74,10 +62,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: "http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.ardsLiteServiceUrl+"ARDS/requestmeta",
                 data:resource
 
             }).then(function(response)
@@ -89,10 +74,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta/'+serverType+'/'+requestType,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.ardsLiteServiceUrl+'ARDS/requestmeta/'+serverType+'/'+requestType
 
             }).then(function(response)
             {
@@ -105,10 +87,7 @@ mainApp.factory('ardsBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestservers/*/*",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.ardsLiteServiceUrl+"ARDS/requestservers/*/*"
             }).then(function(response)
             {
                 return response;
