@@ -55,7 +55,9 @@ var baseUrls = {
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
     'notification': 'http://notificationservice.app.veery.cloud/',
-    'appointment': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment/'
+    'appointment': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment/',
+    'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/'
 
 };
 
