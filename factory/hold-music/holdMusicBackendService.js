@@ -1,17 +1,14 @@
 /**
  * Created by Pawan on 6/13/2016.
  */
-mainApp.factory('holdMusicBackendService', function ($http, authService) {
+mainApp.factory('holdMusicBackendService', function ($http, authService,baseUrls) {
 
     return {
         getHoldMusic: function () {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "QueueMusic/Profiles",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.queuemusicServiceUrl+"QueueMusic/Profiles"
             }).then(function(response)
             {
                 return response;
@@ -22,10 +19,7 @@ mainApp.factory('holdMusicBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/Files?fileCategory=IVRCLIPS&fileFormat=audio/wav",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.fileServiceUrl+"Files?fileCategory=IVRCLIPS&fileFormat=audio/wav"
             }).then(function(response)
             {
                 return response;
@@ -35,10 +29,7 @@ mainApp.factory('holdMusicBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/QueueMusic/Profile",
-                headers: {
-                    'authorization':authToken
-                },
+                url:  baseUrls.queuemusicServiceUrl+"QueueMusic/Profile",
                 data:resource
             }).then(function(response)
             {
@@ -49,10 +40,7 @@ mainApp.factory('holdMusicBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: "http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/QueueMusic/Profile/"+resource.Name,
-                headers: {
-                    'authorization':authToken
-                },
+                url:  baseUrls.queuemusicServiceUrl+"QueueMusic/Profile/"+resource.Name,
                 data:resource
             }).then(function(response)
             {
@@ -63,10 +51,7 @@ mainApp.factory('holdMusicBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: "http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/QueueMusic/Profile/"+resource.Name,
-                headers: {
-                    'authorization':authToken
-                },
+                url:  baseUrls.queuemusicServiceUrl+"QueueMusic/Profile/"+resource.Name,
                 data:resource
             }).then(function(response)
             {
