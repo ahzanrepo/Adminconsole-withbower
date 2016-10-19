@@ -2,7 +2,7 @@
  * Created by Pawan on 6/8/2016.
  */
 
-mainApp.factory('appBackendService', function ($http, authService)
+mainApp.factory('appBackendService', function ($http, authService,baseUrls)
 {
     return {
 
@@ -10,10 +10,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "APPRegistry/Applications",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.appregistryServiceUrl + "APPRegistry/Applications"
             }).then(function(response)
             {
                 return response;
@@ -25,10 +22,7 @@ mainApp.factory('appBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.appregistryServiceUrl + "APPRegistry/Application",
                 data:resource
 
             }).then(function(response)
@@ -42,10 +36,7 @@ mainApp.factory('appBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.appregistryServiceUrl + "APPRegistry/Application/"+childId+"/SetAsMasterApp/"+masterId
 
             }).then(function(response)
             {
@@ -58,10 +49,7 @@ mainApp.factory('appBackendService', function ($http, authService)
 
             return $http({
                 method: 'PUT',
-                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.appregistryServiceUrl + "APPRegistry/Application/"+resource.id,
                 data:resource
 
             }).then(function(response)
@@ -75,10 +63,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application/"+resource.id,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.appregistryServiceUrl + "APPRegistry/Application/"+resource.id
 
             }).then(function(response)
             {
@@ -90,10 +75,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/Files?fileCategory=IVRCLIPS&fileFormat=audio/wav&assignedState=false",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.fileServiceUrl+"Files?fileCategory=IVRCLIPS&fileFormat=audio/wav&assignedState=false"
 
             }).then(function(response)
             {
@@ -105,10 +87,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/Files/Info/"+appID,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.fileServiceUrl+"Files/Info/"+appID
 
             }).then(function(response)
             {
@@ -121,10 +100,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/File/"+fileID+"/AssignToApplication/"+appID,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.fileServiceUrl+"File/"+fileID+"/AssignToApplication/"+appID
 
             }).then(function(response)
             {
@@ -136,10 +112,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: "http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/File/"+fileID+"/DetachFromApplication",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.fileServiceUrl+"File/"+fileID+"/DetachFromApplication"
 
             }).then(function(response)
             {
@@ -151,10 +124,7 @@ mainApp.factory('appBackendService', function ($http, authService)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Developers",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.appregistryServiceUrl + "APPRegistry/Developers"
 
             }).then(function(response)
             {
@@ -167,10 +137,7 @@ mainApp.factory('appBackendService', function ($http, authService)
 
             return $http({
                 method: 'POST',
-                url: "http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/APPRegistry/Application/"+appId+"/AssignToDeveloper/"+devId,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.appregistryServiceUrl + "APPRegistry/Application/"+appId+"/AssignToDeveloper/"+devId
 
             }).then(function(response)
             {
