@@ -637,6 +637,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
             data: {
                 requireLogin: true
             }
+        }).state("console.caseConfiguration", {
+                url: "/caseConfiguration",
+                templateUrl: "views/ticket-case/caseConfig.html",
+                controller: "caseConfigController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+        }).state("console.case", {
+                url: "/case",
+                templateUrl: "views/ticket-case/case.html",
+                controller: "caseController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
         })
     }]);
 

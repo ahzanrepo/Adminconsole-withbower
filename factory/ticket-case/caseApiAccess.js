@@ -33,6 +33,18 @@
             });
         };
 
+        var getCaseConfigurations = function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl+'CaseConfiguration',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
         //----------------------------------Case----------------------------------------------------------------------
 
         var createCase = function(caseInfo){
@@ -43,6 +55,18 @@
                     'Content-Type': 'application/json'
                 },
                 data: caseInfo
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var getCases = function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl+'Cases',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }).then(function(response){
                 return response.data;
             });
@@ -75,7 +99,9 @@
         return{
             createCaseConfiguration: createCaseConfiguration,
             deleteCaseConfiguration: deleteCaseConfiguration,
+            getCaseConfigurations: getCaseConfigurations,
             createCase: createCase,
+            getCases: getCases,
             addTicketToCase: addTicketToCase,
             deleteCase: deleteCase
         };
