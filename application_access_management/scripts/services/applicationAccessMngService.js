@@ -6,10 +6,7 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
 
     var getUserList = function () {
 
-        return $http.get(baseUrls.UserServiceBaseUrl + "Users",
-            {
-                headers: {authorization: authService.GetToken()}
-            }).then(function (response) {
+        return $http.get(baseUrls.UserServiceBaseUrl + "Users").then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
@@ -24,7 +21,6 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
             method: 'put',
             url: baseUrls.UserServiceBaseUrl + "User/" + userName + "/Console/" + consoleName + "/Navigation",
             headers: {
-                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             },
             data: navigationData
@@ -38,7 +34,6 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
             method: 'put',
             url: baseUrls.UserServiceBaseUrl + "User/" + username + "/Console/" + consoleName,
             headers: {
-                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
@@ -51,7 +46,6 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
             method: 'delete',
             url: baseUrls.UserServiceBaseUrl + "User/" + username + "/Console/" + consoleName,
             headers: {
-                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
@@ -65,7 +59,6 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
             method: 'delete',
             url: baseUrls.UserServiceBaseUrl + "User/" + userName + "/Console/" + consoleName + "/Navigation/" + navigation,
             headers: {
-                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
@@ -79,7 +72,6 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
             method: 'get',
             url: baseUrls.UserServiceBaseUrl + "User/" + userName,
             headers: {
-                'authorization': authService.GetToken(),
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
@@ -91,10 +83,7 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
 //http://localhost:3636/DVP/API/1.0.0.0/Consoles/admin
         return $http({
             method: 'get',
-            url: baseUrls.UserServiceBaseUrl + "Consoles/" + userRole,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.UserServiceBaseUrl + "Consoles/" + userRole
         }).then(function (response) {
             return response.data.Result;
         });
@@ -107,10 +96,7 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
     var getUserAssignedScope = function (assignedUser) {
         return $http({
             method: 'get',
-            url: baseUrls.UserServiceBaseUrl + "Users/" + assignedUser + "/Scope",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.UserServiceBaseUrl + "Users/" + assignedUser + "/Scope"
         }).then(function (response) {
 
             var scopes = [];
@@ -162,9 +148,6 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
         return $http({
             method: 'put',
             url: baseUrls.UserServiceBaseUrl + "Users/"+assignedUser+"/Scope",
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data:scop
         }).then(function (response) {
             return response.data.IsSuccess;
@@ -174,10 +157,7 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
     var removeAssignedScope = function (assignedUser,scope) {
         return $http({
             method: 'delete',
-            url: baseUrls.UserServiceBaseUrl + "User/"+assignedUser+"/Scope/"+scope.resource,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.UserServiceBaseUrl + "User/"+assignedUser+"/Scope/"+scope.resource
         }).then(function (response) {
             return response.data.IsSuccess;
         });

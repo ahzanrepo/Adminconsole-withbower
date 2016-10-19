@@ -58,7 +58,6 @@ var baseUrls = {
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
     'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/'
 
-
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -66,28 +65,29 @@ mainApp.constant('baseUrls', baseUrls);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider) {
 
+        var authProviderUrl = 'http://localhost:3637/';
         $urlRouterProvider.otherwise('/login');
 
         /////////////////////////////////////////////////////////
 
 
-        $authProvider.loginUrl = 'http://localhost:3637/auth/login';
-        $authProvider.signupUrl = 'http://localhost:3637/auth/signup';
+        $authProvider.loginUrl = authProviderUrl+'auth/login';
+        $authProvider.signupUrl = authProviderUrl+'auth/signup';
 
 
         $authProvider.facebook({
-            url: 'http://localhost:3637/auth/facebook',
+            url: authProviderUrl+'auth/facebook',
             clientId: '1237176756312189'
             //responseType: 'token'
         });
 
         $authProvider.google({
-            url: 'http://localhost:3637/auth/google',
+            url: authProviderUrl+'auth/google',
             clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com'
         });
 
         $authProvider.github({
-            url: 'http://localhost:3637/auth/github',
+            url: authProviderUrl+'auth/github',
             clientId: 'f725eae279e6727c68c7'
         });
 
