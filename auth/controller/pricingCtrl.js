@@ -15,6 +15,8 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
     $scope.onClickBuyPackages = function (packageName) {
         loginService.buyMyPackage(packageName, function (result) {
             if (result) {
+
+                loginService.clearCookie();
                 $state.go('login');
             }
         });

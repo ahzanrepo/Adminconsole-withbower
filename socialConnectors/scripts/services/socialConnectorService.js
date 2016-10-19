@@ -8,9 +8,6 @@ mainApp.factory("socialConnectorService", function ($http,authService,baseUrls) 
         return $http({
             method: 'POST',
             url: baseUrls.socialConnectorUrl+"Facebook",
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data:postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -25,9 +22,6 @@ mainApp.factory("socialConnectorService", function ($http,authService,baseUrls) 
         return $http({
             method: 'GET',
             url: baseUrls.socialConnectorUrl+"Facebook/accounts",
-            headers: {
-                'authorization': authService.GetToken()
-            }
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -40,10 +34,7 @@ mainApp.factory("socialConnectorService", function ($http,authService,baseUrls) 
     var deleteFacebookAccount = function (id) {
         return $http({
             method: 'DELETE',
-            url: baseUrls.socialConnectorUrl+"Facebook/"+id,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.socialConnectorUrl+"Facebook/"+id
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.IsSuccess;
@@ -57,9 +48,6 @@ mainApp.factory("socialConnectorService", function ($http,authService,baseUrls) 
         return $http({
             method: 'PUT',
             url: baseUrls.socialConnectorUrl+"Facebook/"+id,
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data:postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -74,9 +62,6 @@ mainApp.factory("socialConnectorService", function ($http,authService,baseUrls) 
         return $http({
             method: 'PUT',
             url: baseUrls.socialConnectorUrl+"Facebook/"+id+"/picture",
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data:postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {

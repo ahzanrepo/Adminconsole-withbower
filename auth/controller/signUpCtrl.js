@@ -2,7 +2,7 @@
  * Created by Damith on 6/18/2016.
  */
 
-mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpServices) {
+mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpServices,$auth) {
 
     //go to login
     $scope.onClickLogIn = function () {
@@ -39,6 +39,19 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpSer
         newUser.password = $scope.password;
         newUser.mail = $scope.email;
         $scope.isSignUp = true;
+
+        $auth.signup(newUser)
+            .then(function(response) {
+                //$auth.setToken(response);
+                showAlert('Job Done', 'success', 'Registration successfully...');
+                $state.go('login');
+            })
+            .catch(function(response) {
+                showAlert('Error', 'error', 'User Registration error...');
+                $scope.isSignUp = false;
+            });
+
+        /*
         signUpServices.createNewUser(newUser, function (result) {
             if (result) {
                 var organisation = {
@@ -56,7 +69,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpSer
                 showAlert('Error', 'error', 'User Registration error...');
                 $scope.isSignUp = false;
             }
-        });
+        });*/
     }
 
 

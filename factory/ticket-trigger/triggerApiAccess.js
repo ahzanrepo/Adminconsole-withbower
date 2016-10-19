@@ -3,15 +3,13 @@
  */
 
 (function(){
-    var triggerApiAccess = function($http, authService){
+    var triggerApiAccess = function($http, baseUrls){
 //create ticket trigger
         var createTrigger = function(trigger){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger',
+                url: baseUrls.ticketUrl+'Trigger',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: trigger
@@ -21,12 +19,10 @@
         };
 
         var updateTrigger = function(trigger){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+trigger._id,
+                url: baseUrls.ticketUrl+'Trigger/'+trigger._id,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: trigger
@@ -36,25 +32,19 @@
         };
 
         var getTriggers = function(){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Triggers',
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.ticketUrl+'Triggers'
             }).then(function(response){
                 return response.data;
             });
         };
 
         var getTrigger = function(triggerId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId,
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -63,12 +53,10 @@
         };
 
         var deleteTrigger = function(triggerId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId,
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -77,12 +65,10 @@
         };
 
         var addFilterAll = function(triggerId, filterAll){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Filter/All',
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Filter/All',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: filterAll
@@ -92,12 +78,10 @@
         };
 
         var getFiltersAll = function(triggerId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Filters/All',
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Filters/All',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -106,12 +90,10 @@
         };
 
         var removeFilterAll = function(triggerId, filterId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Filter/All/'+filterId,
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Filter/All/'+filterId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -120,12 +102,10 @@
         };
 
         var addFilterAny = function(triggerId, filterAny){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Filter/Any',
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Filter/Any',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: filterAny
@@ -135,12 +115,10 @@
         };
 
         var getFiltersAny = function(triggerId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Filters/Any',
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Filters/Any',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -149,12 +127,10 @@
         };
 
         var removeFilterAny = function(triggerId, filterId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Filter/Any/'+filterId,
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Filter/Any/'+filterId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -163,12 +139,10 @@
         };
 
         var addAction = function(triggerId, action){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Action',
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Action',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: action
@@ -178,12 +152,10 @@
         };
 
         var getActions = function(triggerId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Actions',
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Actions',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -192,12 +164,10 @@
         };
 
         var removeAction = function(triggerId, actionId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Action/'+actionId,
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Action/'+actionId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -206,12 +176,10 @@
         };
 
         var addOperations = function(triggerId, operation){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Operation',
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Operation',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 },
                 data: operation
@@ -221,12 +189,10 @@
         };
 
         var getOperations = function(triggerId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Operations',
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Operations',
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -235,12 +201,10 @@
         };
 
         var removeOperations = function(triggerId, operationId){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Trigger/'+triggerId+'/Operation/'+operationId,
+                url: baseUrls.ticketUrl+'Trigger/'+triggerId+'/Operation/'+operationId,
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json'
                 }
             }).then(function(response){
@@ -269,28 +233,20 @@
         };
     };
 
-    var triggerUserServiceAccess = function($http, authService){
+    var triggerUserServiceAccess = function($http, baseUrls){
         var getUsers = function(){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Users',
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.UserServiceBaseUrl+'Users'
             }).then(function(response){
                 return response.data;
             });
         };
 
         var getUserGroups = function(){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/UserGroups',
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.UserServiceBaseUrl+'UserGroups'
             }).then(function(response){
                 return response.data;
             });
@@ -302,15 +258,11 @@
         };
     };
 
-    var triggerTemplateServiceAccess = function($http, authService){
+    var triggerTemplateServiceAccess = function($http, baseUrls){
         var getTemplates = function(){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/RenderService/Templates',
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.templatesUrl+'RenderService/Templates'
             }).then(function(response){
                 return response.data;
             });
@@ -321,15 +273,11 @@
         };
     };
 
-    var triggerArdsServiceAccess = function($http, authService){
+    var triggerArdsServiceAccess = function($http, baseUrls){
         var getReqMetaData = function(){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/ARDS/requestmeta/TICKETSERVER/TICKET',
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.ardsLiteServiceUrl+'ARDS/requestmeta/TICKETSERVER/TICKET'
             }).then(function(response){
                 return response.data;
             });

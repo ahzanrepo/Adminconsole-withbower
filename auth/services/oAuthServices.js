@@ -5,7 +5,7 @@
     'use strict';
     mainApp.factory('loginService', Service);
 
-    function Service($http, localStorageService, jwtHelper) {
+    function Service($http, localStorageService, jwtHelper, $auth,baseUrls) {
         var service = {};
         service.mynavigations = mynavigations;
         service.Login = Login;
@@ -32,10 +32,10 @@
 
         //get token
         function getToken(appname) {
-            var data = localStorageService.get("@loginToken");
-            if (data && data.access_token) {
-                if (!jwtHelper.isTokenExpired(data.access_token)) {
-                    return data.access_token;
+            var token = $auth.getToken();
+            if (token ) {
+                if (!jwtHelper.isTokenExpired(token)) {
+                    return token;
                 }
             }
             return undefined;
@@ -43,10 +43,10 @@
 
         //check is owner
         function isOwner(appname) {
-            var data = localStorageService.get("@loginToken");
-            if (data && data.access_token) {
-                if (!jwtHelper.isTokenExpired(data.access_token)) {
-                    return data.user_meta.role;
+            var token = $auth.getToken();
+            if (token) {
+                if (!jwtHelper.isTokenExpired(token)) {
+                    return token.user_meta.role;
                 }
             }
             return undefined;
@@ -84,10 +84,10 @@
         //get token decode
 
         function getTokenDecode() {
-            var data = localStorageService.get("@loginToken");
-            if (data && data.access_token) {
-                if (!jwtHelper.isTokenExpired(data.access_token)) {
-                    return jwtHelper.decodeToken(data.access_token);
+            var token = $auth.getToken();
+            if (token) {
+                if (!jwtHelper.isTokenExpired(token)) {
+                    return jwtHelper.decodeToken(token);
                 }
             }
             return undefined;
@@ -97,7 +97,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function clearCookie(key) {
-            localStorageService.remove(key);
+            $auth.removeToken();
 
         }
 
@@ -109,14 +109,14 @@
         function Logoff(parm, callback) {
 
             var decodeToken = getTokenDecode();
-            $http.delete("http://userservice.app.veery.cloud/oauth/token/revoke/"+decodeToken.jti,  {
+            $http.delete(baseUrls.authServiceBaseUrl+"token/revoke/"+decodeToken.jti,  {
                 headers: {
                     Authorization: 'Bearer '+getToken()
                 }
             }).
                 success(function (data, status, headers, config) {
                     localStorageService.remove("@navigations");
-                    clearCookie('@loginToken');
+                    $auth.removeToken();
                     callback(true);
                 }).
                 error(function (data, status, headers, config) {
@@ -130,7 +130,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function Login(parm, callback) {
-            $http.post("http://userservice.app.veery.cloud/oauth/token", {
+            $http.post(baseUrls.authServiceBaseUrl+"/token", {
                 grant_type: "password",
                 username: parm.userName,
                 password: parm.password,
@@ -142,8 +142,8 @@
             }).
             success(function (data, status, headers, config) {
                 localStorageService.remove("@navigations");
-                clearCookie('@loginToken');
-                setCookie('@loginToken', data);
+                $auth.removeToken();
+                $auth.setToken(data)
                 callback(true);
             }).
             error(function (data, status, headers, config) {
@@ -157,7 +157,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getMyPackages(callback) {
-            $http.get("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/MyOrganization/mypackages", {
+            $http.get(baseUrls.UserServiceBaseUrl+ "MyOrganization/mypackages", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -178,7 +178,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getAllPackages(callback) {
-            $http.get("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Packages", {
+            $http.get(baseUrls.UserServiceBaseUrl+ "Packages", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -196,7 +196,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function buyMyPackage(packageName, callback) {
-            $http.put("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Organisation/Package/" + packageName, {}, {
+            $http.put(baseUrls.UserServiceBaseUrl+ "Organisation/Package/" + packageName, {}, {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -212,7 +212,7 @@
         //user login in to console
         //get current user navigation
         function getUserNavigation(callback) {
-            $http.get("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
+            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -236,7 +236,7 @@
         //is can access
         function getNavigationAccess(callback) {
             mynavigations = {};
-            $http.get("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
+            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -283,7 +283,7 @@
 //$scope.Register = function () {
 //
 //
-//    var url = "http://userservice.app.veery.cloud/oauth/token";
+//    var url = baseUrls.authServiceBaseUrl+"/token";
 //    var encoded = $base64.encode("ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048");
 //    var config = {
 //        headers: {

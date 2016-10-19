@@ -4,18 +4,16 @@
 
 (function() {
 
-    var userProfileApiAccess = function($http, authService)
+    var userProfileApiAccess = function($http, authService, baseUrls)
     {
 
         var getProfileByName = function(user)
         {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + user + '/profile',
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.UserServiceBaseUrl + 'User/' + user + '/profile'
+
             }).then(function(resp)
             {
                 return resp.data;
@@ -24,13 +22,10 @@
 
         var getUsers = function()
         {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Users',
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.UserServiceBaseUrl + 'Users'
             }).then(function(resp)
             {
                 return resp.data;
@@ -39,13 +34,9 @@
 
         var addContactToProfile = function(user, contact, type)
         {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
-                headers: {
-                    'authorization': authToken
-                },
+                url: baseUrls.UserServiceBaseUrl + 'User/' + user + '/profile/contact/' + contact,
                 data:{
                     type: type
                 }
@@ -57,14 +48,11 @@
 
         var addUser = function(userObj)
         {
-            var authToken = authService.GetToken();
+
             var jsonStr = JSON.stringify(userObj);
             return $http({
                 method: 'POST',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User',
-                headers: {
-                    'authorization': authToken
-                },
+                url: baseUrls.UserServiceBaseUrl + 'User',
                 data:jsonStr
             }).then(function(resp)
             {
@@ -74,16 +62,13 @@
 
         var updateProfile = function(user, profileInfo)
         {
-            var authToken = authService.GetToken();
+
             profileInfo.birthday = profileInfo.dob.year+"-"+ profileInfo.dob.month+"-" + profileInfo.dob.day;
             var jsonStr = JSON.stringify(profileInfo);
 
             return $http({
                     method: 'PUT',
-                    url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + user + '/profile',
-                    headers: {
-                        'authorization': authToken
-                    },
+                    url: baseUrls.UserServiceBaseUrl + 'User/' + user + '/profile',
                     data:jsonStr
                 }).then(function(resp)
                 {
@@ -93,13 +78,10 @@
 
         var deleteContactFromProfile = function(user, contact)
         {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'DELETE',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.UserServiceBaseUrl + 'User/' + user + '/profile/contact/' + contact
             }).then(function(resp)
             {
                 return resp.data;
@@ -108,13 +90,9 @@
 
         var deleteUser = function(username)
         {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + username,
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.UserServiceBaseUrl + 'User/' + username
             }).then(function(resp)
             {
                 return resp.data;

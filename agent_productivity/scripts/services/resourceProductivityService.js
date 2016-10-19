@@ -4,28 +4,11 @@
 
 var clusterModule = angular.module("resourceProductivityServiceModule", []);
 
-clusterModule.factory("resourceProductivityService", function ($http, $log,authService,baseUrls) {
+clusterModule.factory("resourceProductivityService", function ($http, $log, authService, baseUrls) {
 
- var getProductivity = function () {
+    var getProductivity = function () {
 
-    return $http.get(baseUrls.resourceServiceBaseUrl+ "Resources/Productivity",
-      {
-        headers:{authorization:authService.GetToken()}
-      }).then(function (response) {
-        if (response.data && response.data.IsSuccess) {
-          return response.data.Result;
-        } else {
-          return {};
-        }
-      });
-  };
-
-    var getOnlineAgents = function () {
-
-        return $http.get(baseUrls.ardsmonitoringBaseUrl+ "MONITORING/resources",
-            {
-                headers:{authorization:authService.GetToken()}
-            }).then(function (response) {
+        return $http.get(baseUrls.resourceServiceBaseUrl + "Resources/Productivity").then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
@@ -34,10 +17,21 @@ clusterModule.factory("resourceProductivityService", function ($http, $log,authS
             });
     };
 
-  return {
-    GetProductivity: getProductivity,
-      GetOnlineAgents:getOnlineAgents
+    var getOnlineAgents = function () {
 
-  }
+        return $http.get(baseUrls.ardsmonitoringBaseUrl + "MONITORING/resources").then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return {};
+                }
+            });
+    };
+
+    return {
+        GetProductivity: getProductivity,
+        GetOnlineAgents: getOnlineAgents
+
+    }
 
 });

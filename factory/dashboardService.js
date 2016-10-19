@@ -4,17 +4,13 @@
 
 'use strict';
 
-mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
+mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     var getAllCalls = function () {
-        var authToken = authService.GetToken();
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardGraph/Calls/5",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/Calls/5"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;
@@ -24,14 +20,10 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
         });
     };
     var getAllQueued = function () {
-        var authToken = authService.GetToken();
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardGraph/Queued/5",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/Queued/5"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;
@@ -42,14 +34,10 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
         });
     };
     var getAllBriged = function () {
-        var authToken = authService.GetToken();
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardGraph/Bridge/5",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/Bridge/5"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;
@@ -59,14 +47,10 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
         });
     };
     var getAllChannels = function () {
-        var authToken = authService.GetToken();
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardGraph/Channels/5",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/Channels/5"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;
@@ -95,13 +79,9 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
             tempParam2 = param2;
         }
 
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/CALLS/" + tempParam1 + "/" + tempParam2,
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/CALLS/" + tempParam1 + "/" + tempParam2
         }).then(function (response) {
             if (response.data) {
                 return response.data;
@@ -115,10 +95,7 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     var getNewTicketCountViaChenal = function (chenal) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/NEWTICKET/via_"+chenal+"/*",//http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/NEWTICKET/via_CALL/*
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/NEWTICKET/via_"+chenal+"/*"
         }).then(function (response) {
             if (response.data) {
                 return response.data;
@@ -130,15 +107,11 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     };
 
     var getTotalQueued = function () {
-        var authToken = authService.GetToken();
         //
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/QUEUE/*/*",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/QUEUE/*/*"
         }).then(function (response) {
             if (response.data) {
                 return response.data;
@@ -150,14 +123,10 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
     };
     var getTotalQueueHit = function () {
-        var authToken = authService.GetToken();
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardGraph/AllConcurrentQueued/5",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/AllConcurrentQueued/5"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;
@@ -168,13 +137,9 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
         });
     };
     var getTotalQueueAnswered = function () {
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/QUEUEANSWERED/*/*",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/QUEUEANSWERED/*/*"
         }).then(function (response) {
             if (response.data) {
                 return response.data;
@@ -188,13 +153,9 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
     var getTotalQueueDropped = function () {
 
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/QUEUEDROPPED/*/*",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/QUEUEDROPPED/*/*"
 
         }).then(function (response) {
             if (response.data) {
@@ -214,13 +175,9 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     };
 
     var getCurrentWaiting = function () {
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardEvent/CurrentCount/QUEUE/*/*",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/CurrentCount/QUEUE/*/*"
         }).then(function (response) {
             if (response.data) {
                 return response.data;
@@ -231,13 +188,9 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     };
 
     var getTotalBriged = function () {
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/BRIDGE/*/*",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/BRIDGE/*/*"
         }).then(function (response) {
             if (response.data) {
 
@@ -257,19 +210,15 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
     var getTotalOnGoing = function (callDirection) {
 
-        var url = "http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Calls/Count";
+        var url = baseUrls.monitorrestapi+"Calls/Count";
 
         if(callDirection)
         {
             url = url + '?direction=' + callDirection;
         }
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: url,
-            headers: {
-                'authorization': authToken
-            }
+            url: url
         }).then(function (response) {
             if (response.data && response.data.IsSuccess && response.data.Result
                 && response.data.Result.length > 0) {
@@ -284,13 +233,9 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     };
 
     var getProfileDetails = function () {
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/MONITORING/resources",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/resources"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -305,15 +250,11 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
 
     var getCompanyTasks = function () {
-        var authToken = authService.GetToken();
         //
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: "http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/Tasks",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.resourceServiceBaseUrl+"Tasks"
         }).then(function (response) {
             if (response.data) {
                 return response.data;
@@ -330,10 +271,7 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     var getTicketCount = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardEvent/CurrentCount/"+status+"/total/total",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/CurrentCount/"+status+"/total/total"
         }).then(function (response) {
             if (response.status===200) {
                 return response.data;
@@ -347,10 +285,7 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     var getTotalTicketCount = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/"+status+"/total/total",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/"+status+"/total/total"
         }).then(function (response) {
             if (response.status===200) {
                 return response.data;
@@ -364,10 +299,7 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     var getTotalTicketAvg = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardEvent/AverageTime/"+status+"/total/total",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageTime/"+status+"/total/total"
         }).then(function (response) {
             if (response.status===200) {
                 return response.data;
@@ -415,10 +347,7 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     var getCreatedTicketSeries = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardGraph/NewTicket/30",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/NewTicket/30"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;
@@ -435,10 +364,7 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     var getResolvedTicketSeries = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardGraph/ClosedTicket/30",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/ClosedTicket/30"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;
@@ -453,10 +379,7 @@ mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
     var getDeferenceResolvedTicketSeries = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardGraph/ClosedVsOpenTicket/30",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/ClosedVsOpenTicket/30"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;
