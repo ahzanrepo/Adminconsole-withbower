@@ -10,10 +10,7 @@
 
       return $http({
         method: 'GET',
-        url: baseUrls.pbxUrl + 'PBXUsers',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUsers'
       }).then(function(resp)
       {
         return resp.data;
@@ -24,10 +21,7 @@
     {
       return $http({
         method: 'GET',
-        url: baseUrls.sipUserendpoint + 'Users',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.sipUserendpoint + 'Users'
       }).then(function(resp)
       {
         return resp.data;
@@ -38,10 +32,7 @@
     {
       return $http({
         method: 'GET',
-        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/PBXUserTemplates',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/PBXUserTemplates'
       }).then(function(resp)
       {
         return resp.data;
@@ -53,9 +44,6 @@
       return $http({
         method: 'POST',
         url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/PBXUserTemplate',
-        headers: {
-          'authorization': authService.GetToken()
-        },
         data:{CallDivertNumber:destNum, ObjCategory: destType}
       }).then(function(resp)
       {
@@ -68,9 +56,6 @@
       return $http({
         method: 'POST',
         url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/FollowMeMulti',
-        headers: {
-          'authorization': authService.GetToken()
-        },
         data:JSON.stringify(fmList)
       }).then(function(resp)
       {
@@ -83,9 +68,6 @@
       return $http({
         method: 'POST',
         url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/Forwarding',
-        headers: {
-          'authorization': authService.GetToken()
-        },
         data:{DestinationNumber:destNum, ObjCategory: destType, RingTimeout: ringTOut, DisconnectReason: disconReason, IsActive: true}
       }).then(function(resp)
       {
@@ -98,9 +80,6 @@
       return $http({
         method: 'POST',
         url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/AllowedNumbers',
-        headers: {
-          'authorization': authService.GetToken()
-        },
         data:{AllowedNumbers:allowedNumbers}
       }).then(function(resp)
       {
@@ -113,9 +92,6 @@
       return $http({
         method: 'POST',
         url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/DeniedNumbers',
-        headers: {
-          'authorization': authService.GetToken()
-        },
         data:{DeniedNumbers:deniedNumbers}
       }).then(function(resp)
       {
@@ -128,9 +104,6 @@
       return $http({
         method: 'PUT',
         url: baseUrls.pbxUrl + 'PBXUser/' + usrObj.UserUuid,
-        headers: {
-          'authorization': authService.GetToken()
-        },
         data:usrObj
       }).then(function(resp)
       {
@@ -143,9 +116,6 @@
       return $http({
         method: 'POST',
         url: baseUrls.pbxUrl + 'PBXUser',
-        headers: {
-          'authorization': authService.GetToken()
-        },
         data:usrObj
       }).then(function(resp)
       {
@@ -157,10 +127,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: baseUrls.pbxUrl + 'PBXUserTemplate/' + id,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUserTemplate/' + id
       }).then(function(resp)
       {
         return resp.data;
@@ -171,10 +138,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid
       }).then(function(resp)
       {
         return resp.data;
@@ -185,10 +149,7 @@
     {
       return $http({
         method: 'GET',
-        url: baseUrls.pbxUrl + 'PBXUser/' + id,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + id
       }).then(function(resp)
       {
         return resp.data;
@@ -199,10 +160,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedules/byCompany',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.limitHandlerUrl + 'LimitAPI/Schedules/byCompany'
       }).then(function(resp)
       {
         return resp.data;
@@ -213,10 +171,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/Files/' + refId + '/PABX/USER/GREETING',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.fileServiceUrl + 'Files/' + refId + '/PABX/USER/GREETING'
       }).then(function(resp)
       {
         return resp.data;
@@ -227,10 +182,7 @@
     {
       return $http({
         method: 'GET',
-        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/FollowMe',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/FollowMe'
       }).then(function(resp)
       {
         return resp.data;
@@ -241,10 +193,7 @@
     {
       return $http({
         method: 'GET',
-        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/Forwarding',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/Forwarding'
       }).then(function(resp)
       {
         return resp.data;
@@ -255,10 +204,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: baseUrls.pbxUrl + 'FollowMe/' + fmId,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'FollowMe/' + fmId
       }).then(function(resp)
       {
         return resp.data;
@@ -269,10 +215,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: baseUrls.pbxUrl + 'Forwarding/' + fwdId,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'Forwarding/' + fwdId
       }).then(function(resp)
       {
         return resp.data;
