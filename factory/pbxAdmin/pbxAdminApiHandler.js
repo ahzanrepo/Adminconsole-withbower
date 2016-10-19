@@ -3,17 +3,14 @@
  */
 (function() {
 
-  var pbxAdminApiHandler = function($http, authService)
+  var pbxAdminApiHandler = function($http, authService, baseUrls)
   {
     var getPABXMasterData = function()
     {
 
       return $http({
         method: 'GET',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXMasterData',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXMasterData'
       }).then(function(resp)
       {
         return resp.data;
@@ -25,10 +22,7 @@
 
       return $http({
         method: 'GET',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/FeatureCodes',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'FeatureCodes'
       }).then(function(resp)
       {
         return resp.data;
@@ -41,10 +35,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXMasterData',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.pbxUrl + 'PBXMasterData',
         data:JSON.stringify(masterData)
       }).then(function(resp)
       {
@@ -56,10 +47,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/FeatureCodeTemplate',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.pbxUrl + 'FeatureCodeTemplate',
         data:JSON.stringify(fcData)
       }).then(function(resp)
       {
@@ -72,10 +60,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/EmergencyNumbers',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.sipUserendpoint + 'EmergencyNumbers',
       }).then(function(resp)
       {
         return resp.data;
@@ -86,10 +71,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCode',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.sipUserendpoint + 'TransferCode',
       }).then(function(resp)
       {
         return resp.data;
@@ -100,10 +82,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCode',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.sipUserendpoint + 'TransferCode',
         data:JSON.stringify(transCodes)
       }).then(function(resp)
       {
@@ -115,10 +94,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/EmergencyNumber/' + emergencyNum,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.sipUserendpoint + 'EmergencyNumber/' + emergencyNum,
       }).then(function(resp)
       {
         return resp.data;
@@ -129,10 +105,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/EmergencyNumber',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.sipUserendpoint + 'EmergencyNumber',
         data:JSON.stringify(emNum)
       }).then(function(resp)
       {

@@ -1,18 +1,14 @@
 /**
  * Created by Pawan on 10/10/2016.
  */
-mainApp.factory('notifiSenderService', function ($http, authService)
+mainApp.factory('notifiSenderService', function ($http, baseUrls)
 {
     return {
 
         getProfileDetails: function () {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url:  baseUrls.ardsmonitoringBaseUrl+"MONITORING/resources",
-                headers: {
-                    'authorization':authToken
-                }
+                url:  baseUrls.ardsmonitoringBaseUrl+"MONITORING/resources"
             }).then(function(response)
             {
                 if (response.data && response.data.IsSuccess) {
@@ -24,13 +20,9 @@ mainApp.factory('notifiSenderService', function ($http, authService)
         },
 
         getUserList: function () {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: baseUrls.UserServiceBaseUrl + "Users",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.UserServiceBaseUrl + "Users"
             }).then(function(response)
             {
                 if (response.data && response.data.IsSuccess) {
@@ -42,13 +34,9 @@ mainApp.factory('notifiSenderService', function ($http, authService)
         },
 
         broadcastNotification: function (notificationData) {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
                 url: baseUrls.notification + "DVP/API/1.0.0.0/NotificationService/Notification/Broadcast",
-                headers: {
-                    'authorization':authToken
-                },
                 data: notificationData
 
             }).then(function(response)
@@ -57,13 +45,9 @@ mainApp.factory('notifiSenderService', function ($http, authService)
             });
         } ,
         getUserGroupList: function () {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: baseUrls.UserServiceBaseUrl+"UserGroups",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.UserServiceBaseUrl+"UserGroups"
 
             }).then(function(response)
             {
@@ -71,13 +55,11 @@ mainApp.factory('notifiSenderService', function ($http, authService)
             });
         },
         sendNotification: function (notificationData, eventName, eventUuid) {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
                 url: baseUrls.notification + "DVP/API/1.0.0.0/NotificationService/Notification/initiate",
 
                 headers: {
-                    'authorization': authToken,
                     'Content-Type': 'application/json',
                     'eventname': eventName,
                     'eventuuid': eventUuid

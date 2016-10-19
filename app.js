@@ -39,6 +39,7 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'authServiceBaseUrl': 'http://192.168.86:3637/oauth/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
@@ -47,16 +48,21 @@ var baseUrls = {
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
-    'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
+    'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
     'notification': 'http://notificationservice.app.veery.cloud/',
-    'appointment': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedule/Appointment/'
-
-
+    'authProviderUrl':'http://localhost:3637/',
+    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
+    'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
+    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -64,28 +70,29 @@ mainApp.constant('baseUrls', baseUrls);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider) {
 
+        var authProviderUrl = 'http://192.168.86:3637/';
         $urlRouterProvider.otherwise('/login');
 
         /////////////////////////////////////////////////////////
 
 
-        $authProvider.loginUrl = 'http://192.168.0.86:3637/auth/login';
-        $authProvider.signupUrl = 'http://192.168.0.86:3637/auth/signup';
+        $authProvider.loginUrl = authProviderUrl+'auth/login';
+        $authProvider.signupUrl = authProviderUrl+'auth/signup';
 
 
         $authProvider.facebook({
-            url: 'http://192.168.0.86:3637/auth/facebook',
+            url: authProviderUrl+'auth/facebook',
             clientId: '1237176756312189'
             //responseType: 'token'
         });
 
         $authProvider.google({
-            url: 'http://192.168.0.86:3637/auth/google',
+            url: authProviderUrl+'auth/google',
             clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com'
         });
 
         $authProvider.github({
-            url: 'http://192.168.0.86:3637/auth/github',
+            url: authProviderUrl+'auth/github',
             clientId: 'f725eae279e6727c68c7'
         });
 

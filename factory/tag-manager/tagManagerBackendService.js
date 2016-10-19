@@ -5,18 +5,14 @@
  * Created by Pawan on 6/8/2016.
  */
 
-mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
+mainApp.factory('tagBackendService', function ($http, baseUrls)
 {
  return {
 
   getTagCategories: function () {
-   var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: baseUrls.ticketUrl+"TagCategories",
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"TagCategories"
    }).then(function(response)
    {
     return response;
@@ -24,13 +20,9 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   getTagCategory: function (tagCatID) {
-   var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: baseUrls.ticketUrl+"TagCategory/"+tagCatID,
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"TagCategory/"+tagCatID
    }).then(function(response)
    {
     return response;
@@ -38,13 +30,9 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   getTagDetails: function (tagID) {
-   var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: baseUrls.ticketUrl+"Tag/"+tagID,
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"Tag/"+tagID
    }).then(function(response)
    {
     return response;
@@ -52,13 +40,9 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   getAllTags: function () {
-   var authToken = authService.GetToken();
    return $http({
     method: 'GET',
-    url: baseUrls.ticketUrl+"Tags",
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"Tags"
    }).then(function(response)
    {
     return response;
@@ -66,14 +50,10 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   saveAndAttachNewTag: function (tagID,resource) {
-   var authToken = authService.GetToken();
 
    return $http({
     method: 'POST',
     url: baseUrls.ticketUrl+"Tag/"+tagID,
-    headers: {
-     'authorization':authToken
-    },
     data:resource
 
    }).then(function(response)
@@ -83,14 +63,10 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   saveAndAttachNewTagToCategory: function (tagCatID,resource) {
-   var authToken = authService.GetToken();
 
    return $http({
     method: 'PUT',
     url: baseUrls.ticketUrl+"TagCategory/"+tagCatID+"/Tag",
-    headers: {
-     'authorization':authToken
-    },
     data:resource
 
    }).then(function(response)
@@ -100,14 +76,10 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   attachTagToCategory: function (tagCatID,tagID) {
-   var authToken = authService.GetToken();
 
    return $http({
     method: 'PUT',
-    url: baseUrls.ticketUrl+"Tag/"+tagID+"/AttachToCategory/"+tagCatID,
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"Tag/"+tagID+"/AttachToCategory/"+tagCatID
 
    }).then(function(response)
    {
@@ -116,13 +88,9 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   detachTagFromTag: function (parentID,childID) {
-   var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: baseUrls.ticketUrl+"/Tag/"+childID+"/DetachFrom/"+parentID,
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"/Tag/"+childID+"/DetachFrom/"+parentID
    }).then(function(response)
    {
     return response;
@@ -130,13 +98,9 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   detachTagFromCategory: function (parentID,childID) {
-   var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: baseUrls.ticketUrl+"Tag/"+childID+"/DetachFromCategory/"+parentID,
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"Tag/"+childID+"/DetachFromCategory/"+parentID
    }).then(function(response)
    {
     return response;
@@ -144,14 +108,10 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   attachTagToTag: function (parentTagID,childTagID) {
-   var authToken = authService.GetToken();
 
    return $http({
     method: 'PUT',
-    url: baseUrls.ticketUrl+"Tag/"+childTagID+"/AttachToTag/"+parentTagID,
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"Tag/"+childTagID+"/AttachToTag/"+parentTagID
 
    }).then(function(response)
    {
@@ -160,13 +120,9 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   deleteTagFromDB: function (tagID) {
-   var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: baseUrls.ticketUrl+"Tag/"+tagID,
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"Tag/"+tagID
    }).then(function(response)
    {
     return response;
@@ -174,13 +130,9 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   deleteTagCategoryFromDB: function (tagCatID) {
-   var authToken = authService.GetToken();
    return $http({
     method: 'DELETE',
-    url: baseUrls.ticketUrl+"TagCategory/"+tagCatID,
-    headers: {
-     'authorization':authToken
-    }
+    url: baseUrls.ticketUrl+"TagCategory/"+tagCatID
    }).then(function(response)
    {
     return response;
@@ -188,13 +140,9 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   addNewTagCategory: function (resource) {
-   var authToken = authService.GetToken();
    return $http({
     method: 'POST',
     url: baseUrls.ticketUrl+"TagCategory",
-    headers: {
-     'authorization':authToken
-    },
     data:resource
    }).then(function(response)
    {
@@ -203,13 +151,9 @@ mainApp.factory('tagBackendService', function ($http, authService,baseUrls)
   },
 
   addNewTagDetails: function (resource) {
-   var authToken = authService.GetToken();
    return $http({
     method: 'POST',
     url: baseUrls.ticketUrl+"Tag",
-    headers: {
-     'authorization':authToken
-    },
     data:resource
    }).then(function(response)
    {

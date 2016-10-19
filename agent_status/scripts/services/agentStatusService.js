@@ -7,10 +7,8 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
     var getProfileDetails = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/resources",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.ardsmonitoringBaseUrl + "MONITORING/resources",
+
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -23,10 +21,8 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
     var getAllAttributes = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.resourceServiceBaseUrl+"Attributes",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.resourceServiceBaseUrl + "Attributes",
+
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -40,10 +36,8 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
     var getAllActiveCalls = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.monitorrestapi+"Calls",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.monitorrestapi + "Calls",
+
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -55,10 +49,7 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
 
     var getProductivity = function () {
 
-        return $http.get(baseUrls.resourceServiceBaseUrl+ "Resources/Productivity",
-            {
-                headers:{authorization:authService.GetToken()}
-            }).then(function (response) {
+        return $http.get(baseUrls.resourceServiceBaseUrl + "Resources/Productivity").then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {
@@ -70,9 +61,9 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
 
     return {
         GetProfileDetails: getProfileDetails,
-        GetAllAttributes:getAllAttributes,
-        GetAllActiveCalls:getAllActiveCalls,
-        GetProductivity:getProductivity
+        GetAllAttributes: getAllAttributes,
+        GetAllActiveCalls: getAllActiveCalls,
+        GetProductivity: getProductivity
     }
 
 });
