@@ -3,7 +3,7 @@
  */
 
 
-mainApp.factory('didBackendService', function ($http, authService) {
+mainApp.factory('didBackendService', function ($http, authService,baseUrls) {
 
     return {
 
@@ -70,6 +70,39 @@ mainApp.factory('didBackendService', function ($http, authService) {
             {
                 return response;
             });
+        },
+        pickPhoneNumbers: function () {
+
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.TrunkServiceURL+"PhoneNumberTrunkApi/TrunkNumbers",
+                headers: {
+                    'authorization':authToken
+                }
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+
+        pickAllocatedDIDNumbers: function () {
+
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'GET',
+                url: baseUrls.sipUserendpoint+"DidNumbers",
+                headers: {
+                    'authorization':authToken
+                }
+
+            }).then(function(response)
+            {
+                return response;
+            });
         }
+
+
     }
 });

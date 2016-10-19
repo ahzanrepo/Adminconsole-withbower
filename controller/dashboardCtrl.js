@@ -18,8 +18,29 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     };
 
     //#profile object
+    $scope.AvailableTask = [];
+    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: []};
     $scope.profile = [];
 
+
+    $scope.LoadCompanyTasks = function () {
+        dashboardService.getCompanyTasks().then(function (response) {
+            if (response.IsSuccess) {
+                if (response.Result && response.Result.length > 0) {
+                    for (var i = 0; i < response.Result.length; i++) {
+                        var TaskType = response.Result[i].ResTaskInfo.TaskType;
+                        $scope.AvailableTask.push(TaskType);
+                    }
+                }
+            }
+            else {
+                $scope.AvailableTask = ["CALL", "CHAT", "SMS", "SOCIAL", "TICKET"];
+            }
+        }, function (err) {
+            $scope.AvailableTask = ["CALL", "CHAT", "SMS", "SOCIAL", "TICKET"];
+        });
+    };
+    $scope.LoadCompanyTasks();
 
     $scope.chartymax = {
         calls: 1,
@@ -27,7 +48,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         queued: 1,
         channels: 1
 
-    }
+    };
 
 
     var ServerHandler = (function () {
@@ -62,114 +83,147 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         return {
             getDataAll: function () {
                 dashboardService.GetAll().then(function (response) {
-                    response.pop();
-                    var max = 0;
-                    $scope.dataSetAll[0].data = response.map(function (c, index) {
-                        var item = [];
-                        item[0] = c[1];
-                        item[1] = c[0];
+                    if (response && response.length > 0) {
+                        response.pop();
+                        var max = 0;
+                        $scope.dataSetAll[0].data = response.map(function (c, index) {
+                            var item = [];
+                            item[0] = c[1];
+                            item[1] = c[0];
 
 
-                        if (c[0] > max) {
+                            if (c[0] > max) {
 
-                            max = c[0];
+                                max = c[0];
+                            }
+
+                            return item;
+                        });
+
+                        if (max == 0) {
+                            max = 1;
                         }
 
-                        return item;
-                    });
+                        if ($scope.chartymax.calls != Math.ceil(max)) {
 
-                    if (max == 0) {
-                        max = 1;
-                    }
-
-                    if ($scope.chartymax.calls != Math.ceil(max)) {
-
-                        $scope.chartymax.calls = Math.ceil(max);
-                        $scope.myChartOptions.yaxis.max = $scope.chartymax.calls;
+                            $scope.chartymax.calls = Math.ceil(max);
+                            $scope.myChartOptions.yaxis.max = $scope.chartymax.calls;
+                        }
                     }
                 });
             }, getAllQueued: function () {
                 dashboardService.GetAllQueued().then(function (response) {
-                    response.pop();
-                    var max = 0;
-                    $scope.dataSetQueued[0].data = response.map(function (c, index) {
-                        var item = [];
-                        item[0] = c[1];
-                        item[1] = c[0];
-                        if (c[0] > max) {
+                    if (response && response.length > 0) {
+                        response.pop();
+                        var max = 0;
+                        $scope.dataSetQueued[0].data = response.map(function (c, index) {
+                            var item = [];
+                            item[0] = c[1];
+                            item[1] = c[0];
+                            if (c[0] > max) {
 
-                            max = c[0];
+                                max = c[0];
+                            }
+
+
+                            return item;
+                        });
+
+
+                        if (max == 0) {
+                            max = 1;
                         }
 
+                        if ($scope.chartymax.queued != Math.ceil(max)) {
 
-                        return item;
-                    });
-
-
-                    if (max == 0) {
-                        max = 1;
+                            $scope.chartymax.queued = Math.ceil(max);
+                            $scope.myChartOptions2.yaxis.max = $scope.chartymax.queued;
+                        }
                     }
-
-                    if ($scope.chartymax.queued != Math.ceil(max)) {
-
-                        $scope.chartymax.queued = Math.ceil(max);
-                        $scope.myChartOptions2.yaxis.max = $scope.chartymax.queued;
-                    }
-
                 });
             }, getAllBriged: function () {
                 dashboardService.GetAllBriged().then(function (response) {
-                    response.pop();
-                    var max = 0;
-                    $scope.dataSetBriged[0].data = response.map(function (c, index) {
-                        var item = [];
-                        item[0] = c[1];
-                        item[1] = c[0];
+                    if (response && response.length > 0) {
+                        response.pop();
 
-                        if (c[0] > max) {
+                        var max = 0;
+                        $scope.dataSetBriged[0].data = response.map(function (c, index) {
+                            var item = [];
+                            item[0] = c[1];
+                            item[1] = c[0];
 
-                            max = c[0];
+                            if (c[0] > max) {
+
+                                max = c[0];
+                            }
+
+                            return item;
+                        });
+
+
+                        if (max == 0) {
+                            max = 1;
                         }
 
-                        return item;
-                    });
+                        if ($scope.chartymax.briged != Math.ceil(max)) {
 
-
-                    if (max == 0) {
-                        max = 1;
+                            $scope.chartymax.briged = Math.ceil(max);
+                            $scope.myChartOptions3.yaxis.max = $scope.chartymax.briged;
+                        }
                     }
-
-                    if ($scope.chartymax.briged != Math.ceil(max)) {
-
-                        $scope.chartymax.briged = Math.ceil(max);
-                        $scope.myChartOptions3.yaxis.max = $scope.chartymax.briged;
-                    }
-
                 });
             }, getAllChannels: function () {
-                dashboardService.GetAllChannels().then(function (response) {
-                    response.pop();
-                    var max = 0;
-                    $scope.dataSetChannels[0].data = response.map(function (c, index) {
-                        var item = [];
-                        item[0] = c[1];
-                        item[1] = c[0];
+                /*dashboardService.GetAllChannels().then(function (response) {
+                 if(response && response.length >0) {
+                 response.pop();
+                 var max = 0;
+                 $scope.dataSetChannels[0].data = response.map(function (c, index) {
+                 var item = [];
+                 item[0] = c[1];
+                 item[1] = c[0];
 
-                        if (c[0] > max) {
-                            max = c[0];
+                 if (c[0] > max) {
+                 max = c[0];
+                 }
+                 return item;
+                 });
+
+                 if (max == 0) {
+                 max = 1;
+                 }
+
+                 if ($scope.chartymax.channels != Math.ceil(max)) {
+                 $scope.chartymax.channels = Math.ceil(max);
+                 $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
+                 }
+                 }
+                 });*/
+            },
+            getTotalQueueHit: function () {
+                dashboardService.GetTotalQueueHit().then(function (response) {
+                    if (response && response.length > 0) {
+                        response.pop();
+                        var max = 0;
+                        $scope.dataSetChannels[0].data = response.map(function (c, index) {
+                            var item = [];
+                            item[0] = c[1];
+                            item[1] = c[0];
+
+                            if (c[0] > max) {
+                                max = c[0];
+                            }
+                            return item;
+                        });
+
+                        if (max == 0) {
+                            max = 1;
                         }
-                        return item;
-                    });
 
-                    if (max == 0) {
-                        max = 1;
+                        if ($scope.chartymax.channels != Math.ceil(max)) {
+                            $scope.chartymax.channels = Math.ceil(max);
+                            $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
+                        }
                     }
-
-                    if ($scope.chartymax.channels != Math.ceil(max)) {
-                        $scope.chartymax.channels = Math.ceil(max);
-                        $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
-                    }
-
                 });
             },
             getTotalCall: function () {
@@ -209,61 +263,79 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             },
             getProfileDetails: function () {
                 dashboardService.GetProfileDetails().then(function (response) {
-                    $scope.profile = [];
+                    //$scope.profile = [];
+                    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: []};
                     if (response.length > 0) {
                         for (var i = 0; i < response.length; i++) {
-                            var profile = {
-                                name: '',
-                                slotState: null,
-                                LastReservedTime: 0,
-                                other: null
-                            };
 
-                            profile.name = response[i].ResourceName;
-                            if (response[i].ConcurrencyInfo.length > 0 &&
-                                response[i].ConcurrencyInfo[0].SlotInfo.length > 0) {
+                            if (response[i].ConcurrencyInfo.length > 0) {
 
-                                // is user state Reason
-                                var resonseStatus = null,
-                                    resonseAvailability = null;
-                                if (response[i].Status.Reason && response[i].Status.State) {
-                                    resonseAvailability = response[i].Status.State;
-                                    resonseStatus = response[i].Status.Reason;
-                                }
-                                if(response[i].ConcurrencyInfo[0].IsRejectCountExceeded){
-                                    resonseAvailability = "NotAvailable";
-                                    resonseStatus = "Suspended";
-                                }
+                                for (var j = 0; j < response[i].ConcurrencyInfo.length; j++) {
+                                    var resourceTask = response[i].ConcurrencyInfo[j].HandlingType;
+
+                                    var profile = {
+                                        name: '',
+                                        slotInfo: []
+                                    };
+                                    profile.name = response[i].ResourceName;
+
+                                    if (response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
+                                        for (var k = 0; k < response[i].ConcurrencyInfo[j].SlotInfo.length; k++) {
+                                            var resonseStatus = null,
+                                                resonseAvailability = null;
+                                            if (response[i].Status.Reason && response[i].Status.State) {
+                                                resonseAvailability = response[i].Status.State;
+                                                resonseStatus = response[i].Status.Reason;
+                                            }
+                                            if (response[i].ConcurrencyInfo[j].IsRejectCountExceeded) {
+                                                resonseAvailability = "NotAvailable";
+                                                resonseStatus = "Suspended";
+                                            }
 
 
-                                var reservedDate = response[i].ConcurrencyInfo[0].
-                                    SlotInfo[0].StateChangeTime;
+                                            var reservedDate = response[i].ConcurrencyInfo[j].
+                                                SlotInfo[k].StateChangeTime;
 
-                                if(resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded"){
-                                    profile.slotState = resonseStatus;
-                                    profile.other = "Reject";
-                                } else if (resonseAvailability == "NotAvailable") {
-                                    profile.slotState = resonseStatus;
-                                    profile.other = "Break";
-                                    reservedDate = response[i].Status.StateChangeTime;
-                                } else {
-                                    profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
+                                            var slotInfo = {slotState: null, LastReservedTime: 0, other: null};
 
-                                    if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
+                                            if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
+                                                slotInfo.slotState = resonseStatus;
+                                                slotInfo.other = "Reject";
+                                            } else if (resonseAvailability == "NotAvailable") {
+                                                slotInfo.slotState = resonseStatus;
+                                                slotInfo.other = "Break";
+                                                reservedDate = response[i].Status.StateChangeTime;
+                                            } else {
+                                                slotInfo.slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
 
-                                        reservedDate = response[i].Status.StateChangeTime;
+                                                if (response[i].ConcurrencyInfo[j].SlotInfo[k].State == "Available") {
+
+                                                    var slotStateTime = moment(reservedDate);
+                                                    var resourceStateTime = moment(response[i].Status.StateChangeTime);
+                                                    if (slotStateTime.isBefore(resourceStateTime)) {
+                                                        reservedDate = response[i].Status.StateChangeTime;
+                                                    }
+                                                }
+                                            }
+
+
+                                            if (reservedDate == "") {
+                                                slotInfo.LastReservedTime = null;
+                                                //slotInfo.unixTime = 0;
+                                            } else {
+                                                slotInfo.LastReservedTime = moment(reservedDate).format("h:mm a");
+                                                //slotInfo.unixTime = moment(reservedDate).unix();
+                                            }
+
+                                            profile.slotInfo.push(slotInfo);
+                                            $scope.ResourceTask[resourceTask].push(profile);
+                                            //$scope.profile.push(profile);
+                                        }
                                     }
                                 }
 
+                                // is user state Reason
 
-                                if (reservedDate == "") {
-                                    profile.LastReservedTime = null;
-                                } else {
-                                    profile.LastReservedTime = moment(reservedDate).format('lll');
-                                }
-
-
-                                $scope.profile.push(profile);
                             }
                         }
                     }
@@ -273,7 +345,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 ServerHandler.getDataAll();
                 ServerHandler.getAllQueued();
                 ServerHandler.getAllBriged();
-                ServerHandler.getAllChannels();
+                ServerHandler.getTotalQueueHit();//ServerHandler.getAllChannels();
+
             },
             getAllNumTotal: function () {
                 ServerHandler.getTotalCall();
@@ -351,7 +424,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
-    })
+    });
 
 
     $scope.myChartOptions = {
@@ -415,6 +488,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             }
         }
     };
+
     $scope.myChartOptions4 = {
         grid: {
             borderColor: '#fff',
@@ -437,4 +511,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         }
     };
     //chart js
+
+
 });

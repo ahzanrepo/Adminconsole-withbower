@@ -17,9 +17,21 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
             scope.AppointmetList=[];
             scope.dayListMode=false;
             scope.newDayList=[];
+            scope.newAppointment={};
             // scope.dayList=[{day:"Monday"},{day:"Tuesday"},{day:"Wednesday"},{day:"Thursday"},{day:"Friday"},{day:"Saturday"},{day:"Sunday"}];
 
             scope.dayList=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+
+            scope.showAlert = function (title,content,type) {
+
+                new PNotify({
+                    title: title,
+                    text: content,
+                    type: type,
+                    styling: 'bootstrap3'
+                });
+            };
 
             scope.removeDeleted = function (item) {
 
@@ -32,7 +44,8 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
             };
 
             scope.optionChanger = function (option) {
-
+                scope.newDayList=[];
+                scope.newAppointment.newDaysOfWeek=[];
                 if(option=="RecurrencePattern")
                 {
                     if(scope.newAppointment.RecurrencePattern=="WEEKLY")
@@ -44,6 +57,7 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
                         scope.dayListMode=false;
                     }
                 }
+                scope.appointmentSummary(scope.newAppointment);
 
             };
 
@@ -105,6 +119,11 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
 
                 scope.newDayList.push(chip.DayName);
                 console.log(scope.newDayList);
+                if(scope.newDayList.length>0)
+                {
+                    scope.newAppointment.DaysOfWeek = scope.newDayList;
+                }
+                scope.appointmentSummary(scope.newAppointment);
 
 
             };
@@ -116,6 +135,11 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
                 {
                     scope.newDayList.splice(index,1);
                     console.log(scope.newDayList);
+                    if(scope.newDayList.length>0)
+                    {
+                        scope.newAppointment.DaysOfWeek = scope.newDayList;
+                    }
+                    scope.appointmentSummary(scope.newAppointment);
 
                 }
 
@@ -130,10 +154,6 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
                     scope.newAppointment.RecurrencePattern="NONE";
                 }
 
-                if(scope.newDayList.length>0)
-                {
-                    scope.newAppointment.DaysOfWeek = scope.newDayList;
-                }
 
                 if( scope.newAppointment.RecurrencePattern=="NONE"||scope.newAppointment.RecurrencePattern=="DAILY")
                 {
@@ -152,16 +172,17 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
                     {
 
                         console.info("Error in adding new appointment "+response.data.Exception.Message);
-                        //scope.showAlert("Error", "There is an error in saving appointment ","error");
+                        scope.showAlert("Error", "There is an error in saving new appointment ","error");
                         //$scope.showAlert("Error",)
                     }
                     else
                     {
 
-                        //scope.showAlert("Success", "New appointment added successfully.","success");
+                        scope.showAlert("Success", "New appointment added successfully.","success");
 
                         scope.AppointmetList.splice(0, 0, response.data.Result);
                         scope.newAppointment={};
+                        scope.newDayList=[];
 
 
                     }
@@ -185,6 +206,68 @@ mainApp.directive("appointmentdir", function ($filter,$uibModal,scheduleBackendS
                 scope.configMode=!scope.configMode;
 
             };
+
+            scope.summaryText="";
+            scope.showSummary=false;
+            scope.appointmentSummary = function (newAppointmentData) {
+
+                var appointmentName=newAppointmentData.AppointmentName;
+                var recPattern=newAppointmentData.RecurrencePattern;
+                var sDate=newAppointmentData.StartDate;
+                var eDate=newAppointmentData.EndDate;
+                var sTime=newAppointmentData.StartTime;
+                var eTime=newAppointmentData.EndTime;
+                var weekDays=scope.newDayList;
+
+
+                if(appointmentName)
+                {
+                    scope.showSummary=true;
+                }
+                else
+                {
+                    scope.showSummary=false;
+                }
+
+
+                scope.summaryText = "*Appointment "+appointmentName+" will work ";
+
+
+                if(sDate && eDate && sTime && eTime)
+                {
+                    scope.summaryText+="from "+sDate+" "+sTime+" to "+eDate+" "+eTime;
+                }
+                if(sDate && eDate && (!sTime||!eTime))
+                {
+                    scope.summaryText+="from "+sDate+" to "+eDate;
+                }
+                if(sTime && eTime && (!sDate||!eDate))
+                {
+                    scope.summaryText+="from "+sTime+" to "+eTime;
+                }
+                if(recPattern=="NONE")
+                {
+                    scope.summaryText+=" everyday";
+                }
+                if(recPattern=="WEEKLY" && weekDays && weekDays.length==0)
+                {
+                    scope.summaryText+=" on every weekday";
+                }
+                if(recPattern=="WEEKLY" && weekDays && weekDays.length>0)
+                {
+                    var daysSelected="";
+                    angular.forEach(weekDays, function (item) {
+
+                        daysSelected+=item+" , ";
+                    })
+                    scope.summaryText+=" on every "+daysSelected;
+                }
+
+
+            }
+
+
+
 
 
 

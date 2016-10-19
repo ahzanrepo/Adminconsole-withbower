@@ -1,7 +1,7 @@
 <div>
     <div class="page-title">
         <div class="title_left">
-            <h3 class="font-robot font-600 ">Abandon Call CDR Report</h3>
+            <h3 class="font-robot font-600 ">Abandon CDR Report</h3>
         </div>
     </div>
 
@@ -11,8 +11,15 @@
             <div class="x_panel">
                 <div class="x_title bottom-gray-200 m-bottom20 col-md-12 col-sm-12 col-xs-12">
                     <div class="col-md-10 col-sm-10 col-xs-10">
-                        <h4 class="font-robot font-300 text-uppercase font-15">Search option
-                        </h4>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <input type="text" class="form-control" name="agent" ng-model="agentFilter" placeholder="Agent">
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <input type="text" class="form-control" name="skillFilter" ng-model="skillFilter" placeholder="Skill">
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <input type="text" class="form-control" name="custFilter" ng-model="custFilter" placeholder="Customer Number">
+                        </div>
                     </div>
                     <div class="col-md-2 col-sm-2 col-xs-2">
                         <div class="col-md-6 col-sm-6 col-xs-6">
@@ -76,7 +83,7 @@
                         <div class="col-md-11 col-sm-11 col-xs-11">
                             <div class="x_content btn-wrap-header">
                                 <button type="button" class="btn btn-primary" ng-click="changeTimeAvailability()">{{timeEnabled}}</button>
-                                <button type="button" class="btn btn-success" ng-click="getProcessedCDR(-1, true)" ng-disabled="!dateValid || !enableSearchButton">
+                                <button type="button" class="btn btn-success" ng-click="getProcessedCDR(0, true)" ng-disabled="!dateValid || !enableSearchButton">
                                     Search
                                 </button>
                             </div>
@@ -130,7 +137,7 @@
                                      height="100%"
                                      horizontal-scroll-position="bottom"
                                      size="5px" opacity="0.4">
-                                    <table id="datatable-responsive"
+                                    <table id="datatable-responsive" dt-options="dtOptions" datatable="ng"
                                            class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
                                            cellspacing="0" width="100%" role="grid"
                                            aria-describedby="datatable-responsive_info">

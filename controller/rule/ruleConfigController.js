@@ -41,7 +41,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
 
 
     var onAppLoadCompleted = function (response) {
-        if(response.data.Exception){
+        if(!response.data.IsSuccess){
             onError(response.data.Exception);
         }
         else
@@ -56,7 +56,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     };
 
     var onTransLoadCompleted = function (response) {
-        if(response.data.Exception){
+        if(!response.data.IsSuccess){
             onError(response.data.Exception);
         }
         else
@@ -68,7 +68,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     };
 
     var onRuleLoad = function (response) {
-        if(response.data.Exception){
+        if(!response.data.IsSuccess){
             onError(response.data.Exception);
         }
         else
@@ -106,7 +106,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     };
 
     var onTrunkLoadCompleted = function (response) {
-        if(response.data.Exception)
+        if(!response.data.IsSuccess)
         {
             onError(response.data.Exception.Message);
         }
@@ -124,7 +124,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     };
 
     var onContextLoad = function (response) {
-        if(response.data.Exception)
+        if(!response.data.IsSuccess)
         {
             onError(response.data.Exception.Message);
         }
@@ -143,7 +143,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     };
 
     var onAttachCompleted = function (response) {
-        if(response.data.Exception)
+        if(!response.data.IsSuccess)
         {
             onError(response.data.Exception.Message);
         }

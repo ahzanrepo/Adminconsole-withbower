@@ -71,15 +71,18 @@
                                 <label>Styles</label><small ng-disabled="true" ng-click="addStyle()" style="cursor: pointer"><i
                                     class="fa fa-plus"></i></small>
 
+                                <ul class="list-unstyled">
+                                    <li ng-repeat="StyleItem in template.styles">
+                                        <templatestyledir styleitem="StyleItem" remove-assigned-style="removeAssignedStyleItem(StyleItem)"></templatestyledir>
 
-                                <li ng-repeat="StyleItem in template.styles">
-                                    <templatestyledir styleitem="StyleItem" remove-assigned-style="removeAssignedStyleItem(StyleItem)"></templatestyledir>
+                                    </li>
+                                </ul>
+                                <ul class="list-unstyled">
+                                    <li ng-repeat="newStyleItem in StyleList">
+                                        <newtemplatestyledir newstyleitem="newStyleItem" remove-new-style="removeNewStyleItem(newStyleItem)"></newtemplatestyledir>
 
-                                </li>
-                                <li ng-repeat="newStyleItem in StyleList">
-                                    <templatestyledir newstyleitem="newStyleItem" add-new-style="addStyle(newStyleItem)" remove-new-style=""></templatestyledir>
-
-                                </li>
+                                    </li>
+                                </ul>
 
                             </div>
 
@@ -131,10 +134,10 @@
                                            placeholder="">
                                 </div>
 
-                                    <button type="button" class="btn btn-success btn-sm pull-right"
-                                            ng-click="renderTemplateData()">
-                                        Render
-                                    </button>
+                                <button type="button" class="btn btn-success btn-sm pull-right"
+                                        ng-click="renderTemplateData()">
+                                    Render
+                                </button>
 
 
                             </div>
@@ -145,53 +148,6 @@
                                 <textarea class="resizable_textarea form-control" ng-model="renderedTemplate" placeholder="Enter content here"></textarea>
 
                             </div>
-
-
-
-
-                            <!-- <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"
-                                  style="margin-bottom: 15px;">
-                                 <label>File type</label>
-                                 <select class="form-control has-feedback-left" placeholder="select File type"
-                                         ng-model="template.filetype" ng-change="">
-                                     <option>html</option>
-                                     <option>text</option>
-
-                                 </select>
-                             </div>
-
-                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
-                                  style="margin-bottom: 15px;">
-                                 <label>File Content</label>
-                                 <textarea class="resizable_textarea form-control" ng-model="template.content.content" placeholder="Enter content here"></textarea>
-
-                             </div>
-
-                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
-                                  style="margin-bottom: 15px;">
-                                 <label>Styles</label>
-
-
-                                 <li ng-repeat="StyleItem in template.styles">
-                                     <templatestyledir styleitem="StyleItem" add-new-style="addStyle(StyleItem)" remove-assigned-style="removeAssignedStyle(StyleItem)"></templatestyledir>
-
-                                 </li>
-
-                             </div>
-
-
-                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
-                                 <div class="col-md-6 col-sm-6 col-xs-12">
-
-                                 </div>
-                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                     <button type="button" class="btn btn-success btn-sm pull-right"
-                                             ng-click="modifySchedule()">
-                                         Update
-                                     </button>
-                                 </div>
-                             </div>
- -->
 
 
 
@@ -208,18 +164,10 @@
         <div ng-hide="editMode">
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">File type</label>
-                <p>{{template.FileType}} </p>
+                <p>{{template.filetype}} </p>
             </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Extra Data</label>
-                <p>{{schedule.ExtraData}} </p>
-            </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">TimeZone</label>
-                <p>{{schedule.TimeZone}} </p>
-            </div>
 
 
 

@@ -2,7 +2,7 @@
  * Created by Pawan on 7/21/2016.
  */
 
-mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibModal, callMonitorSrv, notificationService,jwtHelper,authService)
+mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibModal,$timeout, callMonitorSrv, notificationService,jwtHelper,authService)
 {
 
     $scope.CallObj = {};
@@ -23,7 +23,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
 
     var onCallsDataReceived = function (response) {
 
-        if (response.data.Exception) {
+        if (!response.data.IsSuccess) {
             onError(response.data.Exception.Message);
         }
         else {
@@ -172,7 +172,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
 
 
     $scope.LoadCurrentCalls = function () {
-            callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
+        callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
     };
 
     $scope.RegisterThePhone = function () {
@@ -229,7 +229,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
         var moduleSt=[];
         if(args)
         {
-           moduleSt=["success","Registered"];
+            moduleSt=["success","Registered"];
 
         }
         else
@@ -237,7 +237,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
             moduleSt=["notice","Unregistered"];
         }
 
-        $scope.showAlert("Info","Call monitor module "+moduleSt[1],moduleSt[0]);
+        $scope.showAlert("Info"," Supervisor call monitor module "+moduleSt[1],moduleSt[0]);
 
 
         if($scope.isRegistered && actionObject && actionObject.action=="LISTEN")
@@ -310,6 +310,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
         console.log("going to register");
         $scope.RegisterThePhone();
     }
+
 
 
 

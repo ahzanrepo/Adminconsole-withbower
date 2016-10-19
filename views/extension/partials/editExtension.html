@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="edit-close pull-right">
-                            <i class="fa fa-close" ng-click="editApplication()"></i>
+                            <i class="fa fa-close" ng-click="editExtension()"></i>
                         </div>
                     </div>
                 </div>
@@ -66,6 +66,7 @@
                                     <option>FAX</option>
                                     <option>IVR</option>
                                     <option>CAMPAIGN</option>
+                                    <option>AUTO_ATTENDANT</option>
                                 </select>
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
@@ -81,7 +82,7 @@
 
 
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
                                     <button type="button" class="btn btn-success btn-sm pull-right"
                                             ng-click="updateExtension(extension)">
                                         Update

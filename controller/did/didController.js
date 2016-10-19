@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 6/30/2016.
  */
-mainApp.controller("didController", function ($scope,$state,$uibModal, didBackendService) {
+mainApp.controller("didController", function ($scope,$state,$uibModal,$filter, didBackendService) {
 
     $scope.didList=[];
 
@@ -89,10 +89,11 @@ mainApp.controller("didController", function ($scope,$state,$uibModal, didBacken
     $scope.GetDidNumbers();
 
 });
-mainApp.controller("didModalController", function ($scope, $uibModalInstance,didBackendService,didId,didData,reloadPage) {
+mainApp.controller("didModalController", function ($scope, $uibModalInstance,$filter,didBackendService,didId,didData,reloadPage) {
 
     $scope.showModal=true;
     $scope.Extensions=[];
+    $scope.TrunkNumbers=[];
 
     if(didId)
     {
@@ -109,6 +110,66 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,did
             styling: 'bootstrap3'
         });
     };
+
+    $scope.RemoveAllocatedDIDs = function () {
+
+        if($scope.TrunkNumbers)
+        {
+            didBackendService.pickAllocatedDIDNumbers().then(function (response) {
+                if(response.data.IsSuccess)
+                {
+
+                    angular.forEach(response.data.Result, function (item)
+                    {
+                        var value=$filter('filter')($scope.TrunkNumbers, {PhoneNumber: item.DidNumber})[0];
+                        if(value)
+                        {
+                            $scope.TrunkNumbers.splice($scope.TrunkNumbers.indexOf(value),1);
+                        }
+
+                    });
+                }
+                else
+                {
+                    $scope.showAlert("Error","Error in loading Current allocated Trunk numbers","error");
+                }
+            }, function (error) {
+                $scope.showAlert("Error","Error in loading Current allocated Trunk numbers","error");
+            })
+        }
+    };
+
+    $scope.loadDidNumbers = function () {
+
+        didBackendService.pickPhoneNumbers().then(function (response) {
+
+            if(response.data.IsSuccess)
+            {
+                $scope.TrunkNumbers=response.data.Result;
+                angular.forEach($scope.TrunkNumbers, function (item)
+                {
+                    if(!(item.ObjCategory=="INBOUND" || item.ObjCategory=="BOTH"))
+                    {
+                        $scope.TrunkNumbers.splice($scope.TrunkNumbers.indexOf(item),1);
+                    }
+
+                });
+
+                $scope.RemoveAllocatedDIDs();
+            }
+            else
+            {
+                $scope.showAlert("Error","Error in loading Trunk numbers","error");
+            }
+
+        }, function (error) {
+            $scope.showAlert("Error","Error in loading Trunk numbers","error");
+            console.log("Error in loading Trunk numbers",error);
+        });
+    };
+
+    $scope.loadDidNumbers();
+
 
     $scope.updateDid = function (extensionId) {
         if($scope.did.id)

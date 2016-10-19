@@ -66,6 +66,7 @@
 
 <link rel="stylesheet" href="bower_components/pnotify/pnotify.core.css">
 <link rel="stylesheet" href="bower_components/pnotify/pnotify.buttons.css">
+<link rel="stylesheet" href="asset/css/main-icon-2/veery-font-2.css">
 
 
 <!-- #Goolge font API -->
@@ -74,10 +75,19 @@
 
 <!-- Datatables -->
 <link href="asset/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-<link href="asset/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+<!--<link href="asset/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">-->
 <link href="asset/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-<link href="asset/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-<link href="asset/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+<!--<link href="asset/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">-->
+<!--<link href="asset/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">-->
+
+<!-- angular UI-grid -->
+<link rel="stylesheet" type="text/css" href="bower_components/angular-ui-grid/ui-grid.min.css">
+
+
+<link rel="stylesheet" type="text/css" href="asset/css/abn_tree.css">
+
+<link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
+
 
 
 <body class="nav-md">
@@ -96,6 +106,7 @@
 <script src="asset/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="bower_components/jquery-ui/jquery-ui.js" type="text/javascript"></script>
 <script src="asset/vendors/iCheck/icheck.js" type="text/javascript"></script>
+
 
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
@@ -142,6 +153,11 @@
 <script src="bower_components/videogular-buffering/vg-buffering.js"></script>
 <!--videogular-->
 
+
+<!--angular strap -->
+<script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
+<script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+
 <!-- json to csv -->
 <script type="text/javascript" src="bower_components/ng-csv/build/ng-csv.js"></script>
 <!-- json to csv -->
@@ -175,6 +191,9 @@
 <script src="bower_components/angular-download/angular-download.js"></script>
 <script src="bower_components/angular-file-saver/dist/angular-file-saver.js"></script>
 
+<!--- angular UI-grid -->
+<script type="text/javascript" src="bower_components/angular-ui-grid/ui-grid.min.js"></script>
+
 <!-- auth -->
 <script type="text/javascript" src="bower_components/angular-base64/angular-base64.js"></script>
 <script type="text/javascript" src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
@@ -193,6 +212,12 @@
 <script type="text/javascript" src="auth/services/oAuthServices.js"></script>
 <script type="text/javascript" src="auth/services/signUpServices.js"></script>
 
+<!---Socket --->
+
+<script type="text/javascript" src="bower_components/angular-socket-io/socket.js"></script>
+<script type="text/javascript" src="bower_components/socket.io-client/socket.io.js"></script>
+
+
 <!-- controller -->
 <script type="text/javascript" src="controller/mainCtrl.js"></script>
 <script type="text/javascript" src="controller/dashboardCtrl.js"></script>
@@ -200,6 +225,7 @@
 <script type="text/javascript" src="controller/cdr/cdrCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/abandonCallCdrCtrl.js"></script>
+<script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/agentStatusListCtrl.js"></script>
 <script type="text/javascript" src="controller/sipuser/sipUserCtrl.js"></script>
 <script type="text/javascript" src="factory/userprofile/userProfileApiAccess.js"></script>
@@ -219,7 +245,6 @@
 
 <!-- agent dashboard -->
 <script type="text/javascript" src="controller/agentDashboardCtrl.js"></script>
-
 
 
 <!-- Agent productivity -->
@@ -290,6 +315,13 @@
 <script type="text/javascript" src="conference_app/scripts/directives/conferenceMonitor.js"></script>
 
 
+<!--auto attendance config-->
+
+<script type="text/javascript" src="factory/auto-attendance/autoAttendanceConfigService.js"></script>
+<script type="text/javascript" src="controller/auto-attendance/autoAttendanceListController.js"></script>
+<script type="text/javascript" src="controller/auto-attendance/newAutoAttendanceController.js"></script>
+<script type="text/javascript" src="controller/auto-attendance/editAutoAttendanceController.js"></script>
+
 <!-- PNotify -->
 <script src="asset/vendors/pnotify/dist/pnotify.js"></script>
 <script src="asset/vendors/pnotify/dist/pnotify.buttons.js"></script>
@@ -338,19 +370,20 @@
 <!-- Datatables -->
 <script src="asset/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="asset/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="asset/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<!--<script src="asset/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
 <script src="asset/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
 <script src="asset/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
 <script src="asset/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
 <script src="asset/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
 <script src="asset/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-<script src="asset/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-<script src="asset/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="asset/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="asset/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>-->
+<!--<script src="asset/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="asset/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>-->
 <!--<script src="asset/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>-->
 <script src="asset/vendors/jszip/dist/jszip.min.js"></script>
 <script src="asset/vendors/pdfmake/build/pdfmake.min.js"></script>
 <script src="asset/vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
 
 <!-- rule -->
 <script type="text/javascript" src="controller/rule/ruleListController.js"></script>
@@ -384,6 +417,15 @@
 <script type="text/javascript" src="controller/agent-productivity-summary/agentSummaryController.js"></script>
 <script type="text/javascript" src="factory/agent-productivity-summery/agentSummaryBackendService.js"></script>
 
+
+<!-- ticket summary -->
+
+<script type="text/javascript" src="factory/ticket-reports/ticketReportsService.js"></script>
+<script type="text/javascript" src="controller/ticket-reports/ticketSummaryCtrl.js"></script>
+
+<!-- ticket detail report -->
+<script type="text/javascript" src="controller/ticket-reports/ticketDetailReportCtrl.js"></script>
+
 <!-- extension -->
 <script type="text/javascript" src="controller/extension/extenstionController.js"></script>
 <script type="text/javascript" src="factory/extension/extensionBackendService.js"></script>
@@ -404,8 +446,6 @@
 <script type="text/javascript" src="controller/companyConfig/companyConfigController.js"></script>
 <script type="text/javascript" src="factory/companyConfig/companyConfigService.js"></script>
 <script type="text/javascript" src="directives/companyConfig/editCompanyConfig.js"></script>
-
-
 
 
 <!-- scheduler -->
@@ -429,6 +469,13 @@
 <script type="text/javascript" src="factory/template-maker/templateMakerBackendService.js"></script>
 <script type="text/javascript" src="directives/template-generator/templateMaker.js"></script>
 
+<!-- Tag manager -->
+
+<script type="text/javascript" src="controller/tag-manager/tagController.js"></script>
+<script type="text/javascript" src="controller/tag-manager/tagController2.js"></script>
+<script type="text/javascript" src="directives/tag-manager/abn_tree_directive.js"></script>
+<script type="text/javascript" src="factory/tag-manager/tagManagerBackendService.js"></script>
+
 
 <!-- Bootstrap -->
 <script src="asset/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -442,12 +489,52 @@
 <script src="bower_components/d3/d3.min.js"></script>
 <script src="bower_components/ng-knob/dist/ng-knob.min.js"></script>
 <script src="bower_components/angular-rangeslider/angular.rangeSlider.js"></script>
+<!-- ticket trigger -->
 
+<script type="text/javascript" src="controller/ticket-trigger/triggerController.js"></script>
+<script type="text/javascript" src="factory/ticket-trigger/triggerApiAccess.js"></script>
+<script type="text/javascript" src="directives/ticket-trigger/trigger.js"></script>
+<script type="text/javascript" src="directives/ticket-trigger/editAction.js"></script>
+<script type="text/javascript" src="directives/ticket-trigger/editFilter.js"></script>
+<script type="text/javascript" src="directives/ticket-trigger/editOperation.js"></script>
+<script type="text/javascript" src="controller/ticket-trigger/triggerConfigController.js"></script>
+<script type="text/javascript" src="directives/ticket-trigger/ticketDynamicField.js"></script>
+<script type="text/javascript" src="directives/ticket-trigger/dynamicOperation.js"></script>
+
+
+<!-- ticket sla -->
+
+<script type="text/javascript" src="controller/ticket-sla/slaController.js"></script>
+<script type="text/javascript" src="factory/ticket-sla/slaApiAccess.js"></script>
+<script type="text/javascript" src="directives/ticket-sla/sla.js"></script>
+<script type="text/javascript" src="directives/ticket-sla/editSlaMatrices.js"></script>
+<script type="text/javascript" src="directives/ticket-sla/editSlaFilter.js"></script>
+<script type="text/javascript" src="controller/ticket-sla/slaConfigController.js"></script>
+<!--<script type="text/javascript" src="directives/ticket-trigger/ticketDynamicField.js"></script>
+<script type="text/javascript" src="directives/ticket-trigger/dynamicOperation.js"></script>-->
 <!-- dynamic Form -->
 <script type="text/javascript" src="dynamicForm/scripts/ngDynamicForms.js"></script>
 <script type="text/javascript" src="dynamicForm/scripts/services/ticketService.js"></script>
 
 <!-- timeago -->
 <script src="bower_components/angular-timeago/dist/angular-timeago.min.js"></script>
+
+<!-- time sheet -->
+<script type="text/javascript" src="controller/time-sheet/timeSheetCtrl.js"></script>
+<script type="text/javascript" src="factory/timeSheet/timeSheet.js"></script>
+
+<!-- Create filter -->
+<script type="text/javascript" src="controller/ticket-trigger/directive/createFilterDirective.js"></script>
+<script type="text/javascript" src="controller/ticket-trigger/service/createFilterService.js"></script>
+<script type="text/javascript" src="controller/ticket-trigger/createFilterCtrl.js"></script>
+
+<!--social Connector-->
+<script type="text/javascript" src="socialConnectors/scripts/controllers/socialConnectorController.js"></script>
+<script type="text/javascript" src="socialConnectors/scripts/services/socialConnectorService.js"></script>
+<!-- Notification - sender -->
+<script type="text/javascript" src="factory/notification-sender/notificationSenderService.js"></script>
+<script type="text/javascript" src="asset/js/utility.js"></script>
+<script type="text/javascript" src="factory/socket-connect/SocketConnector.js"></script>
+
 
 </html>

@@ -20,44 +20,39 @@
                          height="100%"
                          horizontal-scroll-position="bottom"
                          size="5px" opacity="0.4">
-                    <table class="table table-striped task-tbl">
-                        <thead>
-                        <tr>
-                            <th class="fs15 text-left">Queue Name</th>
-                            <th class="fs15 text-right">Current waiting</th>
-                            <th class="fs15 text-right">Current max waiting Time</th>
-                            <th class="fs15 text-right">Total Queued</th>
-                            <th class="fs15 text-right">Max wait Time</th>
-                            <th class="fs15 text-right">Avg. Wait Time</th>
-                            <th class="fs15 text-right">Precentage</th>
+                        <table class="table table-striped task-tbl">
+                            <thead>
+                            <tr>
+                                <th class="fs15 text-left">Queue Name</th>
+                                <th class="fs15 text-right">Current waiting</th>
+                                <th class="fs15 text-right">Current max waiting Time</th>
+                                <th class="fs15 text-right">Total Queued</th>
+                                <th class="fs15 text-right">Max wait Time</th>
+                                <th class="fs15 text-right">Avg. Wait Time</th>
+                                <th class="fs15 text-right">Precentage</th>
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="que in queues">
-                            <th class="fs15 text-left">{{que.queuename}}</th>
-                            <th class="fs15 text-right">{{que.CurrentWaiting}}</th>
-                            <th class="fs15 text-right">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
-                            <th class="fs15 text-right">{{que.TotalQueued}}</th>
-                            <th class="fs15 text-right">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
-                            <th class="fs15 text-right">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
-                            <th class="fs15 text-right">{{que.presentage}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr queuedlist ng-repeat="que in queues" name="{{que.id}}">
+                                <!--<th class="fs15 text-left">{{que.queuename}}</th>
+                                <th class="fs15 text-right">{{que.CurrentWaiting}}</th>
+                                <th class="fs15 text-right">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{que.TotalQueued}}</th>
+                                <th class="fs15 text-right">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{que.presentage}}</th>-->
 
-                        </tr>
 
-                        </tbody>
-                    </table>
+                            </tr>
 
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
-
-
-
-
-
-
-
             </div>
-        </div>
 
+        </div>
     </div>
 </div>

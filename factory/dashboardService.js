@@ -1,10 +1,10 @@
 /**
- * Created by Damith on 5/28/2016.
+ * Created by Rajinda on 5/28/2016.
  */
 
 'use strict';
 
-mainApp.factory("dashboardService", function ($http, authService) {
+mainApp.factory("dashboardService", function ($http, authService,baseUrls) {
 
     var getAllCalls = function () {
         var authToken = authService.GetToken();
@@ -77,6 +77,8 @@ mainApp.factory("dashboardService", function ($http, authService) {
         });
     };
 
+
+
     var getTotalCalls = function () {
         var authToken = authService.GetToken();
         return $http({
@@ -93,6 +95,23 @@ mainApp.factory("dashboardService", function ($http, authService) {
             }
         });
 
+
+    };
+
+    var getNewTicketCountViaChenal = function (chenal) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/NEWTICKET/via_"+chenal+"/*",//http://dashboard.app.veery.cloud/DashboardEvent/TotalCount/NEWTICKET/via_CALL/*
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
 
     };
 
@@ -116,7 +135,24 @@ mainApp.factory("dashboardService", function ($http, authService) {
 
 
     };
+    var getTotalQueueHit = function () {
+        var authToken = authService.GetToken();
+        //dashboard.app.veery.cloud
+        return $http({
+            method: 'GET',
+            url: "http://dashboard.app.veery.cloud/DashboardGraph/AllConcurrentQueued/5",
+            headers: {
+                'authorization': authToken
+            }
+        }).then(function (response) {
+            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
+                return response.data[0].datapoints;
+            } else {
 
+                return {};
+            }
+        });
+    };
     var getTotalQueueAnswered = function () {
         var authToken = authService.GetToken();
         return $http({
@@ -247,6 +283,172 @@ mainApp.factory("dashboardService", function ($http, authService) {
     };
 
 
+    var getCompanyTasks = function () {
+        var authToken = authService.GetToken();
+        //
+        //dashboard.app.veery.cloud
+        return $http({
+            method: 'GET',
+            url: "http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/Tasks",
+            headers: {
+                'authorization': authToken
+            }
+        }).then(function (response) {
+            if (response.data) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+
+    /*ticket*/
+    var getTicketCount = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/CurrentCount/"+status+"/total/total",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.status===200) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+    };
+
+    var getTotalTicketCount = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/"+status+"/total/total",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.status===200) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+    };
+
+    var getTotalTicketAvg = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageTime/"+status+"/total/total",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.status===200) {
+                return response.data;
+            } else {
+                return 0;
+            }
+        });
+
+    };
+
+    /*var getTotalTicketCount = function (status) {
+     return $http({
+     method: 'GET',
+     url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/SLAVIOLATED/total/total",
+     headers: {
+     'authorization': authService.GetToken()
+     }
+     }).then(function (response) {
+     if (response.status===200) {
+     return response.data;
+     } else {
+     return 0;
+     }
+     });
+
+     };
+
+     var getTotalTicketCount = function (status) {
+     return $http({
+     method: 'GET',
+     url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/FIRSTCALLRESOLUTION/total/total",
+     headers: {
+     'authorization': authService.GetToken()
+     }
+     }).then(function (response) {
+     if (response.status===200) {
+     return response.data;
+     } else {
+     return 0;
+     }
+     });
+
+     };*/
+
+    var getCreatedTicketSeries = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardGraph/NewTicket/30",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
+                return response.data[0].datapoints;
+            } else {
+
+                return {};
+            }
+        });
+
+    };
+
+
+
+    var getResolvedTicketSeries = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardGraph/ClosedTicket/30",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
+                return response.data[0].datapoints;
+            } else {
+
+                return {};
+            }
+        });
+
+    };
+
+    var getDeferenceResolvedTicketSeries = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardGraph/ClosedVsOpenTicket/30",
+            headers: {
+                'authorization': authService.GetToken()
+            }
+        }).then(function (response) {
+            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
+                return response.data[0].datapoints;
+            } else {
+
+                return {};
+            }
+        });
+
+    };
+
+    /*ticket*/
+
     return {
         GetAll: getAllCalls,
         GetAllQueued: getAllQueued,
@@ -254,12 +456,20 @@ mainApp.factory("dashboardService", function ($http, authService) {
         GetAllChannels: getAllChannels,
         GetTotalCalls: getTotalCalls,
         GetTotalQueued: getTotalQueued,
+        GetTotalQueueHit:getTotalQueueHit,
         GetTotalQueueAnswered: getTotalQueueAnswered,
         GetTotalQueueDropped: getTotalQueueDropped,
         GetCurrentWaiting: getCurrentWaiting,
         GetTotalBriged: getTotalBriged,
         GetTotalOnGoing: getTotalOnGoing,
-        GetProfileDetails: getProfileDetails
-
+        GetProfileDetails: getProfileDetails,
+        getCompanyTasks: getCompanyTasks,
+        GetTicketCount:getTicketCount,
+        GetCreatedTicketSeries:getCreatedTicketSeries,
+        GetResolvedTicketSeries:getResolvedTicketSeries,
+        GetDeferenceResolvedTicketSeries:getDeferenceResolvedTicketSeries,
+        GetTotalTicketCount:getTotalTicketCount,
+        GetTotalTicketAvg:getTotalTicketAvg,
+        GetNewTicketCountViaChannel:getNewTicketCountViaChenal
     }
 });

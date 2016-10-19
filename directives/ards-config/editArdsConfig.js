@@ -9,6 +9,9 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
         scope: {
             ards: "=",
             ardslist: "=",
+            groups: "=",
+            tasks: "=",
+            RequestServers: "=",
             'updateApplication': '&',
             'reloadpage':'&'
         },
@@ -20,9 +23,6 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
             scope.attributeGroups=[];
             scope.NewattributeGroups=[];
             scope.attributeGroup;
-            scope.groups=[];
-            scope.tasks=[];
-            scope.RequestServers=[];
 
             Array.prototype.inArray = function(comparer) {
                 for(var i=0; i < this.length; i++) {
