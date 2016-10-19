@@ -8,7 +8,7 @@ mainApp.factory('holdMusicBackendService', function ($http, authService) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/QueueMusic/Profiles",
+                url: "QueueMusic/Profiles",
                 headers: {
                     'authorization':authToken
                 }
