@@ -5,7 +5,7 @@
 (function () {
     'use strict';
     mainApp.factory('signUpServices', Service);
-    function Service($http) {
+    function Service($http,baseUrls) {
         var service = {};
         service.createNewUser = createNewUser;
         service.createOrganisation = createOrganisation;
@@ -15,7 +15,7 @@
         //http://192.168.5.103:3636
         //http://userservice.app.veery.cloud
         function createNewUser(param, callback) {
-            $http.post("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Organisation/Owner", param).
+            $http.post(baseUrls.UserServiceBaseUrl+ "Organisation/Owner", param).
             success(function (data, status, headers, config) {
                 callback(true);
             }).
@@ -26,7 +26,7 @@
 
         //create Organisation
         function createOrganisation(param, callback) {
-            $http.post("http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Organisation", param).
+            $http.post(baseUrls.UserServiceBaseUrl+ "Organisation", param).
             success(function (data, status, headers, config) {
                 callback(true);
             }).
