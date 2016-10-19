@@ -3,14 +3,14 @@
  */
 (function() {
 
-  var sipUserApiHandler = function($http, authService)
+  var sipUserApiHandler = function($http, authService, baseUrls)
   {
     var getSIPUsers = function()
     {
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Users',
+        url: baseUrls.sipUserendpoint + 'Users',
         headers: {
           'authorization': authToken
         }
@@ -25,7 +25,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/User/' + usr,
+        url: baseUrls.sipUserendpoint + 'User/' + usr,
         headers: {
           'authorization': authToken
         }
@@ -40,7 +40,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
+        url: baseUrls.sipUserendpoint + 'Extension/' + ext,
         headers: {
           'authorization': authToken
         }
@@ -54,7 +54,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Groups',
+        url: baseUrls.sipUserendpoint + 'Groups',
         headers: {
           'authorization': authToken
         }
@@ -69,7 +69,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'DELETE',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Group/' + grpId,
+        url: baseUrls.sipUserendpoint + 'Group/' + grpId,
         headers: {
           'authorization': authToken
         }
@@ -84,7 +84,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Group/' + id,
+        url: baseUrls.sipUserendpoint + 'Group/' + id,
         headers: {
           'authorization': authToken
         }
@@ -99,7 +99,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Users/InGroup/' + id,
+        url: baseUrls.sipUserendpoint + 'Users/InGroup/' + id,
         headers: {
           'authorization': authToken
         }
@@ -114,7 +114,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/User/' + username,
+        url: baseUrls.sipUserendpoint + 'User/' + username,
         headers: {
           'authorization': authToken
         }
@@ -129,7 +129,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + extId,
+        url: baseUrls.sipUserendpoint + 'Extension/' + extId,
         headers: {
           'authorization': authToken
         }
@@ -145,7 +145,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/' + usrId + '/AssignToGroup/' + grpId,
+        url: baseUrls.sipUserendpoint + usrId + '/AssignToGroup/' + grpId,
         headers: {
           'authorization': authToken
         }
@@ -160,7 +160,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/' + usrId + '/RemoveFromGroup/' + grpId,
+        url: baseUrls.sipUserendpoint + usrId + '/RemoveFromGroup/' + grpId,
         headers: {
           'authorization': authToken
         }
@@ -175,7 +175,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/User',
+        url: baseUrls.sipUserendpoint + 'User',
         headers: {
           'authorization': authToken
         },
@@ -191,7 +191,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/DuoWorldUser',
+        url: baseUrls.sipUserendpoint + 'DuoWorldUser',
         headers: {
           'authorization': authToken
         },
@@ -207,7 +207,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCodes',
+        url: baseUrls.sipUserendpoint + 'TransferCodes',
         headers: {
           'authorization': authToken
         },
@@ -223,7 +223,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'PUT',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCode/' + transCodes.id,
+        url: baseUrls.sipUserendpoint + 'TransferCode/' + transCodes.id,
         headers: {
           'authorization': authToken
         },
@@ -239,7 +239,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/TransferCode',
+        url: baseUrls.sipUserendpoint + 'TransferCode',
         headers: {
           'authorization': authToken
         }
@@ -254,7 +254,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Group',
+        url: baseUrls.sipUserendpoint + 'Group',
         headers: {
           'authorization': authToken
         },
@@ -270,7 +270,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'PUT',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Group/' + grpObj.id,
+        url: baseUrls.sipUserendpoint + 'Group/' + grpObj.id,
         headers: {
           'authorization': authToken
         },
@@ -286,7 +286,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Context',
+        url: baseUrls.sipUserendpoint + 'Context',
         headers: {
           'authorization': authToken
         }
@@ -301,7 +301,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + ext + '/AssignToSipUser/' + sipUserId,
+        url: baseUrls.sipUserendpoint + 'Extension/' + ext + '/AssignToSipUser/' + sipUserId,
         headers: {
           'authorization': authToken
         }
@@ -316,7 +316,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + ext + '/AssignToGroup/' + grpId,
+        url: baseUrls.sipUserendpoint + 'Extension/' + ext + '/AssignToGroup/' + grpId,
         headers: {
           'authorization': authToken
         }
@@ -331,7 +331,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'POST',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension',
+        url: baseUrls.sipUserendpoint + 'Extension',
         headers: {
           'authorization': authToken
         },
@@ -347,7 +347,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'DELETE',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
+        url: baseUrls.sipUserendpoint + 'Extension/' + ext,
         headers: {
           'authorization': authToken
         }
@@ -362,7 +362,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedules/byCompany',
+        url: baseUrls.limitHandlerUrl + 'LimitAPI/Schedules/byCompany',
         headers: {
           'authorization': authToken
         }
@@ -377,7 +377,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/Files/' + refId + '/PABX/USER/GREETING',
+        url: baseUrls.fileServiceUrl + 'Files/' + refId + '/PABX/USER/GREETING',
         headers: {
           'authorization': authToken
         }
@@ -393,7 +393,7 @@
 
       return $http({
         method: 'PUT',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/User/' + usrObj.SipUsername,
+        url: baseUrls.sipUserendpoint + 'User/' + usrObj.SipUsername,
         headers: {
           'authorization': authToken
         },
@@ -409,7 +409,7 @@
       var authToken = authService.GetToken();
       return $http({
         method: 'GET',
-        url: 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUsers',
+        url: baseUrls.clusterconfigUrl + 'CloudEndUsers',
         headers: {
           'authorization': authToken
         }
