@@ -3,7 +3,7 @@
  */
 
 
-mainApp.factory('didBackendService', function ($http, authService,baseUrls) {
+mainApp.factory('didBackendService', function ($http, baseUrls) {
 
     return {
 
@@ -49,9 +49,6 @@ mainApp.factory('didBackendService', function ($http, authService,baseUrls) {
             return $http({
                 method: 'POST',
                 url: baseUrls.sipUserendpoint+ 'DidNumber',
-                headers: {
-                    'authorization':authToken
-                },
                 data:didData
 
             }).then(function(response)
