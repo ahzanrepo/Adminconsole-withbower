@@ -12,10 +12,8 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + user + '/profile',
-                headers: {
-                    'authorization': authToken
-                }
+                url: 'http://localhost:3637/DVP/API/1.0.0.0/User/' + user + '/profile'
+
             }).then(function(resp)
             {
                 return resp.data;
@@ -27,10 +25,7 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/Users',
-                headers: {
-                    'authorization': authToken
-                }
+                url: 'http://localhost:3637/DVP/API/1.0.0.0/Users'
             }).then(function(resp)
             {
                 return resp.data;
@@ -42,7 +37,7 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'PUT',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
+                url: 'http://localhost:3637/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
                 headers: {
                     'authorization': authToken
                 },
@@ -61,7 +56,7 @@
             var jsonStr = JSON.stringify(userObj);
             return $http({
                 method: 'POST',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User',
+                url: 'http://localhost:3637/DVP/API/1.0.0.0/User',
                 headers: {
                     'authorization': authToken
                 },
@@ -80,7 +75,7 @@
 
             return $http({
                     method: 'PUT',
-                    url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + user + '/profile',
+                    url: 'http://localhost:3637/DVP/API/1.0.0.0/User/' + user + '/profile',
                     headers: {
                         'authorization': authToken
                     },
@@ -96,7 +91,7 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
+                url: 'http://localhost:3637/DVP/API/1.0.0.0/User/' + user + '/profile/contact/' + contact,
                 headers: {
                     'authorization': authToken
                 }
@@ -111,7 +106,7 @@
             var authToken = authService.GetToken();
             return $http({
                 method: 'DELETE',
-                url: 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/User/' + username,
+                url: 'http://localhost:3637/DVP/API/1.0.0.0/User/' + username,
                 headers: {
                     'authorization': authToken
                 }

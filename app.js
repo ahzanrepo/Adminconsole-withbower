@@ -26,7 +26,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'mgcrea.ngStrap',
     'btford.socket-io',
     'veeryNotificationMod',
-    'datatables'
+    'datatables',
+    'satellizer'
 ]);
 
 
@@ -58,10 +59,73 @@ var baseUrls = {
 
 mainApp.constant('baseUrls', baseUrls);
 
-mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
-    function ($httpProvider, $stateProvider, $urlRouterProvider) {
+mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authProvider",
+    function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider) {
 
         $urlRouterProvider.otherwise('/login');
+
+        /////////////////////////////////////////////////////////
+
+
+        $authProvider.loginUrl = 'http://localhost:3637/auth/login';
+        $authProvider.signupUrl = 'http://localhost:3637/auth/signup';
+
+
+        $authProvider.facebook({
+            url: 'http://localhost:3637/auth/facebook',
+            clientId: '1237176756312189'
+            //responseType: 'token'
+        });
+
+        $authProvider.google({
+            url: 'http://localhost:3637/auth/google',
+            clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com'
+        });
+
+        $authProvider.github({
+            url: 'http://localhost:3637/auth/github',
+            clientId: 'f725eae279e6727c68c7'
+        });
+
+        $authProvider.linkedin({
+            clientId: 'LinkedIn Client ID'
+        });
+
+        $authProvider.instagram({
+            clientId: 'Instagram Client ID'
+        });
+
+        $authProvider.yahoo({
+            clientId: 'Yahoo Client ID / Consumer Key'
+        });
+
+        $authProvider.live({
+            clientId: 'Microsoft Client ID'
+        });
+
+        $authProvider.twitch({
+            clientId: 'Twitch Client ID'
+        });
+
+        $authProvider.bitbucket({
+            clientId: 'Bitbucket Client ID'
+        });
+
+        $authProvider.spotify({
+            clientId: 'Spotify Client ID'
+        });
+
+        // No additional setup required for Twitter
+
+        $authProvider.oauth2({
+            name: 'foursquare',
+            url: '/auth/foursquare',
+            clientId: 'Foursquare Client ID',
+            redirectUri: window.location.origin,
+            authorizationEndpoint: 'https://foursquare.com/oauth2/authenticate',
+        });
+
+        ///////////////////////////////////////////////////////////////////////////////
         $stateProvider.state("console", {
             url: "/console",
             templateUrl: "views/main-home.html",
@@ -394,8 +458,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 requireLogin: true,
                 navigation: "EXTENSION"
             }
-        }).
-        state('console.ardsconfig', {
+        }).state('console.ardsconfig', {
             url: "/ardsconfig",
             templateUrl: "views/ards-config/ardsconfig.html",
             controller: "ardsController",
@@ -405,9 +468,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 navigation: "ARDS_CONFIGURATION"
             }
 
-        }).
-
-            state('console.myprofile', {
+        }).state('console.myprofile', {
                 url: "/myprofile",
                 templateUrl: "views/myUserprofile/myUserprofile.html",
 
@@ -611,7 +672,7 @@ mainApp.constant('config', {
 });
 
 
-mainApp.run(function ($rootScope, loginService, $location) {
+mainApp.run(function ($rootScope, loginService, $location, $auth) {
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
@@ -628,7 +689,7 @@ mainApp.run(function ($rootScope, loginService, $location) {
 
 
         if (requireLogin) {
-            if (!loginService.getToken()) {
+            if (!$auth.isAuthenticated()) {
                 event.preventDefault();
                 $location.path("/login");
             }
