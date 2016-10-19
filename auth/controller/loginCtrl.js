@@ -35,27 +35,6 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
             }
         });
     };
-        $scope.onClickLogin = function () {
-            para.userName = $scope.userName;
-            para.password = $scope.password;
-            //parameter option
-            //username
-            //password
-            //decode clientID
-            $scope.isLogin = true;
-            $scope.loginFrm.$invalid = true;
-            loginService.Login(para, function (result) {
-                if (result) {
-                    loginService.getMyPackages(function (result, status) {
-                        if (status == 200) {
-                            if (result) {
-                                loginService.getUserNavigation(function (isnavigation) {
-                                    $state.go('console');
-
-
-
-                                })
-                            } else {
 
     $scope.isLogin = false;
 

@@ -26,7 +26,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'mgcrea.ngStrap',
     'btford.socket-io',
     'veeryNotificationMod',
-    'datatables'
+    'datatables',
+    'satellizer'
 ]);
 
 

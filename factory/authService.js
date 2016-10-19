@@ -2,12 +2,7 @@
  * Created by Rajinda on 4/27/2016.
  */
 
-angular.module('authServiceModule' ,[])
-<<<<<<< HEAD
-.service('authService', function (localStorageService, jwtHelper, $auth) {
-=======
-    .service('authService', function (localStorageService, jwtHelper) {
->>>>>>> e70b6668e84a7cadce455e78b36651780d803ce7
+angular.module('authServiceModule' ,[]).service('authService', function (localStorageService, jwtHelper, $auth) {
 
 
         this.GetToken = function(){
