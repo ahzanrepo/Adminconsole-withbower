@@ -2,18 +2,14 @@
  * Created by Pawan on 8/5/2016.
  */
 
-mainApp.factory('transBackendService', function ($http, authService)
+mainApp.factory('transBackendService', function ($http, baseUrls)
 {
     return {
 
         getTranslations: function () {
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/Translations",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.ruleServiceUrl+'CallRuleApi/Translations'
             }).then(function(response)
             {
                 return response;
@@ -21,14 +17,10 @@ mainApp.factory('transBackendService', function ($http, authService)
         },
 
         saveTranslations: function (resource) {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'POST',
-                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/Translation",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.ruleServiceUrl+'CallRuleApi/Translation',
                 data:resource
 
             }).then(function(response)
@@ -38,14 +30,10 @@ mainApp.factory('transBackendService', function ($http, authService)
         },
 
         deleteTranslation: function (translation) {
-            var authToken = authService.GetToken();
 
             return $http({
                 method: 'DELETE',
-                url: "http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/CallRuleApi/Translation/"+translation.id,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.ruleServiceUrl+'CallRuleApi/Translation/'+translation.id
 
             }).then(function(response)
             {
