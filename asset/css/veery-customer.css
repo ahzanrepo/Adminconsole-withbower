@@ -3325,7 +3325,7 @@ p.login-dark-separator:after {
     content: "";
     height: 1px;
     position: absolute;
-    top: 350px;
+    top: 83%;
     width: 33%;
 }
 
@@ -3350,10 +3350,15 @@ p.login-dark-separator:after {
 }
 
 .is-social-media-wrapper {
-    width: 289px;
-    height: 219px;
+    width: 352px;
+    height: 608px;
     position: absolute;
     z-index: 2000;
-    background: transparent;
+    background: rgba(69, 66, 62, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    font-size: 20px;
+    padding-top: 263px;
+    color: #f7af1c;
 }
 
