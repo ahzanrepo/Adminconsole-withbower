@@ -109,7 +109,7 @@
         function Logoff(parm, callback) {
 
             var decodeToken = getTokenDecode();
-            $http.delete("http://127.0.0.1:3637/oauth/token/revoke/"+decodeToken.jti,  {
+            $http.delete("http://192.168.0.86:3637/oauth/token/revoke/"+decodeToken.jti,  {
                 headers: {
                     Authorization: 'Bearer '+getToken()
                 }
@@ -130,7 +130,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function Login(parm, callback) {
-            $http.post("http://127.0.0.1:3637/oauth/token", {
+            $http.post("http://192.168.0.86:3637/oauth/token", {
                 grant_type: "password",
                 username: parm.userName,
                 password: parm.password,
@@ -157,7 +157,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getMyPackages(callback) {
-            $http.get("http://localhost:3637/DVP/API/1.0.0.0/MyOrganization/mypackages", {
+            $http.get("http://192.168.0.86:3637/DVP/API/1.0.0.0/MyOrganization/mypackages", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -178,7 +178,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getAllPackages(callback) {
-            $http.get("http://127.0.0.1:3637/DVP/API/1.0.0.0/Packages", {
+            $http.get("http://192.168.0.86:3637/DVP/API/1.0.0.0/Packages", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -196,7 +196,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function buyMyPackage(packageName, callback) {
-            $http.put("http://127.0.0.1:3637/DVP/API/1.0.0.0/Organisation/Package/" + packageName, {}, {
+            $http.put("http://192.168.0.86:3637/DVP/API/1.0.0.0/Organisation/Package/" + packageName, {}, {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -212,7 +212,7 @@
         //user login in to console
         //get current user navigation
         function getUserNavigation(callback) {
-            $http.get("http://127.0.0.1:3637/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
+            $http.get("http://192.168.0.86:3637/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -236,7 +236,7 @@
         //is can access
         function getNavigationAccess(callback) {
             mynavigations = {};
-            $http.get("http://127.0.0.1:3637/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
+            $http.get("http://192.168.0.86:3637/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
                 headers: {
                     Authorization: 'bearer ' + getToken()
                 }
@@ -283,7 +283,7 @@
 //$scope.Register = function () {
 //
 //
-//    var url = "http://127.0.0.1:3637/oauth/token";
+//    var url = "http://192.168.0.86:3637/oauth/token";
 //    var encoded = $base64.encode("ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048");
 //    var config = {
 //        headers: {

@@ -2397,6 +2397,10 @@ label {
     margin-right: 0px !important;
 }
 
+.dark-reset-text:hover {
+    color: #f8b01d;
+}
+
 .to_register_dark {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 400;
@@ -2411,8 +2415,8 @@ label {
 
 .dark-separator {
     border-top: 1px solid rgb(60, 60, 60);
-    margin-top: 15px;
-    padding-top: 10px;
+    margin-top: 5px;
+    padding-top: 20px;
 }
 
 .disabled-btn {
@@ -3249,5 +3253,107 @@ ul.stats-overview.ticket-summary > .hidden-phone > .value {
 .active-btn:hover,
 .active-btn:focus {
     background: #114858 !important;
+}
+
+.lost-pwd {
+    margin-top: 13px;
+    margin-bottom: 3px;
+}
+
+.login-with-social {
+    width: 100%;
+    text-align: center;
+}
+
+.login-with-social > ul {
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.login-with-social > ul > li {
+    list-style: none;
+    display: inline-block;
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+.login-with-social > ul > li > i {
+    font-size: 20px;
+    color: #9e9c9c;
+    cursor: pointer;
+}
+
+.login-with-social > ul > li > i.disable {
+    color: #5d5a5a;
+    cursor: not-allowed;
+}
+
+p.login-dark-separator {
+    font: normal 10px Helvetica, Arial, sans-serif;
+    letter-spacing: 1px;
+    line-height: 20px;
+    margin: 12px 0 16px;
+    color: #2aa79b;
+    text-transform: uppercase;
+}
+
+p.login-dark-separator:before {
+    background: #f7af1c;
+    background: -moz-linear-gradient(right, #2f8079 0%, #f7af1c 100%);
+    background: -webkit-linear-gradient(right, #2f8079 0%, #f7af1c 100%);
+    background: -o-linear-gradient(right, #2f8079 0%, #f7af1c 100%);
+    background: -ms-linear-gradient(right, #2f8079 0%, #f7af1c 100%);
+    background: linear-gradient(right, #2f8079 0%, #f7af1c 100%);
+    left: 0;
+
+}
+
+p.login-dark-separator:after {
+    background: #f7af1c;
+    background: -moz-linear-gradient(left, #2f8079 0%, #f7af1c 100%);
+    background: -webkit-linear-gradient(left, #2f8079 0%, #f7af1c 100%);
+    background: -o-linear-gradient(left, #2f8079 0%, #f7af1c 100%);
+    background: -ms-linear-gradient(left, #2f8079 0%, #f7af1c 100%);
+    background: linear-gradient(left, #2f8079 0%, #f7af1c 100%);
+    right: 0;
+}
+
+p.login-dark-separator:before,
+p.login-dark-separator:after {
+    content: "";
+    height: 1px;
+    position: absolute;
+    top: 350px;
+    width: 33%;
+}
+
+.login-with-social > ul > li > i.hover:hover {
+    color: #f7af1c;
+}
+
+.login-with-social > ul > li > i.fa-spinner {
+    color: #f7af1c;
+}
+
+.bg-facebook {
+    background-color: #3b5998;
+}
+
+.bg-google {
+    background-color: #DB4437;
+}
+
+.bg-github {
+    background-color: #4078C0;
+}
+
+.is-social-media-wrapper {
+    width: 289px;
+    height: 219px;
+    position: absolute;
+    z-index: 2000;
+    background: transparent;
 }
 
