@@ -39,7 +39,7 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'authServiceBaseUrl': 'http://192.168.86:3637/oauth/',
+    'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
@@ -55,7 +55,7 @@ var baseUrls = {
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
     'notification': 'http://notificationservice.app.veery.cloud/',
-    'authProviderUrl':'http://localhost:3637/',
+    'authProviderUrl':'http://userservice.app.veery.cloud:3637/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -637,7 +637,31 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
             data: {
                 requireLogin: true
             }
-        })
+        }).state("console.caseConfiguration", {
+                url: "/caseConfiguration",
+                templateUrl: "views/ticket-case/caseConfig.html",
+                controller: "caseConfigController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+        }).state("console.case", {
+                url: "/case",
+                templateUrl: "views/ticket-case/case.html",
+                controller: "caseController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+        }).state("console.configCase", {
+                url: "/configCase/:caseId/:title",
+                templateUrl: "views/ticket-case/configCase.html",
+                controller: "configCaseController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+            })
     }]);
 
 

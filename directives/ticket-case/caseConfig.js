@@ -1,28 +1,26 @@
 /**
- * Created by Heshan.i on 9/14/2016.
+ * Created by Heshan.i on 10/19/2016.
  */
 
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var slaDirective = function($filter, $state, slaApiAccess){
+    var caseConfigDirective = function($filter, $state, caseApiAccess){
         return {
             restrict: "EAA",
             scope: {
-                sla: "=",
-                slas: "=",
-                'updateSla': '&',
+                caseConfig: "=",
+                'updateCaseConfig': '&',
                 'reloadPage':'&'
             },
 
-            templateUrl: 'views/ticket-sla/editSla.html',
+            templateUrl: 'views/ticket-case/editCaseConfig.html',
 
             link: function (scope) {
                 scope.editMode = false;
 
                 scope.editApplication = function () {
                     scope.editMode = !scope.editMode;
-                    console.log(scope.applist);
                 };
 
                 scope.cancelUpdate=function()
@@ -65,39 +63,39 @@
                     });
                 };
 
-                scope.editSla = function(){
-                    slaApiAccess.updateSla(scope.sla).then(function(response){
-                        if(response.IsSuccess)
-                        {
-                            scope.showAlert('SLA', response.CustomMessage, 'success');
-                            scope.reloadpage();
-                        }
-                        else
-                        {
-                            var errMsg = response.CustomMessage;
+                /*scope.editSla = function(){
+                 slaApiAccess.updateSla(scope.sla).then(function(response){
+                 if(response.IsSuccess)
+                 {
+                 scope.showAlert('SLA', response.CustomMessage, 'success');
+                 scope.reloadpage();
+                 }
+                 else
+                 {
+                 var errMsg = response.CustomMessage;
 
-                            if(response.Exception)
-                            {
-                                errMsg = response.Exception.Message;
-                            }
-                            scope.showAlert('SLA', errMsg, 'error');
-                        }
-                    }, function(err){
-                        var errMsg = "Error occurred while updating sla";
-                        if(err.statusText)
-                        {
-                            errMsg = err.statusText;
-                        }
-                        scope.showAlert('SLA', errMsg, 'error');
-                    });
-                };
+                 if(response.Exception)
+                 {
+                 errMsg = response.Exception.Message;
+                 }
+                 scope.showAlert('SLA', errMsg, 'error');
+                 }
+                 }, function(err){
+                 var errMsg = "Error occurred while updating sla";
+                 if(err.statusText)
+                 {
+                 errMsg = err.statusText;
+                 }
+                 scope.showAlert('SLA', errMsg, 'error');
+                 });
+                 };*/
 
-                scope.removeSla = function(){
-                    scope.showConfirm("Delete SLA", "Delete", "ok", "cancel", "Do you want to delete " + scope.sla.title, function (obj) {
-                        slaApiAccess.deleteSla(scope.sla._id.toString()).then(function (response) {
+                scope.removeCaseConfig = function(){
+                    scope.showConfirm("Delete Case Configuration", "Delete", "ok", "cancel", "Do you want to delete " + scope.caseConfig.configurationName, function (obj) {
+                        caseApiAccess.deleteCase(scope.caseConfig._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
-                                scope.updateSla(scope.sla);
-                                scope.showAlert('SLA', response.CustomMessage, 'success');
+                                scope.updateCaseConfig(scope.caseConfig);
+                                scope.showAlert('Case Configuration', response.CustomMessage, 'success');
                                 $state.reload();
                             }
                             else {
@@ -106,23 +104,18 @@
                                 if (response.Exception) {
                                     errMsg = response.Exception.Message;
                                 }
-                                scope.showAlert('SLA', errMsg, 'error');
+                                scope.showAlert('Case Configuration', errMsg, 'error');
                             }
                         }, function (err) {
-                            var errMsg = "Error occurred while deleting sla";
+                            var errMsg = "Error occurred while deleting Case Configuration";
                             if (err.statusText) {
                                 errMsg = err.statusText;
                             }
-                            scope.showAlert('SLA', errMsg, 'error');
+                            scope.showAlert('Case Configuration', errMsg, 'error');
                         });
                     }, function () {
 
-                    }, scope.sla);
-                };
-
-                scope.viewConfigurations = function()
-                {
-                    $state.go('console.slaConfiguration', {slaId: scope.sla._id.toString(), title: scope.sla.title});
+                    }, scope.caseConfig);
                 };
 
             }
@@ -130,5 +123,5 @@
         }
     };
 
-    app.directive('slaDirective', slaDirective);
+    app.directive('caseConfigDirective', caseConfigDirective);
 }());
