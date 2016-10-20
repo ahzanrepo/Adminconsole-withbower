@@ -19,6 +19,7 @@
         };
 
         $scope.newDropDownState = false;
+        $scope.currentTrunk = {};
 
         $scope.pressNewButton = function()
         {
