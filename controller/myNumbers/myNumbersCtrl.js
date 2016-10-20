@@ -18,6 +18,8 @@
             });
         };
 
+
+
         $scope.newDropDownState = false;
         $scope.currentTrunk = {};
 
@@ -82,6 +84,50 @@
             });
         };
 
+        $scope.updateTrunk = function(trunk)
+        {
+            phnNumApiAccess.updateTrunk(trunk.EditData.id, trunk.EditData).then(function(data)
+            {
+                if(data.IsSuccess)
+                {
+                    $scope.showAlert('Success', 'info', 'Phone number added');
+
+                    if(data.Result)
+                    {
+                        trunk.TrunkName = data.Result.TrunkName;
+                        trunk.IpUrl = data.Result.IpUrl;
+                        trunk.TranslationId = data.Result.TranslationId;
+
+                        trunk.Enabled = data.Result.Enabled;
+                    }
+
+                }
+                else
+                {
+                    var errMsg = "";
+                    if(data.Exception && data.Exception.Message)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if(data.CustomMessage)
+                    {
+                        errMsg = data.CustomMessage;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                }
+
+            }, function(err)
+            {
+                var errMsg = "Error updating trunk";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+
         var loadNumbers = function()
         {
             var token = authService.GetToken();
@@ -114,6 +160,20 @@
             });
         };
 
+
+        $scope.trunkEditMode = function(trunk)
+        {
+            if(trunk.IsOpened)
+            {
+                trunk.IsOpened = false;
+            }
+            else
+            {
+                trunk.IsOpened = true;
+            }
+
+        };
+
         var loadTrunks = function()
         {
             $scope.trunkList = [];
@@ -121,6 +181,10 @@
             {
                 if(data.IsSuccess)
                 {
+                    data.Result.forEach(function(trunk)
+                    {
+                        trunk.EditData = angular.copy(trunk);
+                    });
                     $scope.trunkList = data.Result;
                 }
                 else
