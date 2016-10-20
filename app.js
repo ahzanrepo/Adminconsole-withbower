@@ -55,7 +55,6 @@ var baseUrls = {
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
     'notification': 'http://notificationservice.app.veery.cloud/',
-    'authProviderUrl':'http://userservice.app.veery.cloud/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -70,7 +69,7 @@ mainApp.constant('baseUrls', baseUrls);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider) {
 
-        var authProviderUrl = 'http://192.168.0.86:3637/';
+        var authProviderUrl = 'http://userservice.app.veery.cloud/';
         $urlRouterProvider.otherwise('/login');
 
         /////////////////////////////////////////////////////////
