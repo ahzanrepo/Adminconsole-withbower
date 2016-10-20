@@ -3180,10 +3180,188 @@ tags-input .tags.focused {
     z-index: 0;
 }
 
+
+
+
+.notify-img-modal {
+    margin: 0 auto;
+    text-align: left;
+    position: absolute;
+    top: 30px;
+    min-height: 50px;
+}
+.notify-img-modal> img {
+    border-radius: 70%;
+    width: 100px;
+    height: 100px;
+    overflow:visible;
+    position:relative;
+    z-index: 0;
+}
+
+
+.notify-img-small {
+    margin: 0 auto;
+    text-align: left;
+    position: absolute;
+
+}
+.notify-img-small> img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow:visible;
+    position:relative;
+}
+
 /*add social connector disable*/
 .avoid-clicks {
     display: block;
     background: rgba(51,51,51,0.85);
     pointer-events: none;
     color: whitesmoke;
+}
+.console-notofication-wrapper {
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    padding: 0px 5px 5px 0px;
+
+}
+
+.console-notofication-wrapper > .notification-status {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 16px;
+    color: #36ba45;
+}
+
+.console-notofication-wrapper > .notification-status > i {
+    font-size: 50px;
+    color: #36ba45;
+}
+.notification-list {
+    display: block;
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 5px 0px 3px 0px;
+    margin-left: 2px;
+    margin-right: 12px;
+}
+.notification-time {
+    text-align: left;
+    font-size: 10px;
+    display: inline-block;
+}
+/* #Console notification */
+.console-notification-header {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #36ba45;
+    color: #ffffff;
+    top: -4px;
+    right: -4px;
+    text-align: center;
+    font-size: 6px;
+    padding-top: 5px;
+}
+
+.console-drop-menu.notification-menu,
+.console-drop-menu.notification-menu-left {
+    min-width: 300px;
+    min-height: 355px;
+    padding-bottom: 0;
+}
+
+.console-drop-menu > li.notification-header > span.drop-sub-header {
+    font-family: 'AvenirNextLTPro-Regular', sans-serif;
+    font-size: 13px;
+    padding-top: 12px;
+    display: inline-block;
+    text-align: right;
+    float: right;
+    color: #36ba45 !important;
+    padding-right: 13px;
+}
+
+.console-drop-menu.notification-menu::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -10px;
+    margin: auto 0px;
+    text-align: center;
+    left: 260px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 22px solid white;
+}
+
+.console-drop-menu.notification-menu-left::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -10px;
+    margin: auto 0px;
+    text-align: center;
+    left: 10px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 22px solid white;
+}
+.console-menu-icon {
+    margin-top: 4px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+.console-menu-icon > i {
+    font-size: 20px;
+    color: #97cb04;
+    cursor: pointer;
+}
+
+.console-menu-icon > i:hover {
+    color: #ffffff;
+}
+
+.modal-panel
+{
+    height:auto;
+    border-left-width: 2pt;
+    border-color: lightgrey;
+}
+.color-orange {
+    color: #ff8c00 !important;
+}
+.color-red {
+    color: #ff0c06 !important;
+}
+.console-notification-modal-wrapper {
+    width: 80%;
+    height: 100px;
+    overflow: hidden;
+    padding: 0px 5px 5px 0px;
+    margin-left: 25%;
+    margin-top: 5%;
+    z-index: 0;
+
+}
+.modal-message-wrapper{
+    width:70%;
+}
+
+.notification-modal-time {
+    font-size: 10px;
+    display: inline-block;
+    color: #d7d700;
+}
+.notify-modal-btn-wrap{
+    z-index: 1;
+    margin-right:10px;
 }
