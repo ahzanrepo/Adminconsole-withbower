@@ -82,8 +82,11 @@
 
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="validation-area">
+
+                                <div class="validation-area" >
                                     <!-- password  -->
+
+
                                     <label class="dark-frm-label">Password
                                          <span class="inline-block validation-on"
                                                ng-show="signUpForm.password.$invalid && !signUpForm.password.$pristine">*
@@ -91,8 +94,18 @@
                                     <input type="password" ng-model="password"
                                            class="form-control dark-frm-input"
                                            name="password"
+                                           id="password"
                                            placeholder=""
                                            required=""/>
+
+                                   <ul>
+                                        <li>Min length 8</li>
+                                        <li>Special Character</li>
+                                        <li>Digit</li>
+                                        <li>Capital Letter</li>
+                                    </ul>
+                                    <password-strength ng-model="password"></password-strength>
+
                                 </div>
                             </div>
 

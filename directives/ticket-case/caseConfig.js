@@ -5,16 +5,16 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var caseDirective = function($filter, $state, caseApiAccess){
+    var caseConfigDirective = function($filter, $state, caseApiAccess){
         return {
             restrict: "EAA",
             scope: {
-                caseInfo: "=",
-                'updateCase': '&',
+                caseConfig: "=",
+                'updateCaseConfig': '&',
                 'reloadPage':'&'
             },
 
-            templateUrl: 'views/ticket-case/editCase.html',
+            templateUrl: 'views/ticket-case/editCaseConfig.html',
 
             link: function (scope) {
                 scope.editMode = false;
@@ -64,38 +64,38 @@
                 };
 
                 /*scope.editSla = function(){
-                    slaApiAccess.updateSla(scope.sla).then(function(response){
-                        if(response.IsSuccess)
-                        {
-                            scope.showAlert('SLA', response.CustomMessage, 'success');
-                            scope.reloadpage();
-                        }
-                        else
-                        {
-                            var errMsg = response.CustomMessage;
+                 slaApiAccess.updateSla(scope.sla).then(function(response){
+                 if(response.IsSuccess)
+                 {
+                 scope.showAlert('SLA', response.CustomMessage, 'success');
+                 scope.reloadpage();
+                 }
+                 else
+                 {
+                 var errMsg = response.CustomMessage;
 
-                            if(response.Exception)
-                            {
-                                errMsg = response.Exception.Message;
-                            }
-                            scope.showAlert('SLA', errMsg, 'error');
-                        }
-                    }, function(err){
-                        var errMsg = "Error occurred while updating sla";
-                        if(err.statusText)
-                        {
-                            errMsg = err.statusText;
-                        }
-                        scope.showAlert('SLA', errMsg, 'error');
-                    });
-                };*/
+                 if(response.Exception)
+                 {
+                 errMsg = response.Exception.Message;
+                 }
+                 scope.showAlert('SLA', errMsg, 'error');
+                 }
+                 }, function(err){
+                 var errMsg = "Error occurred while updating sla";
+                 if(err.statusText)
+                 {
+                 errMsg = err.statusText;
+                 }
+                 scope.showAlert('SLA', errMsg, 'error');
+                 });
+                 };*/
 
-                scope.removeCase = function(){
-                    scope.showConfirm("Delete Case", "Delete", "ok", "cancel", "Do you want to delete " + scope.caseInfo.caseName, function (obj) {
-                        caseApiAccess.deleteCase(scope.caseInfo._id.toString()).then(function (response) {
+                scope.removeCaseConfig = function(){
+                    scope.showConfirm("Delete Case Configuration", "Delete", "ok", "cancel", "Do you want to delete " + scope.caseConfig.configurationName, function (obj) {
+                        caseApiAccess.deleteCase(scope.caseConfig._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
-                                scope.updateCase(scope.caseInfo);
-                                scope.showAlert('Case', response.CustomMessage, 'success');
+                                scope.updateCaseConfig(scope.caseConfig);
+                                scope.showAlert('Case Configuration', response.CustomMessage, 'success');
                                 $state.reload();
                             }
                             else {
@@ -104,23 +104,18 @@
                                 if (response.Exception) {
                                     errMsg = response.Exception.Message;
                                 }
-                                scope.showAlert('Case', errMsg, 'error');
+                                scope.showAlert('Case Configuration', errMsg, 'error');
                             }
                         }, function (err) {
-                            var errMsg = "Error occurred while deleting Case";
+                            var errMsg = "Error occurred while deleting Case Configuration";
                             if (err.statusText) {
                                 errMsg = err.statusText;
                             }
-                            scope.showAlert('Case', errMsg, 'error');
+                            scope.showAlert('Case Configuration', errMsg, 'error');
                         });
                     }, function () {
 
-                    }, scope.caseInfo);
-                };
-
-                scope.viewConfigurations = function()
-                {
-                    $state.go('console.configCase', {caseId: scope.caseInfo._id.toString(), title: scope.caseInfo.caseName});
+                    }, scope.caseConfig);
                 };
 
             }
@@ -128,5 +123,5 @@
         }
     };
 
-    app.directive('caseDirective', caseDirective);
+    app.directive('caseConfigDirective', caseConfigDirective);
 }());

@@ -263,6 +263,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout, jw
         },
         goToFullScreen: function () {
 
+        }, goCaseConfiguration: function () {
+            $state.go('console.caseConfiguration');
+        }, goCase: function () {
+            $state.go('console.case');
         }
     };
 
