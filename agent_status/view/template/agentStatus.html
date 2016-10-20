@@ -1,5 +1,5 @@
-<div ng-hide="showSummary" class="col-md-4 col-sm-4  widget_tally_box">
-    <div class="x_panel fixed_height_480 agent-main-wrap   "
+<div class="col-md-4 col-sm-4  widget_tally_box">
+    <div class="x_panel height-agent-status agent-main-wrap   "
          ng-class="{'reserved':productivity.slotState=='Reserved',
                     'available':productivity.slotState=='Available',
                     'connected':productivity.slotState=='Connected',
@@ -14,7 +14,7 @@
         <div class="x_content">
             <div class="flex">
 
-                <div class="col-lg-12 ">
+                <div class="col-lg-12 " ng-if="viewState!=2">
                     <div class="list-inline widget_profile_box">
                         <div class="col-md-4">
                             <div class="slot-state">
@@ -65,7 +65,7 @@
 
 
             <!-- task -->
-            <div class="task-wrap" ng-slimscroll
+            <div ng-if="viewState!=2" class="task-wrap" ng-slimscroll
                  ng-mouseover="viewScroll()"
                  ng-mouseleave="hideScroll()"
                  opacity="0.1"
@@ -91,7 +91,8 @@
             </div>
 
             <!-- other details -->
-            <div class="other-agent-details"
+            <div ng-if="viewState < 2 "
+                 class="other-agent-details"
                  ng-mouseover="viewOtherScroll()"
                  ng-mouseleave="hideOtherScroll()"
             >

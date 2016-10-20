@@ -9,10 +9,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
 
         return $http({
             method: 'GET',
-            url: baseUrls.sipUserendpoint + "Users",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.sipUserendpoint + "Users"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -25,10 +22,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     var getDomains = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.clusterconfigUrl + "CloudEndUsers",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.clusterconfigUrl + "CloudEndUsers"
         }).then(function (resp) {
             return resp.data;
         })
@@ -38,10 +32,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         return $http({
             method: 'GET',
             /*url: baseUrls.sipUserendpoint + "ExtensionsByCategory/CONFERENCE",*/
-            url: baseUrls.conferenceUrl + "ConferenceConfiguration/Conference/AvailableExtensions",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/Conference/AvailableExtensions"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -55,10 +46,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         return $http({
             method: 'GET',
             /*url: baseUrls.sipUserendpoint + "ExtensionsByCategory/CONFERENCE",*/
-            url: baseUrls.conferenceUrl + "ConferenceConfiguration/Conference/"+conferenceName+"/AvailableExtensions",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/Conference/"+conferenceName+"/AvailableExtensions"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -73,9 +61,6 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         return $http({
             method: 'POST',
             url: baseUrls.sipUserendpoint + "Extension",
-            headers: {
-                'authorization': authToken
-            },
             data: resource
         }).then(function (response) {
             return response;
@@ -87,9 +72,6 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         return $http({
             method: 'GET',
             url: baseUrls.conferenceUrl + "ConferenceConfiguration/Templates",
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: resource
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -104,9 +86,6 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         return $http({
             method: 'POST',
             url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRoom",
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: conference
         }).then(function (response) {
             return response.data;
@@ -119,9 +98,6 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         return $http({
             method: 'PUT',
             url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRoom/" + conference.ConferenceName,
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: conference
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -141,10 +117,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
 
         return $http({
             method: 'GET',
-            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRooms/Page/"+rowCount+"/"+pageNo,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRooms/Page/"+rowCount+"/"+pageNo
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
 
@@ -164,10 +137,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
 
         return $http({
             method: 'DELETE',
-            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRoom/" + name,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRoom/" + name
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -182,9 +152,6 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
             method: 'POST',
             /*url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceUser/" + user.id + "/AddToRoom/" + conferenceName,*/
             url: baseUrls.conferenceUrl + "Conference/"+conferenceName+"/user",
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: user
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -200,10 +167,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
 
         return $http({
             method: 'GET',
-            url: baseUrls.conferenceUrl + "Conference/" + name + "/users",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.conferenceUrl + "Conference/" + name + "/users"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -216,10 +180,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     var deleteConferenceUser = function (userID) {
         return $http({
             method: 'DELETE',
-            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceUser/" + userID,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceUser/" + userID
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.IsSuccess;
@@ -234,9 +195,6 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         return $http({
             method: 'PUT',
             url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceUser/" + userID,
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: user
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -252,9 +210,6 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
         return $http({
             method: 'POST',
             url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceUser/" + userID + "/Mode",
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: user
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -271,10 +226,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     var userOperations = function (conferenceName,user,operation) {//Mute-UnMute-Deaf-UnDeaf-Kick
         return $http({
             method: 'post',
-            url: baseUrls.conferenceUrl + "ConferenceOperations/"+conferenceName+"/ConferenceUser/"+user+"/Action/"+operation,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.conferenceUrl + "ConferenceOperations/"+conferenceName+"/ConferenceUser/"+user+"/Action/"+operation
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.IsSuccess;
@@ -287,10 +239,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     var getRoomsCount = function () {
         return $http({
             method: 'get',
-            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRooms/PageCount",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ConferenceRooms/PageCount"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -303,10 +252,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     var getActiveConference = function () {
         return $http({
             method: 'get',
-            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ActiveConferenceRooms",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.conferenceUrl + "ConferenceConfiguration/ActiveConferenceRooms"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -319,10 +265,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     var getActiveConferenceUserCount = function (conferenceName) {
         return $http({
             method: 'get',
-            url: baseUrls.monitorrestapi + "Conference/"+conferenceName+"/Calls/Count",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.monitorrestapi + "Conference/"+conferenceName+"/Calls/Count"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -335,10 +278,7 @@ mainApp.factory("conferenceService", function ($http, $log, authService, baseUrl
     var getConferenceActiveUsers = function (conferenceName) {
         return $http({
             method: 'get',
-            url: baseUrls.monitorrestapi + "Conference/"+conferenceName+"/RealTimeUsers",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.monitorrestapi + "Conference/"+conferenceName+"/RealTimeUsers"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;

@@ -6,18 +6,14 @@
 
 'use strict';
 
-mainApp.factory("queueMonitorService", function ($http, authService) {
+mainApp.factory("queueMonitorService", function ($http, baseUrls) {
 
 
     var getAllConcurrentQueue = function () {
         //dashboard.app.veery.cloud
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardGraph/ConcurrentQueued/" + queue + "/5",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/ConcurrentQueued/" + queue + "/5"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;
@@ -30,13 +26,9 @@ mainApp.factory("queueMonitorService", function ($http, authService) {
 
     var getAllQueueStats = function () {
         //dashboard.app.veery.cloud
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardEvent/QueueDetails",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/QueueDetails"
         }).then(function (response) {
             if (response.data) {
                 return response.data;
@@ -53,10 +45,7 @@ mainApp.factory("queueMonitorService", function ($http, authService) {
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardEvent/QueueSingleDetail/" + queue,
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardEvent/QueueSingleDetail/" + queue
         }).then(function (response) {
             if (response.data) {
                 return response.data;
@@ -72,10 +61,7 @@ mainApp.factory("queueMonitorService", function ($http, authService) {
         var authToken = authService.GetToken();
         return $http({
             method: 'GET',
-            url: "http://dashboard.app.veery.cloud/DashboardGraph/ConcurrentQueued/"+ queue+"/5",
-            headers: {
-                'authorization': authToken
-            }
+            url: baseUrls.dashBordUrl+"DashboardGraph/ConcurrentQueued/"+ queue+"/5"
         }).then(function (response) {
             if (response.data && response.data.length > 0 && response.data[0].datapoints) {
                 return response.data[0].datapoints;

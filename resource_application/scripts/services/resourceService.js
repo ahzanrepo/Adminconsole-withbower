@@ -17,10 +17,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var setResourceToProfile = function (resourceName, resourceid) {
         return $http({
             method: 'put',
-            url: baseUrls.UserServiceBaseUrl + "User/" + resourceName + "/profile/resource/" + resourceid,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.UserServiceBaseUrl + "User/" + resourceName + "/profile/resource/" + resourceid
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 console.info("Resource Map To Profile..........Done............");
@@ -36,10 +33,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var resourceNameIsExsists = function (resourceName) {
         return $http({
             method: 'GET',
-            url: baseUrls.UserServiceBaseUrl + "User/" + resourceName + "/exsists",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.UserServiceBaseUrl + "User/" + resourceName + "/exsists"
         }).then(function (response) {
             return response.data.Result;
         });
@@ -49,10 +43,21 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var getResources = function (rowCount, pageNo) {
         return $http({
             method: 'GET',
-            url: baseUrls.resourceServiceBaseUrl + "Resources/" + rowCount + "/" + pageNo,
-            headers: {
-                'authorization': authService.GetToken()
+            url: baseUrls.resourceServiceBaseUrl + "Resources/" + rowCount + "/" + pageNo
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return {};
             }
+        });
+
+    };
+
+    var getResourcesWithoutPaging = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.resourceServiceBaseUrl + "Resources"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -66,10 +71,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var getTaskAttachToResource = function (resourceId) {
         return $http({
             method: 'GET',
-            url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Tasks",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Tasks"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -85,9 +87,6 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         return $http({
             method: 'post',
             url: baseUrls.resourceServiceBaseUrl + "Resource",
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: resource
         }).then(function (response) {
             /*try {
@@ -111,10 +110,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var deleteResource = function (resourceId) {
         return $http({
             method: 'delete',
-            url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId
         }).then(function (response) {
             return response.data.IsSuccess;
         });
@@ -126,11 +122,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
         return $http({
             method: 'GET',
-            url: baseUrls.resourceServiceBaseUrl + "Tasks",
-            headers: {
-                'authorization': authService.GetToken()
-            }
-
+            url: baseUrls.resourceServiceBaseUrl + "Tasks"
         }).then(function (response) {
             return response.data.Result;
         });
@@ -140,9 +132,6 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         return $http({
             method: 'POST',
             url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Tasks/" + taskId,
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: {"Concurrency": concurrency}
         }).then(function (response) {
             return response.data;
@@ -159,10 +148,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var deleteTask = function (resourceId, taskId) {
         return $http({
             method: 'DELETE',
-            url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Task/" + taskId,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Task/" + taskId
         }).then(function (response) {
             return response.data.IsSuccess;
         });
@@ -179,9 +165,6 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         return $http({
             method: 'PUT',
             url: baseUrls.resourceServiceBaseUrl + "Resource/" + resource.ResourceId,
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: resource
         }).then(function (response) {
             return response.data.IsSuccess;
@@ -194,9 +177,6 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         return $http({
             method: 'PUT',
             url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceId + "/Tasks/" + taskId,
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: data
         }).then(function (response) {
             return response.data.IsSuccess;
@@ -209,9 +189,6 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         return $http({
             method: 'get',
             url: baseUrls.resourceServiceBaseUrl + "Attributes",
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: resource
         }).then(function (response) {
             return response.data.Result;
@@ -223,10 +200,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var getAttributesAttachToResource = function (resTaskId) {
         return $http({
             method: 'get',
-            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/" + resTaskId + "/Attributes",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTask/" + resTaskId + "/Attributes"
         }).then(function (response) {
             return response.data.Result;
 
@@ -238,9 +212,6 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         return $http({
             method: 'put',
             url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/" + item.savedObj.ResAttId,
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: item.savedObj
         }).then(function (response) {
             return response.data.Result;
@@ -253,9 +224,6 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         return $http({
             method: 'post',
             url: baseUrls.resourceServiceBaseUrl + "ResourceTask/" + resTaskId + "/Attribute/" + attributeId,
-            headers: {
-                'authorization': authService.GetToken()
-            },
             data: {'Attribute': attributeId, 'Percentage': percentage, 'OtherData': otherData}
         }).then(function (response) {
             return response.data;
@@ -267,10 +235,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var deleteAttributeAssignToTask = function (resAttId) {
         return $http({
             method: 'delete',
-            url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/" + resAttId,
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/" + resAttId
         }).then(function (response) {
             return response.data;
 
@@ -281,10 +246,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
     var getResourcesCount = function (resAttId) {
         return $http({
             method: 'get',
-            url: baseUrls.resourceServiceBaseUrl + "ResourceCount",
-            headers: {
-                'authorization': authService.GetToken()
-            }
+            url: baseUrls.resourceServiceBaseUrl + "ResourceCount"
         }).then(function (response) {
             return response.data;
 
@@ -311,7 +273,8 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         DeleteAttributeAssignToTask: deleteAttributeAssignToTask,
         ResourceNameIsExsists: resourceNameIsExsists,
         GetResourcesCount: getResourcesCount,
-        SetResourceToProfile:setResourceToProfile
+        SetResourceToProfile:setResourceToProfile,
+        getResourcesWithoutPaging: getResourcesWithoutPaging
     }
 
 });

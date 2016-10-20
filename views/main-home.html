@@ -25,10 +25,10 @@
                 <!-- /menu profile quick info -->
                 <br>
                 <!-- sidebar menu -->
-                <div id="sidebar-menu">
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                     <div class="menu_section active">
                         <h3 class="font-gry-200">General</h3>
-                        <ul class="nav side-menu" style="">
+                        <ul class="nav side-menu" >
                             <li class="" ng-show="accessNavigation.DASHBOARD"><a ng-click="clickDirective.goDashboard()"
                                                                                  class="font-robot font-300">
                                 <i class="fa fa-home"></i> Home </a>
@@ -49,7 +49,7 @@
                                                                                 ng-click="clickDirective.goAgentProfileSummary()">Agent
                                         Summary</a></li>
                                     <li ng-show="accessNavigation.DASHBOARD"><a
-                                            ng-click="clickDirective.goTickerAgentDashboard()">Ticket Dasshboard</a>
+                                            ng-click="clickDirective.goTickerAgentDashboard()">Ticket Dashboard</a>
                                     </li>
                                 </ul>
                             </li>
@@ -106,6 +106,14 @@
                                     <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goFilter()">
                                         Create Filter</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goCaseConfiguration()">
+                                        Case Configuration</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goCase()">
+                                        Case Creation</a>
                                     </li>
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>
@@ -193,6 +201,19 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li ng-show="accessNavigation.FACEBOOK || accessNavigation.TWITTER ">
+                                <a
+                                        class="font-robot font-300 "><i class="fa fa-group"></i> Social Connectors <span
+                                            class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li ng-show="accessNavigation.FACEBOOK"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goFacebookApp()">Facebook </a>
+                                    </li>
+                                    <li ng-show="accessNavigation.TWITTER"><a href="javascript:void(0);"
+                                                                                ng-click="clickDirective.goTwitterApp()">Twitter</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <div class="menu_section">
@@ -215,9 +236,13 @@
                                                                           ng-click="clickDirective.goCallSummary()">Call
                                         Summary Report</a>
                                     </li>
-                                    <li ng-show="accessNavigation.QUEUE_SUMMARY"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goQueueSummary()">Queue
                                         Summary</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goQueueHourlySummary()">Queue
+                                        Hourly Breakdown</a>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goAgentSummary()">Agent

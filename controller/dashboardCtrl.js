@@ -8,13 +8,15 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     //#services call handler
     $scope.total = {
-        calls: 0,
+        callsInb: 0,
+        callsOutb: 0,
         queued: 0,
         queueAnswered: 0,
         queueDropped: 0,
         waiting: 0,
         briged: 0,
-        onGoing: 0
+        onGoingInb: 0,
+        onGoingOutb: 0
     };
 
     //#profile object
@@ -227,8 +229,30 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 });
             },
             getTotalCall: function () {
-                dashboardService.GetTotalCalls().then(function (response) {
-                    $scope.total.calls = response;
+                dashboardService.GetTotalCalls('inbound', null).then(function (responseInb) {
+
+                    if(responseInb && responseInb > 0)
+                    {
+                        $scope.total.callsInb = responseInb;
+                    }
+                    else
+                    {
+                        $scope.total.callsInb = 0;
+                    }
+
+                });
+
+                dashboardService.GetTotalCalls('outbound', null).then(function (responseOutb) {
+
+                    if(responseOutb && responseOutb > 0)
+                    {
+                        $scope.total.callsOutb = responseOutb;
+                    }
+                    else
+                    {
+                        $scope.total.callsOutb = 0;
+                    }
+
                 });
             },
             getTotalQueued: function () {
@@ -257,8 +281,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 });
             },
             getTotalOnGoing: function () {
-                dashboardService.GetTotalOnGoing().then(function (response) {
-                    $scope.total.onGoing = response;
+                dashboardService.GetTotalOnGoing('inbound').then(function (response) {
+                    $scope.total.onGoingInb = response;
+                });
+
+                dashboardService.GetTotalOnGoing('outbound').then(function (response) {
+                    $scope.total.onGoingOutb = response;
                 });
             },
             getProfileDetails: function () {

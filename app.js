@@ -20,12 +20,14 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
+    'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker', 'angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
     'ui.bootstrap.pagination',
     'ui.grid', 'ui.grid.grouping',
     'mgcrea.ngStrap',
     'btford.socket-io',
-    'veeryNotificationMod'
+    'veeryNotificationMod','stripe-payment-tools',
+    'datatables',
+    'satellizer'
 ]);
 
 
@@ -37,6 +39,7 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
@@ -45,22 +48,92 @@ var baseUrls = {
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
-    'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
+    'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
-    'TrunkServiceURL':'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
-    'notification': 'http://notificationservice.app.veery.cloud/'
-
+    'notification': 'http://notificationservice.app.veery.cloud/',
+    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
+    'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
+    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
 
-mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
-    function ($httpProvider, $stateProvider, $urlRouterProvider) {
+mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authProvider",
+    function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider) {
 
+        var authProviderUrl = 'http://userservice.app.veery.cloud/';
         $urlRouterProvider.otherwise('/login');
+
+        /////////////////////////////////////////////////////////
+
+
+        $authProvider.loginUrl = authProviderUrl+'auth/login';
+        $authProvider.signupUrl = authProviderUrl+'auth/signup';
+
+
+        $authProvider.facebook({
+            url: authProviderUrl+'auth/facebook',
+            clientId: '1237176756312189'
+            //responseType: 'token'
+        });
+
+        $authProvider.google({
+            url: authProviderUrl+'auth/google',
+            clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com'
+        });
+
+        $authProvider.github({
+            url: authProviderUrl+'auth/github',
+            clientId: 'f725eae279e6727c68c7'
+        });
+
+        $authProvider.linkedin({
+            clientId: 'LinkedIn Client ID'
+        });
+
+        $authProvider.instagram({
+            clientId: 'Instagram Client ID'
+        });
+
+        $authProvider.yahoo({
+            clientId: 'Yahoo Client ID / Consumer Key'
+        });
+
+        $authProvider.live({
+            clientId: 'Microsoft Client ID'
+        });
+
+        $authProvider.twitch({
+            clientId: 'Twitch Client ID'
+        });
+
+        $authProvider.bitbucket({
+            clientId: 'Bitbucket Client ID'
+        });
+
+        $authProvider.spotify({
+            clientId: 'Spotify Client ID'
+        });
+
+        // No additional setup required for Twitter
+
+        $authProvider.oauth2({
+            name: 'foursquare',
+            url: '/auth/foursquare',
+            clientId: 'Foursquare Client ID',
+            redirectUri: window.location.origin,
+            authorizationEndpoint: 'https://foursquare.com/oauth2/authenticate',
+        });
+
+        ///////////////////////////////////////////////////////////////////////////////
         $stateProvider.state("console", {
             url: "/console",
             templateUrl: "views/main-home.html",
@@ -75,14 +148,21 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 navigation: "DASHBOARD"
 
             }
-        }).state('console.fb', {
-            url: "/fb",
-            templateUrl: "socialConnectors/views/socialConnector.html",
-            controller: "socialConnectorController",
+        }).state('console.facebook', {
+            url: "/social/facebook",
+            templateUrl: "socialConnectors/views/socialFbConnector.html",
+            controller: "socialFbConnectorController",
             data: {
                 requireLogin: true,
-                navigation: "DASHBOARD"
-
+                navigation: "FACEBOOK"
+            }
+        }).state('console.twitter', {
+            url: "/social/twitter",
+            templateUrl: "socialConnectors/views/socialTwitterConnector.html",
+            controller: "socialTwitterConnectorController",
+            data: {
+                requireLogin: true,
+                navigation: "TWITTER"
             }
         }).state('console.productivity', {
             url: "/productivity",
@@ -367,7 +447,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             controller: "queueSummaryController",
             data: {
                 requireLogin: true,
-                navigation: "QUEUE_SUMMARY"
+                navigation: "CDR"
             }
         }).state('console.agentsummary', {
             url: "/agentsummary",
@@ -393,8 +473,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 requireLogin: true,
                 navigation: "EXTENSION"
             }
-        }).
-        state('console.ardsconfig', {
+        }).state('console.ardsconfig', {
             url: "/ardsconfig",
             templateUrl: "views/ards-config/ardsconfig.html",
             controller: "ardsController",
@@ -404,9 +483,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 navigation: "ARDS_CONFIGURATION"
             }
 
-        }).
-
-            state('console.myprofile', {
+        }).state('console.myprofile', {
                 url: "/myprofile",
                 templateUrl: "views/myUserprofile/myUserprofile.html",
 
@@ -489,6 +566,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 requireLogin: true,
                 navigation: "CDR"
             }
+
+        }).state('console.queueHourlySummary', {
+            url: "/queueHourlySummary",
+            templateUrl: "views/cdr/queueSummaryHourly.html",
+            controller: "queueSummaryHourlyCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
         }).state('console.sla', {
             url: "/sla",
             templateUrl: "views/ticket-sla/sla.html",
@@ -550,14 +636,38 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
             data: {
                 requireLogin: true
             }
-        })
+        }).state("console.caseConfiguration", {
+                url: "/caseConfiguration",
+                templateUrl: "views/ticket-case/caseConfig.html",
+                controller: "caseConfigController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+        }).state("console.case", {
+                url: "/case",
+                templateUrl: "views/ticket-case/case.html",
+                controller: "caseController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+        }).state("console.configCase", {
+                url: "/configCase/:caseId/:title",
+                templateUrl: "views/ticket-case/configCase.html",
+                controller: "configCaseController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+            })
     }]);
 
 
 mainApp.filter('durationFilter', function () {
     return function (value) {
         var durationObj = moment.duration(value);
-        return durationObj._data.days+'d::'+durationObj._data.hours+'h::'+durationObj._data.minutes+'m::'+durationObj._data.seconds+'s';
+        return durationObj._data.days + 'd::' + durationObj._data.hours + 'h::' + durationObj._data.minutes + 'm::' + durationObj._data.seconds + 's';
 
     }
 });
@@ -610,7 +720,7 @@ mainApp.constant('config', {
 });
 
 
-mainApp.run(function ($rootScope, loginService, $location) {
+mainApp.run(function ($rootScope, loginService, $location, $auth) {
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
@@ -627,7 +737,7 @@ mainApp.run(function ($rootScope, loginService, $location) {
 
 
         if (requireLogin) {
-            if (!loginService.getToken()) {
+            if (!$auth.isAuthenticated()) {
                 event.preventDefault();
                 $location.path("/login");
             }

@@ -6,10 +6,7 @@ mainApp.factory('ticketFilterService', function ($http, authService, baseUrls) {
         getMainFiledList: function () {
             return $http({
                 method: 'get',
-                url: baseUrls.ticketUrl + 'TicketSchema',
-                headers: {
-                    'authorization': authService.GetToken()
-                }
+                url: baseUrls.ticketUrl + 'TicketSchema'
             }).then(function (response) {
                 return response.data.Result;
             });
@@ -17,10 +14,7 @@ mainApp.factory('ticketFilterService', function ($http, authService, baseUrls) {
         getAllTicketViews: function () {
             return $http({
                 method: 'get',
-                url: baseUrls.ticketUrl + 'TicketViews',
-                headers: {
-                    'authorization': authService.GetToken()
-                }
+                url: baseUrls.ticketUrl + 'TicketViews'
             }).then(function (response) {
                 return response.data.Result;
             });
@@ -29,9 +23,6 @@ mainApp.factory('ticketFilterService', function ($http, authService, baseUrls) {
             return $http({
                 method: 'post',
                 url: baseUrls.ticketUrl + 'TicketView',
-                headers: {
-                    'authorization': authService.GetToken()
-                },
                 data: JSON.stringify(ticketViewObj)
             }).then(function (response) {
                 return response.data;
@@ -40,10 +31,7 @@ mainApp.factory('ticketFilterService', function ($http, authService, baseUrls) {
         getTicketViewById: function (id) {
             return $http({
                 method: 'get',
-                url: baseUrls.ticketUrl + 'TicketView/' + id,
-                headers: {
-                    'authorization': authService.GetToken()
-                }
+                url: baseUrls.ticketUrl + 'TicketView/' + id
             }).then(function (response) {
                 return response.data;
             });
@@ -52,9 +40,6 @@ mainApp.factory('ticketFilterService', function ($http, authService, baseUrls) {
             return $http({
                 method: 'put',
                 url: baseUrls.ticketUrl + 'TicketView/' + id,
-                headers: {
-                    'authorization': authService.GetToken()
-                },
                 data: JSON.stringify(ticketViewObj)
             }).then(function (response) {
                 return response.data;

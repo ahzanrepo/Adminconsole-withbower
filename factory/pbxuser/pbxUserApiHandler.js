@@ -3,17 +3,14 @@
  */
 (function() {
 
-  var pbxUserApiHandler = function($http, authService)
+  var pbxUserApiHandler = function($http, authService, baseUrls)
   {
     var getPABXUsers = function()
     {
 
       return $http({
         method: 'GET',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUsers',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUsers'
       }).then(function(resp)
       {
         return resp.data;
@@ -24,10 +21,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Users',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.sipUserendpoint + 'Users'
       }).then(function(resp)
       {
         return resp.data;
@@ -38,10 +32,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/PBXUserTemplates',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/PBXUserTemplates'
       }).then(function(resp)
       {
         return resp.data;
@@ -52,10 +43,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/PBXUserTemplate',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/PBXUserTemplate',
         data:{CallDivertNumber:destNum, ObjCategory: destType}
       }).then(function(resp)
       {
@@ -67,10 +55,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/FollowMeMulti',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/FollowMeMulti',
         data:JSON.stringify(fmList)
       }).then(function(resp)
       {
@@ -82,10 +67,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/Forwarding',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/Forwarding',
         data:{DestinationNumber:destNum, ObjCategory: destType, RingTimeout: ringTOut, DisconnectReason: disconReason, IsActive: true}
       }).then(function(resp)
       {
@@ -97,10 +79,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/AllowedNumbers',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/AllowedNumbers',
         data:{AllowedNumbers:allowedNumbers}
       }).then(function(resp)
       {
@@ -112,10 +91,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/DeniedNumbers',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/DeniedNumbers',
         data:{DeniedNumbers:deniedNumbers}
       }).then(function(resp)
       {
@@ -127,10 +103,7 @@
     {
       return $http({
         method: 'PUT',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + usrObj.UserUuid,
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.pbxUrl + 'PBXUser/' + usrObj.UserUuid,
         data:usrObj
       }).then(function(resp)
       {
@@ -142,10 +115,7 @@
     {
       return $http({
         method: 'POST',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
-        headers: {
-          'authorization': authService.GetToken()
-        },
+        url: baseUrls.pbxUrl + 'PBXUser',
         data:usrObj
       }).then(function(resp)
       {
@@ -157,10 +127,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUserTemplate/' + id,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUserTemplate/' + id
       }).then(function(resp)
       {
         return resp.data;
@@ -171,10 +138,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid
       }).then(function(resp)
       {
         return resp.data;
@@ -185,10 +149,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + id,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + id
       }).then(function(resp)
       {
         return resp.data;
@@ -199,10 +160,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/LimitAPI/Schedules/byCompany',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.limitHandlerUrl + 'LimitAPI/Schedules/byCompany'
       }).then(function(resp)
       {
         return resp.data;
@@ -213,10 +171,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/Files/' + refId + '/PABX/USER/GREETING',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.fileServiceUrl + 'Files/' + refId + '/PABX/USER/GREETING'
       }).then(function(resp)
       {
         return resp.data;
@@ -227,10 +182,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/FollowMe',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/FollowMe'
       }).then(function(resp)
       {
         return resp.data;
@@ -241,10 +193,7 @@
     {
       return $http({
         method: 'GET',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser/' + userUuid + '/Forwarding',
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'PBXUser/' + userUuid + '/Forwarding'
       }).then(function(resp)
       {
         return resp.data;
@@ -255,10 +204,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/FollowMe/' + fmId,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'FollowMe/' + fmId
       }).then(function(resp)
       {
         return resp.data;
@@ -269,10 +215,7 @@
     {
       return $http({
         method: 'DELETE',
-        url: 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/Forwarding/' + fwdId,
-        headers: {
-          'authorization': authService.GetToken()
-        }
+        url: baseUrls.pbxUrl + 'Forwarding/' + fwdId
       }).then(function(resp)
       {
         return resp.data;

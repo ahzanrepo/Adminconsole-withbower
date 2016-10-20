@@ -15,10 +15,23 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
     $scope.onClickBuyPackages = function (packageName) {
         loginService.buyMyPackage(packageName, function (result) {
             if (result) {
+
+                loginService.clearCookie();
                 $state.go('login');
             }
         });
-    }
+    };
 
+    $scope.config = {
+        publishKey: 'pk_test_8FepS5OSLnghnaPfVED8Ixkx',
+        title: 'Duoworld',
+        description: "for connected business",
+        logo: 'img/small-logo.png',
+        label: 'New Card',
+    };
+
+    $scope.$on('stripe-token-received', function(event, args) {
+        console.log(args);
+    });
 
 });

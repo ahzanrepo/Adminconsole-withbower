@@ -34,7 +34,8 @@
                         </option>
                     </select>-->
 
-                    <select class="select2_single form-control" tabindex="-1" aria-hidden="true" ng-options="tag.name group by tag.TagType for tag in tagList"
+                    <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                            ng-options="tag.name group by tag.TagType for tag in tagList"
                             ng-model="selectedTag">
                         <option value=""></option>
                     </select>
@@ -83,7 +84,6 @@
                 <div class="clearfix"></div>
 
 
-
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="x_content btn-wrap-header">
                         <button type="button" class="btn btn-success" ng-click="getTicketSummary()">
@@ -109,45 +109,75 @@
         </div>
     </div>
 
-    <div class="x_panel col-md-12 col-sm-12 col-xs-12" ng-if="obj.isTableLoading==1">
-        <h4>
-            Tickets In Progress : {{summaryDetails.progressing}}
-        </h4>
-        <h4>
-            New Tickets : {{summaryDetails.new}}
-        </h4>
-        <h4>
-            Closed Tickets : {{summaryDetails.closed}}
-        </h4>
-        <h4>
-            Resolved Tickets : {{summaryDetails.resolved}}
-        </h4>
-        <h4>
-            RE-Opened Tickets : {{summaryDetails.reopen}}
-        </h4>
-        <h4>
-            SLA Violated Tickets : {{summaryDetails.sla_violated}}
-        </h4>
-        <h4>
-            Overdue Tickets : {{summaryDetails.overdue_working}}
-        </h4>
-        <h4>
-            Completed Overdue Tickets : {{summaryDetails.overdue_done}}
-        </h4>
-        <h4>
-            First Call Resolved Tickets : {{summaryDetails.first_call_resolved}}
-        </h4>
-        <h4>
-            Average Resolution : {{summaryDetails.average_resolution}}
-        </h4>
-        <h4>
-            Average Response : {{summaryDetails.average_response}}
-        </h4>
+
+    <div class="col-lg-12" ng-if="obj.isTableLoading==1">
+        <div class="row">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="col-lg-12">
+                        <ul class="stats-overview ticket-summary">
+                            <li class="hidden-phone">
+                                <span class="name"> Tickets In Progress </span>
+                                <span class="value text-success"> {{summaryDetails.progressing}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name"> New Tickets </span>
+                                <span class="value text-success"> {{summaryDetails.new}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Closed Tickets </span>
+                                <span class="value text-success"> {{summaryDetails.closed}} </span>
+                            </li>
+
+                        </ul>
+                        <ul class="stats-overview ticket-summary">
+                            <li class="hidden-phone">
+                                <span class="name">Resolved Tickets </span>
+                                <span class="value text-success"> {{summaryDetails.resolved}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">RE-Opened Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.reopen}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Overdue Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.overdue_working}} </span>
+                            </li>
+                        </ul>
+                        <ul class="stats-overview ticket-summary">
+                            <li class="hidden-phone">
+                                <span class="name">SLA Violated Tickets </span>
+                                <span class="value text-success"> {{summaryDetails.sla_violated}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Completed Overdue Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.overdue_done}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Overdue Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.overdue_working}} </span>
+                            </li>
+                        </ul>
+                        <ul class="stats-overview ticket-summary">
+                            <li class="hidden-phone">
+                                <span class="name">First Call Resolved Tickets</span>
+                                <span class="value text-success"> {{summaryDetails.first_call_resolved}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Average Resolution</span>
+                                <span class="value text-success"> {{summaryDetails.average_resolution}}</span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">Average Response</span>
+                                <span class="value text-success"> {{summaryDetails.average_response}} </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-
-
-
-
 </div>
 
 <!--

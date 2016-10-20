@@ -42,10 +42,10 @@
                     <table border="0">
                         <tr>
                             <th>
-                                OnFailed
+                                <h2>OnFailed</h2>
                             </th>
-                            <th>
-                                <button class="glyphicon glyphicon-plus" type="button" ng-click="showModal('on_fail')"></button>
+                            <th style="padding: 7px;">
+                                <a ng-click="showModal('on_fail')" class="close-link"><i class="fa fa-plus"></i></a>
                             </th>
                         </tr>
                         <tr ng-repeat="onFailed in matrix.on_fail">
@@ -65,10 +65,10 @@
                     <table border="0">
                         <tr>
                             <th>
-                                OnThreshold
+                                <h2>OnThreshold</h2>
                             </th>
-                            <th>
-                                <button class="glyphicon glyphicon-plus" type="button" ng-click="showModal('on_threshold')"></button>
+                            <th style="padding: 7px;">
+                                <a ng-click="showModal('on_threshold')" class="close-link"><i class="fa fa-plus"></i></a>
                             </th>
                         </tr>
                         <tr ng-repeat="onThreshold in matrix.on_threshold">

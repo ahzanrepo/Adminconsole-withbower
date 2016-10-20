@@ -3,15 +3,11 @@
  */
 
 (function(){
-    var timerServiceAccess = function($http, authService){
+    var timerServiceAccess = function($http, baseUrls){
         var getTimersByUser = function(userId, from, to){
-            var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Timers/User/'+userId+'?from='+from+'&to='+to,
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.ticketUrl+'Timers/User/'+userId+'?from='+from+'&to='+to
             }).then(function(response){
                 return response.data;
             });

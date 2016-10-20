@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var agentStatusListCtrl = function ($scope, $filter, cdrApiHandler) {
+    var agentStatusListCtrl = function ($scope, $filter, cdrApiHandler, resourceService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -17,6 +17,20 @@
         };
 
         $scope.moment = moment;
+
+        $scope.agentStatuses = [
+            {DisplayName: 'Register', Status: 'Register'},
+            {DisplayName: 'Un-Register', Status: 'UnRegister'},
+            {DisplayName: 'Inbound', Status: 'Inbound'},
+            {DisplayName: 'Outbound', Status: 'Outbound'},
+            {DisplayName: 'Training Break', Status: 'TrainingBreak'},
+            {DisplayName: 'Meal Break', Status: 'MealBreak'},
+            {DisplayName: 'Tea Break', Status: 'TeaBreak'},
+            {DisplayName: 'Official Break', Status: 'OfficialBreak'},
+            {DisplayName: 'AUX Break', Status: 'AUXBreak'},
+            {DisplayName: 'Process Related Break', Status: 'ProcessRelatedBreak'},
+            {DisplayName: 'Meeting Break', Status: 'MeetingBreak'}
+        ];
 
 
         $scope.obj = {
@@ -54,6 +68,109 @@
             return true;
         };
 
+        var emptyArr = [];
+
+        $scope.querySearch = function(query)
+        {
+            if(query === "*" || query === "")
+            {
+                if($scope.resList)
+                {
+                    return $scope.resList;
+                }
+                else
+                {
+                    return emptyArr;
+                }
+
+            }
+            else
+            {
+                if($scope.resList)
+                {
+                    var filteredArr = $scope.resList.filter(function (item)
+                    {
+                        var regEx = "^(" + query + ")";
+
+                        if(item.ResourceName)
+                        {
+                            return item.ResourceName.match(regEx);
+                        }
+                        else
+                        {
+                            return false;
+                        }
+
+                    });
+
+                    return filteredArr;
+                }
+                else
+                {
+                    return emptyArr;
+                }
+            }
+
+        };
+
+        $scope.querySearchStatus = function(query)
+        {
+            if(query === "*" || query === "")
+            {
+                if($scope.agentStatuses)
+                {
+                    return $scope.agentStatuses;
+                }
+                else
+                {
+                    return emptyArr;
+                }
+
+            }
+            else
+            {
+                if($scope.agentStatuses)
+                {
+                    var filteredArr = $scope.agentStatuses.filter(function (item)
+                    {
+                        var regEx = "^(" + query + ")";
+
+                        if(item.Status)
+                        {
+                            return item.Status.match(regEx);
+                        }
+                        else
+                        {
+                            return false;
+                        }
+
+                    });
+
+                    return filteredArr;
+                }
+                else
+                {
+                    return emptyArr;
+                }
+            }
+
+        };
+
+        $scope.loadAgentList = function()
+        {
+            resourceService.getResourcesWithoutPaging().then(function(resList)
+            {
+                $scope.resList = resList;
+
+            }).catch(function(err)
+            {
+                $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list');
+
+            })
+        };
+
+        $scope.loadAgentList();
+
 
         $scope.getAgentStatusList = function ()
         {
@@ -74,7 +191,7 @@
 
             try
             {
-                cdrApiHandler.getAgentStatusList(startDate, endDate).then(function (agentListResp)
+                cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp)
                 {
                     $scope.agentStatusList = {};
                     if(agentListResp && agentListResp.Result)

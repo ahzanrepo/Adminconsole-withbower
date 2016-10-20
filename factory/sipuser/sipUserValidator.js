@@ -6,18 +6,15 @@
 
     var app = angular.module("veeryConsoleApp");
 
-    app.directive("usernamecheck", function ($q, $http, authService)
+    app.directive("usernamecheck", function ($q, $http, authService, baseUrls)
     {
 
         var validateUsername = function (usr)
         {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
-                url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/User/' + usr,
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.sipUserendpoint + 'User/' + usr
             }).then(function (resp)
             {
                 return resp.data;
@@ -73,13 +70,10 @@
 
         var validateExtension = function(ext)
         {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
-                url: 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Extension/' + ext,
-                headers: {
-                    'authorization': authToken
-                }
+                url: baseUrls.sipUserendpoint + 'Extension/' + ext
             }).then(function (resp) {
                 return resp.data;
             })

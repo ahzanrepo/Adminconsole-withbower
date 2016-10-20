@@ -163,6 +163,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
         goAttributeList: function () {
             $state.go('console.attributes');
         },
+        goFacebookApp: function () {
+            $state.go('console.facebook');
+        },
+        goTwitterApp: function () {
+            $state.go('console.twitter');
+        },
         goResourceList: function () {
             $state.go('console.resources');
         },
@@ -242,6 +248,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
         goQueueSummary: function () {
             $state.go('console.queuesummary');
         },
+        goQueueHourlySummary: function () {
+            $state.go('console.queueHourlySummary');
+        },
         goAgentSummary: function () {
             $state.go('console.agentsummary');
         },
@@ -305,6 +314,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
         },
         goToFullScreen: function () {
 
+        }, goCaseConfiguration: function () {
+            $state.go('console.caseConfiguration');
+        }, goCase: function () {
+            $state.go('console.case');
         }
     };
 
