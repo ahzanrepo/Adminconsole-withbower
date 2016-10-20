@@ -2,7 +2,7 @@
  * Created by Rajinda on 10/11/2016.
  */
 
-mainApp.factory("socialConnectorService", function ($http,authService,baseUrls) {
+mainApp.factory("socialConnectorService", function ($http,baseUrls) {
 
     var addFacebookPageToSystem = function (postData) {
         return $http({
@@ -77,7 +77,7 @@ mainApp.factory("socialConnectorService", function ($http,authService,baseUrls) 
         GetFacebookAccounts:getFacebookAccounts,
         DeleteFacebookAccount:deleteFacebookAccount,
         UpdatePagePicture:updatePagePicture,
-        ActivateFacebookAccount:activateFacebookAccount,
+        ActivateFacebookAccount:activateFacebookAccount
     }
 
 });
