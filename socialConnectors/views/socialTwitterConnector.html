@@ -52,10 +52,10 @@
     <div class="col-md-12 col-lg-12  col-sm-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2> Addedd Facebook Pages </h2>
+                <h2> Added Accounts </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <a class="close-link"><i class="fa fa-refresh" ng-click="GetFacebookAccounts()"></i></a>
+                        <a class="close-link"><i class="fa fa-refresh" ng-click="GetTwitterAccounts()"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -78,31 +78,60 @@
                         </div>
                     </div>
 
-                    <div ng-hide="isLoading"   class="col-md-55" ng-repeat="page in exssitingPageList">
+                    <div ng-hide="isLoading"   class="col-md-55" ng-repeat="page in exssitingPageList" ng-if='page.status == true'>
                         <div class="thumbnail">
                             <div class="image view view-first">
-                                <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.fb.pagePicture}}" alt="image" />
+                                <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.avatar}}" alt="image" />
                                 <div class="mask no-caption">
                                     <div class="tools tools-bottom">
-                                        <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateFacebookAccount(page)" title="Update Account"></i></a>
-                                        <a href="javascript:void(0);"><i class="fa fa-times" ng-click="DeleteFacebookAccount(page);" title="Delete Account"></i></a>
-                                        <a href="javascript:void(0);"><i class="fa fa-image" ng-click="updatePicture(page)" title="Update Picture"></i></a>
+                                        <!--<a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateFacebookAccount(page)" title="Update Account"></i></a>-->
+                                        <a href="javascript:void(0);"><i class="fa fa-times" ng-click="DeleteTwitterAccount(page);" title="Delete Account"></i></a>
+                                        <!--<a href="javascript:void(0);"><i class="fa fa-image" ng-click="updatePicture(page)" title="Update Picture"></i></a>-->
                                     </div>
                                 </div>
                             </div>
                             <div class="caption">
-                                <p><strong>{{page.fb.firstName}}</strong>
+                                <p><strong>{{page.name}}</strong>
                                 </p>
-                                <p>{{page.fb.lastName}}</p>
+                                <!--<p>{{page.fb.lastName}}</p>-->
                             </div>
                         </div>
                     </div>
 
                 </div>
-
-
                 </br>
+                <div class="ln_solid"></div>
+                </br>
+                <p>Deleted Account</p>
+                <div ng-show="isLoading" >
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-state-wrap">
+                                Loading...
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="isLoading"   class="col-md-55" ng-repeat="page in exssitingPageList" ng-if='page.status == false'>
+                    <div class="thumbnail">
+                        <div class="image view view-first">
+                            <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.avatar}}" alt="image" />
+                            <div class="mask no-caption">
+                                <div class="tools tools-bottom">
+                                    <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateFacebookAccount(page)" title="Activate Account"></i></a>
+                                    <!--<a href="javascript:void(0);"><i class="fa fa-times" ng-click="DeleteFacebookAccount(page);" title="Delete Account"></i></a>
+                                    <a href="javascript:void(0);"><i class="fa fa-image" ng-click="updatePicture(page)" title="Update Picture"></i></a>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="caption">
+                            <p><strong>{{page.name}}</strong>
+                            </p>
+                            <!--<p>{{page.fb.lastName}}</p>-->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

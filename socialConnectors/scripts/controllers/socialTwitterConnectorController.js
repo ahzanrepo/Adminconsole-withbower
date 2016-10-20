@@ -28,6 +28,7 @@ mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twi
         twitterService.clearCache();
         $('#getTimelineButton, #signOut').fadeOut(function(){
             $('#connectButton').fadeIn();
+            $scope.tweetProfile= {};
         });
     };
 
@@ -38,7 +39,100 @@ mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twi
         $scope.signOut();
     }
 
-    $scope.addPageToSystem = function(page){
+    $scope.addPageToSystem = function (page) {
+        var data = {
+            id: page.id,
+            avatar: page.avatar,
+            name: page.name,
+            screen_name: page.name,
+            access_token_key: '*',
+            access_token_secret: '*',
+            ticket_type: 'question',
+            ticket_tags: [],
+            ticket_priority: 'normal'
+        };
+        twitterService.addTwitterAccountToSystem(data).then(function (response) {
+            if(response){
+                $scope.showAlert("Twitter", 'success',"Successfully Added to System");
+                //document.getElementById("status")
+                $("#"+page.id+"").addClass("avoid-clicks");
+            }
+            else{
+                $scope.showAlert("Twitter", "error", "Fail To Add Selected Page to System.");
+            }
 
-    }
+        }, function (error) {
+            $scope.showAlert("Twitter", "error", "Fail To Add Selected Page to System.");
+            console.error("AddTwitterPageToSystem err");
+        });
+    };
+
+    $scope.exssitingPageList = [];
+    $scope.isLoading = true;
+    $scope.GetTwitterAccounts = function () {
+        $scope.isLoading = true;
+        twitterService.getTwitterAccounts().then(function (response) {
+            $scope.isLoading = false;
+            $scope.exssitingPageList = response;
+        }, function (error) {
+            console.error("GetTwitterAccounts err");
+            $scope.isLoading = false;
+        });
+    };
+    $scope.GetTwitterAccounts();
+
+    $scope.DeleteTwitterAccount = function (page) {
+        twitterService.deleteTwitterAccount(page._id).then(function (response) {
+            if(response){
+                $scope.GetTwitterAccounts();
+                $scope.showAlert("Twitter", 'success',"Successfully Remove Page from System.");
+            }
+            else{
+                $scope.showAlert("Twitter", 'error',"Fail To Remove Page.");
+            }
+        }, function (error) {
+            console.error("AddTwitterPageToSystem err");
+            $scope.isLoading = false;
+        });
+
+
+        /* var a = $scope.fbPageList.indexOf(page);
+         $scope.fbPageList.splice(a, 1);*/
+    };
+
+    $scope.updatePicture = function (page) {
+        twitterService.updateTwitterAccountPicture(page._id,{"avatar":page.avatar}).then(function (response) {
+            if(response){
+                $scope.GetTwitterAccounts();
+                $scope.showAlert("Twitter", 'success',"Successfully Update Profile Picture.");
+            }
+            else{
+                $scope.showAlert("Twitter", 'error',"Fail To Update.");
+            }
+        }, function (error) {
+            console.error("AddTwitterPageToSystem err");
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.ActivateTwitterAccount = function (page) {
+
+        twitterService.activateTwitterAccount(page._id).then(function (response) {
+            if(response){
+                $scope.GetTwitterAccounts();
+                $scope.showAlert("Twitter", 'success',"Page Added Back To System.");
+            }
+            else{
+                $scope.showAlert("Twitter", 'error',"Fail To Add.");
+            }
+        }, function (error) {
+            console.error("AddTwitterPageToSystem err");
+            $scope.isLoading = false;
+            $scope.showAlert("Twitter", 'error',"Fail To Add.");
+        });
+
+
+        /* var a = $scope.fbPageList.indexOf(page);
+         $scope.fbPageList.splice(a, 1);*/
+    };
 });

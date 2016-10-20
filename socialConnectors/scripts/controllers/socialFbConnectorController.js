@@ -174,7 +174,7 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
     };
 
     $scope.updatePicture = function (page) {
-        FB.api('/1138274299552708/picture?type=large', function (response) {//me/accounts?fields=id,picture,category,email,name&access_token=
+        FB.api('/'+page.id+'/picture?type=large', function (response) {//me/accounts?fields=id,picture,category,email,name&access_token=
             if(response){
                 socialConnectorService.UpdatePagePicture(page._id,{"picture":response.data.url}).then(function (response) {
                     if(response){
