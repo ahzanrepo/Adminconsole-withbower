@@ -153,11 +153,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getMyPackages(callback) {
-            $http.get(baseUrls.UserServiceBaseUrl+ "MyOrganization/mypackages", {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.get(baseUrls.UserServiceBaseUrl+ "MyOrganization/mypackages").
             success(function (data, status, headers, config) {
                 if (data && data.Result && data.Result.length > 0) {
                     callback(true,status);
@@ -174,11 +170,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getAllPackages(callback) {
-            $http.get(baseUrls.UserServiceBaseUrl+ "Packages", {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.get(baseUrls.UserServiceBaseUrl+ "Packages").
             success(function (data, status, headers, config) {
                 callback(data.Result);
 
@@ -192,11 +184,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function buyMyPackage(packageName, callback) {
-            $http.put(baseUrls.UserServiceBaseUrl+ "Organisation/Package/" + packageName, {}, {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.put(baseUrls.UserServiceBaseUrl+ "Organisation/Package/" + packageName, {}).
             success(function (data, status, headers, config) {
                 callback(true);
             }).
@@ -208,11 +196,7 @@
         //user login in to console
         //get current user navigation
         function getUserNavigation(callback) {
-            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").
             success(function (data, status, headers, config) {
                 console.log(data);
                 if (data.IsSuccess && data.Result && data.Result.length > 0) {
@@ -232,11 +216,7 @@
         //is can access
         function getNavigationAccess(callback) {
             mynavigations = {};
-            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").
             success(function (data, status, headers, config) {
                 if (data.IsSuccess && data.Result && data.Result.length > 0) {
                     data.Result[0].menus.forEach(function (item) {

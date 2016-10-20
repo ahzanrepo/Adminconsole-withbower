@@ -67,6 +67,7 @@
 <link rel="stylesheet" href="bower_components/pnotify/pnotify.core.css">
 <link rel="stylesheet" href="bower_components/pnotify/pnotify.buttons.css">
 <link rel="stylesheet" href="asset/css/main-icon-2/veery-font-2.css">
+<link rel="stylesheet" href="asset/css/main-icon-1/veery-font-1.css">
 
 
 <!-- #Goolge font API -->
@@ -199,6 +200,8 @@
 
 <!-- timepicker -->
 <script type="text/javascript" src="bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+
+
 
 <!-- main app JS -->
 <script type="text/javascript" src="app.js"></script>
@@ -512,6 +515,11 @@
 <script type="text/javascript" src="controller/ticket-sla/slaConfigController.js"></script>
 <!--<script type="text/javascript" src="directives/ticket-trigger/ticketDynamicField.js"></script>
 <script type="text/javascript" src="directives/ticket-trigger/dynamicOperation.js"></script>-->
+
+<!--auth directive --->
+
+
+
 <!-- dynamic Form -->
 <script type="text/javascript" src="dynamicForm/scripts/ngDynamicForms.js"></script>
 <script type="text/javascript" src="dynamicForm/scripts/services/ticketService.js"></script>
@@ -538,9 +546,20 @@
 <script type="text/javascript" src="factory/notification-sender/notificationSenderService.js"></script>
 <script type="text/javascript" src="asset/js/utility.js"></script>
 <script type="text/javascript" src="factory/socket-connect/SocketConnector.js"></script>
+<!-- timeago -->
+<script src="bower_components/angular-timeago/dist/angular-timeago.min.js"></script>
 
 <!--payment getway-->
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script src="asset/js/stripe.payment.tool.js"></script>
+
+<!--Case Configuration-->
+<script type="text/javascript" src="controller/ticket-case/caseConfigController.js"></script>
+<script type="text/javascript" src="controller/ticket-case/caseController.js"></script>
+<script type="text/javascript" src="controller/ticket-case/configCaseController.js"></script>
+<script type="text/javascript" src="directives/ticket-case/caseConfig.js"></script>
+<script type="text/javascript" src="directives/ticket-case/case.js"></script>
+<script type="text/javascript" src="factory/ticket-case/caseApiAccess.js"></script>
+
 
 </html>

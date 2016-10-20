@@ -37,6 +37,7 @@ notificationMod.factory('notificationConnector', function (socketFactory) {
             socket.on('authenticated', function () {
                 isAuthenticated = true;
                 console.log('socket is jwt authenticated');
+                notificationEvent.onAgentAuthenticated();
                 //document.getElementById("lblNotification").innerHTML = "socket is jwt authenticated";
                 /* Notification.success({
                  message: "Register With Notification Provider.",
@@ -59,6 +60,7 @@ notificationMod.factory('notificationConnector', function (socketFactory) {
             socket.on('disconnect', function (reason) {
                 //Notification.info({message: reason, delay: 500, closeOnClick: true});
                 console.log(reason);
+                notificationEvent.onAgentDisconnected();
             });
 
             socket.on('message', function (data) {

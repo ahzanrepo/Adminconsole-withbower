@@ -1,28 +1,26 @@
 /**
- * Created by Heshan.i on 9/14/2016.
+ * Created by Heshan.i on 10/19/2016.
  */
 
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var slaDirective = function($filter, $state, slaApiAccess){
+    var caseDirective = function($filter, $state, caseApiAccess){
         return {
             restrict: "EAA",
             scope: {
-                sla: "=",
-                slas: "=",
-                'updateSla': '&',
+                caseInfo: "=",
+                'updateCase': '&',
                 'reloadPage':'&'
             },
 
-            templateUrl: 'views/ticket-sla/editSla.html',
+            templateUrl: 'views/ticket-case/editCase.html',
 
             link: function (scope) {
                 scope.editMode = false;
 
                 scope.editApplication = function () {
                     scope.editMode = !scope.editMode;
-                    console.log(scope.applist);
                 };
 
                 scope.cancelUpdate=function()
@@ -65,7 +63,7 @@
                     });
                 };
 
-                scope.editSla = function(){
+                /*scope.editSla = function(){
                     slaApiAccess.updateSla(scope.sla).then(function(response){
                         if(response.IsSuccess)
                         {
@@ -90,14 +88,14 @@
                         }
                         scope.showAlert('SLA', errMsg, 'error');
                     });
-                };
+                };*/
 
-                scope.removeSla = function(){
-                    scope.showConfirm("Delete SLA", "Delete", "ok", "cancel", "Do you want to delete " + scope.sla.title, function (obj) {
-                        slaApiAccess.deleteSla(scope.sla._id.toString()).then(function (response) {
+                scope.removeCase = function(){
+                    scope.showConfirm("Delete Case", "Delete", "ok", "cancel", "Do you want to delete " + scope.caseInfo.caseName, function (obj) {
+                        caseApiAccess.deleteCase(scope.caseInfo._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
-                                scope.updateSla(scope.sla);
-                                scope.showAlert('SLA', response.CustomMessage, 'success');
+                                scope.updateCase(scope.caseInfo);
+                                scope.showAlert('Case', response.CustomMessage, 'success');
                                 $state.reload();
                             }
                             else {
@@ -106,23 +104,23 @@
                                 if (response.Exception) {
                                     errMsg = response.Exception.Message;
                                 }
-                                scope.showAlert('SLA', errMsg, 'error');
+                                scope.showAlert('Case', errMsg, 'error');
                             }
                         }, function (err) {
-                            var errMsg = "Error occurred while deleting sla";
+                            var errMsg = "Error occurred while deleting Case";
                             if (err.statusText) {
                                 errMsg = err.statusText;
                             }
-                            scope.showAlert('SLA', errMsg, 'error');
+                            scope.showAlert('Case', errMsg, 'error');
                         });
                     }, function () {
 
-                    }, scope.sla);
+                    }, scope.caseInfo);
                 };
 
                 scope.viewConfigurations = function()
                 {
-                    $state.go('console.slaConfiguration', {slaId: scope.sla._id.toString(), title: scope.sla.title});
+                    $state.go('console.configCase', {caseId: scope.caseInfo._id.toString(), title: scope.caseInfo.caseName});
                 };
 
             }
@@ -130,5 +128,5 @@
         }
     };
 
-    app.directive('slaDirective', slaDirective);
+    app.directive('caseDirective', caseDirective);
 }());
