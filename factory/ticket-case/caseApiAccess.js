@@ -72,12 +72,15 @@
             });
         };
 
-        var addTicketToCase = function(caseId, ticketId){
+        var addTicketToCase = function(caseId, ticketIds){
             return $http({
                 method: 'PUT',
-                url: baseUrls.ticketUrl+'Case/'+caseId+'/RelatedTicket/'+ticketId,
+                url: baseUrls.ticketUrl+'Case/'+caseId+'/RelatedTickets',
                 headers: {
                     'Content-Type': 'application/json'
+                },
+                params: {
+                    "ticketid[]": ticketIds
                 }
             }).then(function(response){
                 return response.data;
