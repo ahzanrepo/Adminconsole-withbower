@@ -109,11 +109,7 @@
         function Logoff(parm, callback) {
 
             var decodeToken = getTokenDecode();
-            $http.delete(baseUrls.authServiceBaseUrl+"token/revoke/"+decodeToken.jti,  {
-                headers: {
-                    Authorization: 'Bearer '+getToken()
-                }
-            }).
+            $http.delete(baseUrls.authServiceBaseUrl+"token/revoke/"+decodeToken.jti).
                 success(function (data, status, headers, config) {
                     localStorageService.remove("@navigations");
                     $auth.removeToken();

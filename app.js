@@ -39,7 +39,7 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'authServiceBaseUrl': 'http://192.168.86:3637/oauth/',
+    'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
@@ -55,7 +55,7 @@ var baseUrls = {
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
     'notification': 'http://notificationservice.app.veery.cloud/',
-    'authProviderUrl':'http://localhost:3637/',
+    /*'authProviderUrl':'http://localhost:3637/',*/
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -70,7 +70,7 @@ mainApp.constant('baseUrls', baseUrls);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider) {
 
-        var authProviderUrl = 'http://192.168.86:3637/';
+        var authProviderUrl = 'http://userservice.app.veery.cloud/';
         $urlRouterProvider.otherwise('/login');
 
         /////////////////////////////////////////////////////////
