@@ -38,8 +38,8 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 //resourceservice.app.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl': 'http://192.168.86:3637/DVP/API/1.0.0.0/',
-    'authServiceBaseUrl': 'http://192.168.86:3637/oauth/',
+    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
@@ -55,7 +55,7 @@ var baseUrls = {
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
     'notification': 'http://notificationservice.app.veery.cloud/',
-    'authProviderUrl':'http://localhost:3637/',
+    'authProviderUrl':'http://userservice.app.veery.cloud:3637/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
