@@ -120,7 +120,7 @@
 
                 scope.viewConfigurations = function()
                 {
-                    $state.go('console.configCase', {caseId: scope.caseInfo._id.toString(), title: scope.caseInfo.caseName});
+                    $state.go('console.configCase', {caseInfo: JSON.stringify(scope.caseInfo), title: scope.caseInfo.caseName});
                 };
 
             }

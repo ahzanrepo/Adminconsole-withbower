@@ -27,7 +27,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'btford.socket-io',
     'veeryNotificationMod','stripe-payment-tools',
     'datatables',
-    'satellizer'
+    'satellizer',
+    'checklist-model'
 ]);
 
 
@@ -40,6 +41,7 @@ var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
+    'authProviderUrl': 'http://userservice.app.veery.cloud/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
@@ -49,7 +51,7 @@ var baseUrls = {
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
-    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ticketUrl': 'http://localhost:3636/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -247,7 +249,19 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
             data: {
                 requireLogin: false
             }
-        }).state('pricing', {
+        }).state('ResetPw', {
+            url: "/resetPassword",
+            templateUrl: "auth/resetPassword.html",
+            data: {
+                requireLogin: false
+            }
+        }).state("Reset", {
+                url: "/reset/:token",
+                templateUrl: "auth/reEnterPassword.html",
+                data: {
+                    requireLogin: false,
+                }
+            }).state('pricing', {
             url: "/pricing",
             templateUrl: "auth/pricing.html",
             data: {
@@ -653,7 +667,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                     navigation: "TICKET_SLA"
                 }
         }).state("console.configCase", {
-                url: "/configCase/:caseId/:title",
+                url: "/configCase/:caseInfo/:title",
                 templateUrl: "views/ticket-case/configCase.html",
                 controller: "configCaseController",
                 data: {

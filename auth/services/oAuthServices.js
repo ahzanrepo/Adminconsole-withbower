@@ -20,6 +20,9 @@
         service.getNavigationAccess = getNavigationAccess;
         //service.navigations = navigations;
         service.Logoff = Logoff;
+        service.resetPassword = resetPassword;
+        service.forgetPassword = forgetPassword;
+        service.tokenExsistes = tokenExsistes;
         return service;
 
 
@@ -103,6 +106,40 @@
 
 
 
+        function forgetPassword(email, callback) {
+            $http.post(baseUrls.authProviderUrl+ "auth/forget",{email:email}).
+            success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+
+            }).
+            error(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+            });
+        }
+
+
+        function resetPassword(token,password, callback) {
+            $http.post(baseUrls.authProviderUrl+ "auth/reset/"+token,{password:password}).
+            success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+
+            }).
+            error(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+            });
+        }
+
+
+        function tokenExsistes(token, callback) {
+            $http.get(baseUrls.authProviderUrl+ "auth/token/"+token+"/exists").
+            success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+
+            }).
+            error(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+            });
+        }
 
 
         //logoff
