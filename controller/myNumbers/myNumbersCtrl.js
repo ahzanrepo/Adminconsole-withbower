@@ -18,12 +18,37 @@
             });
         };
 
+
+
+        $scope.newDropDownState = false;
+        $scope.currentTrunk = {};
+
+        $scope.pressNewButton = function()
+        {
+            if(!$scope.newDropDownState)
+            {
+                $scope.newDropDownState = true;
+            }
+        };
+
+        $scope.pressCancelButton = function()
+        {
+            $scope.newDropDownState = false;
+        };
+
         $scope.phnNum = {};
         $scope.searchCriteria = "";
 
         var resetForm = function()
         {
             $scope.phnNum = {};
+            $scope.currentTrunk = {};
+            $scope.searchCriteria = "";
+        };
+
+        var resetTrunkForm = function()
+        {
+            $scope.currentTrunk = {};
             $scope.searchCriteria = "";
         };
 
@@ -59,6 +84,50 @@
             });
         };
 
+        $scope.updateTrunk = function(trunk)
+        {
+            phnNumApiAccess.updateTrunk(trunk.EditData.id, trunk.EditData).then(function(data)
+            {
+                if(data.IsSuccess)
+                {
+                    $scope.showAlert('Success', 'info', 'Phone number added');
+
+                    if(data.Result)
+                    {
+                        trunk.TrunkName = data.Result.TrunkName;
+                        trunk.IpUrl = data.Result.IpUrl;
+                        trunk.TranslationId = data.Result.TranslationId;
+
+                        trunk.Enabled = data.Result.Enabled;
+                    }
+
+                }
+                else
+                {
+                    var errMsg = "";
+                    if(data.Exception && data.Exception.Message)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if(data.CustomMessage)
+                    {
+                        errMsg = data.CustomMessage;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                }
+
+            }, function(err)
+            {
+                var errMsg = "Error updating trunk";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+
         var loadNumbers = function()
         {
             var token = authService.GetToken();
@@ -83,6 +152,125 @@
             }, function(err)
             {
                 var errMsg = "Error occurred while loading numbers";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+
+
+        $scope.trunkEditMode = function(trunk)
+        {
+            if(trunk.IsOpened)
+            {
+                trunk.IsOpened = false;
+            }
+            else
+            {
+                trunk.IsOpened = true;
+            }
+
+        };
+
+        var loadTrunks = function()
+        {
+            $scope.trunkList = [];
+            phnNumApiAccess.getTrunks().then(function(data)
+            {
+                if(data.IsSuccess)
+                {
+                    data.Result.forEach(function(trunk)
+                    {
+                        trunk.EditData = angular.copy(trunk);
+                    });
+                    $scope.trunkList = data.Result;
+                }
+                else
+                {
+                    var errMsg = data.CustomMessage;
+
+                    if(data.Exception)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+
+                }
+
+            }, function(err)
+            {
+                var errMsg = "Error occurred while loading trunks";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+
+        var loadTranslations = function()
+        {
+            phnNumApiAccess.getTranslations().then(function(data)
+            {
+                if(data.IsSuccess)
+                {
+                    $scope.transList = data.Result;
+                }
+                else
+                {
+                    var errMsg = data.CustomMessage;
+
+                    if(data.Exception)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+
+                }
+
+            }, function(err)
+            {
+                var errMsg = "Error occurred while loading translations";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+
+        $scope.addNewTrunk = function()
+        {
+            phnNumApiAccess.addNewTrunk($scope.currentTrunk).then(function(data)
+            {
+                if(data.IsSuccess)
+                {
+                    $scope.showAlert('Success', 'info', 'Phone number added');
+
+                    resetTrunkForm();
+
+                    loadTrunks();
+                }
+                else
+                {
+                    var errMsg = "";
+                    if(data.Exception && data.Exception.Message)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if(data.CustomMessage)
+                    {
+                        errMsg = data.CustomMessage;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+                }
+
+            }, function(err)
+            {
+                var errMsg = "Error saving trunk";
                 if(err.statusText)
                 {
                     errMsg = err.statusText;
@@ -183,6 +371,8 @@
         };
 
 
+        loadTranslations();
+        loadTrunks();
         loadNumbers();
         getLimits();
 

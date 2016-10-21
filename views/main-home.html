@@ -322,26 +322,29 @@
                             </ul>
                         </li>
 
-                        <li role="presentation" class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
-                           aria-expanded="false">
-                            <i class="fa fa-envelope-o"></i>
-                            <!--<span class="badge bg-green">6</span>-->
-                        </a>
-                        <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                            <li ng-repeat="notification in newNotifications" >
-                                <a>
-                                    <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
-                        <span>
-                          <span>{{notification.From}}</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          {{notification.Message}}
-                        </span>
+                        <!--<li role="presentation" class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="fa fa-envelope-o"></i>
+                                &lt;!&ndash;<span class="badge bg-green">6</span>&ndash;&gt;
+                            </a>-->
+                        <!--<ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                            &lt;!&ndash;<li ng-repeat="notification in newNotifications" >
+                                <a >
+                                    <div class="col-lg-3 notify-img-small">
+                                        <img ng-src="{{notification.avatar}}"  src="assest/images/defaultProfile.png" alt="Profile Image">
+                                    </div>
+
+                    <span>
+                      <span>{{notification.From}}</span>
+                      <span class="time"> <time-ago from-time='{{ notification.resv_time }}'></time-ago></span>
+                    </span>
+                    <span class="message" maxlength="10">
+                      {{notification.Message}}
+                    </span>
                                 </a>
-                            </li>
-                            <!--<li>
+                            </li>&ndash;&gt;
+                            &lt;!&ndash;<li>
                                 <a>
                                     <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
                         <span>
@@ -384,9 +387,72 @@
                                         <i class="fa fa-angle-right"></i>
                                     </a>
                                 </div>
-                            </li>-->
-                        </ul>
-                    </li>
+                            </li>&ndash;&gt;
+                        </ul>-->
+
+
+                        <li class="console-menu-icon m-left-10 m-right-10" id="notificationAlarm" ng-click="checkAndRegister()" uib-dropdown
+                            uib-dropdown-toggle>
+                            <i id="regNotification" class="animated  veery-font-1-alarm "
+                               ng-class="{'color-orange':unredNotifications!=0,'color-red':!isSocketRegistered}"> </i>
+                            <i id="regNotificationLoading" class="fa fa-spinner fa-spin display-none" style="margin-top: 3px;"></i>
+
+                            <div class="console-notification-header"  ng-show="isSocketRegistered">
+                                {{unredNotifications}}
+                            </div>
+                            <ul class="dropdown-menu console-drop-menu notification-menu-left " uib-dropdown-menu
+                                role="menu"  ng-show="isSocketRegistered"
+                                aria-labelledby="btn-append-to-single-button">
+                                <li class="notification-header">
+                                    <a class="drop-header">Notification
+                                        center</a>
+                                    <span class="drop-sub-header">new ({{unredNotifications}})</span>
+                                </li>
+                                <li class="divider"></li>
+                                <div class="console-notofication-wrapper"
+                                     ng-slimscroll
+                                     opacity="0.1"
+                                     distance="10px"
+                                     height="355px"
+                                     width="100%"
+                                     ng-mouseover="chatWidgetscrollEnabled = true"
+                                     ng-mouseleave="chatWidgetscrollEnabled = false"
+                                     enabled="{{ chatWidgetscrollEnabled }}">
+                                    <div class="notification-status" ng-show="unredNotifications==0">
+                                        <i class="animated   veery-font-1-alarm"> </i>
+                                        </br>
+                                        no new notification
+                                    </div>
+                                    <div class="row notification-list" ng-repeat="notifi in newNotifications">
+
+                                        <div ng-click="showNotificationMessage(notifi)">
+                                            <div class="col-lg-3">
+                                                <div class="notify-img-small">
+                                                    <img ng-src="{{notifi.avatar}}"  src="assest/images/defaultProfile.png" alt="Profile Image">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="row">
+                                                    <div class="notification-text" >
+                                                        {{notifi.Message | limitTo:20}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="notification-time">
+                                                        <time-ago from-time='{{notifi.resv_time}}'
+                                                                  format='MM/dd/yyyy'></time-ago>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </ul>
+
+                        </li>
                         <li role="presentation" >
                             <a href="javascript:;" class="dropdown-toggle info-number"
                                aria-expanded="false">

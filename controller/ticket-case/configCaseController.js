@@ -5,7 +5,40 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var configCaseController = function($scope, $filter, $q, ticketReportsService) {
+    var configCaseController = function($scope, $filter, $q, $stateParams, $state, ticketReportsService, caseApiAccess) {
+
+        $scope.title = $stateParams.title;
+        $scope.caseInfo = JSON.parse($stateParams.caseInfo);
+
+        $scope.selectedTickets = {ids:[]};
+        $scope.selectedExsistingTickets = {ids:[]};
+
+        $scope.checkAll = function() {
+            if($scope.ticketList && $scope.ticketList.length > 0) {
+                for (var i = 0; i < $scope.ticketList.length; i++) {
+                    $scope.selectedTickets.ids.push($scope.ticketList[i]._id.toString());
+                }
+            }
+        };
+        $scope.uncheckAll = function() {
+            $scope.selectedTickets.ids = [];
+        };
+        $scope.checkAllExsisting = function() {
+            if($scope.caseInfo.related_tickets && $scope.caseInfo.related_tickets.length > 0) {
+                for (var i = 0; i < $scope.caseInfo.related_tickets.length; i++) {
+                    $scope.selectedExsistingTickets.ids.push($scope.caseInfo.related_tickets[i]._id.toString());
+                }
+            }
+        };
+        $scope.uncheckAllExsisting = function() {
+            $scope.selectedExsistingTickets.ids = [];
+        };
+
+        $scope.backToList =function()
+        {
+            $state.go('console.case');
+        };
+
         $scope.showAlert = function (tittle, type, content) {
 
             new PNotify({
@@ -14,6 +47,16 @@
                 type: type,
                 styling: 'bootstrap3'
             });
+        };
+
+        $scope.addNewTickets = false;
+
+        $scope.addNewRelatedSlaMatrix = function(){
+            if($scope.addNewTickets === true){
+                $scope.addNewTickets = false;
+            }else {
+                $scope.addNewTickets = true;
+            }
         };
 
         $scope.dtOptions = { paging: false, searching: false, info: false, order: [5, 'asc'] };
@@ -303,136 +346,60 @@
 
         };
 
-        $scope.getTicketSummaryCSV = function ()
-        {
-            $scope.tagHeaders = ['Reference', 'Subject', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
-
-            if(!$scope.tagCount)
-            {
-                $scope.tagCount = 0;
-            }
-
-            if($scope.tagCount)
-            {
-                for(j=0; j<$scope.tagCount; j++)
+        $scope.addTicketToCase = function(){
+            caseApiAccess.addTicketToCase($scope.caseInfo._id.toString(), $scope.selectedTickets.ids).then(function(response){
+                if(response.IsSuccess)
                 {
-                    $scope.tagHeaders.push('Tag' + (j+1));
+                    $scope.caseInfo = response.Result;
+                    $scope.showAlert('Case', 'success', response.CustomMessage);
+                    //$state.reload();
                 }
-            }
-
-
-            $scope.DownloadFileName = 'TICKET_' + $scope.obj.startDay + '_' + $scope.obj.endDay;
-
-            var deferred = $q.defer();
-
-            var ticketListForCSV = [];
-
-            var momentTz = moment.parseZone(new Date()).format('Z');
-            momentTz = momentTz.replace("+", "%2B");
-
-            var startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
-            var tempEndDate = $scope.obj.endDay;
-
-            var endDate = moment(tempEndDate).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00' + momentTz;
-
-            var tagName = null;
-
-            if($scope.selectedTag)
-            {
-                tagName = $scope.selectedTag.name;
-            }
-
-            $scope.FilterData = {
-                sdate: startDate,
-                edate: endDate,
-                requester: $scope.selectedExtUser,
-                assignee: $scope.selectedAssignee,
-                submitter: $scope.selectedSubmitter,
-                tag: tagName,
-                channel: $scope.channelType,
-                priority: $scope.priorityType,
-                type: $scope.ticketType,
-                status: $scope.ticketStatus,
-                slaViolated: $scope.slaStatus
-
-            };
-
-
-
-            try
-            {
-
-                ticketReportsService.getTicketDetailsNoPaging($scope.FilterData).then(function (ticketDetailsResp)
+                else
                 {
-                    if(ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0)
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
                     {
-                        $scope.ticketList = ticketDetailsResp.Result;
-
-                        ticketDetailsResp.Result.forEach(function(ticketInfo)
-                        {
-                            var ticketInfoTemp =
-                            {
-                                reference: ticketInfo.reference,
-                                subject: ticketInfo.subject,
-                                assignee: (ticketInfo.assignee ? ticketInfo.assignee.name : ''),
-                                submitter: (ticketInfo.submitter ? ticketInfo.submitter.name : ''),
-                                requester: (ticketInfo.requester ? ticketInfo.requester.name : ''),
-                                channel: ticketInfo.channel,
-                                status: ticketInfo.status,
-                                priority: ticketInfo.priority,
-                                type: ticketInfo.type,
-                                slaViolated: (ticketInfo.ticket_matrix ? ticketInfo.ticket_matrix.sla_violated : false)
-
-                            };
-
-                            if(ticketInfo.isolated_tags)
-                            {
-                                for(i=0; i<ticketInfo.isolated_tags.length; i++)
-                                {
-                                    if(i >= $scope.tagCount)
-                                    {
-                                        break;
-                                    }
-                                    var tagName = 'Tag' + (i+1);
-                                    ticketInfoTemp[tagName] = ticketInfo.isolated_tags[i];
-                                }
-                            }
-
-                            ticketListForCSV.push(ticketInfoTemp);
-
-                        });
-
-                        deferred.resolve(ticketListForCSV);
-
-
-
+                        errMsg = response.Exception.Message;
                     }
-                    else
-                    {
-                        deferred.resolve(ticketListForCSV);
-                    }
-
-
-
-                }).catch(function(err)
+                    $scope.showAlert('Case', 'error', errMsg);
+                }
+            }, function(err){
+                var errMsg = "Error occurred while updating tickets";
+                if(err.statusText)
                 {
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
-                    deferred.resolve(ticketListForCSV);
-                });
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Case', 'error', errMsg);
+            });
+        };
 
+        $scope.removeTicketFromCase = function(){
+            caseApiAccess.addTicketToCase($scope.caseInfo._id.toString(), $scope.selectedExsistingTickets.ids).then(function(response){
+                if(response.IsSuccess)
+                {
+                    $scope.caseInfo = response.Result;
+                    $scope.showAlert('Case', 'success', response.CustomMessage);
+                    //$state.reload();
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
 
-
-
-
-            }
-            catch (ex)
-            {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
-                deferred.resolve(ticketListForCSV);
-            }
-
-            return deferred.promise;
-
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Case', 'error', errMsg);
+                }
+            }, function(err){
+                var errMsg = "Error occurred while removing tickets";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Case', 'error', errMsg);
+            });
         };
     };
 

@@ -18,6 +18,7 @@
             });
         };
 
+
         $scope.newUser = {};
         $scope.newUser.title = 'mr';
         $scope.NewUserLabel = "+";
@@ -134,45 +135,68 @@
             });
         };
 
+        loadUsers();
+
 
         $scope.removeUser = function(username)
         {
-            userProfileApiAccess.deleteUser(username).then(function (data)
-            {
-                if(data.IsSuccess)
-                {
-                    $scope.showAlert('Success', 'info', 'User deleted');
-                    loadUsers();
-                }
-                else
-                {
-                    var errMsg = "";
 
-                    if(data.Exception)
+            new PNotify({
+                title: 'Confirm deletion',
+                text: 'Are you sure you want to delete user ?',
+                hide: false,
+                confirm: {
+                    confirm: true
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                }
+            }).get().on('pnotify.confirm', function()
+                {
+                    userProfileApiAccess.deleteUser(username).then(function (data)
                     {
-                        errMsg = data.Exception.Message;
-                    }
+                        if(data.IsSuccess)
+                        {
+                            $scope.showAlert('Success', 'info', 'User deleted');
+                            loadUsers();
+                        }
+                        else
+                        {
+                            var errMsg = "";
 
-                    if(data.CustomMessage)
+                            if(data.Exception)
+                            {
+                                errMsg = data.Exception.Message;
+                            }
+
+                            if(data.CustomMessage)
+                            {
+                                errMsg = data.CustomMessage;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+                        }
+
+                    }, function (err)
                     {
-                        errMsg = data.CustomMessage;
-                    }
-                    $scope.showAlert('Error', 'error', errMsg);
-                }
+                        var errMsg = "Error occurred while deleting contact";
+                        if (err.statusText)
+                        {
+                            errMsg = err.statusText;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                    });
+                }).on('pnotify.cancel', function() {
 
-            }, function (err)
-            {
-                var errMsg = "Error occurred while deleting contact";
-                if (err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('Error', 'error', errMsg);
-            });
+                });
+
 
         };
 
-        loadUsers();
+
 
     };
 
