@@ -95,18 +95,23 @@
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>Resource Handling</label>
-                                <input type="text" class="form-control has-feedback-left "
-                                       ng-model="ards.HandlingAlgo"
-                                       placeholder="Application URL">
+                                <select class="form-control has-feedback-left" ng-model="ards.HandlingAlgo">
+                                    <option value="" disabled selected>Resource Handling type</option>
+                                    <option>SINGLE</option>
+                                    <option>MULTIPLE</option>
+                                </select>
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>Resource Selection</label>
-                                <input type="text" class="form-control has-feedback-left "
-                                       ng-model="ards.SelectionAlgo"
-                                       placeholder="Application URL">
+                                <select class="form-control has-feedback-left" ng-model="ards.SelectionAlgo">
+                                    <option value="" disabled selected>Resource selection</option>
+                                    <option value="BASIC">Basic Routing</option>
+                                    <option value="BASICTHRESHOLD">Basic Threshold Routing</option>
+                                    <option value="WEIGHTBASE">Weight Base Routing</option>
+                                </select>
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
 
                             </div>
