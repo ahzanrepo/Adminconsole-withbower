@@ -161,4 +161,20 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.CheckLogin();
 
 
+    $scope.onClickResetPassword = function () {
+
+        $state.go('ResetPw');
+
+        //loginService.resetPassword($scope.password, function (isSuccess) {
+        //    if(isSuccess){
+        //        showAlert('Success', 'success', "Please check email");
+        //    }else{
+        //        showAlert('Error', 'error', "reset failed");
+        //    }
+        //})
+
+
+    }
+
+
 });

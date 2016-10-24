@@ -7,10 +7,7 @@ angular.module('authServiceModule' ,[]).service('authService', function (localSt
 
         this.GetToken = function(){
 
-
             return "bearer " + $auth.getToken();
-
-
 
         };
 
