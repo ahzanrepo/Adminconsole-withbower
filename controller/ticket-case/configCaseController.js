@@ -346,11 +346,38 @@
 
         };
 
+        $scope.loadCase = function(){
+            caseApiAccess.getCase($scope.caseInfo._id.toString()).then(function(response){
+                if(response.IsSuccess)
+                {
+                    $scope.caseInfo = response.Result;
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Case', errMsg, 'error');
+                }
+            }, function(err){
+                var errMsg = "Error occurred while loading case";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Case', errMsg, 'error');
+            });
+        };
+
         $scope.addTicketToCase = function(){
             caseApiAccess.addTicketToCase($scope.caseInfo._id.toString(), $scope.selectedTickets.ids).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.caseInfo = response.Result;
+                    //$scope.caseInfo = response.Result;
+                    $scope.loadCase();
                     $scope.showAlert('Case', 'success', response.CustomMessage);
                     //$state.reload();
                 }
@@ -375,11 +402,13 @@
         };
 
         $scope.removeTicketFromCase = function(){
-            caseApiAccess.addTicketToCase($scope.caseInfo._id.toString(), $scope.selectedExsistingTickets.ids).then(function(response){
+            caseApiAccess.removeTicketFromCase($scope.caseInfo._id.toString(), $scope.selectedExsistingTickets.ids).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.caseInfo = response.Result;
+                    //$scope.caseInfo = response.Result;
+                    $scope.loadCase();
                     $scope.showAlert('Case', 'success', response.CustomMessage);
+                    $scope.bulkCloseTickets();
                     //$state.reload();
                 }
                 else
@@ -394,6 +423,33 @@
                 }
             }, function(err){
                 var errMsg = "Error occurred while removing tickets";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Case', 'error', errMsg);
+            });
+        };
+
+        $scope.bulkCloseTickets = function(){
+            caseApiAccess.bulkCloseTickets($scope.selectedExsistingTickets.ids).then(function(response){
+                if(response.IsSuccess)
+                {
+                    $scope.showAlert('Case', 'success', response.CustomMessage);
+                    //$state.reload();
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Case', 'error', errMsg);
+                }
+            }, function(err){
+                var errMsg = "Error occurred while updating tickets";
                 if(err.statusText)
                 {
                     errMsg = err.statusText;

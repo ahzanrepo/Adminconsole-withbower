@@ -10,12 +10,12 @@
                     </h2>
                 </div>
                 <div class="col-md-3 ">
-                    <div class="pull-right user-option-wrap" ng-show="!editMode">
+                    <div class="pull-right user-option-wrap" ng-show="!editMode" ng-hide="!statusMode">
                         <h3>
                             <small ng-disabled="true" ng-click="removeCase()" style="cursor: pointer"><i
                                     class="fa fa-trash-o"></i></small>
-                            <small ng-disabled="true" ng-click="editApplication()" style="cursor: pointer"><i
-                                    class="fa fa-edit"></i></small>
+                            <!--<small ng-disabled="true" ng-click="editApplication()" style="cursor: pointer"><i
+                                    class="fa fa-edit"></i></small>-->
                             <small ng-disabled="true" ng-click="viewConfigurations()" style="cursor: pointer"><i
                                     class="fa fa-cog"></i></small>
                         </h3>
@@ -105,6 +105,11 @@
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Case Configuration</label>
                 <p>{{caseInfo.caseConfiguration[0].configurationName}} </p>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                <label class="form-control-static">Status</label>
+                <p>{{caseInfo.status}} </p>
             </div>
 
         </div>

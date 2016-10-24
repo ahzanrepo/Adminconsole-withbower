@@ -384,7 +384,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.ticketViaSms = 0;
     $scope.ticketViaSmsCount = 0;
     $scope.getTicketViaSms = function () {
-        dashboardService.GetNewTicketCountViaChannel("SMS").then(function (response) {
+        dashboardService.GetNewTicketCountViaChannel("sms").then(function (response) {
             if (response) {
                 $scope.ticketViaSmsCount = response;
                 if ($scope.totalTicket > 0)
@@ -400,14 +400,24 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
     $scope.getTicketViaSms();
 
+    $scope.ticketViaFacebookTotal = 0;
+    $scope.ticketViaFacebookTotalCount = 0;
+    $scope.showFbDetail = false;
+    $scope.showFbDetails = function () {
+        $scope.showFbDetail = !$scope.showFbDetail;
+    };
+
     $scope.ticketViaFacebook = 0;
     $scope.ticketViaFacebookCount = 0;
     $scope.getTicketViaFB = function () {
-        dashboardService.GetNewTicketCountViaChannel("FACEBOOK").then(function (response) {
+        dashboardService.GetNewTicketCountViaChannel("facebook-post").then(function (response) {
             if (response) {
                 $scope.ticketViaFacebookCount = response;
                 if ($scope.totalTicket > 0)
                     $scope.ticketViaFacebook = ((response / $scope.totalTicket) * 100).toFixed(2);
+
+                $scope.ticketViaFacebookTotalCount = $scope.ticketViaFacebookCount + $scope.ticketViaFacebookChatCount;
+                $scope.ticketViaFacebookTotal = (($scope.ticketViaFacebookTotalCount / $scope.totalTicket) * 100).toFixed(2);
             }
             else {
                 $scope.ticketViaFacebook = 0;
@@ -419,10 +429,32 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
     $scope.getTicketViaFB();
 
+    $scope.ticketViaFacebookChat = 0;
+    $scope.ticketViaFacebookChatCount = 0;
+    $scope.getTicketViaFBChat = function () {
+        dashboardService.GetNewTicketCountViaChannel("facebook-chat").then(function (response) {
+            if (response) {
+                $scope.ticketViaFacebookChatCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaFacebookChat = ((response / $scope.totalTicket) * 100).toFixed(2);
+
+                $scope.ticketViaFacebookTotalCount = $scope.ticketViaFacebookCount + $scope.ticketViaFacebookChatCount;
+                $scope.ticketViaFacebookTotal = (($scope.ticketViaFacebookTotalCount / $scope.totalTicket) * 100).toFixed(2);
+            }
+            else {
+                $scope.ticketViaFacebookChat = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaFacebookChat = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaFBChat();
+
     $scope.ticketViaTwitter = 0;
     $scope.ticketViaTwitterCount = 0;
     $scope.getTicketViaTwitter = function () {
-        dashboardService.GetNewTicketCountViaChannel("TWITTER").then(function (response) {
+        dashboardService.GetNewTicketCountViaChannel("twitter").then(function (response) {
             if (response) {
                 $scope.ticketViaTwitterCount = response;
                 if ($scope.totalTicket > 0)
@@ -441,7 +473,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.ticketViaOther = 0;
     $scope.ticketViaOtherCount = 0;
     var calculateOther = function () {
-        $scope.ticketViaOtherCount = $scope.ticketViaWidgetCount + $scope.ticketViaSkypeCount + $scope.ticketViaApiCount;
+        $scope.ticketViaOtherCount = $scope.ticketViaWidgetCount + $scope.ticketViaSkypeCount + $scope.ticketViaApiCount+$scope.ticketViaEmailCount;
         if ($scope.totalTicket > 0)
             $scope.ticketViaOther = (($scope.ticketViaOtherCount / $scope.totalTicket) * 100).toFixed(2);
     };
@@ -449,7 +481,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.ticketViaSkype = 0;
     $scope.ticketViaSkypeCount = 0;
     $scope.getTicketViaSkype = function () {
-        dashboardService.GetNewTicketCountViaChannel("SKYPE").then(function (response) {
+        dashboardService.GetNewTicketCountViaChannel("skype").then(function (response) {
             if (response) {
                 $scope.ticketViaSkypeCount = response;
                 if ($scope.totalTicket > 0)
@@ -469,7 +501,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.ticketViaApi = 0;
     $scope.ticketViaApiCount = 0;
     $scope.getTicketViaApi = function () {
-        dashboardService.GetNewTicketCountViaChannel("API").then(function (response) {
+        dashboardService.GetNewTicketCountViaChannel("api").then(function (response) {
             if (response) {
                 $scope.ticketViaApiCount = response;
                 if ($scope.totalTicket > 0)
@@ -490,7 +522,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.ticketViaWidget = 0;
     $scope.ticketViaWidgetCount = 0;
     $scope.getTicketViaWidget = function () {
-        dashboardService.GetNewTicketCountViaChannel("WIDGET").then(function (response) {
+        dashboardService.GetNewTicketCountViaChannel("web-widget").then(function (response) {
             if (response) {
                 $scope.ticketViaWidgetCount = response;
                 if ($scope.totalTicket > 0)
@@ -507,10 +539,32 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
     $scope.getTicketViaWidget();
 
+    $scope.ticketViaEmail = 0;
+    $scope.ticketViaEmailCount = 0;
+    $scope.getTicketViaEmail = function () {
+        dashboardService.GetNewTicketCountViaChannel("email").then(function (response) {
+            if (response) {
+                $scope.ticketViaEmailCount = response;
+                if ($scope.totalTicket > 0)
+                    $scope.ticketViaEmail = ((response / $scope.totalTicket) * 100).toFixed(2);
+                calculateOther();
+            }
+            else {
+                $scope.ticketViaEmail = 0;
+            }
+        }, function (err) {
+            $scope.ticketViaEmail = 0;
+            console.log(err);
+        });
+    };
+    $scope.getTicketViaEmail();
+
     $scope.showOtherDetail = false;
     $scope.showOtherDetails = function () {
         $scope.showOtherDetail = !$scope.showOtherDetail;
     };
+
+
 
     $scope.slaCompliance = 0;
     var SlaCompliance = function () {
