@@ -47,6 +47,32 @@
             })
         };
 
+        var downloadCDRFileCSV = function(fileName)
+        {
+            var url = baseUrls.fileServiceUrl + 'File/DownloadLatest/' + fileName;
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp;
+            })
+        };
+
+        var getFileMetaData = function(fileName)
+        {
+            var url = baseUrls.fileServiceUrl + 'File/' + fileName + '/MetaData';
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getProcessedCDRByFilter = function(startDate, endDate, agent, skill, direction, record, custNumber)
         {
             var url = baseUrls.cdrProcessor + 'GetProcessedCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate;
@@ -83,7 +109,53 @@
 
         var prepareDownloadCDRByType = function(startDate, endDate, agent, skill, direction, record, custNumber, fileType, tz)
         {
-            var url = baseUrls.cdrProcessor + 'Download?startTime=' + startDate + '&endTime=' + endDate;
+            var url = baseUrls.cdrProcessor + 'PrepareDownload?startTime=' + startDate + '&endTime=' + endDate;
+
+            if(agent)
+            {
+                url = url + '&agent=' + agent;
+            }
+            if(skill)
+            {
+                url = url + '&skill=' + skill;
+            }
+            if(direction)
+            {
+                url = url + '&direction=' + direction;
+            }
+            if(record)
+            {
+                url = url + '&recording=' + record;
+            }
+
+            if(custNumber)
+            {
+                url = url + '&custnumber=' + custNumber;
+            }
+
+            if(fileType)
+            {
+                url = url + '&fileType=' + fileType;
+            }
+
+            if(tz)
+            {
+                url = url + '&tz=' + tz;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var prepareDownloadCDRAbandonByType = function(startDate, endDate, agent, skill, direction, record, custNumber, fileType, tz)
+        {
+            var url = baseUrls.cdrProcessor + 'PrepareDownloadAbandon?startTime=' + startDate + '&endTime=' + endDate;
 
             if(agent)
             {
@@ -250,7 +322,10 @@
             prepareDownloadCDRByType: prepareDownloadCDRByType,
             getProcessedCDRByFilter: getProcessedCDRByFilter,
             getCallSummaryForQueueHr: getCallSummaryForQueueHr,
-            getAttributeList: getAttributeList
+            getAttributeList: getAttributeList,
+            downloadCDRFileCSV: downloadCDRFileCSV,
+            getFileMetaData: getFileMetaData,
+            prepareDownloadCDRAbandonByType: prepareDownloadCDRAbandonByType
         };
     };
 
