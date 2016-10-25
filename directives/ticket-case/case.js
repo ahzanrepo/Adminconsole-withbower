@@ -19,6 +19,8 @@
             link: function (scope) {
                 scope.editMode = false;
 
+                scope.statusMode = scope.caseInfo.status !== "closed";
+
                 scope.editApplication = function () {
                     scope.editMode = !scope.editMode;
                 };

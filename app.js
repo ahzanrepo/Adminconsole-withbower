@@ -261,7 +261,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                 data: {
                     requireLogin: false,
                 }
-            }).state('pricing', {
+            }).state("Activate", {
+            url: "/activate/:token",
+            templateUrl: "auth/activateAccount.html",
+            data: {
+                requireLogin: false,
+            }
+        }).state('pricing', {
             url: "/pricing",
             templateUrl: "auth/pricing.html",
             data: {

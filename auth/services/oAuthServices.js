@@ -23,6 +23,7 @@
         service.resetPassword = resetPassword;
         service.forgetPassword = forgetPassword;
         service.tokenExsistes = tokenExsistes;
+        service.activateAccount = activateAccount;
         return service;
 
 
@@ -132,6 +133,19 @@
 
         function tokenExsistes(token, callback) {
             $http.get(baseUrls.authProviderUrl+ "auth/token/"+token+"/exists").
+            success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+
+            }).
+            error(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+            });
+        }
+
+
+
+        function activateAccount(token, callback) {
+            $http.get(baseUrls.authProviderUrl+ "auth/activate/"+token).
             success(function (data, status, headers, config) {
                 callback(data.IsSuccess);
 

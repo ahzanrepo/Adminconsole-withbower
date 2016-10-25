@@ -72,6 +72,18 @@
             });
         };
 
+        var getCase = function(caseId){
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl+'Case/'+caseId,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
         var addTicketToCase = function(caseId, ticketIds){
             return $http({
                 method: 'PUT',
@@ -82,6 +94,35 @@
                 params: {
                     "ticketid[]": ticketIds
                 }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var removeTicketFromCase = function(caseId, ticketIds){
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.ticketUrl+'Case/'+caseId+'/RelatedTickets',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {
+                    "ticketid[]": ticketIds
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var bulkCloseTickets = function(ticketIds){
+            var sendObj = {TicketIds: ticketIds, Status: "closed"}
+            return $http({
+                method: 'PUT',
+                url: baseUrls.ticketUrl+'Ticket/Status/Bulk',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: sendObj
             }).then(function(response){
                 return response.data;
             });
@@ -105,7 +146,10 @@
             getCaseConfigurations: getCaseConfigurations,
             createCase: createCase,
             getCases: getCases,
+            getCase: getCase,
             addTicketToCase: addTicketToCase,
+            removeTicketFromCase: removeTicketFromCase,
+            bulkCloseTickets: bulkCloseTickets,
             deleteCase: deleteCase
         };
     };
