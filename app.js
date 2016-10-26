@@ -63,7 +63,8 @@ var baseUrls = {
     'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
-    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/'
+    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
+    'voxboneApiUrl': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
