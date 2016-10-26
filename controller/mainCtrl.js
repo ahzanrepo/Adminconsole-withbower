@@ -318,6 +318,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
             $state.go('console.caseConfiguration');
         }, goCase: function () {
             $state.go('console.case');
+        }, goQueueSlaBreakDown: function () {
+            $state.go('console.queueSlaBreakDown');
         }
     };
 

@@ -44,7 +44,7 @@ var baseUrls = {
     'authProviderUrl': 'http://userservice.app.veery.cloud/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
-    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
+    'ardsmonitoringBaseUrl': 'http://localhost:2225/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://localhost:5645/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
@@ -680,6 +680,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                 data: {
                     requireLogin: true,
                     navigation: "TICKET_SLA"
+                }
+        }).state('console.queueSlaBreakDown', {
+                url: "/slabreakdown",
+                templateUrl: "views/queue-slabreakdown/queue-slabreakdown.html",
+                controller: "queueSlaBreakDownController",
+                data: {
+                    requireLogin: true,
+                    navigation: "SLA_BREAKDOWN"
                 }
             })
     }]);
