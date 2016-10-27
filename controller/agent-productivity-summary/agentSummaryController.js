@@ -5,7 +5,7 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("agentSummaryController", function ($scope,$filter,$state, agentSummaryBackendService) {
+mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q, agentSummaryBackendService) {
 
     $scope.startDate = moment().format("YYYY-MM-DD");
     $scope.endDate = moment().format("YYYY-MM-DD");
@@ -63,6 +63,49 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, ag
         }, function (error) {
             console.log("Error in Queue Summary loading ",error);
         });
+    };
+
+    $scope.getAgentSummaryCSV = function () {
+        $scope.DownloadFileName = 'AGENT_PRODUCTIVITY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
+        var deferred = $q.defer();
+        var agentSummaryList=[];
+        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate).then(function (response) {
+
+            if(!response.data.IsSuccess)
+            {
+                console.log("Queue Summary loading failed ",response.data.Exception);
+                deferred.reject(agentSummaryList);
+            }
+            else
+            {
+                $scope.isTableLoading=1;
+                var summaryData=response.data.Result
+                for(var i=0;i<summaryData.length;i++)
+                {
+                    // main objects
+
+                    for(var j=0;j<summaryData[i].Summary.length;j++)
+                    {
+                        summaryData[i].Summary[j].IdleTime=TimeFromatter(summaryData[i].Summary[j].IdleTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].AfterWorkTime=TimeFromatter(summaryData[i].Summary[j].AfterWorkTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].AverageHandlingTime=TimeFromatter(summaryData[i].Summary[j].AverageHandlingTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].StaffTime=TimeFromatter(summaryData[i].Summary[j].StaffTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].TalkTime=TimeFromatter(summaryData[i].Summary[j].TalkTime,"HH:mm:ss");
+                        summaryData[i].Summary[j].BreakTime=TimeFromatter(summaryData[i].Summary[j].BreakTime,"HH:mm:ss");
+
+                        agentSummaryList.push(summaryData[i].Summary[j]);
+                    }
+                }
+                $scope.AgentDetailsAssignToSummery();
+                deferred.resolve(agentSummaryList);
+            }
+
+        }, function (error) {
+            console.log("Error in Queue Summary loading ",error);
+            deferred.reject(agentSummaryList);
+        });
+
+        return deferred.promise;
     }
 
     $scope.getAgents = function () {
