@@ -5,7 +5,7 @@
 {
     var app = angular.module("veeryConsoleApp");
 
-    var myNumbersCtrl = function ($scope, phnNumApiAccess, authService)
+    var myNumbersCtrl = function ($scope, phnNumApiAccess, voxboneApi)
     {
 
         $scope.showAlert = function (title, type, content) {
@@ -610,7 +610,98 @@
         loadNumbers();
         getLimits();
 
+        //voxboneNumber
+
+        $scope.order = undefined;
+        $scope.selected = undefined;
+
+        $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+        $scope.modelOptions = {
+            debounce: {
+                default: 500,
+                blur: 250
+            },
+            getterSetter: true
+        };
+
+        $scope.clearOrder = function(){
+            $scope.order = {countryCodeA3:$scope.order.countryCodeA3};
+        };
+
+        $scope.initiateOrder = function(){
+            voxboneApi.OrderDid('', $scope.order).then(function(response){
+                if(response.IsSuccess)
+                {
+                    var jResult = JSON.parse(response.Result);
+                    var result = jResult.productCheckoutList[0];
+                    $scope.showAlert("Voxbone", "success", result.message);
+                }
+                else
+                {
+                    if(Array.isArray(response.Result)){
+                        $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+                    }else {
+                        var errMsg = response.CustomMessage;
+
+                        if(response.Exception)
+                        {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert("Voxbone", 'error', errMsg);
+                    }
+                }
+            }, function(err){
+                var errMsg = "Error occurred while initiate order";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Voxbone', 'error', errMsg);
+            });
+        };
+
+        $scope.loadCountryCodes = function(){
+            voxboneApi.GetCountryCodes('', 0, 500).then(function(response){
+                if(response.IsSuccess)
+                {
+                    var jResult = JSON.parse(response.Result);
+                    $scope.countries = jResult.countries;
+                    $scope.autoCompletePlaceHolder = "Select Your Country";
+                    $scope.countries.map( function (country) {
+                        return {
+                            country: country
+                        };
+                    });
+                }
+                else
+                {
+                    if(Array.isArray(response.Result)){
+                        $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+                    }else {
+                        var errMsg = response.CustomMessage;
+
+                        if(response.Exception)
+                        {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert("Voxbone", 'error', errMsg);
+                    }
+                }
+            }, function(err){
+                var errMsg = "Error occurred while loading Country Codes";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Voxbone', 'error', errMsg);
+            });
+        };
+        //$scope.loadCountryCodes();
+
     };
+
+
 
     app.controller("myNumbersCtrl", myNumbersCtrl);
 }());

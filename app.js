@@ -63,7 +63,8 @@ var baseUrls = {
     'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
-    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/'
+    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
+    'voxboneApiUrl': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -679,6 +680,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                 data: {
                     requireLogin: true,
                     navigation: "TICKET_SLA"
+                }
+        }).state('console.queueSlaBreakDown', {
+                url: "/slabreakdown",
+                templateUrl: "views/queue-slabreakdown/queue-slabreakdown.html",
+                controller: "queueSlaBreakDownController",
+                data: {
+                    requireLogin: true,
+                    navigation: "SLA_BREAKDOWN"
                 }
             })
     }]);
