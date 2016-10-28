@@ -245,6 +245,24 @@
             })
         };
 
+        var getCallSummaryForHrDownload = function(date, tz, fileType)
+        {
+            var url = baseUrls.cdrProcessor + 'CallCDRSummary/Hourly/Download?date=' + date + '&tz=' + tz;
+
+            if(fileType)
+            {
+                url = url + '&fileType=' + fileType;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getCallSummaryForQueueHr = function(date, skill, tz)
         {
             var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill;
@@ -252,6 +270,25 @@
             return $http({
                 method: 'GET',
                 url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getCallSummaryForQueueHrDownload = function(date, skills, tz, fileType)
+        {
+            var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly/Download?date=' + date + '&tz=' + tz;
+
+            if(fileType)
+            {
+                url = url + '&fileType=' + fileType;
+            }
+
+            return $http({
+                method: 'POST',
+                url: url,
+                data: JSON.stringify({skills: skills})
             }).then(function(resp)
             {
                 return resp.data;
@@ -313,6 +350,24 @@
             })
         };
 
+        var getCallSummaryForDayDownload = function(sdate, edate, tz, fileType)
+        {
+            var url = baseUrls.cdrProcessor + 'CallCDRSummary/Daily/Download?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
+
+            if(fileType)
+            {
+                url = url + '&fileType=' + fileType;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         return {
             getCDRForTimeRange: getCDRForTimeRange,
             getAbandonCDRForTimeRange: getAbandonCDRForTimeRange,
@@ -325,7 +380,10 @@
             getAttributeList: getAttributeList,
             downloadCDRFileCSV: downloadCDRFileCSV,
             getFileMetaData: getFileMetaData,
-            prepareDownloadCDRAbandonByType: prepareDownloadCDRAbandonByType
+            prepareDownloadCDRAbandonByType: prepareDownloadCDRAbandonByType,
+            getCallSummaryForHrDownload: getCallSummaryForHrDownload,
+            getCallSummaryForDayDownload: getCallSummaryForDayDownload,
+            getCallSummaryForQueueHrDownload: getCallSummaryForQueueHrDownload
         };
     };
 
