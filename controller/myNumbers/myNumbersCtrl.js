@@ -5,7 +5,7 @@
 {
     var app = angular.module("veeryConsoleApp");
 
-    var myNumbersCtrl = function ($scope, $uibModal, phnNumApiAccess, voxboneApi)
+    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi)
     {
 
         $scope.showAlert = function (title, type, content) {
@@ -637,6 +637,8 @@
                 $scope.order.customerReference = 'ref:'+voxDidGroup.didGroupId;
                 $scope.order.quantity = 1;
                 $scope.order.didGroupId = voxDidGroup.didGroupId;
+                $location.hash('voxDidLimitScroll');
+                $anchorScroll();
             }
         };
 
@@ -663,6 +665,9 @@
         $scope.clearOrder = function(){
             $scope.searchQ.isTableLoading = 0;
             $scope.order = {countryCodeA3:$scope.order.countryCodeA3};
+            $location.hash('voxDidTop');
+            $anchorScroll();
+
         };
 
         $scope.initiateOrder = function(){
@@ -752,6 +757,8 @@
                         $scope.voxDidGroupList = jResult;
                         $scope.pagination.totalItems = jResult.resultCount;
                         $scope.searchQ.isTableLoading = 1;
+                        $location.hash('voxDidGroupScroll');
+                        $anchorScroll();
                     }
                 }
                 else
