@@ -5,7 +5,7 @@
 {
     var app = angular.module("veeryConsoleApp");
 
-    var myNumbersCtrl = function ($scope, phnNumApiAccess, authService)
+    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi)
     {
 
         $scope.showAlert = function (title, type, content) {
@@ -610,7 +610,180 @@
         loadNumbers();
         getLimits();
 
+        //------------------------------------------------voxboneNumber---------------------------------------------
+
+        $scope.order = {};
+        $scope.selectedVoxDidGroup = undefined;
+        $scope.selectedCountry = undefined;
+        $scope.searchQ = {};
+        $scope.searchQ.isTableLoading = 0;
+        $scope.didTypes = [{key:"TOLL_FREE", value:"TOLL-FREE"}, {key:"VOX800", value:"vox800"}];
+        $scope.voxDidGroupList = [];
+        $scope.pageNumber = 0;
+        $scope.pageSize = 5;
+        $scope.numberOfPages = 0;
+
+        $scope.dtOptions = { paging: false, searching: false, info: false, order: [1, 'asc'] };
+        $scope.pagination = {
+            currentPage: 1,
+            maxSize: 5,
+            totalItems: 0,
+            itemsPerPage: 10
+        };
+
+        $scope.selectVoxDidGroup = function(voxDidGroup){
+            if(voxDidGroup) {
+                $scope.selectedVoxDidGroup = voxDidGroup;
+                $scope.order.customerReference = 'ref:'+voxDidGroup.didGroupId;
+                $scope.order.quantity = 1;
+                $scope.order.didGroupId = voxDidGroup.didGroupId;
+                $location.hash('voxDidLimitScroll');
+                $anchorScroll();
+            }
+        };
+
+        $scope.selectCountry = function(country){
+            if(country) {
+                $scope.selectedCountry = country;
+                $scope.order.countryCodeA3 = country.countryCodeA3;
+            }
+        };
+
+        $scope.pageChanged = function()
+        {
+            $scope.loadDidGroups();
+        };
+
+        $scope.modelOptions = {
+            debounce: {
+                default: 500,
+                blur: 250
+            },
+            getterSetter: true
+        };
+
+        $scope.clearOrder = function(){
+            $scope.searchQ.isTableLoading = 0;
+            $scope.order = {countryCodeA3:$scope.order.countryCodeA3};
+            $location.hash('voxDidTop');
+            $anchorScroll();
+
+        };
+
+        $scope.initiateOrder = function(){
+            voxboneApi.OrderDid('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.order).then(function(response){
+                if(response.IsSuccess)
+                {
+                    var jResult = JSON.parse(response.Result);
+                    var result = jResult.productCheckoutList[0];
+                    $scope.showAlert("Voxbone", "success", result.message);
+                }
+                else
+                {
+                    if(Array.isArray(response.Result)){
+                        $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+                    }else {
+                        var errMsg = response.CustomMessage;
+
+                        if(response.Exception)
+                        {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert("Voxbone", 'error', errMsg);
+                    }
+                }
+            }, function(err){
+                var errMsg = "Error occurred while initiate order";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Voxbone', 'error', errMsg);
+            });
+        };
+
+        $scope.loadCountryCodes = function(){
+            voxboneApi.GetCountryCodes('Basic bXVodW50aGFuOkR1b0AxMjM0', 0, 500).then(function(response){
+                if(response.IsSuccess)
+                {
+                    var jResult = JSON.parse(response.Result);
+                    $scope.countries = jResult.countries;
+                    $scope.autoCompletePlaceHolder = "Select Your Country";
+                    /*$scope.countries.map( function (country) {
+                        return {
+                            country: country
+                        };
+                    });*/
+                }
+                else
+                {
+                    if(Array.isArray(response.Result)){
+                        $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+                    }else {
+                        var errMsg = response.CustomMessage;
+
+                        if(response.Exception)
+                        {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert("Voxbone", 'error', errMsg);
+                    }
+                }
+            }, function(err){
+                var errMsg = "Error occurred while loading Country Codes";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Voxbone', 'error', errMsg);
+            });
+        };
+        $scope.loadCountryCodes();
+
+        $scope.loadDidGroups = function(){
+            console.log($scope.selectedCountry);
+
+            voxboneApi.FilterDidsFormType('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage -1 , $scope.pagination.itemsPerPage).then(function(response){
+                if(response.IsSuccess)
+                {
+                    if(response.Result) {
+                        var jResult = JSON.parse(response.Result);
+                        for(i = 0; i< jResult.didGroups.length; i++){
+                            var voxIn = [{name:"VoxIN"}];
+                            //append voxIn data to front in feature list
+                            jResult.didGroups[i].features = voxIn.concat(jResult.didGroups[i].features);
+                        }
+
+                        $scope.voxDidGroupList = jResult;
+                        $scope.pagination.totalItems = jResult.resultCount;
+                        $scope.searchQ.isTableLoading = 1;
+                        $location.hash('voxDidGroupScroll');
+                        $anchorScroll();
+                    }
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('DID Group List', errMsg, 'error');
+                }
+            }, function(err){
+                var errMsg = "Error occurred while loading DID groups";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('DID Group List', errMsg, 'error');
+            });
+        };
+
     };
+
+
 
     app.controller("myNumbersCtrl", myNumbersCtrl);
 }());

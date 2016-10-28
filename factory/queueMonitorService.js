@@ -42,7 +42,6 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
 
     var getSingleQueueStats = function (queue) {
         //dashboard.app.veery.cloud
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardEvent/QueueSingleDetail/" + queue
@@ -58,7 +57,6 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
 
     var getSingleQueueGraph = function (queue) {
         //dashboard.app.veery.cloud
-        var authToken = authService.GetToken();
         return $http({
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/ConcurrentQueued/"+ queue+"/5"

@@ -45,13 +45,13 @@ var baseUrls = {
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
-    'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
+    'fileServiceUrl': 'http://localhost:5645/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
-    'ticketUrl': 'http://localhost:3636/DVP/API/1.0.0.0/',
+    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -63,7 +63,8 @@ var baseUrls = {
     'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
-    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/'
+    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
+    'voxboneApiUrl': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -679,6 +680,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                 data: {
                     requireLogin: true,
                     navigation: "TICKET_SLA"
+                }
+        }).state('console.queueSlaBreakDown', {
+                url: "/slabreakdown",
+                templateUrl: "views/queue-slabreakdown/queue-slabreakdown.html",
+                controller: "queueSlaBreakDownController",
+                data: {
+                    requireLogin: true,
+                    navigation: "SLA_BREAKDOWN"
                 }
             })
     }]);

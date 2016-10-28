@@ -46,7 +46,8 @@
                             <label><h5>Download</h5></label>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2">
-                            <button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" csv-header="['Call Direction', 'From', 'To', 'ReceivedBy', 'AgentSkill', 'Answered', 'Call Time', 'Total Duration', 'Bill Duration', 'Answer Duration', 'Queue Duration', 'Hold Duration', 'Call Type', 'Call Category', 'Hangup Party', 'Transferred Parties']" ng-csv="getProcessedCDRCSVDownload()" filename="{{DownloadFileName}}.csv"></button>
+                            <a ng-if="fileDownloadState === 'READY'" style="width:60px; height:30px; background-size: 100% 100%;" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">Download</a>
+                            <button ng-if="fileDownloadState === 'RESET'" type="button" style="width:60px; height:30px; background-size: 100% 100%;" ng-click="getProcessedCDRCSVDownload()">{{DownloadButtonName}}</button>
                             <!--<button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" ng-click="prepareDownloadCSV()"></button>-->
                         </div>
 
@@ -346,7 +347,6 @@
                 </div>
             </div>
         </div>
-        &lt;!&ndash;</div>&ndash;&gt;
     </div>
 
 
