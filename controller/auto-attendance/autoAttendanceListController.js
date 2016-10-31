@@ -6,6 +6,7 @@ mainApp.controller('autoattendancelistcontroller', function ($scope,$state, auto
 
     // Update the dataset at 25FPS for a smoothly-animating chart
     $scope.aas = [];
+    $scope.searchCriteria = "";
 
     $scope.showAlert = function (title,content,type) {
 

@@ -9,6 +9,7 @@ mainApp.controller("templateController", function ($scope,$state,templateMakerBa
   isFirst:true
  });
  $scope.Templates=[];
+ $scope.searchCriteria = "";
 
 
 
@@ -80,6 +81,7 @@ mainApp.controller("templateController", function ($scope,$state,templateMakerBa
    {
     console.info("Error in adding new Template "+response.data.Exception);
     $scope.showAlert("Error", "There is an error in saving Template ","error");
+    $scope.searchCriteria = "";
     $state.reload();
    }
    else

@@ -10,13 +10,33 @@
                         </div>
                     </small>
                 </h2>
+
+
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="close-link"><i class="fa fa-refresh" ng-click="reloadPage()"></i></a></li>
                     <li><a ng-click="showNewConference()" class="close-link"><i class="fa fa-plus-circle"></i></a>
                     </li>
                 </ul>
+
+
                 <div class="clearfix"></div>
             </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6 ">
+
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search" >
+                    <div class="input-group">
+                        <input type="text" ng-model="searchCriteria" class="form-control"
+                               placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                    </div>
+                </div>
+            </div>
+
+
 
             <div ng-show="isProgress">
                 <div class="row ">
@@ -91,7 +111,7 @@
                             <label>Domain</label>
 
                             <select  class="form-control" id="Domain" ng-model="conference.CloudEndUserId"
-                                    ng-options="opt.id as opt.Domain for opt in endUserList" required>
+                                     ng-options="opt.id as opt.Domain for opt in endUserList" required>
                             </select>
 
                             <p ng-show="userForm.Domain.$invalid && !userForm.Domain.$pristine" class="help-block">
@@ -262,10 +282,10 @@
             <div class="x_content" ng-hide="isMonitorApp">
                 <div class="x_content" ng-hide="isLoading">
                     <ul class="list-unstyled timeline">
-                        <li ng-repeat="con in conferences">
+                        <li ng-repeat="con in conferences | filterBy: ['ConferenceName']: searchCriteria">
                             <conferenceitem end-users="endUserList"
-                                                templates-list="Templates" conference-data="con"
-                                                reload-page-after-delete="reloadPage()"></conferenceitem>
+                                            templates-list="Templates" conference-data="con"
+                                            reload-page-after-delete="reloadPage()"></conferenceitem>
                         </li>
 
 

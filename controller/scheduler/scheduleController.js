@@ -12,6 +12,7 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
     $scope.MasterAppList=[];
     $scope.IsDeveloper=false;
     $scope.Developers=[];
+    $scope.searchCriteria = "";
 
     $scope.showAlert = function (tittle,content,type) {
 
@@ -39,6 +40,7 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
             }
             else
             {
+                $scope.searchCriteria = "";
                 $scope.addNew = !response.data.IsSuccess;
                 $scope.showAlert("Success", "New Application added sucessfully.","success");
 
