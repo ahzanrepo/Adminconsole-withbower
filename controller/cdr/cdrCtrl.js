@@ -7,7 +7,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var cdrCtrl = function ($scope, $filter, $q, $sce, cdrApiHandler, ngAudio, loginService)
+    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, ngAudio, loginService)
     {
         $scope.dtOptions = { paging: false, searching: false, info: false, order: [6, 'asc'] };
 
@@ -102,6 +102,7 @@
             if (decodedToken && decodedToken.company && decodedToken.tenant)
             {
                 $scope.DownloadFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
+
             }
 
         };
@@ -164,6 +165,11 @@
         $scope.offset = -1;
         $scope.prevOffset = -1;
 
+        $scope.cancelDownload = false;
+        $scope.fileDownloadState = 'RESET';
+        $scope.currentCSVFilename = '';
+        $scope.DownloadButtonName = 'CSV';
+
         $scope.loadNextPage = function ()
         {
             var pageInfo = {
@@ -214,9 +220,81 @@
             return minutes + ':' + seconds;
         };
 
+        var checkFileReady = function(fileName)
+        {
+            console.log('METHOD CALL');
+            if($scope.cancelDownload)
+            {
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
+            }
+            else
+            {
+                cdrApiHandler.getFileMetaData(fileName).then(function(fileStatus)
+                {
+                    if(fileStatus && fileStatus.Result)
+                    {
+                        if(fileStatus.Result.Status === 'PROCESSING')
+                        {
+                            $timeout(checkFileReady(fileName), 10000);
+                        }
+                        else
+                        {
+
+
+                            var decodedToken = loginService.getTokenDecode();
+
+                            if (decodedToken && decodedToken.company && decodedToken.tenant)
+                            {
+                                $scope.currentCSVFilename = fileName;
+                                $scope.DownloadCSVFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                                $scope.fileDownloadState = 'READY';
+                                $scope.DownloadButtonName = 'CSV';
+                            }
+                            else
+                            {
+                                $scope.fileDownloadState = 'RESET';
+                                $scope.DownloadButtonName = 'CSV';
+                            }
+
+
+                        }
+                    }
+                    else
+                    {
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                    }
+
+                }).catch(function(err)
+                {
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                });
+            }
+
+        };
+
+        $scope.downloadPress = function()
+        {
+            $scope.fileDownloadState = 'RESET';
+            $scope.DownloadButtonName = 'CSV';
+            $scope.cancelDownload = false;
+        };
+
 
         $scope.getProcessedCDRCSVDownload = function()
         {
+            if($scope.DownloadButtonName === 'CSV')
+            {
+                $scope.cancelDownload = false;
+            }
+            else
+            {
+                $scope.cancelDownload = true;
+            }
+
+            $scope.DownloadButtonName = 'PROCESSING...';
             $scope.DownloadFileName = 'CDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
 
             var deferred = $q.defer();
@@ -239,11 +317,12 @@
                 endDate = $scope.endDate + ' 23:59:59' + momentTz;
             }
 
-            cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
+            cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, 'csv', momentTz).then(function (cdrResp)
+            //cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
             {
                 if(!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                 {
-                    cdrResp.Result.forEach(function(cdr)
+                    /*cdrResp.Result.forEach(function(cdr)
                     {
 
                         var cdrCsv =
@@ -268,25 +347,27 @@
 
 
                         cdrListForCSV.push(cdrCsv);
-                    });
+                    });*/
 
-                    deferred.resolve(cdrListForCSV);
+                    var downloadFilename = cdrResp.Result;
 
-
+                    checkFileReady(downloadFilename);
                 }
                 else
                 {
                     $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
-                    deferred.resolve(cdrListForCSV);
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
                 }
 
             }).catch(function(err)
             {
                 $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
-                deferred.resolve(cdrListForCSV);
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
             });
 
-            return deferred.promise;
+
 
         };
 

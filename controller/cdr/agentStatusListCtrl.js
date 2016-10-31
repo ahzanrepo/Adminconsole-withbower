@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var agentStatusListCtrl = function ($scope, $filter, cdrApiHandler, resourceService) {
+    var agentStatusListCtrl = function ($scope, $filter, $q, cdrApiHandler, resourceService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -225,6 +225,71 @@
             }
 
         };
+
+        $scope.getAgentStatusListCSV = function ()
+        {
+            var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
+            var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            momentTz = momentTz.replace("+", "%2B");
+
+            var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
+            var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
+
+            if(!$scope.timeEnabledStatus)
+            {
+                startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
+                endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
+            }
+
+            $scope.DownloadFileName = 'AGENT_STATUS_LIST' + $scope.obj.startDay + '_' + $scope.obj.endDay;
+            var deferred = $q.defer();
+            var agentStatusList=[];
+
+            try
+            {
+                cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp)
+                {
+                    if(agentListResp && agentListResp.Result)
+                    {
+                        for(var resource in agentListResp.Result)
+                        {
+                            if(agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName)
+                            {
+                                var caption = agentListResp.Result[resource][0].ResResource.ResourceName;
+                                agentListResp.Result[resource].forEach(function(evtItem)
+                                {
+                                    evtItem.Agent = caption;
+                                    evtItem.Date = moment(evtItem.createdAt).local().format("YYYY-MM-DD HH:mm:ss");
+                                    agentStatusList.push(evtItem);
+                                });
+                            }
+
+                        }
+
+                    }
+
+                    deferred.resolve(agentStatusList);
+
+                }).catch(function(err)
+                {
+                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+                    deferred.reject(agentStatusList);
+                });
+
+
+            }
+            catch (ex)
+            {
+                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+                deferred.reject(agentStatusList);
+            }
+
+            return deferred.promise;
+
+        };
+
+
 
 
 
