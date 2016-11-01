@@ -617,10 +617,10 @@
         $scope.selectedCountry = undefined;
         $scope.searchQ = {};
         $scope.searchQ.isTableLoading = 0;
-        $scope.didTypes = [{key:"TOLL_FREE", value:"TOLL-FREE"}, {key:"VOX800", value:"vox800"}];
+        $scope.didTypes = [{group: "VOXDID", items: [{key:"Geographic", value:"GEOGRAPHIC"}, {key:"National", value:"NATIONAL"}, {key:"Mobile", value:"MOBILE"}, {key:"Nomadic", value:"INUM"}]}, {group: "VOX800", items: [{key:"Toll-free", value:"TOLL_FREE"}, {key:"Shared Cost", value:"SHARED_COST"}, {key:"Special", value:"SPECIAL"}]}];
         $scope.voxDidGroupList = [];
         $scope.pageNumber = 0;
-        $scope.pageSize = 5;
+        $scope.pageSize = 10;
         $scope.numberOfPages = 0;
 
         $scope.dtOptions = { paging: false, searching: false, info: false, order: [1, 'asc'] };
@@ -646,6 +646,7 @@
             if(country) {
                 $scope.selectedCountry = country;
                 $scope.order.countryCodeA3 = country.countryCodeA3;
+                $scope.loadStates(country.countryCodeA3);
             }
         };
 
@@ -665,6 +666,7 @@
         $scope.clearOrder = function(){
             $scope.searchQ.isTableLoading = 0;
             $scope.order = {countryCodeA3:$scope.order.countryCodeA3};
+            $scope.selectedVoxDidGroup = undefined;
             $location.hash('voxDidTop');
             $anchorScroll();
 
@@ -694,6 +696,37 @@
                 }
             }, function(err){
                 var errMsg = "Error occurred while initiate order";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Voxbone', 'error', errMsg);
+            });
+        };
+
+        $scope.loadStates = function(countryCode){
+            voxboneApi.GetStates('Basic bXVodW50aGFuOkR1b0AxMjM0', countryCode).then(function(response){
+                if(response.IsSuccess)
+                {
+                    var jResult = JSON.parse(response.Result);
+                    $scope.states = jResult;
+                }
+                else
+                {
+                    if(Array.isArray(response.Result)){
+                        $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+                    }else {
+                        var errMsg = response.CustomMessage;
+
+                        if(response.Exception)
+                        {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert("Voxbone", 'error', errMsg);
+                    }
+                }
+            }, function(err){
+                var errMsg = "Error occurred while loading States";
                 if(err.statusText)
                 {
                     errMsg = err.statusText;
@@ -743,42 +776,73 @@
         $scope.loadDidGroups = function(){
             console.log($scope.selectedCountry);
 
-            voxboneApi.FilterDidsFormType('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage -1 , $scope.pagination.itemsPerPage).then(function(response){
-                if(response.IsSuccess)
-                {
-                    if(response.Result) {
-                        var jResult = JSON.parse(response.Result);
-                        for(i = 0; i< jResult.didGroups.length; i++){
-                            var voxIn = [{name:"VoxIN"}];
-                            //append voxIn data to front in feature list
-                            jResult.didGroups[i].features = voxIn.concat(jResult.didGroups[i].features);
+            if($scope.searchQ.selectedCity && $scope.searchQ.selectedCity !== "All"){
+                voxboneApi.FilterDidsFormState('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.searchQ.selectedCity, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
+                    if (response.IsSuccess) {
+                        if (response.Result) {
+                            var jResult = JSON.parse(response.Result);
+                            for (i = 0; i < jResult.didGroups.length; i++) {
+                                var voxIn = [{name: "VoxIN"}];
+                                //append voxIn data to front in feature list
+                                jResult.didGroups[i].features = voxIn.concat(jResult.didGroups[i].features);
+                            }
+
+                            $scope.voxDidGroupList = jResult;
+                            $scope.pagination.totalItems = jResult.resultCount;
+                            $scope.searchQ.isTableLoading = 1;
+                            $location.hash('voxDidGroupScroll');
+                            $anchorScroll();
                         }
-
-                        $scope.voxDidGroupList = jResult;
-                        $scope.pagination.totalItems = jResult.resultCount;
-                        $scope.searchQ.isTableLoading = 1;
-                        $location.hash('voxDidGroupScroll');
-                        $anchorScroll();
                     }
-                }
-                else
-                {
-                    var errMsg = response.CustomMessage;
+                    else {
+                        var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
-                        errMsg = response.Exception.Message;
+                        if (response.Exception) {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert('DID Group List', errMsg, 'error');
+                    }
+                }, function (err) {
+                    var errMsg = "Error occurred while loading DID groups";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
                     }
                     $scope.showAlert('DID Group List', errMsg, 'error');
-                }
-            }, function(err){
-                var errMsg = "Error occurred while loading DID groups";
-                if(err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('DID Group List', errMsg, 'error');
-            });
+                });
+            }else {
+                voxboneApi.FilterDidsFormType('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
+                    if (response.IsSuccess) {
+                        if (response.Result) {
+                            var jResult = JSON.parse(response.Result);
+                            for (i = 0; i < jResult.didGroups.length; i++) {
+                                var voxIn = [{name: "VoxIN"}];
+                                //append voxIn data to front in feature list
+                                jResult.didGroups[i].features = voxIn.concat(jResult.didGroups[i].features);
+                            }
+
+                            $scope.voxDidGroupList = jResult;
+                            $scope.pagination.totalItems = jResult.resultCount;
+                            $scope.searchQ.isTableLoading = 1;
+                            $location.hash('voxDidGroupScroll');
+                            $anchorScroll();
+                        }
+                    }
+                    else {
+                        var errMsg = response.CustomMessage;
+
+                        if (response.Exception) {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert('DID Group List', errMsg, 'error');
+                    }
+                }, function (err) {
+                    var errMsg = "Error occurred while loading DID groups";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('DID Group List', errMsg, 'error');
+                });
+            }
         };
 
     };
