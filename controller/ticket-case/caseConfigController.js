@@ -9,6 +9,7 @@
     var caseConfigController = function($scope, $state, caseApiAccess) {
         $scope.caseConfigs = [];
         $scope.caseConfig = {};
+        $scope.searchCriteria = "";
 
         $scope.showAlert = function (title,content,type) {
             new PNotify({
@@ -64,6 +65,7 @@
                 {
                     $scope.caseConfigs = response.Result;
                     $scope.showAlert('Case Configuration', response.CustomMessage, 'success');
+                    $scope.searchCriteria = "";
                     $state.reload();
                 }
                 else

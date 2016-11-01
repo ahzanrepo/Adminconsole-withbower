@@ -98,8 +98,13 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         $scope.loginFrm.$invalid = true;
 
 
+        var params = {
+            headers: {
+                Authorization: 'Basic ' + $base64.encode(config.client_Id_secret)
+            }
+        };
 
-        $auth.login(para)
+        $auth.login(para, params)
             .then(function () {
                 loginService.getMyPackages(function (result, status) {
                     if (status == 200) {

@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <h2 class=" font-300">
-                        <a ng-hide="editMode">Name : {{trigger.title}}</a>
+                        <a ng-hide="editMode">Name : {{sla.title}}</a>
 
                     </h2>
                 </div>
@@ -94,16 +94,17 @@
             <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>-->
         <div ng-hide="editMode">
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <!--<div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Title</label>
                 <p>{{sla.title}} </p>
-            </div>
+            </div>-->
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Description</label>
                 <p>{{sla.description}} </p>
             </div>
-
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            </div>
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Priority</label>
                 <p>{{sla.priority}} </p>
