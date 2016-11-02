@@ -84,17 +84,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
 
 
 
-    $scope.checkAndRegister = function () {
 
-
-        if (!$scope.isSocketRegistered) {
-            $('#regNotification').addClass('display-none').removeClass('display-block');
-            $('#regNotificationLoading').addClass('display-block').removeClass('display-none');
-            $scope.isLoadingNotifiReg = true;
-            $scope.veeryNotification();
-        }
-
-    }
 
 
     $scope.agentDisconnected = function () {
@@ -123,6 +113,18 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
     $scope.veeryNotification();
 
 
+
+    $scope.checkAndRegister = function () {
+
+
+        if (!$scope.isSocketRegistered) {
+            $('#regNotification').addClass('display-none').removeClass('display-block');
+            $('#regNotificationLoading').addClass('display-block').removeClass('display-none');
+            $scope.isLoadingNotifiReg = true;
+            $scope.veeryNotification();
+        }
+
+    }
 
 
 
@@ -914,7 +916,7 @@ mainApp.controller("notificationModalController", function ($scope, $uibModalIns
 
 
     $scope.showMesssageModal=true;
-$scope.MessageObj=MessageObj;
+    $scope.MessageObj=MessageObj;
 
 
 

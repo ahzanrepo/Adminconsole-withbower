@@ -12,6 +12,7 @@ mainApp.controller("extensionController", function ($scope,$state, extensionBack
     $scope.MasterAppList=[];
     $scope.IsDeveloper=false;
     $scope.Developers=[];
+    $scope.searchCriteria = "";
 
 
     $scope.showAlert = function (title,content,type) {
@@ -62,6 +63,7 @@ mainApp.controller("extensionController", function ($scope,$state, extensionBack
                     {
                         console.log("Dod assigned to Extension");
                         $scope.showAlert("Success","Extension saved successfully","success");
+                        $scope.searchCriteria = "";
                         $scope.reloadPage();
                     }
                     else

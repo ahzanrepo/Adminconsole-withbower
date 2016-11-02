@@ -19,6 +19,7 @@ mainApp.directive("appointmentdir", function ($filter, $uibModal, scheduleBacken
             scope.newDayList = [];
             scope.newAppointment = {};
             scope.application = null;
+            scope.searchCriteria = "";
             // scope.dayList=[{day:"Monday"},{day:"Tuesday"},{day:"Wednesday"},{day:"Thursday"},{day:"Friday"},{day:"Saturday"},{day:"Sunday"}];
 
             scope.dayList = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -162,6 +163,7 @@ mainApp.directive("appointmentdir", function ($filter, $uibModal, scheduleBacken
                     }
                     else {
 
+                        scope.searchCriteria = "";
                         scope.showAlert("Success", "New appointment added successfully.", "success");
 
                         scope.AppointmetList.splice(0, 0, response.data.Result);

@@ -11,6 +11,7 @@ mainApp.controller("applicationController", function ($scope, $state, appBackend
     $scope.MasterAppList = [];
     $scope.IsDeveloper = false;
     $scope.Developers = [];
+    $scope.searchCriteria = "";
 
     $scope.showAlert = function (tittle, content, type) {
 
@@ -23,7 +24,7 @@ mainApp.controller("applicationController", function ($scope, $state, appBackend
     };
 
 
-    $scope.saveAplication = function (resource) {
+    $scope.saveApplication = function (resource) {
 
 
         resource.Availability = true;
@@ -44,6 +45,7 @@ mainApp.controller("applicationController", function ($scope, $state, appBackend
 
                 $scope.AppList.splice(0, 0, response.data.Result);
                 $scope.newApplication = {};
+                $scope.searchCriteria = "";
 
 
             }

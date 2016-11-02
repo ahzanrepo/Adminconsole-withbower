@@ -2,9 +2,21 @@
     <div class="col-md-12 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-child"></i> Resource
-                    <small>List</small>
-                </h2>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <h2><i class="fa fa-child"></i> Resource
+                        <small>List</small>
+                    </h2>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
+                    <div class="input-group">
+                        <input type="text" ng-model="searchCriteria" class="form-control"
+                               placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                    </div>
+                </div>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="close-link"><i class="fa fa-refresh" ng-click="reloadPage()"></i></a></li>
                     <li><a ng-click="addResource()" class="close-link"><i class="fa fa-plus"></i></a>
@@ -83,7 +95,7 @@
 
             <div class="x_content" ng-hide="isLoading" >
                 <ul class="list-unstyled timeline">
-                    <li ng-repeat="res in resources">
+                    <li ng-repeat="res in resources | filterBy: ['ResourceName']: searchCriteria">
                         <editresource  resource="res" tasks="tasksList" attributes="attributesList" page-reload="reloadPage()"
                                       update-recource="removeDeleted(res)"></editresource>
                     </li>
