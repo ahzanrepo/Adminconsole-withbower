@@ -23,16 +23,16 @@
                         <select class="form-control has-feedback-left" ng-model="searchQ.selectedDidType"
                                 ng-model-options="{trackBy: '$value'}">
                             <option value="" disabled selected>Number Type</option>
-                            <option value="{{didTypes[0].group}}" style="font: bold">{{didTypes[0].group}}</option>
+                            <option value="{{didTypes[0].group}}" style="font-weight: bold">{{didTypes[0].group}}</option>
                             <option ng-repeat="didt in didTypes[0].items" value="{{didt.value}}">
-                                {{didt.key}}
+                                 -{{didt.key}}
                             </option>
                         </select>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                     <select class="form-control has-feedback-left" ng-model="searchQ.selectedCity"
                             ng-model-options="{trackBy: '$value'}">
-                        <option value="" disabled selected>City</option>
+                        <option value="" disabled selected>State</option>
                         <option value="All">All</option>
                         <option ng-repeat="state in states.states" value="{{state.stateId}}">
                             {{state.stateName}}
