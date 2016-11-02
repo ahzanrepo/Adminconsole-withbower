@@ -12,6 +12,7 @@
     var slaController = function($scope, $state, slaApiAccess) {
         $scope.slas = [];
         $scope.sla = {};
+        $scope.searchCriteria = "";
 
         $scope.showAlert = function (title,content,type) {
             new PNotify({
@@ -67,6 +68,7 @@
                 {
                     $scope.slas = response.Result;
                     $scope.showAlert('SLA', response.CustomMessage, 'success');
+                    $scope.searchCriteria = "";
                     $state.reload();
                 }
                 else

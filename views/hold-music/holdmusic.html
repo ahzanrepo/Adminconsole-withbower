@@ -4,9 +4,20 @@
     <div class="col-md-12 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-child"></i> Queue Music Profile
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <h2><i class="fa fa-child"></i> Queue Music Profile
                     <small>List</small>
-                </h2>
+                </h2></div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
+                    <div class="input-group">
+                        <input type="text" ng-model="searchCriteria" class="form-control"
+                               placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                    </div>
+                </div>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a ng-click="addHoldMusic()" class="close-link"><i class="fa fa-plus"></i></a>
                     </li>
@@ -78,7 +89,7 @@
 
             <div class="x_content">
                 <ul class="list-unstyled timeline">
-                    <li ng-repeat="holdMusic in holdMusicList">
+                    <li ng-repeat="holdMusic in holdMusicList| filterBy: ['Name']: searchCriteria">
                         <editholdmusic holdmusic="holdMusic" updateholdmusic="removeDeleted(holdMusic)" reloadpage="reloadMusicListPage()"></editholdmusic>
                     </li>
 

@@ -10,6 +10,7 @@ mainApp.controller("conferenceController", function ($scope, $rootScope, $compil
     $scope.isProgress = false;
     $scope.isMonitorApp = false;
     $scope.conference = {};
+    $scope.searchCriteria = "";
 
     $scope.switchApps = function (appName) {
         $scope.isLoading = true;
@@ -207,6 +208,7 @@ mainApp.controller("conferenceController", function ($scope, $rootScope, $compil
             $scope.isProgress = false;
 
             if (response && response.IsSuccess) {
+                $scope.searchCriteria = "";
                 $scope.addNewConference = false;
                 $scope.showAlert("Conference Created", "success", "Conference " + response.ConferenceName + " Created Successfully.");
                 $scope.reloadPage();

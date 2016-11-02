@@ -19,7 +19,7 @@
             "less_than_or_equal"
         ];
 
-
+        $scope.searchCriteria = "";
 
         $scope.showAlert = function (title,content,type) {
 
@@ -163,6 +163,7 @@
                     if(addResult.IsSuccess)
                     {
                         $scope.showAlert('Success', 'Filter Saved Successfully', 'info');
+                        $scope.searchCriteria = "";
 
                     }
                     else

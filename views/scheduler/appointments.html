@@ -11,7 +11,17 @@
                         <i class="fa fa-close" ng-click="viewAction()"></i>
                     </div>
                 </div>
-                <h2 class="font-robot font-300 text-uppercase font-15">New Appointment</h2>
+
+                <div class="col-md-6 col-sm-6 col-xs-6"><h2 class="font-robot font-300 text-uppercase font-15">New Appointment</h2></div>
+                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
+                    <div class="input-group">
+                        <input type="text" ng-model="searchCriteria" class="form-control"
+                               placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                    </div>
+                </div>
 
                 <form name="newApp">
                     <div class="col-xs-12">
@@ -163,7 +173,7 @@
         <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled">
-                    <li ng-repeat="Appointment in AppointmetList">
+                    <li ng-repeat="Appointment in AppointmetList | filterBy: ['AppointmentName']: searchCriteria">
 
                         <editappointment schedule="schedule" appointment="Appointment" appointmentList="AppointmetList"
                                          show-edit="showEdits()" update-appointment="removeDeleted(Appointment)"

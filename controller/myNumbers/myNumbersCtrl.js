@@ -5,7 +5,7 @@
 {
     var app = angular.module("veeryConsoleApp");
 
-    var myNumbersCtrl = function ($scope, phnNumApiAccess, voxboneApi)
+    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi)
     {
 
         $scope.showAlert = function (title, type, content) {
@@ -610,12 +610,50 @@
         loadNumbers();
         getLimits();
 
-        //voxboneNumber
+        //------------------------------------------------voxboneNumber---------------------------------------------
 
-        $scope.order = undefined;
-        $scope.selected = undefined;
+        $scope.order = {};
+        $scope.selectedVoxDidGroup = undefined;
+        $scope.selectedCountry = undefined;
+        $scope.searchQ = {};
+        $scope.searchQ.isTableLoading = 0;
+        $scope.didTypes = [{group: "VOXDID", items: [{key:"Geographic", value:"GEOGRAPHIC"}, {key:"National", value:"NATIONAL"}, {key:"Mobile", value:"MOBILE"}, {key:"Nomadic", value:"INUM"}]}, {group: "VOX800", items: [{key:"Toll-free", value:"TOLL_FREE"}, {key:"Shared Cost", value:"SHARED_COST"}, {key:"Special", value:"SPECIAL"}]}];
+        $scope.voxDidGroupList = [];
+        $scope.pageNumber = 0;
+        $scope.pageSize = 10;
+        $scope.numberOfPages = 0;
 
-        $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+        $scope.dtOptions = { paging: false, searching: false, info: false, order: [1, 'asc'] };
+        $scope.pagination = {
+            currentPage: 1,
+            maxSize: 5,
+            totalItems: 0,
+            itemsPerPage: 10
+        };
+
+        $scope.selectVoxDidGroup = function(voxDidGroup){
+            if(voxDidGroup) {
+                $scope.selectedVoxDidGroup = voxDidGroup;
+                $scope.order.customerReference = 'ref:'+voxDidGroup.didGroupId;
+                $scope.order.quantity = 1;
+                $scope.order.didGroupId = voxDidGroup.didGroupId;
+                $location.hash('voxDidLimitScroll');
+                $anchorScroll();
+            }
+        };
+
+        $scope.selectCountry = function(country){
+            if(country) {
+                $scope.selectedCountry = country;
+                $scope.order.countryCodeA3 = country.countryCodeA3;
+                $scope.loadStates(country.countryCodeA3);
+            }
+        };
+
+        $scope.pageChanged = function()
+        {
+            $scope.loadDidGroups();
+        };
 
         $scope.modelOptions = {
             debounce: {
@@ -626,11 +664,16 @@
         };
 
         $scope.clearOrder = function(){
+            $scope.searchQ.isTableLoading = 0;
             $scope.order = {countryCodeA3:$scope.order.countryCodeA3};
+            $scope.selectedVoxDidGroup = undefined;
+            $location.hash('voxDidTop');
+            $anchorScroll();
+
         };
 
         $scope.initiateOrder = function(){
-            voxboneApi.OrderDid('', $scope.order).then(function(response){
+            voxboneApi.OrderDid('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.order).then(function(response){
                 if(response.IsSuccess)
                 {
                     var jResult = JSON.parse(response.Result);
@@ -661,18 +704,49 @@
             });
         };
 
+        $scope.loadStates = function(countryCode){
+            voxboneApi.GetStates('Basic bXVodW50aGFuOkR1b0AxMjM0', countryCode).then(function(response){
+                if(response.IsSuccess)
+                {
+                    var jResult = JSON.parse(response.Result);
+                    $scope.states = jResult;
+                }
+                else
+                {
+                    if(Array.isArray(response.Result)){
+                        $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+                    }else {
+                        var errMsg = response.CustomMessage;
+
+                        if(response.Exception)
+                        {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert("Voxbone", 'error', errMsg);
+                    }
+                }
+            }, function(err){
+                var errMsg = "Error occurred while loading States";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Voxbone', 'error', errMsg);
+            });
+        };
+
         $scope.loadCountryCodes = function(){
-            voxboneApi.GetCountryCodes('', 0, 500).then(function(response){
+            voxboneApi.GetCountryCodes('Basic bXVodW50aGFuOkR1b0AxMjM0', 0, 500).then(function(response){
                 if(response.IsSuccess)
                 {
                     var jResult = JSON.parse(response.Result);
                     $scope.countries = jResult.countries;
                     $scope.autoCompletePlaceHolder = "Select Your Country";
-                    $scope.countries.map( function (country) {
+                    /*$scope.countries.map( function (country) {
                         return {
                             country: country
                         };
-                    });
+                    });*/
                 }
                 else
                 {
@@ -697,7 +771,79 @@
                 $scope.showAlert('Voxbone', 'error', errMsg);
             });
         };
-        //$scope.loadCountryCodes();
+        $scope.loadCountryCodes();
+
+        $scope.loadDidGroups = function(){
+            console.log($scope.selectedCountry);
+
+            if($scope.searchQ.selectedCity && $scope.searchQ.selectedCity !== "All"){
+                voxboneApi.FilterDidsFormState('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.searchQ.selectedCity, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
+                    if (response.IsSuccess) {
+                        if (response.Result) {
+                            var jResult = JSON.parse(response.Result);
+                            for (i = 0; i < jResult.didGroups.length; i++) {
+                                var voxIn = [{name: "VoxIN"}];
+                                //append voxIn data to front in feature list
+                                jResult.didGroups[i].features = voxIn.concat(jResult.didGroups[i].features);
+                            }
+
+                            $scope.voxDidGroupList = jResult;
+                            $scope.pagination.totalItems = jResult.resultCount;
+                            $scope.searchQ.isTableLoading = 1;
+                            $location.hash('voxDidGroupScroll');
+                            $anchorScroll();
+                        }
+                    }
+                    else {
+                        var errMsg = response.CustomMessage;
+
+                        if (response.Exception) {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert('DID Group List', errMsg, 'error');
+                    }
+                }, function (err) {
+                    var errMsg = "Error occurred while loading DID groups";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('DID Group List', errMsg, 'error');
+                });
+            }else {
+                voxboneApi.FilterDidsFormType('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
+                    if (response.IsSuccess) {
+                        if (response.Result) {
+                            var jResult = JSON.parse(response.Result);
+                            for (i = 0; i < jResult.didGroups.length; i++) {
+                                var voxIn = [{name: "VoxIN"}];
+                                //append voxIn data to front in feature list
+                                jResult.didGroups[i].features = voxIn.concat(jResult.didGroups[i].features);
+                            }
+
+                            $scope.voxDidGroupList = jResult;
+                            $scope.pagination.totalItems = jResult.resultCount;
+                            $scope.searchQ.isTableLoading = 1;
+                            $location.hash('voxDidGroupScroll');
+                            $anchorScroll();
+                        }
+                    }
+                    else {
+                        var errMsg = response.CustomMessage;
+
+                        if (response.Exception) {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert('DID Group List', errMsg, 'error');
+                    }
+                }, function (err) {
+                    var errMsg = "Error occurred while loading DID groups";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('DID Group List', errMsg, 'error');
+                });
+            }
+        };
 
     };
 

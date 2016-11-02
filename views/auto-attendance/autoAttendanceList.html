@@ -2,8 +2,17 @@
 <div class="row" >
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="page-title">
-            <div class="title_left">
+            <div class="title_left col-md-6 col-sm-6 col-xs-6">
                 <h3 class="font-robot font-600 ">Auto Attendant List</h3>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
+                <div class="input-group">
+                    <input type="text" ng-model="searchCriteria" class="form-control"
+                           placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                </div>
             </div>
         </div>
         <div class="x_panel">
@@ -35,7 +44,7 @@
                         </thead>
 
                         <tbody>
-                        <tr class="even pointer veery-tbl-body" ng-repeat="aa in aas">
+                        <tr class="even pointer veery-tbl-body" ng-repeat="aa in aas | filterBy: ['Name']: searchCriteria">
 
                             <td class="valAlgn">{{aa.Name}}</td>
                             <td class="valAlgn">{{aa.Code}}</td>
