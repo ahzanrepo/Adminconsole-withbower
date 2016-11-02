@@ -165,7 +165,7 @@
         $scope.offset = -1;
         $scope.prevOffset = -1;
 
-        $scope.cancelDownload = false;
+        $scope.cancelDownload = true;
         $scope.fileDownloadState = 'RESET';
         $scope.currentCSVFilename = '';
         $scope.DownloadButtonName = 'CSV';
