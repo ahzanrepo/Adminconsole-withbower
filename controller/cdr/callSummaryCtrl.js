@@ -26,12 +26,14 @@
         };
 
 
-        $scope.cancelDownload = false;
+        $scope.cancelDownload = true;
+        $scope.buttonClass = 'fa fa-file-text';
         $scope.fileDownloadState = 'RESET';
         $scope.currentCSVFilename = '';
         $scope.DownloadButtonName = 'CSV';
 
-        $scope.cancelDownloadDaily = false;
+        $scope.cancelDownloadDaily = true;
+        $scope.buttonClassDaily = 'fa fa-file-text';
         $scope.fileDownloadStateDaily = 'RESET';
         $scope.currentCSVFilenameDaily = '';
         $scope.DownloadButtonNameDaily = 'CSV';
@@ -99,6 +101,8 @@
                                 $scope.DownloadCSVFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
                                 $scope.fileDownloadState = 'READY';
                                 $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.buttonClass = 'fa fa-file-text';
                             }
                             else
                             {
@@ -128,7 +132,9 @@
         {
             $scope.fileDownloadState = 'RESET';
             $scope.DownloadButtonName = 'CSV';
-            $scope.cancelDownload = false;
+            $scope.cancelDownload = true;
+            $scope.buttonClass = 'fa fa-file-text';
+            $scope.buttonClassDaily = 'fa fa-file-text';
         };
 
         var checkFileReadyDaily = function(fileName)
@@ -138,6 +144,7 @@
             {
                 $scope.fileDownloadStateDaily = 'RESET';
                 $scope.DownloadButtonNameDaily = 'CSV';
+
             }
             else
             {
@@ -161,6 +168,8 @@
                                 $scope.DownloadCSVFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
                                 $scope.fileDownloadStateDaily = 'READY';
                                 $scope.DownloadButtonNameDaily = 'CSV';
+                                $scope.cancelDownloadDaily = true;
+                                $scope.buttonClassDaily = 'fa fa-file-text';
                             }
                             else
                             {
@@ -190,7 +199,7 @@
         {
             $scope.fileDownloadStateDaily = 'RESET';
             $scope.DownloadButtonNameDaily = 'CSV';
-            $scope.cancelDownloadDaily = false;
+            $scope.cancelDownloadDaily = true;
         };
 
 
@@ -199,10 +208,12 @@
             if($scope.DownloadButtonName === 'CSV')
             {
                 $scope.cancelDownload = false;
+                $scope.buttonClass = 'fa fa-spinner fa-spin';
             }
             else
             {
                 $scope.cancelDownload = true;
+                $scope.buttonClass = 'fa fa-file-text';
             }
 
             $scope.DownloadButtonName = 'PROCESSING...';
@@ -250,10 +261,12 @@
             if($scope.DownloadButtonNameDaily === 'CSV')
             {
                 $scope.cancelDownloadDaily = false;
+                $scope.buttonClassDaily = 'fa fa-spinner fa-spin';
             }
             else
             {
                 $scope.cancelDownloadDaily = true;
+                $scope.buttonClassDaily = 'fa fa-file-text';
             }
 
             $scope.DownloadButtonNameDaily = 'PROCESSING...';

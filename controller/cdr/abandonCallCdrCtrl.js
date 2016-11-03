@@ -89,10 +89,11 @@
         $scope.offset = -1;
         $scope.prevOffset = -1;
 
-        $scope.cancelDownload = false;
+        $scope.cancelDownload = true;
         $scope.fileDownloadState = 'RESET';
         $scope.currentCSVFilename = '';
         $scope.DownloadButtonName = 'CSV';
+        $scope.buttonClass = 'fa fa-file-text';
 
         $scope.loadNextPage = function () {
             var pageInfo = {
@@ -169,6 +170,8 @@
                                 $scope.DownloadCSVFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
                                 $scope.fileDownloadState = 'READY';
                                 $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.buttonClass = 'fa fa-file-text';
                             }
                             else
                             {
@@ -198,7 +201,8 @@
         {
             $scope.fileDownloadState = 'RESET';
             $scope.DownloadButtonName = 'CSV';
-            $scope.cancelDownload = false;
+            $scope.cancelDownload = true;
+            $scope.buttonClass = 'fa fa-file-text';
         };
 
 
@@ -207,10 +211,12 @@
             if($scope.DownloadButtonName === 'CSV')
             {
                 $scope.cancelDownload = false;
+                $scope.buttonClass = 'fa fa-spinner fa-spin';
             }
             else
             {
                 $scope.cancelDownload = true;
+                $scope.buttonClass = 'fa fa-file-text';
             }
 
             $scope.DownloadButtonName = 'PROCESSING...';

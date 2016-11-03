@@ -27,8 +27,15 @@
                                 <label><h5>Download</h5></label>
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-6" style="position: relative; top: 28px;">
-                                <a ng-if="fileDownloadState === 'READY'" style="width:60px; height:30px; background-size: 100% 100%;" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">Download</a>
-                                <button ng-if="fileDownloadState === 'RESET'" type="button" style="width:60px; height:30px; background-size: 100% 100%;" ng-click="getHourlySummaryCSVDownload()">{{DownloadButtonName}}</button>
+
+                                <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-download"></i></a>
+                                <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getHourlySummaryCSVDownload()">
+                                    CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i ng-class="buttonClass"></i>
+                                </button>
+                                <!--<a ng-if="fileDownloadState === 'READY'" style="width:60px; height:30px; background-size: 100% 100%;" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">Download</a>
+                                <button ng-if="fileDownloadState === 'RESET'" type="button" style="width:60px; height:30px; background-size: 100% 100%;" ng-click="getHourlySummaryCSVDownload()">{{DownloadButtonName}}</button>-->
                             </div>
 
                         </div>
@@ -156,8 +163,16 @@
                                 <label><h5>Download</h5></label>
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-6" style="position: relative; top: 28px;">
-                                <a ng-if="fileDownloadStateDaily === 'READY'" style="width:60px; height:30px; background-size: 100% 100%;" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilenameDaily}}" ng-click="downloadPressDaily()">Download</a>
-                                <button ng-if="fileDownloadStateDaily === 'RESET'" type="button" style="width:60px; height:30px; background-size: 100% 100%;" ng-click="getDailySummaryCSVDownload()">{{DownloadButtonNameDaily}}</button>
+
+                                <a ng-if="fileDownloadStateDaily === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPressDaily()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-download"></i></a>
+                                <button ng-if="fileDownloadStateDaily === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getDailySummaryCSVDownload()">
+                                    CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i ng-class="buttonClassDaily"></i>
+                                </button>
+
+                                <!--<a ng-if="fileDownloadStateDaily === 'READY'" style="width:60px; height:30px; background-size: 100% 100%;" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilenameDaily}}" ng-click="downloadPressDaily()">Download</a>
+                                <button ng-if="fileDownloadStateDaily === 'RESET'" type="button" style="width:60px; height:30px; background-size: 100% 100%;" ng-click="getDailySummaryCSVDownload()">{{DownloadButtonNameDaily}}</button>-->
                             </div>
 
                         </div>
