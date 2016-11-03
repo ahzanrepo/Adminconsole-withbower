@@ -44,7 +44,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpSer
         $auth.signup(newUser)
             .then(function(response) {
                 //$auth.setToken(response);
-                showAlert('Job Done', 'success', 'Registration successfully...');
+                showAlert('Job Done', 'success', 'Registration successfully please check email for verification...');
                 $state.go('login');
             })
             .catch(function(response) {

@@ -164,7 +164,7 @@ mainApp.factory('ruleconfigservice', function ($http, baseUrls) {
 
         },
         attchAppWithRule : function (rID,aID) {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'POST',
                 url: baseUrls.ruleServiceUrl + 'CallRuleApi/CallRule/'+rID+'/SetApplication/'+aID
