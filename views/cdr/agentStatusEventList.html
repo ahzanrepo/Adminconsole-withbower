@@ -38,13 +38,16 @@
                     </div>
                 </fieldset>
 
-                <div class="col-md-3 col-sm-3 col-xs-12">
-                    <div class="x_content btn-wrap-header">
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="x_content btn-wrap-header" style="position: relative; top: 10px">
                         <button type="button" class="btn btn-primary" ng-click="changeTimeAvailability()">{{timeEnabled}}</button>
                         <button type="button" class="btn btn-success" ng-click="getAgentStatusList()">
                             Search
                         </button>
-                        <button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" csv-header="['Agent', 'Reason', 'Date']" csv-column-order="['Agent', 'Reason', 'Date']" ng-csv="getAgentStatusListCSV()" filename="{{DownloadFileName}}.csv"></button>
+                        <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" csv-header="['Agent', 'Reason', 'Date']" csv-column-order="['Agent', 'Reason', 'Date']" ng-csv="getAgentStatusListCSV()" filename="{{DownloadFileName}}.csv">
+                            CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-download"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="clearfix"></div>

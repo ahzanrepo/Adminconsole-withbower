@@ -96,7 +96,20 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                         agentSummaryList.push(summaryData[i].Summary[j]);
                     }
                 }
-                $scope.AgentDetailsAssignToSummery();
+
+                for(var i=0;i<agentSummaryList.length;i++)
+                {
+                    //$scope.agentSummaryList[i].AverageHandlingTime=Math.round($scope.agentSummaryList[i].AverageHandlingTime * 100) / 100;
+                    for(var j=0;j<$scope.Agents.length;j++)
+                    {
+                        if($scope.Agents[j].ResourceId==agentSummaryList[i].Agent)
+                        {
+                            agentSummaryList[i].AgentName=$scope.Agents[j].ResourceName;
+
+                        }
+                    }
+                }
+                //$scope.AgentDetailsAssignToSummery();
                 deferred.resolve(agentSummaryList);
             }
 
