@@ -78,23 +78,23 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
         /////////////////////////////////////////////////////////
 
 
-        $authProvider.loginUrl = 'http://localhost:3637/auth/login';
-        $authProvider.signupUrl = 'http://localhost:3637/auth/signup';
+        $authProvider.loginUrl = 'http://userservice.app.veery.cloud/auth/login';
+        $authProvider.signupUrl = 'http://userservice.app.veery.cloud/auth/signup';
 
 
         $authProvider.facebook({
-            url: 'http://localhost:3637/auth/facebook',
+            url: 'http://userservice.app.veery.cloud/auth/facebook',
             clientId: '1237176756312189'
             //responseType: 'token'
         });
 
         $authProvider.google({
-            url: 'http://localhost:3637/auth/google',
+            url: 'http://userservice.app.veery.cloud/auth/google',
             clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com'
         });
 
         $authProvider.github({
-            url: 'http://localhost:3637/auth/github',
+            url: 'http://userservice.app.veery.cloud/auth/github',
             clientId: 'f725eae279e6727c68c7'
         });
 
