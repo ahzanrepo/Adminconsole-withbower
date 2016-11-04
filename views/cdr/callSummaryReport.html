@@ -8,7 +8,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="row">
-                <uib-tabset active="0">
+            <uib-tabset active="0">
                 <uib-tab index="0" heading="Hourly Summary (By Day)">
 
                     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -22,7 +22,24 @@
                                 Search
                             </button>
                         </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8"></div>
+                        <div class="col-md-2 col-sm-2 col-xs-2">
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="position: relative; top: 28px;">
+                                <label><h5>Download</h5></label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="position: relative; top: 28px;">
+
+                                <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-download"></i></a>
+                                <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getHourlySummaryCSVDownload()">
+                                    CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i ng-class="buttonClass"></i>
+                                </button>
+                                <!--<a ng-if="fileDownloadState === 'READY'" style="width:60px; height:30px; background-size: 100% 100%;" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">Download</a>
+                                <button ng-if="fileDownloadState === 'RESET'" type="button" style="width:60px; height:30px; background-size: 100% 100%;" ng-click="getHourlySummaryCSVDownload()">{{DownloadButtonName}}</button>-->
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6"></div>
                     </div>
 
                     <div class="search-main-wrap col-md-12 col-sm-12 col-xs-12" ng-if="obj.isTableLoadingHr==0">
@@ -141,7 +158,25 @@
                                 Search
                             </button>
                         </div>
-                        <div class="col-md-4 col-sm-4 col-xs-4"></div>
+                        <div class="col-md-2 col-sm-2 col-xs-2">
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="position: relative; top: 28px;">
+                                <label><h5>Download</h5></label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="position: relative; top: 28px;">
+
+                                <a ng-if="fileDownloadStateDaily === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPressDaily()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-download"></i></a>
+                                <button ng-if="fileDownloadStateDaily === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getDailySummaryCSVDownload()">
+                                    CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i ng-class="buttonClassDaily"></i>
+                                </button>
+
+                                <!--<a ng-if="fileDownloadStateDaily === 'READY'" style="width:60px; height:30px; background-size: 100% 100%;" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilenameDaily}}" ng-click="downloadPressDaily()">Download</a>
+                                <button ng-if="fileDownloadStateDaily === 'RESET'" type="button" style="width:60px; height:30px; background-size: 100% 100%;" ng-click="getDailySummaryCSVDownload()">{{DownloadButtonNameDaily}}</button>-->
+                            </div>
+
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-2"></div>
                     </div>
 
                     <div class="search-main-wrap col-md-12 col-sm-12 col-xs-12" ng-if="obj.isTableLoadingDay==0">

@@ -9,6 +9,7 @@
     var triggerController = function($scope, $state, triggerApiAccess) {
         $scope.triggers = [];
         $scope.trigger = {};
+        $scope.searchCriteria = "";
 
         $scope.showAlert = function (title,content,type) {
             new PNotify({
@@ -62,6 +63,7 @@
             triggerApiAccess.createTrigger($scope.trigger).then(function(response){
                 if(response.IsSuccess)
                 {
+                    $scope.searchCriteria = "";
                     $scope.triggers = response.Result;
                     $scope.showAlert('Trigger', response.CustomMessage, 'success');
                     $state.reload();

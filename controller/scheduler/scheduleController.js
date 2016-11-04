@@ -12,6 +12,7 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
     $scope.MasterAppList=[];
     $scope.IsDeveloper=false;
     $scope.Developers=[];
+    $scope.searchCriteria = "";
 
     $scope.showAlert = function (tittle,content,type) {
 
@@ -39,19 +40,16 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
             }
             else
             {
+                $scope.searchCriteria = "";
                 $scope.addNew = !response.data.IsSuccess;
                 $scope.showAlert("Success", "New Application added sucessfully.","success");
 
                 $scope.ScheduleList.splice(0, 0, response.data.Result);
                 $scope.newSchedule={};
-
-
             }
-            $state.reload();
         }), function (error) {
             console.info("Error in adding new Application "+error);
             $scope.showAlert("Error", "There is an Exception in saving Application "+error,"error");
-            $state.reload();
         }
     };
 
@@ -66,7 +64,7 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
 
     };
     $scope.reloadPage = function () {
-        $state.reload();
+        $scope.GetSchedules();
     };
 
     $scope.GetSchedules = function () {
@@ -90,8 +88,6 @@ mainApp.controller("scheduleController", function ($scope,$state, scheduleBacken
     $scope.cancleEdit = function () {
         $scope.addNew=false;
     };
-
-
 
     $scope.GetSchedules();
 

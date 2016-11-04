@@ -20,14 +20,15 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.overlayplay',
-    'com.2fdevs.videogular.plugins.poster','ui.bootstrap.datetimepicker','angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
+    'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker', 'angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
     'ui.bootstrap.pagination',
     'ui.grid', 'ui.grid.grouping',
     'mgcrea.ngStrap',
     'btford.socket-io',
-    'veeryNotificationMod',
+    'veeryNotificationMod','stripe-payment-tools',
     'datatables',
-    'satellizer'
+    'satellizer',
+    'checklist-model'
 ]);
 
 
@@ -39,6 +40,8 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
+    'authProviderUrl': 'http://userservice.app.veery.cloud/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
@@ -47,14 +50,21 @@ var baseUrls = {
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
-    'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/PBXUser',
+    'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
-    'TrunkServiceURL':'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
-    'notification': 'http://notificationservice.app.veery.cloud/'
-
+    'notification': 'http://notificationservice.app.veery.cloud/',
+    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
+    'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
+    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
+    'voxboneApiUrl': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -62,6 +72,7 @@ mainApp.constant('baseUrls', baseUrls);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider) {
 
+        var authProviderUrl = 'http://userservice.app.veery.cloud/';
         $urlRouterProvider.otherwise('/login');
 
         /////////////////////////////////////////////////////////
@@ -140,14 +151,21 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                 navigation: "DASHBOARD"
 
             }
-        }).state('console.fb', {
-            url: "/fb",
-            templateUrl: "socialConnectors/views/socialConnector.html",
-            controller: "socialConnectorController",
+        }).state('console.facebook', {
+            url: "/social/facebook",
+            templateUrl: "socialConnectors/views/socialFbConnector.html",
+            controller: "socialFbConnectorController",
             data: {
                 requireLogin: true,
-                navigation: "DASHBOARD"
-
+                navigation: "FACEBOOK"
+            }
+        }).state('console.twitter', {
+            url: "/social/twitter",
+            templateUrl: "socialConnectors/views/socialTwitterConnector.html",
+            controller: "socialTwitterConnectorController",
+            data: {
+                requireLogin: true,
+                navigation: "TWITTER"
             }
         }).state('console.productivity', {
             url: "/productivity",
@@ -231,6 +249,24 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
             templateUrl: "auth/signUp.html",
             data: {
                 requireLogin: false
+            }
+        }).state('ResetPw', {
+            url: "/resetPassword",
+            templateUrl: "auth/resetPassword.html",
+            data: {
+                requireLogin: false
+            }
+        }).state("Reset", {
+                url: "/reset/:token",
+                templateUrl: "auth/reEnterPassword.html",
+                data: {
+                    requireLogin: false,
+                }
+            }).state("Activate", {
+            url: "/activate/:token",
+            templateUrl: "auth/activateAccount.html",
+            data: {
+                requireLogin: false,
             }
         }).state('pricing', {
             url: "/pricing",
@@ -432,7 +468,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
             controller: "queueSummaryController",
             data: {
                 requireLogin: true,
-                navigation: "QUEUE_SUMMARY"
+                navigation: "CDR"
             }
         }).state('console.agentsummary', {
             url: "/agentsummary",
@@ -551,6 +587,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                 requireLogin: true,
                 navigation: "CDR"
             }
+
+        }).state('console.queueHourlySummary', {
+            url: "/queueHourlySummary",
+            templateUrl: "views/cdr/queueSummaryHourly.html",
+            controller: "queueSummaryHourlyCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
         }).state('console.sla', {
             url: "/sla",
             templateUrl: "views/ticket-sla/sla.html",
@@ -612,14 +657,46 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
             data: {
                 requireLogin: true
             }
-        })
+        }).state("console.caseConfiguration", {
+                url: "/caseConfiguration",
+                templateUrl: "views/ticket-case/caseConfig.html",
+                controller: "caseConfigController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+        }).state("console.case", {
+                url: "/case",
+                templateUrl: "views/ticket-case/case.html",
+                controller: "caseController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+        }).state("console.configCase", {
+                url: "/configCase/:caseInfo/:title",
+                templateUrl: "views/ticket-case/configCase.html",
+                controller: "configCaseController",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SLA"
+                }
+        }).state('console.queueSlaBreakDown', {
+                url: "/slabreakdown",
+                templateUrl: "views/queue-slabreakdown/queue-slabreakdown.html",
+                controller: "queueSlaBreakDownController",
+                data: {
+                    requireLogin: true,
+                    navigation: "SLA_BREAKDOWN"
+                }
+            })
     }]);
 
 
 mainApp.filter('durationFilter', function () {
     return function (value) {
         var durationObj = moment.duration(value);
-        return durationObj._data.days+'d::'+durationObj._data.hours+'h::'+durationObj._data.minutes+'m::'+durationObj._data.seconds+'s';
+        return durationObj._data.days + 'd::' + durationObj._data.hours + 'h::' + durationObj._data.minutes + 'm::' + durationObj._data.seconds + 's';
 
     }
 });

@@ -7,7 +7,20 @@
         <!-- application list -->
         <div class="x_panel bg-light-gray animated fadeIn">
             <div class="x_title border-0">
-                <h2 class="font-robot font-300 text-uppercase font-15">Schedule List</h2>
+
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <h2 class="font-robot font-300 text-uppercase font-15">New Schedule</h2>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
+                    <div class="input-group">
+                        <input type="text" ng-model="searchCriteria" class="form-control"
+                               placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                    </div>
+                </div>
                 <div class="col-xs-12">
                     <div class="tile-stats m-top15">
                         <form class="form-horizontal form-label-left input_mask">
@@ -83,8 +96,8 @@
         <!-- view application users -->
         <div class="x_panel">
             <div class="x_content">
-                <ul class="list-unstyled timeline">
-                    <li ng-repeat="Schedule in ScheduleList">
+                <ul class="list-unstyled ">
+                    <li ng-repeat="Schedule in ScheduleList | filterBy: ['ScheduleName']: searchCriteria">
                         <editschedule schedule="Schedule" scheduleList="ScheduleList" update-Schedule="removeDeleted(Schedule)"
                                       reloadpage="reloadPage()">
 

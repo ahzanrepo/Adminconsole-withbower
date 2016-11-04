@@ -5,7 +5,19 @@
         <!-- application list -->
         <div class="x_panel bg-light-gray animated fadeIn">
             <div class="x_title border-0">
-                <h2 class="font-robot font-300 text-uppercase font-15">Request router configuration</h2>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <h2 class="font-robot font-300 text-uppercase font-15">New Request router configuration</h2>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
+                    <div class="input-group">
+                        <input type="text" ng-model="searchCriteria" class="form-control"
+                               placeholder="Search for...">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                    </div>
+                </div>
                 <div class="col-xs-12">
                     <div class="tile-stats m-top15">
                         <form class="form-horizontal form-label-left input_mask">
@@ -95,8 +107,9 @@
                                     <select class="form-control has-feedback-left" ng-model="newArds.SelectionAlgo"
                                             placeholder="Select Resource Selection">
                                         <option value="" disabled selected>Resource selection</option>
-                                        <option>BASIC</option>
-                                        <option>WEIGHTBASE</option>
+                                        <option value="BASIC">Basic Routing</option>
+                                        <option value="BASICTHRESHOLD">Basic Threshold Routing</option>
+                                        <option value="WEIGHTBASE">Weight Base Routing</option>
                                     </select>
                                     <span class="fa fa-cog form-control-feedback left" aria-hidden="true"></span>
                                 </div>
@@ -151,7 +164,7 @@
         <div class="x_panel ">
             <div class="x_content">
                 <ul class="list-unstyled ">
-                    <li ng-repeat="Ards in ArdsList">
+                    <li ng-repeat="Ards in ArdsList | filterBy: ['ServerType']: searchCriteria">
                         <editardsconfig ards="Ards" ardslist="ArdsList" groups="groups" tasks="tasks" request-servers="RequestServers" update-application="removeDeleted(App)"
                                         reloadpage="reloadPage()"></editardsconfig>
                     </li>

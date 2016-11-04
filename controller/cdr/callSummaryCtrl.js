@@ -1,7 +1,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var callSummaryCtrl = function ($scope, $filter, cdrApiHandler) {
+    var callSummaryCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -24,6 +24,19 @@
             startDay : moment().format("YYYY-MM-DD"),
             endDay : moment().format("YYYY-MM-DD")
         };
+
+
+        $scope.cancelDownload = true;
+        $scope.buttonClass = 'fa fa-file-text';
+        $scope.fileDownloadState = 'RESET';
+        $scope.currentCSVFilename = '';
+        $scope.DownloadButtonName = 'CSV';
+
+        $scope.cancelDownloadDaily = true;
+        $scope.buttonClassDaily = 'fa fa-file-text';
+        $scope.fileDownloadStateDaily = 'RESET';
+        $scope.currentCSVFilenameDaily = '';
+        $scope.DownloadButtonNameDaily = 'CSV';
 
 
         $scope.callSummaryHrList = [];
@@ -58,7 +71,243 @@
             return minutes + ':' + seconds;
         };
 
+        var checkFileReady = function(fileName)
+        {
+            console.log('METHOD CALL');
+            if($scope.cancelDownload)
+            {
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
+            }
+            else
+            {
+                cdrApiHandler.getFileMetaData(fileName).then(function(fileStatus)
+                {
+                    if(fileStatus && fileStatus.Result)
+                    {
+                        if(fileStatus.Result.Status === 'PROCESSING')
+                        {
+                            $timeout(checkFileReady(fileName), 10000);
+                        }
+                        else
+                        {
 
+
+                            var decodedToken = loginService.getTokenDecode();
+
+                            if (decodedToken && decodedToken.company && decodedToken.tenant)
+                            {
+                                $scope.currentCSVFilename = fileName;
+                                $scope.DownloadCSVFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                                $scope.fileDownloadState = 'READY';
+                                $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.buttonClass = 'fa fa-file-text';
+                            }
+                            else
+                            {
+                                $scope.fileDownloadState = 'RESET';
+                                $scope.DownloadButtonName = 'CSV';
+                            }
+
+
+                        }
+                    }
+                    else
+                    {
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                    }
+
+                }).catch(function(err)
+                {
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                });
+            }
+
+        };
+
+        $scope.downloadPress = function()
+        {
+            $scope.fileDownloadState = 'RESET';
+            $scope.DownloadButtonName = 'CSV';
+            $scope.cancelDownload = true;
+            $scope.buttonClass = 'fa fa-file-text';
+            $scope.buttonClassDaily = 'fa fa-file-text';
+        };
+
+        var checkFileReadyDaily = function(fileName)
+        {
+            console.log('METHOD CALL');
+            if($scope.cancelDownloadDaily)
+            {
+                $scope.fileDownloadStateDaily = 'RESET';
+                $scope.DownloadButtonNameDaily = 'CSV';
+
+            }
+            else
+            {
+                cdrApiHandler.getFileMetaData(fileName).then(function(fileStatus)
+                {
+                    if(fileStatus && fileStatus.Result)
+                    {
+                        if(fileStatus.Result.Status === 'PROCESSING')
+                        {
+                            $timeout(checkFileReadyDaily(fileName), 10000);
+                        }
+                        else
+                        {
+
+
+                            var decodedToken = loginService.getTokenDecode();
+
+                            if (decodedToken && decodedToken.company && decodedToken.tenant)
+                            {
+                                $scope.currentCSVFilenameDaily = fileName;
+                                $scope.DownloadCSVFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                                $scope.fileDownloadStateDaily = 'READY';
+                                $scope.DownloadButtonNameDaily = 'CSV';
+                                $scope.cancelDownloadDaily = true;
+                                $scope.buttonClassDaily = 'fa fa-file-text';
+                            }
+                            else
+                            {
+                                $scope.fileDownloadStateDaily = 'RESET';
+                                $scope.DownloadButtonNameDaily = 'CSV';
+                            }
+
+
+                        }
+                    }
+                    else
+                    {
+                        $scope.fileDownloadStateDaily = 'RESET';
+                        $scope.DownloadButtonNameDaily = 'CSV';
+                    }
+
+                }).catch(function(err)
+                {
+                    $scope.fileDownloadStateDaily = 'RESET';
+                    $scope.DownloadButtonNameDaily = 'CSV';
+                });
+            }
+
+        };
+
+        $scope.downloadPressDaily = function()
+        {
+            $scope.fileDownloadStateDaily = 'RESET';
+            $scope.DownloadButtonNameDaily = 'CSV';
+            $scope.cancelDownloadDaily = true;
+        };
+
+
+        $scope.getHourlySummaryCSVDownload = function ()
+        {
+            if($scope.DownloadButtonName === 'CSV')
+            {
+                $scope.cancelDownload = false;
+                $scope.buttonClass = 'fa fa-spinner fa-spin';
+            }
+            else
+            {
+                $scope.cancelDownload = true;
+                $scope.buttonClass = 'fa fa-file-text';
+            }
+
+            $scope.DownloadButtonName = 'PROCESSING...';
+
+            try
+            {
+
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                momentTz = momentTz.replace("+", "%2B");
+
+                cdrApiHandler.getCallSummaryForHrDownload($scope.obj.dateofmonth, momentTz, 'csv').then(function (cdrResp)
+                {
+                    if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
+                    {
+                        var downloadFilename = cdrResp.Result;
+
+                        checkFileReady(downloadFilename);
+
+                    }
+                    else
+                    {
+                        $scope.showAlert('Error', 'error', 'Error occurred while loading summary list');
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                    }
+
+
+                }, function (err)
+                {
+                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading summary list');
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                })
+            }
+            catch (ex)
+            {
+                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading summary list');
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
+            }
+        };
+
+        $scope.getDailySummaryCSVDownload = function ()
+        {
+            if($scope.DownloadButtonNameDaily === 'CSV')
+            {
+                $scope.cancelDownloadDaily = false;
+                $scope.buttonClassDaily = 'fa fa-spinner fa-spin';
+            }
+            else
+            {
+                $scope.cancelDownloadDaily = true;
+                $scope.buttonClassDaily = 'fa fa-file-text';
+            }
+
+            $scope.DownloadButtonNameDaily = 'PROCESSING...';
+
+            try
+            {
+
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                momentTz = momentTz.replace("+", "%2B");
+
+                cdrApiHandler.getCallSummaryForDayDownload($scope.obj2.startDay, $scope.obj2.endDay, momentTz, 'csv').then(function (cdrResp)
+                {
+                    if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
+                    {
+                        var downloadFilename = cdrResp.Result;
+
+                        checkFileReadyDaily(downloadFilename);
+
+                    }
+                    else
+                    {
+                        $scope.showAlert('Error', 'error', 'Error occurred while loading summary list');
+                        $scope.fileDownloadStateDaily = 'RESET';
+                        $scope.DownloadButtonNameDaily = 'CSV';
+                    }
+
+
+                }, function (err)
+                {
+                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading summary list');
+                    $scope.fileDownloadStateDaily = 'RESET';
+                    $scope.DownloadButtonNameDaily = 'CSV';
+                })
+            }
+            catch (ex)
+            {
+                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading summary list');
+                $scope.fileDownloadStateDaily = 'RESET';
+                $scope.DownloadButtonNameDaily = 'CSV';
+            }
+        };
 
 
         $scope.getCallSummary = function ()
@@ -139,10 +388,8 @@
 
         $scope.getCallSummaryDaily = function ()
         {
-
             try
             {
-
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 momentTz = momentTz.replace("+", "%2B");
 

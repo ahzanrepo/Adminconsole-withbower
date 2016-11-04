@@ -6,6 +6,7 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
     $scope.holdMusicList=[];
     $scope.holdMusicFiles = [];
     $scope.addNew = false;
+    $scope.searchCriteria = "";
 
     $scope.showAlert = function (title,content,type) {
 
@@ -83,6 +84,7 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
                 $scope.holdMusicList.splice(0, 0, response.data.Result);
                 $scope.newHoldMusic={};
                 $scope.showAlert("Success","Saving succeeded","success");
+                $scope.searchCriteria = "";
 
 
             }

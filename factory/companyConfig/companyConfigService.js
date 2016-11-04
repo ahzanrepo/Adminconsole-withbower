@@ -1,23 +1,18 @@
 /**
  * Created by Pawan on 8/1/2016.
- */
+ * */
 
-/**
- * Created by Pawan on 6/8/2016.
- */
 
-mainApp.factory('companyConfigBackendService', function ($http, authService)
+
+mainApp.factory('companyConfigBackendService', function ($http, authService,baseUrls)
 {
     return {
 
         getCloudEndUser: function () {
-            var authToken = authService.GetToken();
+            
             return $http({
                 method: 'GET',
-                url: "http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUsers",
-                headers: {
-                    'authorization':authToken
-                }
+                url:baseUrls.clusterconfigUrl +"CloudEndUsers"
             }).then(function(response)
             {
                 return response;
@@ -25,14 +20,11 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
         },
 
         saveNewEndUser: function (resource) {
-            var authToken = authService.GetToken();
+            
 
             return $http({
                 method: 'POST',
-                url: "http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUser",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.clusterconfigUrl +"CloudEndUser",
                 data:resource
 
             }).then(function(response)
@@ -42,14 +34,11 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
         },
 
         updateEndUser: function (resource) {
-            var authToken = authService.GetToken();
+            
 
             return $http({
                 method: 'PUT',
-                url: "http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/CloudEndUser/"+resource.id,
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.clusterconfigUrl +"CloudEndUser/"+resource.id,
                 data:resource
 
             }).then(function(response)
@@ -58,40 +47,31 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
             });
         },
         getClusters: function () {
-            var authToken = authService.GetToken();
+            
             return $http({
                 method: 'GET',
-                url: "http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/Clouds",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.clusterconfigUrl +"Clouds"
             }).then(function(response)
             {
                 return response;
             });
         },
         getContexts: function () {
-            var authToken = authService.GetToken();
+            
             return $http({
                 method: 'GET',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Contexts",
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.sipUserendpoint +"Contexts"
             }).then(function(response)
             {
                 return response;
             });
         },
         saveNewContext: function (resource) {
-            var authToken = authService.GetToken();
+            
 
             return $http({
                 method: 'POST',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Context",
-                headers: {
-                    'authorization':authToken
-                },
+                url: baseUrls.sipUserendpoint +"Context",
                 data:resource
 
             }).then(function(response)
@@ -100,14 +80,11 @@ mainApp.factory('companyConfigBackendService', function ($http, authService)
             });
         },
         deleteContext: function (resource) {
-            var authToken = authService.GetToken();
+            
 
             return $http({
                 method: 'DELETE',
-                url: "http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/Context/"+resource.Context,
-                headers: {
-                    'authorization':authToken
-                }
+                url: baseUrls.sipUserendpoint +"Context/"+resource.Context
 
             }).then(function(response)
             {

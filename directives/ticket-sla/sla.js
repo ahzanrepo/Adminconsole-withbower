@@ -117,7 +117,7 @@
                         });
                     }, function () {
 
-                    }, scope.trigger);
+                    }, scope.sla);
                 };
 
                 scope.viewConfigurations = function()

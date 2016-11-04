@@ -5,7 +5,7 @@
     'use strict';
     mainApp.factory('loginService', Service);
 
-    function Service($http, localStorageService, jwtHelper, $auth) {
+    function Service($http, localStorageService, jwtHelper, $auth,baseUrls) {
         var service = {};
         service.mynavigations = mynavigations;
         service.Login = Login;
@@ -20,6 +20,10 @@
         service.getNavigationAccess = getNavigationAccess;
         //service.navigations = navigations;
         service.Logoff = Logoff;
+        service.resetPassword = resetPassword;
+        service.forgetPassword = forgetPassword;
+        service.tokenExsistes = tokenExsistes;
+        service.activateAccount = activateAccount;
         return service;
 
 
@@ -103,17 +107,60 @@
 
 
 
+        function forgetPassword(email, callback) {
+            $http.post(baseUrls.authProviderUrl+ "auth/forget",{email:email}).
+            success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+
+            }).
+            error(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+            });
+        }
+
+
+        function resetPassword(token,password, callback) {
+            $http.post(baseUrls.authProviderUrl+ "auth/reset/"+token,{password:password}).
+            success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+
+            }).
+            error(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+            });
+        }
+
+
+        function tokenExsistes(token, callback) {
+            $http.get(baseUrls.authProviderUrl+ "auth/token/"+token+"/exists").
+            success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+
+            }).
+            error(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+            });
+        }
+
+
+
+        function activateAccount(token, callback) {
+            $http.get(baseUrls.authProviderUrl+ "auth/activate/"+token).
+            success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+
+            }).
+            error(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+            });
+        }
 
 
         //logoff
         function Logoff(parm, callback) {
 
             var decodeToken = getTokenDecode();
-            $http.delete("http://127.0.0.1:3637/oauth/token/revoke/"+decodeToken.jti,  {
-                headers: {
-                    Authorization: 'Bearer '+getToken()
-                }
-            }).
+            $http.delete(baseUrls.authServiceBaseUrl+"token/revoke/"+decodeToken.jti).
                 success(function (data, status, headers, config) {
                     localStorageService.remove("@navigations");
                     $auth.removeToken();
@@ -130,7 +177,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function Login(parm, callback) {
-            $http.post("http://127.0.0.1:3637/oauth/token", {
+            $http.post(baseUrls.authServiceBaseUrl+"/token", {
                 grant_type: "password",
                 username: parm.userName,
                 password: parm.password,
@@ -157,11 +204,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getMyPackages(callback) {
-            $http.get("http://localhost:3637/DVP/API/1.0.0.0/MyOrganization/mypackages", {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.get(baseUrls.UserServiceBaseUrl+ "MyOrganization/mypackages").
             success(function (data, status, headers, config) {
                 if (data && data.Result && data.Result.length > 0) {
                     callback(true,status);
@@ -178,11 +221,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getAllPackages(callback) {
-            $http.get("http://127.0.0.1:3637/DVP/API/1.0.0.0/Packages", {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.get(baseUrls.UserServiceBaseUrl+ "Packages").
             success(function (data, status, headers, config) {
                 callback(data.Result);
 
@@ -196,11 +235,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function buyMyPackage(packageName, callback) {
-            $http.put("http://127.0.0.1:3637/DVP/API/1.0.0.0/Organisation/Package/" + packageName, {}, {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.put(baseUrls.UserServiceBaseUrl+ "Organisation/Package/" + packageName, {}).
             success(function (data, status, headers, config) {
                 callback(true);
             }).
@@ -212,11 +247,7 @@
         //user login in to console
         //get current user navigation
         function getUserNavigation(callback) {
-            $http.get("http://127.0.0.1:3637/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").
             success(function (data, status, headers, config) {
                 console.log(data);
                 if (data.IsSuccess && data.Result && data.Result.length > 0) {
@@ -236,11 +267,7 @@
         //is can access
         function getNavigationAccess(callback) {
             mynavigations = {};
-            $http.get("http://127.0.0.1:3637/DVP/API/1.0.0.0/MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE", {
-                headers: {
-                    Authorization: 'bearer ' + getToken()
-                }
-            }).
+            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").
             success(function (data, status, headers, config) {
                 if (data.IsSuccess && data.Result && data.Result.length > 0) {
                     data.Result[0].menus.forEach(function (item) {
@@ -283,7 +310,7 @@
 //$scope.Register = function () {
 //
 //
-//    var url = "http://127.0.0.1:3637/oauth/token";
+//    var url = baseUrls.authServiceBaseUrl+"/token";
 //    var encoded = $base64.encode("ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048");
 //    var config = {
 //        headers: {

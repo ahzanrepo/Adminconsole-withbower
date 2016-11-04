@@ -42,31 +42,37 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         $state.go('signUp');
     };
 
+    $scope.isSocialMedia = false;
     $scope.authenticate = function (provider) {
-        $auth.authenticate(provider)
+
+        para.scope =  ["all_all", "profile_veeryaccount"];
+
+        $scope.isSocialMedia = true;
+        $auth.authenticate(provider,para)
             .then(function () {
                 //toastr.success('You have successfully signed in with ' + provider + '!');
                 loginService.getMyPackages(function (result, status) {
                     if (status == 200) {
                         if (result) {
                             loginService.getUserNavigation(function (isnavigation) {
-
+                                $scope.isSocialMedia = false;
                                 $state.go('console');
 
                             })
                         } else {
-
+                            $scope.isSocialMedia = false;
                             $state.go('pricing');
                         }
                     } else {
-
                         loginService.getUserNavigation(function (isnavigation) {
+                            $scope.isSocialMedia = false;
                             $state.go('console');
                         })
                     }
                 });
             })
             .catch(function (error) {
+                $scope.isSocialMedia = false;
                 if (error.message) {
                     loginService.clearCookie();
                     showAlert('Error', 'error', error.message);
@@ -83,6 +89,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.onClickLogin = function () {
         para.userName = $scope.userName;
         para.password = $scope.password;
+        para.scope =  ["all_all", "profile_veeryaccount"]
         //parameter option
         //username
         //password
@@ -91,7 +98,13 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         $scope.loginFrm.$invalid = true;
 
 
-        $auth.login(para)
+        var params = {
+            headers: {
+                Authorization: 'Basic ' + $base64.encode(config.client_Id_secret)
+            }
+        };
+
+        $auth.login(para, params)
             .then(function () {
                 loginService.getMyPackages(function (result, status) {
                     if (status == 200) {
@@ -151,6 +164,22 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     };
 
     $scope.CheckLogin();
+
+
+    $scope.onClickResetPassword = function () {
+
+        $state.go('ResetPw');
+
+        //loginService.resetPassword($scope.password, function (isSuccess) {
+        //    if(isSuccess){
+        //        showAlert('Success', 'success', "Please check email");
+        //    }else{
+        //        showAlert('Error', 'error', "reset failed");
+        //    }
+        //})
+
+
+    }
 
 
 });

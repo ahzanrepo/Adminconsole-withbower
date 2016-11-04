@@ -3,10 +3,14 @@
     <div>
         <div class="login_wrapper">
             <div class="form login_form">
+                <div ng-show="isSocialMedia" class="is-social-media-wrapper">
+                    Authentication...
+                </div>
                 <section class="login_content">
                     <div class="login-header">
                         <img src="images/logo_130x130yellow.png" width="120" height="120"/>
                     </div>
+
                     <form name="loginFrm">
                         <h1 class="font-robot font-300">Login </h1>
                         <div class="validation-area">
@@ -33,18 +37,17 @@
                             </div>
                         </div>
                         <div>
-                            <button class="btn btn-default submit  pull-left" href="javascript:void(0);"
-                                    ng-disabled="loginFrm.$invalid"
-                                    ng-class="isLogin==true ?'disabled-btn':'dark-frm-btn'"
-                                    ng-click="onClickLogin()" ng-disabled="isLogin">Log in
-                                <i ng-if="isLogin" class="fa fa-spinner fa-pulse fa-3x fa-fw form-data-loading"></i>
-                            </button>
-
-
-
-                            <button ng-click="authenticate('facebook')">Sign in with Facebook</button>
-                            <button ng-click="authenticate('google')">Sign in with Google</button>
-                            <button ng-click="authenticate('github')">Sign in with GitHub</button>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <button class="btn btn-default btn-block submit  " href="javascript:void(0);"
+                                            ng-disabled="loginFrm.$invalid"
+                                            ng-class="isLogin==true ?'disabled-btn':'dark-frm-btn'"
+                                            ng-click="onClickLogin()" ng-disabled="isLogin">Log in
+                                        <i ng-if="isLogin"
+                                           class="fa fa-spinner fa-pulse fa-3x fa-fw form-data-loading"></i>
+                                    </button>
+                                </div>
+                            </div>
 
                             <!--
                             <button ng-click="authenticate('linkedin')">Sign in with LinkedIn</button>
@@ -58,26 +61,57 @@
                             <button ng-click="authenticate('spotify')">Sign in with Spotify</button>-->
 
                             <!-- loading -->
-                            <a class="reset_pass pull-right dark-reset-text" href="javascript:void(0);">Lost your
-                                password?</a>
+                            <div class="col-lg-12">
+                                <div class="row lost-pwd ">
+                                    <div class="row">
+                                    <p class="change_link">
+                                        <a href="javascript:void(0);" ng-click="onClickResetPassword()">
+                                            Lost your password? </a>
+                                    </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <p class="change_link">
+                                        <a href="javascript:void(0);" ng-click="onClickSignUp()"
+                                           class="to_register to_register_dark"> New here? Create an
+                                            account </a>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="clearfix"></div>
 
-                        <div class="dark-separator">
-                            <p class="change_link">
-                                <a href="javascript:void(0);" ng-click="onClickSignUp()"
-                                   class="to_register to_register_dark"> New here? Create an
-                                    account </a>
-                            </p>
-                            <div class="clearfix"></div>
-                            <br/>
-                            <div>
-                                <p class="font-robot font-300 font-green-light500">
-                                    ©2016 All Rights Reserved <br/> veery.cloud Privacy and
-                                    Terms</p>
-                            </div>
+                        <p class="login-dark-separator">
+                            SIGN IN WITH
+                        </p>
+
+                        <div class="login-with-social">
+                            <ul>
+                                <li ng-click="authenticate('facebook')">
+                                    <i class="fa fa-facebook hover hvr-bob "></i>
+                                </li>
+                                <li ng-click="authenticate('google')">
+                                    <i class="fa fa-google-plus hover hvr-bob "></i>
+                                </li>
+                                <li ng-click="authenticate('github')">
+                                    <i class="fa fa-github hover hvr-bob "></i>
+                                </li>
+                                <li><i class="fa fa-twitter disable"></i></li>
+                                <li><i class="fa fa-linkedin disable"></i></li>
+                            </ul>
                         </div>
+                        <div class="clearfix"></div>
+                        <br/>
+                        <!--<div>-->
+                        <!--<p class="font-robot font-300 font-green-light500">-->
+                        <!--©2016 All Rights Reserved veery.cloud Privacy and Terms-->
+                        <!--</p>-->
+                        <!--</div>-->
+
                     </form>
                 </section>
             </div>
