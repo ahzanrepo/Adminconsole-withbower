@@ -1,5 +1,10 @@
 mainApp.controller("resourceController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, resourceService) {
 
+    $scope.showPaging = false;
+    $scope.currentPage = "1";
+    $scope.pageTotal = "1";
+    $scope.pageSize = "50";
+
     $anchorScroll();
     $scope.isLoading = true;
     $scope.userNameAvilable = false;
@@ -44,7 +49,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
         });
 
     };
-    $scope.GetResources(50, 1);
+    $scope.GetResources($scope.pageSize, 1);
 
     $scope.addNew = false;
     $scope.addResource = function () {
@@ -117,10 +122,7 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
         });
     };
 
-    $scope.showPaging = false;
-    $scope.currentPage = "1";
-    $scope.pageTotal = "1";
-    $scope.pageSize = "50";
+
 
     $scope.getPageData = function (model, page, pageSize, total) {
 
@@ -130,7 +132,17 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
 
     $scope.GetResourcesCount = function () {
 
+        resourceService.GetResourcesCount().then(function (response) {
+            $scope.pageTotal = response;
+
+        }, function (error) {
+            $log.debug("GetResources err");
+            $scope.showError("Error", "Error", "ok", "Fail To Get Resource Count.");
+        });
+
+
     };
+    $scope.GetResourcesCount();
 
     $scope.removeDeleted = function (item) {
 
@@ -178,7 +190,8 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
         $scope.userNameAvilable = false;
         $scope.userNameReadOnly = false;
         $scope.isLoading = true;
-        $scope.GetResources(50, 1);
+        $scope.GetResources($scope.pageSize, 1);
+        $scope.GetResourcesCount();
         console.info("reloadPage..........");
     };
 
