@@ -243,12 +243,12 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
-    var getResourcesCount = function (resAttId) {
+    var getResourcesCount = function () {
         return $http({
             method: 'get',
             url: baseUrls.resourceServiceBaseUrl + "ResourceCount"
         }).then(function (response) {
-            return response.data;
+            return response.data.Result;
 
         });
 
