@@ -6,7 +6,7 @@
 
     var cdrApiHandler = function($http, authService, baseUrls)
     {
-        var getCDRForTimeRange = function(startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber)
+        var getCDRForTimeRange = function(startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber, didFilter)
         {
             var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
@@ -35,6 +35,11 @@
             if(custNumber)
             {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if(didFilter)
+            {
+                url = url + '&didnumber=' + didFilter;
             }
 
             return $http({
