@@ -46,8 +46,13 @@
                             <label><h5>Download</h5></label>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2">
-                            <a ng-if="fileDownloadState === 'READY'" style="width:60px; height:30px; background-size: 100% 100%;" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">Download</a>
-                            <button ng-if="fileDownloadState === 'RESET'" type="button" style="width:60px; height:30px; background-size: 100% 100%;" ng-click="getProcessedCDRCSVDownload()">{{DownloadButtonName}}</button>
+
+                            <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-download"></i></a>
+                            <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" ng-if="fileDownloadState === 'RESET'" type="button" ng-click="getProcessedCDRCSVDownload()">
+                                CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i ng-class="buttonClass"></i>
+                            </button>
                             <!--<button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" ng-click="prepareDownloadCSV()"></button>-->
                         </div>
 

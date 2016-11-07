@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="x_content btn-wrap-header">
-                        <button type="button" class="btn btn-success" ng-click="getAgentSummary()" ng-disabled="!dateValid">
+                        <button type="button" style="position: relative; top: 10px;" class="btn btn-success" ng-click="getAgentSummary()" ng-disabled="!dateValid">
                             Search
                         </button>
                         <!--<button type="button" class="btn btn-primary">Reset</button>-->
@@ -35,7 +35,10 @@
                 </div>
                 <div class="col-sm-3">
                     <div style="position: relative; top: 20px;">
-                        <button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" csv-header="['Agent ID', 'Staff Time', 'Date', 'Talk Time', 'Total Answered', 'Total Calls', 'Average Handling Time', 'Break Time', 'After Work Time', 'Idle Time']" csv-column-order="['AgentName', 'StaffTime', 'Date', 'TalkTime', 'TotalAnswered', 'TotalCalls', 'AverageHandlingTime', 'BreakTime', 'AfterWorkTime', 'IdleTime']" ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv"></button>
+                        <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;" csv-header="['Agent ID', 'Staff Time', 'Date', 'Talk Time', 'Total Answered', 'Total Calls', 'Average Handling Time', 'Break Time', 'After Work Time', 'Idle Time']" csv-column-order="['AgentName', 'StaffTime', 'Date', 'TalkTime', 'TotalAnswered', 'TotalCalls', 'AverageHandlingTime', 'BreakTime', 'AfterWorkTime', 'IdleTime']" ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv">
+                            CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-download"></i>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -149,8 +149,9 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         }
         else
         {
-
+            $scope.showAlert("Success","Application added to Rule","success");
             console.log("Done attached");
+            $scope.backToList();
 
         }
     };
@@ -182,10 +183,27 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         {
             if(isValid)
             {
-                ruleconfigservice.updateRules($scope.newObj).then(onSaveCompleted, onError);
+                //ruleconfigservice.updateRules($scope.newObj).then(onSaveCompleted, onError);
+                ruleconfigservice.updateRules($scope.newObj).then(function (response) {
+
+                    if(response.data.IsSuccess)
+                    {
+                        if($scope.newObj.id && $scope.newObj.AppId.id)
+                        {
+                            $scope.AttachAppToRule();
+                            $scope.showAlert("Success","Successfully saved","success");
+
+                        }
+                    }
+                    else
+                    {
+                        $scope.showAlert("Error","Rule updating failed ","error");
+                        $scope.backToList();
+                    }
+                });
             }else
             {
-                $scope.showAlert("Error","Invalid Custom regEx pattern","error");
+                $scope.showAlert("Error","Invalid fields ","error");
             }
         }
 

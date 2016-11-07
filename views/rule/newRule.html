@@ -397,7 +397,7 @@
                             <label class="control-label col-md-2 col-sm-6 col-xs-12" ng-show="isInbound">Application</label>
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group" ng-show="isInbound">
                                 <select class="form-control" ng-options="App.AppName for App in AppObj track by App.id"
-                                        ng-model="newObj.AppId" ng-change="AttachAppToRule()">
+                                        ng-model="newObj.AppId">
                                 </select>
 
                             </div>

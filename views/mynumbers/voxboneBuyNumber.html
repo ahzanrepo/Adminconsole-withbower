@@ -23,17 +23,19 @@
                         <select class="form-control has-feedback-left" ng-model="searchQ.selectedDidType"
                                 ng-model-options="{trackBy: '$value'}">
                             <option value="" disabled selected>Number Type</option>
-                            <option ng-repeat="didt in didTypes" value="{{didt.key}}">
-                                {{didt.value}}
+                            <option value="{{didTypes[0].group}}" style="font-weight: bold">{{didTypes[0].group}}</option>
+                            <option ng-repeat="didt in didTypes[0].items" value="{{didt.value}}">
+                                 -{{didt.key}}
                             </option>
                         </select>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback" ng-hide="true">
+                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                     <select class="form-control has-feedback-left" ng-model="searchQ.selectedCity"
                             ng-model-options="{trackBy: '$value'}">
-                        <option value="" disabled selected>City</option>
-                        <option ng-repeat="city in cities" value="{{asdad}}">
-                            asdad
+                        <option value="" disabled selected>State</option>
+                        <option value="All">All</option>
+                        <option ng-repeat="state in states.states" value="{{state.stateId}}">
+                            {{state.stateName}}
                         </option>
                     </select>
                 </div>
@@ -93,6 +95,10 @@
                                                     </th>
                                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                         rowspan="1"
+                                                        colspan="1" aria-label="stock">Features
+                                                    </th>
+                                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                        rowspan="1"
                                                         colspan="1" aria-label="Requester">
                                                     </th>
                                                 </thead>
@@ -104,7 +110,18 @@
                                                     <td>{{voxDidGroup.cityName ? voxDidGroup.cityName : ''}}</td>
                                                     <td>{{voxDidGroup.stock}}</td>
                                                     <td>
-                                                        <button type="button" class="btn btn-success btn-block  btn- pull-right"
+                                                        <div ng-repeat="feature in voxDidGroup.features">
+                                                            <div ng-switch="feature.name">
+                                                                <i ng-switch-when="VoxIN">VoxIN</i>
+                                                                <i ng-switch-when="VoxOUT">VoxOUT</i>
+                                                                <i ng-switch-when="VoxSMS">VoxSMS</i>
+                                                                <i ng-switch-when="VoxFax">VoxFax</i>
+                                                                <i ng-switch-when="T.38">T.38</i>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-success"
                                                                 ng-click="selectVoxDidGroup(voxDidGroup)">
                                                             Select
                                                         </button>
