@@ -111,7 +111,7 @@ mainApp.directive('passwordVerify', function () {
             });
         }
     };
-})
+});
 
 
 mainApp.directive('passwordStrength', [
@@ -124,8 +124,15 @@ mainApp.directive('passwordStrength', [
             },
 
             link: function (scope, elem, attrs, ctrl) {
+                //password validation
+                scope.isShowBox = false;
+                scope.isPwdValidation = {
+                    minLength: false,
+                    specialChr: false,
+                    digit: false,
+                    capitalLetter: false
+                };
                 scope.$watch('password', function (newVal) {
-
                     scope.strength = isSatisfied(newVal && newVal.length >= 8) +
                         isSatisfied(newVal && /[A-z]/.test(newVal)) +
                         isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
@@ -136,11 +143,100 @@ mainApp.directive('passwordStrength', [
                     }
                 }, true);
             },
-            template: '<div class="progress">' +
+            template: '<div ng-if="strength != ' + 4 + ' " ' +
+            'ng-show=strength class="password-progress-wrapper"> <div class="progress password-progress">' +
             '<div class="progress-bar progress-bar-danger" style="width: {{strength >= 1 ? 25 : 0}}%"></div>' +
             '<div class="progress-bar progress-bar-warning" style="width: {{strength >= 2 ? 25 : 0}}%"></div>' +
             '<div class="progress-bar progress-bar-warning" style="width: {{strength >= 3 ? 25 : 0}}%"></div>' +
             '<div class="progress-bar progress-bar-success" style="width: {{strength >= 4 ? 25 : 0}}%"></div>' +
+            '</div></div>'
+        }
+    }
+]);
+
+mainApp.directive('passwordStrengthBox', [
+    function () {
+        return {
+            require: 'ngModel',
+            restrict: 'E',
+            scope: {
+                password: '=ngModel'
+            },
+
+            link: function (scope, elem, attrs, ctrl) {
+                //password validation
+                scope.isShowBox = false;
+                scope.isPwdValidation = {
+                    minLength: false,
+                    specialChr: false,
+                    digit: false,
+                    capitalLetter: false
+                };
+                scope.$watch('password', function (newVal) {
+
+
+                    scope.strength = isSatisfied(newVal && newVal.length >= 8) +
+                        isSatisfied(newVal && /[A-z]/.test(newVal)) +
+                        isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
+                        isSatisfied(newVal && /\d/.test(newVal));
+
+                    //length
+                    if (newVal && newVal.length >= 8) {
+                        scope.isPwdValidation.minLength = true;
+                    } else {
+                        scope.isPwdValidation.minLength = false;
+                    }
+
+                    // Special Character
+                    if (newVal && /(?=.*\W)/.test(newVal)) {
+                        scope.isPwdValidation.specialChr = true;
+                    } else {
+                        scope.isPwdValidation.specialChr = false;
+                    }
+
+                    //digit
+                    if (newVal && /\d/.test(newVal)) {
+                        scope.isPwdValidation.digit = true;
+                    } else {
+                        scope.isPwdValidation.digit = false;
+                    }
+
+                    //capital Letter
+                    if (newVal && /[A-z]/.test(newVal)) {
+                        scope.isPwdValidation.capitalLetter = true;
+                    } else {
+                        scope.isPwdValidation.capitalLetter = false;
+                    }
+
+                    function isSatisfied(criteria) {
+                        return criteria ? 1 : 0;
+                    }
+
+
+                }, true);
+            },
+            template: '<div ng-if="strength != ' + 4 + ' "' +
+            'ng-show=strength' +
+            ' class="password-leg-wrapper">' +
+            '<ul>' +
+            '<li>' +
+            '<i ng-show="isPwdValidation.minLength" class="ti-check color-green"></i>' +
+            '<i ng-show="!isPwdValidation.minLength" class="ti-close color-red"></i>' +
+            ' Min length 8' +
+            '</li>' +
+            '<li><i ng-show="isPwdValidation.specialChr" class="ti-check color-green "></i>' +
+            '<i ng-show="!isPwdValidation.specialChr" class="ti-close color-red"></i>' +
+            ' Special Character' +
+            '</li>' +
+            '<li><i ng-show="isPwdValidation.digit" class="ti-check color-green"></i>' +
+            '<i ng-show="!isPwdValidation.digit" class="ti-close color-red"></i>' +
+            'Digit' +
+            '</li>' +
+            '<li><i ng-show="isPwdValidation.capitalLetter" class="ti-check color-green"></i>' +
+            '<i ng-show="!isPwdValidation.capitalLetter" class="ti-close color-red"></i>' +
+            ' Capital Letter' +
+            ' </li>' +
+            '</ul>' +
             '</div>'
         }
     }

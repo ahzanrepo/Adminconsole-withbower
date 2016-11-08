@@ -85,7 +85,9 @@
 
                                 <div class="validation-area">
                                     <!-- password  -->
-
+                                    <!-- password  -->
+                                    <password-strength-box ng-model="password"></password-strength-box>
+                                    <password-strength ng-model="password"></password-strength>
 
                                     <label class="dark-frm-label">Password
                                          <span class="inline-block validation-on"
@@ -97,15 +99,6 @@
                                            id="password"
                                            placeholder=""
                                            required=""/>
-
-                                    <ul>
-                                        <li>Min length 8</li>
-                                        <li>Special Character</li>
-                                        <li>Digit</li>
-                                        <li>Capital Letter</li>
-                                    </ul>
-                                    <password-strength ng-model="password"></password-strength>
-
                                 </div>
                             </div>
 
