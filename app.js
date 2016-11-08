@@ -84,7 +84,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
 
 
         $authProvider.loginUrl = 'http://userservice.app.veery.cloud/auth/login';
-        $authProvider.signupUrl = 'http://192.168.1.16:3637/auth/signup';
+        $authProvider.signupUrl = 'http://userservice.app.veery.cloud/auth/signup';
 
 
         $authProvider.facebook({
