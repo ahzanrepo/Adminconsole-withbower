@@ -108,6 +108,7 @@
 <script src="asset/vendors/iCheck/icheck.js" type="text/javascript"></script>
 
 
+
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-aria/angular-aria.min.js"></script>
@@ -135,6 +136,10 @@
 <script type="text/javascript" src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
 <script type="text/javascript" src="asset/vendors/ng-tags-input.min/ng-tags-input.min.js"></script>
 <!--<script type="text/javascript" src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>-->
+
+<!-- Include the JS ReCaptcha API -->
+<script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>
+
 
 <!--angular-drag-and-drop-lists-->
 
@@ -573,5 +578,7 @@
 
 
 <!--google recaptcha js-->
-<script src='https://www.google.com/recaptcha/api.js'></script>
+
+<!-- Include the ngReCaptcha directive -->
+<script type="text/javascript" src="bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
 </html>

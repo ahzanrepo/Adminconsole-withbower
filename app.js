@@ -28,7 +28,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'veeryNotificationMod', 'stripe-payment-tools',
     'datatables',
     'satellizer',
-    'checklist-model'
+    'checklist-model',
+    'vcRecaptcha'
 ]);
 
 
@@ -64,24 +65,26 @@ var baseUrls = {
     'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
-    'voxboneApiUrl': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/',
-    'siteKey': '6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI',
-    'secretKey': '6LezaAsUAAAAAFbtiyMzOlMmqEwzMwmMYszmO_Ve'
+    'voxboneApiUrl': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
 
-mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider",
-    function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider) {
+mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider", "vcRecaptchaServiceProvider",
+    function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider, vcRecaptchaServiceProvider) {
 
-        var authProviderUrl = 'http://userservice.app.veery.cloud/';
+
+        vcRecaptchaServiceProvider.setSiteKey('6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI')
+
+        //http://userservice.app.veery.cloud/
+        //var authProviderUrl = 'http:192.168.1.16:3637/';
         $urlRouterProvider.otherwise('/login');
 
         /////////////////////////////////////////////////////////
 
 
         $authProvider.loginUrl = 'http://userservice.app.veery.cloud/auth/login';
-        $authProvider.signupUrl = 'http://userservice.app.veery.cloud/auth/signup';
+        $authProvider.signupUrl = 'http://192.168.1.16:3637/auth/signup';
 
 
         $authProvider.facebook({

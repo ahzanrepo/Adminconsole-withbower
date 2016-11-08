@@ -2,9 +2,14 @@
  * Created by Damith on 6/18/2016.
  */
 
-mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpServices, $auth, baseUrls) {
+mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptchaService,
+                                           signUpServices, $auth, baseUrls) {
 
     //go to login
+
+    $scope.myRecaptchaResponse = null;
+    $scope.siteKey = "6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI";
+
     $scope.onClickLogIn = function () {
         $state.go('login');
     };
@@ -41,41 +46,29 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, signUpSer
         newUser.mail = $scope.email;
         $scope.isSignUp = true;
 
-        $auth.signup(newUser)
-            .then(function (response) {
-                //$auth.setToken(response);
-                showAlert('Job Done', 'success', 'Registration successfully please check email for verification...');
-                $state.go('login');
-            })
-            .catch(function (response) {
-                showAlert('Error', 'error', 'User Registration error...');
-                $scope.isSignUp = false;
-            });
+        if (vcRecaptchaService.getResponse() === "") { //if string is empty
+            alert("Please resolve the captcha and submit!")
+        } else {
+            newUser['g-recaptcha-response'] = vcRecaptchaService.getResponse();
+            $auth.signup(newUser)
+                .then(function (response) {
+                    //$auth.setToken(response);
+                    showAlert('Job Done', 'success', 'Registration successfully please check email for verification...');
+                    $state.go('login');
+                })
+                .catch(function (response) {
+                    showAlert('Error', 'error', 'User Registration error...');
+                    $scope.isSignUp = false;
+                });
 
-        /*
-         signUpServices.createNewUser(newUser, function (result) {
-         if (result) {
-         var organisation = {
-         username: $scope.userName,
-         password: $scope.password,
-         organisationName: $scope.userName
-         };
-         signUpServices.createOrganisation(organisation, function (result) {
-         if (result) {
-         showAlert('Job Done', 'success', 'Registration successfully...');
-         $state.go('login');
-         }
-         });
-         } else {
-         showAlert('Error', 'error', 'User Registration error...');
-         $scope.isSignUp = false;
-         }
-         });*/
-    }
+        }
 
-    $scope.recaptcha = {
-        siteKey: baseUrls.siteKey,
-        SecretKey: baseUrls.secretKey
+
+    };
+
+
+    $scope.test = function () {
+        console.log($scope.myRecaptchaResponse);
     }
 
 
@@ -144,7 +137,7 @@ mainApp.directive('passwordStrength', [
                 }, true);
             },
             template: '<div ng-if="strength != ' + 4 + ' " ' +
-            'ng-show=strength class="password-progress-wrapper"> <div class="progress password-progress">' +
+            'ng-show=strength class="password-progress-wrapper animated fadeIn "> <div class="progress password-progress">' +
             '<div class="progress-bar progress-bar-danger" style="width: {{strength >= 1 ? 25 : 0}}%"></div>' +
             '<div class="progress-bar progress-bar-warning" style="width: {{strength >= 2 ? 25 : 0}}%"></div>' +
             '<div class="progress-bar progress-bar-warning" style="width: {{strength >= 3 ? 25 : 0}}%"></div>' +
@@ -217,7 +210,7 @@ mainApp.directive('passwordStrengthBox', [
             },
             template: '<div ng-if="strength != ' + 4 + ' "' +
             'ng-show=strength' +
-            ' class="password-leg-wrapper">' +
+            ' class="password-leg-wrapper animated fadeIn ">' +
             '<ul>' +
             '<li>' +
             '<i ng-show="isPwdValidation.minLength" class="ti-check color-green"></i>' +
