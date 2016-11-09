@@ -3197,9 +3197,6 @@ tags-input .tags.focused {
 
 }
 
-
-
-
 .notify-img-modal {
     margin: 0 auto;
     text-align: left;
@@ -3207,15 +3204,15 @@ tags-input .tags.focused {
     top: 30px;
     min-height: 50px;
 }
-.notify-img-modal> img {
+
+.notify-img-modal > img {
     border-radius: 70%;
     width: 100px;
     height: 100px;
-    overflow:visible;
-    position:relative;
+    overflow: visible;
+    position: relative;
     z-index: 0;
 }
-
 
 .notify-img-small {
     margin: 0 auto;
@@ -3223,12 +3220,13 @@ tags-input .tags.focused {
     position: absolute;
 
 }
-.notify-img-small> img {
+
+.notify-img-small > img {
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    overflow:visible;
-    position:relative;
+    overflow: visible;
+    position: relative;
 }
 
 /*add social connector disable*/
@@ -3399,31 +3397,37 @@ p.login-dark-separator:after {
 
 /*passward strength*/
 input.ng-pristine + ul#strength {
-    display:none;
+    display: none;
 }
+
 ul#strength {
-    display:inline;
-    list-style:none;
-    margin:0;
-    margin-left:15px;
-    padding:0;
-    vertical-align:2px;
+    display: inline;
+    list-style: none;
+    margin: 0;
+    margin-left: 15px;
+    padding: 0;
+    vertical-align: 2px;
 }
+
 .point:last {
-    margin:0 !important;
+    margin: 0 !important;
 }
+
 .point {
-    background:#DDD;
-    border-radius:2px;
-    display:inline-block;
-    height:5px;
-    margin-right:1px;
-    width:20px;
+    background: #DDD;
+    border-radius: 2px;
+    display: inline-block;
+    height: 5px;
+    margin-right: 1px;
+    width: 20px;
 }
+
 #footer {
-    position:fixed;
-    bottom:5px;
-}.console-notofication-wrapper {
+    position: fixed;
+    bottom: 5px;
+}
+
+.console-notofication-wrapper {
     width: 100%;
     height: 350px;
     overflow: hidden;
@@ -3442,6 +3446,7 @@ ul#strength {
     font-size: 50px;
     color: #36ba45;
 }
+
 .notification-list {
     display: block;
     margin-top: 10px;
@@ -3450,11 +3455,13 @@ ul#strength {
     margin-left: 2px;
     margin-right: 12px;
 }
+
 .notification-time {
     text-align: left;
     font-size: 10px;
     display: inline-block;
 }
+
 /* #Console notification */
 .console-notification-header {
     position: absolute;
@@ -3513,6 +3520,7 @@ ul#strength {
     border-right: 15px solid transparent;
     border-bottom: 22px solid white;
 }
+
 .console-menu-icon {
     margin-top: 4px;
     border-radius: 50%;
@@ -3532,18 +3540,20 @@ ul#strength {
     color: #ffffff;
 }
 
-.modal-panel
-{
-    height:auto;
+.modal-panel {
+    height: auto;
     border-left-width: 2pt;
     border-color: lightgrey;
 }
+
 .color-orange {
     color: #ff8c00 !important;
 }
+
 .color-red {
     color: #ff0c06 !important;
 }
+
 .console-notification-modal-wrapper {
     width: 80%;
     height: 100px;
@@ -3554,8 +3564,9 @@ ul#strength {
     z-index: 0;
 
 }
-.modal-message-wrapper{
-    width:70%;
+
+.modal-message-wrapper {
+    width: 70%;
 }
 
 .notification-modal-time {
@@ -3563,7 +3574,91 @@ ul#strength {
     display: inline-block;
     color: #d7d700;
 }
-.notify-modal-btn-wrap{
+
+.notify-modal-btn-wrap {
     z-index: 1;
-    margin-right:10px;
+    margin-right: 10px;
 }
+
+/*password-leg-wrapper*/
+.password-leg-wrapper {
+    min-width: 230px;
+    min-height: 115px;
+    position: absolute;
+    top: -125px;
+    left: 1px;
+    background: #272624;
+    padding: 15px 23px 13px 20px;
+    z-index: 100;
+    border-radius: 2px;
+}
+
+.password-leg-wrapper > ul > li {
+    list-style: none;
+    text-align: left;
+    padding: 0 0 4px 0;
+}
+
+.password-leg-wrapper > ul > li > i {
+    padding-right: 5px;
+}
+
+.password-leg-wrapper > ul {
+    margin: 0;
+    padding: 0;
+}
+
+.color-green {
+    color: #5bd87d;
+}
+
+.color-red {
+    color: #d01717;
+}
+
+.password-progress-wrapper {
+    position: absolute;
+    top: -125px;
+    left: 1px;
+    z-index: 100;
+    width: 100%;
+    height: 2px;
+    background: #262523;
+}
+
+.password-progress-wrapper:before {
+    content: "";
+    position: absolute;
+    top: 119px;
+    left: 112px;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 12px solid #262523;
+}
+
+.password-progress {
+    background: #272624;
+    height: 2px;
+
+}
+
+/* google recaptcha */
+.recaptcha-wrapper {
+    margin-bottom: 15px;
+}
+
+.dark-frm-btn-signup {
+    background: #009fd8 !important;
+    border: 1px solid #009ddc !important;
+}
+
+.dark-frm-header {
+    color: #c0256c !important;
+}
+.dark-frm-footer {
+    color: #009bde !important;
+}
+
+

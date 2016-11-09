@@ -8,7 +8,7 @@
                         <img src="images/logo_130x130yellow.png" width="120" height="120"/>
                     </div>
                     <form name="signUpForm">
-                        <h1 class="font-robot font-300">SignUp </h1>
+                        <h1 class="font-robot dark-frm-header font-300">SignUp </h1>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="validation-area">
@@ -83,9 +83,11 @@
                         <div class="row">
                             <div class="col-lg-6">
 
-                                <div class="validation-area" >
+                                <div class="validation-area ">
                                     <!-- password  -->
-
+                                    <!-- password  -->
+                                    <password-strength-box ng-model="password"></password-strength-box>
+                                    <password-strength ng-model="password"></password-strength>
 
                                     <label class="dark-frm-label">Password
                                          <span class="inline-block validation-on"
@@ -97,15 +99,6 @@
                                            id="password"
                                            placeholder=""
                                            required=""/>
-
-                                   <ul>
-                                        <li>Min length 8</li>
-                                        <li>Special Character</li>
-                                        <li>Digit</li>
-                                        <li>Capital Letter</li>
-                                    </ul>
-                                    <password-strength ng-model="password"></password-strength>
-
                                 </div>
                             </div>
 
@@ -126,17 +119,22 @@
                             </div>
                         </div>
 
+
+                        <div class="recaptcha-wrapper" ng-show="!isSignUp">
+                            <div vc-recaptcha
+                                 theme="'dark'"
+                                 key="siteKey"></div>
+                        </div>
+
                         <div class="m-bottom20">
-                            <button class="btn btn-default signUp  pull-right"
+                            <button class="btn btn-default btn-block signUp dark-frm-btn-signup  pull-right"
                                     ng-class="isSignUp==true ?'disabled-btn':'dark-frm-btn'"
                                     ng-click="onClickCreateAccount()"
-                                    ng-disabled="signUpForm.$invalid">Create Account
+                                    ng-disabled="signUpForm.$invalid">
+                                <i ng-if="isSignUp" class="fa fa-spinner fa-pulse fa-3x fa-fw form-data-loading"></i>
+                                Create Account
                             </button>
-                            <!-- loading -->
-                            <a ng-if="isSignUp"><i class="fa fa-spinner fa-pulse fa-3x fa-fw form-data-loading"></i>
-                            </a>
-                            <a class="reset_pass pull-left to_register_dark" ng-click="onClickLogIn()"
-                               href="javascript:void(0);">Already a user? Login</a>
+
                         </div>
 
 
@@ -151,7 +149,7 @@
                             <br/>
 
                             <div>
-                                <p class="font-robot font-300 font-green-light500">
+                                <p class="font-robot font-300 dark-frm-footer">
                                     ©2016 All Rights Reserved <br/> veery.cloud Privacy and
                                     Terms</p>
                             </div>

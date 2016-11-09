@@ -25,10 +25,11 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.grid', 'ui.grid.grouping',
     'mgcrea.ngStrap',
     'btford.socket-io',
-    'veeryNotificationMod','stripe-payment-tools',
+    'veeryNotificationMod', 'stripe-payment-tools',
     'datatables',
     'satellizer',
-    'checklist-model'
+    'checklist-model',
+    'vcRecaptcha'
 ]);
 
 
@@ -55,7 +56,7 @@ var baseUrls = {
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'socialConnectorUrl':'http://localhost:4647/DVP/API/1.0.0.0/Social/',
+    'socialConnectorUrl': 'http://localhost:4647/DVP/API/1.0.0.0/Social/',
     'notification': 'http://notificationservice.app.veery.cloud/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -69,10 +70,14 @@ var baseUrls = {
 
 mainApp.constant('baseUrls', baseUrls);
 
-mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authProvider",
-    function ($httpProvider, $stateProvider, $urlRouterProvider,$authProvider) {
+mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider", "vcRecaptchaServiceProvider",
+    function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider, vcRecaptchaServiceProvider) {
 
-        var authProviderUrl = 'http://userservice.app.veery.cloud/';
+
+        vcRecaptchaServiceProvider.setSiteKey('6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI')
+
+        //http://userservice.app.veery.cloud/
+        //var authProviderUrl = 'http:192.168.1.16:3637/';
         $urlRouterProvider.otherwise('/login');
 
         /////////////////////////////////////////////////////////
@@ -257,12 +262,12 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                 requireLogin: false
             }
         }).state("Reset", {
-                url: "/reset/:token",
-                templateUrl: "auth/reEnterPassword.html",
-                data: {
-                    requireLogin: false,
-                }
-            }).state("Activate", {
+            url: "/reset/:token",
+            templateUrl: "auth/reEnterPassword.html",
+            data: {
+                requireLogin: false,
+            }
+        }).state("Activate", {
             url: "/activate/:token",
             templateUrl: "auth/activateAccount.html",
             data: {
@@ -658,38 +663,38 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider","$authPr
                 requireLogin: true
             }
         }).state("console.caseConfiguration", {
-                url: "/caseConfiguration",
-                templateUrl: "views/ticket-case/caseConfig.html",
-                controller: "caseConfigController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SLA"
-                }
+            url: "/caseConfiguration",
+            templateUrl: "views/ticket-case/caseConfig.html",
+            controller: "caseConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SLA"
+            }
         }).state("console.case", {
-                url: "/case",
-                templateUrl: "views/ticket-case/case.html",
-                controller: "caseController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SLA"
-                }
+            url: "/case",
+            templateUrl: "views/ticket-case/case.html",
+            controller: "caseController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SLA"
+            }
         }).state("console.configCase", {
-                url: "/configCase/:caseInfo/:title",
-                templateUrl: "views/ticket-case/configCase.html",
-                controller: "configCaseController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SLA"
-                }
+            url: "/configCase/:caseInfo/:title",
+            templateUrl: "views/ticket-case/configCase.html",
+            controller: "configCaseController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SLA"
+            }
         }).state('console.queueSlaBreakDown', {
-                url: "/slabreakdown",
-                templateUrl: "views/queue-slabreakdown/queue-slabreakdown.html",
-                controller: "queueSlaBreakDownController",
-                data: {
-                    requireLogin: true,
-                    navigation: "SLA_BREAKDOWN"
-                }
-            })
+            url: "/slabreakdown",
+            templateUrl: "views/queue-slabreakdown/queue-slabreakdown.html",
+            controller: "queueSlaBreakDownController",
+            data: {
+                requireLogin: true,
+                navigation: "SLA_BREAKDOWN"
+            }
+        })
     }]);
 
 
