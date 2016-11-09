@@ -268,6 +268,37 @@
             })
         };
 
+        var getCallSummaryForCustDownload = function(startTime, endTime, fileType, tz)
+        {
+            var url = baseUrls.cdrProcessor + 'CallSummaryByCustomerDownload?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
+
+            if(fileType)
+            {
+                url = url + '&fileType=' + fileType;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getCallSummaryForCust = function(startTime, endTime, tz)
+        {
+            var url = baseUrls.cdrProcessor + 'CallSummaryByCustomer?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getCallSummaryForQueueHr = function(date, skill, tz)
         {
             var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill;
@@ -388,7 +419,9 @@
             prepareDownloadCDRAbandonByType: prepareDownloadCDRAbandonByType,
             getCallSummaryForHrDownload: getCallSummaryForHrDownload,
             getCallSummaryForDayDownload: getCallSummaryForDayDownload,
-            getCallSummaryForQueueHrDownload: getCallSummaryForQueueHrDownload
+            getCallSummaryForQueueHrDownload: getCallSummaryForQueueHrDownload,
+            getCallSummaryForCustDownload: getCallSummaryForCustDownload,
+            getCallSummaryForCust: getCallSummaryForCust
         };
     };
 
