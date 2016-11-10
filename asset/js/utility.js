@@ -54,3 +54,20 @@ $(window).resize(function () {
 });
 
 
+/**
+ * introLoader - Preloader
+ */
+$("#introLoader").introLoader({
+    animation: {
+        name: 'gifLoader',
+        options: {
+            ease: "easeInOutCirc",
+            style: 'dark bubble',
+            delayBefore: 500,
+            delayAfter: 0,
+            exitTime: 300
+        }
+    }
+});
+	
+

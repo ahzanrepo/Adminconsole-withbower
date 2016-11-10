@@ -88,9 +88,18 @@
 <link rel="stylesheet" type="text/css" href="asset/css/abn_tree.css">
 
 <link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
-
-
 <body class="nav-md">
+<!--style="display: none;"-->
+<div id="introLoader" class="introLoading introLoader gifLoader theme-dark bubble">
+    <div class="gifLoaderInner">
+        <div id="loader">
+            <div id="top"></div>
+            <div id="bottom"></div>
+            <div id="line"></div>
+        </div>
+    </div>
+</div>
+
 <div ui-view>
 </div>
 </body>
@@ -106,7 +115,6 @@
 <script src="asset/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="bower_components/jquery-ui/jquery-ui.js" type="text/javascript"></script>
 <script src="asset/vendors/iCheck/icheck.js" type="text/javascript"></script>
-
 
 
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
@@ -232,6 +240,7 @@
 <script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/abandonCallCdrCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
+<script type="text/javascript" src="controller/cdr/callSummaryCustCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/agentStatusListCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/queueSummaryHourlyCtrl.js"></script>
 <script type="text/javascript" src="controller/sipuser/sipUserCtrl.js"></script>
@@ -525,6 +534,8 @@
 
 <!--auth directive --->
 
+<!-- introLoader -->
+<script type="text/javascript" src="asset/js/jquery.introLoader.min.js"></script>
 
 <!-- dynamic Form -->
 <script type="text/javascript" src="dynamicForm/scripts/ngDynamicForms.js"></script>
@@ -581,4 +592,6 @@
 
 <!-- Include the ngReCaptcha directive -->
 <script type="text/javascript" src="bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
+
+
 </html>
