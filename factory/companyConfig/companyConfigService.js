@@ -90,6 +90,56 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             {
                 return response;
             });
+        },
+        activateTicketTypes: function () {
+
+
+            return $http({
+                method: 'POST',
+                url: baseUrls.ticketUrl +"TicketTypes",
+                data:{}
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        getTicketTypes: function () {
+
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl +"TicketTypes"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        updateTicketTypes: function (ticketType) {
+
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.ticketUrl +"TicketTypes/"+ticketType._id.toString(),
+                data: ticketType
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        addCustomTicketTypes: function (ticketTypeId, customType) {
+
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.ticketUrl +"TicketTypes/"+ticketTypeId+"/"+customType
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
         }
 
     }

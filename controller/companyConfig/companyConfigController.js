@@ -259,8 +259,117 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     $scope.GetContexts();
 
 
+    //----------------------------Dynamic Ticket Types----------------------------------------------
+    $scope.ticketTypes = undefined;
 
+    $scope.activateDynamicTicketTypes = function(){
+        companyConfigBackendService.activateTicketTypes().then(function (response) {
+            if (response) {
 
+                var result = response.data;
+                if(result && result.IsSuccess) {
+                    $scope.ticketTypes = result.Result;
+                }else{
+                    $scope.ticketTypes = undefined;
+
+                    $scope.showAlert("Dynamic Ticket Types", "Empty Response","error");
+                }
+            }
+            else {
+                $scope.ticketTypes = undefined;
+                $scope.showAlert("Dynamic Ticket Types", "Empty Response","error");
+            }
+        }, function (error) {
+            $scope.ticketTypes = undefined;
+
+            var errMsg = "Error in activate ticket types";
+            if (error.statusText) {
+                errMsg = error.statusText;
+            }
+
+            $scope.showAlert("Dynamic Ticket Types", errMsg,"error");
+        });
+    };
+
+    $scope.getDynamicTicketTypes = function(){
+        companyConfigBackendService.getTicketTypes().then(function(response){
+            if(response.IsSuccess)
+            {
+                $scope.ticketTypes = response.Result;
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while saving trigger";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+        });
+    };
+
+    $scope.updateDynamicTicketTypes = function(){
+        /*companyConfigBackendService.getTicketTypes().then(function(response){
+            if(response.IsSuccess)
+            {
+                $scope.ticketTypes = response.Result;
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while saving trigger";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+        });*/
+    };
+
+    $scope.addCustomTicketTypes = function(){
+        companyConfigBackendService.addCustomTicketTypes($scope.ticketTypes._id.toString(), $scope.ticketTypes.newCustomState).then(function(response){
+         if(response.IsSuccess)
+         {
+            $scope.custom_types.push($scope.newCustomState);
+         }
+         else
+         {
+            var errMsg = response.CustomMessage;
+
+            if(response.Exception)
+            {
+                errMsg = response.Exception.Message;
+            }
+            $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+         }
+         }, function(err){
+         var errMsg = "Error occurred while saving custom type";
+         if(err.statusText)
+         {
+         errMsg = err.statusText;
+         }
+         $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+         });
+    };
+
+    $scope.getDynamicTicketTypes();
 
 
 
