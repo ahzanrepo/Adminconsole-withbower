@@ -44,17 +44,23 @@ body {
 
 /* The dot */
 #loader {
-    animation: loader 5s cubic-bezier(.8,0,.2,1) infinite;
+    animation: loader 5s cubic-bezier(.8, 0, .2, 1) infinite;
     height: 40px;
     width: 41px;
     position: absolute;
-    top:calc(50% - 20px);
-    left:calc(50% - 20px);
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
 }
+
 @keyframes loader {
-    90% { transform: rotate(0deg); }
-    100% { transform: rotate(180deg); }
+    90% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
 }
+
 #top {
     animation: top 5s linear infinite;
     border-top: 20px solid #F8B01D;
@@ -64,10 +70,16 @@ body {
     width: 1px;
     transform-origin: 50% 100%;
 }
+
 @keyframes top {
-    90% { transform: scale(0); }
-    100% { transform: scale(0);}
+    90% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(0);
+    }
 }
+
 #bottom {
     animation: bottom 5s linear infinite;
     border-right: 20px solid transparent;
@@ -78,11 +90,19 @@ body {
     transform: scale(0);
     transform-origin: 50% 100%;
 }
+
 @keyframes bottom {
-    10% { transform: scale(0); }
-    90% { transform: scale(1); }
-    100% { transform: scale(1); }
+    10% {
+        transform: scale(0);
+    }
+    90% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
+
 #line {
     animation: line 5s linear infinite;
     border-left: 1px dotted #F8B01D;
@@ -92,9 +112,14 @@ body {
     top: 20px;
     left: 20px;
 }
+
 @keyframes line {
-    10% { height: 20px; }
-    100% { height: 20px; }
+    10% {
+        height: 20px;
+    }
+    100% {
+        height: 20px;
+    }
 }
 
 /*#font*/
@@ -3761,6 +3786,61 @@ footer {
     background: #f7f7f7;
 }
 
+.customer-type-wrapper {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 35px;
+}
 
+.customer-type-wrapper > li {
+    display: inline-block;
+    text-align: left;
+    padding: 6px 13px 6px 10px;
+    margin: 0px 0px 0px 4px;
+    text-transform: uppercase;
+    background: #f8b01d;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.customer-type-wrapper.defaultType {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.customer-type-wrapper.defaultType > li {
+    background: #383b3b !important;
+}
+
+.ticket-type-wrapper {
+    width: 100%;
+    min-height: 150px;
+    height: auto;
+    overflow: hidden;
+    background: #fff;
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.custom-type {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background: #efefef;
+    padding: 15px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 150px;
+    height: auto;
+}
+.default-type {
+    padding: 15px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 120px;
+    height: auto;
+}
 
 
