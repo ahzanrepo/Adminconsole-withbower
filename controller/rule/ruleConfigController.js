@@ -188,10 +188,18 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
 
                     if(response.data.IsSuccess)
                     {
-                        if($scope.newObj.id && $scope.newObj.AppId.id)
+                        if($scope.newObj.id )
                         {
-                            $scope.AttachAppToRule();
-                            $scope.showAlert("Success","Successfully saved","success");
+                            if( $scope.newObj.AppId.id)
+                            {
+                                $scope.AttachAppToRule();
+                                $scope.showAlert("Success","Inbound rule successfully saved","success");
+                            }
+                            else
+                            {
+                                $scope.showAlert("Success","Outbound rule successfully saved","success");
+                            }
+
 
                         }
                     }

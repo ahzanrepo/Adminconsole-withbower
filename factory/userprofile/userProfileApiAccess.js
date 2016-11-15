@@ -32,6 +32,7 @@
             })
         };
 
+
         var addContactToProfile = function(user, contact, type)
         {
             return $http({
@@ -99,6 +100,65 @@
             })
         };
 
+        var getUserGroups = function()
+        {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'UserGroups'
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+        var getGroupMembers = function(groupID)
+        {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'UserGroup/'+groupID+"/members",
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var addUserGroup = function(userObj)
+        {
+
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl + 'UserGroup',
+                data:userObj
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+        var removeUserFromGroup = function(gripID,userID)
+        {
+
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.UserServiceBaseUrl + 'UserGroup/'+gripID+"/User/"+userID
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+        var addMemberToGroup = function(gripID,userID)
+        {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'UserGroup/'+gripID+"/User/"+userID
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+
         return {
             getProfileByName: getProfileByName,
             addContactToProfile: addContactToProfile,
@@ -106,7 +166,12 @@
             updateProfile: updateProfile,
             getUsers: getUsers,
             addUser: addUser,
-            deleteUser: deleteUser
+            deleteUser: deleteUser,
+            addUserGroup:addUserGroup,
+            getUserGroups:getUserGroups,
+            removeUserFromGroup:removeUserFromGroup,
+            getGroupMembers:getGroupMembers,
+            addMemberToGroup:addMemberToGroup
         };
     };
 

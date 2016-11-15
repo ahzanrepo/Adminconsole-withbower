@@ -112,7 +112,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
 
     $scope.veeryNotification();
 
-
+    $scope.socketReconnect = function () {
+        veeryNotification.reconnectToServer();
+    }
 
     $scope.checkAndRegister = function () {
 
@@ -121,7 +123,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
             $('#regNotification').addClass('display-none').removeClass('display-block');
             $('#regNotificationLoading').addClass('display-block').removeClass('display-none');
             $scope.isLoadingNotifiReg = true;
-            $scope.veeryNotification();
+            $scope.socketReconnect();
         }
 
     }
@@ -141,6 +143,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
             loginService.Logoff(undefined, function (issuccess) {
                 if (issuccess) {
                     $state.go('login');
+                    veeryNotification.disconnectFromServer();
+
                     $timeout.cancel(getAllRealTimeTimer);
                 } else {
 

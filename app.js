@@ -28,7 +28,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'veeryNotificationMod','stripe-payment-tools',
     'datatables',
     'satellizer',
-    'checklist-model'
+    'checklist-model','angucomplete-alt'
 ]);
 
 

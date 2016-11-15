@@ -77,7 +77,9 @@
     "angular-socket-io": "^0.7.0",
     "angular-datatables": "^0.5.5",
     "satellizer": "^0.15.5",
-    "checklist-model": "^0.10.0"
+    "checklist-model": "^0.10.0",
+    "acute-select": "^0.1.0",
+    "angucomplete-jwl": "^0.0.13"
   },
   "resolutions": {
     "angular": "1.5.5"

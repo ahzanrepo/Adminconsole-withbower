@@ -20,8 +20,10 @@
 
 
         $scope.newUser = {};
+        $scope.newUserGroup={};
         $scope.newUser.title = 'mr';
         $scope.NewUserLabel = "+";
+        $scope.newGroupUsers=[];
 
         $scope.searchCriteria = "";
 
@@ -49,6 +51,7 @@
             $scope.NewUserLabel = "+";
             $scope.searchCriteria = "";
             $scope.NewUserOpened = false;
+            $scope.newUserGroup={};
         };
 
         $scope.viewProfile = function(username)
@@ -71,6 +74,36 @@
                 if(data.IsSuccess)
                 {
                     $scope.userList = data.Result;
+                }
+                else
+                {
+                    var errMsg = data.CustomMessage;
+
+                    if(data.Exception)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+
+                }
+
+            }, function(err)
+            {
+                var errMsg = "Error occurred while loading users";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+        var loadUserGroups = function()
+        {
+            userProfileApiAccess.getUserGroups().then(function(data)
+            {
+                if(data.IsSuccess)
+                {
+                    $scope.userGroupList = data.Result;
                 }
                 else
                 {
@@ -136,6 +169,7 @@
         };
 
         loadUsers();
+        loadUserGroups();
 
 
         $scope.removeUser = function(username)
@@ -195,6 +229,29 @@
 
 
         };
+
+
+        $scope.addNewUserGroup = function () {
+            userProfileApiAccess.addUserGroup($scope.newUserGroup).then(function (response) {
+
+                if(response.IsSuccess)
+                {
+                    $scope.showAlert("New User group","success","New User group added successfully");
+                    resetForm();
+                    loadUserGroups();
+                }
+                else
+                {
+                    $scope.showAlert("New User group","error","New User group adding failed");
+                }
+
+            }, function (err) {
+                $scope.showAlert("New User group","error","Error in new User group adding");
+            })
+        };
+
+        $scope.showMembers=false;
+
 
 
 
