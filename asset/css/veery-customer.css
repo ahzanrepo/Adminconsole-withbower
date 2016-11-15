@@ -3835,12 +3835,17 @@ footer {
     min-height: 150px;
     height: auto;
 }
+
 .default-type {
     padding: 15px;
     overflow: hidden;
     width: 100%;
     min-height: 120px;
     height: auto;
+}
+
+.ti-close {
+    cursor: pointer !important;
 }
 
 
