@@ -126,6 +126,26 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         });
     };
 
+    $scope.isImageExtension = function (ext) {
+        console.log(ext);
+        if(ext)
+        {
+            if(ext.split("/")[0]=="image")
+            {
+                return true
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
     $scope.Catagories = [];
     $scope.loadCatagories = function () {
         $scope.Catagories = [];
@@ -221,10 +241,10 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
                 history: false
             }
         })).get().on('pnotify.confirm', function () {
-            OkCallback("confirm");
-        }).on('pnotify.cancel', function () {
+                OkCallback("confirm");
+            }).on('pnotify.cancel', function () {
 
-        });
+            });
 
     };
 

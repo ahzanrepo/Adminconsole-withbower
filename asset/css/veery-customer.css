@@ -3321,8 +3321,8 @@ tags-input .tags.focused {
     margin: 0 auto;
     text-align: left;
     position: absolute;
-    top: 30px;
-    min-height: 50px;
+top: 30px;
+min-height: 50px;
 }
 
 .notify-img-modal > img {
@@ -3347,6 +3347,20 @@ tags-input .tags.focused {
     height: 50px;
     overflow: visible;
     position: relative;
+}
+
+.notify-img-gmembers {
+    margin: 0 auto;
+    text-align: left;
+    position: absolute;
+
+}
+.notify-img-gmembers> img {
+    border-radius: 40%;
+    width: 40px;
+    height: 40px;
+    overflow:visible;
+    position:relative;
 }
 
 /*add social connector disable*/
@@ -3849,3 +3863,13 @@ footer {
 }
 
 
+    margin-right:10px;
+}
+
+.selectRow {
+    display : block;
+    padding : 20px;
+}
+.select2-container {
+    width: 200px;
+}
