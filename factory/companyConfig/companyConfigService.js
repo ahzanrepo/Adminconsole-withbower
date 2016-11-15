@@ -140,6 +140,18 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             {
                 return response.data;
             });
+        },
+        removeCustomTicketTypes: function (ticketTypeId, customType) {
+
+
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.ticketUrl +"TicketTypes/"+ticketTypeId+"/"+customType
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
         }
 
     }

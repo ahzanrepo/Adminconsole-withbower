@@ -308,7 +308,7 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
                 $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
             }
         }, function(err){
-            var errMsg = "Error occurred while saving trigger";
+            var errMsg = "Error occurred while saving ticket type";
             if(err.statusText)
             {
                 errMsg = err.statusText;
@@ -318,10 +318,10 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     };
 
     $scope.updateDynamicTicketTypes = function(){
-        /*companyConfigBackendService.getTicketTypes().then(function(response){
+        companyConfigBackendService.updateTicketTypes($scope.ticketTypes).then(function(response){
             if(response.IsSuccess)
             {
-                $scope.ticketTypes = response.Result;
+                $scope.showAlert('Dynamic Ticket Types', response.CustomMessage, 'success');
             }
             else
             {
@@ -334,20 +334,20 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
                 $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
             }
         }, function(err){
-            var errMsg = "Error occurred while saving trigger";
+            var errMsg = "Error occurred while saving ticket type";
             if(err.statusText)
             {
                 errMsg = err.statusText;
             }
             $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
-        });*/
+        });
     };
 
     $scope.addCustomTicketTypes = function(){
         companyConfigBackendService.addCustomTicketTypes($scope.ticketTypes._id.toString(), $scope.ticketTypes.newCustomState).then(function(response){
          if(response.IsSuccess)
          {
-            $scope.custom_types.push($scope.newCustomState);
+             $scope.ticketTypes.custom_types.push($scope.ticketTypes.newCustomState);
          }
          else
          {
@@ -367,6 +367,32 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
          }
          $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
          });
+    };
+
+    $scope.removeCustomTicketTypes = function(index, customType){
+        companyConfigBackendService.removeCustomTicketTypes($scope.ticketTypes._id.toString(), customType).then(function(response){
+            if(response.IsSuccess)
+            {
+                $scope.ticketTypes.custom_types.splice(index, 1);
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while removing custom type";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+        });
     };
 
     $scope.getDynamicTicketTypes();
