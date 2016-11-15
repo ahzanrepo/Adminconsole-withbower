@@ -202,6 +202,23 @@
             return true;
         };
 
+        var checkCSVGenerateAllowed = function()
+        {
+            try
+            {
+                var prevDay = moment().subtract(1, 'days');
+
+                var isAllowed = prevDay.isBetween($scope.startDate, $scope.endDate) || prevDay.isBefore($scope.startDate) || prevDay.isBefore($scope.endDate);
+
+                return !isAllowed;
+            }
+            catch(ex)
+            {
+                return false;
+            }
+
+        };
+
         var convertToMMSS = function(sec)
         {
             var minutes = Math.floor(sec / 60);
@@ -289,91 +306,96 @@
 
         $scope.getProcessedCDRCSVDownload = function()
         {
-            if($scope.DownloadButtonName === 'CSV')
+            if(checkCSVGenerateAllowed())
             {
-                $scope.cancelDownload = false;
-                $scope.buttonClass = 'fa fa-spinner fa-spin';
-            }
-            else
-            {
-                $scope.cancelDownload = true;
-                $scope.buttonClass = 'fa fa-file-text';
-            }
-
-            $scope.DownloadButtonName = 'PROCESSING';
-            $scope.DownloadFileName = 'CDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
-
-            var deferred = $q.defer();
-
-            var cdrListForCSV = [];
-
-            var momentTz = moment.parseZone(new Date()).format('Z');
-            //var encodedTz = encodeURI(momentTz);
-            momentTz = momentTz.replace("+", "%2B");
-
-            var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
-            var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
-
-            var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
-            var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
-
-            if(!$scope.timeEnabledStatus)
-            {
-                startDate = $scope.startDate + ' 00:00:00' + momentTz;
-                endDate = $scope.endDate + ' 23:59:59' + momentTz;
-            }
-
-            cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, 'csv', momentTz).then(function (cdrResp)
-            //cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
-            {
-                if(!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
+                if($scope.DownloadButtonName === 'CSV')
                 {
-                    /*cdrResp.Result.forEach(function(cdr)
-                    {
-
-                        var cdrCsv =
-                        {
-                            DVPCallDirection: cdr.DVPCallDirection,
-                            SipFromUser: cdr.SipFromUser,
-                            SipToUser: cdr.SipToUser,
-                            RecievedBy: cdr.RecievedBy,
-                            AgentSkill: cdr.AgentSkill,
-                            IsAnswered: cdr.IsAnswered,
-                            CreatedTime: moment(cdr.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss"),
-                            Duration: convertToMMSS(cdr.Duration),
-                            BillSec: convertToMMSS(cdr.BillSec),
-                            AnswerSec: convertToMMSS(cdr.AnswerSec),
-                            QueueSec: convertToMMSS(cdr.QueueSec),
-                            HoldSec: convertToMMSS(cdr.HoldSec),
-                            ObjType: cdr.ObjType,
-                            ObjCategory: cdr.ObjCategory,
-                            HangupParty: cdr.HangupParty,
-                            TransferredParties: cdr.TransferredParties
-                        };
-
-
-                        cdrListForCSV.push(cdrCsv);
-                    });*/
-
-                    var downloadFilename = cdrResp.Result;
-
-                    checkFileReady(downloadFilename);
+                    $scope.cancelDownload = false;
+                    $scope.buttonClass = 'fa fa-spinner fa-spin';
                 }
                 else
+                {
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
+                }
+
+                $scope.DownloadButtonName = 'PROCESSING';
+                $scope.DownloadFileName = 'CDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
+
+                var deferred = $q.defer();
+
+                var cdrListForCSV = [];
+
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                //var encodedTz = encodeURI(momentTz);
+                momentTz = momentTz.replace("+", "%2B");
+
+                var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+                var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
+
+                var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+                var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+                if(!$scope.timeEnabledStatus)
+                {
+                    startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                    endDate = $scope.endDate + ' 23:59:59' + momentTz;
+                }
+
+                cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, 'csv', momentTz).then(function (cdrResp)
+                    //cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
+                {
+                    if(!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
+                    {
+                        /*cdrResp.Result.forEach(function(cdr)
+                         {
+
+                         var cdrCsv =
+                         {
+                         DVPCallDirection: cdr.DVPCallDirection,
+                         SipFromUser: cdr.SipFromUser,
+                         SipToUser: cdr.SipToUser,
+                         RecievedBy: cdr.RecievedBy,
+                         AgentSkill: cdr.AgentSkill,
+                         IsAnswered: cdr.IsAnswered,
+                         CreatedTime: moment(cdr.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss"),
+                         Duration: convertToMMSS(cdr.Duration),
+                         BillSec: convertToMMSS(cdr.BillSec),
+                         AnswerSec: convertToMMSS(cdr.AnswerSec),
+                         QueueSec: convertToMMSS(cdr.QueueSec),
+                         HoldSec: convertToMMSS(cdr.HoldSec),
+                         ObjType: cdr.ObjType,
+                         ObjCategory: cdr.ObjCategory,
+                         HangupParty: cdr.HangupParty,
+                         TransferredParties: cdr.TransferredParties
+                         };
+
+
+                         cdrListForCSV.push(cdrCsv);
+                         });*/
+
+                        var downloadFilename = cdrResp.Result;
+
+                        checkFileReady(downloadFilename);
+                    }
+                    else
+                    {
+                        $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                    }
+
+                }).catch(function(err)
                 {
                     $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
                     $scope.fileDownloadState = 'RESET';
                     $scope.DownloadButtonName = 'CSV';
-                }
-
-            }).catch(function(err)
+                });
+            }
+            else
             {
-                $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
-                $scope.fileDownloadState = 'RESET';
-                $scope.DownloadButtonName = 'CSV';
-            });
-
-
+                $scope.showAlert('Warning', 'warn', 'Downloading is only allowed for previous dates');
+            }
 
         };
 
@@ -825,7 +847,7 @@
 
                 var lim = parseInt($scope.recLimit);
                 $scope.isTableLoading = 0;
-                cdrApiHandler.getCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
+                cdrApiHandler.getCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
                     {

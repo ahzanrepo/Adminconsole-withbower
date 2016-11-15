@@ -2,10 +2,13 @@
 
     <div class="col-md-12 col-sm-6 col-xs-12">
 
+        <uib-tabset active="0">
+            <uib-tab index="0" heading="Cloud Enduser">
 
+                <br>
 
-        <!-- application list -->
-        <div class="x_panel bg-light-gray animated fadeIn">
+                <!-- application list -->
+                <div class="x_panel bg-light-gray animated fadeIn">
             <div class="x_title border-0">
                 <h2 class="font-robot font-300 text-uppercase font-15">Cloud Enduser Details</h2>
                 <div class="col-xs-12">
@@ -29,14 +32,9 @@
                                         <option>SHARED</option>
                                     </select>
                                 </div>
-
-
                             </div>
 
-
                             <div class="row">
-
-
                                 <div class="col-md-3 col-sm-3 col-xs-12  ">
 
                                 </div>
@@ -46,7 +44,6 @@
                                 <div class="col-md-3 col-sm-3 col-xs-12  ">
 
                                 </div>
-
                                 <div class="col-md-3 col-sm-3 col-xs-12  ">
                                     <button type="button" class="btn btn-success btn-block  btn- pull-right"
                                             ng-click="saveEndUser()">
@@ -62,13 +59,13 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <!-- end -->
+                <!-- end -->
 
-        <!-- view application users -->
+                <!-- view application users -->
 
 
 
-        <div class="x_panel bg-light-gray animated fadeIn">
+                <div class="x_panel bg-light-gray animated fadeIn">
             <div class="x_title border-0">
                 <h2 class="font-robot font-300 text-uppercase font-15">Context List</h2>
                 <div class="col-xs-12">
@@ -123,7 +120,7 @@
         </div>
 
 
-        <div class="x_panel">
+                <div class="x_panel">
             <div class="x_content">
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="context in contextList">
@@ -148,9 +145,17 @@
                 </ul>
             </div>
         </div>
-        <!-- end -->
-    </div>
+                <!-- end -->
 
-</div>
+
+
+            </uib-tab>
+
+            <uib-tab index="1" heading="Ticket Types">
+                <div ng-include="'views/companyConfig/dynamicTicketTypes.html'">
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
 
 </div>

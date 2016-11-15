@@ -102,11 +102,25 @@
 <link rel="stylesheet" type="text/css" href="asset/css/abn_tree.css">
 
 <link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> 7a45510c13917307fd003388a5a56633e27c8c4f
 <body class="nav-md">
+<!--style="display: none;"-->
+<div id="introLoader" class="introLoading introLoader gifLoader theme-dark bubble">
+    <div class="gifLoaderInner">
+        <div id="loader">
+            <div id="top"></div>
+            <div id="bottom"></div>
+            <div id="line"></div>
+        </div>
+    </div>
+</div>
+
 <div ui-view>
 </div>
 </body>
@@ -151,6 +165,10 @@
 <script type="text/javascript" src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
 <script type="text/javascript" src="asset/vendors/ng-tags-input.min/ng-tags-input.min.js"></script>
 <!--<script type="text/javascript" src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>-->
+
+<!-- Include the JS ReCaptcha API -->
+<script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>
+
 
 <!--angular-drag-and-drop-lists-->
 
@@ -221,7 +239,6 @@
 <script type="text/javascript" src="bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
 
 
-
 <!-- main app JS -->
 <script type="text/javascript" src="app.js"></script>
 
@@ -247,6 +264,7 @@
 <script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/abandonCallCdrCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
+<script type="text/javascript" src="controller/cdr/callSummaryCustCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/agentStatusListCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/queueSummaryHourlyCtrl.js"></script>
 <script type="text/javascript" src="controller/sipuser/sipUserCtrl.js"></script>
@@ -550,7 +568,8 @@
 
 <!--auth directive --->
 
-
+<!-- introLoader -->
+<script type="text/javascript" src="asset/js/jquery.introLoader.min.js"></script>
 
 <!-- dynamic Form -->
 <script type="text/javascript" src="dynamicForm/scripts/ngDynamicForms.js"></script>
@@ -599,9 +618,14 @@
 <script type="text/javascript" src="factory/mynumbers/voxboneApiAccess.js"></script>
 
 
-
-
 <!--Queue SLA BreakDown-->
 <script type="text/javascript" src="controller/queue-slabreakdown/queueSlaBreakDownController.js"></script>
+
+
+<!--google recaptcha js-->
+
+<!-- Include the ngReCaptcha directive -->
+<script type="text/javascript" src="bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
+
 
 </html>

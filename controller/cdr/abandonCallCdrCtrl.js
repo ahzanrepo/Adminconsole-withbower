@@ -121,6 +121,23 @@
             return true;
         };
 
+        var checkCSVGenerateAllowed = function()
+        {
+            try
+            {
+                var prevDay = moment().subtract(1, 'days');
+
+                var isAllowed = prevDay.isBetween($scope.startDate, $scope.endDate) || prevDay.isBefore($scope.startDate) || prevDay.isBefore($scope.endDate);
+
+                return !isAllowed;
+            }
+            catch(ex)
+            {
+                return false;
+            }
+
+        };
+
         var convertToMMSS = function(sec)
         {
             var minutes = Math.floor(sec / 60);
@@ -208,71 +225,79 @@
 
         $scope.getProcessedCDRCSVDownload = function ()
         {
-            if($scope.DownloadButtonName === 'CSV')
+            if(checkCSVGenerateAllowed())
             {
-                $scope.cancelDownload = false;
-                $scope.buttonClass = 'fa fa-spinner fa-spin';
+                if($scope.DownloadButtonName === 'CSV')
+                {
+                    $scope.cancelDownload = false;
+                    $scope.buttonClass = 'fa fa-spinner fa-spin';
+                }
+                else
+                {
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
+                }
+
+                $scope.DownloadButtonName = 'PROCESSING...';
+
+                //$scope.DownloadFileName = 'ABANDONCALLCDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
+
+                try
+                {
+
+                    var momentTz = moment.parseZone(new Date()).format('Z');
+                    //var encodedTz = encodeURI(momentTz);
+                    momentTz = momentTz.replace("+", "%2B");
+
+                    var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
+                    var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
+
+                    var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
+                    var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
+
+                    if(!$scope.timeEnabledStatus)
+                    {
+                        startDate = $scope.startDate + ' 00:00:00' + momentTz;
+                        endDate = $scope.endDate + ' 23:59:59' + momentTz;
+                    }
+
+                    cdrApiHandler.prepareDownloadCDRAbandonByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, 'csv', momentTz).then(function (cdrResp)
+                        //cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp)
+                    {
+                        if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
+                        {
+                            var downloadFilename = cdrResp.Result;
+
+                            checkFileReady(downloadFilename);
+
+                        }
+                        else
+                        {
+                            $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                            $scope.fileDownloadState = 'RESET';
+                            $scope.DownloadButtonName = 'CSV';
+                        }
+
+
+                    }, function (err)
+                    {
+                        $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                    })
+                }
+                catch (ex)
+                {
+                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list')
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                }
             }
             else
             {
-                $scope.cancelDownload = true;
-                $scope.buttonClass = 'fa fa-file-text';
+                $scope.showAlert('Warning', 'warn', 'Downloading is only allowed for previous dates');
             }
 
-            $scope.DownloadButtonName = 'PROCESSING...';
-
-            //$scope.DownloadFileName = 'ABANDONCALLCDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
-
-            try
-            {
-
-                var momentTz = moment.parseZone(new Date()).format('Z');
-                //var encodedTz = encodeURI(momentTz);
-                momentTz = momentTz.replace("+", "%2B");
-
-                var st = moment($scope.startTimeNow, ["h:mm A"]).format("HH:mm");
-                var et = moment($scope.endTimeNow, ["h:mm A"]).format("HH:mm");
-
-                var startDate = $scope.startDate + ' ' + st + ':00' + momentTz;
-                var endDate = $scope.endDate + ' ' + et + ':59' + momentTz;
-
-                if(!$scope.timeEnabledStatus)
-                {
-                    startDate = $scope.startDate + ' 00:00:00' + momentTz;
-                    endDate = $scope.endDate + ' 23:59:59' + momentTz;
-                }
-
-                cdrApiHandler.prepareDownloadCDRAbandonByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, 'csv', momentTz).then(function (cdrResp)
-                //cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp)
-                {
-                    if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
-                    {
-                        var downloadFilename = cdrResp.Result;
-
-                        checkFileReady(downloadFilename);
-
-                    }
-                    else
-                    {
-                        $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
-                        $scope.fileDownloadState = 'RESET';
-                        $scope.DownloadButtonName = 'CSV';
-                    }
-
-
-                }, function (err)
-                {
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
-                    $scope.fileDownloadState = 'RESET';
-                    $scope.DownloadButtonName = 'CSV';
-                })
-            }
-            catch (ex)
-            {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list')
-                $scope.fileDownloadState = 'RESET';
-                $scope.DownloadButtonName = 'CSV';
-            }
         };
 
         $scope.getProcessedCDRForCSV = function ()

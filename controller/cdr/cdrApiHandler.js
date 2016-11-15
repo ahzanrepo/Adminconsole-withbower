@@ -6,7 +6,7 @@
 
     var cdrApiHandler = function($http, authService, baseUrls)
     {
-        var getCDRForTimeRange = function(startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber)
+        var getCDRForTimeRange = function(startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber, didFilter)
         {
             var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
@@ -35,6 +35,11 @@
             if(custNumber)
             {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if(didFilter)
+            {
+                url = url + '&didnumber=' + didFilter;
             }
 
             return $http({
@@ -263,6 +268,37 @@
             })
         };
 
+        var getCallSummaryForCustDownload = function(startTime, endTime, fileType, tz)
+        {
+            var url = baseUrls.cdrProcessor + 'CallSummaryByCustomerDownload?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
+
+            if(fileType)
+            {
+                url = url + '&fileType=' + fileType;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getCallSummaryForCust = function(startTime, endTime, tz)
+        {
+            var url = baseUrls.cdrProcessor + 'CallSummaryByCustomer?startTime=' + startTime + '&endTime=' + endTime + '&tz=' + tz;
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getCallSummaryForQueueHr = function(date, skill, tz)
         {
             var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill;
@@ -383,7 +419,9 @@
             prepareDownloadCDRAbandonByType: prepareDownloadCDRAbandonByType,
             getCallSummaryForHrDownload: getCallSummaryForHrDownload,
             getCallSummaryForDayDownload: getCallSummaryForDayDownload,
-            getCallSummaryForQueueHrDownload: getCallSummaryForQueueHrDownload
+            getCallSummaryForQueueHrDownload: getCallSummaryForQueueHrDownload,
+            getCallSummaryForCustDownload: getCallSummaryForCustDownload,
+            getCallSummaryForCust: getCallSummaryForCust
         };
     };
 

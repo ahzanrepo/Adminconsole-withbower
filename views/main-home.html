@@ -28,7 +28,7 @@
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                     <div class="menu_section active">
                         <h3 class="font-gry-200">General</h3>
-                        <ul class="nav side-menu" >
+                        <ul class="nav side-menu">
                             <li class="" ng-show="accessNavigation.DASHBOARD"><a ng-click="clickDirective.goDashboard()"
                                                                                  class="font-robot font-300">
                                 <i class="fa fa-home"></i> Home </a>
@@ -204,13 +204,13 @@
                             <li ng-show="accessNavigation.FACEBOOK || accessNavigation.TWITTER ">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-group"></i> Social Connectors <span
-                                            class="fa fa-chevron-down"></span></a>
+                                        class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.FACEBOOK"><a href="javascript:void(0);"
-                                                                                 ng-click="clickDirective.goFacebookApp()">Facebook </a>
+                                                                               ng-click="clickDirective.goFacebookApp()">Facebook </a>
                                     </li>
                                     <li ng-show="accessNavigation.TWITTER"><a href="javascript:void(0);"
-                                                                                ng-click="clickDirective.goTwitterApp()">Twitter</a>
+                                                                              ng-click="clickDirective.goTwitterApp()">Twitter</a>
                                     </li>
                                 </ul>
                             </li>
@@ -219,7 +219,8 @@
                     <div class="menu_section">
                         <h3 class="font-gry-200">Other</h3>
                         <ul class="nav side-menu">
-                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN"><a class="font-robot font-300 "><i
+                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN"><a
+                                    class="font-robot font-300 "><i
                                     class="fa fa-line-chart"></i>
                                 Report <span
                                         class="fa fa-chevron-down"></span></a>
@@ -237,7 +238,7 @@
                                         Summary Report</a>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
-                                                                                    ng-click="clickDirective.goQueueSummary()">Queue
+                                                                          ng-click="clickDirective.goQueueSummary()">Queue
                                         Summary</a>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
@@ -265,7 +266,8 @@
                                            ng-click="clickDirective.goTimeSheet()">Time Sheet</a>
                                     </li>
                                     <li ng-show="accessNavigation.SLA_BREAKDOWN"><a href="javascript:void(0);"
-                                                                          ng-click="clickDirective.goQueueSlaBreakDown()">SLA Break Down</a>
+                                                                                    ng-click="clickDirective.goQueueSlaBreakDown()">SLA
+                                        Break Down</a>
                                     </li>
                                 </ul>
                             </li>
@@ -282,7 +284,8 @@
                     <a data-toggle="tooltip" data-placement="top" title="Settings">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                     </a>
-                    <a data-toggle="tooltip" disabled="disabled" data-placement="top" ng-click="clickDirective.goToFullScreen()"
+                    <a data-toggle="tooltip" disabled="disabled" data-placement="top"
+                       ng-click="clickDirective.goToFullScreen()"
                        title="FullScreen">
                         <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
                     </a>
@@ -305,7 +308,7 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
-                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                            <a href="javascript:void(0);" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
                                 <img src="images/console_logo.png" alt="">Hi {{userName}}
                                 <span class=" fa fa-angle-down"></span>
@@ -394,17 +397,19 @@
                         </ul>-->
 
 
-                        <li class="console-menu-icon m-left-10 m-right-10" id="notificationAlarm" ng-click="checkAndRegister()" uib-dropdown
+                        <li class="console-menu-icon m-left-10 m-right-10" id="notificationAlarm"
+                            ng-click="checkAndRegister()" uib-dropdown
                             uib-dropdown-toggle>
                             <i id="regNotification" class="animated  veery-font-1-alarm "
                                ng-class="{'color-orange':unredNotifications!=0,'color-red':!isSocketRegistered}"> </i>
-                            <i id="regNotificationLoading" class="fa fa-spinner fa-spin display-none" style="margin-top: 3px;"></i>
+                            <i id="regNotificationLoading" class="fa fa-spinner fa-spin display-none"
+                               style="margin-top: 3px;"></i>
 
-                            <div class="console-notification-header"  ng-show="isSocketRegistered">
+                            <div class="console-notification-header" ng-show="isSocketRegistered">
                                 {{unredNotifications}}
                             </div>
                             <ul class="dropdown-menu console-drop-menu notification-menu-left " uib-dropdown-menu
-                                role="menu"  ng-show="isSocketRegistered"
+                                role="menu" ng-show="isSocketRegistered"
                                 aria-labelledby="btn-append-to-single-button">
                                 <li class="notification-header">
                                     <a class="drop-header">Notification
@@ -431,12 +436,13 @@
                                         <div ng-click="showNotificationMessage(notifi)">
                                             <div class="col-lg-3">
                                                 <div class="notify-img-small">
-                                                    <img ng-src="{{notifi.avatar}}"  src="assest/images/defaultProfile.png" alt="Profile Image">
+                                                    <img ng-src="{{notifi.avatar}}"
+                                                         src="assest/images/defaultProfile.png" alt="Profile Image">
                                                 </div>
                                             </div>
                                             <div class="col-lg-8">
                                                 <div class="row">
-                                                    <div class="notification-text" >
+                                                    <div class="notification-text">
                                                         {{notifi.Message | limitTo:20}}
                                                     </div>
                                                 </div>
@@ -456,7 +462,7 @@
                             </ul>
 
                         </li>
-                        <li role="presentation" >
+                        <li role="presentation">
                             <a href="javascript:;" class="dropdown-toggle info-number"
                                aria-expanded="false">
                                 <i class="fa fa-paper-plane" ng-click="openNav()"></i>
@@ -469,8 +475,8 @@
             </div>
 
         </div>
-        <!--ng-show="isRegistered"-->
-        <div class="right_col" role="main" style="min-height: 1647px;">
+        <!--ng-show="isRegistered" style="min-height: 1647px;"-->
+        <div class="right_col " role="main" style="min-height: 1647px;" >
             <div>
                 <div ng-show="isRegistered" id="callWidget" class="call-monitor-widget" onunload="onClosePage()">
                     <div ng-click="toggleWidget();" class="call-widget-toggle">
@@ -517,6 +523,13 @@
 
             </ul>
         </div>
+
+        <footer>
+            <div class="pull-right">
+                Development by <a href="javascript:void(0);">facetone team</a>
+            </div>
+            <div class="clearfix"></div>
+        </footer>
     </div>
 
 </div>
