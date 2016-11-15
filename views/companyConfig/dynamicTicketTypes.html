@@ -53,7 +53,7 @@
                                         <label>Custom Types</label>
                                         <ul class="customer-type-wrapper">
                                             <li ng-repeat="cusTypes in ticketTypes.custom_types">
-                                                {{cusTypes}} <i class="ti-close "></i>
+                                                {{cusTypes}} <i class="ti-close " ng-click="removeCustomTicketTypes($index, cusTypes)"></i>
                                             </li>
                                         </ul>
                                     </div>

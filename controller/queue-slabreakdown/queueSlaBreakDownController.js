@@ -23,15 +23,16 @@ mainApp.controller("queueSlaBreakDownController", function ($scope,$filter,$stat
 
     $scope.getQueueSummary = function () {
         $scope.queueSummaryList=[];
+        $scope.isTableLoading=0;
         queueSummaryBackendService.getQueueSlaBreakDown($scope.qDate).then(function (response) {
 
+            $scope.isTableLoading=1;
             if(!response.data.IsSuccess)
             {
                 console.log("Queue Summary loading failed ",response.data.Exception);
             }
             else
             {
-                $scope.isTableLoading=1;
                 $scope.queueSummaryList = response.data.Result;
 
                 console.log($scope.queueSummaryList);
