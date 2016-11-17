@@ -398,5 +398,86 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     $scope.getDynamicTicketTypes();
 
 
+    //----------------------------Custom Ticket Status----------------------------------------------
+    $scope.cusTicketStatus = {};
+    $scope.customticketStatus = [];
+    $scope.systemTicketStatus = [];
+
+    $scope.getCustomTicketStatus = function(){
+        $scope.customticketStatus = [];
+        $scope.systemTicketStatus = [];
+        companyConfigBackendService.getCustomTicketStatus().then(function(response){
+            if(response.IsSuccess)
+            {
+                if(response.Result){
+                    for(var i=0; i< response.Result.length; i++){
+                        if(response.Result[i].node_type === "system"){
+                            $scope.systemTicketStatus.push(response.Result[i]);
+                        }else{
+                            $scope.customticketStatus.push(response.Result[i]);
+                        }
+                    }
+                }else{
+                    $scope.customticketStatus = [];
+                }
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Custom Ticket Status', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while receiving ticket status";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Custom Ticket Status', errMsg, 'error');
+        });
+    };
+
+    $scope.addCustomTicketStatus = function(){
+        companyConfigBackendService.addCustomTicketStatus($scope.cusTicketStatus).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.showAlert('Custom Ticket Status', response.CustomMessage, 'success');
+                $scope.cusTicketStatus = {};
+                $scope.getCustomTicketStatus();
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Custom Ticket Status', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while add new ticket status";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Custom Ticket Status', errMsg, 'error');
+        });
+    };
+
+    $scope.removeDeleted = function (item) {
+
+        var index = $scope.customticketStatus.indexOf(item);
+        if (index != -1) {
+            $scope.customticketStatus.splice(index, 1);
+        }
+
+    };
+
+    $scope.getCustomTicketStatus();
 
 });
