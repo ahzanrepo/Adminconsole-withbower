@@ -6,7 +6,7 @@
 
 
 
-    var triggerController = function($scope, $state, triggerApiAccess) {
+    var triggerController = function($scope, $state, triggerApiAccess,loginService) {
         $scope.triggers = [];
         $scope.trigger = {};
         $scope.searchCriteria = "";
@@ -50,6 +50,7 @@
                     $scope.showAlert('Trigger', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading triggers";
                 if(err.statusText)
                 {
@@ -79,6 +80,7 @@
                     $scope.showAlert('Trigger', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving trigger";
                 if(err.statusText)
                 {

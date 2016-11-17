@@ -2,28 +2,27 @@
  * Created by Pawan on 7/29/2016.
  */
 
-mainApp.controller("companyConfigController", function ($scope,$state, companyConfigBackendService,jwtHelper,authService) {
+mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, loginService) {
 
 
-    $scope.isNewEndUser=false;
-    $scope.isUserError=false;
+    $scope.isNewEndUser = false;
+    $scope.isUserError = false;
     $scope.ClusterID;
-    $scope.contextList=[];
+    $scope.contextList = [];
 
     var authToken = authService.GetToken();
     var decodeData = jwtHelper.decodeToken(authToken);
 
-    $scope.contextPrefix=decodeData.tenant+"_"+decodeData.company+"_";
+    $scope.contextPrefix = decodeData.tenant + "_" + decodeData.company + "_";
 
 
-
-    $scope.newApplication={};
+    $scope.newApplication = {};
     $scope.addNew = false;
-    $scope.MasterAppList=[];
-    $scope.IsDeveloper=false;
-    $scope.Developers=[];
+    $scope.MasterAppList = [];
+    $scope.IsDeveloper = false;
+    $scope.Developers = [];
 
-    $scope.showAlert = function (tittle,content,type) {
+    $scope.showAlert = function (tittle, content, type) {
 
         new PNotify({
             title: tittle,
@@ -34,8 +33,7 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     };
 
 
-
-    $scope.saveEndUser= function () {
+    $scope.saveEndUser = function () {
 
         switch ($scope.CloudEndUser.ConnectivityProvision) {
             case "SINGLE":
@@ -52,67 +50,59 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
                 break;
         }
 
-        $scope.CloudEndUser.ClientCompany=decodeData.company;
-        $scope.CloudEndUser.ClientTenant=decodeData.tenant;
+        $scope.CloudEndUser.ClientCompany = decodeData.company;
+        $scope.CloudEndUser.ClientTenant = decodeData.tenant;
 
 
-
-
-
-        if($scope.isNewEndUser)
-        {
-            $scope.CloudEndUser.ClusterID=$scope.ClusterID;
+        if ($scope.isNewEndUser) {
+            $scope.CloudEndUser.ClusterID = $scope.ClusterID;
 
             companyConfigBackendService.saveNewEndUser($scope.CloudEndUser).then(function (response) {
 
-                if(!response.data.IsSuccess)
-                {
+                if (!response.data.IsSuccess) {
 
-                    console.info("Error in adding new Enduser "+response.data.Exception);
-                    $scope.showAlert("Error", "There is an error in adding new Enduser ","error");
+                    console.info("Error in adding new Enduser " + response.data.Exception);
+                    $scope.showAlert("Error", "There is an error in adding new Enduser ", "error");
                     //$scope.showAlert("Error",)
                 }
-                else
-                {
+                else {
                     $scope.addNew = !response.data.IsSuccess;
-                    $scope.showAlert("Success", "New Enduser added successfully.","success");
+                    $scope.showAlert("Success", "New Enduser added successfully.", "success");
 
 
                 }
                 $state.reload();
-            }), function (error) {
-                console.info("Error in adding new Enduser "+error);
-                $scope.showAlert("Error", "There is an Exception in saving Enduser "+error,"error");
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                console.info("Error in adding new Enduser " + error);
+                $scope.showAlert("Error", "There is an Exception in saving Enduser " + error, "error");
                 $state.reload();
-            }
+            });
         }
-        else
-        {
-            $scope.CloudEndUser.SIPConnectivityProvision=$scope.CloudEndUser.Provision;
+        else {
+            $scope.CloudEndUser.SIPConnectivityProvision = $scope.CloudEndUser.Provision;
             companyConfigBackendService.updateEndUser($scope.CloudEndUser).then(function (response) {
 
-                if(!response.data.IsSuccess)
-                {
+                if (!response.data.IsSuccess) {
 
-                    console.info("Error in adding new Enduser "+response.data.Exception);
-                    $scope.showAlert("Error", "There is an error in updating Enduser ","error");
+                    console.info("Error in adding new Enduser " + response.data.Exception);
+                    $scope.showAlert("Error", "There is an error in updating Enduser ", "error");
                     //$scope.showAlert("Error",)
                 }
-                else
-                {
+                else {
                     $scope.addNew = !response.data.IsSuccess;
-                    $scope.showAlert("Success", "New Enduser updated successfully.","success");
+                    $scope.showAlert("Success", "New Enduser updated successfully.", "success");
 
 
                 }
                 $state.reload();
-            }), function (error) {
-                console.info("Error in adding new Enduser "+error);
-                $scope.showAlert("Error", "There is an Exception in updating Enduser "+error,"error");
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                console.info("Error in adding new Enduser " + error);
+                $scope.showAlert("Error", "There is an Exception in updating Enduser " + error, "error");
                 $state.reload();
-            }
+            });
         }
-
 
 
     };
@@ -120,18 +110,15 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     $scope.GetEndUser = function () {
         companyConfigBackendService.getCloudEndUser().then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
-                console.info("Error in picking EndUsers "+response.data.Exception);
+            if (!response.data.IsSuccess) {
+                console.info("Error in picking EndUsers " + response.data.Exception);
 
-                $scope.isUserError=true;
+                $scope.isUserError = true;
             }
-            else
-            {
-                $scope.isUserError=false;
-                if(response.data.Result.length>0)
-                {
-                    $scope.isNewEndUser=false;
+            else {
+                $scope.isUserError = false;
+                if (response.data.Result.length > 0) {
+                    $scope.isNewEndUser = false;
                     $scope.CloudEndUser = response.data.Result[0];
                     switch ($scope.CloudEndUser.SIPConnectivityProvision) {
                         case 1:
@@ -148,32 +135,29 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
                             break;
                     }
                 }
-                else
-                {
-                    $scope.isNewEndUser=true;
+                else {
+                    $scope.isNewEndUser = true;
                 }
 
                 //$scope.MasterAppList = response.data.Result;
             }
 
-        }), function (error) {
-            console.info("Error in picking EndUsers "+error);
-            $scope.isUserError=true;
-        }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in picking EndUsers " + error);
+            $scope.isUserError = true;
+        });
     };
 
     $scope.GetClusters = function () {
 
         companyConfigBackendService.getClusters().then(function (response) {
-            if(!response.data.IsSuccess)
-            {
-                console.info("Error in picking Clusters "+response.data.Exception);
+            if (!response.data.IsSuccess) {
+                console.info("Error in picking Clusters " + response.data.Exception);
 
-            } else
-            {
+            } else {
 
-                if(response.data.Result.length>0)
-                {
+                if (response.data.Result.length > 0) {
                     $scope.ClusterID = response.data.Result[0].id;
 
                 }
@@ -182,31 +166,31 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
                 //$scope.MasterAppList = response.data.Result;
             }
 
-        }),function (error) {
-            console.info("Error in picking clusters "+JSON.stringify(error));
-        }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in picking clusters " + JSON.stringify(error));
+        });
 
     };
 
     $scope.GetContexts = function () {
         companyConfigBackendService.getContexts().then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
-                console.info("Error in picking Contexts "+response.data.Exception);
+            if (!response.data.IsSuccess) {
+                console.info("Error in picking Contexts " + response.data.Exception);
 
             }
-            else
-            {
-               $scope.contextList=response.data.Result;
+            else {
+                $scope.contextList = response.data.Result;
 
                 //$scope.MasterAppList = response.data.Result;
             }
 
-        }), function (error) {
-            console.info("Error in picking Contexts "+error);
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in picking Contexts " + error);
 
-        }
+        })
     };
     $scope.removeDeleted = function (item) {
 
@@ -219,39 +203,37 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
 
     $scope.saveNewContext = function () {
 
-        $scope.newContext.ContextCat="INTERNAL";
-        $scope.newContext.ClientCompany=decodeData.company;
-        $scope.newContext.ClientTenant=decodeData.tenant;
-        $scope.newContext.Context=$scope.contextPrefix+$scope.newContext.Context;
+        $scope.newContext.ContextCat = "INTERNAL";
+        $scope.newContext.ClientCompany = decodeData.company;
+        $scope.newContext.ClientTenant = decodeData.tenant;
+        $scope.newContext.Context = $scope.contextPrefix + $scope.newContext.Context;
 
         companyConfigBackendService.saveNewContext($scope.newContext).then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
+            if (!response.data.IsSuccess) {
 
-                console.info("Error in adding new Context "+response.data.Exception);
-                $scope.showAlert("Error", "There is an error in adding new Context ","error");
+                console.info("Error in adding new Context " + response.data.Exception);
+                $scope.showAlert("Error", "There is an error in adding new Context ", "error");
                 //$scope.showAlert("Error",)
             }
-            else
-            {
+            else {
                 $scope.addNew = !response.data.IsSuccess;
-                $scope.showAlert("Success", "New Context added successfully.","success");
+                $scope.showAlert("Success", "New Context added successfully.", "success");
 
 
             }
             $state.reload();
-        }), function (error) {
-            console.info("Error in adding new Enduser "+error);
-            $scope.showAlert("Error", "There is an Exception in saving Context "+error,"error");
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in adding new Enduser " + error);
+            $scope.showAlert("Error", "There is an Exception in saving Context " + error, "error");
             $state.reload();
-        }
+        });
     };
 
     $scope.reloadPage = function () {
         $state.reload();
     };
-
 
 
     $scope.GetEndUser();
@@ -262,24 +244,25 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     //----------------------------Dynamic Ticket Types----------------------------------------------
     $scope.ticketTypes = undefined;
 
-    $scope.activateDynamicTicketTypes = function(){
+    $scope.activateDynamicTicketTypes = function () {
         companyConfigBackendService.activateTicketTypes().then(function (response) {
             if (response) {
 
                 var result = response.data;
-                if(result && result.IsSuccess) {
+                if (result && result.IsSuccess) {
                     $scope.ticketTypes = result.Result;
-                }else{
+                } else {
                     $scope.ticketTypes = undefined;
 
-                    $scope.showAlert("Dynamic Ticket Types", "Empty Response","error");
+                    $scope.showAlert("Dynamic Ticket Types", "Empty Response", "error");
                 }
             }
             else {
                 $scope.ticketTypes = undefined;
-                $scope.showAlert("Dynamic Ticket Types", "Empty Response","error");
+                $scope.showAlert("Dynamic Ticket Types", "Empty Response", "error");
             }
         }, function (error) {
+            loginService.isCheckResponse(error);
             $scope.ticketTypes = undefined;
 
             var errMsg = "Error in activate ticket types";
@@ -287,108 +270,96 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
                 errMsg = error.statusText;
             }
 
-            $scope.showAlert("Dynamic Ticket Types", errMsg,"error");
+            $scope.showAlert("Dynamic Ticket Types", errMsg, "error");
         });
     };
 
-    $scope.getDynamicTicketTypes = function(){
-        companyConfigBackendService.getTicketTypes().then(function(response){
-            if(response.IsSuccess)
-            {
+    $scope.getDynamicTicketTypes = function () {
+        companyConfigBackendService.getTicketTypes().then(function (response) {
+            if (response.IsSuccess) {
                 $scope.ticketTypes = response.Result;
             }
-            else
-            {
+            else {
                 var errMsg = response.CustomMessage;
 
-                if(response.Exception)
-                {
+                if (response.Exception) {
                     errMsg = response.Exception.Message;
                 }
                 $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
             }
-        }, function(err){
+        }, function (err) {
+            loginService.isCheckResponse(error);
             var errMsg = "Error occurred while saving ticket type";
-            if(err.statusText)
-            {
+            if (err.statusText) {
                 errMsg = err.statusText;
             }
             $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
         });
     };
 
-    $scope.updateDynamicTicketTypes = function(){
-        companyConfigBackendService.updateTicketTypes($scope.ticketTypes).then(function(response){
-            if(response.IsSuccess)
-            {
+    $scope.updateDynamicTicketTypes = function () {
+        companyConfigBackendService.updateTicketTypes($scope.ticketTypes).then(function (response) {
+            if (response.IsSuccess) {
                 $scope.showAlert('Dynamic Ticket Types', response.CustomMessage, 'success');
             }
-            else
-            {
+            else {
                 var errMsg = response.CustomMessage;
 
-                if(response.Exception)
-                {
+                if (response.Exception) {
                     errMsg = response.Exception.Message;
                 }
                 $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
             }
-        }, function(err){
+        }, function (err) {
+            loginService.isCheckResponse(error);
             var errMsg = "Error occurred while saving ticket type";
-            if(err.statusText)
-            {
+            if (err.statusText) {
                 errMsg = err.statusText;
             }
             $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
         });
     };
 
-    $scope.addCustomTicketTypes = function(){
-        companyConfigBackendService.addCustomTicketTypes($scope.ticketTypes._id.toString(), $scope.ticketTypes.newCustomState).then(function(response){
-         if(response.IsSuccess)
-         {
-             $scope.ticketTypes.custom_types.push($scope.ticketTypes.newCustomState);
-         }
-         else
-         {
-            var errMsg = response.CustomMessage;
-
-            if(response.Exception)
-            {
-                errMsg = response.Exception.Message;
+    $scope.addCustomTicketTypes = function () {
+        companyConfigBackendService.addCustomTicketTypes($scope.ticketTypes._id.toString(), $scope.ticketTypes.newCustomState).then(function (response) {
+            if (response.IsSuccess) {
+                $scope.ticketTypes.custom_types.push($scope.ticketTypes.newCustomState);
             }
-            $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
-         }
-         }, function(err){
-         var errMsg = "Error occurred while saving custom type";
-         if(err.statusText)
-         {
-         errMsg = err.statusText;
-         }
-         $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
-         });
-    };
-
-    $scope.removeCustomTicketTypes = function(index, customType){
-        companyConfigBackendService.removeCustomTicketTypes($scope.ticketTypes._id.toString(), customType).then(function(response){
-            if(response.IsSuccess)
-            {
-                $scope.ticketTypes.custom_types.splice(index, 1);
-            }
-            else
-            {
+            else {
                 var errMsg = response.CustomMessage;
 
-                if(response.Exception)
-                {
+                if (response.Exception) {
                     errMsg = response.Exception.Message;
                 }
                 $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
             }
-        }, function(err){
+        }, function (err) {
+            loginService.isCheckResponse(err);
+            var errMsg = "Error occurred while saving custom type";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+        });
+    };
+
+    $scope.removeCustomTicketTypes = function (index, customType) {
+        companyConfigBackendService.removeCustomTicketTypes($scope.ticketTypes._id.toString(), customType).then(function (response) {
+            if (response.IsSuccess) {
+                $scope.ticketTypes.custom_types.splice(index, 1);
+            }
+            else {
+                var errMsg = response.CustomMessage;
+
+                if (response.Exception) {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
+            }
+        }, function (err) {
+            loginService.isCheckResponse(err);
             var errMsg = "Error occurred while removing custom type";
-            if(err.statusText)
-            {
+            if (err.statusText) {
                 errMsg = err.statusText;
             }
             $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
@@ -396,7 +367,6 @@ mainApp.controller("companyConfigController", function ($scope,$state, companyCo
     };
 
     $scope.getDynamicTicketTypes();
-
 
 
 });

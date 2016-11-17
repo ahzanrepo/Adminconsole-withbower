@@ -1,52 +1,51 @@
 /**
  * Created by Pawan on 8/24/2016.
  */
-mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModal, jwtHelper,authService,tagBackendService)
-{
-    var  tree, treedata_avm=[];
+mainApp.controller('tagcontroller2', function ($scope, $rootScope, $state, $uibModal, jwtHelper, authService, tagBackendService,
+                                               loginService) {
+    var tree, treedata_avm = [];
 
-    $scope.my_data=[];
-    $scope.newChildObject={};
-    $scope.tagCategories=[];
-    $scope.currentCatID="";
-    $scope.isTagCatConfig=false;
-    $scope.isTagConfig=false;
-    $scope.tagList=[];
-    $scope.isConfig=false;
-    $scope.isTreeView=false;
+    $scope.my_data = [];
+    $scope.newChildObject = {};
+    $scope.tagCategories = [];
+    $scope.currentCatID = "";
+    $scope.isTagCatConfig = false;
+    $scope.isTagConfig = false;
+    $scope.tagList = [];
+    $scope.isConfig = false;
+    $scope.isTreeView = false;
 
     $scope.showTaggingConig = function () {
-        $scope.isConfig=!$scope.isConfig;
-        $scope.isTreeView=!$scope.isTreeView;
+        $scope.isConfig = !$scope.isConfig;
+        $scope.isTreeView = !$scope.isTreeView;
     }
     $scope.showTagCatConig = function () {
-        $scope.isTagCatConfig= !$scope.isTagCatConfig;
+        $scope.isTagCatConfig = !$scope.isTagCatConfig;
     };
     $scope.showTagConig = function () {
-        $scope.isTagConfig= !$scope.isTagConfig;
+        $scope.isTagConfig = !$scope.isTagConfig;
     };
 
-    $scope.pickAllTags= function () {
+    $scope.pickAllTags = function () {
         tagBackendService.getAllTags().then(function (response) {
-            if(!response.data.IsSuccess)
-            {
+            if (!response.data.IsSuccess) {
 
-                console.info("Error in getting tag categories  "+response.data.Exception);
+                console.info("Error in getting tag categories  " + response.data.Exception);
 
                 //$scope.showAlert("Error",)
             }
-            else
-            {
-                $scope.tagList=response.data.Result;
+            else {
+                $scope.tagList = response.data.Result;
             }
-        }), function (error) {
-            console.info("Error in getting tag categories  "+error);
-        }
+        }, function (err) {
+            loginService.isCheckResponse(err);
+            console.info("Error in getting tag categories  " + err);
+        });
     };
 
     $scope.pickAllTags();
 
-    $scope.showAlert = function (tittle,content,type) {
+    $scope.showAlert = function (tittle, content, type) {
 
         new PNotify({
             title: tittle,
@@ -57,52 +56,45 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
     };
 
 
-    $scope.loadTagDetails = function (tagData,callback) {
-        if(tagData)
-        {
+    $scope.loadTagDetails = function (tagData, callback) {
+        if (tagData) {
             tagBackendService.getTagDetails(tagData._id).then(function (response) {
 
-                if(!response.data.IsSuccess)
-                {
-                    callback(new Error("Error"),null);
+                if (!response.data.IsSuccess) {
+                    callback(new Error("Error"), null);
 
                 }
-                else
-                {
-                    callback(null,response.data.Result);
+                else {
+                    callback(null, response.data.Result);
 
                 }
-            }), function (error) {
-                console.log("Tag detail picking error ",error);
-                callback(error,null);
-            }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                console.log("Tag detail picking error ", err);
+                callback(err, null);
+            });
 
 
         }
-        else
-        {
-            callback(new Error("Invalid Tag"),null);
+        else {
+            callback(new Error("Invalid Tag"), null);
         }
 
     };
 
-    $scope.childTreeGenerator= function (childTags,motherBranch) {
+    $scope.childTreeGenerator = function (childTags, motherBranch) {
 
-        for(var i=0;i<childTags.length;i++)
-        {
-            $scope.loadTagDetails(childTags[i], function (error,tagResponse) {
-                if(error)
-                {
+        for (var i = 0; i < childTags.length; i++) {
+            $scope.loadTagDetails(childTags[i], function (error, tagResponse) {
+                if (error) {
                     console.log(error);
                 }
-                else
-                {
+                else {
 
-                    var newChild=$scope.try_adding_a_branch(motherBranch,tagResponse);
+                    var newChild = $scope.try_adding_a_branch(motherBranch, tagResponse);
 
-                    if(tagResponse.tags.length>0)
-                    {
-                        $scope.childTreeGenerator(tagResponse.tags,newChild)
+                    if (tagResponse.tags.length > 0) {
+                        $scope.childTreeGenerator(tagResponse.tags, newChild)
                     }
 
 
@@ -114,160 +106,142 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
     $scope.loadCategoryData = function () {
         tagBackendService.getTagCategories().then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
+            if (!response.data.IsSuccess) {
 
-                console.info("Error in getting tag categories  "+response.data.Exception);
+                console.info("Error in getting tag categories  " + response.data.Exception);
 
                 //$scope.showAlert("Error",)
             }
-            else
-            {
-                $scope.tagCategories=response.data.Result;
+            else {
+                $scope.tagCategories = response.data.Result;
             }
 
-        }), function (error) {
-            console.info("Error in getting tag categories "+error);
+        }, function (err) {
+
+            loginService.isCheckResponse(err);
+            console.info("Error in getting tag categories " + err);
 
 
-        }
+        });
 
 
     };
 
-    $scope.saveNewTagData = function (parentTag,newTagData) {
+    $scope.saveNewTagData = function (parentTag, newTagData) {
 
-        var rootBranch=tree.get_first_branch();
-        if(rootBranch==parentTag)
-        {
-            if(newTagData._id)
-            {
-                tagBackendService.attachTagToCategory(rootBranch._id,newTagData._id).then(function (response) {
+        var rootBranch = tree.get_first_branch();
+        if (rootBranch == parentTag) {
+            if (newTagData._id) {
+                tagBackendService.attachTagToCategory(rootBranch._id, newTagData._id).then(function (response) {
 
-                    if(response)
-                    {
-                        if(!response.data.IsSuccess)
-                        {
+                    if (response) {
+                        if (!response.data.IsSuccess) {
                             console.log("New Tag adding failed");
-                            $scope.showAlert("Error","New tag adding failed","error");
+                            $scope.showAlert("Error", "New tag adding failed", "error");
                         }
-                        else
-                        {
+                        else {
                             console.log("New Tag adding succeeded");
-                            $scope.showAlert("Success","New Tag added successfully","success");
-                            $scope.try_adding_a_branch(parentTag,newTagData);
+                            $scope.showAlert("Success", "New Tag added successfully", "success");
+                            $scope.try_adding_a_branch(parentTag, newTagData);
                         }
                     }
-                    else
-                    {
+                    else {
                         console.log("New Tag adding failed");
-                        $scope.showAlert("Error","New tag adding failed","error");
+                        $scope.showAlert("Error", "New tag adding failed", "error");
 
                     }
 
 
-                }), function (error) {
-                    console.log("New Tag adding to category failed",error);
-                    $scope.showAlert("Error","New tag adding failed","error");
-                }
+                }, function (err) {
+                    loginService.isCheckResponse(err);
+                    console.log("New Tag adding to category failed", err);
+                    $scope.showAlert("Error", "New tag adding failed", "error");
+                });
             }
-            else
-            {
-                tagBackendService.saveAndAttachNewTagToCategory(rootBranch._id,newTagData).then(function (response) {
+            else {
+                tagBackendService.saveAndAttachNewTagToCategory(rootBranch._id, newTagData).then(function (response) {
 
-                    if(response)
-                    {
-                        if(!response.data.IsSuccess)
-                        {
+                    if (response) {
+                        if (!response.data.IsSuccess) {
                             console.log("New Tag adding failed");
-                            $scope.showAlert("Error","New tag adding failed","error");
+                            $scope.showAlert("Error", "New tag adding failed", "error");
                         }
-                        else
-                        {
+                        else {
                             console.log("New Tag adding succeeded");
-                            $scope.showAlert("Success","New Tag added successfully","success");
-                            newTagData._id=response.data.Result._id;
-                            $scope.try_adding_a_branch(parentTag,newTagData);
+                            $scope.showAlert("Success", "New Tag added successfully", "success");
+                            newTagData._id = response.data.Result._id;
+                            $scope.try_adding_a_branch(parentTag, newTagData);
                         }
                     }
-                    else
-                    {
+                    else {
                         console.log("New Tag adding failed");
-                        $scope.showAlert("Error","New tag adding failed","error");
+                        $scope.showAlert("Error", "New tag adding failed", "error");
 
                     }
 
 
-                }), function (error) {
-                    console.log("New Tag adding to category failed",error);
-                    $scope.showAlert("Error","New tag adding failed","error");
-                }
+                }, function (err) {
+                    loginService.isCheckResponse(err);
+                    console.log("New Tag adding to category failed", err);
+                    $scope.showAlert("Error", "New tag adding failed", "error");
+                });
             }
 
 
         }
-        else
-        {
-            if(newTagData._id)
-            {
-                tagBackendService.attachTagToTag(parentTag._id,newTagData._id).then(function (response) {
+        else {
+            if (newTagData._id) {
+                tagBackendService.attachTagToTag(parentTag._id, newTagData._id).then(function (response) {
 
-                    if(response)
-                    {
-                        if(!response.data.IsSuccess)
-                        {
+                    if (response) {
+                        if (!response.data.IsSuccess) {
                             console.log("New Tag adding failed");
-                            $scope.showAlert("Error","New tag adding failed","error");
+                            $scope.showAlert("Error", "New tag adding failed", "error");
                         }
-                        else
-                        {
+                        else {
                             console.log("New Tag adding succeeded");
-                            $scope.showAlert("Success","New Tag added successfully","success");
-                            $scope.try_adding_a_branch(parentTag,newTagData);
+                            $scope.showAlert("Success", "New Tag added successfully", "success");
+                            $scope.try_adding_a_branch(parentTag, newTagData);
                         }
                     }
-                    else
-                    {
+                    else {
                         console.log("New Tag adding failed");
-                        $scope.showAlert("Error","New tag adding failed","error");
+                        $scope.showAlert("Error", "New tag adding failed", "error");
                     }
 
-                }), function (error) {
-                    console.log("New Tag adding failed",error);
-                    $scope.showAlert("Error","New tag adding failed","error");
-                }
+                }, function (err) {
+                    loginService.isCheckResponse(err);
+                    console.log("New Tag adding failed", err);
+                    $scope.showAlert("Error", "New tag adding failed", "error");
+                });
             }
-            else
-            {
-                tagBackendService.saveAndAttachNewTag(parentTag._id,newTagData).then(function (response) {
+            else {
+                tagBackendService.saveAndAttachNewTag(parentTag._id, newTagData).then(function (response) {
 
-                    if(response)
-                    {
-                        if(!response.data.IsSuccess)
-                        {
+                    if (response) {
+                        if (!response.data.IsSuccess) {
                             console.log("New Tag adding failed");
-                            $scope.showAlert("Error","New tag adding failed","error");
+                            $scope.showAlert("Error", "New tag adding failed", "error");
                         }
-                        else
-                        {
+                        else {
                             console.log("New Tag adding succeeded");
-                            $scope.showAlert("Success","New Tag added successfully","success");
-                            newTagData._id=response.data.Result.newTagID;
-                            $scope.try_adding_a_branch(parentTag,newTagData);
+                            $scope.showAlert("Success", "New Tag added successfully", "success");
+                            newTagData._id = response.data.Result.newTagID;
+                            $scope.try_adding_a_branch(parentTag, newTagData);
                         }
                     }
-                    else
-                    {
+                    else {
                         console.log("New Tag adding failed");
-                        $scope.showAlert("Error","New tag adding failed","error");
+                        $scope.showAlert("Error", "New tag adding failed", "error");
                     }
 
 
-                }), function (error) {
-                    console.log("New Tag adding failed",error);
-                    $scope.showAlert("Error","New tag adding failed","error");
+                }, function (error) {
+                    loginService.isCheckResponse(error);
+                    console.log("New Tag adding failed", error);
+                    $scope.showAlert("Error", "New tag adding failed", "error");
 
-                }
+                });
             }
 
         }
@@ -284,51 +258,46 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
         var parent_ID = selectedBranch.parent_id;
 
 
-        if(!parent_ID)
-        {
+        if (!parent_ID) {
             console.log("You cannot delete this Tag/Tag category");
         }
-        else
-        {
-            if(parent_ID==rootBranch._id)
-            {
-                tagBackendService.detachTagFromCategory(parent_ID,selectedBranch._id).then(function (response) {
+        else {
+            if (parent_ID == rootBranch._id) {
+                tagBackendService.detachTagFromCategory(parent_ID, selectedBranch._id).then(function (response) {
                     console.log("success");
-                    $scope.showAlert("Success","Tag detached from Category successfully","success");
+                    $scope.showAlert("Success", "Tag detached from Category successfully", "success");
                     $scope.treeBuilder();
-                }), function (error) {
+                }, function (error) {
+                    loginService.isCheckResponse(error);
                     console.log("error");
-                    $scope.showAlert("Error","Tag detached from Category failed","error");
-                };
+                    $scope.showAlert("Error", "Tag detached from Category failed", "error");
+                });
             }
-            else
-            {
-                tagBackendService.detachTagFromTag(parent_ID,selectedBranch._id).then(function (response) {
+            else {
+                tagBackendService.detachTagFromTag(parent_ID, selectedBranch._id).then(function (response) {
                     console.log("success");
-                    $scope.showAlert("Success","Tag detached from Tag successfully","success");
+                    $scope.showAlert("Success", "Tag detached from Tag successfully", "success");
                     $scope.treeBuilder();
-                }), function (error) {
+                }, function (error) {
+                    loginService.isCheckResponse(error);
                     console.log("error");
-                    $scope.showAlert("Error","Tag detached from Tag failed","error");
-                };
+                    $scope.showAlert("Error", "Tag detached from Tag failed", "error");
+                });
             }
         }
 
 
     };
-    $scope.deleteTag= function (tag) {
+    $scope.deleteTag = function (tag) {
         tagBackendService.deleteTagFromDB(tag._id).then(function (response) {
-            if(response)
-            {
-                if(!response.data.IsSuccess)
-                {
+            if (response) {
+                if (!response.data.IsSuccess) {
                     console.log("Tag deletion failed");
-                    $scope.showAlert("Error","Tag deletion failed","error");
+                    $scope.showAlert("Error", "Tag deletion failed", "error");
                 }
-                else
-                {
+                else {
                     console.log("Tag deletion succeeded");
-                    $scope.showAlert("Success","Tag deletion succeeded","success");
+                    $scope.showAlert("Success", "Tag deletion succeeded", "success");
 
                     var index = $scope.tagList.indexOf(tag);
                     if (index != -1) {
@@ -337,29 +306,26 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
 
                 }
             }
-            else
-            {
+            else {
                 console.log("Tag deletion failed");
-                $scope.showAlert("Error","Tag deletion failed","error");
+                $scope.showAlert("Error", "Tag deletion failed", "error");
             }
-        }), function (error) {
-            console.log("Tag deletion failed",error);
-            $scope.showAlert("Error","Tag deletion failed","error");
-        }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.log("Tag deletion failed", error);
+            $scope.showAlert("Error", "Tag deletion failed", "error");
+        });
     };
     $scope.deleteCategory = function (tagCat) {
         tagBackendService.deleteTagCategoryFromDB(tagCat._id).then(function (response) {
-            if(response)
-            {
-                if(!response.data.IsSuccess)
-                {
+            if (response) {
+                if (!response.data.IsSuccess) {
                     console.log("Tag Category deletion failed");
-                    $scope.showAlert("Error","Tag Category deletion failed","error");
+                    $scope.showAlert("Error", "Tag Category deletion failed", "error");
                 }
-                else
-                {
+                else {
                     console.log("Tag Category deletion succeeded");
-                    $scope.showAlert("Success","Tag Category deletion succeeded","success");
+                    $scope.showAlert("Success", "Tag Category deletion succeeded", "success");
 
                     var index = $scope.tagCategories.indexOf(tagCat);
                     if (index != -1) {
@@ -368,41 +334,40 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
 
                 }
             }
-            else
-            {
+            else {
                 console.log("Tag Category deletion failed");
-                $scope.showAlert("Error","Tag Category deletion failed","error");
+                $scope.showAlert("Error", "Tag Category deletion failed", "error");
             }
-        }), function (error) {
-            console.log("Tag deletion failed",error);
-            $scope.showAlert("Error","Tag Category deletion failed","error");
-        }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.log("Tag deletion failed", error);
+            $scope.showAlert("Error", "Tag Category deletion failed", "error");
+        });
     }
 
     $scope.addNewTagObject = function (newTagData) {
         tagBackendService.addNewTagDetails(newTagData).then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
+            if (!response.data.IsSuccess) {
                 console.log("Tag adding failed");
-                $scope.showAlert("Error","Tag adding failed","error");
+                $scope.showAlert("Error", "Tag adding failed", "error");
             }
-            else
-            {
+            else {
                 console.log("Tag adding succeeded");
-                $scope.showAlert("Success","Tag adding succeeded","success");
+                $scope.showAlert("Success", "Tag adding succeeded", "success");
                 $scope.tagList.push(response.data.Result);
 
             }
 
-        }), function (error) {
-            console.log("Tag adding failed",error);
-            $scope.showAlert("Error","Tag adding failed","error");
-        };
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.log("Tag adding failed", error);
+            $scope.showAlert("Error", "Tag adding failed", "error");
+        });
     };
 
 
-    $scope.showModal= function (selectedBranch) {
+    $scope.showModal = function (selectedBranch) {
         //modal show
         var modalInstance = $uibModal.open({
             animation: true,
@@ -413,7 +378,7 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
                 parentTag: function () {
                     return selectedBranch;
                 },
-                saveNewTagData : function () {
+                saveNewTagData: function () {
                     return $scope.saveNewTagData;
                 }
             }
@@ -423,25 +388,24 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
     $scope.saveNewTagCategoryData = function (tagCategory) {
 
         tagBackendService.addNewTagCategory(tagCategory).then(function (response) {
-            if(!response.data.IsSuccess)
-            {
+            if (!response.data.IsSuccess) {
                 console.log("Tag Category adding failed");
-                $scope.showAlert("Error","Tag Category adding failed","error");
+                $scope.showAlert("Error", "Tag Category adding failed", "error");
             }
-            else
-            {
+            else {
                 console.log("Tag Category adding succeeded");
-                $scope.showAlert("Success","Tag Category adding succeeded","success");
+                $scope.showAlert("Success", "Tag Category adding succeeded", "success");
                 $scope.tagCategories.push(response.data.Result);
             }
-        }), function (error) {
+        }, function (error) {
+            loginService.isCheckResponse(error);
             console.log("Tag Category adding failed");
-            $scope.showAlert("Error","Tag Category adding failed","error");
-        }
+            $scope.showAlert("Error", "Tag Category adding failed", "error");
+        });
     };
 
 
-    $scope.showNewCategoryModal= function () {
+    $scope.showNewCategoryModal = function () {
         //modal show
         var modalInstance = $uibModal.open({
             animation: true,
@@ -449,13 +413,13 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
             controller: 'NewTagCategoryController',
             size: 'sm',
             resolve: {
-                saveNewTagCatData : function () {
+                saveNewTagCatData: function () {
                     return $scope.saveNewTagCategoryData;
                 }
             }
         });
     };
-    $scope.showNewTagModal= function () {
+    $scope.showNewTagModal = function () {
         //modal show
         var modalInstance = $uibModal.open({
             animation: true,
@@ -463,21 +427,21 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
             controller: 'NewTagController',
             size: 'sm',
             resolve: {
-                addNewTagData : function () {
+                addNewTagData: function () {
                     return $scope.addNewTagObject;
                 }
             }
         });
     };
 
-    $scope.$watch('my_data', function() {
+    $scope.$watch('my_data', function () {
 
     });
 
 
     $scope.loadCategoryData();
 
-    $scope.my_tree_handler = function(branch) {
+    $scope.my_tree_handler = function (branch) {
         var _ref;
         $scope.output = "You selected: " + branch.label;
         if ((_ref = branch.data) != null ? _ref.description : void 0) {
@@ -490,10 +454,10 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
 
     $scope.my_tree = tree = {};
 
-    $scope.try_async_load = function() {
+    $scope.try_async_load = function () {
         $scope.my_data = [];
         $scope.doing_async = true;
-        return $timeout(function() {
+        return $timeout(function () {
             if (Math.random() < 0.5) {
                 $scope.my_data = treedata_avm;
             } else {
@@ -508,224 +472,206 @@ mainApp.controller('tagcontroller2', function ($scope,$rootScope,$state,$uibModa
         var selectedBranch;
         selectedBranch = tree.get_selected_branch();
 
-        var rootBranch=tree.get_first_branch();
+        var rootBranch = tree.get_first_branch();
 
 
-        if(selectedBranch)
-        {
-            console.log(selectedBranch.label+ " Selected");
+        if (selectedBranch) {
+            console.log(selectedBranch.label + " Selected");
             $scope.showModal(selectedBranch);
         }
-        else
-        {
+        else {
             console.log("Branch selection error");
         }
-
 
 
     };
 
     $scope.treeBuilder = function () {
 
-        $scope.isTagCatConfig=false;
-        $scope.isTagConfig=false;
-        $scope.isConfig=false;
-        $scope.isTreeView=true;
+        $scope.isTagCatConfig = false;
+        $scope.isTagConfig = false;
+        $scope.isConfig = false;
+        $scope.isTreeView = true;
 
-        if(!$scope.currentCatID)
-        {
+        if (!$scope.currentCatID) {
             console.log("Invalid Category");
-            $scope.showAlert("Error","Invalid Category","error");
+            $scope.showAlert("Error", "Invalid Category", "error");
         }
-        else
-        {
-            $scope.my_data=[];
-            $scope.newChildObject={};
-            treedata_avm=[];
+        else {
+            $scope.my_data = [];
+            $scope.newChildObject = {};
+            treedata_avm = [];
             tagBackendService.getTagCategory($scope.currentCatID).then(function (response) {
 
-                if(!response.data.IsSuccess)
-                {
+                if (!response.data.IsSuccess) {
 
-                    console.info("Error in adding new Application "+response.data.Exception);
-                    $scope.showAlert("Error","Invalid Category Data found","error");
+                    console.info("Error in adding new Application " + response.data.Exception);
+                    $scope.showAlert("Error", "Invalid Category Data found", "error");
 
                     //$scope.showAlert("Error",)
                 }
-                else
-                {
+                else {
                     console.log("Success");
                     console.log(response.data.Result);
 
-                    var rootData=
+                    var rootData =
                     {
                         label: response.data.Result.name,
                         _id: response.data.Result._id,
-                        children:[]
+                        children: []
 
 
                     }
-                    var childTags=response.data.Result.tags;
+                    var childTags = response.data.Result.tags;
                     treedata_avm.push(rootData);
-                    console.log("Tree data found ",JSON.stringify(treedata_avm));
+                    console.log("Tree data found ", JSON.stringify(treedata_avm));
                     $scope.my_data = treedata_avm;
                     $scope.my_tree_handler(treedata_avm[0]);
 
-                    $scope.childTreeGenerator(childTags,treedata_avm[0]);
-
-
-
+                    $scope.childTreeGenerator(childTags, treedata_avm[0]);
 
 
                 }
 
-            }), function (error) {
-                console.info("Error in adding new Application "+error);
-                $scope.showAlert("Error","Invalid Category","error");
-
-
-            }
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                console.info("Error in adding new Application " + error);
+                $scope.showAlert("Error", "Invalid Category", "error");
+            });
         }
 
     };
 
 
-
-    return $scope.try_adding_a_branch = function(currentBranch,childDetails) {
+    return $scope.try_adding_a_branch = function (currentBranch, childDetails) {
 
         var parentBranch = tree.get_selected_branch();
 
         return tree.add_branch(currentBranch, {
             label: childDetails.name,
-            _id:childDetails._id,
-            parent_id:currentBranch._id,
-            children:[]
+            _id: childDetails._id,
+            parent_id: currentBranch._id,
+            children: []
 
         });
     };
 
 
-
-
 });
 
-mainApp.controller("NewChildTagController", function ($scope,$rootScope, $uibModalInstance,parentTag,saveNewTagData,tagBackendService) {
+mainApp.controller("NewChildTagController", function ($scope, $rootScope, $uibModalInstance, parentTag, saveNewTagData,
+                                                      loginService,
+                                                      tagBackendService) {
 
 
-    $scope.showModal=true;
-    $scope.showNewForm=false;
-    $scope.tagList=[];
+    $scope.showModal = true;
+    $scope.showNewForm = false;
+    $scope.tagList = [];
 
     $scope.ok = function () {
         var childTag =
         {
-            name:$scope.tagNameData,
-            description : $scope.tagDesc
+            name: $scope.tagNameData,
+            description: $scope.tagDesc
         }
-        saveNewTagData(parentTag,childTag);
-        $scope.showModal=false;
+        saveNewTagData(parentTag, childTag);
+        $scope.showModal = false;
         $uibModalInstance.close();
 
     };
 
-    $scope.saveNewTag= function () {
-        var childTag={};
-        if( $scope.showNewForm)
-        {
+    $scope.saveNewTag = function () {
+        var childTag = {};
+        if ($scope.showNewForm) {
             childTag =
             {
-                name:$scope.tagNameData,
-                descricption : $scope.tagDesc
+                name: $scope.tagNameData,
+                descricption: $scope.tagDesc
             }
 
         }
-        else
-        {
-            childTag=JSON.parse($scope.tagData);
+        else {
+            childTag = JSON.parse($scope.tagData);
         }
 
-        saveNewTagData(parentTag,childTag);
-        $scope.showModal=false;
+        saveNewTagData(parentTag, childTag);
+        $scope.showModal = false;
         $uibModalInstance.close();
-
 
 
     };
 
     $scope.closeModal = function () {
-        saveNewTagData(parentTag,null);
-        $scope.showModal=false;
+        saveNewTagData(parentTag, null);
+        $scope.showModal = false;
         $uibModalInstance.dismiss('cancel');
     };
 
     $scope.cancel = function () {
-        saveNewTagData(parentTag,null);
-        $scope.showModal=false;
+        saveNewTagData(parentTag, null);
+        $scope.showModal = false;
         $uibModalInstance.dismiss('cancel');
     };
 
     $scope.showNewTagForm = function () {
-        $scope.showNewForm=!$scope.showNewForm;
+        $scope.showNewForm = !$scope.showNewForm;
 
     }
 
     $scope.loadTags = function () {
         tagBackendService.getAllTags().then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
+            if (!response.data.IsSuccess) {
 
-                console.info("Error in picking tags "+response.data.Exception);
+                console.info("Error in picking tags " + response.data.Exception);
 
                 //$scope.showAlert("Error",)
             }
-            else
-            {
-                $scope.tagList=response.data.Result;
+            else {
+                $scope.tagList = response.data.Result;
             }
-        }), function (error) {
-            console.info("Error in picking tags "+error);
-        }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in picking tags " + error);
+        });
     };
 
     $scope.loadTags();
 
 
-
 });
-mainApp.controller("NewTagCategoryController", function ($scope,$rootScope, $uibModalInstance,saveNewTagCatData) {
+mainApp.controller("NewTagCategoryController", function ($scope, $rootScope, $uibModalInstance, saveNewTagCatData) {
 
 
-    $scope.showModal=true;
+    $scope.showModal = true;
 
     $scope.ok = function () {
 
         var tagCategoryData =
         {
-            name:$scope.tagCatNameData
+            name: $scope.tagCatNameData
 
         }
 
 
         saveNewTagCatData(tagCategoryData);
-        $scope.showModal=false;
+        $scope.showModal = false;
         $uibModalInstance.close();
     };
 
-    $scope.saveNewTagCategory= function () {
-        var tagCategory={};
+    $scope.saveNewTagCategory = function () {
+        var tagCategory = {};
 
         tagCategoryData =
         {
-            name:$scope.tagCatNameData
+            name: $scope.tagCatNameData
 
         }
 
 
         saveNewTagCatData(tagCategoryData);
-        $scope.showModal=false;
+        $scope.showModal = false;
         $uibModalInstance.close();
-
 
 
     };
@@ -736,74 +682,62 @@ mainApp.controller("NewTagCategoryController", function ($scope,$rootScope, $uib
     };
 
     $scope.cancel = function () {
-        saveNewTagCatData(parentTag,null);
-        $scope.showModal=false;
+        saveNewTagCatData(parentTag, null);
+        $scope.showModal = false;
         $uibModalInstance.dismiss('cancel');
     };
-
-
-
-
-
-
 
 
 });
-mainApp.controller("NewTagController", function ($scope,$rootScope, $uibModalInstance,addNewTagData) {
+mainApp.controller("NewTagController", function ($scope, $rootScope, $uibModalInstance, addNewTagData) {
 
 
-    $scope.showModal=true;
+    $scope.showModal = true;
 
     $scope.ok = function () {
-        var tagData={};
+        var tagData = {};
 
         tagData =
         {
-            name:$scope.tagNameData,
-            description:$scope.tagDesc
+            name: $scope.tagNameData,
+            description: $scope.tagDesc
 
         }
 
 
         addNewTagData(tagData);
-        $scope.showModal=false;
+        $scope.showModal = false;
         $uibModalInstance.close();
     };
 
-    $scope.addNewTag= function () {
-        var tagData={};
+    $scope.addNewTag = function () {
+        var tagData = {};
 
         tagData =
         {
-            name:$scope.tagNameData,
-            description:$scope.tagDesc
+            name: $scope.tagNameData,
+            description: $scope.tagDesc
 
         }
 
 
         addNewTagData(tagData);
-        $scope.showModal=false;
+        $scope.showModal = false;
         $uibModalInstance.close();
 
     };
 
     $scope.closeModal = function () {
-        saveNewTagData(parentTag,null);
-        $scope.showModal=false;
+        saveNewTagData(parentTag, null);
+        $scope.showModal = false;
         $uibModalInstance.dismiss('cancel');
     };
 
     $scope.cancel = function () {
-        saveNewTagCatData(parentTag,null);
-        $scope.showModal=false;
+        saveNewTagCatData(parentTag, null);
+        $scope.showModal = false;
         $uibModalInstance.dismiss('cancel');
     };
-
-
-
-
-
-
 
 
 });

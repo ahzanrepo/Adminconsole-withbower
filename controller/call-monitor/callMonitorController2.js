@@ -2,24 +2,25 @@
  * Created by Pawan on 7/21/2016.
  */
 
-mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibModal,$timeout, callMonitorSrv, notificationService,jwtHelper,authService)
-{
+mainApp.controller('callmonitorcntrl2', function ($scope, $rootScope, $state, $uibModal, $timeout,
+                                                  callMonitorSrv, notificationService,
+                                                  jwtHelper, authService, loginService) {
 
     $scope.CallObj = {};
-    $scope.isRegistered=false;
+    $scope.isRegistered = false;
     $scope.currentSessionID = null;
     var authToken = authService.GetToken();
 
-    $rootScope.$on("is_registered", function (events,args) {
-        console.log("isRegisterd "+args);
-        $scope.isRegistered=args;
+    $rootScope.$on("is_registered", function (events, args) {
+        console.log("isRegisterd " + args);
+        $scope.isRegistered = args;
 
 
     });
 
 
     var protocol = "user";
-    var actionObject={};
+    var actionObject = {};
 
     var onCallsDataReceived = function (response) {
 
@@ -70,7 +71,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
 
 
             if (i == callObjLen - 1) {
-                console.log("Current calls "+JSON.stringify(curCallArr));
+                console.log("Current calls " + JSON.stringify(curCallArr));
             }
         }
 
@@ -125,7 +126,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
         }
     };
 
-    $scope.showAlert = function (title,content,type) {
+    $scope.showAlert = function (title, content, type) {
 
         new PNotify({
             title: title,
@@ -136,23 +137,21 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
     };
 
 
-
     $scope.pickPassword = function (response) {
-        $scope.password=response;
+        $scope.password = response;
         console.log("Hit");
-        console.log("password ",response);
+        console.log("password ", response);
 
-        if($scope.password!=null)
-        {
-            console.log("Password picked "+$scope.password);
-            $scope.loginData.password=$scope.password;
+        if ($scope.password != null) {
+            console.log("Password picked " + $scope.password);
+            $scope.loginData.password = $scope.password;
             //Initiate($scope.loginData,onRegistrationCompleted, onCallDisconnected, onCallConnected,onUnRegisterCompleted);
-            $rootScope.$emit("register_phone",$scope.loginData);
+            $rootScope.$emit("register_phone", $scope.loginData);
         }
     };
 
 
-    $scope.showModal= function (User) {
+    $scope.showModal = function (User) {
         //modal show
         var modalInstance = $uibModal.open({
             animation: true,
@@ -163,7 +162,7 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
                 user: function () {
                     return User;
                 },
-                pickPassword : function () {
+                pickPassword: function () {
                     return $scope.pickPassword;
                 }
             }
@@ -183,26 +182,24 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
     }
 
 
-
     var getRegistrationData = function (authToken) {
 
         var decodeData = jwtHelper.decodeToken(authToken);
-        console.log("Token Obj "+decodeData);
+        console.log("Token Obj " + decodeData);
 
-        if(decodeData.context.veeryaccount)
-        {
+        if (decodeData.context.veeryaccount) {
             var values = decodeData.context.veeryaccount.contact.split("@");
-            $scope.sipUri="sip:" + decodeData.context.veeryaccount.contact;
-            $scope.WSUri="wss://" + values[1] + ":7443";
-            $scope.realm=values[1];
-            $scope.username=values[0];
-            $scope.displayname=decodeData.context.veeryaccount.display;
-            $scope.loginData ={
-                realm:$scope.realm,
-                impi:$scope.username,
-                impu:$scope.sipUri,
-                display_name:decodeData.iss,
-                websocket_proxy_url:$scope.WSUri
+            $scope.sipUri = "sip:" + decodeData.context.veeryaccount.contact;
+            $scope.WSUri = "wss://" + values[1] + ":7443";
+            $scope.realm = values[1];
+            $scope.username = values[0];
+            $scope.displayname = decodeData.context.veeryaccount.display;
+            $scope.loginData = {
+                realm: $scope.realm,
+                impi: $scope.username,
+                impu: $scope.sipUri,
+                display_name: decodeData.iss,
+                websocket_proxy_url: $scope.WSUri
 
 
             }
@@ -210,52 +207,48 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
             console.log("Showing modal ..................................................");
             $scope.showModal(decodeData.iss);
         }
-        else
-        {
-            $scope.showAlert("Error","Unauthorized user details to login ","error");
+        else {
+            $scope.showAlert("Error", "Unauthorized user details to login ", "error");
         }
 
 
     };
-    $rootScope.$on('load_calls', function (event,args) {
+    $rootScope.$on('load_calls', function (event, args) {
 
         $scope.LoadCurrentCalls();
 
     });
 
-    $rootScope.$on('register_status', function (event,args) {
+    $rootScope.$on('register_status', function (event, args) {
 
-        $scope.isRegistered=args;
-        var moduleSt=[];
-        if(args)
-        {
-            moduleSt=["success","Registered"];
+        $scope.isRegistered = args;
+        var moduleSt = [];
+        if (args) {
+            moduleSt = ["success", "Registered"];
 
         }
-        else
-        {
-            moduleSt=["notice","Unregistered"];
+        else {
+            moduleSt = ["notice", "Unregistered"];
         }
 
-        $scope.showAlert("Info"," Supervisor call monitor module "+moduleSt[1],moduleSt[0]);
+        $scope.showAlert("Info", " Supervisor call monitor module " + moduleSt[1], moduleSt[0]);
 
 
-        if($scope.isRegistered && actionObject && actionObject.action=="LISTEN")
-        {
+        if ($scope.isRegistered && actionObject && actionObject.action == "LISTEN") {
             $scope.currentSessionID = actionObject.BargeID;
-            callMonitorSrv.listenCall(actionObject.BargeID, actionObject.protocol,actionObject.displayname).then(function (listenData) {
-                actionObject={};
-                if(!listenData.data.IsSuccess)
-                {
-                    console.log("Invalid or Disconnected call, Loading Current list ",listenData.data.CustomMessage);
-                    $scope.showAlert("Info","Invalid or Disconnected call, Loading Current list","notice");
+            callMonitorSrv.listenCall(actionObject.BargeID, actionObject.protocol, actionObject.displayname).then(function (listenData) {
+                actionObject = {};
+                if (!listenData.data.IsSuccess) {
+                    console.log("Invalid or Disconnected call, Loading Current list ", listenData.data.CustomMessage);
+                    $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
                     $scope.LoadCurrentCalls();
                 }
 
             }, function (error) {
-                actionObject={};
-                console.log("Invalid or Disconnected call, Loading Current list ",error);
-                $scope.showAlert("Info","Invalid or Disconnected call, Loading Current list","notice");
+                loginService.isCheckResponse(error);
+                actionObject = {};
+                console.log("Invalid or Disconnected call, Loading Current list ", error);
+                $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
                 $scope.LoadCurrentCalls();
             });
         }
@@ -264,94 +257,84 @@ mainApp.controller('callmonitorcntrl2', function ($scope,$rootScope,$state,$uibM
 
     $scope.ListenCall = function (callData) {
         //alert("barged: "+bargeID);
-        if($scope.isRegistered)
-        {
+        if ($scope.isRegistered) {
             $scope.currentSessionID = callData.BargeID;
-            callMonitorSrv.listenCall(callData.BargeID, protocol,$scope.displayname).then(function (listenData) {
+            callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname).then(function (listenData) {
 
-                if(!listenData.data.IsSuccess)
-                {
-                    console.log("Invalid or Disconnected call, Loading Current list ",listenData.data.CustomMessage);
-                    $scope.showAlert("Info","Invalid or Disconnected call, Loading Current list","notice");
+                if (!listenData.data.IsSuccess) {
+                    console.log("Invalid or Disconnected call, Loading Current list ", listenData.data.CustomMessage);
+                    $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
                     $scope.LoadCurrentCalls();
                 }
 
             }, function (error) {
-                console.log("Invalid or Disconnected call, Loading Current list ",error);
-                $scope.showAlert("Info","Invalid or Disconnected call, Loading Current list","notice");
+                loginService.isCheckResponse(error);
+                console.log("Invalid or Disconnected call, Loading Current list ", error);
+                $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
                 $scope.LoadCurrentCalls();
 
             });
         }
-        else
-        {
+        else {
             getRegistrationData(authToken);
-            actionObject={action:"LISTEN",BargeID:callData.BargeID,protocol:protocol,displayname:$scope.displayname};
+            actionObject = {
+                action: "LISTEN",
+                BargeID: callData.BargeID,
+                protocol: protocol,
+                displayname: $scope.displayname
+            };
 
         }
-
-
 
 
     };
 
 
-
     /*getRegistrationData(authToken);
      $scope.LoadCurrentCalls();*/
-    $rootScope.$emit("check_register",null);
+    $rootScope.$emit("check_register", null);
 
-    if($scope.isRegistered)
-    {
+    if ($scope.isRegistered) {
         $scope.LoadCurrentCalls();
     }
-    else
-    {
+    else {
         console.log("going to register");
         $scope.RegisterThePhone();
     }
 
 
-
-
-
-
-
-
-
 });
 
-mainApp.controller("loginModalController2", function ($scope,$rootScope, $uibModalInstance,user,pickPassword) {
+mainApp.controller("loginModalController2", function ($scope, $rootScope, $uibModalInstance, user, pickPassword) {
 
 
-    $scope.showModal=true;
+    $scope.showModal = true;
 
-    $scope.username=user;
+    $scope.username = user;
 
     $scope.ok = function () {
         pickPassword($scope.userPasssword);
-        $scope.showModal=false;
+        $scope.showModal = false;
         $uibModalInstance.close($scope.password);
     };
 
-    $scope.loginPhone= function () {
+    $scope.loginPhone = function () {
         pickPassword($scope.userPasssword);
-        $scope.showModal=false;
+        $scope.showModal = false;
         $uibModalInstance.close($scope.password);
     };
 
     $scope.closeModal = function () {
         pickPassword(null);
-        $scope.showModal=false;
+        $scope.showModal = false;
         $uibModalInstance.dismiss('cancel');
     };
 
     $scope.cancel = function () {
         pickPassword(null);
-        $scope.showModal=false;
+        $scope.showModal = false;
         $uibModalInstance.dismiss('cancel');
     };
-
 
 
 });

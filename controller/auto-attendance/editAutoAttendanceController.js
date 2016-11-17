@@ -1,7 +1,9 @@
 
 'use strict';
 
-mainApp.controller('editautoattendancecontroller', function ($scope, autottendanceconfigservice, extensionBackendService, $state,$stateParams,fileService) {
+mainApp.controller('editautoattendancecontroller', function ($scope,
+                                                             autottendanceconfigservice,
+                                                             extensionBackendService, $state,$stateParams,fileService,loginService) {
 
 
     $scope.newObj={};
@@ -132,6 +134,7 @@ mainApp.controller('editautoattendancecontroller', function ($scope, autottendan
         fileService.GetFilesByCategoryName('IVRCLIPS').then(function (response) {
             $scope.ivrFileList = response;
         }, function (error) {
+            loginService.isCheckResponse(error);
             $scope.showAlert("IVR Clips","Fail To Get IVR File List.","error");
         });
     };

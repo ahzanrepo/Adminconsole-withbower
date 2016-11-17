@@ -190,7 +190,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
 });
 
-mainApp.directive('queued', function (queueMonitorService, $timeout) {
+mainApp.directive('queued', function (queueMonitorService, $timeout, loginService) {
     return {
 
         restrict: 'EA',
@@ -259,6 +259,8 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
                     if (scope.que.TotalQueued > 0) {
                         scope.que.presentage = Math.round((scope.que.TotalAnswered / scope.que.TotalQueued) * 100);
                     }
+                }, function (err) {
+                    loginService.isCheckResponse(err);
                 });
             };
 
@@ -292,6 +294,8 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
                         scope.maxy = Math.ceil(max);
                         scope.queueoption.yaxis.max = scope.maxy + 1;
                     }
+                }, function (err) {
+                    loginService.isCheckResponse(err);
                 });
 
             }
@@ -340,7 +344,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout) {
     }
 });
 
-mainApp.directive('queuedlist', function (queueMonitorService, $timeout) {
+mainApp.directive('queuedlist', function (queueMonitorService, $timeout,loginService) {
     return {
 
         restrict: 'EA',
@@ -382,6 +386,8 @@ mainApp.directive('queuedlist', function (queueMonitorService, $timeout) {
                     if (scope.que.TotalQueued > 0) {
                         scope.que.presentage = Math.round((scope.que.TotalAnswered / scope.que.TotalQueued) * 100);
                     }
+                }, function (err) {
+                    loginService.isCheckResponse(err);
                 });
             };
 

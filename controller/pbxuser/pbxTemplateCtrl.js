@@ -7,11 +7,10 @@
  */
 
 
-(function() {
+(function () {
     var app = angular.module("veeryConsoleApp");
 
-    var pbxTemplateCtrl = function ($scope, $rootScope, pbxUserApiHandler)
-    {
+    var pbxTemplateCtrl = function ($scope, $rootScope, pbxUserApiHandler, loginService) {
 
         $scope.showAlert = function (title, type, content) {
 
@@ -27,8 +26,7 @@
         $scope.numberType = 'USER';
 
 
-        var resetForm = function()
-        {
+        var resetForm = function () {
             $scope.destinationNumber = null;
             $scope.numberType = 'USER';
             currentUserUuid = null;
@@ -38,24 +36,19 @@
         };
 
 
-        $scope.deleteTemplate = function(templId)
-        {
+        $scope.deleteTemplate = function (templId) {
             pbxUserApiHandler.deletePABXTemplate(templId)
-                .then(function(data)
-                {
-                    if(data.IsSuccess)
-                    {
+                .then(function (data) {
+                    if (data.IsSuccess) {
                         $scope.showAlert('Success', 'info', 'Template deleted');
                         reloadTemplateList(currentUserUuid);
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('Error', 'error', 'Template deletion failed');
                     }
 
-                },
-                function(err)
-                {
+                }, function (err) {
+                    loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'error', 'Template deletion failed');
 
                 })
@@ -63,63 +56,51 @@
 
         };
 
-        $scope.saveTemplate = function()
-        {
+        $scope.saveTemplate = function () {
             pbxUserApiHandler.postPABXUserTemplate(currentUserUuid, $scope.destinationNumber, $scope.numberType)
-                .then(function(data)
-                {
-                    if(data.IsSuccess)
-                    {
-                        $scope.showAlert('Success', 'info', 'Template added successfully');
+                .then(function (data) {
+                        if (data.IsSuccess) {
+                            $scope.showAlert('Success', 'info', 'Template added successfully');
 
-                        $scope.$emit('PABX_LoadDivertNumbers', currentUserUuid);
+                            $scope.$emit('PABX_LoadDivertNumbers', currentUserUuid);
 
-                        reloadTemplateList(currentUserUuid);
+                            reloadTemplateList(currentUserUuid);
 
-                    }
-                    else
-                    {
+                        }
+                        else {
+                            $scope.showAlert('Error', 'error', 'Template failed to add');
+                        }
+
+                    },function (err) {
+                        loginService.isCheckResponse(err);
                         $scope.showAlert('Error', 'error', 'Template failed to add');
-                    }
 
-                },
-                function(err)
-                {
-                    $scope.showAlert('Error', 'error', 'Template failed to add');
-
-                });
+                    });
 
             $scope.destinationNumber = null;
             $scope.numberType = 'USER';
         };
 
-        var reloadTemplateList = function(uuid)
-        {
-            pbxUserApiHandler.getPABXUserTemplates(uuid).then(function(data)
-            {
+        var reloadTemplateList = function (uuid) {
+            pbxUserApiHandler.getPABXUserTemplates(uuid).then(function (data) {
                 $scope.pabxTemplList = data.Result;
                 $scope.dataReady = true;
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 $scope.showAlert('Error', 'error', 'Failed to load template list');
             });
         };
 
-        $rootScope.$on('PABX_LoadUserData', function(event, args)
-        {
+        $rootScope.$on('PABX_LoadUserData', function (event, args) {
             currentUserUuid = args.UserUuid;
             $scope.CurUserName = args.UserName;
             reloadTemplateList(currentUserUuid);
         });
 
-        $rootScope.$on('PABX_ResetForms', function(event, args)
-        {
+        $rootScope.$on('PABX_ResetForms', function (event, args) {
             resetForm();
 
         });
-
-
-
 
 
     };

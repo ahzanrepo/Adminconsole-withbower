@@ -5,7 +5,7 @@
     'use strict';
     mainApp.factory('loginService', Service);
 
-    function Service($http, localStorageService, jwtHelper, $auth,baseUrls) {
+    function Service($http, localStorageService, jwtHelper, $auth, baseUrls, $location, $state) {
         var service = {};
         service.mynavigations = mynavigations;
         service.Login = Login;
@@ -24,6 +24,7 @@
         service.forgetPassword = forgetPassword;
         service.tokenExsistes = tokenExsistes;
         service.activateAccount = activateAccount;
+        service.isCheckResponse = isCheckResponse;
         return service;
 
 
@@ -37,7 +38,7 @@
         //get token
         function getToken(appname) {
             var token = $auth.getToken();
-            if (token ) {
+            if (token) {
                 if (!jwtHelper.isTokenExpired(token)) {
                     return token;
                 }
@@ -57,16 +58,14 @@
         };
 
 
-
         //check navigation
 
 
         function checkNavigation(appname) {
 
-            try
-            {
+            try {
                 var navigations = localStorageService.get("@navigations");
-                if (navigations.menus && navigations.menus.length > 0) {
+                if (navigations && navigations.menus && navigations.menus.length > 0) {
                     var obj = navigations.menus.filter(function (item, index) {
                         return item.menuItem == appname;
                     });
@@ -74,11 +73,18 @@
                     if (obj && obj.length > 0) {
                         return true;
                     }
+                } else {
+                    if (!navigations) {
+                        $state.go("login");
+                        return;
+
+                    } else {
+                        return false;
+                    }
                 }
                 return false;
             }
-            catch(ex)
-            {
+            catch (ex) {
                 return false;
             }
 
@@ -106,51 +112,41 @@
         }
 
 
-
         function forgetPassword(email, callback) {
-            $http.post(baseUrls.authProviderUrl+ "auth/forget",{email:email}).
-            success(function (data, status, headers, config) {
+            $http.post(baseUrls.authProviderUrl + "auth/forget", {email: email}).success(function (data, status, headers, config) {
                 callback(data.IsSuccess);
 
-            }).
-            error(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 callback(data.IsSuccess);
             });
         }
 
 
-        function resetPassword(token,password, callback) {
-            $http.post(baseUrls.authProviderUrl+ "auth/reset/"+token,{password:password}).
-            success(function (data, status, headers, config) {
+        function resetPassword(token, password, callback) {
+            $http.post(baseUrls.authProviderUrl + "auth/reset/" + token, {password: password}).success(function (data, status, headers, config) {
                 callback(data.IsSuccess);
 
-            }).
-            error(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 callback(data.IsSuccess);
             });
         }
 
 
         function tokenExsistes(token, callback) {
-            $http.get(baseUrls.authProviderUrl+ "auth/token/"+token+"/exists").
-            success(function (data, status, headers, config) {
+            $http.get(baseUrls.authProviderUrl + "auth/token/" + token + "/exists").success(function (data, status, headers, config) {
                 callback(data.IsSuccess);
 
-            }).
-            error(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 callback(data.IsSuccess);
             });
         }
 
 
-
         function activateAccount(token, callback) {
-            $http.get(baseUrls.authProviderUrl+ "auth/activate/"+token).
-            success(function (data, status, headers, config) {
+            $http.get(baseUrls.authProviderUrl + "auth/activate/" + token).success(function (data, status, headers, config) {
                 callback(data.IsSuccess);
 
-            }).
-            error(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 callback(data.IsSuccess);
             });
         }
@@ -160,16 +156,14 @@
         function Logoff(parm, callback) {
 
             var decodeToken = getTokenDecode();
-            $http.delete(baseUrls.authServiceBaseUrl+"token/revoke/"+decodeToken.jti).
-                success(function (data, status, headers, config) {
-                    localStorageService.remove("@navigations");
-                    $auth.removeToken();
-                    callback(true);
-                }).
-                error(function (data, status, headers, config) {
-                    //login error
-                    callback(false);
-                });
+            $http.delete(baseUrls.authServiceBaseUrl + "token/revoke/" + decodeToken.jti).success(function (data, status, headers, config) {
+                localStorageService.remove("@navigations");
+                $auth.removeToken();
+                callback(true);
+            }).error(function (data, status, headers, config) {
+                //login error
+                callback(false);
+            });
         }
 
 
@@ -177,7 +171,7 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function Login(parm, callback) {
-            $http.post(baseUrls.authServiceBaseUrl+"/token", {
+            $http.post(baseUrls.authServiceBaseUrl + "/token", {
                 grant_type: "password",
                 username: parm.userName,
                 password: parm.password,
@@ -186,14 +180,12 @@
                 headers: {
                     Authorization: 'Basic ' + parm.clientID
                 }
-            }).
-            success(function (data, status, headers, config) {
+            }).success(function (data, status, headers, config) {
                 localStorageService.remove("@navigations");
                 $auth.removeToken();
                 $auth.setToken(data)
                 callback(true);
-            }).
-            error(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 //login error
                 callback(false);
             });
@@ -204,16 +196,14 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getMyPackages(callback) {
-            $http.get(baseUrls.UserServiceBaseUrl+ "MyOrganization/mypackages").
-            success(function (data, status, headers, config) {
+            $http.get(baseUrls.UserServiceBaseUrl + "MyOrganization/mypackages").success(function (data, status, headers, config) {
                 if (data && data.Result && data.Result.length > 0) {
-                    callback(true,status);
+                    callback(true, status);
                 } else {
-                    callback(false,status);
+                    callback(false, status);
                 }
-            }).
-            error(function (data, status, headers, config) {
-                callback(false,status);
+            }).error(function (data, status, headers, config) {
+                callback(false, status);
             });
         }
 
@@ -221,12 +211,10 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function getAllPackages(callback) {
-            $http.get(baseUrls.UserServiceBaseUrl+ "Packages").
-            success(function (data, status, headers, config) {
+            $http.get(baseUrls.UserServiceBaseUrl + "Packages").success(function (data, status, headers, config) {
                 callback(data.Result);
 
-            }).
-            error(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 callback(data.Result);
             });
         }
@@ -235,11 +223,9 @@
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
         function buyMyPackage(packageName, callback) {
-            $http.put(baseUrls.UserServiceBaseUrl+ "Organisation/Package/" + packageName, {}).
-            success(function (data, status, headers, config) {
+            $http.put(baseUrls.UserServiceBaseUrl + "Organisation/Package/" + packageName, {}).success(function (data, status, headers, config) {
                 callback(true);
-            }).
-            error(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 callback(false);
             });
         }
@@ -247,8 +233,7 @@
         //user login in to console
         //get current user navigation
         function getUserNavigation(callback) {
-            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").
-            success(function (data, status, headers, config) {
+            $http.get(baseUrls.UserServiceBaseUrl + "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").success(function (data, status, headers, config) {
                 console.log(data);
                 if (data.IsSuccess && data.Result && data.Result.length > 0) {
                     //navigations = data.Result[0];
@@ -257,8 +242,7 @@
 
                 }
                 callback(true);
-            }).
-            error(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 callback(false);
             });
         }
@@ -267,21 +251,31 @@
         //is can access
         function getNavigationAccess(callback) {
             mynavigations = {};
-            $http.get(baseUrls.UserServiceBaseUrl+ "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").
-            success(function (data, status, headers, config) {
+            $http.get(baseUrls.UserServiceBaseUrl + "MyAppScopes/MyAppScopes/SUPERVISOR_CONSOLE").success(function (data, status, headers, config) {
                 if (data.IsSuccess && data.Result && data.Result.length > 0) {
                     data.Result[0].menus.forEach(function (item) {
                         mynavigations[item.menuItem] = true;
                     });
                 }
                 callback(mynavigations);
-            }).
-            error(function (data, status, headers, config) {
+            }).error(function (data, status, headers, config) {
                 callback(mynavigations);
             });
         }
 
-
+        function isCheckResponse(response) {
+            if (response) {
+                if (response.status != '200') {
+                    if (response.data) {
+                        if (response.data.message == 'missing_secret' || response.data.message == 'No authorization token was found') {
+                            $auth.removeToken();
+                            $location.path("/login");
+                            return false;
+                        }
+                    }
+                }
+            }
+        };
     }
 })();
 

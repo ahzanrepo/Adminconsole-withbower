@@ -13,12 +13,12 @@
             });
         };
 
-        $scope.dtOptions = { paging: false, searching: false, info: false, order: [0, 'asc'] };
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
 
 
         $scope.obj = {
-            dayCust : moment().format("YYYY-MM-DD"),
-            hour : '00:00:00.000-00:59:59.999'
+            dayCust: moment().format("YYYY-MM-DD"),
+            hour: '00:00:00.000-00:59:59.999'
         };
 
 
@@ -29,33 +29,24 @@
         $scope.DownloadButtonName = 'CSV';
 
 
-
-        var checkFileReady = function(fileName)
-        {
+        var checkFileReady = function (fileName) {
             console.log('METHOD CALL');
-            if($scope.cancelDownload)
-            {
+            if ($scope.cancelDownload) {
                 $scope.fileDownloadState = 'RESET';
                 $scope.DownloadButtonName = 'CSV';
             }
-            else
-            {
-                cdrApiHandler.getFileMetaData(fileName).then(function(fileStatus)
-                {
-                    if(fileStatus && fileStatus.Result)
-                    {
-                        if(fileStatus.Result.Status === 'PROCESSING')
-                        {
+            else {
+                cdrApiHandler.getFileMetaData(fileName).then(function (fileStatus) {
+                    if (fileStatus && fileStatus.Result) {
+                        if (fileStatus.Result.Status === 'PROCESSING') {
                             $timeout(checkFileReady(fileName), 10000);
                         }
-                        else
-                        {
+                        else {
 
 
                             var decodedToken = loginService.getTokenDecode();
 
-                            if (decodedToken && decodedToken.company && decodedToken.tenant)
-                            {
+                            if (decodedToken && decodedToken.company && decodedToken.tenant) {
                                 $scope.currentCSVFilename = fileName;
                                 $scope.DownloadCSVFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
                                 $scope.fileDownloadState = 'READY';
@@ -63,8 +54,7 @@
                                 $scope.cancelDownload = true;
                                 $scope.buttonClass = 'fa fa-file-text';
                             }
-                            else
-                            {
+                            else {
                                 $scope.fileDownloadState = 'RESET';
                                 $scope.DownloadButtonName = 'CSV';
                             }
@@ -72,14 +62,13 @@
 
                         }
                     }
-                    else
-                    {
+                    else {
                         $scope.fileDownloadState = 'RESET';
                         $scope.DownloadButtonName = 'CSV';
                     }
 
-                }).catch(function(err)
-                {
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
                     $scope.fileDownloadState = 'RESET';
                     $scope.DownloadButtonName = 'CSV';
                 });
@@ -88,26 +77,21 @@
         };
 
 
-
-        var checkCSVGenerateAllowed = function()
-        {
-            try
-            {
+        var checkCSVGenerateAllowed = function () {
+            try {
                 var prevDay = moment().subtract(1, 'days');
 
                 var isAllowed = prevDay.isBefore($scope.obj.dayCust);
 
                 return !isAllowed;
             }
-            catch(ex)
-            {
+            catch (ex) {
                 return false;
             }
 
         };
 
-        $scope.downloadPress = function()
-        {
+        $scope.downloadPress = function () {
             $scope.fileDownloadState = 'RESET';
             $scope.DownloadButtonName = 'CSV';
             $scope.cancelDownload = true;
@@ -116,25 +100,20 @@
         };
 
 
-        $scope.getCallSummaryCustCSVDownload = function ()
-        {
-            if(checkCSVGenerateAllowed())
-            {
-                if($scope.DownloadButtonName === 'CSV')
-                {
+        $scope.getCallSummaryCustCSVDownload = function () {
+            if (checkCSVGenerateAllowed()) {
+                if ($scope.DownloadButtonName === 'CSV') {
                     $scope.cancelDownload = false;
                     $scope.buttonClass = 'fa fa-spinner fa-spin';
                 }
-                else
-                {
+                else {
                     $scope.cancelDownload = true;
                     $scope.buttonClass = 'fa fa-file-text';
                 }
 
                 $scope.DownloadButtonName = 'PROCESSING';
 
-                try
-                {
+                try {
 
                     var momentTz = moment.parseZone(new Date()).format('Z');
                     momentTz = momentTz.replace("+", "%2B");
@@ -142,52 +121,43 @@
                     var startDay = $scope.obj.dayCust + ' 00:00:00.000' + momentTz;
                     var endDay = $scope.obj.dayCust + ' 23:59:59.999' + momentTz;
 
-                    cdrApiHandler.getCallSummaryForCustDownload(startDay, endDay, 'csv', momentTz).then(function (cdrResp)
-                    {
-                        if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
-                        {
+                    cdrApiHandler.getCallSummaryForCustDownload(startDay, endDay, 'csv', momentTz).then(function (cdrResp) {
+                        if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                             var downloadFilename = cdrResp.Result;
 
                             checkFileReady(downloadFilename);
 
                         }
-                        else
-                        {
+                        else {
                             $scope.showAlert('Error', 'error', 'Error occurred while loading summary list');
                             $scope.fileDownloadState = 'RESET';
                             $scope.DownloadButtonName = 'CSV';
                         }
 
 
-                    }, function (err)
-                    {
+                    }, function (err) {
+                        loginService.isCheckResponse(err);
                         $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading summary list');
                         $scope.fileDownloadState = 'RESET';
                         $scope.DownloadButtonName = 'CSV';
                     })
                 }
-                catch (ex)
-                {
+                catch (ex) {
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading summary list');
                     $scope.fileDownloadState = 'RESET';
                     $scope.DownloadButtonName = 'CSV';
                 }
             }
-            else
-            {
+            else {
                 $scope.showAlert('Warning', 'warn', 'Downloading is only allowed for previous dates');
             }
 
         };
 
 
-
-        $scope.getCallSummary = function ()
-        {
-            if(checkCSVGenerateAllowed())
-            {
-                try
-                {
+        $scope.getCallSummary = function () {
+            if (checkCSVGenerateAllowed()) {
+                try {
                     $scope.isTableLoading = 0;
 
                     var momentTz = moment.parseZone(new Date()).format('Z');
@@ -198,39 +168,33 @@
                     var startDay = $scope.obj.dayCust + ' ' + splitHour[0] + momentTz;
                     var endDay = $scope.obj.dayCust + ' ' + splitHour[1] + momentTz;
 
-                    cdrApiHandler.getCallSummaryForCust(startDay, endDay, momentTz).then(function (cdrResp)
-                    {
-                        if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result)
-                        {
+                    cdrApiHandler.getCallSummaryForCust(startDay, endDay, momentTz).then(function (cdrResp) {
+                        if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                             $scope.callSummaryList = cdrResp.Result;
                             $scope.isTableLoading = 1;
                         }
-                        else
-                        {
+                        else {
                             $scope.showAlert('Error', 'error', 'Error occurred while loading summary list');
                             $scope.isTableLoading = 1;
                         }
 
 
-                    }, function (err)
-                    {
+                    }, function (err) {
+                        loginService.isCheckResponse(err);
                         $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading summary list');
                         $scope.isTableLoading = 1;
                     })
                 }
-                catch (ex)
-                {
+                catch (ex) {
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading summary list');
                     $scope.isTableLoading = 1;
                 }
             }
-            else
-            {
+            else {
                 $scope.showAlert('Warning', 'warn', 'Downloading is only allowed for previous dates');
             }
 
         };
-
 
 
     };

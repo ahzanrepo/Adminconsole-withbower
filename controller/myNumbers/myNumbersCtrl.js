@@ -1,12 +1,10 @@
 /**
  * Created by dinusha on 6/12/2016.
  */
-(function ()
-{
+(function () {
     var app = angular.module("veeryConsoleApp");
 
-    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi)
-    {
+    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi, loginService) {
 
         $scope.showAlert = function (title, type, content) {
 
@@ -19,94 +17,75 @@
         };
 
 
-
         $scope.newDropDownState = false;
         $scope.newDropDownStatePhoneNum = false;
         $scope.currentTrunk = {};
 
-        $scope.pressNewButtonPhoneNum = function()
-        {
-            if(!$scope.newDropDownStatePhoneNum)
-            {
+        $scope.pressNewButtonPhoneNum = function () {
+            if (!$scope.newDropDownStatePhoneNum) {
                 $scope.newDropDownStatePhoneNum = true;
             }
         };
 
-        $scope.pressNewButton = function()
-        {
-            if(!$scope.newDropDownState)
-            {
+        $scope.pressNewButton = function () {
+            if (!$scope.newDropDownState) {
                 $scope.newDropDownState = true;
             }
         };
 
-        $scope.pressCancelButton = function()
-        {
+        $scope.pressCancelButton = function () {
             $scope.newDropDownState = false;
         };
 
-        $scope.pressCancelButtonPhoneNum = function()
-        {
+        $scope.pressCancelButtonPhoneNum = function () {
             $scope.newDropDownStatePhoneNum = false;
         };
 
         $scope.phnNum = {};
         $scope.searchCriteria = "";
 
-        var resetForm = function()
-        {
+        var resetForm = function () {
             $scope.phnNum = {};
             $scope.currentTrunk = {};
             $scope.searchCriteria = "";
         };
 
-        var resetTrunkForm = function()
-        {
+        var resetTrunkForm = function () {
             $scope.currentTrunk = {};
             $scope.searchCriteria = "";
         };
 
-        var getLimits = function()
-        {
-            phnNumApiAccess.getLimits().then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+        var getLimits = function () {
+            phnNumApiAccess.getLimits().then(function (data) {
+                if (data.IsSuccess) {
                     $scope.limitList = data.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
 
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading limits";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
 
-        $scope.updateTrunk = function(trunk)
-        {
-            phnNumApiAccess.updateTrunk(trunk.EditData.id, trunk.EditData).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+        $scope.updateTrunk = function (trunk) {
+            phnNumApiAccess.updateTrunk(trunk.EditData.id, trunk.EditData).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.showAlert('Success', 'success', 'Phone number added');
 
-                    if(data.Result)
-                    {
+                    if (data.Result) {
                         trunk.TrunkName = data.Result.TrunkName;
                         trunk.IpUrl = data.Result.IpUrl;
                         trunk.TranslationId = data.Result.TranslationId;
@@ -115,63 +94,52 @@
                     }
 
                 }
-                else
-                {
+                else {
                     var errMsg = "";
-                    if(data.Exception && data.Exception.Message)
-                    {
+                    if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
                     }
 
-                    if(data.CustomMessage)
-                    {
+                    if (data.CustomMessage) {
                         errMsg = data.CustomMessage;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error updating trunk";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
 
-        var loadNumbers = function()
-        {
+        var loadNumbers = function () {
             $scope.myNumList = [];
 
-            phnNumApiAccess.getMyNumbers().then(function(data)
-            {
-                if(data.IsSuccess)
-                {
-                    data.Result.forEach(function(phn)
-                    {
+            phnNumApiAccess.getMyNumbers().then(function (data) {
+                if (data.IsSuccess) {
+                    data.Result.forEach(function (phn) {
                         phn.EditData = angular.copy(phn);
                     });
                     $scope.myNumList = data.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
 
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading numbers";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
@@ -179,28 +147,21 @@
         };
 
 
-        $scope.trunkEditMode = function(trunk, mode)
-        {
-            if(mode === 1)
-            {
-                if(trunk.OpenStatus === 1)
-                {
+        $scope.trunkEditMode = function (trunk, mode) {
+            if (mode === 1) {
+                if (trunk.OpenStatus === 1) {
                     trunk.OpenStatus = 0;
                 }
-                else
-                {
+                else {
                     trunk.OpenStatus = 1;
                 }
             }
 
-            if(mode === 2)
-            {
-                if(trunk.OpenStatus === 2)
-                {
+            if (mode === 2) {
+                if (trunk.OpenStatus === 2) {
                     trunk.OpenStatus = 0;
                 }
-                else
-                {
+                else {
                     trunk.OpenStatus = 2;
 
                     //get ip addresses
@@ -212,91 +173,74 @@
 
         };
 
-        $scope.phoneEditMode = function(phone)
-        {
-            if(phone.OpenStatus === 1)
-            {
+        $scope.phoneEditMode = function (phone) {
+            if (phone.OpenStatus === 1) {
                 phone.OpenStatus = 0;
             }
-            else
-            {
+            else {
                 phone.OpenStatus = 1;
             }
 
 
         };
 
-        $scope.addIpAddress = function(trunk)
-        {
-            phnNumApiAccess.addTrunkIpAddress(trunk.id, trunk.IpRangeData).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+        $scope.addIpAddress = function (trunk) {
+            phnNumApiAccess.addTrunkIpAddress(trunk.id, trunk.IpRangeData).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.showAlert('Success', 'success', 'Ip address added');
 
                     loadIpAddresses(trunk);
 
                     trunk.IpRangeData = {};
                 }
-                else
-                {
+                else {
                     var errMsg = "";
-                    if(data.Exception && data.Exception.Message)
-                    {
+                    if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
                     }
 
-                    if(data.CustomMessage)
-                    {
+                    if (data.CustomMessage) {
                         errMsg = data.CustomMessage;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error adding ip address";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
 
-        $scope.ipAddressDelete = function(trunk, trunkIpObj)
-        {
-            phnNumApiAccess.removeTrunkIpAddress(trunk, trunkIpObj.id).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+        $scope.ipAddressDelete = function (trunk, trunkIpObj) {
+            phnNumApiAccess.removeTrunkIpAddress(trunk, trunkIpObj.id).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.showAlert('Success', 'success', 'Ip address deleted');
 
                     loadIpAddresses(trunk);
 
                     trunk.IpRangeData = {};
                 }
-                else
-                {
+                else {
                     var errMsg = "";
-                    if(data.Exception && data.Exception.Message)
-                    {
+                    if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
                     }
 
-                    if(data.CustomMessage)
-                    {
+                    if (data.CustomMessage) {
                         errMsg = data.CustomMessage;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                     loadIpAddresses(trunk);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error adding ip address";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
@@ -307,8 +251,7 @@
         };
 
 
-        $scope.phoneNumberDelete = function(number)
-        {
+        $scope.phoneNumberDelete = function (number) {
 
             new PNotify({
                 title: 'Confirm deletion',
@@ -325,65 +268,53 @@
                 history: {
                     history: false
                 }
-            }).get().on('pnotify.confirm', function()
-                {
-                    phnNumApiAccess.removeTrunkNumber(number.PhoneNumber).then(function(data)
-                    {
-                        if(data.IsSuccess)
-                        {
-                            $scope.showAlert('Success', 'success', 'Ip address deleted');
+            }).get().on('pnotify.confirm', function () {
+                phnNumApiAccess.removeTrunkNumber(number.PhoneNumber).then(function (data) {
+                    if (data.IsSuccess) {
+                        $scope.showAlert('Success', 'success', 'Ip address deleted');
 
-                            loadNumbers();
-                        }
-                        else
-                        {
-                            var errMsg = "";
-                            if(data.Exception && data.Exception.Message)
-                            {
-                                errMsg = data.Exception.Message;
-                            }
-
-                            if(data.CustomMessage)
-                            {
-                                errMsg = data.CustomMessage;
-                            }
-                            $scope.showAlert('Error', 'error', errMsg);
+                        loadNumbers();
+                    }
+                    else {
+                        var errMsg = "";
+                        if (data.Exception && data.Exception.Message) {
+                            errMsg = data.Exception.Message;
                         }
 
-                    }, function(err)
-                    {
-                        var errMsg = "Error deleting phone number";
-                        if(err.statusText)
-                        {
-                            errMsg = err.statusText;
+                        if (data.CustomMessage) {
+                            errMsg = data.CustomMessage;
                         }
                         $scope.showAlert('Error', 'error', errMsg);
-                    });
-                }).on('pnotify.cancel', function() {
+                    }
 
+                }, function (err) {
+                    loginService.isCheckResponse(err);
+                    var errMsg = "Error deleting phone number";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
                 });
+            }).on('pnotify.cancel', function () {
+
+            });
 
 
             return false;
         };
 
-        $scope.tagAdding = function(tag)
-        {
+        $scope.tagAdding = function (tag) {
             return false;
         };
 
-        var loadIpAddresses = function(trunk)
-        {
+        var loadIpAddresses = function (trunk) {
             trunk.IpAddressList = [];
-            phnNumApiAccess.getTrunkIpAddresses(trunk.id).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
-                    if(data.Result)
-                    {
+            phnNumApiAccess.getTrunkIpAddresses(trunk.id).then(function (data) {
+                if (data.IsSuccess) {
+                    if (data.Result) {
 
 
-                        trunk.IpAddressList = data.Result.map(function(ip){
+                        trunk.IpAddressList = data.Result.map(function (ip) {
                             newIpAddressObj = ip;
                             newIpAddressObj.DisplayValue = ip.IpAddress + '/' + ip.Mask;
                             return newIpAddressObj;
@@ -392,184 +323,150 @@
 
                     //$scope.trunkList = data.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
 
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading trunk ip addresses";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
 
-        var loadTrunks = function()
-        {
+        var loadTrunks = function () {
             $scope.trunkList = [];
-            phnNumApiAccess.getTrunks().then(function(data)
-            {
-                if(data.IsSuccess)
-                {
-                    data.Result.forEach(function(trunk)
-                    {
+            phnNumApiAccess.getTrunks().then(function (data) {
+                if (data.IsSuccess) {
+                    data.Result.forEach(function (trunk) {
                         trunk.EditData = angular.copy(trunk);
                     });
                     $scope.trunkList = data.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
 
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading trunks";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
 
-        var loadTranslations = function()
-        {
-            phnNumApiAccess.getTranslations().then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+        var loadTranslations = function () {
+            phnNumApiAccess.getTranslations().then(function (data) {
+                if (data.IsSuccess) {
                     $scope.transList = data.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
 
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading translations";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
 
-        $scope.addNewTrunk = function()
-        {
-            phnNumApiAccess.addNewTrunk($scope.currentTrunk).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+        $scope.addNewTrunk = function () {
+            phnNumApiAccess.addNewTrunk($scope.currentTrunk).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.showAlert('Success', 'success', 'Phone number added');
 
                     resetTrunkForm();
 
                     loadTrunks();
                 }
-                else
-                {
+                else {
                     var errMsg = "";
-                    if(data.Exception && data.Exception.Message)
-                    {
+                    if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
                     }
 
-                    if(data.CustomMessage)
-                    {
+                    if (data.CustomMessage) {
                         errMsg = data.CustomMessage;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error saving trunk";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
 
-        $scope.addNewNumber = function()
-        {
+        $scope.addNewNumber = function () {
 
-            phnNumApiAccess.savePhoneNumber($scope.phnNum).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+            phnNumApiAccess.savePhoneNumber($scope.phnNum).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.showAlert('Success', 'success', 'Phone number added');
 
                     resetForm();
 
                     loadNumbers();
                 }
-                else
-                {
+                else {
                     var errMsg = "";
-                    if(data.Exception && data.Exception.Message)
-                    {
+                    if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
                     }
 
-                    if(data.CustomMessage)
-                    {
+                    if (data.CustomMessage) {
                         errMsg = data.CustomMessage;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error saving phone number";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
 
-        $scope.updateNumber = function(phnNum)
-        {
+        $scope.updateNumber = function (phnNum) {
 
-            phnNumApiAccess.updatePhoneNumber(phnNum.EditData).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+            phnNumApiAccess.updatePhoneNumber(phnNum.EditData).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.showAlert('Success', 'success', 'Phone number updated');
 
-                    if(data.Result)
-                    {
+                    if (data.Result) {
                         phnNum.ObjCategory = data.Result.ObjCategory;
                         phnNum.Enable = data.Result.Enable;
                         phnNum.TrunkId = data.Result.TrunkId;
@@ -578,26 +475,22 @@
                         phnNum.BothLimitId = data.Result.BothLimitId;
                     }
                 }
-                else
-                {
+                else {
                     var errMsg = "";
-                    if(data.Exception && data.Exception.Message)
-                    {
+                    if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
                     }
 
-                    if(data.CustomMessage)
-                    {
+                    if (data.CustomMessage) {
                         errMsg = data.CustomMessage;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error saving phone number";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
@@ -617,13 +510,23 @@
         $scope.selectedCountry = undefined;
         $scope.searchQ = {};
         $scope.searchQ.isTableLoading = 0;
-        $scope.didTypes = [{group: "VOXDID", items: [{key:"Geographic", value:"GEOGRAPHIC"}, {key:"National", value:"NATIONAL"}, {key:"Mobile", value:"MOBILE"}, {key:"Nomadic", value:"INUM"}]}, {group: "VOX800", items: [{key:"Toll-free", value:"TOLL_FREE"}, {key:"Shared Cost", value:"SHARED_COST"}, {key:"Special", value:"SPECIAL"}]}];
+        $scope.didTypes = [{group: "VOXDID",
+            items: [{key: "Geographic", value: "GEOGRAPHIC"}, {key: "National", value: "NATIONAL"}, {
+                key: "Mobile",
+                value: "MOBILE"
+            }, {key: "Nomadic", value: "INUM"}]
+        }, {group: "VOX800",
+            items: [{key: "Toll-free", value: "TOLL_FREE"}, {key: "Shared Cost", value: "SHARED_COST"}, {
+                key: "Special",
+                value: "SPECIAL"
+            }]
+        }];
         $scope.voxDidGroupList = [];
         $scope.pageNumber = 0;
         $scope.pageSize = 10;
         $scope.numberOfPages = 0;
 
-        $scope.dtOptions = { paging: false, searching: false, info: false, order: [1, 'asc'] };
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [1, 'asc']};
         $scope.pagination = {
             currentPage: 1,
             maxSize: 5,
@@ -631,10 +534,10 @@
             itemsPerPage: 10
         };
 
-        $scope.selectVoxDidGroup = function(voxDidGroup){
-            if(voxDidGroup) {
+        $scope.selectVoxDidGroup = function (voxDidGroup) {
+            if (voxDidGroup) {
                 $scope.selectedVoxDidGroup = voxDidGroup;
-                $scope.order.customerReference = 'ref:'+voxDidGroup.didGroupId;
+                $scope.order.customerReference = 'ref:' + voxDidGroup.didGroupId;
                 $scope.order.quantity = 1;
                 $scope.order.didGroupId = voxDidGroup.didGroupId;
                 $location.hash('voxDidLimitScroll');
@@ -642,16 +545,15 @@
             }
         };
 
-        $scope.selectCountry = function(country){
-            if(country) {
+        $scope.selectCountry = function (country) {
+            if (country) {
                 $scope.selectedCountry = country;
                 $scope.order.countryCodeA3 = country.countryCodeA3;
                 $scope.loadStates(country.countryCodeA3);
             }
         };
 
-        $scope.pageChanged = function()
-        {
+        $scope.pageChanged = function () {
             $scope.loadDidGroups();
         };
 
@@ -663,109 +565,100 @@
             getterSetter: true
         };
 
-        $scope.clearOrder = function(){
+        $scope.clearOrder = function () {
             $scope.searchQ.isTableLoading = 0;
-            $scope.order = {countryCodeA3:$scope.order.countryCodeA3};
+            $scope.order = {countryCodeA3: $scope.order.countryCodeA3};
             $scope.selectedVoxDidGroup = undefined;
             $location.hash('voxDidTop');
             $anchorScroll();
 
         };
 
-        $scope.initiateOrder = function(){
-            voxboneApi.OrderDid('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.order).then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.initiateOrder = function () {
+            voxboneApi.OrderDid('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.order).then(function (response) {
+                if (response.IsSuccess) {
                     var jResult = JSON.parse(response.Result);
                     var result = jResult.productCheckoutList[0];
                     $scope.showAlert("Voxbone", "success", result.message);
                 }
-                else
-                {
-                    if(Array.isArray(response.Result)){
+                else {
+                    if (Array.isArray(response.Result)) {
                         $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
-                    }else {
+                    } else {
                         var errMsg = response.CustomMessage;
 
-                        if(response.Exception)
-                        {
+                        if (response.Exception) {
                             errMsg = response.Exception.Message;
                         }
                         $scope.showAlert("Voxbone", 'error', errMsg);
                     }
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while initiate order";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Voxbone', 'error', errMsg);
             });
         };
 
-        $scope.loadStates = function(countryCode){
-            voxboneApi.GetStates('Basic bXVodW50aGFuOkR1b0AxMjM0', countryCode).then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadStates = function (countryCode) {
+            voxboneApi.GetStates('Basic bXVodW50aGFuOkR1b0AxMjM0', countryCode).then(function (response) {
+                if (response.IsSuccess) {
                     var jResult = JSON.parse(response.Result);
                     $scope.states = jResult;
                 }
-                else
-                {
-                    if(Array.isArray(response.Result)){
+                else {
+                    if (Array.isArray(response.Result)) {
                         $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
-                    }else {
+                    } else {
                         var errMsg = response.CustomMessage;
 
-                        if(response.Exception)
-                        {
+                        if (response.Exception) {
                             errMsg = response.Exception.Message;
                         }
                         $scope.showAlert("Voxbone", 'error', errMsg);
                     }
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading States";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Voxbone', 'error', errMsg);
             });
         };
 
-        $scope.loadCountryCodes = function(){
-            voxboneApi.GetCountryCodes('Basic bXVodW50aGFuOkR1b0AxMjM0', 0, 500).then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadCountryCodes = function () {
+            voxboneApi.GetCountryCodes('Basic bXVodW50aGFuOkR1b0AxMjM0', 0, 500).then(function (response) {
+                if (response.IsSuccess) {
                     var jResult = JSON.parse(response.Result);
                     $scope.countries = jResult.countries;
                     $scope.autoCompletePlaceHolder = "Select Your Country";
                     /*$scope.countries.map( function (country) {
-                        return {
-                            country: country
-                        };
-                    });*/
+                     return {
+                     country: country
+                     };
+                     });*/
                 }
-                else
-                {
-                    if(Array.isArray(response.Result)){
+                else {
+                    if (Array.isArray(response.Result)) {
                         $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
-                    }else {
+                    } else {
                         var errMsg = response.CustomMessage;
 
-                        if(response.Exception)
-                        {
+                        if (response.Exception) {
                             errMsg = response.Exception.Message;
                         }
                         $scope.showAlert("Voxbone", 'error', errMsg);
                     }
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading Country Codes";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Voxbone', 'error', errMsg);
@@ -773,10 +666,10 @@
         };
         $scope.loadCountryCodes();
 
-        $scope.loadDidGroups = function(){
+        $scope.loadDidGroups = function () {
             console.log($scope.selectedCountry);
 
-            if($scope.searchQ.selectedCity && $scope.searchQ.selectedCity !== "All"){
+            if ($scope.searchQ.selectedCity && $scope.searchQ.selectedCity !== "All") {
                 voxboneApi.FilterDidsFormState('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.searchQ.selectedCity, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
                     if (response.IsSuccess) {
                         if (response.Result) {
@@ -803,13 +696,14 @@
                         $scope.showAlert('DID Group List', errMsg, 'error');
                     }
                 }, function (err) {
+                    loginService.isCheckResponse(err);
                     var errMsg = "Error occurred while loading DID groups";
                     if (err.statusText) {
                         errMsg = err.statusText;
                     }
                     $scope.showAlert('DID Group List', errMsg, 'error');
                 });
-            }else {
+            } else {
                 voxboneApi.FilterDidsFormType('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
                     if (response.IsSuccess) {
                         if (response.Result) {
@@ -836,6 +730,7 @@
                         $scope.showAlert('DID Group List', errMsg, 'error');
                     }
                 }, function (err) {
+                    loginService.isCheckResponse(err);
                     var errMsg = "Error occurred while loading DID groups";
                     if (err.statusText) {
                         errMsg = err.statusText;
@@ -846,7 +741,6 @@
         };
 
     };
-
 
 
     app.controller("myNumbersCtrl", myNumbersCtrl);

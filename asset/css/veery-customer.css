@@ -1,5 +1,7 @@
+@import url("../fonts/font.css");
 body {
     overflow-x: hidden;
+    font-family: 'Ubuntu-Regular', sans-serif;
 }
 
 .introLoader,
@@ -3863,8 +3865,6 @@ footer {
 }
 
 
-    margin-right:10px;
-}
 
 .selectRow {
     display : block;
