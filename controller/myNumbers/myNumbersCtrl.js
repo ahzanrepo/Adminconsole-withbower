@@ -757,6 +757,7 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
                 var jResult = JSON.parse(response.Result);
                 var result = jResult.productCheckoutList[0];
                 $scope.showAlert("Voxbone", "success", result.message);
+                $scope.closeModal();
             }
             else {
                 if (Array.isArray(response.Result)) {
