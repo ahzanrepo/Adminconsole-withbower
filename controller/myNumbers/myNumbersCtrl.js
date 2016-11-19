@@ -539,6 +539,7 @@
                 $scope.selectedVoxDidGroup = voxDidGroup;
                 $scope.order.customerReference = 'ref:' + voxDidGroup.didGroupId;
                 $scope.order.quantity = 1;
+                $scope.order.didGroup = voxDidGroup;
                 $scope.order.didGroupId = voxDidGroup.didGroupId;
                 $location.hash('voxDidLimitScroll');
                 $anchorScroll();
@@ -574,34 +575,21 @@
 
         };
 
-        $scope.initiateOrder = function () {
-            voxboneApi.OrderDid('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.order).then(function (response) {
-                if (response.IsSuccess) {
-                    var jResult = JSON.parse(response.Result);
-                    var result = jResult.productCheckoutList[0];
-                    $scope.showAlert("Voxbone", "success", result.message);
-                }
-                else {
-                    if (Array.isArray(response.Result)) {
-                        $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
-                    } else {
-                        var errMsg = response.CustomMessage;
-
-                        if (response.Exception) {
-                            errMsg = response.Exception.Message;
-                        }
-                        $scope.showAlert("Voxbone", 'error', errMsg);
+        $scope.showModal = function () {
+            //modal show
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/mynumbers/voxNumberConfirmation.html',
+                controller: 'voxNumberConfirmModalController',
+                size: 'sm',
+                resolve: {
+                    order: function () {
+                        return $scope.order;
                     }
                 }
-            }, function (err) {
-                loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while initiate order";
-                if (err.statusText) {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('Voxbone', 'error', errMsg);
             });
         };
+
 
         $scope.loadStates = function (countryCode) {
             voxboneApi.GetStates('Basic bXVodW50aGFuOkR1b0AxMjM0', countryCode).then(function (response) {
@@ -745,3 +733,57 @@
 
     app.controller("myNumbersCtrl", myNumbersCtrl);
 }());
+
+
+
+mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModalInstance, order, voxboneApi) {
+    $scope.showModal = true;
+    $scope.order = order;
+
+    $scope.showAlert = function (title, content, type) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
+
+    $scope.initiateOrder = function () {
+        voxboneApi.OrderDid('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.order).then(function (response) {
+            if (response.IsSuccess) {
+                var jResult = JSON.parse(response.Result);
+                var result = jResult.productCheckoutList[0];
+                $scope.showAlert("Voxbone", "success", result.message);
+            }
+            else {
+                if (Array.isArray(response.Result)) {
+                    $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+                } else {
+                    var errMsg = response.CustomMessage;
+
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert("Voxbone", 'error', errMsg);
+                }
+            }
+        }, function (err) {
+            loginService.isCheckResponse(err);
+            var errMsg = "Error occurred while initiate order";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Voxbone', 'error', errMsg);
+        });
+    };
+
+    $scope.closeModal = function () {
+        $uibModalInstance.dismiss('cancel');
+        //reloadPage();
+    }
+
+
+});
