@@ -1,14 +1,14 @@
 /**
  * Created by Pawan on 6/13/2016.
  */
-mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBackendService) {
+mainApp.controller("holdMusicController", function ($scope, $state, holdMusicBackendService, loginService) {
 
-    $scope.holdMusicList=[];
+    $scope.holdMusicList = [];
     $scope.holdMusicFiles = [];
     $scope.addNew = false;
     $scope.searchCriteria = "";
 
-    $scope.showAlert = function (title,content,type) {
+    $scope.showAlert = function (title, content, type) {
 
         new PNotify({
             title: title,
@@ -21,38 +21,36 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
     $scope.GetHoldMusic = function () {
         holdMusicBackendService.getHoldMusic().then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
-                console.info("Error in picking Hold Music list "+response.data.Exception);
+            if (!response.data.IsSuccess) {
+                console.info("Error in picking Hold Music list " + response.data.Exception);
             }
-            else
-            {
+            else {
                 $scope.holdMusicList = response.data.Result;
                 //$scope.MasterAppList = response.data.Result;
             }
 
-        }), function (error) {
-            console.info("Error in picking Hold music  "+error);
-        }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in picking Hold music  " + error);
+        });
     };
 
     $scope.GetHoldMusicFiles = function () {
         holdMusicBackendService.getHoldMusicFiles().then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
-                console.info("Error in picking Hold Music list "+response.data.Exception);
+            if (!response.data.IsSuccess) {
+                console.info("Error in picking Hold Music list " + response.data.Exception);
             }
-            else
-            {
+            else {
                 $scope.holdMusicFiles = response.data.Result;
                 $scope.addNew = !$scope.addNew;
                 //$scope.MasterAppList = response.data.Result;
             }
 
-        }), function (error) {
-            console.info("Error in picking Hold music  "+error);
-        }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in picking Hold music  " + error);
+        });
     };
 
     $scope.addHoldMusic = function () {
@@ -65,37 +63,35 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
 
     $scope.saveHoldMusic = function (resource) {
 
-        if($scope.newHoldMusic.AnnouncementTime==""|| $scope.newHoldMusic.AnnouncementTime==null)
-        {
-            $scope.newHoldMusic.AnnouncementTime=0;
+        if ($scope.newHoldMusic.AnnouncementTime == "" || $scope.newHoldMusic.AnnouncementTime == null) {
+            $scope.newHoldMusic.AnnouncementTime = 0;
         }
 
         holdMusicBackendService.saveHoldMusicFiles(resource).then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
-                console.info("Error in adding new Hold Music "+response.data.Exception);
-                $scope.showAlert("Error","Error in saving ","error");
+            if (!response.data.IsSuccess) {
+                console.info("Error in adding new Hold Music " + response.data.Exception);
+                $scope.showAlert("Error", "Error in saving ", "error");
             }
-            else
-            {
+            else {
                 $scope.addNew = !response.data.IsSuccess;
 
                 $scope.holdMusicList.splice(0, 0, response.data.Result);
-                $scope.newHoldMusic={};
-                $scope.showAlert("Success","Saving succeeded","success");
+                $scope.newHoldMusic = {};
+                $scope.showAlert("Success", "Saving succeeded", "success");
                 $scope.searchCriteria = "";
 
 
             }
 
         }, function (error) {
-            console.info("Exception in adding new Hold Music "+error);
-            $scope.showAlert("Error","Error in saving ","error");
+            loginService.isCheckResponse(error);
+            console.info("Exception in adding new Hold Music " + error);
+            $scope.showAlert("Error", "Error in saving ", "error");
         });
     };
 
-    $scope.reloadMusicListPage= function () {
+    $scope.reloadMusicListPage = function () {
         $state.reload();
     };
 
@@ -105,28 +101,24 @@ mainApp.controller("holdMusicController", function ($scope,$state, holdMusicBack
         var index = $scope.holdMusicList.indexOf(item);
         if (index != -1) {
             $scope.holdMusicList.splice(index, 1);
-            $scope.showAlert("Success","Successfully removed","success");
+            $scope.showAlert("Success", "Successfully removed", "success");
         }
-        else
-        {
-            $scope.showAlert("Error","Error in removing ","error");
+        else {
+            $scope.showAlert("Error", "Error in removing ", "error");
         }
 
     };
 
     $scope.GetHoldMusic();
 
-    $scope.makeFirstAnnounementEmpty =function()
-    {
-        $scope.newHoldMusic.FirstAnnounement =null;
+    $scope.makeFirstAnnounementEmpty = function () {
+        $scope.newHoldMusic.FirstAnnounement = null;
     };
-    $scope.makeMOHEmpty=function()
-    {
-        $scope.newHoldMusic.MOH =null;
+    $scope.makeMOHEmpty = function () {
+        $scope.newHoldMusic.MOH = null;
     };
-    $scope.makeAnnouncementEmpty=function()
-    {
-        $scope.newHoldMusic.Announcement =null;
+    $scope.makeAnnouncementEmpty = function () {
+        $scope.newHoldMusic.Announcement = null;
     };
 
 });

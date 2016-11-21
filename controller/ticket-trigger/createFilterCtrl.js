@@ -5,7 +5,7 @@
 (function () {
     var app = angular.module('veeryConsoleApp');
 
-    var createFilterCtrl = function ($scope, $http, $filter, ticketFilterService) {
+    var createFilterCtrl = function ($scope, $http, $filter, ticketFilterService, loginService) {
 
         //get all filed and types
         $scope.conditiones = [
@@ -21,7 +21,7 @@
 
         $scope.searchCriteria = "";
 
-        $scope.showAlert = function (title,content,type) {
+        $scope.showAlert = function (title, content, type) {
 
             new PNotify({
                 title: title,
@@ -34,9 +34,9 @@
         $scope.moment = moment;
 
         $scope.currentFilter = {
-            conditions:{
-                all:[],
-                any:[]
+            conditions: {
+                all: [],
+                any: []
             }
         };
 
@@ -71,6 +71,7 @@
                 $scope.currentFilter.conditions.all.push(obj);
             }
         }, function (error) {
+            loginService.isCheckResponse(err);
             console.log(error);
         });
 
@@ -96,49 +97,37 @@
 
         };
 
-        var cleanUpEmptyFilters = function(currentFilter)
-        {
+        var cleanUpEmptyFilters = function (currentFilter) {
             var cloneFilter = {};
 
             angular.copy(currentFilter, cloneFilter);
-            if(cloneFilter)
-            {
-                if(cloneFilter.conditions.all)
-                {
-                    var allFilterArr = cloneFilter.conditions.all.filter(function(item)
-                    {
-                        if(item.field && item.operator && item.value !== '' && item.value !== null)
-                        {
+            if (cloneFilter) {
+                if (cloneFilter.conditions.all) {
+                    var allFilterArr = cloneFilter.conditions.all.filter(function (item) {
+                        if (item.field && item.operator && item.value !== '' && item.value !== null) {
                             return true;
                         }
-                        else
-                        {
+                        else {
                             return false;
                         }
                     })
 
-                    if(allFilterArr && allFilterArr.length > 0)
-                    {
+                    if (allFilterArr && allFilterArr.length > 0) {
                         cloneFilter.conditions.all = allFilterArr;
                     }
                 }
 
-                if(cloneFilter.conditions.any)
-                {
-                    var anyFilterArr = cloneFilter.conditions.any.filter(function(item)
-                    {
-                        if(item.field && item.operator && item.value !== '' && item.value !== null)
-                        {
+                if (cloneFilter.conditions.any) {
+                    var anyFilterArr = cloneFilter.conditions.any.filter(function (item) {
+                        if (item.field && item.operator && item.value !== '' && item.value !== null) {
                             return true;
                         }
-                        else
-                        {
+                        else {
                             return false;
                         }
                     })
 
-                    if(anyFilterArr && anyFilterArr.length > 0)
-                    {
+                    if (anyFilterArr && anyFilterArr.length > 0) {
                         cloneFilter.conditions.any = anyFilterArr;
                     }
                 }
@@ -149,54 +138,44 @@
         };
 
 
-        $scope.saveFilter = function()
-        {
+        $scope.saveFilter = function () {
             //create body
             var curFilter = cleanUpEmptyFilters($scope.currentFilter);
 
-            if($scope.IsNewFilterSchema)
-            {
+            if ($scope.IsNewFilterSchema) {
 
                 //save
-                ticketFilterService.addTicketView(curFilter).then(function(addResult)
-                {
-                    if(addResult.IsSuccess)
-                    {
+                ticketFilterService.addTicketView(curFilter).then(function (addResult) {
+                    if (addResult.IsSuccess) {
                         $scope.showAlert('Success', 'Filter Saved Successfully', 'info');
                         $scope.searchCriteria = "";
 
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('Error', 'Filter Save Failed', 'error');
                     }
 
-                }, function(err)
-                {
+                }, function (err) {
+                    loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'Filter Save Failed', 'error');
                 });
             }
-            else
-            {
+            else {
                 //update
-                ticketFilterService.updateTicketViewById(curFilter._id, curFilter).then(function(updateResult)
-                {
-                    if(updateResult.IsSuccess)
-                    {
+                ticketFilterService.updateTicketViewById(curFilter._id, curFilter).then(function (updateResult) {
+                    if (updateResult.IsSuccess) {
                         $scope.showAlert('Success', 'Filter Updated Successfully', 'info');
 
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('Error', 'Filter Update Failed', 'error');
                     }
 
-                }, function(err)
-                {
+                }, function (err) {
+                    loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'Filter Update Failed', 'error');
                 });
             }
-
 
 
         };
@@ -235,21 +214,17 @@
 
             selectedField.value = "";
 
-            var filteredObj = $scope.data.filter(function (item)
-            {
-                if (item.field === selectedField.field)
-                {
+            var filteredObj = $scope.data.filter(function (item) {
+                if (item.field === selectedField.field) {
                     return true;
                 }
-                else
-                {
+                else {
                     return false;
                 }
 
             });
 
-            if(filteredObj && filteredObj.length > 0)
-            {
+            if (filteredObj && filteredObj.length > 0) {
                 selectedField.type = filteredObj[0].type;
 
                 selectedField.selectedValues = [];
@@ -263,16 +238,15 @@
 
         };
 
-        $scope.loadNewTicketView = function()
-        {
+        $scope.loadNewTicketView = function () {
             $scope.IsNewFilterSchema = true;
             $scope.currentFilter = {
                 uniqueId: guid()
             };
 
             $scope.currentFilter.conditions = {
-                all:[],
-                any:[]
+                all: [],
+                any: []
             };
 
             var emptyAllFilterObj = {
@@ -292,42 +266,30 @@
         };
 
 
-        $scope.loadSpecificTicketView = function(id)
-        {
+        $scope.loadSpecificTicketView = function (id) {
             $scope.IsNewFilterSchema = false;
-            ticketFilterService.getTicketViewById(id).then(function(ticketFilter)
-            {
-                if(ticketFilter.Result)
-                {
+            ticketFilterService.getTicketViewById(id).then(function (ticketFilter) {
+                if (ticketFilter.Result) {
                     $scope.currentFilter = ticketFilter.Result;
 
-                    if($scope.currentFilter.conditions)
-                    {
-                        if(!$scope.currentFilter.conditions.all)
-                        {
+                    if ($scope.currentFilter.conditions) {
+                        if (!$scope.currentFilter.conditions.all) {
                             $scope.currentFilter.conditions.all = [];
                         }
-                        else
-                        {
-                            if($scope.currentFilter.conditions.all.length > 0)
-                            {
-                                $scope.currentFilter.conditions.all.forEach(function(selectedField)
-                                {
-                                    var filteredObj = $scope.data.filter(function (item)
-                                    {
-                                        if (item.field === selectedField.field)
-                                        {
+                        else {
+                            if ($scope.currentFilter.conditions.all.length > 0) {
+                                $scope.currentFilter.conditions.all.forEach(function (selectedField) {
+                                    var filteredObj = $scope.data.filter(function (item) {
+                                        if (item.field === selectedField.field) {
                                             return true;
                                         }
-                                        else
-                                        {
+                                        else {
                                             return false;
                                         }
 
                                     });
 
-                                    if(filteredObj && filteredObj.length > 0)
-                                    {
+                                    if (filteredObj && filteredObj.length > 0) {
                                         selectedField.type = filteredObj[0].type;
 
                                         selectedField.selectedValues = [];
@@ -341,31 +303,23 @@
                             }
                         }
 
-                        if(!$scope.currentFilter.conditions.any)
-                        {
+                        if (!$scope.currentFilter.conditions.any) {
                             $scope.currentFilter.conditions.any = [];
                         }
-                        else
-                        {
-                            if($scope.currentFilter.conditions.any.length > 0)
-                            {
-                                $scope.currentFilter.conditions.any.forEach(function(selectedField)
-                                {
-                                    var filteredObj = $scope.data.filter(function (item)
-                                    {
-                                        if (item.field === selectedField.field)
-                                        {
+                        else {
+                            if ($scope.currentFilter.conditions.any.length > 0) {
+                                $scope.currentFilter.conditions.any.forEach(function (selectedField) {
+                                    var filteredObj = $scope.data.filter(function (item) {
+                                        if (item.field === selectedField.field) {
                                             return true;
                                         }
-                                        else
-                                        {
+                                        else {
                                             return false;
                                         }
 
                                     });
 
-                                    if(filteredObj && filteredObj.length > 0)
-                                    {
+                                    if (filteredObj && filteredObj.length > 0) {
                                         selectedField.type = filteredObj[0].type;
 
                                         selectedField.selectedValues = [];
@@ -379,11 +333,10 @@
                             }
                         }
                     }
-                    else
-                    {
+                    else {
                         $scope.currentFilter.conditions = {
-                            all:[],
-                            any:[]
+                            all: [],
+                            any: []
                         }
                     }
 
@@ -401,14 +354,13 @@
 
                     $scope.isNewView = !$scope.isNewView;
                 }
-                else
-                {
+                else {
                     //TODO:route back to list page
                     $scope.showAlert('Error', 'Ticket Filter Not Found', 'error');
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 //TODO:route back to list page
                 $scope.showAlert('Error', 'Error loading ticket filter', 'error');
             });
@@ -424,7 +376,7 @@
 
 
         }, function (error) {
-
+            loginService.isCheckResponse(err);
         });//end
 
         $scope.isNewView = false;

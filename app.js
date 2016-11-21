@@ -29,7 +29,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'datatables',
     'satellizer',
     'checklist-model',
-    'vcRecaptcha','angucomplete-alt'
+    'vcRecaptcha', 'angucomplete-alt'
 ]);
 
 
@@ -65,7 +65,7 @@ var baseUrls = {
     'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
-    'voxboneApiUrl': 'http://localhost:8832/DVP/API/1.0.0.0/voxbone/'
+    'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -146,7 +146,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/console",
             templateUrl: "views/main-home.html",
             data: {
-                requireLogin: true
+                requireLogin: true,
             }
         }).state('console.dashboard', {
             url: "/dashboard",
@@ -510,15 +510,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
 
         }).state('console.myprofile', {
-                url: "/myprofile",
-                templateUrl: "views/myUserprofile/myUserprofile.html",
+            url: "/myprofile",
+            templateUrl: "views/myUserprofile/myUserprofile.html",
 
-                data: {
-                    requireLogin: true,
-                    navigation: "MYPROFILE"
-                }
+            data: {
+                requireLogin: true,
+                navigation: "MYPROFILE"
+            }
 
-            })
+        })
             .state('console.did', {
                 url: "/didnumbers",
                 templateUrl: "views/did/did.html",
@@ -762,7 +762,7 @@ mainApp.constant('config', {
 });
 
 
-mainApp.run(function ($rootScope, loginService, $location, $auth) {
+mainApp.run(function ($rootScope, loginService, $location, $auth,$state) {
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
@@ -781,7 +781,7 @@ mainApp.run(function ($rootScope, loginService, $location, $auth) {
         if (requireLogin) {
             if (!$auth.isAuthenticated()) {
                 event.preventDefault();
-                $location.path("/login");
+                $state.go("login");
             }
             // get me a login modal!
         }

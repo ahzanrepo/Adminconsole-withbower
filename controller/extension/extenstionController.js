@@ -2,20 +2,20 @@
  * Created by Pawan on 6/17/2016.
  */
 
-mainApp.controller("extensionController", function ($scope,$state, extensionBackendService) {
+mainApp.controller("extensionController", function ($scope, $state, extensionBackendService, loginService) {
 
 
-    $scope.Extensions=[];
-    $scope.AppList=[];
-    $scope.newApplication={};
+    $scope.Extensions = [];
+    $scope.AppList = [];
+    $scope.newApplication = {};
     $scope.addNew = false;
-    $scope.MasterAppList=[];
-    $scope.IsDeveloper=false;
-    $scope.Developers=[];
+    $scope.MasterAppList = [];
+    $scope.IsDeveloper = false;
+    $scope.Developers = [];
     $scope.searchCriteria = "";
 
 
-    $scope.showAlert = function (title,content,type) {
+    $scope.showAlert = function (title, content, type) {
 
         new PNotify({
             title: title,
@@ -24,7 +24,6 @@ mainApp.controller("extensionController", function ($scope,$state, extensionBack
             styling: 'bootstrap3'
         });
     };
-
 
 
     $scope.removeDeleted = function (item) {
@@ -41,53 +40,50 @@ mainApp.controller("extensionController", function ($scope,$state, extensionBack
 
 
     $scope.cancleEdit = function () {
-        $scope.addNew=false;
+        $scope.addNew = false;
     };
-
 
 
     // $scope.GetApplications();
 
-    $scope.addNewExtension= function (resource) {
+    $scope.addNewExtension = function (resource) {
 
         $scope.extension = resource;
         $scope.extension.Enabled = true;
         $scope.extension.DodActive = true;
         extensionBackendService.saveNewExtension(resource).then(function (response) {
-            if(response.data.IsSuccess)
-            {
+            if (response.data.IsSuccess) {
                 console.log("Extension added successfully");
-                extensionBackendService.assignDodToExtension(response.data.Result.id,resource.DodNumber).then(function (response) {
+                extensionBackendService.assignDodToExtension(response.data.Result.id, resource.DodNumber).then(function (response) {
 
-                    if(response.data.IsSuccess)
-                    {
+                    if (response.data.IsSuccess) {
                         console.log("Dod assigned to Extension");
-                        $scope.showAlert("Success","Extension saved successfully","success");
+                        $scope.showAlert("Success", "Extension saved successfully", "success");
                         $scope.searchCriteria = "";
                         $scope.reloadPage();
                     }
-                    else
-                    {
-                        console.log("Error in assigning DOD to Extension ",response.data.Exception.Message);
-                        $scope.showAlert("Error","Extension saving failed ","error");
+                    else {
+                        console.log("Error in assigning DOD to Extension ", response.data.Exception.Message);
+                        $scope.showAlert("Error", "Extension saving failed ", "error");
                         $scope.reloadPage();
                     }
                 }, function (error) {
-                    console.log("Extension in assigning DOD to Extension ",error);
-                    $scope.showAlert("Error","Extension saving error ","error");
+                    loginService.isCheckResponse(error);
+                    console.log("Extension in assigning DOD to Extension ", error);
+                    $scope.showAlert("Error", "Extension saving error ", "error");
                     $scope.reloadPage();
                 });
             }
-            else
-            {
-                $scope.showAlert("Error","Extension saving error ","error");
-                console.log("Extension saving error ",response.data.Exception.Message);
+            else {
+                $scope.showAlert("Error", "Extension saving error ", "error");
+                console.log("Extension saving error ", response.data.Exception.Message);
                 $scope.reloadPage();
             }
 
 
         }, function (error) {
-            $scope.showAlert("Error","Extension saving error ","error");
+            loginService.isCheckResponse(error);
+            $scope.showAlert("Error", "Extension saving error ", "error");
             $scope.reloadPage();
         });
     };
@@ -96,23 +92,21 @@ mainApp.controller("extensionController", function ($scope,$state, extensionBack
     $scope.GetExtensions = function () {
         extensionBackendService.getExtensions().then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
-                console.info("Error in picking limit list "+response.data.Exception.Message);
+            if (!response.data.IsSuccess) {
+                console.info("Error in picking limit list " + response.data.Exception.Message);
             }
-            else
-            {
+            else {
                 $scope.Extensions = response.data.Result;
                 console.log($scope.Extensions);
                 //$scope.MasterAppList = response.data.Result;
             }
 
-        }), function (error) {
-            console.info("Error in picking App service "+error);
-        }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in picking App service " + error);
+        });
     };
     $scope.GetExtensions();
-
 
 
 });

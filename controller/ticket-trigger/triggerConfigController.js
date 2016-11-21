@@ -5,6 +5,7 @@
     var app =angular.module('veeryConsoleApp');
 
     var triggerConfigController = function ($scope, $state, $stateParams, triggerApiAccess,
+                                            loginService,
                                             triggerUserServiceAccess, triggerTemplateServiceAccess,
                                             triggerArdsServiceAccess) {
         $scope.title = $stateParams.title;
@@ -108,6 +109,7 @@
                     $scope.showAlert('Filter', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading filters";
                 if(err.statusText)
                 {
@@ -134,6 +136,7 @@
                     $scope.showAlert('Filter', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading filters";
                 if(err.statusText)
                 {
@@ -160,6 +163,7 @@
                     $scope.showAlert('Trigger Actions', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading trigger actions";
                 if(err.statusText)
                 {
@@ -186,6 +190,7 @@
                     $scope.showAlert('Trigger Operations', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading trigger operations";
                 if(err.statusText)
                 {
@@ -212,6 +217,7 @@
                     $scope.showAlert('Users', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading users";
                 if(err.statusText)
                 {
@@ -238,6 +244,7 @@
                     $scope.showAlert('User Groups', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading user groups";
                 if(err.statusText)
                 {
@@ -277,6 +284,7 @@
                     $scope.showAlert('Attributes', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading attributes";
                 if(err.statusText)
                 {
@@ -303,6 +311,7 @@
                     $scope.showAlert('Template', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading templates";
                 if(err.statusText)
                 {
@@ -382,6 +391,7 @@
                     $scope.showAlert('Trigger Action', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving trigger action";
                 if(err.statusText)
                 {
@@ -419,6 +429,7 @@
                             $scope.showAlert('Trigger Filter', errMsg, 'error');
                         }
                     }, function(err){
+                        loginService.isCheckResponse(err);
                         var errMsg = "Error occurred while saving trigger filters";
                         if(err.statusText)
                         {
@@ -445,6 +456,7 @@
                             $scope.showAlert('Trigger Filter', errMsg, 'error');
                         }
                     }, function(err){
+                        loginService.isCheckResponse(err);
                         var errMsg = "Error occurred while saving trigger filters";
                         if(err.statusText)
                         {
@@ -477,6 +489,7 @@
                     $scope.showAlert('Trigger Operation', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving trigger operation";
                 if(err.statusText)
                 {

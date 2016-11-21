@@ -2,7 +2,9 @@
  * Created by Damith on 9/28/2016.
  */
 
-mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGroupingConstants, userProfileApiAccess, timerServiceAccess) {
+mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGroupingConstants, userProfileApiAccess,
+                                              loginService,
+                                              timerServiceAccess) {
 
 
     $scope.showAlert = function (tittle, type, msg) {
@@ -84,6 +86,7 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
                 $scope.showAlert('Error', 'error', 'Load User Data Failed');
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             var errMsg = "Get User Data Failed";
             if (err.statusText) {
                 errMsg = err.statusText;
@@ -115,6 +118,7 @@ mainApp.controller('timeSheetCtrl', function ($scope, $http, $interval, uiGridGr
                 $scope.showAlert('Error', 'error', 'Load User Data Failed');
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             var errMsg = "Search Timers Failed";
             if (err.statusText) {
                 errMsg = err.statusText;

@@ -6,7 +6,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var pbxCtrl = function ($scope, $rootScope, $uibModal, pbxUserApiHandler) {
+    var pbxCtrl = function ($scope, $rootScope, $uibModal, pbxUserApiHandler, loginService) {
 
         $scope.showAlert = function (title, type, content) {
 
@@ -51,6 +51,7 @@
                 $scope.sipUserList = data.Result;
 
             }, function (err) {
+                loginService.isCheckResponse(err);
                 $scope.showAlert('Error', 'error', 'Error loading user list');
 
             });
@@ -71,6 +72,7 @@
                 }
 
             }).catch(function (err) {
+                loginService.isCheckResponse(err);
                 $scope.showAlert('Error', 'error', 'User validation failed');
                 $scope.allowAdd = false;
 
@@ -140,6 +142,7 @@
                 }
 
             }, function (err) {
+                loginService.isCheckResponse(err);
                 $scope.showAlert('Error', 'error', 'Communication Error Occurred');
             });
 
@@ -188,24 +191,24 @@
         $scope.deleteUser = function (userUuid) {
             pbxUserApiHandler.deletePABXUser(userUuid)
                 .then(function (data) {
-                        if (data.IsSuccess) {
-                            $scope.reloadUserList();
-                            $scope.$emit('PABX_ResetForms', null);
+                    if (data.IsSuccess) {
+                        $scope.reloadUserList();
+                        $scope.$emit('PABX_ResetForms', null);
+                    }
+                    else {
+                        var errMsg = data.CustomMessage;
+
+                        if (data.Exception) {
+                            errMsg = data.Exception.Message;
                         }
-                        else {
-                            var errMsg = data.CustomMessage;
+                        $scope.showAlert('Error', 'error', errMsg);
+                    }
 
-                            if (data.Exception) {
-                                errMsg = data.Exception.Message;
-                            }
-                            $scope.showAlert('Error', 'error', errMsg);
-                        }
+                }, function (err) {
+                    loginService.isCheckResponse(err);
+                    $scope.showAlert('Error', 'error', 'Communication error occurred while deleting');
 
-                    },
-                    function (err) {
-                        $scope.showAlert('Error', 'error', 'Communication error occurred while deleting');
-
-                    })
+                });
 
         };
 
@@ -256,14 +259,12 @@
         //update code damtih
         $scope.onClickLoadPBXconfig = function () {
 
-            if($scope.allowAdd)
-            {
+            if ($scope.allowAdd) {
                 $("#pbxConfig").animate({
                     top: "0"
                 });
             }
-            else
-            {
+            else {
                 $scope.showAlert('Warning', 'warn', 'User already added as a PABX user');
             }
 

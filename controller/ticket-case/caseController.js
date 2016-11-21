@@ -5,7 +5,7 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var caseController = function($scope, $state, caseApiAccess) {
+    var caseController = function($scope, $state, caseApiAccess,loginService) {
         $scope.caseInfos = [];
         $scope.caseInfo = {};
         $scope.searchCriteria = "";
@@ -49,6 +49,7 @@
                     $scope.showAlert('Case', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading cases";
                 if(err.statusText)
                 {
@@ -78,6 +79,7 @@
                     $scope.showAlert('Case', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving case";
                 if(err.statusText)
                 {

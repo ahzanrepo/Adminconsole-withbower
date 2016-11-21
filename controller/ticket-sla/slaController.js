@@ -9,7 +9,7 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var slaController = function($scope, $state, slaApiAccess) {
+    var slaController = function($scope, $state, slaApiAccess,loginService) {
         $scope.slas = [];
         $scope.sla = {};
         $scope.searchCriteria = "";
@@ -53,6 +53,7 @@
                     $scope.showAlert('SLA', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading triggers";
                 if(err.statusText)
                 {
@@ -82,6 +83,7 @@
                     $scope.showAlert('SLA', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving trigger";
                 if(err.statusText)
                 {

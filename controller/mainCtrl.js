@@ -3,7 +3,8 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$filter,$uibModal, jwtHelper, loginService, authService,notifiSenderService,veeryNotification,$q) {
+mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
+                                         authService, notifiSenderService, veeryNotification, $q) {
 
 
     //added by pawan
@@ -14,7 +15,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
     $scope.isRegistered = false;
     $scope.inCall = false;
 
-    $scope.newNotifications=[];
+    $scope.newNotifications = [];
     // Notification sender
     $scope.agentList = [];
 
@@ -30,7 +31,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
             icon: false
         });
     };
-    $scope.unredNotifications=0;
+    $scope.unredNotifications = 0;
     $scope.OnMessage = function (data) {
         var objMessage = {
             "id": data.TopicKey,
@@ -51,19 +52,17 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
          }, 500);
          }*/
 
-        if(data.From)
-        {
+        if (data.From) {
             var sender = $filter('filter')($scope.users, {username: data.From})[0];
-            console.log("Sender ",sender);
+            console.log("Sender ", sender);
 
-            if(sender.avatar)
-            {
-                data.avatar=sender.avatar;
+            if (sender.avatar) {
+                data.avatar = sender.avatar;
             }
-            data.resv_time=new Date();
-            data.read=false;
+            data.resv_time = new Date();
+            data.read = false;
             $scope.newNotifications.push(data);
-            $scope.unredNotifications=$scope.newNotifications.length;
+            $scope.unredNotifications = $scope.newNotifications.length;
         }
 
 
@@ -83,10 +82,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
     $scope.isLoadingNotifiReg = false;
 
 
-
-
-
-
     $scope.agentDisconnected = function () {
         $scope.isSocketRegistered = false;
         $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register")
@@ -96,8 +91,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
         $('#regNotificationLoading').addClass('display-none').removeClass('display-block');
         $('#regNotification').addClass('display-block').removeClass('display-none');
     }
-
-
 
 
     var notificationEvent = {
@@ -127,8 +120,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
         }
 
     }
-
-
 
 
     //check my navigation
@@ -625,14 +616,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
     //get screen height
 
 
-
     var getAllRealTimeTimer = {};
-
 
 
     $scope.users = [];
     $scope.notificationMsg = {};
-    $scope.naviSelectedUser={};
+    $scope.naviSelectedUser = {};
     $scope.userGroups = [];
     $scope.loadUserGroups = function () {
         notifiSenderService.getUserGroupList().then(function (response) {
@@ -640,15 +629,18 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
                 $scope.userGroups = response.data.Result;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.showAlert("Load User Groups", "error", "Fail To Get User Groups.")
         });
     };
+
     $scope.loadUserGroups();
 
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
             $scope.users = response;
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
         });
     };
@@ -766,23 +758,21 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
         divModel.model('#sendMessage', 'display-none');
     };
 
-    $scope.showRightSideNav=false;
+    $scope.showRightSideNav = false;
 
     $scope.openNav = function () {
 
-        if(!$scope.showRightSideNav)
-        {
+        if (!$scope.showRightSideNav) {
             getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
             document.getElementById("mySidenav").style.width = "300px";
-            $scope.showRightSideNav=true;
+            $scope.showRightSideNav = true;
         }
-        else
-        {
+        else {
             if (getAllRealTimeTimer) {
                 $timeout.cancel(getAllRealTimeTimer);
             }
             document.getElementById("mySidenav").style.width = "0";
-            $scope.showRightSideNav=false;
+            $scope.showRightSideNav = false;
         }
 
 
@@ -799,7 +789,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
 
     $scope.sendNotification = function () {
 
-        $scope.loginName=$scope.userName;
+        $scope.loginName = $scope.userName;
         if ($scope.naviSelectedUser) {
 
             $scope.notificationMsg.From = $scope.loginName;
@@ -851,40 +841,31 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
     };
 
 
+    $scope.usersToNotify = [];
 
+    $scope.checkUser = function ($event, agent) {
 
-
-
-    $scope.usersToNotify=[];
-
-    $scope.checkUser = function ($event,agent) {
-
-        if($event.target.checked)
-        {
-            if($scope.usersToNotify.indexOf(agent.username)==-1)
-            {
+        if ($event.target.checked) {
+            if ($scope.usersToNotify.indexOf(agent.username) == -1) {
                 $scope.usersToNotify.push(agent.username);
             }
 
         }
-        else
-        {
-            if($scope.usersToNotify.indexOf(agent.username)==-1)
-            {
-                $scope.usersToNotify.splice($scope.usersToNotify.indexOf(agent.username),1);
+        else {
+            if ($scope.usersToNotify.indexOf(agent.username) == -1) {
+                $scope.usersToNotify.splice($scope.usersToNotify.indexOf(agent.username), 1);
             }
         }
     };
 
 
-    $scope.showMesssageModal=false;
+    $scope.showMesssageModal = false;
 
-    $scope.showNotificationMessage= function (notifyMessage) {
+    $scope.showNotificationMessage = function (notifyMessage) {
 
-        $scope.showMesssageModal=true;
+        $scope.showMesssageModal = true;
 
         $scope.showModal(notifyMessage);
-
 
 
         //$scope.showAlert("Message","success",notifyMessage.Message);
@@ -892,11 +873,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
 
 
     $scope.discardNotifications = function (notifyMessage) {
-        $scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage),1);
-        $scope.unredNotifications=$scope.newNotifications.length;
+        $scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage), 1);
+        $scope.unredNotifications = $scope.newNotifications.length;
     }
 
-    $scope.showModal= function (MessageObj) {
+    $scope.showModal = function (MessageObj) {
         //modal show
         var modalInstance = $uibModal.open({
             animation: true,
@@ -918,18 +899,17 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
 
 });
 
-mainApp.controller("notificationModalController", function ($scope, $uibModalInstance,MessageObj,DiscardNotifications) {
+mainApp.controller("notificationModalController", function ($scope, $uibModalInstance, MessageObj, DiscardNotifications) {
 
 
-    $scope.showMesssageModal=true;
-    $scope.MessageObj=MessageObj;
+    $scope.showMesssageModal = true;
+    $scope.MessageObj = MessageObj;
 
 
-
-    $scope.keepNotification= function () {
+    $scope.keepNotification = function () {
         $uibModalInstance.dismiss('cancel');
     }
-    $scope.discardNotification= function (msgObj) {
+    $scope.discardNotification = function (msgObj) {
         DiscardNotifications(msgObj);
         $uibModalInstance.dismiss('cancel');
     }

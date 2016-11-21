@@ -6,7 +6,7 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var caseConfigController = function($scope, $state, caseApiAccess) {
+    var caseConfigController = function($scope, $state, caseApiAccess,loginService) {
         $scope.caseConfigs = [];
         $scope.caseConfig = {};
         $scope.searchCriteria = "";
@@ -50,6 +50,7 @@
                     $scope.showAlert('Case Configuration', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading case configurations";
                 if(err.statusText)
                 {
@@ -79,6 +80,7 @@
                     $scope.showAlert('Case Configuration', errMsg, 'error');
                 }
             }, function(err){
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving case configuration";
                 if(err.statusText)
                 {

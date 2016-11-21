@@ -2,12 +2,10 @@
  * Created by dinusha on 6/5/2016.
  */
 
-(function ()
-{
+(function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ringGroupCtrl = function ($scope, $filter, sipUserApiHandler)
-    {
+    var ringGroupCtrl = function ($scope, $filter, sipUserApiHandler, loginService) {
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({
@@ -26,40 +24,30 @@
         $scope.dataLoaded = false;
         var emptyArr = [];
 
-        var clearFormOnSave = function()
-        {
+        var clearFormOnSave = function () {
             $scope.basicConfig = {};
             $scope.currentGroupUsers = [];
         };
 
-        $scope.querySearch = function(query)
-        {
-            if(query === "*" || query === "")
-            {
-                if($scope.sipUsrList)
-                {
+        $scope.querySearch = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.sipUsrList) {
                     return $scope.sipUsrList;
                 }
-                else
-                {
+                else {
                     return emptyArr;
                 }
 
             }
-            else
-            {
-                if($scope.sipUsrList)
-                {
-                    var filteredArr = $scope.sipUsrList.filter(function (item)
-                    {
+            else {
+                if ($scope.sipUsrList) {
+                    var filteredArr = $scope.sipUsrList.filter(function (item) {
                         var regEx = "^(" + query + ")";
 
-                        if(item.SipUsername)
-                        {
+                        if (item.SipUsername) {
                             return item.SipUsername.match(regEx);
                         }
-                        else
-                        {
+                        else {
                             return false;
                         }
 
@@ -67,22 +55,17 @@
 
                     return filteredArr;
                 }
-                else
-                {
+                else {
                     return emptyArr;
                 }
             }
 
         };
 
-        $scope.reloadUserList = function()
-        {
-            sipUserApiHandler.getSIPUsers().then(function(data)
-            {
-                if(data.IsSuccess)
-                {
-                    $scope.sipUsrList = data.Result.map(function(item)
-                    {
+        $scope.reloadUserList = function () {
+            sipUserApiHandler.getSIPUsers().then(function (data) {
+                if (data.IsSuccess) {
+                    $scope.sipUsrList = data.Result.map(function (item) {
                         var tempUsr =
                         {
                             SipUsername: item.SipUsername,
@@ -92,12 +75,10 @@
                         return tempUsr;
                     });
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
@@ -105,11 +86,10 @@
 
                 $scope.dataReady = true;
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while getting pabx user list";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
@@ -117,20 +97,15 @@
             });
         };
 
-        $scope.reloadGroupList = function()
-        {
-            sipUserApiHandler.getGroups().then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+        $scope.reloadGroupList = function () {
+            sipUserApiHandler.getGroups().then(function (data) {
+                if (data.IsSuccess) {
                     $scope.groupList = data.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
 
@@ -139,11 +114,10 @@
 
                 $scope.dataReady = true;
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while getting group list";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
@@ -151,31 +125,25 @@
             });
         };
 
-        $scope.onChipAdd = function(chip)
-        {
+        $scope.onChipAdd = function (chip) {
             $scope.dataLoaded = false;
-            sipUserApiHandler.addUserToGroup(chip.id, $scope.basicConfig.id).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+            sipUserApiHandler.addUserToGroup(chip.id, $scope.basicConfig.id).then(function (data) {
+                if (data.IsSuccess) {
                     reloadUsersInGroup($scope.basicConfig.id);
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while getting users for group";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
@@ -183,31 +151,25 @@
             return chip;
         };
 
-        $scope.onChipDelete = function(chip)
-        {
+        $scope.onChipDelete = function (chip) {
             $scope.dataLoaded = false;
-            sipUserApiHandler.removeUserFromGroup(chip.id, $scope.basicConfig.id).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+            sipUserApiHandler.removeUserFromGroup(chip.id, $scope.basicConfig.id).then(function (data) {
+                if (data.IsSuccess) {
                     reloadUsersInGroup($scope.basicConfig.id);
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while getting users for group";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
@@ -215,32 +177,25 @@
             return chip;
         };
 
-        $scope.onNewPressed = function()
-        {
+        $scope.onNewPressed = function () {
             $scope.IsEdit = false;
             $scope.EditState = 'New Group';
             $scope.dataLoaded = false;
             clearFormOnSave();
         };
 
-        $scope.onSavePressed = function()
-        {
-            if($scope.IsEdit)
-            {
+        $scope.onSavePressed = function () {
+            if ($scope.IsEdit) {
                 //update
 
-                sipUserApiHandler.updateGroup($scope.basicConfig).then(function(data)
-                {
-                    if(data.IsSuccess)
-                    {
+                sipUserApiHandler.updateGroup($scope.basicConfig).then(function (data) {
+                    if (data.IsSuccess) {
                         $scope.showAlert('SUCCESS', 'info', 'Group updated successfully');
                     }
-                    else
-                    {
+                    else {
                         var errMsg = data.CustomMessage;
 
-                        if(data.Exception)
-                        {
+                        if (data.Exception) {
                             errMsg = data.Exception.Message;
                         }
                         $scope.showAlert('Error', 'error', errMsg);
@@ -248,24 +203,20 @@
 
                     $scope.dataReady = true;
 
-                }, function(err)
-                {
+                }, function (err) {
+                    loginService.isCheckResponse(err);
                     var errMsg = "Error occurred while updating group";
-                    if(err.statusText)
-                    {
+                    if (err.statusText) {
                         errMsg = err.statusText;
                     }
 
                     $scope.showAlert('Error', 'error', errMsg);
                 });
             }
-            else
-            {
+            else {
                 //save
-                sipUserApiHandler.saveGroup($scope.basicConfig).then(function(data)
-                {
-                    if(data.IsSuccess)
-                    {
+                sipUserApiHandler.saveGroup($scope.basicConfig).then(function (data) {
+                    if (data.IsSuccess) {
                         var extObj = {
                             Extension: $scope.basicConfig.Extension.Extension,
                             ExtensionName: $scope.basicConfig.GroupName,
@@ -277,25 +228,19 @@
                             ObjCategory: "GROUP"
                         };
 
-                        sipUserApiHandler.addNewExtension(extObj).then(function(data2)
-                        {
-                            if(data2.IsSuccess)
-                            {
+                        sipUserApiHandler.addNewExtension(extObj).then(function (data2) {
+                            if (data2.IsSuccess) {
 
-                                sipUserApiHandler.assignExtensionToGroup(extObj.Extension, data.Result.id).then(function(data3)
-                                {
-                                    if(data3.IsSuccess)
-                                    {
+                                sipUserApiHandler.assignExtensionToGroup(extObj.Extension, data.Result.id).then(function (data3) {
+                                    if (data3.IsSuccess) {
                                         clearFormOnSave();
                                         $scope.reloadGroupList();
                                         $scope.showAlert('Success', 'info', 'Group Saved Successfully');
                                     }
-                                    else
-                                    {
+                                    else {
                                         var errMsg = data3.CustomMessage;
 
-                                        if(data3.Exception)
-                                        {
+                                        if (data3.Exception) {
                                             errMsg = 'Assign group to extension error : ' + data3.Exception.Message;
                                         }
                                         clearFormOnSave();
@@ -303,20 +248,18 @@
 
                                         $scope.showAlert('Saved with errors', 'error', errMsg);
                                     }
-                                }, function(err)
-                                {
+                                }, function (err) {
+                                    loginService.isCheckResponse(err);
                                     clearFormOnSave();
                                     $scope.reloadGroupList();
                                     $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while assigning extension');
 
                                 })
                             }
-                            else
-                            {
+                            else {
                                 var errMsg = data2.CustomMessage;
 
-                                if(data2.Exception)
-                                {
+                                if (data2.Exception) {
                                     errMsg = 'Create extension error : ' + data2.Exception.Message;
                                 }
 
@@ -325,23 +268,19 @@
 
                                 $scope.showAlert('Saved with errors', 'error', errMsg);
                             }
-                        }, function(err)
-                        {
+                        }, function (err) {
+                            loginService.isCheckResponse(err);
                             clearFormOnSave();
                             $scope.reloadGroupList();
                             $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while creating extension');
                         })
 
 
-
-
                     }
-                    else
-                    {
+                    else {
                         var errMsg = data.CustomMessage;
 
-                        if(data.Exception)
-                        {
+                        if (data.Exception) {
                             errMsg = data.Exception.Message;
                         }
                         $scope.showAlert('Error', 'error', errMsg);
@@ -349,11 +288,10 @@
 
                     $scope.dataReady = true;
 
-                }, function(err)
-                {
+                }, function (err) {
+                    loginService.isCheckResponse(err);
                     var errMsg = "Error occurred while saving group";
-                    if(err.statusText)
-                    {
+                    if (err.statusText) {
                         errMsg = err.statusText;
                     }
 
@@ -363,24 +301,17 @@
             }
         }
 
-        $scope.onDeletePressed = function(grpId, extension)
-        {
-            sipUserApiHandler.deleteGroup(grpId).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
-                    if(extension)
-                    {
-                        sipUserApiHandler.deleteExtension(extension).then(function(data2)
-                        {
-                            if(data2.IsSuccess)
-                            {
+        $scope.onDeletePressed = function (grpId, extension) {
+            sipUserApiHandler.deleteGroup(grpId).then(function (data) {
+                if (data.IsSuccess) {
+                    if (extension) {
+                        sipUserApiHandler.deleteExtension(extension).then(function (data2) {
+                            if (data2.IsSuccess) {
                                 $scope.showAlert('SUCCESS', 'info', 'Group deleted successfully');
                                 clearFormOnSave();
                                 $scope.reloadGroupList();
                             }
-                            else
-                            {
+                            else {
                                 $scope.showAlert('SUCCESS', 'notify', 'Group deleted successfully - Unable to remove extension, please remove it manually');
                                 clearFormOnSave();
                                 $scope.reloadGroupList();
@@ -388,8 +319,7 @@
 
                         });
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('SUCCESS', 'info', 'Group deleted successfully');
                         clearFormOnSave();
                         $scope.reloadGroupList();
@@ -397,12 +327,10 @@
 
 
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
@@ -410,11 +338,10 @@
 
                 $scope.dataReady = true;
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while deleting group";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
 
@@ -422,18 +349,13 @@
             });
         };
 
-        var reloadUsersInGroup = function(grpId)
-        {
+        var reloadUsersInGroup = function (grpId) {
             $scope.dataLoaded = false;
-            sipUserApiHandler.getUsersForGroup(grpId).then(function(data)
-            {
+            sipUserApiHandler.getUsersForGroup(grpId).then(function (data) {
                 $scope.dataLoaded = true;
-                if(data.IsSuccess)
-                {
-                    if(data.Result && data.Result.SipUACEndpoint)
-                    {
-                        $scope.currentGroupUsers = data.Result.SipUACEndpoint.map(function(item)
-                        {
+                if (data.IsSuccess) {
+                    if (data.Result && data.Result.SipUACEndpoint) {
+                        $scope.currentGroupUsers = data.Result.SipUACEndpoint.map(function (item) {
                             var tempUsr =
                             {
                                 SipUsername: item.SipUsername,
@@ -446,87 +368,73 @@
                     }
 
                 }
-                else
-                {
+                else {
                     $scope.dataLoaded = true;
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 $scope.dataLoaded = true;
                 var errMsg = "Error occurred while getting users for group";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         }
 
-        $scope.onGroupChange = function(grpId)
-        {
+        $scope.onGroupChange = function (grpId) {
             reloadUsersInGroup(grpId);
 
 
-            sipUserApiHandler.getGroup(grpId).then(function(data)
-            {
-                if(data.IsSuccess)
-                {
+            sipUserApiHandler.getGroup(grpId).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.IsEdit = true;
                     $scope.EditState = 'Edit Group';
                     $scope.basicConfig = data.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = data.CustomMessage;
 
-                    if(data.Exception)
-                    {
+                    if (data.Exception) {
                         errMsg = data.Exception.Message;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
                 }
 
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while getting group list";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
 
-        sipUserApiHandler.getDomains().then(function(data)
-        {
-            if(data.IsSuccess)
-            {
+        sipUserApiHandler.getDomains().then(function (data) {
+            if (data.IsSuccess) {
                 $scope.endUserList = data.Result;
             }
-            else
-            {
+            else {
                 var errMsg = data.CustomMessage;
 
-                if(data.Exception)
-                {
+                if (data.Exception) {
                     errMsg = 'Get enduser Error : ' + data.Exception.Message;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             }
 
-        }, function(err)
-        {
+        }, function (err) {
+            loginService.isCheckResponse(err);
             var errMsg = "Error occurred while getting end user list";
-            if(err.statusText)
-            {
+            if (err.statusText) {
                 errMsg = err.statusText;
             }
             $scope.showAlert('Error', 'error', errMsg);

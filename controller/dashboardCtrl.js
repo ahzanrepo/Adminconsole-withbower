@@ -3,6 +3,7 @@
  */
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
+                                              loginService,
                                               dashboardService, moment) {
 
 
@@ -39,6 +40,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 $scope.AvailableTask = ["CALL", "CHAT", "SMS", "SOCIAL", "TICKET"];
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.AvailableTask = ["CALL", "CHAT", "SMS", "SOCIAL", "TICKET"];
         });
     };
@@ -142,6 +144,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions2.yaxis.max = $scope.chartymax.queued;
                         }
                     }
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             }, getAllBriged: function () {
                 dashboardService.GetAllBriged().then(function (response) {
@@ -173,6 +177,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions3.yaxis.max = $scope.chartymax.briged;
                         }
                     }
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             }, getAllChannels: function () {
                 /*dashboardService.GetAllChannels().then(function (response) {
@@ -226,6 +232,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
                         }
                     }
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             },
             getTotalCall: function () {
@@ -240,6 +248,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                         $scope.total.callsInb = 0;
                     }
 
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
 
                 dashboardService.GetTotalCalls('outbound', null).then(function (responseOutb) {
@@ -253,21 +263,29 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                         $scope.total.callsOutb = 0;
                     }
 
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             },
             getTotalQueued: function () {
                 dashboardService.GetTotalQueued().then(function (response) {
                     $scope.total.queued = response;
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             },
             getTotalQueueAnswered: function () {
                 dashboardService.GetTotalQueueAnswered().then(function (response) {
                     $scope.total.queueAnswered = response;
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             },
             getCurrentWaiting: function () {
                 dashboardService.GetCurrentWaiting().then(function (response) {
                     $scope.total.waiting = response;
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             },
             getTotalQueueDropped: function () {
@@ -278,15 +296,21 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             getTotalBriged: function () {
                 dashboardService.GetTotalBriged().then(function (response) {
                     $scope.total.briged = response;
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             },
             getTotalOnGoing: function () {
                 dashboardService.GetTotalOnGoing('inbound').then(function (response) {
                     $scope.total.onGoingInb = response;
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
 
                 dashboardService.GetTotalOnGoing('outbound').then(function (response) {
                     $scope.total.onGoingOutb = response;
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             },
             getProfileDetails: function () {
@@ -367,6 +391,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             }
                         }
                     }
+                },function(err){
+                    loginService.isCheckResponse(err);
                 });
             },
             callAllServices: function () {

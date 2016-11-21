@@ -53,7 +53,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER || accessNavigation.TICKET_SLA">
+                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER">
                                 <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -82,39 +82,20 @@
                                         configuration</a>
 
                                     </li>
-                                    <li ng-show="accessNavigation.TICKET_TRIGGER"><a href="javascript:void(0);"
-                                                                                     ng-click="clickDirective.goTicketTrigger()">Ticket
-                                        Trigger</a>
-                                    </li>
+
                                     <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goTemplateCreater()">Template
                                         Maker
                                         Configuration</a>
                                     </li>
-                                    <li ng-show="accessNavigation.TAGMANAGER"><a href="javascript:void(0);"
-                                                                                 ng-click="clickDirective.goTagManager()">Tag
-                                        Manager</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
-                                                                                 ng-click="clickDirective.goTicketSla()">Ticket
-                                        SLA</a>
-                                    </li>
+
+
                                     <li ng-show="accessNavigation.DYNAMICFORM"><a href="javascript:void(0);"
                                                                                   ng-click="clickDirective.goDynamicForm()">
                                         Dynamic Form</a>
                                     </li>
-                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
-                                                                                 ng-click="clickDirective.goFilter()">
-                                        Create Filter</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
-                                                                                 ng-click="clickDirective.goCaseConfiguration()">
-                                        Case Configuration</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
-                                                                                 ng-click="clickDirective.goCase()">
-                                        Case Creation</a>
-                                    </li>
+
+
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>
                                     </li>-->
@@ -122,7 +103,7 @@
                             </li>
 
                             <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.CDR || accessNavigation.EXTENSION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN || accessNavigation.AUTOATTENDANCE">
-                                <a class="font-robot font-300 "><i class="fa fa-user"></i> User <span
+                                <a class="font-robot font-300 "><i class="fa fa-child"></i> User <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.TICKET"><a href="javascript:void(0);"
@@ -214,6 +195,52 @@
                                     </li>
                                     <li ng-show="accessNavigation.TWITTER"><a href="javascript:void(0);"
                                                                               ng-click="clickDirective.goTwitterApp()">Twitter</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li ng-show="accessNavigation.TICKET_SLA || accessNavigation.TICKET_TRIGGER">
+                                <a
+                                        class="font-robot font-300 "><i class="fa fa-tasks"></i> Ticket <span
+                                        class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goFilter()">
+                                        Create Filter</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.TICKET_TRIGGER"><a href="javascript:void(0);"
+                                                                                     ng-click="clickDirective.goTicketTrigger()">Ticket
+                                        Trigger</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goTicketSla()">Ticket
+                                        SLA</a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <li ng-show="accessNavigation.TICKET_SLA">
+                                <a
+                                        class="font-robot font-300 "><i class="fa fa-lightbulb-o"></i> Case <span
+                                        class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goCase()">
+                                        Case Creation</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goCaseConfiguration()">
+                                        Case Configuration</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li ng-show="accessNavigation.TAGMANAGER">
+                                <a
+                                        class="font-robot font-300 "><i class="fa fa-tags"></i> Tag <span
+                                        class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li ng-show="accessNavigation.TAGMANAGER"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goTagManager()">Tag
+                                        Manager</a>
                                     </li>
                                 </ul>
                             </li>
@@ -479,7 +506,7 @@
 
         </div>
         <!--ng-show="isRegistered" style="min-height: 1647px;"-->
-        <div class="right_col " role="main" style="min-height: 1647px;" >
+        <div class="right_col " role="main" style="min-height: 1647px;">
             <div>
                 <div ng-show="isRegistered" id="callWidget" class="call-monitor-widget" onunload="onClosePage()">
                     <div ng-click="toggleWidget();" class="call-widget-toggle">

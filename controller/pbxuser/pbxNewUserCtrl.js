@@ -6,7 +6,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var pbxNewUserCtrl = function ($scope, $rootScope, pbxUserApiHandler) {
+    var pbxNewUserCtrl = function ($scope, $rootScope, pbxUserApiHandler, loginService) {
         $scope.timeZones = [{Offset: "-12:00", TZName: "-12:00"},
             {Offset: "-11:00", TZName: "-11:00"},
             {Offset: "-10:00", TZName: "-10:00"},
@@ -55,8 +55,7 @@
             $scope.currentUserUuid = null;
         };
 
-        $rootScope.$on('PABX_SetNewUserUuid', function(event, args)
-        {
+        $rootScope.$on('PABX_SetNewUserUuid', function (event, args) {
             $scope.currentUserUuid = args;
 
         });
@@ -72,6 +71,7 @@
                 }
 
             }).catch(function (err) {
+                loginService.isCheckResponse(err);
                 $scope.showAlert('Error', 'error', 'User validation failed');
                 $scope.allowAdd = false;
 
@@ -84,6 +84,7 @@
                 $scope.sipUserList = data.Result;
 
             }, function (err) {
+                loginService.isCheckResponse(err);
                 $scope.showAlert('Error', 'error', 'Error loading user list');
 
             });
@@ -143,6 +144,7 @@
                 }
 
             }, function (err) {
+                loginService.isCheckResponse(err);
                 $scope.showAlert('Error', 'error', 'Error occurred while updating user');
             });
 

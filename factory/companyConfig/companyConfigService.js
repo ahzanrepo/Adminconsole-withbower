@@ -140,6 +140,60 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             {
                 return response.data;
             });
+        },
+        removeCustomTicketTypes: function (ticketTypeId, customType) {
+
+
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.ticketUrl +"TicketTypes/"+ticketTypeId+"/"+customType
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        addCustomTicketStatus: function (ticketStatus) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.ticketUrl +"TicketStatusNode",
+                data: ticketStatus
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        updateCustomTicketStatus: function (ticketStatus) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.ticketUrl +"TicketStatusNode/"+ticketStatus._id.toString(),
+                data: ticketStatus
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        getCustomTicketStatus: function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl +"TicketStatusNodes"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        removeCustomTicketStatus: function (ticketStatusId) {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.ticketUrl +"TicketStatusNode/"+ticketStatusId
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
         }
 
     }

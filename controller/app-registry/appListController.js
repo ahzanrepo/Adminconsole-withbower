@@ -2,7 +2,7 @@
  * Created by Pawan on 6/8/2016.
  */
 
-mainApp.controller("applicationController", function ($scope, $state, appBackendService) {
+mainApp.controller("applicationController", function ($scope, $state, appBackendService, loginService) {
 
 
     $scope.AppList = [];
@@ -50,11 +50,12 @@ mainApp.controller("applicationController", function ($scope, $state, appBackend
 
             }
             $state.reload();
-        }), function (error) {
+        }, function (error) {
+            loginService.isCheckResponse(error);
             console.info("Error in adding new Application " + error);
             $scope.showAlert("Error", "There is an Exception in saving Application " + error, "error");
             $state.reload();
-        }
+        });
     };
 
 
@@ -84,9 +85,10 @@ mainApp.controller("applicationController", function ($scope, $state, appBackend
                 //$scope.MasterAppList = response.data.Result;
             }
 
-        }), function (error) {
+        }, function (error) {
+            loginService.isCheckResponse(error);
             console.info("Error in picking App service " + error);
-        }
+        })
     };
 
     $scope.cancleEdit = function () {
@@ -99,7 +101,7 @@ mainApp.controller("applicationController", function ($scope, $state, appBackend
 });
 
 
-mainApp.controller("modalController", function ($scope, $uibModalInstance, appBackendService, appID) {
+mainApp.controller("modalController", function ($scope, $uibModalInstance, appBackendService, appID,loginService) {
 
     $scope.ModalMessage = "Searching for files...";
     console.log("AppID " + appID);
@@ -133,6 +135,7 @@ mainApp.controller("modalController", function ($scope, $uibModalInstance, appBa
             }
 
         }, function (error) {
+            loginService.isCheckResponse(error);
             console.info("All file selection Exception " + error);
         });
     };

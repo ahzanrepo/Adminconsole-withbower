@@ -3,7 +3,7 @@
  */
 
 
-mainApp.controller("translationController", function ($scope,$state, transBackendService) {
+mainApp.controller("translationController", function ($scope,$state, transBackendService,loginService) {
 
 
 
@@ -58,6 +58,7 @@ mainApp.controller("translationController", function ($scope,$state, transBacken
             }
 
         }), function (error) {
+            loginService.isCheckResponse(err);
             console.info("Error in Loading translation data "+error);
             $scope.showAlert("Error","Error in Loading translation data","error");
         }
@@ -84,6 +85,7 @@ mainApp.controller("translationController", function ($scope,$state, transBacken
 
 
         }), function (error) {
+            loginService.isCheckResponse(err);
             console.log("New translation saving error ",error);
             $scope.showAlert("Error","Translation adding failed","error");
         }
