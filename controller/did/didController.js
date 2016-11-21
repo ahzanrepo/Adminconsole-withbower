@@ -95,6 +95,7 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,$fi
     $scope.Extensions=[];
     $scope.TrunkNumbers=[];
 
+
     if(didId)
     {
         $scope.did=didData;
@@ -155,7 +156,13 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance,$fi
 
                 });
 
-                $scope.RemoveAllocatedDIDs();
+                if(!didId)
+                {
+                    $scope.RemoveAllocatedDIDs();
+                }
+
+
+
             }
             else
             {

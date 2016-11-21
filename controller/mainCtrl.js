@@ -326,6 +326,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state,$timeout,$fi
             $state.go('console.case');
         }, goQueueSlaBreakDown: function () {
             $state.go('console.queueSlaBreakDown');
+        }, goFileSlot: function () {
+            $state.go('console.fileslotmaker');
         }
     };
 

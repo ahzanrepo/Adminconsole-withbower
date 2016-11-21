@@ -694,6 +694,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "SLA_BREAKDOWN"
             }
+        }).state('console.fileslotmaker', {
+            url: "/fileslot",
+            templateUrl: "views/fileSlotMaker/fileSlotMaker.html",
+            controller: "fileSlotController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET"
+            }
         })
     }]);
 
