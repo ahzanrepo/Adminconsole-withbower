@@ -5,7 +5,7 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q, agentSummaryBackendService) {
+mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q, agentSummaryBackendService,loginService) {
 
     $scope.startDate = moment().format("YYYY-MM-DD");
     $scope.endDate = moment().format("YYYY-MM-DD");
@@ -61,6 +61,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
             }
 
         }, function (error) {
+            loginService.isCheckResponse(error);
             console.log("Error in Queue Summary loading ",error);
         });
     };
@@ -114,6 +115,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
             }
 
         }, function (error) {
+            loginService.isCheckResponse(error);
             console.log("Error in Queue Summary loading ",error);
             deferred.reject(agentSummaryList);
         });
@@ -134,6 +136,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                 console.log("Error in Agent details picking");
             }
         }, function (error) {
+            loginService.isCheckResponse(error);
             console.log("Error in Agent details picking "+error);
         });
     };

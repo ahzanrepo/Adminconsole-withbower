@@ -60,7 +60,12 @@ notificationMod.factory('notificationConnector', function (socketFactory) {
             socket.on('disconnect', function (reason) {
                 //Notification.info({message: reason, delay: 500, closeOnClick: true});
                 console.log(reason);
-                notificationEvent.onAgentDisconnected();
+                isAuthenticated = false;
+                if(notificationEvent.onAgentDisconnected)
+                {
+                    notificationEvent.onAgentDisconnected();
+                }
+
             });
 
             socket.on('message', function (data) {
@@ -102,6 +107,23 @@ notificationMod.factory('notificationConnector', function (socketFactory) {
         }
     };
 
+    self.SocDisconnect = function () {
+
+        if(socket) {
+
+
+            //socket.removeAllListeners();
+            socket.disconnect();
+            //delete socket;
+            //socket = undefined;
+
+        }
+    };
+    self.SocReconnect = function () {
+
+        socket.connect();
+    }
+
     return self;
 
 });
@@ -129,9 +151,20 @@ notificationMod.factory('veeryNotification', function (notificationConnector, $q
                 if (notificationConnector.getAuthenticated()) {
                     return $q.when(true);
                 } else {
+                    notificationConnector.initialize(authToken, notificationBaseUrl, notificationEvent);
                     return listenForAuthentication();
                 }
             }
+        },
+
+        disconnectFromServer: function() {
+
+            notificationConnector.SocDisconnect();
+        },
+        reconnectToServer: function() {
+
+
+            notificationConnector.SocReconnect();
         }
     };
 });

@@ -2,10 +2,11 @@
  * Created by Heshan.i on 9/14/2016.
  */
 
-(function(){
-    var app =angular.module('veeryConsoleApp');
+(function () {
+    var app = angular.module('veeryConsoleApp');
 
-    var slaConfigController = function ($scope, $state, $stateParams, $uibModal, slaApiAccess, triggerUserServiceAccess, triggerTemplateServiceAccess, triggerArdsServiceAccess) {
+    var slaConfigController = function ($scope, $state, $stateParams, $uibModal, slaApiAccess, triggerUserServiceAccess,
+                                        triggerTemplateServiceAccess, triggerArdsServiceAccess, loginService) {
         $scope.title = $stateParams.title;
         $scope.slaId = $stateParams.slaId;
         $scope.slaFilter = {};
@@ -42,28 +43,28 @@
             due_at: {type: "Date"},
             active: {type: "Boolean"},
             is_sub_ticket: {type: "Boolean"},
-            type: {type: "String", enum : ["question","complain","incident","action"]},
-            subject: { type: "String"},
-            reference: { type: "String"},
-            description: { type: "String"},
-            priority: {type: "String", enum : ["urgent","high","normal","low"]},
-            status: {type: "String", enum : ["new","open","progressing","parked","solved","closed"]},
-            assignee: {type: "ObjectId",ref: "User"},
-            assignee_group: {type: "ObjectId",ref: "UserGroup"},
+            type: {type: "String", enum: ["question", "complain", "incident", "action"]},
+            subject: {type: "String"},
+            reference: {type: "String"},
+            description: {type: "String"},
+            priority: {type: "String", enum: ["urgent", "high", "normal", "low"]},
+            status: {type: "String", enum: ["new", "open", "progressing", "parked", "solved", "closed"]},
+            assignee: {type: "ObjectId", ref: "User"},
+            assignee_group: {type: "ObjectId", ref: "UserGroup"},
             channel: {type: String},
             tags: [String],
             SLAViolated: Boolean
         };
 
-        $scope.filterActionSchemaKeys = function(value){
-            if(value === "channel" || value === "tags" || value === "SLAViolated"){
+        $scope.filterActionSchemaKeys = function (value) {
+            if (value === "channel" || value === "tags" || value === "SLAViolated") {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         };
 
-        $scope.showAlert = function (title,content,type) {
+        $scope.showAlert = function (title, content, type) {
             new PNotify({
                 title: title,
                 text: content,
@@ -72,15 +73,14 @@
             });
         };
 
-        $scope.backToList =function()
-        {
+        $scope.backToList = function () {
             $state.go('console.sla');
         };
 
-        $scope.addNewSlaMatrix = function(){
-            if($scope.addNewMatrix === true){
+        $scope.addNewSlaMatrix = function () {
+            if ($scope.addNewMatrix === true) {
                 $scope.addNewMatrix = false;
-            }else {
+            } else {
                 $scope.addNewMatrix = true;
             }
         };
@@ -89,155 +89,139 @@
         //};
 
         //---------------ResetData-------------------------------
-        $scope.updateValue = function(){
+        $scope.updateValue = function () {
             $scope.triggerFilter.value = undefined;
         };
 
-        $scope.OnChangeTriggerOperation = function(){
+        $scope.OnChangeTriggerOperation = function () {
             $scope.triggerOperation.field = undefined;
             $scope.triggerOperation.value = undefined;
         };
         //---------------functions Initial Data-------------------
-        $scope.loadFilterAll = function(){
-            slaApiAccess.getFiltersAll($stateParams.slaId).then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadFilterAll = function () {
+            slaApiAccess.getFiltersAll($stateParams.slaId).then(function (response) {
+                if (response.IsSuccess) {
                     $scope.filterAll = response.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('SLA Filter', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading filters";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('SLA Filter', errMsg, 'error');
             });
         };
 
-        $scope.loadFilterAny = function(){
-            slaApiAccess.getFiltersAny($stateParams.slaId).then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadFilterAny = function () {
+            slaApiAccess.getFiltersAny($stateParams.slaId).then(function (response) {
+                if (response.IsSuccess) {
                     $scope.filterAny = response.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('SLA Filter', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading filters";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('SLA Filter', errMsg, 'error');
             });
         };
 
-        $scope.loadSlaMatrices = function(){
-            slaApiAccess.getMatrices($stateParams.slaId).then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadSlaMatrices = function () {
+            slaApiAccess.getMatrices($stateParams.slaId).then(function (response) {
+                if (response.IsSuccess) {
                     $scope.slaMatrix = response.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('SLA Matrix', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading sla matrix";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('SLA Matrix', errMsg, 'error');
             });
         };
 
-        $scope.loadUsers = function(){
-            triggerUserServiceAccess.getUsers().then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadUsers = function () {
+            triggerUserServiceAccess.getUsers().then(function (response) {
+                if (response.IsSuccess) {
                     $scope.users = response.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('Users', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading users";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Users', errMsg, 'error');
             });
         };
 
-        $scope.loadUserGroups = function(){
-            triggerUserServiceAccess.getUserGroups().then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadUserGroups = function () {
+            triggerUserServiceAccess.getUserGroups().then(function (response) {
+                if (response.IsSuccess) {
                     $scope.userGroups = response.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('User Groups', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading user groups";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('User Groups', errMsg, 'error');
             });
         };
 
-        $scope.loadAttributes = function(){
-            triggerArdsServiceAccess.getReqMetaData().then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadAttributes = function () {
+            triggerArdsServiceAccess.getReqMetaData().then(function (response) {
+                if (response.IsSuccess) {
                     $scope.attributes = [];
-                    if(response.Result) {
+                    if (response.Result) {
                         var jResult = JSON.parse(response.Result);
-                        if(jResult.AttributeMeta){
-                            for(var i = 0; i < jResult.AttributeMeta.length; i++){
-                                if(jResult.AttributeMeta[i].AttributeDetails) {
+                        if (jResult.AttributeMeta) {
+                            for (var i = 0; i < jResult.AttributeMeta.length; i++) {
+                                if (jResult.AttributeMeta[i].AttributeDetails) {
                                     for (var j = 0; j < jResult.AttributeMeta[i].AttributeDetails.length; j++) {
 
                                         $scope.attributes.push(jResult.AttributeMeta[i].AttributeDetails[j]);
@@ -247,46 +231,41 @@
                         }
                     }
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('Attributes', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading attributes";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Attributes', errMsg, 'error');
             });
         };
 
-        $scope.loadTemplateInfo = function(){
-            triggerTemplateServiceAccess.getTemplates().then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadTemplateInfo = function () {
+            triggerTemplateServiceAccess.getTemplates().then(function (response) {
+                if (response.IsSuccess) {
                     $scope.templates = response.Result;
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('Template', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading templates";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Template', errMsg, 'error');
@@ -304,7 +283,7 @@
         };
 
         $scope.removeDeletedFilter = function (item, itemType) {
-            switch (itemType){
+            switch (itemType) {
                 case "any":
                     var indexAny = $scope.filterAny.indexOf(item);
                     if (indexAny != -1) {
@@ -325,63 +304,57 @@
         };
 
         //---------------insertNewData-----------------------------
-        $scope.addSlaFilter = function(){
+        $scope.addSlaFilter = function () {
             console.log(JSON.stringify($scope.filter));
 
-            if($scope.filter.value === "TRUE"){
+            if ($scope.filter.value === "TRUE") {
                 $scope.filter.value = true;
-            }else if($scope.filter.value === "FALSE"){
+            } else if ($scope.filter.value === "FALSE") {
                 $scope.filter.value = false;
             }
 
-            switch ($scope.filter.type){
+            switch ($scope.filter.type) {
                 case "any":
-                    slaApiAccess.addFilterAny($scope.slaId, $scope.filter).then(function(response){
-                        if(response.IsSuccess)
-                        {
+                    slaApiAccess.addFilterAny($scope.slaId, $scope.filter).then(function (response) {
+                        if (response.IsSuccess) {
                             $scope.loadFilterAny();
                             $scope.showAlert('SLA Filter', response.CustomMessage, 'success');
                         }
-                        else
-                        {
+                        else {
                             var errMsg = response.CustomMessage;
 
-                            if(response.Exception)
-                            {
+                            if (response.Exception) {
                                 errMsg = response.Exception.Message;
                             }
                             $scope.showAlert('SLA Filter', errMsg, 'error');
                         }
-                    }, function(err){
+                    }, function (err) {
+                        loginService.isCheckResponse(err);
                         var errMsg = "Error occurred while saving sla filters";
-                        if(err.statusText)
-                        {
+                        if (err.statusText) {
                             errMsg = err.statusText;
                         }
                         $scope.showAlert('SLA Filter', errMsg, 'error');
                     });
                     break;
                 case "all":
-                    slaApiAccess.addFilterAll($scope.slaId, $scope.filter).then(function(response){
-                        if(response.IsSuccess)
-                        {
+                    slaApiAccess.addFilterAll($scope.slaId, $scope.filter).then(function (response) {
+                        if (response.IsSuccess) {
                             $scope.loadFilterAll();
                             $scope.showAlert('SLA Filter', response.CustomMessage, 'success');
                         }
-                        else
-                        {
+                        else {
                             var errMsg = response.CustomMessage;
 
-                            if(response.Exception)
-                            {
+                            if (response.Exception) {
                                 errMsg = response.Exception.Message;
                             }
                             $scope.showAlert('SLA Filter', errMsg, 'error');
                         }
-                    }, function(err){
+                    }, function (err) {
+                        loginService.isCheckResponse(err);
                         var errMsg = "Error occurred while saving sla filters";
-                        if(err.statusText)
-                        {
+                        if (err.statusText) {
                             errMsg = err.statusText;
                         }
                         $scope.showAlert('SLA Filter', errMsg, 'error');
@@ -392,13 +365,13 @@
             }
         };
 
-        $scope.addSlaMatrix = function(){
+        $scope.addSlaMatrix = function () {
             console.log(JSON.stringify($scope.matrix));
-            if(!$scope.matrix.priority || !$scope.matrix.criteria){
+            if (!$scope.matrix.priority || !$scope.matrix.criteria) {
                 $scope.showAlert('SLA Matrix', "Priority and criteria should be selected", 'error');
-            }else if($scope.matrix.threshold > $scope.matrix.target){
+            } else if ($scope.matrix.threshold > $scope.matrix.target) {
                 $scope.showAlert('SLA Matrix', "Threshold value should be less than the target value", 'error');
-            }else {
+            } else {
                 slaApiAccess.addMatrix($scope.slaId, $scope.matrix).then(function (response) {
                     if (response.IsSuccess) {
                         $scope.addNewSlaMatrix()
@@ -419,6 +392,7 @@
                         $scope.showAlert('SLA Matrix', errMsg, 'error');
                     }
                 }, function (err) {
+                    loginService.isCheckResponse(err);
                     var errMsg = "Error occurred while saving sla Matrix";
                     if (err.statusText) {
                         errMsg = err.statusText;
@@ -440,8 +414,8 @@
 
         //-----------------matrix Modal-------------------------------
 
-        $scope.addOperation= function (operationType, operation) {
-            switch (operationType){
+        $scope.addOperation = function (operationType, operation) {
+            switch (operationType) {
                 case "on_fail":
                     $scope.matrix.on_fail.push(operation);
                     break;
@@ -453,8 +427,8 @@
             }
         };
 
-        $scope.removeOperation= function (operationType, operation) {
-            switch (operationType){
+        $scope.removeOperation = function (operationType, operation) {
+            switch (operationType) {
                 case "on_fail":
                     var index_on_fail = $scope.matrix.on_fail.indexOf(operation);
                     if (index_on_fail != -1) {
@@ -472,7 +446,7 @@
             }
         };
 
-        $scope.showModal= function (operationType) {
+        $scope.showModal = function (operationType) {
             //modal show
             var modalInstance = $uibModal.open({
                 animation: true,
@@ -483,13 +457,13 @@
                     operationType: function () {
                         return operationType;
                     },
-                    addOperation : function () {
+                    addOperation: function () {
                         return $scope.addOperation;
                     },
-                    attributes : function () {
+                    attributes: function () {
                         return $scope.attributes;
                     },
-                    templates : function () {
+                    templates: function () {
                         return $scope.templates;
                     }
                 }
@@ -500,13 +474,13 @@
     app.controller('slaConfigController', slaConfigController);
 }());
 
-mainApp.controller("matrixModalController", function ($scope, $uibModalInstance,operationType,addOperation, attributes, templates) {
-    $scope.showModal=true;
+mainApp.controller("matrixModalController", function ($scope, $uibModalInstance, operationType, addOperation, attributes, templates) {
+    $scope.showModal = true;
     $scope.operation = {};
     $scope.attributes = attributes;
     $scope.templates = templates;
 
-    $scope.showAlert = function (title,content,type) {
+    $scope.showAlert = function (title, content, type) {
 
         new PNotify({
             title: title,
@@ -516,12 +490,12 @@ mainApp.controller("matrixModalController", function ($scope, $uibModalInstance,
         });
     };
 
-    $scope.addOperation= function () {
+    $scope.addOperation = function () {
         $uibModalInstance.dismiss('cancel');
         addOperation(operationType, $scope.operation);
     };
 
-    $scope.closeModal= function () {
+    $scope.closeModal = function () {
         $uibModalInstance.dismiss('cancel');
     }
 });

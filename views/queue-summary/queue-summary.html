@@ -147,7 +147,7 @@
                                     <tr role="row" class="odd"
                                         ng-repeat="queueSummary in queueSummaryList">
                                         <td>{{queueSummary.Queue}}</td>
-                                        <td>{{queueSummary.Date}}</td>
+                                        <td>{{queueSummary.Date|date:"yyyy-MM-dd"}}</td>
                                         <td>{{queueSummary.TotalQueued}}</td>
                                         <td>{{queueSummary.MaxTime}}</td>
                                         <td>{{queueSummary.SLA}}</td>

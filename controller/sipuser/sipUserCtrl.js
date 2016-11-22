@@ -6,7 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var sipUserCtrl = function ($scope, sipUserApiHandler) {
+    var sipUserCtrl = function ($scope, sipUserApiHandler, loginService) {
 
         //User List Operations
         $scope.viewDivState = -1;
@@ -33,18 +33,15 @@
         $scope.reloadUserList = function () {
             $scope.searchCriteria = "";
             sipUserApiHandler.getSIPUsers().then(function (data) {
-                if (data.IsSuccess)
-                {
+                if (data.IsSuccess) {
                     $scope.sipUsrList = data.Result;
-                    if ($scope.sipUsrList.length > 0)
-                    {
+                    if ($scope.sipUsrList.length > 0) {
                         $scope.FormState = 'New';
                         $scope.SipUsernameDisplay = $scope.sipUsrList[0].SipUsername;
                         $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
                     }
 
-                    if($scope.sipUsrList.length == 0)
-                    {
+                    if ($scope.sipUsrList.length == 0) {
                         $scope.FormState = 'Cancel';
                         $scope.SipUsernameDisplay = 'NEW SIP USER';
                     }
@@ -63,6 +60,7 @@
                 $scope.dataReady = true;
 
             }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while getting user list";
                 if (err.statusText) {
                     errMsg = err.statusText;
@@ -115,8 +113,7 @@
                         data.Result.CloudEndUserId = data.Result.CloudEndUserId.toString();
                     }
                     $scope.basicConfig = data.Result;
-                    if(data.Result)
-                    {
+                    if (data.Result) {
                         $scope.SipUsernameDisplay = data.Result.SipUsername;
                     }
 
@@ -136,6 +133,7 @@
                 }
 
             }, function (err) {
+                loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while getting sip user";
                 if (err.statusText) {
                     errMsg = err.statusText;
@@ -167,8 +165,7 @@
         };
 
         $scope.onSavePressed = function () {
-            if ($scope.IsEdit)
-            {
+            if ($scope.IsEdit) {
                 sipUserApiHandler.updateUser($scope.basicConfig).then(function (data1) {
                     if (data1.IsSuccess) {
                         $scope.showAlert('Success', 'info', 'User updated successfully');
@@ -188,6 +185,7 @@
                     }
 
                 }, function (err) {
+                    loginService.isCheckResponse(err);
                     var errMsg = "Error updating user";
                     if (err.statusText) {
                         errMsg = err.statusText;
@@ -198,26 +196,18 @@
             else {
                 //Save
 
-                sipUserApiHandler.validateUsername($scope.basicConfig.SipUsername).then(function(checkUsrData)
-                {
-                    if (checkUsrData.IsSuccess)
-                    {
-                        if(checkUsrData.Result)
-                        {
+                sipUserApiHandler.validateUsername($scope.basicConfig.SipUsername).then(function (checkUsrData) {
+                    if (checkUsrData.IsSuccess) {
+                        if (checkUsrData.Result) {
                             $scope.showAlert('Warning', 'warn', 'Sip Username in use, please try another');
                         }
-                        else
-                        {
-                            sipUserApiHandler.validateExtension($scope.basicConfig.Extension).then(function(checkExtData)
-                            {
-                                if (checkExtData.IsSuccess)
-                                {
-                                    if(checkExtData.Result)
-                                    {
+                        else {
+                            sipUserApiHandler.validateExtension($scope.basicConfig.Extension).then(function (checkExtData) {
+                                if (checkExtData.IsSuccess) {
+                                    if (checkExtData.Result) {
                                         $scope.showAlert('Warning', 'warn', 'Extension in use, please try another');
                                     }
-                                    else
-                                    {
+                                    else {
                                         $scope.basicConfig.Enabled = true;
                                         sipUserApiHandler.saveSIPUser($scope.basicConfig).then(function (data1) {
                                             if (data1.IsSuccess) {
@@ -235,8 +225,7 @@
                                                 };
 
                                                 sipUserApiHandler.addNewExtension(extObj).then(function (data2) {
-                                                    if (data2.IsSuccess)
-                                                    {
+                                                    if (data2.IsSuccess) {
                                                         sipUserApiHandler.assignExtensionToUser(extObj.Extension, data1.Result.id).then(function (data3) {
                                                             if (data3.IsSuccess) {
                                                                 $scope.clearFormOnSave();
@@ -255,6 +244,7 @@
                                                                 $scope.showAlert('Saved with errors', 'error', errMsg);
                                                             }
                                                         }, function (err) {
+                                                            loginService.isCheckResponse(err);
                                                             $scope.clearFormOnSave();
                                                             $scope.reloadUserList();
                                                             $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while assigning extension');
@@ -274,6 +264,7 @@
                                                         $scope.showAlert('Saved with errors', 'error', errMsg);
                                                     }
                                                 }, function (err) {
+                                                    loginService.isCheckResponse(err);
                                                     $scope.clearFormOnSave();
                                                     $scope.reloadUserList();
                                                     $scope.showAlert('Saved with errors', 'error', 'Communication error occurred - while creating extension');
@@ -291,28 +282,27 @@
                                             }
 
                                         }, function (err) {
+                                            loginService.isCheckResponse(err);
                                             $scope.showAlert('Error', 'error', 'Communication error occurred - user not saved');
                                         });
                                     }
                                 }
-                                else
-                                {
+                                else {
                                     $scope.showAlert('Error', 'error', 'Error occurred while validating extension');
                                 }
 
-                            }).catch(function(err)
-                            {
+                            }).catch(function (err) {
+                                loginService.isCheckResponse(err);
                                 $scope.showAlert('Error', 'error', 'Error occurred while validating extension');
                             });
                         }
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('Error', 'error', 'Error occurred while validating Sip User');
                     }
 
-                }).catch(function(err)
-                {
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'error', 'Error occurred while validating Sip User');
                 });
 
@@ -336,6 +326,7 @@
             }
 
         }, function (err) {
+            loginService.isCheckResponse(err);
             var errMsg = "Error occurred while getting context list";
             if (err.statusText) {
                 errMsg = err.statusText;
@@ -360,6 +351,7 @@
             }
 
         }, function (err) {
+            loginService.isCheckResponse(err);
             var errMsg = "Error occurred while getting end user list";
             if (err.statusText) {
                 errMsg = err.statusText;
@@ -371,27 +363,22 @@
 
         //update code damith
         //load view mode then change other view
-        $scope.viewBtnClick = function (viewState)
-        {
+        $scope.viewBtnClick = function (viewState) {
             // 0 view mode || 1 edit mode || 2 new mode
 
-            if($scope.FormState === 'New')
-            {
+            if ($scope.FormState === 'New') {
                 $scope.clearFormOnSave();
                 $scope.FormState = 'Cancel';
                 $scope.SipUsernameDisplay = 'NEW SIP USER';
             }
-            else
-            {
-                if ($scope.sipUsrList.length > 0)
-                {
+            else {
+                if ($scope.sipUsrList.length > 0) {
                     $scope.FormState = 'New';
                     $scope.SipUsernameDisplay = $scope.sipUsrList[0].SipUsername;
                     $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
                 }
 
-                if($scope.sipUsrList.length == 0)
-                {
+                if ($scope.sipUsrList.length == 0) {
                     $scope.FormState = 'Cancel';
                     $scope.SipUsernameDisplay = 'NEW SIP USER';
                 }
@@ -406,10 +393,6 @@
                 $scope.onEditPressed($scope.sipUsrList[0].SipUsername);
             }
         };
-
-
-
-
 
 
     };

@@ -137,7 +137,7 @@
                                         ng-repeat="agentSummary in agentSummaryList">
                                         <td>{{agentSummary.AgentName}}</td>
                                         <td>{{agentSummary.StaffTime}}</td>
-                                        <td>{{agentSummary.Date}}</td>
+                                        <td>{{agentSummary.Date|date:"yyyy-MM-dd"}}</td>
                                         <td>{{agentSummary.TalkTime}}</td>
                                         <td>{{agentSummary.TotalAnswered}}</td>
                                         <td>{{agentSummary.TotalCalls}}</td>

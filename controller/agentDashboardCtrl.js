@@ -3,7 +3,7 @@
  */
 
 
-mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardService) {
+mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardService,loginService) {
 
 
 
@@ -101,6 +101,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 bindDataToChart();
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             console.log(err);
         });
     };
@@ -118,6 +119,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 bindDataToChart();
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             console.log(err);
         });
     };
@@ -135,6 +137,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
 
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             console.log(err);
         });
     };
@@ -157,6 +160,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.newTicket = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.newTicket = 0;
             console.log(err);
         });
@@ -173,6 +177,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.totalTicket = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.totalTicket = 0;
             console.log(err);
         });
@@ -189,6 +194,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.totalCloseTicket = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.totalCloseTicket = 0;
             console.log(err);
         });
@@ -205,6 +211,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.openTicket = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.openTicket = 0;
             console.log(err);
         });
@@ -221,6 +228,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.solvedTicket = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.solvedTicket = 0;
             console.log(err);
         });
@@ -240,6 +248,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.reopenTicket = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.reopenTicket = 0;
             console.log(err);
         });
@@ -256,6 +265,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.parkedTicket = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.parkedTicket = 0;
             console.log(err);
         });
@@ -272,6 +282,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.progressTicket = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.progressTicket = 0;
             console.log(err);
         });
@@ -288,6 +299,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.closedTicket = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.closedTicket = 0;
             console.log(err);
         });
@@ -304,6 +316,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.firstCallResolution = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.firstCallResolution = 0;
             console.log(err);
         });
@@ -323,6 +336,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.slaViolated = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.slaViolated = 0;
             console.log(err);
         });
@@ -340,6 +354,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketResolutionTime = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketResolutionTime = 0;
             console.log(err);
         });
@@ -356,6 +371,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.averageResponseTime = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.averageResponseTime = 0;
             console.log(err);
         });
@@ -375,6 +391,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketViaCall = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketViaCall = 0;
             console.log(err);
         });
@@ -394,6 +411,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketViaSms = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketViaSms = 0;
             console.log(err);
         });
@@ -423,6 +441,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketViaFacebook = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketViaFacebook = 0;
             console.log(err);
         });
@@ -445,6 +464,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketViaFacebookChat = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketViaFacebookChat = 0;
             console.log(err);
         });
@@ -464,6 +484,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketViaTwitter = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketViaTwitter = 0;
             console.log(err);
         });
@@ -492,6 +513,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketViaSkype = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketViaSkype = 0;
             console.log(err);
         });
@@ -512,6 +534,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketViaApi = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketViaApi = 0;
             console.log(err);
         });
@@ -533,6 +556,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketViaWidget = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketViaWidget = 0;
             console.log(err);
         });
@@ -553,6 +577,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                 $scope.ticketViaEmail = 0;
             }
         }, function (err) {
+            loginService.isCheckResponse(err);
             $scope.ticketViaEmail = 0;
             console.log(err);
         });

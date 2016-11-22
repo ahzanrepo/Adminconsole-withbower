@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ticketSummaryCtrl = function ($scope, $filter, ticketReportsService) {
+    var ticketSummaryCtrl = function ($scope, $filter, ticketReportsService, loginService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -20,13 +20,11 @@
 
 
         $scope.obj = {
-            startDay : moment().format("YYYY-MM-DD"),
-            endDay : moment().format("YYYY-MM-DD")
+            startDay: moment().format("YYYY-MM-DD"),
+            endDay: moment().format("YYYY-MM-DD")
         };
 
-        $scope.summaryDetails = {
-
-        };
+        $scope.summaryDetails = {};
 
         $scope.tagList = [];
 
@@ -41,51 +39,43 @@
         };
 
 
-        var getTagList = function(callback)
-        {
+        var getTagList = function (callback) {
             $scope.tagList = [];
             var tagData = {};
-            ticketReportsService.getTagList().then(function (tagList)
-            {
-                if(tagList && tagList.Result)
-                {
+            ticketReportsService.getTagList().then(function (tagList) {
+                if (tagList && tagList.Result) {
                     tagData.AllTags = tagList.Result;
 
                 }
 
-                ticketReportsService.getCategoryList().then(function(categoryList)
-                {
-                    if(categoryList && categoryList.Result)
-                    {
+                ticketReportsService.getCategoryList().then(function (categoryList) {
+                    if (categoryList && categoryList.Result) {
                         tagData.TagCategories = categoryList.Result;
                     }
 
                     callback(tagData);
 
 
-                }).catch(function(err)
-                {
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
                     callback(tagData);
 
                 });
 
 
-            }).catch(function(err)
-            {
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
                 callback(tagData);
             });
         };
 
 
-        var populateToTagList = function()
-        {
+        var populateToTagList = function () {
             $scope.tagList = [];
-            getTagList(function(tagObj)
-            {
+            getTagList(function (tagObj) {
 
-                if(tagObj && tagObj.TagCategories)
-                {
-                    var newTagCategories = tagObj.TagCategories.map(function(obj){
+                if (tagObj && tagObj.TagCategories) {
+                    var newTagCategories = tagObj.TagCategories.map(function (obj) {
                         obj.TagType = 'CATEGORIES';
                         return obj;
                     });
@@ -95,9 +85,8 @@
                     console.log($scope.tagList);
                 }
 
-                if(tagObj && tagObj.AllTags)
-                {
-                    var newAllTags = tagObj.AllTags.map(function(obj){
+                if (tagObj && tagObj.AllTags) {
+                    var newAllTags = tagObj.AllTags.map(function (obj) {
                         obj.TagType = 'TAGS';
                         return obj;
                     });
@@ -113,8 +102,7 @@
         populateToTagList();
 
 
-        $scope.getTicketSummary = function ()
-        {
+        $scope.getTicketSummary = function () {
             $scope.obj.isTableLoading = 0;
             var momentTz = moment.parseZone(new Date()).format('Z');
             momentTz = momentTz.replace("+", "%2B");
@@ -124,32 +112,26 @@
 
             var endDate = moment(tempEndDate).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00' + momentTz;
 
-            try
-            {
+            try {
                 var tagName = null;
 
-                if($scope.selectedTag)
-                {
+                if ($scope.selectedTag) {
                     tagName = $scope.selectedTag.name;
                 }
-                ticketReportsService.getTicketSummary(startDate, endDate, tagName, $scope.channelType, $scope.priorityType, $scope.ticketType).then(function (ticketSummaryResp)
-                {
-                    if(ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0 && ticketSummaryResp.Result[0].statistics)
-                    {
+                ticketReportsService.getTicketSummary(startDate, endDate, tagName, $scope.channelType, $scope.priorityType, $scope.ticketType).then(function (ticketSummaryResp) {
+                    if (ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0 && ticketSummaryResp.Result[0].statistics) {
                         $scope.summaryDetails = ticketSummaryResp.Result[0].statistics;
                         $scope.obj.isTableLoading = 1;
 
                     }
-                    else
-                    {
+                    else {
                         $scope.obj.isTableLoading = -1;
                         $scope.summaryDetails = {};
                     }
 
 
-
-                }).catch(function(err)
-                {
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                     $scope.obj.isTableLoading = -1;
                     $scope.summaryDetails = {};
@@ -157,15 +139,13 @@
 
 
             }
-            catch (ex)
-            {
+            catch (ex) {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                 $scope.obj.isTableLoading = -1;
                 $scope.summaryDetails = {};
             }
 
         };
-
 
 
     };

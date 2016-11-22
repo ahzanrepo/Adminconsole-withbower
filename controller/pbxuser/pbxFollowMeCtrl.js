@@ -7,16 +7,14 @@
  */
 
 
-(function() {
+(function () {
     var app = angular.module("veeryConsoleApp");
 
-    var pbxFollowMeCtrl = function ($scope, $rootScope, $filter, pbxUserApiHandler)
-    {
+    var pbxFollowMeCtrl = function ($scope, $rootScope, $filter, pbxUserApiHandler, loginService) {
 
         $scope.list = [];
 
-        $scope.deleteFm = function(index, item)
-        {
+        $scope.deleteFm = function (index, item) {
             console.log(JSON.stringify($scope.list));
             $scope.list.splice(index, 1);
         };
@@ -35,8 +33,7 @@
         $scope.numberType = 'USER';
 
 
-        var resetForm = function()
-        {
+        var resetForm = function () {
             $scope.destinationNumber = null;
             $scope.numberType = 'USER';
             currentUserUuid = null;
@@ -46,21 +43,18 @@
         };
 
 
-        var reloadFMList = function(uuid)
-        {
-            pbxUserApiHandler.getFollowMeConfigList(uuid).then(function(data)
-            {
+        var reloadFMList = function (uuid) {
+            pbxUserApiHandler.getFollowMeConfigList(uuid).then(function (data) {
                 $scope.list = $filter('orderBy')(data.Result, 'Priority');
                 $scope.dataReady = true;
-            }, function(err)
-            {
+            }, function (err) {
+                loginService.isCheckResponse(err);
                 $scope.dataReady = true;
                 $scope.showAlert('ERROR', 'error', 'Error loading follow me configurations');
             });
         };
 
-        $scope.addToList = function()
-        {
+        $scope.addToList = function () {
             var newRecord =
             {
                 PBXUserUuid: currentUserUuid,
@@ -76,50 +70,38 @@
 
         }
 
-        $scope.saveFMConfig = function()
-        {
-            if($scope.list && $scope.list.length > 6)
-            {
+        $scope.saveFMConfig = function () {
+            if ($scope.list && $scope.list.length > 6) {
                 $scope.showAlert('ERROR', 'error', 'Only 6 configurations are allowed for one user - Please remove and try again');
             }
-            else
-            {
-                for(i=0; i< $scope.list.length; i++)
-                {
+            else {
+                for (i = 0; i < $scope.list.length; i++) {
                     $scope.list[i].Priority = i + 1;
                 }
                 pbxUserApiHandler.saveFollowMeConfig(currentUserUuid, $scope.list)
-                    .then(function(data)
-                    {
+                    .then(function (data) {
                         $scope.showAlert('SUCCESS', 'info', 'FollowMe configuration saved successfully');
 
-                    })
-                    .catch(function(err)
-                    {
-                        $scope.showAlert('ERROR', 'error', 'Error occurred while saving');
+                    }).catch(function (err) {
+                    loginService.isCheckResponse(err);
+                    $scope.showAlert('ERROR', 'error', 'Error occurred while saving');
 
-                    });
+                });
             }
 
         }
 
 
-
-        $rootScope.$on('PABX_LoadUserData', function(event, args)
-        {
+        $rootScope.$on('PABX_LoadUserData', function (event, args) {
             currentUserUuid = args.UserUuid;
             $scope.CurUserName = args.UserName;
             reloadFMList(currentUserUuid);
         });
 
-        $rootScope.$on('PABX_ResetForms', function(event, args)
-        {
+        $rootScope.$on('PABX_ResetForms', function (event, args) {
             resetForm();
 
         });
-
-
-
 
 
     };

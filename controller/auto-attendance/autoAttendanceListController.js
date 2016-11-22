@@ -2,7 +2,8 @@
 
 'use strict';
 
-mainApp.controller('autoattendancelistcontroller', function ($scope,$state, autottendanceconfigservice,$location) {
+mainApp.controller('autoattendancelistcontroller', function ($scope,$state,
+                                                             autottendanceconfigservice,$location) {
 
     // Update the dataset at 25FPS for a smoothly-animating chart
     $scope.aas = [];
