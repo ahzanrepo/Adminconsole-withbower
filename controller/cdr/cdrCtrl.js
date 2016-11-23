@@ -954,6 +954,7 @@
                                         if (cdrAppendObj.DVPCallDirection === 'outbound') {
                                             var holdSecTemp = curProcessingLeg.HoldSec;
                                             cdrAppendObj.HoldSec = holdSecTemp;
+                                            cdrAppendObj.Uuid = curProcessingLeg.Uuid;
                                         }
 
                                         cdrAppendObj.BillSec = curProcessingLeg.BillSec;
