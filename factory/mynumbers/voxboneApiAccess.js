@@ -4,68 +4,55 @@
 
 (function(){
     var voxboneApi = function($http, baseUrls){
-       var GetCountryCodes = function(accessToken, pageNumber, pageSize){
+       var GetCountryCodes = function(pageNumber, pageSize){
             return $http({
                 method: 'GET',
-                url: baseUrls.voxboneApiUrl +'inventory/listcountries/'+pageNumber+'/'+pageSize,
-                headers: {
-                    'api_key': accessToken
-                }})
+                url: baseUrls.voxboneApiUrl +'inventory/listcountries/'+pageNumber+'/'+pageSize
+            })
                 .then(function(response){
                     return response.data;
                 });
         };
-        var GetStates = function(accessToken, countryCode){
+        var GetStates = function(countryCode){
             return $http({
                 method: 'GET',
-                url: baseUrls.voxboneApiUrl +'inventory/liststate/'+countryCode,
-                headers: {
-                    'api_key': accessToken
-                }})
+                url: baseUrls.voxboneApiUrl +'inventory/liststate/'+countryCode
+            })
                 .then(function(response){
                     return response.data;
                 });
         };
-        var GetDidsForCountryCode = function(accessToken, countryCode, pageNumber, pageSize){
+        var GetDidsForCountryCode = function(countryCode, pageNumber, pageSize){
             return $http({
                 method: 'GET',
-                url: baseUrls.voxboneApiUrl +'inventory/listdidgroup/'+countryCode+'/'+pageNumber+'/'+pageSize,
-                headers: {
-                    'api_key': accessToken
-                }})
+                url: baseUrls.voxboneApiUrl +'inventory/listdidgroup/'+countryCode+'/'+pageNumber+'/'+pageSize
+            })
                 .then(function(response){
                     return response.data;
                 });
         };
-        var FilterDidsFormType = function(accessToken, didType, countryCode, pageNumber, pageSize){
+        var FilterDidsFormType = function(didType, countryCode, pageNumber, pageSize){
             return $http({
                 method: 'GET',
-                url: baseUrls.voxboneApiUrl +'inventory/listdidgroup/type/'+didType+'/'+countryCode+'/'+pageNumber+'/'+pageSize,
-                headers: {
-                    'api_key': accessToken
-                }})
+                url: baseUrls.voxboneApiUrl +'inventory/listdidgroup/type/'+didType+'/'+countryCode+'/'+pageNumber+'/'+pageSize
+            })
                 .then(function(response){
                     return response.data;
                 });
         };
-        var FilterDidsFormState = function(accessToken, didType, stateId, countryCode, pageNumber, pageSize){
+        var FilterDidsFormState = function(didType, stateId, countryCode, pageNumber, pageSize){
             return $http({
                 method: 'GET',
-                url: baseUrls.voxboneApiUrl +'inventory/listdidgroup/state/'+stateId+'/'+didType+'/'+countryCode+'/'+pageNumber+'/'+pageSize,
-                headers: {
-                    'api_key': accessToken
-                }})
+                url: baseUrls.voxboneApiUrl +'inventory/listdidgroup/state/'+stateId+'/'+didType+'/'+countryCode+'/'+pageNumber+'/'+pageSize
+            })
                 .then(function(response){
                     return response.data;
                 });
         };
-        var OrderDid = function(accessToken, orderInfo){
+        var OrderDid = function(orderInfo){
             return $http({
                 method: 'POST',
                 url: baseUrls.voxboneApiUrl +'order/OrderDids',
-                headers: {
-                    'api_key': accessToken
-                },
                 data: orderInfo
             })
                 .then(function(response){

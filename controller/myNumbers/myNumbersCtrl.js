@@ -592,7 +592,7 @@
 
 
         $scope.loadStates = function (countryCode) {
-            voxboneApi.GetStates('Basic bXVodW50aGFuOkR1b0AxMjM0', countryCode).then(function (response) {
+            voxboneApi.GetStates(countryCode).then(function (response) {
                 if (response.IsSuccess) {
                     var jResult = JSON.parse(response.Result);
                     $scope.states = jResult;
@@ -620,7 +620,7 @@
         };
 
         $scope.loadCountryCodes = function () {
-            voxboneApi.GetCountryCodes('Basic bXVodW50aGFuOkR1b0AxMjM0', 0, 500).then(function (response) {
+            voxboneApi.GetCountryCodes(0, 500).then(function (response) {
                 if (response.IsSuccess) {
                     var jResult = JSON.parse(response.Result);
                     $scope.countries = jResult.countries;
@@ -658,7 +658,7 @@
             console.log($scope.selectedCountry);
 
             if ($scope.searchQ.selectedCity && $scope.searchQ.selectedCity !== "All") {
-                voxboneApi.FilterDidsFormState('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.searchQ.selectedCity, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
+                voxboneApi.FilterDidsFormState($scope.searchQ.selectedDidType, $scope.searchQ.selectedCity, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
                     if (response.IsSuccess) {
                         if (response.Result) {
                             var jResult = JSON.parse(response.Result);
@@ -692,7 +692,7 @@
                     $scope.showAlert('DID Group List', errMsg, 'error');
                 });
             } else {
-                voxboneApi.FilterDidsFormType('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
+                voxboneApi.FilterDidsFormType($scope.searchQ.selectedDidType, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
                     if (response.IsSuccess) {
                         if (response.Result) {
                             var jResult = JSON.parse(response.Result);
@@ -752,7 +752,7 @@ mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModa
 
 
     $scope.initiateOrder = function () {
-        voxboneApi.OrderDid('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.order).then(function (response) {
+        voxboneApi.OrderDid($scope.order).then(function (response) {
             if (response.IsSuccess) {
                 var jResult = JSON.parse(response.Result);
                 var result = jResult.productCheckoutList[0];
