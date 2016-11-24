@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var queueSummaryHourlyCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService) {
+    var queueSummaryHourlyCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls) {
 
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
 
@@ -68,7 +68,7 @@
 
                             if (decodedToken && decodedToken.company && decodedToken.tenant) {
                                 $scope.currentCSVFilename = fileName;
-                                $scope.DownloadCSVFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                                $scope.DownloadCSVFileUrl = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
                                 $scope.fileDownloadState = 'READY';
                                 $scope.DownloadButtonName = 'CSV';
                                 $scope.cancelDownload = true;

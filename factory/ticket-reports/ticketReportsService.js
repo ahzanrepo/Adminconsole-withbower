@@ -277,7 +277,7 @@
 
         var getTagList = function()
         {
-            var url = 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/Tags';
+            var url = baseUrls.ticketUrl + 'Tags';
 
             return $http({
                 method: 'GET',
