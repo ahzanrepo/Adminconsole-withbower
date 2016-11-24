@@ -3865,11 +3865,18 @@ footer {
 }
 
 
-
 .selectRow {
     display : block;
     padding : 20px;
 }
 .select2-container {
     width: 200px;
+}
+
+.inline-btn {
+    display: inline-block;
+}
+
+.bg-checkbox {
+    cursor: pointer;
 }

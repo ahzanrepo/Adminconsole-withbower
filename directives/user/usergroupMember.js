@@ -6,16 +6,16 @@ mainApp.directive("groupmemberviewer", function ($filter,$uibModal,userProfileAp
     return {
         restrict: "EAA",
         scope: {
-            groupid: "=",
-            agents: "="
+            groupid: "="
+
         },
 
         templateUrl: 'views/user/groupMembers.html',
 
         link: function (scope) {
 
-            console.log(scope.agents);
-            scope.groupMemberlist;
+            scope.groupMemberlist=[];
+            scope.agents=[];
             scope.showAlert = function (title, type, content) {
 
                 new PNotify({
@@ -25,6 +25,23 @@ mainApp.directive("groupmemberviewer", function ($filter,$uibModal,userProfileAp
                     styling: 'bootstrap3'
                 });
             };
+
+
+            scope.loadAllAgents = function () {
+
+                userProfileApiAccess.getUsers().then(function(data)
+                {
+                    if(data.IsSuccess)
+                    {
+                        scope.agents=data.Result;
+                        removeAllocatedAgents();
+                    }
+                }, function (error) {
+                    scope.showAlert("Loading Agent details","error","Error in loading Agent details");
+                });
+            }
+            scope.loadAllAgents();
+
             scope.loadGroupMembers = function () {
                 userProfileApiAccess.getGroupMembers(scope.groupid).then(function (response) {
                     if(response.IsSuccess)

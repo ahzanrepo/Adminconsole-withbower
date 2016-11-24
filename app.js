@@ -65,7 +65,8 @@ var baseUrls = {
     'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
-    'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud//DVP/API/1.0.0.0/voxbone/'
+    'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',
+    'walletService':'http://192.168.0.10:3333/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -693,6 +694,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "SLA_BREAKDOWN"
+            }
+        }).state('console.fileslotmaker', {
+            url: "/fileslot",
+            templateUrl: "views/fileSlotMaker/fileSlotMaker.html",
+            controller: "fileSlotController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET"
+            }
+        }).state('console.billingHistory', {
+            url: "/billinghistory",
+            templateUrl: "views/billing-history/billingHistory.html",
+            controller: "billingHistoryController",
+            data: {
+                requireLogin: true,
+                navigation: "ARDS_CONFIGURATION"
             }
         })
     }]);

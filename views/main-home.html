@@ -96,6 +96,9 @@
                                     </li>
 
 
+                                    <li ng-show="accessNavigation.ARDS_CONFIGURATION"><a href="javascript:void(0);"
+                                                                                   ng-click="clickDirective.goBillingHistory()">Billing Histoty</a></li>
+
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>
                                     </li>-->
@@ -106,6 +109,7 @@
                                 <a class="font-robot font-300 "><i class="fa fa-child"></i> User <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
+
                                     <li ng-show="accessNavigation.USERS"><a href="javascript:void(0);"
                                                                             ng-click="clickDirective.goUsers()">Users</a>
                                     </li>
@@ -195,7 +199,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.TICKET_SLA || accessNavigation.TICKET_TRIGGER">
+                            <li ng-show="accessNavigation.TICKET_SLA || accessNavigation.TICKET_TRIGGER || accessNavigation.TICKET">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-tasks"></i> Ticket <span
                                         class="fa fa-chevron-down"></span></a>
@@ -211,6 +215,9 @@
                                     <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goTicketSla()">Ticket
                                         SLA</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.TICKET"><a href="javascript:void(0);"
+                                                                             ng-click="clickDirective.goFileSlot()">Slots</a>
                                     </li>
 
                                 </ul>

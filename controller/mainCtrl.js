@@ -317,7 +317,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.case');
         }, goQueueSlaBreakDown: function () {
             $state.go('console.queueSlaBreakDown');
-        }
+        }, goFileSlot: function () {
+            $state.go('console.fileslotmaker');
+        },goBillingHistory: function () {
+            $state.go('console.billingHistory');
+        },
     };
 
     var getUserName = function () {
