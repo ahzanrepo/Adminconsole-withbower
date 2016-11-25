@@ -59,6 +59,15 @@
                     return response.data;
                 });
         };
+        var GetNumberRates = function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.TrunkServiceURL +'PhoneNumberTrunkApi/Operator/VOXBONE'
+            })
+                .then(function(response){
+                    return response.data;
+                });
+        };
 
         return{
             GetCountryCodes: GetCountryCodes,
@@ -66,7 +75,8 @@
             GetDidsForCountryCode: GetDidsForCountryCode,
             FilterDidsFormType: FilterDidsFormType,
             FilterDidsFormState: FilterDidsFormState,
-            OrderDid: OrderDid
+            OrderDid: OrderDid,
+            GetNumberRates: GetNumberRates
         };
     };
     var module = angular.module("veeryConsoleApp");
