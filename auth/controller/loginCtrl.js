@@ -10,11 +10,13 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         if ($auth.isAuthenticated()) {
 
             loginService.getUserNavigation(function (isnavigation) {
-                $state.go('console');
+                if(isnavigation){
+                    $state.go('console');
+                }
             })
 
         }
-    }
+    };
 
     var para = {
         userName: null,
@@ -110,18 +112,23 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                     if (status == 200) {
                         if (result) {
                             loginService.getUserNavigation(function (isnavigation) {
-
-                                $state.go('console');
-
+                                if(isnavigation)
+                                    $state.go('console');
+                                //else
+                                   // $state.go('login');
                             })
                         } else {
-
-                            $state.go('pricing');
+                            if(loginService.isOwner() == 'admin') {
+                                $state.go('console.pricing');
+                            }else{
+                                $state.go('login');
+                            }
                         }
                     } else {
 
                         loginService.getUserNavigation(function (isnavigation) {
-                            $state.go('console');
+                            if(isnavigation)
+                                $state.go('console');
                         })
                     }
                 });
