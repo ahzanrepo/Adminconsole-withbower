@@ -6,10 +6,10 @@ mainApp.factory('billingHistoryService', function ($http, baseUrls) {
 
     return {
 
-        getBillingHistory: function (stDt,edDt) {
+        getBillingHistory: function (rowCount,pageNo) {
             return $http({
                 method: 'GET',
-                url: baseUrls.walletService+"PaymentManager/WalletHistory/from/"+stDt+"/to/"+edDt
+                url: baseUrls.walletUrl+"/WalletHistory/"+rowCount+"/"+pageNo
             }).then(function(response)
             {
                 return response;

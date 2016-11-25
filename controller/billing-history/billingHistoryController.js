@@ -9,6 +9,9 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
     $scope.dateValid = true;
     $scope.agentSummaryList = [];
     $scope.Agents=[];
+    $scope.summaryData=[];
+    $scope.pageNo=1;
+    $scope.rowCount=5;
 
     $scope.dtOptions = { paging: false, searching: false, info: false, order: [2, 'asc'] };
 
@@ -32,14 +35,25 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
 
     $scope.getBillHistoryCSV = function () {
-        var newStartDate = $scope.startDate + ' 00:00:00' + momentTz;
-        var newEndDate = $scope.endDate + ' 23:59:59' + momentTz;
+
 
         $scope.DownloadFileName = 'BILL_HISTORY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();
-        $scope.summaryData=[];
-        $scope.historyList=[];
-        billingHistoryService.getBillingHistory(newStartDate,newEndDate).then(function (response) {
+
+        var billData = $scope.summaryData.map(function (c,index) {
+            c.description = c.OtherJsonData.msg;
+            return c;
+        });
+
+
+        //$scope.AgentDetailsAssignToSummery();
+        deferred.resolve(billData);
+
+        return deferred.promise;
+
+
+        /*$scope.historyList=[];
+        billingHistoryService.getBillingHistory($scope.rowCount,$scope.pageNo).then(function (response) {
 
             if(!response.data.IsSuccess)
             {
@@ -50,7 +64,8 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
             {
                 $scope.isTableLoading=1;
 
-                $scope.summaryData=response.data.Result;
+                var NewSummaryData=$scope.summaryData.concat(response.data.Result);
+                $scope.summaryData=NewSummaryData;
 
 
                 var billData = $scope.summaryData.map(function (c,index) {
@@ -69,7 +84,7 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
             deferred.reject(agentSummaryList);
         });
 
-        return deferred.promise;
+        return deferred.promise;*/
     }
 
 
@@ -120,13 +135,10 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
     }
 
     //$scope.getAgents();
-    $scope.summaryData=[];
-    $scope.getBillingHistory = function () {
-        $scope.summaryData=[];
-        var newStartDate = $scope.startDate + ' 00:00:00' + momentTz;
-        var newEndDate = $scope.endDate + ' 23:59:59' + momentTz;
 
-        billingHistoryService.getBillingHistory(newStartDate,newEndDate).then(function (response) {
+    $scope.getBillingHistory = function () {
+
+        billingHistoryService.getBillingHistory($scope.rowCount,$scope.pageNo).then(function (response) {
 
             if(!response.data.IsSuccess)
             {
@@ -135,12 +147,22 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
             else
             {
                 $scope.isTableLoading=1;
-                $scope.summaryData=response.data.Result;
+                if(response.data.Result)
+                {
+                    $scope.summaryData=$scope.summaryData.concat(response.data.Result);
+                    $scope.pageNo+=1;
+                }
+
+
             }
 
         }, function (error) {
             console.log("Error in Bill History loading ",error);
         })
-    }
+    };
+
+
+
+    $scope.getBillingHistory();
 
 });
