@@ -171,6 +171,7 @@ mainApp.controller("creditController", function ($scope, walletService) {
 
     $scope.rechargTo = 0;
     $scope.$watch('wallet', function (newVal, oldVal) {
+        $scope.rechargTo = 0;
         if ($scope.wallet.Credit < (newVal.ThresholdValue * 10)) {
             var b = newVal.AutoRechargeAmount - ($scope.wallet.Credit );
             if (b > 0) {
