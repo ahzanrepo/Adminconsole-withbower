@@ -66,7 +66,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
-    'walletUrl': 'http://localhost:3333/DVP/API/1.0.0.0/PaymentManager/'
+    'walletUrl': 'http://walletservice.app.veery.cloud/DVP/API/1.0.0.0/PaymentManager/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -717,6 +717,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 data: {
                     requireLogin: true,
                     navigation: "TICKET"
+                }
+            }).state('console.billingHistory', {
+                url: "/billingHistory",
+                templateUrl: "views/billing-history/billingHistory.html",
+                controller: "billingHistoryController",
+
+                data: {
+                    requireLogin: true,
+                    navigation: "PACKAGE_MANAGER"
                 }
             })
     }]);
