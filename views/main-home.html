@@ -104,8 +104,6 @@
                                         Credit</a>
                                     </li>-->
 
-                                    <li ng-show="accessNavigation.ARDS_CONFIGURATION"><a href="javascript:void(0);"
-                                                                                   ng-click="clickDirective.goBillingHistory()">Billing Histoty</a></li>
 
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>
@@ -113,18 +111,21 @@
                                 </ul>
                             </li>
 
-                            <li >
+                            <li ng-show="accessNavigation.PACKAGE_MANAGER">
                                 <a class="font-robot font-300 "><i class="fa fa-dollar"></i>Account <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li ><a href="javascript:void(0);"
-                                                                                            ng-click="clickDirective.goPackages()">
+                                    <li  ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);"ng-click="clickDirective.goPackages()">
                                         Packages</a>
                                     </li>
-                                    <li ><a href="javascript:void(0);"
-                                                                                            ng-click="clickDirective.goCredit()">
+                                    <li  ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goCredit()">
                                         Credit</a>
                                     </li>
+
+                                    <li ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goBillingHistory()">
+                                        Billing Histoty</a>
+                                    </li>
+
 
 
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
