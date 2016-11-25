@@ -215,6 +215,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goDynamicForm: function () {
             $state.go('console.FormDesign');
         },
+        goPackages: function () {
+            $state.go('console.pricing');
+        },goCredit: function () {
+            $state.go('console.credit');
+        },
         goAgentStatus: function () {
             $state.go('console.AgentStatus');
         },
@@ -319,7 +324,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.queueSlaBreakDown');
         }, goFileSlot: function () {
             $state.go('console.fileslotmaker');
-        }
+        },goBillingHistory: function () {
+            $state.go('console.billingHistory');
+        },
     };
 
     var getUserName = function () {
