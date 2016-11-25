@@ -215,6 +215,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goDynamicForm: function () {
             $state.go('console.FormDesign');
         },
+        goPackages: function () {
+            $state.go('console.pricing');
+        },goCredit: function () {
+            $state.go('console.credit');
+        },
         goAgentStatus: function () {
             $state.go('console.AgentStatus');
         },
