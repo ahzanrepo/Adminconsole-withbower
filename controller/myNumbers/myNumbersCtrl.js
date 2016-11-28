@@ -534,12 +534,18 @@
             itemsPerPage: 10
         };
 
+
         $scope.selectVoxDidGroup = function (voxDidGroup) {
             if (voxDidGroup) {
+                var voxSetupFee = voxDidGroup.setup100?parseInt(voxDidGroup.setup100):0;
+                var voxMonthlyFee = voxDidGroup.monthly100?parseInt(voxDidGroup.monthly100):0;
                 $scope.selectedVoxDidGroup = voxDidGroup;
                 $scope.order.customerReference = 'ref:' + voxDidGroup.didGroupId;
                 $scope.order.quantity = 1;
+                $scope.order.didGroup = voxDidGroup;
                 $scope.order.didGroupId = voxDidGroup.didGroupId;
+                $scope.order.numberSetupFee = voxSetupFee/100;
+                $scope.order.monthlyFee = voxMonthlyFee/100;
                 $location.hash('voxDidLimitScroll');
                 $anchorScroll();
             }
@@ -574,28 +580,44 @@
 
         };
 
-        $scope.initiateOrder = function () {
-            voxboneApi.OrderDid('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.order).then(function (response) {
+        $scope.showModal = function () {
+            //modal show
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/mynumbers/voxNumberConfirmation.html',
+                controller: 'voxNumberConfirmModalController',
+                size: 'sm',
+                resolve: {
+                    order: function () {
+                        return $scope.order;
+                    },
+                    numberRates: function () {
+                        return $scope.numberRates;
+                    }
+                }
+            });
+        };
+
+        $scope.loadNumberRates = function () {
+            voxboneApi.GetNumberRates().then(function (response) {
                 if (response.IsSuccess) {
-                    var jResult = JSON.parse(response.Result);
-                    var result = jResult.productCheckoutList[0];
-                    $scope.showAlert("Voxbone", "success", result.message);
+                    if(response.Result) {
+                        $scope.numberRates = response.Result;
+                    }else{
+                        $scope.showAlert("Voxbone", 'error', 'Loading error, No number rates found');
+                    }
                 }
                 else {
-                    if (Array.isArray(response.Result)) {
-                        $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
-                    } else {
-                        var errMsg = response.CustomMessage;
+                    var errMsg = response.CustomMessage;
 
-                        if (response.Exception) {
-                            errMsg = response.Exception.Message;
-                        }
-                        $scope.showAlert("Voxbone", 'error', errMsg);
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
                     }
+                    $scope.showAlert("Voxbone", 'error', errMsg);
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while initiate order";
+                var errMsg = "Error occurred while loading number rates";
                 if (err.statusText) {
                     errMsg = err.statusText;
                 }
@@ -603,8 +625,10 @@
             });
         };
 
+        $scope.loadNumberRates();
+
         $scope.loadStates = function (countryCode) {
-            voxboneApi.GetStates('Basic bXVodW50aGFuOkR1b0AxMjM0', countryCode).then(function (response) {
+            voxboneApi.GetStates(countryCode).then(function (response) {
                 if (response.IsSuccess) {
                     var jResult = JSON.parse(response.Result);
                     $scope.states = jResult;
@@ -632,7 +656,7 @@
         };
 
         $scope.loadCountryCodes = function () {
-            voxboneApi.GetCountryCodes('Basic bXVodW50aGFuOkR1b0AxMjM0', 0, 500).then(function (response) {
+            voxboneApi.GetCountryCodes(0, 500).then(function (response) {
                 if (response.IsSuccess) {
                     var jResult = JSON.parse(response.Result);
                     $scope.countries = jResult.countries;
@@ -670,7 +694,7 @@
             console.log($scope.selectedCountry);
 
             if ($scope.searchQ.selectedCity && $scope.searchQ.selectedCity !== "All") {
-                voxboneApi.FilterDidsFormState('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.searchQ.selectedCity, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
+                voxboneApi.FilterDidsFormState($scope.searchQ.selectedDidType, $scope.searchQ.selectedCity, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
                     if (response.IsSuccess) {
                         if (response.Result) {
                             var jResult = JSON.parse(response.Result);
@@ -704,7 +728,7 @@
                     $scope.showAlert('DID Group List', errMsg, 'error');
                 });
             } else {
-                voxboneApi.FilterDidsFormType('Basic bXVodW50aGFuOkR1b0AxMjM0', $scope.searchQ.selectedDidType, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
+                voxboneApi.FilterDidsFormType($scope.searchQ.selectedDidType, $scope.selectedCountry.countryCodeA3, $scope.pagination.currentPage - 1, $scope.pagination.itemsPerPage).then(function (response) {
                     if (response.IsSuccess) {
                         if (response.Result) {
                             var jResult = JSON.parse(response.Result);
@@ -745,3 +769,66 @@
 
     app.controller("myNumbersCtrl", myNumbersCtrl);
 }());
+
+
+
+mainApp.controller("voxNumberConfirmModalController", function ($scope, $uibModalInstance, order, numberRates, voxboneApi) {
+    $scope.showModal = true;
+    $scope.order = order;
+    $scope.numberRates = numberRates;
+
+    $scope.showAlert = function (title, content, type) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
+    var calculateNumberFee = function () {
+        $scope.order.ChannelCount = $scope.order.ChannelCount?$scope.order.ChannelCount:1;
+        $scope.order.numberSetupFee = $scope.order.numberSetupFee + $scope.numberRates.NumberSetupFee;
+        $scope.order.monthlyFee = $scope.order.monthlyFee + ($scope.order.monthlyFee * $scope.numberRates.NumberRSCRate / 100) + ($scope.order.ChannelCount * $scope.numberRates.ChannelFee);
+    };
+
+    calculateNumberFee();
+
+    $scope.initiateOrder = function () {
+        voxboneApi.OrderDid($scope.order).then(function (response) {
+            if (response.IsSuccess) {
+                var jResult = JSON.parse(response.Result);
+                var result = jResult.productCheckoutList[0];
+                $scope.showAlert("Voxbone", "success", result.message);
+                $scope.closeModal();
+            }
+            else {
+                if (Array.isArray(response.Result)) {
+                    $scope.showAlert("Voxbone", 'error', response.Result[0].apiErrorMessage);
+                } else {
+                    var errMsg = response.CustomMessage;
+
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert("Voxbone", 'error', errMsg);
+                }
+            }
+        }, function (err) {
+            loginService.isCheckResponse(err);
+            var errMsg = "Error occurred while initiate order";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Voxbone', 'error', errMsg);
+        });
+    };
+
+    $scope.closeModal = function () {
+        $uibModalInstance.dismiss('cancel');
+        //reloadPage();
+    }
+
+
+});

@@ -5,13 +5,60 @@
 
 (function(spt) {
 
-	spt.directive('stripePayment', ['$window', function ($window) {
+	spt.directive('stripePayment', ['$window','walletService', function ($window,walletService) {
 		return {
 			restrict: 'A',
 			scope: {
-				config: '=stripePayment'
+				config: '=stripePayment',
+				isNewCard:'@newCard',
+				walletId:'=walletId'
 			},
 			controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
+
+				$scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
+
+					(new PNotify({
+						title: tittle,
+						text: content,
+						icon: 'glyphicon glyphicon-question-sign',
+						hide: false,
+						confirm: {
+							confirm: true
+						},
+						buttons: {
+							closer: false,
+							sticker: false
+						},
+						history: {
+							history: false
+						}
+					})).get().on('pnotify.confirm', function () {
+							OkCallback(true);
+						}).on('pnotify.cancel', function () {
+							OkCallback(false);
+						});
+
+				};
+
+
+				$scope.showError = function (tittle,content) {
+					new PNotify({
+						title: tittle,
+						text: content,
+						type: 'error',
+						styling: 'bootstrap3'
+					});
+				};
+
+				$scope.showAlert = function (tittle, content) {
+
+					new PNotify({
+						title: tittle,
+						text: content,
+						type: 'success',
+						styling: 'bootstrap3'
+					});
+				};
 
 				var config = $scope.config;
 				if(!config.hasOwnProperty('publishKey')){
@@ -21,11 +68,36 @@
 				var handler = (function() {
 
 					var handler = StripeCheckout.configure({
-						key: 'pk_test_8FepS5OSLnghnaPfVED8Ixkx',
+						key: config.publishKey,
 						image: config.logo,
 						panelLabel: config.label,
 						token: function(token) {
-							$rootScope.$broadcast('stripe-token-received', token);
+							if($scope.isNewCard==='true'){
+								walletService.CreateWallet(token.id,token.email).then(function(result){
+									if(result){
+										$scope.showAlert("Credit","Wallet Create Successfully. Please add Some Credit to your wallet.");
+										$rootScope.$broadcast('stripe-token-received', 123);
+									}else{
+										$scope.showError("Credit","Fail To Create Wallet.");
+									}
+
+								},function(err){
+									$scope.showError("Credit","Fail To Create Wallet.");
+								});
+							}
+							else{
+								walletService.AddNewCard($scope.walletId,token.id,token.email).then(function(result){
+									if(result){
+										$scope.showAlert("Credit","New Card Added To Wallet.");
+										$rootScope.$broadcast('stripe-token-received', 123);
+									}else{
+										$scope.showAlert("Credit","Fail To Add New Card To Your Wallet.");
+									}
+
+								},function(err){
+									$scope.showError("Credit","Fail To Add New Card To Your Wallet.");
+								});
+							}
 						}
 					});
 
@@ -36,11 +108,11 @@
 						});
 
 						ev.preventDefault();
-					}
+					};
 
 					var close = function() {
 						handler.close();
-					}
+					};
 
 					return {
 						open: open,

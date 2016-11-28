@@ -338,7 +338,7 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                 var templateContent=scope.template.content.content;
                 var splitList = templateContent.match(/({[a-zA-Z])\w+}/g);
                 //console.log(splitList);
-                console.log(scope.template.name +" : "+splitList.length);
+                //console.log(scope.template.name +" : "+splitList.length);
 
                 if(splitList)
                 {
@@ -451,14 +451,22 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                 }
             };
 
+            scope.isUpdateChecked=false;
             scope.updateTemplate= function () {
+
+                scope.isUpdateChecked=true;
 
                 var currentStyles=scope.template.styles;
                 var newStyles=[];
 
                 for(var i=0;i<scope.StyleList.length;i++)
                 {
-                    newStyles.push(scope.StyleList[i].value);
+                    if(scope.StyleList[i].value)
+                    {
+                        newStyles.push(scope.StyleList[i].value);
+                    }
+
+
                 }
 
 
@@ -492,19 +500,23 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                                 console.log("Update template new styles",newStyleRes);
                                 scope.showAlert("Success","Template updated succeeded","success");
                                 //scope.reloadpage();
+                                scope.isUpdateChecked=false;
                                 scope.editTemplate();
+                                scope.reloadpage();
 
                             }), function (errNewStyle) {
                                 console.log("Update new style error",errNewStyle);
                                 scope.showAlert("Error","Template updation failed","error");
-                                //scope.reloadpage();
+                                scope.isUpdateChecked=false;
                                 scope.editTemplate();
+                                scope.reloadpage();
                             }
                         }), function (errStyle) {
                             scope.showAlert("Error","Template Content updation failed","error");
                             console.log("Update style error",errStyle);
-                            //scope.reloadpage();
+                            scope.isUpdateChecked=false;
                             scope.editTemplate();
+                            scope.reloadpage();
                         }
                     }
                     else if(scope.template.styles.length>0 && scope.StyleList.length==0)
@@ -513,13 +525,17 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                             console.log("Update template styles",styleResponse);
                             scope.showAlert("Success","Template Content updated succeeded","success");
                             //scope.reloadpage();
+                            scope.isUpdateChecked=false;
                             scope.editTemplate();
+                            scope.reloadpage();
 
                         }), function (errStyle) {
                             scope.showAlert("Error","Template Content updation failed","error");
                             console.log("Update style error",errStyle);
                             //scope.reloadpage();
+                            scope.isUpdateChecked=false;
                             scope.editTemplate();
+                            scope.reloadpage();
                         }
                     }
                     else if(scope.template.styles.length==0 && scope.StyleList.length>0)
@@ -528,18 +544,24 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                             console.log("Update template new styles",newStyleRes);
                             scope.showAlert("Success","Template updated succeeded","success");
                             //scope.reloadpage();
+                            scope.isUpdateChecked=false;
                             scope.editTemplate();
+                            scope.reloadpage();
                         }), function (errNewStyle) {
                             console.log("Update new style error",errNewStyle);
                             scope.showAlert("Error","Template updation failed","error");
                             //scope.reloadpage();
+                            scope.isUpdateChecked=false;
                             scope.editTemplate();
+                            scope.reloadpage();
                         }
                     }
                     else
                     {
                         //scope.reloadpage();
+                        scope.isUpdateChecked=false;
                         scope.editTemplate();
+                        scope.reloadpage();
                     }
 
 
@@ -549,6 +571,9 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                 }),(function (error) {
                     scope.showAlert("Error","Content updation failed","error");
                     console.log("Update template error",error);
+                    scope.isUpdateChecked=false;
+                    scope.editTemplate();
+                    scope.reloadpage();
 
                 });
 
@@ -560,7 +585,9 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                 {
                     if(scope.StyleList[i].value==styleContent.value && styleContent.$$hashKey==scope.StyleList[i].$$hashKey)
                     {
+                        //scope.removeAssignedStyleItem(scope.StyleList[i]);
                         scope.StyleList.splice(i,1);
+
 
                     }
 
@@ -674,8 +701,6 @@ mainApp.directive("newtemplatestyledir", function ($filter,$uibModal) {
             scope.deleteNewStyle = function () {
                 scope.removeNewStyle();
             };
-
-
 
 
 

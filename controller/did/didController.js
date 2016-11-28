@@ -91,9 +91,11 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance, $f
     $scope.Extensions = [];
     $scope.TrunkNumbers = [];
 
-    if (didId) {
-        $scope.did = didData;
-        $scope.did.Extension.id = (didData.Extension.id).toString();
+
+    if(didId)
+    {
+        $scope.did=didData;
+        $scope.did.Extension.id=(didData.Extension.id).toString();
     }
 
     $scope.showAlert = function (title, content, type) {
@@ -143,7 +145,13 @@ mainApp.controller("didModalController", function ($scope, $uibModalInstance, $f
 
                 });
 
-                $scope.RemoveAllocatedDIDs();
+                if(!didId)
+                {
+                    $scope.RemoveAllocatedDIDs();
+                }
+
+
+
             }
             else {
                 $scope.showAlert("Error", "Error in loading Trunk numbers", "error");

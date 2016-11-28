@@ -254,7 +254,7 @@
 <!---Socket --->
 
 <script type="text/javascript" src="bower_components/angular-socket-io/socket.js"></script>
-<script type="text/javascript" src="bower_components/socket.io-client/socket.io.js"></script>
+<script type="text/javascript" src="bower_components/socket.io-client/dist/socket.io.js"></script>
 
 
 <!-- controller -->
@@ -600,8 +600,9 @@
 <script src="bower_components/angular-timeago/dist/angular-timeago.min.js"></script>
 
 <!--payment getway-->
-<script src="https://checkout.stripe.com/checkout.js"></script>
-<script src="asset/js/stripe.payment.tool.js"></script>
+<!--<script src="https://checkout.stripe.com/checkout.js"></script>-->
+<script src="asset/js/stripe/checkout.js"></script>
+<script src="asset/js/stripe/stripe.payment.tool.js"></script>
 
 <!--Case Configuration-->
 <script type="text/javascript" src="controller/ticket-case/caseConfigController.js"></script>
@@ -628,6 +629,19 @@
 
 <!-- Include the ngReCaptcha directive -->
 <script type="text/javascript" src="bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
+
+
+<!--fileSlotMaker-->
+<script type="text/javascript" src="controller/fileSlotMaker/fileSlotMaker.js"></script>
+<script type="text/javascript" src="factory/fileSlotMaker/fileSlotMakerService.js"></script>
+<script type="text/javascript" src="directives/fileSlotMaker/fileSlotList.js"></script>
+
+<!--wallet App-->
+<script type="text/javascript" src="auth/services/walletService.js"></script>
+<script type="text/javascript" src="auth/Credit/creditController.js"></script>
+<!-- bill history-->
+<script type="text/javascript" src="controller/billing-history/billingHistoryController.js"></script>
+<script type="text/javascript" src="factory/billing-history/billingHistoryService.js"></script>
 
 
 </html>

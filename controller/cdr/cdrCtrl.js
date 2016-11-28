@@ -7,7 +7,7 @@
 
 
     var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, ngAudio,
-                            loginService) {
+                            loginService, baseUrls) {
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'asc']};
 
         $scope.config = {
@@ -91,7 +91,7 @@
             var decodedToken = loginService.getTokenDecode();
 
             if (decodedToken && decodedToken.company && decodedToken.tenant) {
-                $scope.DownloadFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
+                $scope.DownloadFileUrl = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
 
             }
 
@@ -107,7 +107,7 @@
                 var decodedToken = loginService.getTokenDecode();
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant) {
-                    var fileToPlay = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
+                    var fileToPlay = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
 
                     var arr = [
                         {
@@ -232,7 +232,7 @@
 
                             if (decodedToken && decodedToken.company && decodedToken.tenant) {
                                 $scope.currentCSVFilename = fileName;
-                                $scope.DownloadCSVFileUrl = 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                                $scope.DownloadCSVFileUrl = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
                                 $scope.fileDownloadState = 'READY';
                                 $scope.DownloadButtonName = 'CSV';
                                 $scope.cancelDownload = true;
@@ -954,6 +954,7 @@
                                         if (cdrAppendObj.DVPCallDirection === 'outbound') {
                                             var holdSecTemp = curProcessingLeg.HoldSec;
                                             cdrAppendObj.HoldSec = holdSecTemp;
+                                            cdrAppendObj.Uuid = curProcessingLeg.Uuid;
                                         }
 
                                         cdrAppendObj.BillSec = curProcessingLeg.BillSec;

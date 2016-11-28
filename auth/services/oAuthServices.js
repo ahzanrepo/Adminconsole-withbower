@@ -25,6 +25,7 @@
         service.tokenExsistes = tokenExsistes;
         service.activateAccount = activateAccount;
         service.isCheckResponse = isCheckResponse;
+        service.isOwner = isOwner;
         return service;
 
 
@@ -51,7 +52,11 @@
             var token = $auth.getToken();
             if (token) {
                 if (!jwtHelper.isTokenExpired(token)) {
-                    return token.user_meta.role;
+                    var decoded = jwtHelper.decodeToken(token);
+                    if(decoded && decoded.user_meta)
+                        return decoded.user_meta.role;
+                    else
+                        return undefined;
                 }
             }
             return undefined;
@@ -239,9 +244,11 @@
                     //navigations = data.Result[0];
 
                     localStorageService.set("@navigations", data.Result[0]);
-
+                    callback(true);
+                }else{
+                    callback(false);
                 }
-                callback(true);
+
             }).error(function (data, status, headers, config) {
                 callback(false);
             });
