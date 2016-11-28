@@ -29,7 +29,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'datatables',
     'satellizer',
     'checklist-model',
-    'vcRecaptcha', 'angucomplete-alt'
+    'vcRecaptcha', 'angucomplete-alt',
+    'jsplumb'
 ]);
 
 
@@ -52,7 +53,7 @@ var baseUrls = {
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
-    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ticketUrl': 'http://192.168.5.175:3636/DVP/API/1.0.0.0/',//http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -694,7 +695,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "SLA_BREAKDOWN"
             }
+        }).state('console.ticket-flow', {
+            url: "/ticketFLow",
+            templateUrl: "views/flow/ticket-flow-view.html",
+            data: {
+                requireLogin: true,
+                navigation: "SLA_BREAKDOWN"
+            }
         })
+        //Todo shoud be change navigation
     }]);
 
 
@@ -754,7 +763,7 @@ mainApp.constant('config', {
 });
 
 
-mainApp.run(function ($rootScope, loginService, $location, $auth,$state) {
+mainApp.run(function ($rootScope, loginService, $location, $auth, $state) {
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;

@@ -317,6 +317,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.case');
         }, goQueueSlaBreakDown: function () {
             $state.go('console.queueSlaBreakDown');
+        }, goTicketFlow: function () {
+            $state.go('console.ticket-flow');
         }
     };
 
