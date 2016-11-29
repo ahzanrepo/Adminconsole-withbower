@@ -97,11 +97,12 @@ mainApp.factory("walletService", function ($http, $log, authService, baseUrls) {
             url: baseUrls.walletUrl + "Wallet/"+walletId+"/Credit",
             data: {'Amount': amount}
         }).then(function (response) {
-            if (response.data && response.data.IsSuccess) {
+            /*if (response.data && response.data.IsSuccess) {
                 return response.data;
             } else {
                 return undefined;
-            }
+            }*/
+            return response.data;
         });
 
     };

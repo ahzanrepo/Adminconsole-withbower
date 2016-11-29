@@ -66,7 +66,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
-    'walletUrl': 'http://walletservice.app.veery.cloud/DVP/API/1.0.0.0/PaymentManager/'
+    'walletUrl': 'http://walletservice.app.veery.cloud/DVP/API/1.0.0.0/PaymentManager/'//walletservice.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
