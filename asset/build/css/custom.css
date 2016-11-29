@@ -404,8 +404,9 @@ body .container.body .right_col {
     color: #fff !important;
 }
 
-.top_nav .nav > li > a:focus, .top_nav .nav > li > a:hover, .top_nav .nav .open > a, .top_nav .nav .open > a:focus, .top_nav .nav .open > a:hover {
-    background: #D9DEE4;
+.top_nav .nav > li > a:focus, .top_nav .nav > li > a:hover, .top_nav .nav .open > a,
+.top_nav .nav .open > a:focus, .top_nav .nav .open > a:hover {
+    background: #f7f7f7;
 }
 
 body {
@@ -1663,9 +1664,9 @@ ul.msg_list li a .message {
 
 .navbar-nav .open .dropdown-menu {
     position: absolute;
-    background: #fff;
+    background: #f7f7f7;
     margin-top: 0;
-    border: 1px solid #D9DEE4;
+    border: 1px solid #f7f7f7;
     -webkit-box-shadow: none;
     right: 0;
     left: auto;

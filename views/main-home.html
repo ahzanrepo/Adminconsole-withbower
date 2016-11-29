@@ -3,10 +3,10 @@
         <div class="col-md-3 left_col ">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="index.html" class="site_title">
+                    <a href="index.html" class="site_title ">
                         <img src="images/console_logo.png" width="45px" height="45px">
-                        <span class="font-robot font-700 font-green-light500">
-                         <small class="font-black500">FACE</small>
+                        <span class="font-robot font-700 font-green-light500 ubuntu-Light">
+                         <small class="font-black500 ubuntu-Light">FACE</small>
                              TONE
                         </span>
                     </a>
@@ -244,6 +244,10 @@
                                                                                  ng-click="clickDirective.goTicketSla()">Ticket
                                         SLA</a>
                                     </li>
+                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goTicketFlow()">
+                                        Ticket Flow</a>
+                                    </li>
                                     <li ng-show="accessNavigation.TICKET"><a href="javascript:void(0);"
                                                                              ng-click="clickDirective.goFileSlot()">Slots</a>
                                     </li>
@@ -370,7 +374,8 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
-                            <a href="javascript:void(0);" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                            <a href="javascript:void(0);" class="user-profile dropdown-toggle ubuntu-Light"
+                               data-toggle="dropdown"
                                aria-expanded="false">
                                 <img src="images/console_logo.png" alt="">Hi {{userName}}
                                 <span class=" fa fa-angle-down"></span>
@@ -378,107 +383,28 @@
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
                                 <li ng-show="accessNavigation.MYPROFILE" ng-click="clickDirective.goProfile()"><a
                                         href="javascript:void(0)"> Profile</a></li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                    </a>
-                                </li>
-                                <li><a href="javascript:;">Help</a></li>
                                 <li ng-click="clickDirective.goLogout()"><a href="javascript:void(0)"><i
                                         class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                             </ul>
                         </li>
 
-                        <!--<li role="presentation" class="dropdown">
+                        <!-- notification view -->
+                        <li role="presentation" class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
+                               ng-click="checkAndRegister()"
                                aria-expanded="false">
-                                <i class="fa fa-envelope-o"></i>
-                                &lt;!&ndash;<span class="badge bg-green">6</span>&ndash;&gt;
-                            </a>-->
-                        <!--<ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                            &lt;!&ndash;<li ng-repeat="notification in newNotifications" >
-                                <a >
-                                    <div class="col-lg-3 notify-img-small">
-                                        <img ng-src="{{notification.avatar}}"  src="assest/images/defaultProfile.png" alt="Profile Image">
-                                    </div>
+                                <i class="veery-font-1-alarm "></i>
+                                <span class="badge bg-green">{{unredNotifications}}</span>
+                            </a>
 
-                    <span>
-                      <span>{{notification.From}}</span>
-                      <span class="time"> <time-ago from-time='{{ notification.resv_time }}'></time-ago></span>
-                    </span>
-                    <span class="message" maxlength="10">
-                      {{notification.Message}}
-                    </span>
-                                </a>
-                            </li>&ndash;&gt;
-                            &lt;!&ndash;<li>
-                                <a>
-                                    <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                </a>
-                            </li>
-                            <li>
-                                <div class="text-center">
-                                    <a>
-                                        <strong>See All Alerts</strong>
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
+                            <ul id="menu1" ng-show="isSocketRegistered"
+                                class="dropdown-menu list-unstyled msg_list console-drop-menu notification-menu-left" role="menu">
+                                <div class="notification-header">
+                                    <a class="drop-header ubuntu-Medium">Notification center ({{unredNotifications}})
+                                        </a>
                                 </div>
-                            </li>&ndash;&gt;
-                        </ul>-->
+                                <div class="divider"></div>
 
-
-                        <li class="console-menu-icon m-left-10 m-right-10" id="notificationAlarm"
-                            ng-click="checkAndRegister()" uib-dropdown
-                            uib-dropdown-toggle>
-                            <i id="regNotification" class="animated  veery-font-1-alarm "
-                               ng-class="{'color-orange':unredNotifications!=0,'color-red':!isSocketRegistered}"> </i>
-                            <i id="regNotificationLoading" class="fa fa-spinner fa-spin display-none"
-                               style="margin-top: 3px;"></i>
-
-                            <div class="console-notification-header" ng-show="isSocketRegistered">
-                                {{unredNotifications}}
-                            </div>
-                            <ul class="dropdown-menu console-drop-menu notification-menu-left " uib-dropdown-menu
-                                role="menu" ng-show="isSocketRegistered"
-                                aria-labelledby="btn-append-to-single-button">
-                                <li class="notification-header">
-                                    <a class="drop-header">Notification
-                                        center</a>
-                                    <span class="drop-sub-header">new ({{unredNotifications}})</span>
-                                </li>
-                                <li class="divider"></li>
                                 <div class="console-notofication-wrapper"
                                      ng-slimscroll
                                      opacity="0.1"
@@ -494,7 +420,6 @@
                                         no new notification
                                     </div>
                                     <div class="row notification-list" ng-repeat="notifi in newNotifications">
-
                                         <div ng-click="showNotificationMessage(notifi)">
                                             <div class="col-lg-3">
                                                 <div class="notify-img-small">
@@ -522,8 +447,10 @@
 
                                 </div>
                             </ul>
-
                         </li>
+
+
+
                         <li role="presentation">
                             <a href="javascript:;" class="dropdown-toggle info-number"
                                aria-expanded="false">
