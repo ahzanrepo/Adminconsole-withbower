@@ -79,9 +79,11 @@
     "checklist-model": "^0.10.0",
     "angular-recaptcha": "^3.0.4",
     "acute-select": "^0.1.0",
-    "angucomplete-jwl": "^0.0.13"
+    "angucomplete-jwl": "^0.0.13",
+    "socket.io-client": "^1.7.1"
   },
   "resolutions": {
-    "angular": "1.5.5"
+    "angular": "1.5.5",
+    "jquery": "^2.2.4"
   }
 }
