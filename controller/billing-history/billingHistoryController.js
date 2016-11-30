@@ -42,6 +42,16 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
         var billData = $scope.summaryData.map(function (c,index) {
             c.description = c.OtherJsonData.msg;
+            if(c.OtherJsonData.amount)
+            {
+                c.Payment= c.OtherJsonData.amount;
+            }
+            else
+            {
+                c.Payment=0;
+            }
+
+
             return c;
         });
 
