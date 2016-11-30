@@ -29,7 +29,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'datatables',
     'satellizer',
     'checklist-model',
-    'vcRecaptcha', 'angucomplete-alt'
+    'vcRecaptcha', 'angucomplete-alt',
+    'jsplumb'
 ]);
 
 
@@ -52,7 +53,7 @@ var baseUrls = {
     'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
-    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -66,7 +67,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
-    'walletUrl': 'http://walletservice.app.veery.cloud/DVP/API/1.0.0.0/PaymentManager/'
+    'walletUrl': 'http://walletservice.app.veery.cloud/DVP/API/1.0.0.0/PaymentManager/'//walletservice.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -727,7 +728,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                     requireLogin: true,
                     navigation: "PACKAGE_MANAGER"
                 }
-            })
+            }).state('console.ticket-flow', {
+            url: "/ticketFLow",
+            templateUrl: "views/flow/ticket-flow-view.html",
+            data: {
+                requireLogin: true,
+                navigation: "SLA_BREAKDOWN"
+            }
+        })
+        //Todo shoud be change navigation
     }]);
 
 

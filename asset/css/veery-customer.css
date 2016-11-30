@@ -1,7 +1,8 @@
 @import url("../fonts/font.css");
+
 body {
     overflow-x: hidden;
-    font-family: 'Ubuntu-Regular', sans-serif;
+    font-family: 'Ubuntu-Regular', sans-serif !important;
 }
 
 .introLoader,
@@ -44,84 +45,137 @@ body {
     transform-type: preserve-3d;
 }
 
-/* The dot */
-#loader {
-    animation: loader 5s cubic-bezier(.8, 0, .2, 1) infinite;
-    height: 40px;
-    width: 41px;
+section.loader {
+    font-family: Consolas, monaco, monospace;
+    color: #F8B01D;
+}
+
+section.loader .loader-center {
+    width: 300px;
+    height: 100px;
+    line-height: 100px;
+
+    margin: 0 auto;
+    text-align: center;
+    font-size: 38px;
+    letter-spacing: -6px;
+
     position: absolute;
-    top: calc(50% - 20px);
-    left: calc(50% - 20px);
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -50px;
+
 }
 
-@keyframes loader {
-    90% {
-        transform: rotate(0deg);
+section.loader .loader-center .chars .dots .char {
+    font-size: 150%;
+    display: inline-block;
+}
+
+/* animation starts here */
+.dots .dot {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.dot._dot-1 {
+    animation: dot_1 1s ease-in-out infinite;
+    animation-fill-mode: backwards;
+    animation-direction: alternate;
+}
+
+.dot._dot-2 {
+    animation: dot_2 1s ease-in-out infinite;
+    animation-fill-mode: backwards;
+    animation-direction: alternate;
+    animation-delay: 1s;
+}
+
+.dot._dot-3 {
+    animation: dot_3 1s ease-in-out infinite;
+    animation-fill-mode: backwards;
+    animation-direction: alternate;
+    animation-delay: 0.5s;
+}
+
+@keyframes dot_1 {
+    0% {
+        top: 0;
+        left: 0;
     }
+
+    50% {
+        top: 30px;
+        left: 20px;
+    }
+
     100% {
-        transform: rotate(180deg);
+        top: 0px;
+        left: 40px;
     }
 }
 
-#top {
-    animation: top 5s linear infinite;
-    border-top: 20px solid #F8B01D;
-    border-right: 20px solid transparent;
-    border-left: 20px solid transparent;
-    height: 0px;
-    width: 1px;
-    transform-origin: 50% 100%;
-}
-
-@keyframes top {
-    90% {
-        transform: scale(0);
+@keyframes dot_2 {
+    0% {
+        top: 0;
+        left: 0;
     }
+
+    50% {
+        top: -30px;
+        left: 20px;
+    }
+
     100% {
-        transform: scale(0);
+        top: 0px;
+        left: 40px;
     }
 }
 
-#bottom {
-    animation: bottom 5s linear infinite;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid #F8B01D;
-    border-left: 20px solid transparent;
-    height: 0px;
-    width: 1px;
-    transform: scale(0);
-    transform-origin: 50% 100%;
-}
+@keyframes dot_3 {
+    0% {
+        top: 0;
+        left: 0;
+    }
 
-@keyframes bottom {
-    10% {
-        transform: scale(0);
+    50% {
+        top: -30px;
+        left: -40px;
     }
-    90% {
-        transform: scale(1);
-    }
+
     100% {
-        transform: scale(1);
+        top: 0px;
+        left: -80px;
     }
 }
 
-#line {
-    animation: line 5s linear infinite;
-    border-left: 1px dotted #F8B01D;
-    height: 0px;
-    width: 0px;
-    position: absolute;
-    top: 20px;
-    left: 20px;
+/* END */
+
+section .author {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0px;
+
+    font-size: 80%;
+    transform: rotate(-10deg) translate(50px, 20px);
+
+    padding: 5px 0;
+    text-align: center;
+
+    color: #eee;
+    opacity: 0.8;
 }
 
-@keyframes line {
-    10% {
-        height: 20px;
-    }
-    100% {
-        height: 20px;
-    }
+section .author a {
+    color: #78ECB4;
+    text-decoration: none;
+}
+
+section .author a:hover {
+    color: #60D69D;
 }
 
 /*#font*/
@@ -175,9 +229,9 @@ a {
 }
 
 .nav_menu {
-    background: #fbfbfb;
+    background: #ffffff;
     border-bottom: 0px solid #D9DEE4;
-    height: 61px;
+    height: 57px;
 }
 
 .main_menu_side {
@@ -3323,8 +3377,8 @@ tags-input .tags.focused {
     margin: 0 auto;
     text-align: left;
     position: absolute;
-top: 30px;
-min-height: 50px;
+    top: 30px;
+    min-height: 50px;
 }
 
 .notify-img-modal > img {
@@ -3357,12 +3411,13 @@ min-height: 50px;
     position: absolute;
 
 }
-.notify-img-gmembers> img {
+
+.notify-img-gmembers > img {
     border-radius: 40%;
     width: 40px;
     height: 40px;
-    overflow:visible;
-    position:relative;
+    overflow: visible;
+    position: relative;
 }
 
 /*add social connector disable*/
@@ -3575,12 +3630,12 @@ ul#strength {
     text-align: center;
     margin-top: 40px;
     font-size: 16px;
-    color: #36ba45;
+    color: #f8b01d;
 }
 
 .console-notofication-wrapper > .notification-status > i {
     font-size: 50px;
-    color: #36ba45;
+    color: #f8b01d;
 }
 
 .notification-list {
@@ -3629,32 +3684,6 @@ ul#strength {
     float: right;
     color: #36ba45 !important;
     padding-right: 13px;
-}
-
-.console-drop-menu.notification-menu::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -10px;
-    margin: auto 0px;
-    text-align: center;
-    left: 260px;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 22px solid white;
-}
-
-.console-drop-menu.notification-menu-left::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -10px;
-    margin: auto 0px;
-    text-align: center;
-    left: 10px;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 22px solid white;
 }
 
 .console-menu-icon {
@@ -3864,19 +3893,49 @@ footer {
     cursor: pointer !important;
 }
 
-
 .selectRow {
-    display : block;
-    padding : 20px;
+    display: block;
+    padding: 20px;
 }
+
 .select2-container {
     width: 200px;
 }
 
-.inline-btn {
-    display: inline-block;
+/*flow style */
+.node-container {
+    border: solid 0px #ccc;
+    position: relative;
+    height: 600px;
 }
 
-.bg-checkbox {
-    cursor: pointer;
+.node {
+    position: absolute;
+    border: solid 2px #00a0db;
+    padding: 20px;
+    background: #00a0db;
+    border-radius: 5px;
+    color: #383b3b;
+}
+
+/*font update */
+.ubuntu-Light {
+    font-family: 'Ubuntu-Light', Courier, monospace !important;
+}
+
+.ubuntu-Medium {
+    font-family: 'Ubuntu-Medium', Courier, monospace !important;
+}
+
+.notification-header {
+    padding: 10px 10px 0px 10px;
+}
+
+.notification-header > a {
+    font-size: 15px;
+}
+
+.s{
+    border-left: 1px solid #e8e8e8;
+    border-right: 1px solid #e8e8e8;
 }

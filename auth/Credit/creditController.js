@@ -74,7 +74,8 @@ mainApp.controller("creditController", function ($scope, walletService) {
                 $scope.showAlert("Credit", "Your Current Balance is : " + res.Result/100);
                 $scope.wallet.Credit = res.Result / 100;
             } else {
-                $scope.showError("Credit", "Fail To Buy Credit.");
+                var msg = res.Exception.Message?res.Exception.Message:"Fail To Buy Credit.";
+                $scope.showError("Credit", msg);
             }
             $scope.isBuyCredit = false;
         }, function (err) {

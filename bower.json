@@ -68,22 +68,22 @@
     "ng-csv": "^0.3.6",
     "flip": "^1.1.1",
     "angular-drag-and-drop-lists": "^1.4.0",
-    "jsPlumb": "jsplumb#^2.1.7",
+    "jsPlumb": "^2.2.6",
     "bootstrap-timepicker": "^0.5.2",
     "angular-timeago": "^0.4.3",
     "angular-file-upload": "^2.3.4",
     "angular-ui-grid": "^3.2.9",
-    "socket.io-client": "^1.5.0",
     "angular-socket-io": "^0.7.0",
     "angular-datatables": "^0.5.5",
     "satellizer": "^0.15.5",
     "checklist-model": "^0.10.0",
     "angular-recaptcha": "^3.0.4",
-
     "acute-select": "^0.1.0",
-    "angucomplete-jwl": "^0.0.13"
+    "angucomplete-jwl": "^0.0.13",
+    "socket.io-client": "^1.7.1"
   },
   "resolutions": {
-    "angular": "1.5.5"
+    "angular": "1.5.5",
+    "jquery": "^2.2.4"
   }
 }
