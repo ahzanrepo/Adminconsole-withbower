@@ -40,24 +40,14 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
         $scope.DownloadFileName = 'BILL_HISTORY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();
 
-        var billData = $scope.summaryData.map(function (c,index) {
-            c.description = c.OtherJsonData.msg;
-            if(c.OtherJsonData.amount)
-            {
-                c.Payment= c.OtherJsonData.amount;
-            }
-            else
-            {
-                c.Payment=0;
-            }
-
+       /* var billData = $scope.summaryData.map(function (c,index) {
 
             return c;
-        });
+        });*/
 
 
         //$scope.AgentDetailsAssignToSummery();
-        deferred.resolve(billData);
+        deferred.resolve($scope.summaryData);
 
         return deferred.promise;
 
@@ -99,50 +89,6 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
 
 
-    var TimeFromatter = function (mins,timeFormat) {
-
-        var secondsData = mins;
-
-
-        var hourData = parseInt( secondsData / 3600 );
-        if(hourData<10)
-        {
-            hourData="0"+hourData;
-        }
-
-        secondsData=secondsData%3600;
-
-        var minutesData = parseInt( secondsData / 60 );
-        if(minutesData<10)
-        {
-            minutesData="0"+minutesData;
-        }
-        secondsData = secondsData % 60;
-
-        if(secondsData.length > 2)
-        {
-            secondsData = secondsData.substring(0,2);
-        }
-        secondsData=parseInt(secondsData);
-        if(secondsData<10)
-        {
-            secondsData="0"+secondsData;
-        }
-
-
-        if(timeFormat=="HH:mm:ss")
-        {
-            return hourData+":"+minutesData+":"+secondsData;
-        }
-        else
-        {
-            return minutesData+":"+secondsData;
-        }
-
-
-
-
-    }
 
     //$scope.getAgents();
 
@@ -159,8 +105,33 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
                 $scope.isTableLoading=1;
                 if(response.data.Result)
                 {
-                    $scope.summaryData=$scope.summaryData.concat(response.data.Result);
-                    $scope.pageNo+=1;
+                    //$scope.summaryData=$scope.summaryData.concat(response.data.Result);
+                    $scope.summaryData=response.data.Result;
+                   // $scope.pageNo+=1;
+                    $scope.rowCount+=5;
+
+
+                    $scope.summaryData = $scope.summaryData.map(function (c,index) {
+                        c.description = c.OtherJsonData.msg;
+                        c.Payment=0;
+                        if(c.OtherJsonData.amount && c.OtherJsonData.amount>0)
+                        {
+                            c.Payment= (c.OtherJsonData.amount/100);
+                        }
+
+                        if(c.Credit && c.Credit>0)
+                        {
+                            c.Credit= (c.Credit/100);
+                        }
+                        else
+                        {
+                            c.Credit=0;
+                        }
+
+
+                        return c;
+                    });
+
                 }
 
 
