@@ -1,31 +1,27 @@
 <div id="mySidenav" class="sidenav">
 
-
     <!--<div class="nav-search-txt">-->
     <!--<input type="text" class="form-control"-->
     <!--placeholder="search user or group">-->
     <!--</div>-->
-
     <div class="online-user-wrapper">
-        <div ng-slimscroll
-             opacity="0.1"
-             distance="5px"
-             height="550px"
-             width="100%"
-             ng-mouseover="chatWidgetscrollEnabled = true"
-             ng-mouseleave="chatWidgetscrollEnabled = false"
-             enabled="{{ chatWidgetscrollEnabled }}">
+        <div id="onlineUserWraper" slimscroll="{height: '{{windowHeight}}',
+            railVisible: true,
+            color: '#c5c5c5',
+            size: '8px',
+            distance: '5px',
+            railColor: '#fff',
+            railBorderRadius: 10}">
             <div ng-mouseover="chatOption = true"
                  ng-mouseleave="chatOption = false"
-                 class="notification-user" ng-repeat="agent in agentList| filterBy: ['name']: searchCriteria">
+                 class="notification-user" ng-repeat="agent in agentList | filterBy: ['name']: searchCriteria">
                 <div class="user-img">
-
                     <img src="asset/images/defaultProfile.png"
                          ng-src="{{agent.avatar}}">
                     {{agent.name}}
                 </div>
                 <div class="notification-details">
-                    <div class="chat-icon" ng-show="chatOption">
+                    <div class="chat-icon" ng-show="chatOption" ng-click="setExtention(agent)">
                         <i class="main-icon-2-telephone-3"></i>
                     </div>
                     <div class="chat-icon" ng-show="chatOption">
@@ -36,59 +32,61 @@
                     </div>
                     <div class="user-state" style="margin-right: 5px;margin-left: 10px;"
                          ng-class="agent.status=='NotAvailable'?'offline':'online'"
-                            ></div>
+                    ></div>
                 </div>
             </div>
         </div>
 
         <div class="nav-bottom-tool">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <input type="text" class="form-control nav-search-text"
                            placeholder="search user or group" ng-model="searchCriteria">
                 </div>
 
-            </div>
-        </div>
 
-        <div id="sendMessage" class="message-wrapper display-none">
-            <div class="send-notification-wrapper">
-                <div class="wrap">
-                    <div class="people-view full-width">
-                        <!--<div class="user-img">
-                            <img src="assets/img/avatar/oykun.jpg"
-                                 ng-src="{{naviSelectedUser.avatar}}">
-                        </div>-->
-
-                        <div class="online-user-wrapper notification-user notify-img-large ">
-
-                            <img src="asset/images/defaultProfile.png"
-                                 ng-src="{{naviSelectedUser.avatar}}">
-
-                        </div>
-
-                        <div class="row people-view-details">
-                            <div class="notification-text inline-block">
-                                Message to {{naviSelectedUser.name}}
-                            </div>
-                            <div class="notification-text inline-block pull-right message-close"
-                                 ng-click="closeMessage();"
-                                 style="padding-right: 17px;">
-                                CLOSE
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="txtMessage"
-                                  class="form-control" rows="3" ng-model="notificationMsg.Message">
-                        </textarea>
-                    </div>
-                    <div class="btn-warp inline-btn pull-right">
-                        <span class="btn btn-default " ng-click="sendNotification()">send</span>
-                    </div>
-
-                </div>
             </div>
         </div>
     </div>
+
+    <div id="sendMessage" class="message-wrapper display-none">
+        <div class="send-notification-wrapper">
+            <div class="wrap">
+                <div class="people-view full-width">
+                    <!--<div class="user-img">
+                        <img src="assets/img/avatar/oykun.jpg"
+                             ng-src="{{naviSelectedUser.avatar}}">
+                    </div>-->
+
+                    <div class="online-user-wrapper notification-user notify-img-large ">
+
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{naviSelectedUser.avatar}}">
+
+                    </div>
+
+                    <div class="row people-view-details">
+                        <div class="notification-text inline-block">
+                            Message to {{naviSelectedUser.name}}
+                        </div>
+                        <div class="notification-text inline-block pull-right message-close"
+                             ng-click="closeMessage();"
+                             style="padding-right: 17px;">
+                            CLOSE
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                        <textarea id="txtMessage"
+                                  class="form-control" rows="3" ng-model="notificationMsg.Message">
+                        </textarea>
+                </div>
+                <div class="btn-warp inline-btn pull-right">
+                    <span class="btn btn-default " ng-click="sendNotification()">send</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>

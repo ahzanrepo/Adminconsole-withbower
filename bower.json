@@ -79,7 +79,8 @@
     "checklist-model": "^0.10.0",
     "angular-recaptcha": "^3.0.4",
     "acute-select": "^0.1.0",
-    "angucomplete-jwl": "^0.0.13"
+    "angucomplete-jwl": "^0.0.13",
+    "angular-slimscroll": "^1.1.5"
   },
   "resolutions": {
     "angular": "1.5.5"
