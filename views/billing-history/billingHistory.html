@@ -19,7 +19,7 @@
 
                 <div class="col-sm-12">
                     <div style="position: relative; top: 20px;">
-                        <button type="button" class="btn pull-right" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;" csv-header="['Bill Date', 'Description', 'Payment']" csv-column-order="['createdAt', 'description', 'Credit']" ng-csv="getBillHistoryCSV()" filename="{{DownloadFileName}}.csv">
+                        <button type="button" class="btn pull-right" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;" csv-header="['Bill Date','Invoked By', 'Description','Reason', 'Payment','Balance','Currency']" csv-column-order="['createdAt','InvokeBy', 'Description','Reason','Payment','Credit','CurrencyISO']" ng-csv="getBillHistoryCSV()" filename="{{DownloadFileName}}.csv">
                             CSV&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="fa fa-download"></i>
                         </button>
@@ -81,11 +81,27 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
+                                                colspan="1" aria-label="Call Direction">Invoked By
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
                                                 colspan="1" aria-label="From">Description
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
+                                                colspan="1" aria-label="From">Reason
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
                                                 colspan="1" aria-label="To">Payment
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
+                                                colspan="1" aria-label="To">Balance
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
+                                                colspan="1" aria-label="To">Currency
                                             </th>
 
 
@@ -95,8 +111,13 @@
                                         <tr role="row" class="odd"
                                             ng-repeat="record in summaryData">
                                             <td>{{record.createdAt|date:"yyyy-MM-dd"}}</td>
-                                            <td>{{record.OtherJsonData.msg}}</td>
+                                            <td>{{record.InvokeBy}}</td>
+                                            <td>{{record.Description}}</td>
+                                            <td>{{record.Reason}}</td>
+                                            <td>{{record.Payment}}</td>
                                             <td>{{record.Credit}}</td>
+                                            <td>{{record.CurrencyISO}}</td>
+
 
 
                                         </tr>

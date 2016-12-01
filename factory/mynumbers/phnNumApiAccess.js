@@ -140,6 +140,20 @@
 
         var savePhoneNumber = function(phnNumInfo)
         {
+            if(!phnNumInfo.InboundLimitId)
+            {
+                phnNumInfo.InboundLimitId = null;
+            }
+
+            if(!phnNumInfo.OutboundLimitId)
+            {
+                phnNumInfo.OutboundLimitId = null;
+            }
+
+            if(!phnNumInfo.BothLimitId)
+            {
+                phnNumInfo.BothLimitId = null;
+            }
             var jsonStr = JSON.stringify(phnNumInfo);
 
             return $http({
@@ -154,6 +168,21 @@
 
         var updatePhoneNumber = function(phnNumInfo)
         {
+            if(!phnNumInfo.InboundLimitId)
+            {
+                phnNumInfo.InboundLimitId = null;
+            }
+
+            if(!phnNumInfo.OutboundLimitId)
+            {
+                phnNumInfo.OutboundLimitId = null;
+            }
+
+            if(!phnNumInfo.BothLimitId)
+            {
+                phnNumInfo.BothLimitId = null;
+            }
+
             var jsonStr = JSON.stringify(phnNumInfo);
 
             return $http({
