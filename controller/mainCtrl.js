@@ -126,6 +126,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     //is can access
     loginService.getNavigationAccess(function (result) {
         $scope.accessNavigation = result;
+        //if($scope.accessNavigation.BASIC INFO)
+        if($scope.accessNavigation.TICKET)
+        {
+            $scope.loadUserGroups();
+            $scope.loadUsers();
+        }
     });
 
 
@@ -635,6 +641,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.notificationMsg = {};
     $scope.naviSelectedUser = {};
     $scope.userGroups = [];
+
+
+
+
     $scope.loadUserGroups = function () {
         notifiSenderService.getUserGroupList().then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -646,7 +656,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         });
     };
 
-    $scope.loadUserGroups();
+    //$scope.loadUserGroups();
 
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
@@ -656,7 +666,14 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
         });
     };
-    $scope.loadUsers();
+
+    //$scope.loadUsers();
+
+    /* if($scope.accessNavigation.indexOf("BASIC INFO")!=-1)
+     {
+     $scope.loadUserGroups();
+     $scope.loadUsers();
+     }*/
 
     var FilterByID = function (array, field, value) {
         if (array) {
