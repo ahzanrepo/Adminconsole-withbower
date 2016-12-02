@@ -31,6 +31,19 @@ mainApp.factory("socialConnectorService", function ($http,baseUrls) {
         });
     };
 
+    var getEmailAccounts = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.socialConnectorUrl+"Emails"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return undefined;
+            }
+        });
+    };
+
     var addFacebookPageToSystem = function (postData) {
         return $http({
             method: 'POST',
@@ -106,6 +119,7 @@ mainApp.factory("socialConnectorService", function ($http,baseUrls) {
         UpdatePagePicture:updatePagePicture,
         ActivateFacebookAccount:activateFacebookAccount,
         CreateMailAccount:createMailAccount,
+        GetEmailAccounts:getEmailAccounts,
         GetAllTags:getAllTags
     }
 
