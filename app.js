@@ -68,7 +68,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
-    'walletUrl': 'http://walletservice.app.veery.cloud/DVP/API/1.0.0.0/PaymentManager/'//walletservice.app.veery.cloud
+    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//walletservice.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -171,6 +171,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/social/twitter",
             templateUrl: "socialConnectors/views/socialTwitterConnector.html",
             controller: "socialTwitterConnectorController",
+            data: {
+                requireLogin: true,
+                navigation: "TWITTER"
+            }
+        }).state('console.email', {
+            url: "/social/email",
+            templateUrl: "socialConnectors/views/emailConnector.html",
+            controller: "emailConnectorController",
             data: {
                 requireLogin: true,
                 navigation: "TWITTER"
@@ -597,7 +605,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }).state('console.tagmanager', {
                 url: "/tagmanager",
                 templateUrl: "views/tag-manager/tagView.html",
-                controller: "tagcontroller2",
+                controller: "tagcontroller",
                 data: {
                     requireLogin: true,
                     navigation: "TAGMANAGER"
