@@ -58,7 +58,7 @@ var baseUrls = {
     'dashBordUrl': 'http://dashboard.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'socialConnectorUrl': 'http://localhost:4647/DVP/API/1.0.0.0/Social/',
+    'socialConnectorUrl': 'http://104.236.197.119:4647/DVP/API/1.0.0.0/Social/',
     'notification': 'http://notificationservice.app.veery.cloud/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -171,6 +171,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/social/twitter",
             templateUrl: "socialConnectors/views/socialTwitterConnector.html",
             controller: "socialTwitterConnectorController",
+            data: {
+                requireLogin: true,
+                navigation: "TWITTER"
+            }
+        }).state('console.email', {
+            url: "/social/email",
+            templateUrl: "socialConnectors/views/emailConnector.html",
+            controller: "emailConnectorController",
             data: {
                 requireLogin: true,
                 navigation: "TWITTER"
@@ -597,7 +605,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }).state('console.tagmanager', {
                 url: "/tagmanager",
                 templateUrl: "views/tag-manager/tagView.html",
-                controller: "tagcontroller2",
+                controller: "tagcontroller",
                 data: {
                     requireLogin: true,
                     navigation: "TAGMANAGER"

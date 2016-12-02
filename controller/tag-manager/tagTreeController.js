@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 8/24/2016.
  */
-mainApp.controller('tagcontroller2', function ($scope, $rootScope, $state, $uibModal, jwtHelper, authService, tagBackendService,
+mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibModal, jwtHelper, authService, tagBackendService,
                                                loginService) {
     var tree, treedata_avm = [];
 
@@ -369,6 +369,9 @@ mainApp.controller('tagcontroller2', function ($scope, $rootScope, $state, $uibM
 
     $scope.showModal = function (selectedBranch) {
         //modal show
+
+            console.log(tree.get_closest_ancestor_next_sibling(parent));
+
         var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'views/tag-manager/partials/tagModal.html',
@@ -600,6 +603,8 @@ mainApp.controller("NewChildTagController", function ($scope, $rootScope, $uibMo
 
 
     };
+
+
 
     $scope.closeModal = function () {
         saveNewTagData(parentTag, null);
