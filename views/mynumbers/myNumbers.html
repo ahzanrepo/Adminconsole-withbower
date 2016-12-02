@@ -292,7 +292,7 @@
                                             id="InboundLimit"
                                             name="InboundLimit" ng-model="phnNum.InboundLimitId"
                                             ng-model-options="{trackBy: '$value'}">
-                                        <option value="">
+                                        <option value=null>
                                         </option>
                                         <option ng-repeat="limit in limitList" value="{{limit.LimitId}}">{{limit.LimitDescription}} ({{limit.MaxCount}})
                                         </option>

@@ -92,7 +92,7 @@
 
                 scope.removeCaseConfig = function(){
                     scope.showConfirm("Delete Case Configuration", "Delete", "ok", "cancel", "Do you want to delete " + scope.caseConfig.configurationName, function (obj) {
-                        caseApiAccess.deleteCase(scope.caseConfig._id.toString()).then(function (response) {
+                        caseApiAccess.deleteCaseConfiguration(scope.caseConfig._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
                                 scope.updateCaseConfig(scope.caseConfig);
                                 scope.showAlert('Case Configuration', response.CustomMessage, 'success');

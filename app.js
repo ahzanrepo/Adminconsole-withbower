@@ -30,7 +30,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'satellizer',
     'checklist-model',
     'vcRecaptcha', 'angucomplete-alt',
-    'jsplumb'
+    'jsplumb',
+    'ui.slimscroll'
 ]);
 
 
