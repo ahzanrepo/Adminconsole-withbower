@@ -15,6 +15,7 @@ mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, 
         ticket_tags:[],
         name:""
     };
+    $scope.ticket_tags=[];
     $scope.tagList=[];
     $scope.availableTags=[];
     $scope.availableTicketTypes=['question','complain','incident','action'];
@@ -45,6 +46,10 @@ mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, 
     };
 
     $scope.saveEmailConfiguration = function (emailConfig) {
+        emailConfig.ticket_tags = $scope.ticket_tags.map(function (item) {
+            return item.name;
+        });
+
         socialConnectorService.CreateMailAccount(emailConfig).then(function (response) {
             if(response){
                 $scope.showAlert("Email","success", "Save Configurations.");
