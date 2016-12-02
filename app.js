@@ -175,6 +175,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "TWITTER"
             }
+        }).state('console.email', {
+            url: "/social/email",
+            templateUrl: "socialConnectors/views/emailConnector.html",
+            controller: "emailConnectorController",
+            data: {
+                requireLogin: true,
+                navigation: "TWITTER"
+            }
         }).state('console.productivity', {
             url: "/productivity",
             templateUrl: "agent_productivity/view/agentProductivity.html",

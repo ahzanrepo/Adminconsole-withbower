@@ -166,6 +166,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goTwitterApp: function () {
             $state.go('console.twitter');
         },
+        goEmailApp: function () {
+            $state.go('console.email');
+        },
         goResourceList: function () {
             $state.go('console.resources');
         },

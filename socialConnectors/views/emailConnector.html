@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col-md-12 col-lg-12  col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-bars"></i> Email Configurations <small id="message"></small></h2>
+                <div class="clearfix"></div>
+            </div>
+            </br>
+
+            <div class="x_content">
+
+                <form class="form-horizontal form-label-left input_mask" name="addNewTicketForm" novalidate>
+                    <div class="row">
+                        <!--<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <input type="text" class="form-control has-feedback-left"
+                                   ng-model="emailConfig.name"
+                                   placeholder="Name">
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                        </div>-->
+
+                        <div class="form-group"
+                             ng-class="{ 'has-error': addNewTicketForm.configName.$invalid && addNewTicketForm.configName.$dirty }">
+
+                            <input type="text" class="form-control has-feedback-left" name="configName"
+                                   ng-model="emailConfig.name" required
+                                   placeholder="Name">
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
+                            <div class="form-group"
+                                 ng-class="{ 'has-error': addNewTicketForm.priority.$invalid && addNewTicketForm.priority.$dirty }">
+                                <label class="control-label">Priority*</label>
+                                <select class="form-control" ng-model="emailConfig.ticket_priority"
+                                        name="priority"
+                                        required
+                                        placeholder="Select">availableTicketTypes
+                                    <option ng-repeat="tType in prioritys"
+                                            value="{{tType}}">
+                                        {{tType}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
+                            <div class="form-group"
+                                 ng-class="{ 'has-error': addNewTicketForm.ticketType.$invalid && addNewTicketForm.ticketType.$dirty }">
+                                <label class="control-label">Type*</label>
+                                <select class="form-control" ng-model="emailConfig.ticket_type"
+                                        name="ticketType"
+                                        required
+                                        placeholder="Select">availableTicketTypes
+                                    <option ng-repeat="tType in availableTicketTypes"
+                                            value="{{tType}}">
+                                        {{tType}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+
+                            <div class="form-group"
+                                 ng-class="{ 'has-error': addNewTicketForm.tags.$invalid && addNewTicketForm.tags.$dirty }">
+                                <label class="control-label"> Tags</label>
+                                <tags-input name="tags" ng-model="ticket_tags" placeholder="choose Tags"
+                                            replace-spaces-with-dashes="false"
+                                            display-property="name"
+                                            add-from-autocomplete-only="true"
+                                            ng-disabled="" min-length="1" style="margin-bottom: 10px; height: 100px">
+
+                                    <auto-complete source="queryTagSearch($query)"
+                                                   load-on-empty="true"
+                                                   load-on-focus="true"
+                                                   min-length="1"></auto-complete>
+                                </tags-input>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="model-footer-wrapper">
+                        <div class="model-btn-wrapper">
+                            <div class="btn-warp ">
+                                <span ng-disabled="addNewTicketForm.$invalid" class="btn btn-default"
+                                      ng-click="saveEmailConfiguration(emailConfig);">Save</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
