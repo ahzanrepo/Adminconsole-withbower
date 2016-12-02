@@ -596,7 +596,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }).state('console.tagmanager', {
                 url: "/tagmanager",
                 templateUrl: "views/tag-manager/tagView.html",
-                controller: "tagcontroller2",
+                controller: "tagcontroller",
                 data: {
                     requireLogin: true,
                     navigation: "TAGMANAGER"
