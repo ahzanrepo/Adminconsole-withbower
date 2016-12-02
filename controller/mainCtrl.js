@@ -223,7 +223,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },
         goPackages: function () {
             $state.go('console.pricing');
-        },goCredit: function () {
+        }, goCredit: function () {
             $state.go('console.credit');
         },
         goAgentStatus: function () {
@@ -332,7 +332,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.ticket-flow');
         }, goFileSlot: function () {
             $state.go('console.fileslotmaker');
-        },goBillingHistory: function () {
+        }, goBillingHistory: function () {
             $state.go('console.billingHistory');
         },
     };
@@ -787,29 +787,30 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.showRightSideNav = false;
 
     $scope.openNav = function () {
-
         if (!$scope.showRightSideNav) {
-            getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
             document.getElementById("mySidenav").style.width = "300px";
+            //  document.getElementById("main").style.marginRight = "285px";
             $scope.showRightSideNav = true;
+            getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+
         }
         else {
+            document.getElementById("mySidenav").style.width = "0";
+            //document.getElementById("main").style.marginRight = "0";
             if (getAllRealTimeTimer) {
                 $timeout.cancel(getAllRealTimeTimer);
             }
-            document.getElementById("mySidenav").style.width = "0";
             $scope.showRightSideNav = false;
         }
-
+        $scope.isUserListOpen = !$scope.isUserListOpen;
 
         //document.getElementById("main").style.marginRight = "285px";
         // document.getElementById("navBar").style.marginRight = "300px";
     };
     /* Set the width of the side navigation to 0 */
     $scope.closeNav = function () {
-
-        //document.getElementById("main").style.marginRight = "0";
-        //  document.getElementById("navBar").style.marginRight = "0";
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginRight = "0";
     };
 
 
@@ -922,6 +923,19 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             }
         });
     };
+
+    //Detect Document Height
+    //update code damith
+    window.onload = function () {
+        $scope.windowHeight = jsUpdateSize() - 60 + "px";
+        document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
+    };
+
+    window.onresize = function () {
+        $scope.windowHeight = jsUpdateSize() - 60 + "px";
+        document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
+    };
+
 
 });
 

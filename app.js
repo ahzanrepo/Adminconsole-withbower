@@ -30,7 +30,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'satellizer',
     'checklist-model',
     'vcRecaptcha', 'angucomplete-alt',
-    'jsplumb'
+    'jsplumb',
+    'ui.slimscroll'
 ]);
 
 
@@ -67,7 +68,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
-    'walletUrl': 'http://walletservice.app.veery.cloud/DVP/API/1.0.0.0/PaymentManager/'//walletservice.app.veery.cloud
+    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//walletservice.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);

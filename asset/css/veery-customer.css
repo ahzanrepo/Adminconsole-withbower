@@ -229,9 +229,11 @@ a {
 }
 
 .nav_menu {
-    background: #ffffff;
+    background: #fff;
     border-bottom: 0px solid #D9DEE4;
     height: 57px;
+    z-index: 101;
+    position: relative;
 }
 
 .main_menu_side {
@@ -3139,9 +3141,9 @@ tags-input .tags.focused {
     overflow-x: hidden;
     transition: 0.5s;
     z-index: 100;
-    -webkit-box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);
-    box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: -4px 3px 14px -11px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -4px 3px 14px -11px rgba(0, 0, 0, 0.75);
+    box-shadow: -4px 3px 14px -11px rgba(0, 0, 0, 0.75);
 }
 
 .sidenav a:hover, .offcanvas a:focus {
@@ -3220,8 +3222,14 @@ tags-input .tags.focused {
 
 .nav-search-text {
     width: auto;
-    background: #f7f5f5;
-    border: 0px;
+    background: #f7f5f5 !important;
+    border: 0px !important;
+}
+.online-user-wrapper {
+    margin-top: 60px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
 }
 
 .nav-bottom-icon {

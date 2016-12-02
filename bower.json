@@ -80,7 +80,7 @@
     "angular-recaptcha": "^3.0.4",
     "acute-select": "^0.1.0",
     "angucomplete-jwl": "^0.0.13",
-    "socket.io-client": "^1.7.1"
+    "angular-slimscroll": "^1.1.5"
   },
   "resolutions": {
     "angular": "1.5.5",
