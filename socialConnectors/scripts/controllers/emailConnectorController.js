@@ -48,6 +48,7 @@ mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, 
         socialConnectorService.CreateMailAccount(emailConfig).then(function (response) {
             if(response){
                 $scope.showAlert("Email","success", "Save Configurations.");
+                $scope.GetEmailAccounts();
             }
             else {
                 $scope.showAlert("Email","error", "Fail To Save Configurations.");
@@ -56,6 +57,16 @@ mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, 
             $scope.showAlert("Email","error", "Fail To Save Configurations.");
         });
     };
+
+    $scope.emailAccounts = [];
+    $scope.GetEmailAccounts = function () {
+        socialConnectorService.GetEmailAccounts().then(function (response) {
+            $scope.emailAccounts = response;
+        }, function (err) {
+            $scope.showAlert("Email","error", "Fail To Get Email List.");
+        });
+    };
+    $scope.GetEmailAccounts();
 
     $scope.loadTags = function () {
         tagBackendService.getAllTags().then(function (response) {
