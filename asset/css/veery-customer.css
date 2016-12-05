@@ -2450,9 +2450,9 @@ ul.count2 {
 /*pricing */
 .pricing_wrapper {
     right: 0px;
-    margin: 5% auto;
+    /*margin: 5% auto;*/
     text-align: center;
-    max-width: 900px;
+    /*max-width: 900px;*/
     float: none;
 }
 
@@ -2464,16 +2464,38 @@ ul.count2 {
 
 }
 
+.pricing-item .pricing-price {
+    color: #3c3c3c;
+    font-size: 3em;
+    font-weight: 700;
+    margin: 0.3em auto 0.6em;
+    overflow: hidden;
+}
+
+.pricing-item .pricing-price .pricing-anim {
+    display: inline-block;
+    position: relative;
+}
+
+.pricing-item .pricing-price .pricing-anim .pricing-currency {
+    font-size: 0.6em;
+    vertical-align: super;
+}
+
+.pricing-item .pricing-price .pricing-anim .pricing-period {
+    font-size: 0.4em;
+}
+
 .pricing {
-    background: rgba(50, 51, 53, 0.70);
+    background: #fff;
     border-radius: 10px;
 }
 
 .pricing > .title {
-    background: rgba(50, 51, 53, 0.70);
+    background: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    font-family: 'Roboto', sans-serif !important;
+    font-family: 'Ubuntu-Regular', sans-serif !important;
     color: #ffffff;
     height: 140px;
 
@@ -2715,21 +2737,32 @@ ul.social li {
 
 /*price table update*/
 .price-table-wrapper {
-    margin-bottom: 10px;
+    margin-top: 25px;
 }
 
 .pricing_features {
-    background: rgba(50, 51, 53, 0.70);
-    font-family: 'Roboto', sans-serif !important;
-    color: #ffffff;
-
+    background: #fff;
+    font-family: 'Ubuntu-Regular', sans-serif !important;
+    color: #000;
 }
 
 .pricing_footer {
-    background: rgba(50, 51, 53, 0.90);
+    background: #fff;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    border-top: 4px solid #464b4f;
+}
+
+.pricing_footer > a {
+    background: #fff !important;
+    border: 2px solid #2ba89c;
+    border-radius: 25px;
+    color: #2ba89c;
+    padding: 11px 49px;
+}
+
+.pricing_footer > a:hover {
+    border: 2px solid #000 !important;
+    color: #2ba89c;
 }
 
 .pricing .title h1 {
@@ -2749,7 +2782,8 @@ ul.social li {
 .pricing_features > ul > li > strong {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 300;
-    padding-left: 15px;
+    color: #3e3e3e;
+    text-transform: uppercase;
 }
 
 .get-free {
@@ -3225,6 +3259,7 @@ tags-input .tags.focused {
     background: #f7f5f5 !important;
     border: 0px !important;
 }
+
 .online-user-wrapper {
     margin-top: 60px;
     position: absolute;
@@ -3964,7 +3999,14 @@ footer {
     font-size: 15px;
 }
 
-.s{
+.s {
     border-left: 1px solid #e8e8e8;
     border-right: 1px solid #e8e8e8;
+}
+
+.well-price {
+    margin-top: 45px;
+    overflow: hidden;
+    font-size: 25px;
+    padding-top: 18px;
 }
