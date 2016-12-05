@@ -41,6 +41,8 @@
         $scope.extUserList = [];
 
         $scope.tagList = [];
+        $scope.ticketStatusList = [];
+        $scope.ticketTypesList = [];
 
         $scope.pageChanged = function () {
             $scope.getTicketSummary();
@@ -143,6 +145,49 @@
             });
         };
 
+        var getTicketStatusList = function ()
+        {
+
+            ticketReportsService.getTicketStatusList().then(function (statusList)
+            {
+                if (statusList && statusList.Result)
+                {
+                    $scope.ticketStatusList = statusList.Result;
+
+                }
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getTicketTypeList = function ()
+        {
+
+            ticketReportsService.getTicketTypeList().then(function (typeList)
+            {
+                if (typeList && typeList.Result)
+                {
+                    var tempArr = [];
+                    if(typeList.Result.default_types)
+                    {
+                        tempArr = typeList.Result.default_types;
+                    }
+
+                    if(typeList.Result.custom_types)
+                    {
+                        tempArr = tempArr.concat(typeList.Result.custom_types);
+                    }
+
+                    $scope.ticketTypesList = tempArr;
+
+                }
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
 
         var populateToTagList = function () {
             $scope.tagList = [];
@@ -176,6 +221,8 @@
         populateToTagList();
         getExternalUserList();
         getUserList();
+        getTicketStatusList();
+        getTicketTypeList();
 
 
         $scope.getTicketSummary = function () {

@@ -301,6 +301,32 @@
             })
         };
 
+        var getTicketTypeList = function()
+        {
+            var url = baseUrls.ticketUrl + 'TicketTypes';
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getTicketStatusList = function()
+        {
+            var url = baseUrls.ticketUrl + 'TicketStatusNodes';
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         return {
             getTicketSummary: getTicketSummary,
             getTicketDetails: getTicketDetails,
@@ -309,7 +335,9 @@
             getTagList: getTagList,
             getExternalUsers: getExternalUsers,
             getUsers: getUsers,
-            getTicketDetailsNoPaging: getTicketDetailsNoPaging
+            getTicketDetailsNoPaging: getTicketDetailsNoPaging,
+            getTicketTypeList: getTicketTypeList,
+            getTicketStatusList: getTicketStatusList
         };
     };
 
