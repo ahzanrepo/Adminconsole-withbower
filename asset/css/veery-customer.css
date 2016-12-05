@@ -3866,6 +3866,27 @@ footer {
     background: #383b3b !important;
 }
 
+.defaultPrefixType   {
+    display: inline-block;
+    text-align: left;
+    padding: 6px 13px 6px 10px;
+    margin: 0px 0px 0px 4px;
+    text-transform: uppercase;
+    background: #f8b01d;
+    border-radius: 5px;
+    color: #fff;
+    background: #1ce820 !important;
+}
+
+.available_msg
+{
+    color: green;
+}
+.unavailable_msg
+{
+    display: none;
+}
+
 .ticket-type-wrapper {
     width: 100%;
     min-height: 150px;
