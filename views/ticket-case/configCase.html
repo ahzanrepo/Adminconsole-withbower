@@ -1,62 +1,71 @@
 <div>
     <div class="col-md-6">
+        <div class="page-title">
+            <div class="title_left">
+                <h3 class="font-robot font-600 ">Related Tickets</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="back-btn-wrapper" ng-click="backToList()">
             BACK
         </div>
     </div>
-    <div class="page-title">
-        <div class="title_left">
-            <h3 class="font-robot font-600 ">Related Tickets</h3>
-        </div>
-    </div>
+
 
     <div ng-hide="addNewTickets" class="x_panel ">
-        <h5 class="font-robot font-600 ">Show Related Tickets</h5>
+        <div class="x_title">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>Show Related Tickets</small></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-lg-6">
+                    <button type="button" class="btn btn-success btn-sm  pull-right"
+                            ng-click="addNewRelatedSlaMatrix()">
+                        New
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        <button type="button" class="btn btn-success" ng-click="addNewRelatedSlaMatrix()">
-            New
-        </button>
 
         <div class="x_panel x_content col-md-12 col-sm-12 col-xs-12">
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <div class="x_content btn-wrap-header">
-                    <button type="button" class="btn btn-success" ng-click="checkAllExsisting()">
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-sm " ng-click="checkAllExsisting()">
                         Check All
                     </button>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <div class="x_content btn-wrap-header">
-                    <button type="button" class="btn btn-success" ng-click="uncheckAllExsisting()">
+                    <button type="button" class="btn btn-sm" ng-click="uncheckAllExsisting()">
                         Uncheck All
                     </button>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <div class="x_content btn-wrap-header">
-                    <button type="button" class="btn btn-success" ng-click="removeTicketFromCase()">
+                    <button type="button" class="btn btn-sm " ng-click="removeTicketFromCase()">
                         Remove Tickets From Case
                     </button>
                 </div>
-            </div>
 
+            </div>
             <div class="clearfix"></div>
 
-            <ul ng-repeat="rTicket in caseInfo.related_tickets">
+            <ul class="case-card-wrapper" ng-repeat="rTicket in caseInfo.related_tickets">
                 <li>
-                    <input style="font-size: 15px"  type="checkbox" checklist-model="selectedExsistingTickets.ids" checklist-value="rTicket._id">Ticket:  {{rTicket.reference}}
-
+                    <div class="checkbox">
+                        <label>
+                            <input style="font-size: 15px" type="checkbox"
+                                   checklist-model="selectedExsistingTickets.ids"
+                                   checklist-value="rTicket._id">Ticket - {{rTicket.reference}}
+                        </label>
+                    </div>
                 </li>
                 <ul>
                     <li>Subject: {{rTicket.subject}}</li>
                     <li>Status: {{rTicket.status}}</li>
                     <li>Subject: {{rTicket.subject}}</li>
-                    <li>Tags1: </li>
+                    <li>Tags1:</li>
                     <ul ng-repeat="rTag in rTicket.tags">
                         <li>{{rTag}}</li>
                     </ul>
-                </ul >
+                </ul>
             </ul>
 
         </div>
@@ -93,7 +102,10 @@
                         </select>-->
 
                         <div class="form-group">
-                            <input type="text" class="form-control" ng-model="selectedExtUser" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="extUsr.UniqueId as extUsr.Display for extUsr in extUserList" placeholder="Requester" bs-typeahead>
+                            <input type="text" class="form-control" ng-model="selectedExtUser" data-min-length="0"
+                                   data-html="1" data-auto-select="true" data-animation="am-flip-x"
+                                   bs-options="extUsr.UniqueId as extUsr.Display for extUsr in extUserList"
+                                   placeholder="Requester" bs-typeahead>
                         </div>
 
                         <!--<div class="form-group">
@@ -105,7 +117,10 @@
                         <label>Assignee</label>
 
                         <div class="form-group">
-                            <input type="text" class="form-control" ng-model="selectedAssignee" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.UniqueId as usr.Display for usr in userList" placeholder="Assignee" bs-typeahead>
+                            <input type="text" class="form-control" ng-model="selectedAssignee" data-min-length="0"
+                                   data-html="1" data-auto-select="true" data-animation="am-flip-x"
+                                   bs-options="usr.UniqueId as usr.Display for usr in userList" placeholder="Assignee"
+                                   bs-typeahead>
                         </div>
 
                         <!--<select name="assigneeList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
@@ -120,7 +135,10 @@
                     <div class="col-md-2 col-sm-2 col-xs-12">
                         <label>Submitter</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" ng-model="selectedSubmitter" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.UniqueId as usr.Display for usr in userList" placeholder="Submitter" bs-typeahead>
+                            <input type="text" class="form-control" ng-model="selectedSubmitter" data-min-length="0"
+                                   data-html="1" data-auto-select="true" data-animation="am-flip-x"
+                                   bs-options="usr.UniqueId as usr.Display for usr in userList" placeholder="Submitter"
+                                   bs-typeahead>
                         </div>
                         <!--<select name="submitterList" class="select2_single form-control" tabindex="-1" aria-hidden="true"
                                 ng-model="selectedSubmitter" ng-model-options="{trackBy: '$value'}">
@@ -156,7 +174,8 @@
                             </option>
                         </select>-->
 
-                        <select class="select2_single form-control" tabindex="-1" aria-hidden="true" ng-options="tag.name group by tag.TagType for tag in tagList"
+                        <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                                ng-options="tag.name group by tag.TagType for tag in tagList"
                                 ng-model="selectedTag">
                             <option value=""></option>
                         </select>
@@ -229,7 +248,6 @@
                     <div class="clearfix"></div>
 
 
-
                     <div class="col-md-3 col-sm-3 col-xs-12">
                         <div class="x_content btn-wrap-header">
                             <button type="button" class="btn btn-success" ng-click="searchWithNewFilter()">
@@ -248,7 +266,8 @@
                         <label style="position: relative; top: 26px;">Tag Count</label>
                     </div>
                     <div class="col-md-1 col-sm-1 col-xs-12">
-                        <input style="position: relative; top: 18px;" type="number" min="1" max="1000" class="form-control" name="tagCount"
+                        <input style="position: relative; top: 18px;" type="number" min="1" max="1000"
+                               class="form-control" name="tagCount"
                                ng-model="tagCount">
 
                     </div>
@@ -298,18 +317,19 @@
 
             <ul ng-repeat="ticket in ticketList">
                 <li>
-                    <input style="font-size: 15px"  type="checkbox" checklist-model="selectedTickets.ids" checklist-value="ticket._id">Ticket:  {{ticket.reference}}
+                    <input style="font-size: 15px" type="checkbox" checklist-model="selectedTickets.ids"
+                           checklist-value="ticket._id">Ticket: {{ticket.reference}}
 
                 </li>
                 <ul>
                     <li>Subject: {{ticket.subject}}</li>
                     <li>Status: {{ticket.status}}</li>
                     <li>Subject: {{ticket.subject}}</li>
-                    <li>Tags1: </li>
+                    <li>Tags1:</li>
                     <ul ng-repeat="tag in ticket.tags">
                         <li>{{tag}}</li>
                     </ul>
-                </ul >
+                </ul>
             </ul>
 
         </div>

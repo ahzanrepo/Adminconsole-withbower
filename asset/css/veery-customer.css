@@ -3901,7 +3901,7 @@ footer {
     background: #383b3b !important;
 }
 
-.defaultPrefixType   {
+.defaultPrefixType {
     display: inline-block;
     text-align: left;
     padding: 6px 13px 6px 10px;
@@ -3913,12 +3913,11 @@ footer {
     background: #1ce820 !important;
 }
 
-.available_msg
-{
+.available_msg {
     color: green;
 }
-.unavailable_msg
-{
+
+.unavailable_msg {
     display: none;
 }
 
@@ -4009,4 +4008,15 @@ footer {
     overflow: hidden;
     font-size: 25px;
     padding-top: 18px;
+}
+
+.case-card-wrapper {
+    width: 100%;
+    min-height: 150px;
+    height: auto;
+    overflow: hidden;
+    background: #f7f7f7;
+    margin-bottom: 10px;
+    padding: 15px 5px 15px 28px;
+    list-style: none;
 }
