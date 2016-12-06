@@ -12,8 +12,12 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/Calls/5"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
                 return {};
             }
@@ -25,8 +29,12 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/Queued/5"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
 
                 return {};
@@ -39,8 +47,12 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/Bridge/5"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
                 return {};
             }
@@ -52,8 +64,12 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/Channels/5"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
 
                 return {};
@@ -84,7 +100,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/CALLS/" + tempParam1 + "/" + tempParam2
         }).then(function (response) {
             if (response.data) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -98,7 +118,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/NEWTICKET/via_"+chenal+"/*"
         }).then(function (response) {
             if (response.data) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -114,7 +138,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/QUEUE/*/*"
         }).then(function (response) {
             if (response.data) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -128,8 +156,12 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/AllConcurrentQueued/5"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
 
                 return {};
@@ -142,7 +174,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/QUEUEANSWERED/*/*"
         }).then(function (response) {
             if (response.data) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -161,7 +197,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             if (response.data) {
 
 
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
 
 
             } else {
@@ -180,7 +220,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/CurrentCount/QUEUE/*/*"
         }).then(function (response) {
             if (response.data) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -195,7 +239,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             if (response.data) {
 
 
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
 
 
             } else {
@@ -274,7 +322,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/CurrentCount/"+status+"/total/total"
         }).then(function (response) {
             if (response.status===200) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -288,7 +340,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/TotalCount/"+status+"/total/total"
         }).then(function (response) {
             if (response.status===200) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -302,7 +358,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/AverageTime/"+status+"/total/total"
         }).then(function (response) {
             if (response.status===200) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -349,8 +409,12 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/NewTicket/30"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
 
                 return {};
@@ -366,8 +430,12 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/ClosedTicket/30"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
 
                 return {};
@@ -381,8 +449,12 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/ClosedVsOpenTicket/30"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
 
                 return {};
