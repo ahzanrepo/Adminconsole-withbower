@@ -132,7 +132,8 @@
                                                 resource.slotInfo[0].slotState == 'ProcessRelatedBreak'}"
                                         ng-repeat="resource in ResourceTask.CALL | orderBy: 'LastReservedTime':true track by $index">
                                         <a class="pull-left border-aero profile_thumb">
-                                            <i class="fa fa-user font-blue500"></i>
+                                            <img src="asset/images/defaultProfile.png"
+                                                 ng-src="{{resource.avatar}}"/>
                                         </a>
                                         <div class="media-body">
                                             <a class="title" href="javascript:void(0)">
