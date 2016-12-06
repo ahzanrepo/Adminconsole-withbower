@@ -55,7 +55,7 @@ var baseUrls = {
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
-    'dashBordUrl': 'http://dashboard.app.veery.cloud/',
+    'dashBordUrl': 'http://dashboardservice.app.veery.cloud//',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl': 'http://104.236.197.119:4647/DVP/API/1.0.0.0/Social/',
