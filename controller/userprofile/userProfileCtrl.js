@@ -4,7 +4,19 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userProfileCtrl = function ($scope, $stateParams, $filter, userProfileApiAccess, sipUserApiHandler,loginService) {
+    var userProfileCtrl = function ($scope, $stateParams, $filter, $uibModal, userProfileApiAccess, sipUserApiHandler, loginService, authService, jwtHelper) {
+
+
+        $scope.tenant = 0;
+        $scope.company = 0;
+        $scope.getCompanyTenant = function () {
+            var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
+            console.info(decodeData);
+            $scope.company = decodeData.company;
+            $scope.tenant = decodeData.tenant;
+        };
+        $scope.getCompanyTenant();
+        $scope.isEditState=false;
 
         $scope.languages = [
             {"code": "ab", "name": "Abkhaz", "nativeName": "?????"},
@@ -509,7 +521,34 @@
             loadProfile($stateParams.username);
             loadSipUsers();
 
+        };
+
+        $scope.editProfileImage = function () {
+            $scope.showProfilePicModal();
+        };
+        $scope.changeAvatarURL = function (fileID) {
+
+            if (fileID) {
+                $scope.CurrentProfile.avatar = baseUrls.fileServiceInternalUrl + "File/Download/" + $scope.tenant + "/" + $scope.company + "/" + fileID + "/ProPic"
+            }
+
+
         }
+
+        $scope.showProfilePicModal = function () {
+            //modal show
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/userprofile/partials/ProfilePicUploadModal.html',
+                controller: 'profilePicUploadController',
+                size: 'lg',
+                resolve: {
+                    changeUrl: function () {
+                        return $scope.changeAvatarURL;
+                    }
+                }
+            });
+        };
 
 
         $scope.showAlert = function (title, type, content) {
@@ -541,6 +580,7 @@
             $scope.contactsActive = '';
             $scope.infoActive = 'active';
             $scope.CurrentTab = 'Info';
+            $scope.isEditState=true;
         };
 
         $scope.tabClick = function (tab) {
@@ -604,7 +644,7 @@
                         curUser.GuRefId = $scope.CurrentProfile._id;
                         sipUserApiHandler.updateUser(curUser);
                     }
-
+                    $scope.isEditState=false;
                     resetPage();
                 }
                 else {
@@ -813,7 +853,346 @@
         loadProfile($stateParams.username);
         loadSipUsers();
 
+
     };
 
     app.controller("userProfileCtrl", userProfileCtrl);
+}());
+(function () {
+    var app = angular.module("veeryConsoleApp");
+
+    var profilePicUploadController = function ($scope, $stateParams, $filter, $uibModalInstance,$base64, $http,FileUploader, fileService, authService, changeUrl, jwtHelper) {
+
+        $scope.showModal = true;
+        $scope.isUploadDisable=true;
+
+        $scope.myImage = '';
+        $scope.myCroppedImage = '';
+
+
+        $scope.tenant = 0;
+        $scope.company = 0;
+        $scope.getCompanyTenant = function () {
+            var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
+            console.info(decodeData);
+            $scope.company = decodeData.company;
+            $scope.tenant = decodeData.tenant;
+        };
+        $scope.getCompanyTenant();
+
+
+        $scope.file = {};
+        $scope.file.Category = "PROFILE_PICTURES";
+        var uploader = $scope.uploader = new FileUploader({
+            url: fileService.UploadUrl,
+            headers: fileService.Headers
+        });
+
+        // FILTERS
+
+        uploader.filters.push({
+            name: 'imageFilter',
+            fn: function(item /*{File|FileLikeObject}*/, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+
+
+        // CALLBACKS
+
+        uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+            console.info('onWhenAddingFileFailed', item, filter, options);
+        };
+        uploader.onAfterAddingFile = function (item) {
+            console.info('onAfterAddingFile', item);
+
+            if (item.file.type.split("/")[0] == "image") {
+                //fileItem.upload();
+
+
+                item.croppedImage = '';
+
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    $scope.$apply(function(){
+                        item.image = event.target.result;
+                    });
+                };
+                reader.readAsDataURL(item._file);
+                $scope.isUploadDisable=false;
+
+            }
+            else {
+                new PNotify({
+                    title: 'Profile picture upload',
+                    text: 'Invalid File type. Retry',
+                    type: 'error',
+                    styling: 'bootstrap3'
+                });
+            }
+
+        };
+        uploader.onAfterAddingAll = function (addedFileItems) {
+            if (!$scope.file.Category) {
+                uploader.clearQueue();
+                new PNotify({
+                    title: 'File Upload!',
+                    text: 'Invalid File Category.',
+                    type: 'error',
+                    styling: 'bootstrap3'
+                });
+                return;
+            }
+            console.info('onAfterAddingAll', addedFileItems);
+        };
+        uploader.onBeforeUploadItem = function (item) {
+            console.info('onBeforeUploadItem', item);
+            var blob = dataURItoBlob(item.croppedImage);
+            item._file = blob;
+        };
+
+        var dataURItoBlob = function(dataURI) {
+            var binary = atob(dataURI.split(',')[1]);
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var array = [];
+            for(var i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i));
+            }
+            return new Blob([new Uint8Array(array)], {type: mimeString});
+        };
+
+        uploader.onProgressItem = function (fileItem, progress) {
+            console.info('onProgressItem', fileItem, progress);
+        };
+        uploader.onProgressAll = function (progress) {
+            console.info('onProgressAll', progress);
+        };
+        uploader.onSuccessItem = function (fileItem, response, status, headers) {
+            console.info('onSuccessItem', fileItem, response, status, headers);
+        };
+        uploader.onErrorItem = function (fileItem, response, status, headers) {
+            console.info('onErrorItem', fileItem, response, status, headers);
+        };
+        uploader.onCancelItem = function (fileItem, response, status, headers) {
+            console.info('onCancelItem', fileItem, response, status, headers);
+        };
+        uploader.onCompleteItem = function (fileItem, response, status, headers) {
+            console.info('onCompleteItem', fileItem, response, status, headers);
+            console.log("result ", response.Result);
+            new PNotify({
+                title: 'File Upload!',
+                text: "Picture uploaded successfully",
+                type: 'success',
+                styling: 'bootstrap3'
+            });
+
+            changeUrl(response.Result);
+            $uibModalInstance.dismiss('cancel');
+
+        };
+        uploader.onCompleteAll = function () {
+            console.info('onCompleteAll');
+        };
+
+
+
+        $scope.clearQueue = function () {
+
+            uploader.clearQueue();
+            $scope.isUploadDisable=true;
+            document.getElementById("cropedArea").src="";
+        }
+        $scope.showMe = function () {
+            alert("showMe");
+
+
+
+            var blob = dataURItoBlob($scope.newConverted);
+            var fd = new FormData(document.forms[0]);
+            fd.append("file", blob);
+
+            $http.post(fileService.UploadUrl, fd, {
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined
+                }
+            }).success(function(response){
+                changeUrl(response.Result);
+                $uibModalInstance.dismiss('cancel');
+            }).error(function(error){
+                alert(error);
+                console.log("error")
+            });
+
+
+
+
+            /*
+
+
+
+             convertURIToImageData($scope.myCroppedImage).then(function (imageData) {
+             // Here you can use imageData
+             console.log(imageData);
+             });
+             */
+
+            /*var resultImage= new Image($scope.)*/
+        }
+
+
+        $scope.ok = function () {
+
+            $uibModalInstance.close($scope.password);
+        };
+
+        $scope.loginPhone = function () {
+
+            $uibModalInstance.close($scope.password);
+        };
+
+        $scope.closeModal = function () {
+
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $scope.cancel = function () {
+
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        /*var handleFileSelect=function() {
+         var file=evt.currentTarget.files[0];
+         var reader = new FileReader();
+         reader.onload = function (evt) {
+         $scope.$apply(function($scope){
+         $scope.myImage="C:/Users/Pawan/Downloads/MyMan(new).jpg";
+         });
+         };
+         //reader.readAsDataURL(file);
+
+         $scope.myImage="https://avatars1.githubusercontent.com/u/10277006?v=3&s=460";
+
+         };
+         //angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+         handleFileSelect();*/
+
+
+
+
+        var dataURItoBlob = function(dataURI) {
+            var binary = atob(dataURI.split(',')[1]);
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var array = [];
+            for(var i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i));
+            }
+            return new Blob([new Uint8Array(array)], {type: mimeString});
+        };
+
+
+
+
+
+
+
+
+        var convertURIToImageData = function(URI) {
+            return new Promise(function (resolve, reject) {
+                if (URI == null) return reject();
+                var canvas = document.createElement('canvas'),
+                    context = canvas.getContext('2d'),
+                    image = new Image();
+                image.addEventListener('load', function () {
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    resolve(context.getImageData(0, 0, canvas.width, canvas.height));
+                }, false);
+                image.src = URI;
+                $scope.newConverted=image.src;
+
+
+                var imageType=(URI.split(";")[0]).split(":")[1];
+                var imagefromat=((URI.split(";")[0]).split(":")[1]).split("/")[1];
+                var imageName="newProfilePic."+imagefromat;
+
+                var blob = new Blob([URI], {type: imageType});
+                //var NewCroppedfile = new File([blob], imageName,{type: imageType,lastModified:new Date()});
+                console.log("File date ",blob);
+
+
+
+
+                var fd = new FormData();
+                fd.append('file', blob);
+
+                $http.post(fileService.UploadUrl, fd, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                }).success(function(response){
+                    changeUrl(response.Result);
+                    $uibModalInstance.dismiss('cancel');
+                }).error(function(error){
+                    alert(error);
+                    console.log("error")
+                });
+
+
+                /* $scope.uploadCropped(NewCroppedfile).then(function (response) {
+                 console.log(response);
+                 })*/
+
+
+
+
+                /*if( uploader.queue.length>0)
+                 {
+                 uploader.clearQueue();
+                 }
+
+
+                 var newFile= new FileUploader.FileItem(uploader,file);
+                 console.log("new FileData ",newFile);
+                 //uploader.queue.push(newFile);
+                 newFile.progress = 100;
+                 newFile.isUploaded = true;
+                 newFile.isSuccess = true;
+                 uploader.queue.push(newFile);
+                 console.log("New Queue ",uploader.queue);
+
+                 /!*
+                 alert(uploader.queue.length);
+                 angular.forEach(uploader.queue, function (item) {
+                 item.upload();
+                 });
+                 *!/
+                 uploader.queue[0].upload();*/
+
+                //uploader.queue[0].upload();
+                //uploader.uploadItem($scope.newConverted);
+
+            });
+
+            //var URI = "data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAABsiqb/bIqm/2yKpv9siqb/bIqm/2yKpv9siqb/iKC3/2yKpv9siqb/bIqm/2yKpv9siqb/bIqm/2yKpv9siqb/bIqm/2yKpv9siqb/bIqm/2yKpv9siqb/2uLp///////R2uP/dZGs/2yKpv9siqb/bIqm/2yKpv9siqb/bIqm/2yKpv9siqb/bIqm/2yKpv9siqb/bIqm/////////////////+3w9P+IoLf/bIqm/2yKpv9siqb/bIqm/2yKpv9siqb/bIqm/2yKpv9siqb/bIqm/2yKpv///////////+3w9P+tvc3/dZGs/2yKpv9siqb/bIqm/2yKpv9siqb/TZbB/02Wwf9NlsH/TZbB/02Wwf9NlsH////////////0+Pv/erDR/02Wwf9NlsH/TZbB/02Wwf9NlsH/TZbB/02Wwf9NlsH/TZbB/02Wwf9NlsH/TZbB//////////////////////96sNH/TZbB/02Wwf9NlsH/TZbB/02Wwf9NlsH/TZbB/02Wwf9NlsH/TZbB/02Wwf////////////////+Ft9T/TZbB/02Wwf9NlsH/TZbB/02Wwf9NlsH/E4zV/xOM1f8TjNX/E4zV/yKT2P/T6ff/////////////////4fH6/z+i3f8TjNX/E4zV/xOM1f8TjNX/E4zV/xOM1f8TjNX/E4zV/xOM1f+m1O/////////////////////////////w+Pz/IpPY/xOM1f8TjNX/E4zV/xOM1f8TjNX/E4zV/xOM1f8TjNX////////////T6ff/Tqng/6bU7////////////3u/5/8TjNX/E4zV/xOM1f8TjNX/AIv//wCL//8Ai///AIv/////////////gMX//wCL//8gmv////////////+Axf//AIv//wCL//8Ai///AIv//wCL//8Ai///AIv//wCL///v+P///////+/4//+Axf//z+n/////////////YLf//wCL//8Ai///AIv//wCL//8Ai///AIv//wCL//8Ai///gMX/////////////////////////////z+n//wCL//8Ai///AIv//wCL//8Ai///AHr//wB6//8Aev//AHr//wB6//+Avf//7/f/////////////v97//xCC//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AHr//wB6//8Aev//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
+
+        };
+
+        $scope.uploadCropped = function (file) {
+            return $http({
+                method: 'POST',
+                url: fileService.UploadUrl,
+                data:file
+            }).then(function(response)
+            {
+                return response;
+            });
+
+        }
+    };
+
+    app.controller("profilePicUploadController", profilePicUploadController);
 }());

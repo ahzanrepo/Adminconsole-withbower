@@ -31,7 +31,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'checklist-model',
     'vcRecaptcha', 'angucomplete-alt',
     'jsplumb',
-    'ui.slimscroll'
+    'ui.slimscroll',
+    'ngImgCrop'
 ]);
 
 
@@ -400,8 +401,8 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.callmonitor', {
             url: "/call-monitor",
-            templateUrl: "views/call-monitor/callMonitor2.html",
-            controller: "callmonitorcntrl2",
+            templateUrl: "views/call-monitor/callMonitor.html",
+            controller: "callmonitorcntrl",
             data: {
                 requireLogin: true,
                 navigation: "CALL_MONITOR"
