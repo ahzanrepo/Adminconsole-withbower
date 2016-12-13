@@ -404,18 +404,47 @@ a {
 }
 
 .media .profile_thumb {
-    border: 3px solid;
+    border: 0px solid;
     width: 50px;
     height: 50px;
     margin: 5px 10px 5px 0;
     border-radius: 50%;
-    padding: 6px 11px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+.profile-status-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.media > div > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-status-dah {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    top: 9px;
+    z-index: 1000;
+    left: 45px;
+    background: #000;
 }
 
 /*reserved*/
 .reserved > .media-body > p > small {
     border-color: #db4114 !important;
     color: #f8b01d !important;
+}
+
+.reserved > .profile-status-dah {
+    background: #f8b01d;
 }
 
 .reserved > a {
@@ -438,6 +467,10 @@ a {
     border-color: rgb(43, 168, 156) !important;
 }
 
+.available > .profile-status-dah {
+    background: rgb(43, 168, 156);
+}
+
 .available > a > i {
     color: #2BA89C !important;
 }
@@ -451,6 +484,10 @@ a {
 .connected > a {
     background: #114858;
     border-color: #db4114 !important;
+}
+
+.connected > .profile-status-dah {
+    background: #114858;
 }
 
 .connected > a > i {
@@ -468,6 +505,10 @@ a {
     border-color: #36ba45 !important;
 }
 
+.afterWork > .profile-status-dah {
+    background: #36ba45;
+}
+
 .afterWork > a > i {
     color: #36ba45 !important;
 }
@@ -481,6 +522,10 @@ a {
 .outbound > a {
     background: #30395c;
     border-color: #85a5cc !important;
+}
+
+.outbound > .profile-status-dah {
+    background: #85a5cc;
 }
 
 .outbound > a > i {
@@ -498,6 +543,10 @@ a {
     border-color: #ff8c00 !important;
 }
 
+.suspended > .profile-status-dah {
+    background: #000;
+}
+
 .suspended > a > i {
     color: #ff8c00 !important;
 }
@@ -510,6 +559,10 @@ a {
 
 .break > a > i {
     color: #731630 !important;
+}
+
+.break > .profile-status-dah {
+    background: #cc1e2d;
 }
 
 .break > .media-body > p > small {
@@ -805,6 +858,10 @@ ul.top_profiles li {
     border-radius: 5px;
     margin-top: 4px;
     margin-bottom: 4px;
+    overflow: hidden;
+    min-height: 60px;
+    height: auto;
+    position: relative;
 }
 
 ul.top_profiles li:nth-child(odd) {
@@ -3901,7 +3958,7 @@ footer {
     background: #383b3b !important;
 }
 
-.defaultPrefixType   {
+.defaultPrefixType {
     display: inline-block;
     text-align: left;
     padding: 6px 13px 6px 10px;
@@ -3913,12 +3970,11 @@ footer {
     background: #1ce820 !important;
 }
 
-.available_msg
-{
+.available_msg {
     color: green;
 }
-.unavailable_msg
-{
+
+.unavailable_msg {
     display: none;
 }
 
@@ -4009,6 +4065,17 @@ footer {
     overflow: hidden;
     font-size: 25px;
     padding-top: 18px;
+}
+
+.case-card-wrapper {
+    width: 100%;
+    min-height: 150px;
+    height: auto;
+    overflow: hidden;
+    background: #f7f7f7;
+    margin-bottom: 10px;
+    padding: 15px 5px 15px 28px;
+    list-style: none;
 }
 
 .image_edit > i {

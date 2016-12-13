@@ -131,12 +131,14 @@
                                                 resource.slotInfo[0].slotState == 'AUXBreak' ||
                                                 resource.slotInfo[0].slotState == 'ProcessRelatedBreak'}"
                                         ng-repeat="resource in ResourceTask.CALL | orderBy: 'LastReservedTime':true track by $index">
-                                        <a class="pull-left border-aero profile_thumb">
-                                            <i class="fa fa-user font-blue500"></i>
-                                        </a>
+                                        <div class="profile-status-dah"></div>
+                                        <div class="pull-left border-aero profile_thumb ">
+                                            <img src="asset/images/defaultProfile.png"
+                                                 ng-src="{{resource.avatar}}"/>
+                                        </div>
                                         <div class="media-body">
                                             <a class="title" href="javascript:void(0)">
-                                                {{resource.name}}
+                                                {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
                                             </a>
                                             <p>{{resource.slotInfo[0].LastReservedTime}} </p>
                                             <p>

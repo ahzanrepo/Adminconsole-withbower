@@ -2,7 +2,7 @@
  * Created by Rajinda on 6/13/2016.
  */
 
-mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) {
+mainApp.directive("agentstatus", function ($filter, moment, agentStatusService, userImageList) {
 
     return {
         restrict: "EA",
@@ -28,10 +28,16 @@ mainApp.directive("agentstatus", function ($filter, moment, agentStatusService) 
                 slotState: null,
                 LastReservedTime: 0,
                 other: null,
+                avatar: null,
                 slotStateTime: 0,
             };
 
             scope.profile.name = scope.resItem.ResourceName;
+
+            //get current user profile image
+            userImageList.getAvatarByUserName(scope.profile.name, function (res) {
+                scope.profile.avatar = res;
+            });
 
             /* /!* Set ConcurrencyInfo *!/
              var sessionIds = [];

@@ -15,8 +15,12 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/ConcurrentQueued/" + queue + "/5"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
                 return {};
             }
@@ -31,7 +35,11 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/QueueDetails"
         }).then(function (response) {
             if (response.data) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
 
                 return [];
@@ -47,7 +55,11 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
             url: baseUrls.dashBordUrl+"DashboardEvent/QueueSingleDetail/" + queue
         }).then(function (response) {
             if (response.data) {
-                return response.data;
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
             } else {
                 return {};
             }
@@ -61,8 +73,12 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
             method: 'GET',
             url: baseUrls.dashBordUrl+"DashboardGraph/ConcurrentQueued/"+ queue+"/5"
         }).then(function (response) {
-            if (response.data && response.data.length > 0 && response.data[0].datapoints) {
-                return response.data[0].datapoints;
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
+                    return response.data.Result[0].datapoints;
+                }else{
+                    return {};
+                }
             } else {
 
                 return {};
