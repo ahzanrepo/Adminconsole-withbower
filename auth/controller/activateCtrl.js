@@ -26,10 +26,10 @@ mainApp.controller('activateCtrl', function ($rootScope, $scope,$stateParams, $s
 
         loginService.activateAccount($stateParams.token, function (isSuccess) {
             if(isSuccess){
-                showAlert('Success', 'success', "Please login with new password");
+                showAlert('Success', 'success', "Your account has been updated, Please login");
                 $state.go('login');
             }else{
-                showAlert('Error', 'error', "reset failed");
+                showAlert('Error', 'error', "Account activation failed");
             }
         })
 

@@ -217,7 +217,9 @@
         //http://192.168.5.103:3636
         function getAllPackages(callback) {
             $http.get(baseUrls.UserServiceBaseUrl + "Packages").success(function (data, status, headers, config) {
-                callback(data.Result);
+
+               
+                    callback(data.Result);
 
             }).error(function (data, status, headers, config) {
                 callback(data.Result);
@@ -229,9 +231,14 @@
         //http://192.168.5.103:3636
         function buyMyPackage(packageName, callback) {
             $http.put(baseUrls.UserServiceBaseUrl + "Organisation/Package/" + packageName, {}).success(function (data, status, headers, config) {
-                callback(true);
+                if (data && data.IsSuccess && data.IsSuccess == true){
+                    callback(true, data.Result);
+                }else{
+                    callback(false, data.Result);
+                }
+                
             }).error(function (data, status, headers, config) {
-                callback(false);
+                callback(false, data.Result);
             });
         }
 

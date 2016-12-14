@@ -2,7 +2,7 @@
  * Created by Rajinda on 9/1/2016.
  */
 mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
-                                                       dashboardService, moment) {
+                                                       dashboardService, moment,userImageList) {
     var getAllRealTime = function () {
         $scope.getProfileDetails();
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
@@ -46,6 +46,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                     };
 
                     profile.name = response[i].ResourceName;
+                    //get current user profile image
+                    userImageList.getAvatarByUserName(profile.name, function (res) {
+                        profile.avatar = res;
+                    });
                     if (response[i].ConcurrencyInfo.length > 0 &&
                         response[i].ConcurrencyInfo[0].SlotInfo.length > 0) {
 

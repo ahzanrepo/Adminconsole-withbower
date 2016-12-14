@@ -10,59 +10,19 @@
                     <form name="signUpForm">
                         <h1 class="font-robot dark-frm-header font-300">SignUp </h1>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="validation-area">
+                            <div class="col-md-12">
+                                <div class="form-group has-feedback validation-area">
                                     <!-- user name -->
-                                    <label class="dark-frm-label">User name
+                                    <label class="dark-frm-label">Company Name
                                         <span class="inline-block validation-on"
-                                              ng-show="signUpForm.userName.$invalid && !signUpForm.userName.$pristine">*
+                                              ng-show="signUpForm.companyName.$invalid && !signUpForm.companyName.$pristine">*
                                     </span></label>
-                                    <input type="text" name="userName" ng-model="userName"
+                                    <input focus type="text" name="companyName" ng-model="companyName"
                                            class="form-control dark-frm-input "
                                            placeholder=""
                                            required/>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="validation-area">
-                                    <!-- phone no -->
-                                    <label class="dark-frm-label">Phone no
-                                        <span class="inline-block validation-on"
-                                              ng-show="signUpForm.phoneNo.$invalid && !signUpForm.userName.$pristine">*
-                                    </span></label>
-                                    <input type="text" name="phoneNo" ng-model="phoneNo"
-                                           class="form-control dark-frm-input "
-                                           placeholder=""
-                                           required/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="validation-area">
-                                    <!-- first name -->
-                                    <label class="dark-frm-label">First Name
-                                        <span class="inline-block validation-on"
-                                              ng-show="signUpForm.firstName.$invalid && !signUpForm.firstName.$pristine">*
-                                    </span></label>
-                                    <input type="text" name="firstName" ng-model="firstName"
-                                           class="form-control dark-frm-input "
-                                           placeholder=""
-                                           required/>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="validation-area">
-                                    <!-- last name -->
-                                    <label class="dark-frm-label">Last Name
-                                         <span class="inline-block validation-on"
-                                               ng-show="signUpForm.lastName.$invalid && !signUpForm.lastName.$pristine">*
-                                    </span></label>
-                                    <input type="text" name="lastName" ng-model="lastName"
-                                           class="form-control dark-frm-input "
-                                           placeholder=""
-                                           required/>
+                                    <span class="fa fa-check form-control-feedback" aria-hidden="true"></span>
+                                    <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                 </div>
                             </div>
                         </div>
