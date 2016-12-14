@@ -9,7 +9,7 @@
         var service = {};
         service.createNewUser = createNewUser;
         service.createOrganisation = createOrganisation;
-        service.isCheckOrganization = isCheckOrganization;
+        service.checkUniqueOrganization = CheckUniqueOrganization;
         return service;
 
         //create new user
@@ -33,8 +33,8 @@
         }
 
         //is check Organisation name
-        function isCheckOrganization(orgName, callback) {
-            $http.post(baseUrls.UserServiceBaseUrl + "Organisation/" + orgName + "/exists", param).success(function (data, status, headers, config) {
+        function CheckUniqueOrganization(orgName, callback) {
+            $http.get(baseUrls.UserServiceBaseUrl + "Organisation/" + orgName + "/exists").success(function (data, status, headers, config) {
                 callback(true);
             }).error(function (data, status, headers, config) {
                 callback(false);

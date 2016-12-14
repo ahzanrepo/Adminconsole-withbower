@@ -18,11 +18,12 @@
                                               ng-show="signUpForm.companyName.$invalid && !signUpForm.companyName.$pristine">*
                                     </span></label>
                                     <input focus type="text" name="companyName" ng-model="companyName"
-                                           class="form-control dark-frm-input "
+                                           class="form-control dark-frm-input"
                                            placeholder=""
-                                           required/>
-                                    <span class="fa fa-check form-control-feedback" aria-hidden="true"></span>
-                                    <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                                           required
+                                           autofocus/>
+                                    <span id="companystate" class="fa form-control-feedback" aria-hidden="true"
+                                          style="color: #009fd8 ;"></span>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +81,9 @@
                         </div>
 
 
-                        <div class="recaptcha-wrapper" ng-show="!isSignUp">
+                        <div class="recaptcha-wrapper"
+                             ng-if="captchaConfig==true"
+                             ng-show="!isSignUp">
                             <div vc-recaptcha
                                  theme="'dark'"
                                  key="siteKey"></div>

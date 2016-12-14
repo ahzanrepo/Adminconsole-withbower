@@ -76,6 +76,12 @@ var baseUrls = {
 
 mainApp.constant('baseUrls', baseUrls);
 
+var applicationConfig = {
+    'captchaEnable': false
+};
+mainApp.constant('applicationConfig', applicationConfig);
+
+
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider", "vcRecaptchaServiceProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider, vcRecaptchaServiceProvider) {
 
