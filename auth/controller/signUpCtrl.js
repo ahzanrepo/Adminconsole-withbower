@@ -29,19 +29,14 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
 
 
     var newUser = {
-        username: '',
-        phone: '',
-        firstname: '',
-        lastname: '',
+        companyname: '',
         password: '',
         email: ''
     };
     //create new user
     $scope.onClickCreateAccount = function () {
-        newUser.username = $scope.userName;
-        newUser.phone = $scope.phoneNo;
-        newUser.firstname = $scope.firstName;
-        newUser.lastname = $scope.lastName;
+        newUser.mail = $scope.email;
+        newUser.companyname = $scope.companyName;
         newUser.password = $scope.password;
         newUser.mail = $scope.email;
         $scope.isSignUp = true;
@@ -128,6 +123,7 @@ mainApp.directive('passwordStrength', [
                 scope.$watch('password', function (newVal) {
                     scope.strength = isSatisfied(newVal && newVal.length >= 8) +
                         isSatisfied(newVal && /[A-z]/.test(newVal)) +
+                        isSatisfied(newVal && /(?=.*[A-Z])/.test(newVal)) +
                         isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
                         isSatisfied(newVal && /\d/.test(newVal));
 
@@ -170,6 +166,7 @@ mainApp.directive('passwordStrengthBox', [
 
                     scope.strength = isSatisfied(newVal && newVal.length >= 8) +
                         isSatisfied(newVal && /[A-z]/.test(newVal)) +
+                        isSatisfied(newVal && /(?=.*[A-Z])/.test(newVal)) +
                         isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
                         isSatisfied(newVal && /\d/.test(newVal));
 
@@ -195,7 +192,7 @@ mainApp.directive('passwordStrengthBox', [
                     }
 
                     //capital Letter
-                    if (newVal && /[A-z]/.test(newVal)) {
+                    if (newVal && /(?=.*[A-Z])/.test(newVal)) {
                         scope.isPwdValidation.capitalLetter = true;
                     } else {
                         scope.isPwdValidation.capitalLetter = false;
@@ -261,5 +258,20 @@ mainApp.directive('patternValidator', [
 ]);
 
 
+mainApp.directive('focus', [function (signUpServices) {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.bind('blur', function (e) {
+                //do something
+                console.log('event fire...' + e);
+                signUpServices.isCheckOrganization('test', function (data) {
+                    console.log(data)
+                });
+            });
+        }
+    }
+}]);
 
 
