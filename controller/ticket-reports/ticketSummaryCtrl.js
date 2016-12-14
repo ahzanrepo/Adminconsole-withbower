@@ -27,6 +27,7 @@
         $scope.summaryDetails = {};
 
         $scope.tagList = [];
+        $scope.ticketStatusList = [];
 
 
         var isEmpty = function (map) {
@@ -100,6 +101,36 @@
 
 
         populateToTagList();
+
+
+        var getTicketTypeList = function ()
+        {
+
+            ticketReportsService.getTicketTypeList().then(function (typeList)
+            {
+                if (typeList && typeList.Result)
+                {
+                    var tempArr = [];
+                    if(typeList.Result.default_types)
+                    {
+                        tempArr = typeList.Result.default_types;
+                    }
+
+                    if(typeList.Result.custom_types)
+                    {
+                        tempArr = tempArr.concat(typeList.Result.custom_types);
+                    }
+
+                    $scope.ticketTypesList = tempArr;
+
+                }
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        getTicketTypeList();
 
 
         $scope.getTicketSummary = function () {
