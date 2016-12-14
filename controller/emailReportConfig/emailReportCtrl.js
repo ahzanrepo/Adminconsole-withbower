@@ -16,6 +16,8 @@
             });
         };
 
+        $scope.reportType = 'CDR_DAILY_REPORT';
+
         $scope.userList = [];
 
         var loadUserList = function ()

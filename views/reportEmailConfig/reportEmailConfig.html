@@ -10,7 +10,7 @@
                     <br><br>
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <label>Report Type</label>
-                        <select name="datatable-responsive_length" ng-model="reportType" ng-change="loadRecipients()"
+                        <select name="datatable-responsive_length" ng-model="reportTypeNew" ng-change="loadRecipients()"
                                 aria-controls="datatable-responsive" class="form-control">
                             <option value="CDR_DAILY_REPORT">CDR DAILY REPORT</option>
                             <option value="ABANDONCDR_DAILY_REPORT">ABANDON CDR DAILY REPORT</option>
@@ -24,6 +24,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-4"></div>
 
                     <div class="col-md-12 col-sm-12 col-xs-12">
+                        <br><br>
                         <div>
                             <label>Users</label>
                             <tags-input ng-model="reportUsers" display-property="username" key-property="_id"
