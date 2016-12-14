@@ -121,6 +121,7 @@
                 {
                     $scope.showAlert('Success', 'success', 'Schedule added successfully');
                     $scope.currentCron.CronePattern = '* * * * *';
+                    loadCrons();
                 }
                 else
                 {
