@@ -4078,6 +4078,10 @@ footer {
     list-style: none;
 }
 
+tags-input .tags {
+    height: auto !important;
+}
+
 .image_edit > i {
     position: absolute;
     top: 70pt;

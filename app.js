@@ -30,6 +30,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'satellizer',
     'checklist-model',
     'vcRecaptcha', 'angucomplete-alt',
+    'angular-cron-jobs',
     'jsplumb',
     'ui.slimscroll',
     'ngImgCrop'
@@ -62,6 +63,7 @@ var baseUrls = {
     'socialConnectorUrl': 'http://104.236.197.119:4647/DVP/API/1.0.0.0/Social/',
     'notification': 'http://notificationservice.app.veery.cloud/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'scheduleWorker': 'http://scheduleworker.app.veery.cloud/DVP/API/1.0.0.0/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
     'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -244,6 +246,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "DYNAMICFORM"
+            }
+        }).state('console.reportMail', {
+            url: "/ReportMail",
+            templateUrl: "views/reportEmailConfig/reportEmailConfig.html",
+            controller: "emailReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
             }
         }).state('console.AgentProfileSummary', {
             url: "/AgentProfileSummary",
