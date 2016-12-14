@@ -282,6 +282,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goSchedule: function () {
             $state.go('console.scheduler');
         },
+        goReportMail: function () {
+            $state.go('console.reportMail');
+        },
         goCompanyConfig: function () {
             $state.go('console.companyconfig');
         },

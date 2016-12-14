@@ -367,6 +367,37 @@
             });
         };
 
+        var getEmailRecipientsForReport = function (reportName) {
+            var url = baseUrls.cdrProcessor + 'MailRecipients/ReportType/' + reportName;
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var saveRecipients = function (repType, recipientsList) {
+            var url = baseUrls.cdrProcessor + 'MailRecipient/ReportType/' + repType;
+
+            var body = {
+                recipients: recipientsList
+            };
+
+            return $http({
+                method: 'POST',
+                url: url,
+                data: JSON.stringify(body)
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
         return {
             getCDRForTimeRange: getCDRForTimeRange,
             getAbandonCDRForTimeRange: getAbandonCDRForTimeRange,
@@ -384,7 +415,9 @@
             getCallSummaryForDayDownload: getCallSummaryForDayDownload,
             getCallSummaryForQueueHrDownload: getCallSummaryForQueueHrDownload,
             getCallSummaryForCustDownload: getCallSummaryForCustDownload,
-            getCallSummaryForCust: getCallSummaryForCust
+            getCallSummaryForCust: getCallSummaryForCust,
+            getEmailRecipientsForReport: getEmailRecipientsForReport,
+            saveRecipients: saveRecipients
         };
     };
 

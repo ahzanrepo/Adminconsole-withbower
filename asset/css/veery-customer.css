@@ -4020,3 +4020,7 @@ footer {
     padding: 15px 5px 15px 28px;
     list-style: none;
 }
+
+tags-input .tags {
+    height: auto !important;
+}

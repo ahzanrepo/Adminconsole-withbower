@@ -67,38 +67,6 @@
 
         var emptyArr = [];
 
-        $scope.querySearch = function (query) {
-            if (query === "*" || query === "") {
-                if ($scope.resList) {
-                    return $scope.resList;
-                }
-                else {
-                    return emptyArr;
-                }
-
-            }
-            else {
-                if ($scope.resList) {
-                    var filteredArr = $scope.resList.filter(function (item) {
-                        var regEx = "^(" + query + ")";
-
-                        if (item.ResourceName) {
-                            return item.ResourceName.match(regEx);
-                        }
-                        else {
-                            return false;
-                        }
-
-                    });
-
-                    return filteredArr;
-                }
-                else {
-                    return emptyArr;
-                }
-            }
-
-        };
 
         $scope.querySearchStatus = function (query) {
             if (query === "*" || query === "") {
