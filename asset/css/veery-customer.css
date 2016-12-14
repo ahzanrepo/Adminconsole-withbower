@@ -4077,3 +4077,20 @@ footer {
     padding: 15px 5px 15px 28px;
     list-style: none;
 }
+
+.image_edit > i {
+    position: absolute;
+    top: 70pt;
+    right: 30pt;
+    color: #fff;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+.cropArea {
+    background: #E4E4E4;
+    overflow: hidden;
+    width:300px;
+    height:300px;
+}
