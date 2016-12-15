@@ -172,4 +172,24 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
     }
 
 
+    $scope.options = {
+        type: 'pie',
+        options: {
+            responsive: false,
+            title: {
+                display: false
+            },
+            legend: {
+                display: true,
+                position: 'bottom',
+                padding: 10,
+                labels: {
+                    fontColor: 'rgb(130, 152, 174)',
+                    fontSize: 15,
+                    boxWidth: 50
+                }
+            }
+        }
+    };
+
 });

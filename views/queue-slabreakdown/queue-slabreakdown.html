@@ -137,9 +137,9 @@
                                         <div class="row">
                                             <div class="col-md-4" ng-repeat="daily in dailySLAbreakObj track by $index">
                                                 {{daily.name}}
-                                                <daily-sla-break-down id="{{$index}}"
-                                                                      chart-data="daily"></daily-sla-break-down>
-                                            </div>
+                                                <canvas  class="chart chart-pie" width="300" height="300    "
+                                                        chart-data="daily.data" chart-labels="daily.labels" chart-options="options">
+                                                </canvas>
                                         </div>
 
                                     </div>
