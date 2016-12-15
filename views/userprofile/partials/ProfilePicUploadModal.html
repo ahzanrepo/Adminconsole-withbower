@@ -1,59 +1,109 @@
 <div class="row" ng-show="showModal">
-
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="col-md-4 col-sm-4 col-xs-12"></div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <h3>Select your profile picture</h3>
-        </div>
-        <div class="col-md-2 col-sm-2 col-xs-12"></div>
-    </div>
-
-    <div class="x_panel">
-
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="col-md-1 col-sm-1 col-xs-12"></div>
-                <div class="col-md-8 col-sm-8 col-xs-12"><input type="file" nv-file-select="" uploader="uploader"  ng-click="clearQueue()"/><br/></div>
-                <div class="col-md-2 col-sm-2 col-xs-12"></div>
-            </div>
-
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-1 col-sm-1 col-xs-12"></div>
-            <div class="col-md-5 col-sm-5 col-xs-12">
-                <div>Original Image:</div>
-                <div class="cropArea">
-                    <img-crop image="uploader.queue[0].image" result-image="uploader.queue[0].croppedImage"></img-crop>
+        <uib-tabset active="0">
+            <uib-tab index="0" heading="Upload a Picture">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-4 col-sm-4 col-xs-12"></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <h3>Select your profile picture</h3>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-12"></div>
                 </div>
-            </div>
-            <div class="col-md-1 col-sm-1 col-xs-12"></div>
 
-            <div class="col-md-5 col-sm-5 col-xs-12">
-                <div>Cropped Image:</div>
-                <div style="border: 3pt"><img id="cropedArea" ng-src="{{uploader.queue[0].croppedImage}}" /></div>
-            </div>
+                <div class="x_panel">
 
-
-        </div>
-        <div class="row " >
-            <div class="col-md-8 col-sm-8 col-xs-12"></div>
-            <div class="col-md-3 col-sm-3 col-xs-12 pull-right">
-                <button type="button" class="btn btn-success btn-xs" ng-click="uploader.queue[0].upload()" ng-disabled="isUploadDisable || uploader.queue[0].isReady || uploader.queue[0].isUploading || uploader.queue[0].isSuccess">
-                <span class="glyphicon glyphicon-upload"></span> Upload
-            </button>
-                <button type="button" class="btn btn-warning btn-xs" ng-click="uploader.queue[0].cancel()" ng-disabled="!uploader.queue[0].isUploading">
-                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                </button></div>
-
-            <div class="col-md-1 col-sm-1 col-xs-12"></div>
-
-        </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-1 col-sm-1 col-xs-12"></div>
+                            <div class="col-md-8 col-sm-8 col-xs-12"><input type="file" nv-file-select="" uploader="uploader"  ng-click="clearQueue()"/><br/></div>
+                            <div class="col-md-2 col-sm-2 col-xs-12"></div>
+                        </div>
 
 
+                    </div>
 
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1 col-xs-12"></div>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <div>Original Image:</div>
+                            <div class="cropArea">
+                                <img-crop image="uploader.queue[0].image" result-image="uploader.queue[0].croppedImage"></img-crop>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-12"></div>
+
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <div>Cropped Image:</div>
+                            <div style="border: 3pt"><img id="cropedArea" ng-src="{{uploader.queue[0].croppedImage}}" /></div>
+                        </div>
+
+
+                    </div>
+                    <div class="row " >
+                        <div class="col-md-8 col-sm-8 col-xs-12"></div>
+                        <div class="col-md-3 col-sm-3 col-xs-12 pull-right">
+                            <button type="button" class="btn btn-success btn-xs" ng-click="uploader.queue[0].upload()" ng-disabled="isUploadDisable || uploader.queue[0].isReady || uploader.queue[0].isUploading || uploader.queue[0].isSuccess">
+                                <span class="glyphicon glyphicon-upload"></span> Upload
+                            </button>
+                            <button type="button" class="btn btn-warning btn-xs" ng-click="uploader.queue[0].cancel()" ng-disabled="!uploader.queue[0].isUploading">
+                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                            </button></div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-12"></div>
+
+                    </div>
+
+
+
+                </div>
+            </uib-tab>
+            <uib-tab index="1" heading="Take a snap">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-1 col-sm-1 col-xs-12">
+
+                        </div>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <webcam
+                                    channel="myChannel"
+                                    on-stream="onStream(stream)"
+                                    on-streaming="onSuccess()"
+                                    on-error="onError(err)">
+                            </webcam>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-12">
+                        </div>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <canvas id="snapshot" >
+                            </canvas>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-12"></div>
+                        <div class="col-md-3 col-sm-3 col-xs-12 pull-right">
+                            <button type="button" class="btn btn-success btn-xs" ng-click="makeSnapshot()" >
+                                <span class="glyphicon glyphicon-camera"></span> Snap
+                            </button>
+                            <button type="button" class="btn btn-success btn-xs" ng-click="uploadSnap(snapURI)" ng-disabled="!snapURI">
+                                <span class="glyphicon glyphicon-upload"></span> Save
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </uib-tab>
+        </uib-tabset>
     </div>
+
+
+
+
+
 
 
     <!--<div ng-repeat="item in uploader.queue">

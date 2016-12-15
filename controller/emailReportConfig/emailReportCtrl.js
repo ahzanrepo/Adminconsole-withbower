@@ -16,6 +16,10 @@
             });
         };
 
+        $scope.reportType = {
+            reportType: ''
+        };
+
         $scope.userList = [];
 
         var loadUserList = function ()
@@ -95,11 +99,10 @@
                 return item._id;
             });
 
-            cdrApiHandler.saveRecipients($scope.reportType, arrMap).then(function (data)
+            cdrApiHandler.saveRecipients($scope.reportType.reportType, arrMap).then(function (data)
             {
                 if (data.IsSuccess && data.Result && data.Result.users)
                 {
-                    $scope.userList = data.Result.users;
                     $scope.showAlert('Success', 'success', 'recipients added successfully');
                 }
                 else
@@ -130,7 +133,7 @@
         {
             $scope.reportUsers = [];
 
-            cdrApiHandler.getEmailRecipientsForReport($scope.reportType).then(function (data)
+            cdrApiHandler.getEmailRecipientsForReport($scope.reportType.reportType).then(function (data)
             {
                 if (data.IsSuccess && data.Result && data.Result.users)
                 {

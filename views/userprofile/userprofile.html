@@ -24,10 +24,15 @@
                                      style='height: 100%; width: 100%; object-fit: contain'
                                      src="asset/images/noimage.jpg" alt="Avatar"
                                      ng-src="{{CurrentProfile.avatar}}"
-                                     title="Change the avatar">
+                                     title="Change the avatar"
+                                        ng-click="editProfileImage()">
 
-                                <i ng-show="isEditState"
-                                   class="fa fa-pencil fa-3x" ng-click="editProfileImage()"></i>
+
+
+                               <!-- <i ng-show="isEditState"
+                                   class="fa fa-pencil fa-3x" ng-click="editProfileImage()"></i>-->
+                               <!-- <i ng-show="isEditState"
+                                   class="fa fa-camera fa-3x" ng-click="snapProfileImage()"></i>-->
 
                                 <!-- Cropping modal -->
                                 <div class="modal fade" id="avatar-modal" aria-hidden="true"

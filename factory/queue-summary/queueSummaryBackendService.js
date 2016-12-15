@@ -24,6 +24,16 @@ mainApp.factory('queueSummaryBackendService', function ($http, baseUrls) {
             {
                 return response;
             });
+        },
+
+        getQueueHourlySlaBreakDown: function (qDate) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.ardsmonitoringBaseUrl + 'MONITORING/QUEUE/SlaHourlyBreakDown/date/'+qDate
+            }).then(function(response)
+            {
+                return response;
+            });
         }
 
 

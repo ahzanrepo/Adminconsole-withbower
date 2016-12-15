@@ -135,15 +135,6 @@
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Ticket Type</label>
-                    <!--<select name="datatable-responsive_length" ng-model="ticketType"
-                            aria-controls="datatable-responsive" class="form-control">
-                        <option value=""></option>
-                        <option value="question">Question</option>
-                        <option value="complain">Complain</option>
-                        <option value="incident">Incident</option>
-                        <option value="action">Action</option>
-                    </select>-->
-
                     <select name="datatable-responsive_length" class="select2_single form-control" tabindex="-1" aria-hidden="true" ng-options="item as item for item in ticketTypesList track by item"
                             ng-model="ticketType">
                         <option value=""></option>
