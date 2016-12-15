@@ -487,7 +487,7 @@ a {
 }
 
 .connected > .profile-status-dah {
-    background: #114858;
+    background: #0cf0dd ;
 }
 
 .connected > a > i {
@@ -3852,7 +3852,7 @@ ul#strength {
     position: absolute;
     top: -125px;
     left: 1px;
-    background: #272624;
+    background: #080808;
     padding: 15px 23px 13px 20px;
     z-index: 100;
     border-radius: 2px;
@@ -4076,6 +4076,10 @@ footer {
     margin-bottom: 10px;
     padding: 15px 5px 15px 28px;
     list-style: none;
+}
+
+tags-input .tags {
+    height: auto !important;
 }
 
 .image_edit > i {

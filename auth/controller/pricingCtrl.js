@@ -11,12 +11,12 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
         $scope.packages = result;
     });
 
-    $scope.showError = function (tittle,content) {
+    $scope.showMessage = function (tittle, content, type) {
 
         new PNotify({
             title: tittle,
             text: content,
-            type: 'error',
+            type: type,
             styling: 'bootstrap3'
         });
     };
@@ -24,21 +24,27 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
     //onclick get my package
     $scope.onClickBuyPackages = function (pak) {
         walletService.CreditBalance().then(function (res) {
-            if((parseInt(res.Credit)/100) > parseInt(pak.price)){
-                loginService.buyMyPackage(pak.packageName, function (result) {
+            if ((parseInt(res.Credit) / 100) > parseInt(pak.price)) {
+                loginService.buyMyPackage(pak.packageName, function (result, data) {
                     if (!result) {
-                        $scope.showError("Package Buy", "Please Contact System Administrator.");
+                        $scope.showMessage("Package Buy", "Please Contact System Administrator.", 'error');
+                        return;
+
                     }
-                    loginService.clearCookie();
-                    $state.go('login');
+                    else {
+                        loginService.clearCookie();
+                        $state.go('login');
+                        $scope.showMessage("Package Buy", "Package upgrade was done successfully.", 'Success');
+                        return;
+                    }
                 });
             }
-            else{
-                $scope.showError("Package Buy", "Insufficient Balance. Please Add Credit To Your Account.");
+            else {
+                $scope.showMessage("Package Buy", "Insufficient Balance. Please Add Credit To Your Account.", 'error');
                 $state.go('console.credit');
             }
         }, function (err) {
-            $scope.showError("Package Buy", "Fail To Get Credit Balance.");
+            $scope.showMessage("Package Buy", "Fail To Get Credit Balance.", 'error');
         });
     };
 
