@@ -21,7 +21,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
     $scope.getQueueSummary = function () {
         $scope.queueSummaryList = [];
         $scope.isTableLoading = 0;
-        queueSummaryBackendService.getQueueSlaBreakDown($scope.qDate).then(function (response) {
+        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
 
             $scope.isTableLoading = 1;
             if (!response.data.IsSuccess) {
@@ -39,12 +39,33 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         });
     };
 
+    $scope.getQueueDailySummary = function () {
+        $scope.dailyQueueSummaryList = [];
+        $scope.isTableLoading = 0;
+        queueSummaryBackendService.getQueueSlaBreakDown($scope.qDate).then(function (response) {
+
+            $scope.isTableLoading = 1;
+            if (!response.data.IsSuccess) {
+                console.log("Queue Summary loading failed ", response.data.Exception);
+            }
+            else {
+                $scope.dailyQueueSummaryList = response.data.Result;
+
+                console.log($scope.dailyQueueSummaryList);
+            }
+
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.log("Error in Queue Summary loading ", error);
+        });
+    };
+
 
     $scope.getProcessedSlaCSVDownload = function () {
         var deferred = $q.defer();
 
         var queueSummaryListForCsv = [];
-        queueSummaryBackendService.getQueueSlaBreakDown($scope.qDate).then(function (response) {
+        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
 
             if (!response.data.IsSuccess) {
                 console.log("Queue Summary loading failed ", response.data.Exception);
