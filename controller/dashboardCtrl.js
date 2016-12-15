@@ -336,11 +336,11 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                     if (response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
                                         for (var k = 0; k < response[i].ConcurrencyInfo[j].SlotInfo.length; k++) {
-                                            var resonseStatus = null,
-                                                resonseAvailability = null;
+                                            var resonseStatus = null, resonseAvailability = null, resourceMode = null;
                                             if (response[i].Status.Reason && response[i].Status.State) {
                                                 resonseAvailability = response[i].Status.State;
                                                 resonseStatus = response[i].Status.Reason;
+                                                resourceMode = response[i].Status.Mode;
                                             }
                                             if (response[i].ConcurrencyInfo[j].IsRejectCountExceeded) {
                                                 resonseAvailability = "NotAvailable";
@@ -350,12 +350,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                             var reservedDate = response[i].ConcurrencyInfo[j].SlotInfo[k].StateChangeTime;
 
-                                            var slotInfo = {slotState: null, LastReservedTime: 0, other: null};
+                                            var slotInfo = {slotState: null, LastReservedTime: 0, other: null, slotMode: resourceMode};
 
                                             if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
                                                 slotInfo.slotState = resonseStatus;
                                                 slotInfo.other = "Reject";
-                                            } else if (resonseAvailability == "NotAvailable") {
+                                            } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("Break") > -1) {
                                                 slotInfo.slotState = resonseStatus;
                                                 slotInfo.other = "Break";
                                                 reservedDate = response[i].Status.StateChangeTime;
