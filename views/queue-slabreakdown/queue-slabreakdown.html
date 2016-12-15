@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <div class="row" >
+    <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_content">
@@ -130,11 +130,18 @@
 
                             </div>
                         </uib-tab>
-                        <uib-tab  index="1" heading="Daily SLA Break Down">
+                        <uib-tab index="1" heading="Daily SLA Break Down" select="tabSelectedDaily()">
                             <div class="row">
                                 <div class="x_panel">
                                     <div class="x_content">
-                                        <canvas id="dailyBreakDownChart" width="400" height="400"></canvas>
+                                        <div class="row">
+                                            <div class="col-md-4" ng-repeat="daily in dailySLAbreakObj track by $index">
+                                                {{daily.name}}
+                                                <daily-sla-break-down id="{{$index}}"
+                                                                      chart-data="daily"></daily-sla-break-down>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -144,8 +151,6 @@
             </div>
         </div>
     </div>
-
-
 
 
 </div>

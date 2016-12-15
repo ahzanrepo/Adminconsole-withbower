@@ -30,9 +30,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
             else {
                 $scope.queueSummaryList = response.data.Result;
 
-                var ctx = document.getElementById("reportTab")
-                var ctx = document.getElementById("dailyBreakDownChart").getContext("2d");
-                window.myChart = new Chart(ctx, $scope.chartConfig);
+
             }
 
         }, function (error) {
@@ -90,52 +88,88 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
 
     };
 
+    var data = {
+        labels: [
+            "Red",
+            "Blue",
+            "Yellow"
+        ],
+        datasets: [
+            {
+                data: [300, 50, 100],
+                backgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56"
+                ],
+                hoverBackgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56"
+                ]
+            }]
+    };
+
     //Daily SLA Break Down
     //Line chart
     $scope.chartConfig = {
-        type: 'bar',
-        data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
+        type: 'pie',
+        data: data,
         options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
+            responsive: false,
+            title: {
+                display: false
+            },
+            legend: {
+                display: true,
+                position: 'bottom',
+                padding: 10,
+                labels: {
+                    fontColor: 'rgb(130, 152, 174)',
+                    fontSize: 15,
+                    boxWidth: 50
+                }
             }
         }
     };
 
-    $(function () {
-        /*var ctx = document.getElementById("reportTab")
-        var ctx = document.getElementById("dailyBreakDownChart").getContext("2d");
-        window.myChart = new Chart(ctx, $scope.chartConfig);*/
-    });
+    //code update damith
+    //SLA daily summary graph
 
 
+    $scope.tabSelectedDaily = function () {
+        $scope.dailySLAbreakObj = [];
+        // get daily summary data
+        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
+            console.log(response);
+            if (response && response.data) {
+                response.data.Result.forEach(function (value, key) {
+                    var chartData = {
+                        name: '',
+                        data: [],
+                        labels: []
+                    };
+                    chartData.name = response.data.Result[key].Queue;
+                    chartData.labels.push(response.data.Result[key].BreakDown);
+                    chartData.data.push(response.data.Result[key].Average);
+                    for (var i = 0; i < $scope.dailySLAbreakObj.length; i++) {
+                        if ($scope.dailySLAbreakObj[i].name == chartData.name) {
+                            $scope.dailySLAbreakObj[i].data.push(response.data.Result[key].Average);
+                            $scope.dailySLAbreakObj[i].labels.push(response.data.Result[key].BreakDown);
+                            return;
+                        }
+                    }
+                    $scope.dailySLAbreakObj.push(chartData);
+                });
+                // var ctx = document.getElementById("dailyBreakDownChart").getContext("2d");
+                // window.myChart = new Chart(ctx, $scope.chartConfig);
+                // document.getElementById("dailyBreakDownChart").setAttribute("style", "width: 300px;height: 300px;margin-top: 15px;");
+            }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.log("Error in Queue Summary loading ", error);
+        });
+    }
 
 
 });
