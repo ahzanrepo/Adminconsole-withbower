@@ -4,7 +4,7 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.bootstrap',
-    'ui.router', 'ui.checkbox', 'chart.js', 'angular-flot', 'angularMoment',
+    'ui.router', 'ui.checkbox',  'angular-flot', 'angularMoment',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
     'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
@@ -733,7 +733,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('console.queueSlaBreakDown', {
             url: "/slabreakdown",
             templateUrl: "views/queue-slabreakdown/queue-slabreakdown.html",
-            controller: "queueSlaBreakDownController",
             data: {
                 requireLogin: true,
                 navigation: "SLA_BREAKDOWN"
