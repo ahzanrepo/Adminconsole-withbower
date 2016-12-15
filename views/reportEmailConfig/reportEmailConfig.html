@@ -29,7 +29,7 @@
                             <label>Users</label>
                             <tags-input ng-model="reportUsers" display-property="username" key-property="_id"
                                         add-from-autocomplete-only="true" min-length="0">
-                                <auto-complete source="querySearch($query)" load-on-empty="true" max-results-to-show="10000" load-on-focus="true"></auto-complete>
+                                <auto-complete source="querySearch($query)" load-on-empty="true" max-results-to-show="10000" min-length="1" load-on-focus="true"></auto-complete>
                             </tags-input>
                         </div>
 
