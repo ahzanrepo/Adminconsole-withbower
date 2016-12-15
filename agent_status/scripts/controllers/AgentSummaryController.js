@@ -75,7 +75,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
                             profile.slotState = resonseStatus;
                             profile.other = "Reject";
-                        } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("Break") > -1) {
+                        } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
                             profile.slotState = resonseStatus;
                             profile.other = "Break";
                             reservedDate = response[i].Status.StateChangeTime;

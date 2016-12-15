@@ -355,7 +355,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                             if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
                                                 slotInfo.slotState = resonseStatus;
                                                 slotInfo.other = "Reject";
-                                            } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("Break") > -1) {
+                                            } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
                                                 slotInfo.slotState = resonseStatus;
                                                 slotInfo.other = "Break";
                                                 reservedDate = response[i].Status.StateChangeTime;
