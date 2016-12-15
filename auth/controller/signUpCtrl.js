@@ -3,7 +3,7 @@
  */
 
 mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptchaService,
-                                           signUpServices, $auth, baseUrls) {
+                                           signUpServices, $auth, $http) {
 
     //go to login
 
@@ -27,43 +27,46 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
         });
     };
 
+    //config captcha setting
+    $scope.captchaConfig = applicationConfig.captchaEnable;
+
 
     var newUser = {
-        username: '',
-        phone: '',
-        firstname: '',
-        lastname: '',
+        companyname: '',
         password: '',
         email: ''
     };
+
     //create new user
+    var signUp = function (newUser) {
+        $auth.signup(newUser)
+            .then(function (response) {
+                //$auth.setToken(response);
+                showAlert('Job Done', 'success', 'Registration successfully please check email for verification...');
+                $state.go('login');
+            })
+            .catch(function (response) {
+                showAlert('Error', 'error', 'User Registration error...');
+                $scope.isSignUp = false;
+            });
+    };
+
     $scope.onClickCreateAccount = function () {
-        newUser.username = $scope.userName;
-        newUser.phone = $scope.phoneNo;
-        newUser.firstname = $scope.firstName;
-        newUser.lastname = $scope.lastName;
+        newUser.mail = $scope.email;
+        newUser.companyname = $scope.companyName;
         newUser.password = $scope.password;
         newUser.mail = $scope.email;
         $scope.isSignUp = true;
-
-        if (vcRecaptchaService.getResponse() === "") { //if string is empty
-            alert("Please resolve the captcha and submit!")
+        if ($scope.captchaConfig) {
+            if (vcRecaptchaService.getResponse() === "") { //if string is empty
+                alert("Please resolve the captcha and submit!")
+            } else {
+                newUser['g-recaptcha-response'] = vcRecaptchaService.getResponse();
+                signUp(newUser);
+            }
         } else {
-            newUser['g-recaptcha-response'] = vcRecaptchaService.getResponse();
-            $auth.signup(newUser)
-                .then(function (response) {
-                    //$auth.setToken(response);
-                    showAlert('Job Done', 'success', 'Registration successfully please check email for verification...');
-                    $state.go('login');
-                })
-                .catch(function (response) {
-                    showAlert('Error', 'error', 'User Registration error...');
-                    $scope.isSignUp = false;
-                });
-
+            signUp(newUser);
         }
-
-
     };
 
 
@@ -128,6 +131,7 @@ mainApp.directive('passwordStrength', [
                 scope.$watch('password', function (newVal) {
                     scope.strength = isSatisfied(newVal && newVal.length >= 8) +
                         isSatisfied(newVal && /[A-z]/.test(newVal)) +
+                        isSatisfied(newVal && /(?=.*[A-Z])/.test(newVal)) +
                         isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
                         isSatisfied(newVal && /\d/.test(newVal));
 
@@ -170,6 +174,7 @@ mainApp.directive('passwordStrengthBox', [
 
                     scope.strength = isSatisfied(newVal && newVal.length >= 8) +
                         isSatisfied(newVal && /[A-z]/.test(newVal)) +
+                        isSatisfied(newVal && /(?=.*[A-Z])/.test(newVal)) +
                         isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
                         isSatisfied(newVal && /\d/.test(newVal));
 
@@ -195,7 +200,7 @@ mainApp.directive('passwordStrengthBox', [
                     }
 
                     //capital Letter
-                    if (newVal && /[A-z]/.test(newVal)) {
+                    if (newVal && /(?=.*[A-Z])/.test(newVal)) {
                         scope.isPwdValidation.capitalLetter = true;
                     } else {
                         scope.isPwdValidation.capitalLetter = false;
@@ -261,5 +266,33 @@ mainApp.directive('patternValidator', [
 ]);
 
 
+mainApp.directive('focus', ['signUpServices', function (signUpServices) {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModel) {
+            element.bind('blur', function (e) {
+
+                scope.isLoading = false;
+                if (!ngModel || !element.val()) return;
+                var currentValue = element.val();
+
+                $('#companystate').addClass('fa-circle-o-notch fa-spin').removeClass('fa-times fa-check');
+                signUpServices.checkUniqueOrganization(currentValue, function (data) {
+                    if (data) {
+                        $('#companystate').addClass('fa-check').removeClass('fa-circle-o-notch fa-spin fa-times');
+                    } else {
+                        $('#companystate').addClass('fa-times').removeClass('fa-circle-o-notch fa-spin fa-check');
+
+                    }
+                    ngModel.$setValidity('unique', data);
+                });
+
+                console.log('event fire...' + e);
+
+            });
+        }
+    }
+}]);
 
 

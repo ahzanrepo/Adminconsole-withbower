@@ -97,6 +97,8 @@
 <link rel="stylesheet" type="text/css" href="asset/css/abn_tree.css">
 
 <link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
+
+<link rel="stylesheet" type="text/css" href="bower_components/angular-cron-jobs/dist/angular-cron-jobs.css">
 <body class="nav-md">
 <!--style="display: none;"-->
 <div id="introLoader" class="introLoading introLoader gifLoader theme-dark bubble">
@@ -160,9 +162,14 @@
 
 <script type="text/javascript" src="bower_components/satellizer/dist/satellizer.js"></script>
 
+<script type="text/javascript" src="bower_components/angular-cron-jobs/dist/angular-cron-jobs.js"></script>
+
 <script type="text/javascript" src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
 <script type="text/javascript" src="asset/vendors/ng-tags-input.min/ng-tags-input.min.js"></script>
 <!--<script type="text/javascript" src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>-->
+
+
+
 
 <!-- Include the JS ReCaptcha API -->
 <script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>
@@ -242,6 +249,16 @@
 <script type="text/javascript" src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 
 
+
+<!-- image crop-->
+<script type="text/javascript" src="bower_components/ng-img-crop/compile/unminified/ng-img-crop.js"></script>
+<link rel="stylesheet" type="text/css" href="bower_components/ng-img-crop/compile/unminified/ng-img-crop.css">
+
+<!-- snap-->
+<script type="text/javascript" src="bower_components/webcam/app/scripts/webcam.js"></script>
+
+
+
 <!-- main app JS -->
 <script type="text/javascript" src="app.js"></script>
 
@@ -296,6 +313,11 @@
 
 <!-- agent dashboard -->
 <script type="text/javascript" src="controller/agentDashboardCtrl.js"></script>
+
+<!-- report email config -->
+<script type="text/javascript" src="controller/emailReportConfig/emailReportCtrl.js"></script>
+<script type="text/javascript" src="factory/scheduleWorker/scheduleWorkerService.js"></script>
+<script type="text/javascript" src="controller/emailReportConfig/cronScheduleCtrl.js"></script>
 
 
 <!-- Agent productivity -->
@@ -413,7 +435,6 @@
 
 <!-- call -monitor -->
 <script type="text/javascript" src="controller/call-monitor/callMonitorController.js"></script>
-<script type="text/javascript" src="controller/call-monitor/callMonitorController2.js"></script>
 <script type="text/javascript" src="factory/call-monitor/callMonitorConfigService.js"></script>
 <script type="text/javascript" src="controller/call-monitor/phoneHandler.js"></script>
 <script type="text/javascript" src="controller/call-monitor/SIPml.js"></script>

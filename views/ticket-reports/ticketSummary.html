@@ -71,13 +71,18 @@
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Ticket Type</label>
-                    <select name="datatable-responsive_length" ng-model="ticketType"
+                    <!--<select name="datatable-responsive_length" ng-model="ticketType"
                             aria-controls="datatable-responsive" class="form-control">
                         <option value=""></option>
                         <option value="question">Question</option>
                         <option value="complain">Complain</option>
                         <option value="incident">Incident</option>
                         <option value="action">Action</option>
+                    </select>-->
+
+                    <select name="datatable-responsive_length" class="select2_single form-control" tabindex="-1" aria-hidden="true" ng-options="item as item for item in ticketTypesList track by item"
+                            ng-model="ticketType">
+                        <option value=""></option>
                     </select>
                 </div>
 
@@ -140,15 +145,12 @@
                                 <span class="value text-success"> {{summaryDetails.reopen}} </span>
                             </li>
                             <li class="hidden-phone">
-                                <span class="name">Overdue Tickets</span>
-                                <span class="value text-success"> {{summaryDetails.overdue_working}} </span>
-                            </li>
-                        </ul>
-                        <ul class="stats-overview ticket-summary">
-                            <li class="hidden-phone">
                                 <span class="name">SLA Violated Tickets </span>
                                 <span class="value text-success"> {{summaryDetails.sla_violated}} </span>
                             </li>
+                        </ul>
+                        <ul class="stats-overview ticket-summary">
+
                             <li class="hidden-phone">
                                 <span class="name">Completed Overdue Tickets</span>
                                 <span class="value text-success"> {{summaryDetails.overdue_done}} </span>
@@ -157,12 +159,13 @@
                                 <span class="name">Overdue Tickets</span>
                                 <span class="value text-success"> {{summaryDetails.overdue_working}} </span>
                             </li>
-                        </ul>
-                        <ul class="stats-overview ticket-summary">
                             <li class="hidden-phone">
                                 <span class="name">First Call Resolved Tickets</span>
                                 <span class="value text-success"> {{summaryDetails.first_call_resolved}} </span>
                             </li>
+                        </ul>
+                        <ul class="stats-overview ticket-summary">
+
                             <li class="hidden-phone">
                                 <span class="name">Average Resolution</span>
                                 <span class="value text-success"> {{summaryDetails.average_resolution}}</span>
@@ -170,6 +173,9 @@
                             <li class="hidden-phone">
                                 <span class="name">Average Response</span>
                                 <span class="value text-success"> {{summaryDetails.average_response}} </span>
+                            </li>
+                            <li class="hidden-phone">
+                                <span class="name">-</span>
                             </li>
                         </ul>
                     </div>

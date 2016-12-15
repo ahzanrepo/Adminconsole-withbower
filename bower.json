@@ -80,7 +80,11 @@
     "angular-recaptcha": "^3.0.4",
     "acute-select": "^0.1.0",
     "angucomplete-jwl": "^0.0.13",
-    "angular-slimscroll": "^1.1.5"
+    "angular-cron-jobs": "^3.2.0",
+    "ng-img-crop": "ngImgCrop#^0.3.2",
+    "bower": "*",
+    "install": "^1.0.4",
+    "webcam": "webcam-directive#^3.1.1"
   },
   "resolutions": {
     "angular": "1.5.5",
