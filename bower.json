@@ -83,7 +83,8 @@
     "angular-cron-jobs": "^3.2.0",
     "ng-img-crop": "ngImgCrop#^0.3.2",
     "bower": "*",
-    "install": "^1.0.4"
+    "install": "^1.0.4",
+    "chart.js": "^2.4.0"
   },
   "resolutions": {
     "angular": "1.5.5",
