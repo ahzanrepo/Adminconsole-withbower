@@ -4098,3 +4098,10 @@ tags-input .tags {
     width:300px;
     height:300px;
 }
+
+.sla-chart-wrapper{
+    background: #f7f7f7;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+}
