@@ -825,6 +825,7 @@ mainApp.constant('config', {
 });
 
 
+
 mainApp.run(function ($rootScope, loginService, $location, $auth, $state) {
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
