@@ -7,6 +7,12 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
     $scope.qDate = moment().format("YYYY-MM-DD");
     $scope.dateValid = true;
     $scope.queueSummaryList = [];
+    $scope.dailiySummaryList = [];
+    $scope.viewMode = 'table';
+
+    $scope.changeView = function (viewMode) {
+        $scope.viewMode = viewMode;
+    };
 
 
     var createDailyGraph = function () {
@@ -16,6 +22,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
             if (response && response.data && response.data.Result) {
                 $scope.isTableLoading = 1;
+                $scope.dailiySummaryList = response.data.Result;
                 response.data.Result.forEach(function (value, key) {
                     var chartData = {
                         name: '',
