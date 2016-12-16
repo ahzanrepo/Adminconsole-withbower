@@ -5,7 +5,7 @@
 (function () {
     var app = angular.module('veeryConsoleApp');
 
-    var configCaseController = function ($scope, $filter, $q, $stateParams, $state, ticketReportsService, caseApiAccess, loginService) {
+    var configCaseController = function ($scope, $filter, $q, $uibModal, $stateParams, $state, ticketReportsService, caseApiAccess, loginService, triggerArdsServiceAccess, triggerTemplateServiceAccess) {
 
         $scope.title = $stateParams.title;
         $scope.caseInfo = JSON.parse($stateParams.caseInfo);
@@ -365,7 +365,6 @@
                     //$scope.caseInfo = response.Result;
                     $scope.loadCase();
                     $scope.showAlert('Case', 'success', response.CustomMessage);
-                    $scope.bulkCloseTickets();
                     //$state.reload();
                 }
                 else {
@@ -386,8 +385,8 @@
             });
         };
 
-        $scope.bulkCloseTickets = function () {
-            caseApiAccess.bulkCloseTickets($scope.selectedExsistingTickets.ids).then(function (response) {
+        $scope.bulkStatusChangeTickets = function () {
+            caseApiAccess.bulkStatusChangeTickets($scope.selectedExsistingTickets.ids, $scope.bulkAction).then(function (response) {
                 if (response.IsSuccess) {
                     $scope.showAlert('Case', 'success', response.CustomMessage);
                     //$state.reload();
@@ -409,7 +408,133 @@
                 $scope.showAlert('Case', 'error', errMsg);
             });
         };
+
+        $scope.bulkActions = ['new','open','progressing','parked','solved','closed'];
+
+        $scope.loadAttributes = function () {
+            triggerArdsServiceAccess.getReqMetaData().then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.attributes = [];
+                    if (response.Result) {
+                        var jResult = JSON.parse(response.Result);
+                        if (jResult.AttributeMeta) {
+                            for (var i = 0; i < jResult.AttributeMeta.length; i++) {
+                                if (jResult.AttributeMeta[i].AttributeDetails) {
+                                    for (var j = 0; j < jResult.AttributeMeta[i].AttributeDetails.length; j++) {
+
+                                        $scope.attributes.push(jResult.AttributeMeta[i].AttributeDetails[j]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    var errMsg = response.CustomMessage;
+
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Attributes', errMsg, 'error');
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading attributes";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Attributes', errMsg, 'error');
+            });
+        };
+
+        $scope.loadTemplateInfo = function () {
+            triggerTemplateServiceAccess.getTemplates().then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.templates = response.Result;
+                }
+                else {
+                    var errMsg = response.CustomMessage;
+
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Template', errMsg, 'error');
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading templates";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Template', errMsg, 'error');
+            });
+        };
+
+
+        $scope.loadTemplateInfo();
+        $scope.loadAttributes();
+
+
+        //-----------------specific Operation Modal-------------------------------
+        $scope.bulkAction = {action: undefined, specificOperations: []};
+        $scope.addOperation = function (operation) {
+            $scope.bulkAction.specificOperations.push(operation);
+        };
+
+        $scope.removeOperation = function (operation) {
+            var index = $scope.bulkAction.specificOperations.indexOf(operation);
+            if (index != -1) {
+                $scope.bulkAction.specificOperations.splice(index, 1);
+            }
+        };
+
+        $scope.showModal = function () {
+            //modal show
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/ticket-case/specificOperations.html',
+                controller: 'spoModalController',
+                size: 'sm',
+                resolve: {
+                    addOperation: function () {
+                        return $scope.addOperation;
+                    },
+                    attributes: function () {
+                        return $scope.attributes;
+                    },
+                    templates: function () {
+                        return $scope.templates;
+                    }
+                }
+            });
+        };
     };
 
     app.controller('configCaseController', configCaseController);
 }());
+
+mainApp.controller("spoModalController", function ($scope, $uibModalInstance, addOperation, attributes, templates) {
+    $scope.showModal = true;
+    $scope.operation = {};
+    $scope.attributes = attributes;
+    $scope.templates = templates;
+
+    $scope.showAlert = function (title, content, type) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
+    };
+
+    $scope.addOperation = function () {
+        $uibModalInstance.dismiss('cancel');
+        addOperation($scope.operation);
+    };
+
+    $scope.closeModal = function () {
+        $uibModalInstance.dismiss('cancel');
+    }
+});
