@@ -137,7 +137,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
     //SLA daily summary graph
 
 
-    $scope.tabSelectedDaily = function () {
+    $scope.createDailyGraph  = function () {
         $scope.dailySLAbreakObj = [];
         // get daily summary data
         queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
