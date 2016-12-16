@@ -39,6 +39,8 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
                     }
                 }
                 console.log($scope.queueSummaryList);
+
+                
             }
 
         }, function (error) {
