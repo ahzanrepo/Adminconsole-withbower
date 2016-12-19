@@ -308,6 +308,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goTicketSla: function () {
             $state.go('console.sla');
         },
+        goQABuilder: function () {
+            $state.go('console.qaRatingFormBuilder');
+        },
         goAgentStatusEvt: function () {
             $state.go('console.agentstatusevents');
         },

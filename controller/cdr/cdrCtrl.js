@@ -788,6 +788,7 @@
 
 
                                 //process inbound legs first
+                                var holdSecTemp = 0;
 
                                 for (i = 0; i < filteredInb.length; i++) {
                                     var curProcessingLeg = filteredInb[i];
@@ -824,10 +825,13 @@
 
                                     cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
 
-                                    if (cdrAppendObj.DVPCallDirection === 'inbound') {
-                                        var holdSecTemp = curProcessingLeg.HoldSec + curProcessingLeg.WaitSec;
+                                    /*if (cdrAppendObj.DVPCallDirection === 'inbound') {
+                                        holdSecTemp = holdSecTemp + curProcessingLeg.HoldSec;
                                         cdrAppendObj.HoldSec = holdSecTemp;
-                                    }
+                                    }*/
+
+                                    holdSecTemp = holdSecTemp + curProcessingLeg.HoldSec;
+                                    cdrAppendObj.HoldSec = holdSecTemp;
 
 
                                     cdrAppendObj.QueueSec = curProcessingLeg.QueueSec;
@@ -950,10 +954,12 @@
 
                                         cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
+                                        holdSecTemp = holdSecTemp + curProcessingLeg.HoldSec;
+                                        cdrAppendObj.HoldSec = holdSecTemp;
+
 
                                         if (cdrAppendObj.DVPCallDirection === 'outbound') {
-                                            var holdSecTemp = curProcessingLeg.HoldSec;
-                                            cdrAppendObj.HoldSec = holdSecTemp;
+
                                             cdrAppendObj.Uuid = curProcessingLeg.Uuid;
                                         }
 

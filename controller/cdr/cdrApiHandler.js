@@ -380,6 +380,19 @@
             });
         };
 
+        var getTimeZones = function () {
+            var url = baseUrls.cdrProcessor + 'TimeZones';
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
         var saveRecipients = function (repType, recipientsList) {
             var url = baseUrls.cdrProcessor + 'MailRecipient/ReportType/' + repType;
 
@@ -417,7 +430,8 @@
             getCallSummaryForCustDownload: getCallSummaryForCustDownload,
             getCallSummaryForCust: getCallSummaryForCust,
             getEmailRecipientsForReport: getEmailRecipientsForReport,
-            saveRecipients: saveRecipients
+            saveRecipients: saveRecipients,
+            getTimeZones: getTimeZones
         };
     };
 
