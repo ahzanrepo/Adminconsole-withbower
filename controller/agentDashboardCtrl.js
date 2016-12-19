@@ -3,7 +3,7 @@
  */
 
 
-mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardService,loginService) {
+mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardService, loginService) {
 
 
 
@@ -21,7 +21,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             borderColor: '#fff',
             show: true
         },
-        series: {fill: true,shadowSize: 0, color: "#63a5a2"},
+        series: {fill: true, shadowSize: 0, color: "#63a5a2"},
         color: {color: '#63a5a2'},
         legend: {
             container: '#legend',
@@ -494,7 +494,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.ticketViaOther = 0;
     $scope.ticketViaOtherCount = 0;
     var calculateOther = function () {
-        $scope.ticketViaOtherCount = $scope.ticketViaWidgetCount + $scope.ticketViaSkypeCount + $scope.ticketViaApiCount+$scope.ticketViaEmailCount;
+        $scope.ticketViaOtherCount = $scope.ticketViaWidgetCount + $scope.ticketViaSkypeCount + $scope.ticketViaApiCount + $scope.ticketViaEmailCount;
         if ($scope.totalTicket > 0)
             $scope.ticketViaOther = (($scope.ticketViaOtherCount / $scope.totalTicket) * 100).toFixed(2);
     };
@@ -590,7 +590,6 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
 
 
-
     $scope.slaCompliance = 0;
     var SlaCompliance = function () {
         if ($scope.newTicket > 0)
@@ -633,6 +632,36 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             $timeout.cancel(getAllRealTimeTimer);
         }
     });
+
+    //update code
+    //damith
+    $scope.options = {
+        type: 'pie',
+        responsive: true,
+        legend: {
+            display: true,
+            position: 'bottom',
+            padding: 5,
+            labels: {
+                fontColor: 'rgb(130, 152, 174)',
+                fontSize: 10,
+                boxWidth: 10
+            }
+        },
+        title: {
+            display: true
+        }
+    };
+
+    $scope.labels = ["New", "Open", "Progress", "Closed", "Resolved", "Reopen", "Parked"];
+    $scope.data = [
+        $scope.newTicket,
+        $scope.openTicket,
+        $scope.progressTicket,
+        $scope.closedTicket,
+        $scope.reopenTicket,
+        $scope.parkedTicket
+    ];
 
 
 });

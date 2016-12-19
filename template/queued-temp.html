@@ -7,17 +7,17 @@
         <div class="x_content">
             <div class="row">
                 <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                    <div class="tile-stats text-center bg-green100">
+                    <div class="tile-stats text-center bg-green100" ng-class="{'small-card':viewmode!='large'}">
                         <div class="count">{{que.CurrentWaiting}}</div>
-                        <h3 class="font-robot font-700 font-yellow800">Current Waiting</h3>
-                        <p class="font-robot font-200">total answer call</p>
+                        <h3 class="font-700 font-yellow800">Current Waiting</h3>
+                        <p class="font-200">total answer call</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
-                    <div class="tile-stats text-center bg-blue700">
+                    <div class="tile-stats text-center bg-blue700" ng-class="{'small-card':viewmode!='large'}">
                         <div class="count">{{que.CurrentMaxWaitTime}}</div>
-                        <h3 class="font-robot font-700 font-orange800">Max Wait Time</h3>
-                        <p class="font-robot font-200">total answer call</p>
+                        <h3 class="font-700 font-orange800">Max Wait Time</h3>
+                        <p class="font-200">total answer call</p>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
             <div class="col-lg-12  col-xs-12">
                 <div class="tile-stats text-center title-status-medium ">
                     <div class="count">{{que.presentage}}%</div>
-                    <h3 class="font-robot font-700 ">ANSWERED</h3>
+                    <h3 class="font-700 ">ANSWERED</h3>
                 </div>
             </div>
         </div>
@@ -57,20 +57,31 @@
         </div>
 
         <div class="col-xs-12">
-            <ul class="list-inline queued-footer-list m-top20 text-center m-bottom20">
-                <li>
-                    <h3 class="font-robot font-700 font-green-light500 ">{{que.TotalQueued}}</h3>
-                    <span class="font-robot font-700">Total Queued</span>
-                </li>
-                <li>
-                    <h3 class="font-robot font-700 font-blue500 ">{{que.MaxWaitTime}}</h3>
-                    <span class="font-robot font-700">Max Waiting</span>
-                </li>
-                <li>
-                    <h3 class="font-robot font-700 font-yellow900">{{que.AverageWaitTime}}</h3>
-                    <span class="font-robot font-700">Average</span>
-                </li>
-            </ul>
+            <div class="col-lg-4 text-center " ng-class="{'small-card':viewmode!='large'}">
+                <h3 class="font-700 font-green-light500 ">{{que.TotalQueued}}</h3>
+                <span class="font-700 ">Total Queued</span>
+            </div>
+            <div class="col-lg-4 text-center" ng-class="{'small-card':viewmode!='large'}">
+                <h3 class="font-700 font-blue500 ">{{que.MaxWaitTime}}</h3>
+                <span class="font-700">Max Waiting</span>
+            </div>
+            <div class="col-lg-4 text-center" ng-class="{'small-card':viewmode!='large'}">
+                <h3 class="font-700 font-yellow900">{{que.AverageWaitTime}}</h3>
+                <span class="font-700">Average</span>
+            </div>
+            <!--<ul class="list-inline queued-footer-list m-top20 text-center m-bottom20">-->
+            <!--<li>-->
+
+            <!--</li>-->
+            <!--<li>-->
+            <!--<h3 class="font-700 font-blue500 ">{{que.MaxWaitTime}}</h3>-->
+            <!--<span class="font-700">Max Waiting</span>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<h3 class="font-700 font-yellow900">{{que.AverageWaitTime}}</h3>-->
+            <!--<span class="font-700">Average</span>-->
+            <!--</li>-->
+            <!--</ul>-->
         </div>
 
 
