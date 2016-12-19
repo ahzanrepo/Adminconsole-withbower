@@ -239,7 +239,14 @@
                     tagName = $scope.selectedTag.name;
                 }
 
-                var limit = parseInt($scope.recLimit);
+                var limit = 0;
+
+                if($scope.recLimit === 'all'){
+                    limit = 0;
+                }else{
+                    limit = parseInt($scope.recLimit);
+                }
+
 
                 $scope.pagination.itemsPerPage = limit;
 
@@ -267,22 +274,31 @@
 
             try {
 
-                ticketReportsService.getTicketDetailsCount($scope.FilterData).then(function (ticketCount) {
-                    if (ticketCount && ticketCount.IsSuccess) {
-                        $scope.pagination.totalItems = ticketCount.Result;
-                    }
-
-                    ticketReportsService.getTicketDetails($scope.FilterData).then(function (ticketDetailsResp) {
-                        if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
-
-                            $scope.ticketList = ticketDetailsResp.Result;
-                            $scope.obj.isTableLoading = 1;
-
+                if($scope.recLimit === 'all'){
+                    ticketReportsService.getTicketDetailsCount($scope.FilterData).then(function (ticketCount) {
+                        if (ticketCount && ticketCount.IsSuccess) {
+                            $scope.pagination.totalItems = ticketCount.Result;
                         }
-                        else {
+
+                        ticketReportsService.getTicketDetailsNoPaging($scope.FilterData).then(function (ticketDetailsResp) {
+                            if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
+
+                                $scope.ticketList = ticketDetailsResp.Result;
+                                $scope.obj.isTableLoading = 1;
+
+                            }
+                            else {
+                                $scope.obj.isTableLoading = -1;
+                                $scope.ticketList = [];
+                            }
+
+
+                        }).catch(function (err) {
+                            loginService.isCheckResponse(err);
+                            $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                             $scope.obj.isTableLoading = -1;
                             $scope.ticketList = [];
-                        }
+                        });
 
 
                     }).catch(function (err) {
@@ -291,14 +307,41 @@
                         $scope.obj.isTableLoading = -1;
                         $scope.ticketList = [];
                     });
+                }else{
+                    ticketReportsService.getTicketDetailsCount($scope.FilterData).then(function (ticketCount) {
+                        if (ticketCount && ticketCount.IsSuccess) {
+                            $scope.pagination.totalItems = ticketCount.Result;
+                        }
+
+                        ticketReportsService.getTicketDetails($scope.FilterData).then(function (ticketDetailsResp) {
+                            if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
+
+                                $scope.ticketList = ticketDetailsResp.Result;
+                                $scope.obj.isTableLoading = 1;
+
+                            }
+                            else {
+                                $scope.obj.isTableLoading = -1;
+                                $scope.ticketList = [];
+                            }
 
 
-                }).catch(function (err) {
-                    loginService.isCheckResponse(err);
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
-                    $scope.obj.isTableLoading = -1;
-                    $scope.ticketList = [];
-                });
+                        }).catch(function (err) {
+                            loginService.isCheckResponse(err);
+                            $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
+                            $scope.obj.isTableLoading = -1;
+                            $scope.ticketList = [];
+                        });
+
+
+                    }).catch(function (err) {
+                        loginService.isCheckResponse(err);
+                        $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
+                        $scope.obj.isTableLoading = -1;
+                        $scope.ticketList = [];
+                    });
+                }
+
 
 
             }
