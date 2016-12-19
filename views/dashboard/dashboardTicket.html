@@ -60,40 +60,56 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
+
+                        <div class="col-lg-5">
+                            <table class="countries_list">
+                                <tbody>
+                                <tr>
+                                    <td>New</td>
+                                    <td class="fs15 fw700 text-right">{{newTicket}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Open</td>
+                                    <td class="fs15 fw700 text-right">{{openTicket}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Progress</td>
+                                    <td class="fs15 fw700 text-right">{{progressTicket}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Closed</td>
+                                    <td class="fs15 fw700 text-right">{{closedTicket}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Resolved</td>
+                                    <td class="fs15 fw700 text-right">{{solvedTicket}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Reopen</td>
+                                    <td class="fs15 fw700 text-right">{{reopenTicket}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Parked</td>
+                                    <td class="fs15 fw700 text-right">{{parkedTicket}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td class="fs15 fw700 text-right">{{totalTicket}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-7">
+                            <!--<canvas id="doughnut" class="chart chart-doughnut"-->
+                                    <!--width="250" height="250"-->
+                                    <!--chart-data="data" chart-labels="labels"-->
+                                    <!--chart-legend="true"-->
+                                    <!--chart-options="options">-->
+                            <!--</canvas>-->
+                        </div>
+
                         <table class="countries_list">
                             <tbody>
-                            <tr>
-                                <td>New</td>
-                                <td class="fs15 fw700 text-right">{{newTicket}}</td>
-                            </tr>
-                            <tr>
-                                <td>Open</td>
-                                <td class="fs15 fw700 text-right">{{openTicket}}</td>
-                            </tr>
-                            <tr>
-                                <td>Progress</td>
-                                <td class="fs15 fw700 text-right">{{progressTicket}}</td>
-                            </tr>
-                            <tr>
-                                <td>Closed</td>
-                                <td class="fs15 fw700 text-right">{{closedTicket}}</td>
-                            </tr>
-                            <tr>
-                                <td>Resolved</td>
-                                <td class="fs15 fw700 text-right">{{solvedTicket}}</td>
-                            </tr>
-                            <tr>
-                                <td>Reopen</td>
-                                <td class="fs15 fw700 text-right">{{reopenTicket}}</td>
-                            </tr>
-                            <tr>
-                                <td>Parked</td>
-                                <td class="fs15 fw700 text-right">{{parkedTicket}}</td>
-                            </tr>
-                            <tr>
-                                <td>Total</td>
-                                <td class="fs15 fw700 text-right">{{totalTicket}}</td>
-                            </tr>
                             <tr>
                                 <td>SLA Compliance</td>
                                 <td class="fs15 fw700 text-right">{{slaViolated}}</td>
@@ -180,7 +196,7 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="widget_summary" ng-show="showFbDetail"style="cursor: pointer"
+                        <div class="widget_summary" ng-show="showFbDetail" style="cursor: pointer"
                              ng-click="showFbDetails();">
                             <div class="w_left w_20">
                                 <span>Facebook Post</span>
@@ -196,7 +212,7 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="widget_summary" ng-show="showFbDetail"style="cursor: pointer"
+                        <div class="widget_summary" ng-show="showFbDetail" style="cursor: pointer"
                              ng-click="showFbDetails();">
                             <div class="w_left w_20">
                                 <span>Facebook Chat</span>

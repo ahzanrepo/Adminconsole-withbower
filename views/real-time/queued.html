@@ -1,16 +1,40 @@
 <div ng-controller="realTimeQueuedCtrl">
     <div>
-        <div class="clearfix"><button type="button" class="btn btn-success btn-sm pull-right attribute-btn"
-                                      ng-click="changeView();">
-            {{summaryText}}
-        </button></div>
-    </div>
-    <div class="row" ng-show="!isGrid">
-        <div ng-repeat="que in queues">
-            <queued name="{{que.id}}" queueoption="queueoption" pieoption="pieoption"></queued>
+        <div class="clearfix">
+            <!--<button type="button" class="btn btn-success btn-sm pull-right attribute-btn"-->
+            <!--ng-click="changeView();">-->
+            <!--{{summaryText}}-->
+            <!--</button>-->
+
+            <div class="col-lg-12 m-bottom20" >
+                <div class="row">
+                    <div class="btn-group pull-right">
+                        <label class="btn btn-sm btn-default" ng-click="changeCardView('small')" ng-model="cardViewMode"
+                               uib-btn-radio="'small'"
+                               uncheckable>Small </label>
+                        <label class="btn btn-sm btn-default" ng-click="changeCardView('medium')"
+                               ng-model="cardViewMode"
+                               uib-btn-radio="'medium'"
+                               uncheckable>Medium</label>
+                        <label class="btn btn-sm btn-default" ng-click="changeCardView('large')" ng-model="cardViewMode"
+                               uib-btn-radio="'large'"
+                               uncheckable>large</label>
+                        <label class="btn btn-sm btn-default" ng-click="changeCardView('table')" ng-model="cardViewMode"
+                               uib-btn-radio="'table'"
+                               uncheckable>Table</label>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row" ng-show="isGrid">
+    <div class="row" ng-if="cardViewMode!='table'">
+        <div ng-repeat="que in queues">
+            <queued name="{{que.id}}" viewmode="cardViewMode" queueoption="queueoption" pieoption="pieoption"></queued>
+        </div>
+    </div>
+
+    <!--- Queued table -->
+    <div class="row" ng-if="cardViewMode=='table'">
         <div class="x_panel">
             <div class="x_content">
 
