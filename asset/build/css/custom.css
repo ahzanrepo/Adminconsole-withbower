@@ -2120,9 +2120,17 @@ h4.graph_title {
 .tile-stats .count, .tile-stats h3, .tile-stats p {
     position: relative;
     margin: 0;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     z-index: 5;
     padding: 0;
+}
+
+.title-status-medium .count {
+    font-size: 25px !important;
+}
+
+.title-status-medium h3 {
+    font-size: 20px !important;
 }
 
 .tile-stats h3 {
@@ -3480,7 +3488,6 @@ ul.project_files li a i {
     font-size: 30px;
     margin: 12px;
 }
-
 
 .pricing_features {
     background: #FAFAFA;
