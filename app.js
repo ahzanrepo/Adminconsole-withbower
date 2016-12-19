@@ -65,6 +65,7 @@ var baseUrls = {
     'notification': 'http://notificationservice.app.veery.cloud/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app.veery.cloud/DVP/API/1.0.0.0/',
+    'qaModule': 'http://localhost:3637/DVP/API/1.0.0.0/QAModule/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
     'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -255,6 +256,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "CDR"
+            }
+        }).state('console.qaRatingFormBuilder', {
+            url: "/QAFormBuilder",
+            templateUrl: "views/qaRating/questionFormDesigner.html",
+            controller: "qaRatingCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "QUALITYASSUARANCE"
             }
         }).state('console.AgentProfileSummary', {
             url: "/AgentProfileSummary",

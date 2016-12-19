@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var cronScheduleCtrl = function ($scope, $location, $anchorScroll, scheduleWorkerService, cdrApiHandler, userProfileApiAccess, loginService) {
+    var cronScheduleCtrl = function ($scope, $location, $http, $anchorScroll, scheduleWorkerService, cdrApiHandler, userProfileApiAccess, loginService) {
 
         $scope.showAlert = function (title, type, content) {
 
@@ -79,6 +79,28 @@
 
         var emptyArr = [];
 
+        $scope.tzData = {
+            timeZones : []
+        };
+
+        $scope.tz = {
+            timezone: ''
+        };
+
+        var loadTimeZones = function()
+        {
+            cdrApiHandler.getTimeZones().then(function(data)
+            {
+                $scope.tzData.timeZones = data.Result;
+
+            }).catch(function(ex)
+            {
+                $scope.tzData.timeZones = [];
+            });
+        };
+
+        loadTimeZones();
+
 
         $scope.querySearch = function (query) {
             if (query === "*" || query === "") {
@@ -151,7 +173,7 @@
 
         $scope.removeCron = function(cron)
         {
-            scheduleWorkerService.removeCron(cron.id).then(function (data)
+            scheduleWorkerService.removeCron(cron.UniqueId).then(function (data)
             {
                 if (data.IsSuccess)
                 {

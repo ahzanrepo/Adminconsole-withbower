@@ -84,7 +84,8 @@
     "ng-img-crop": "ngImgCrop#^0.3.2",
     "bower": "*",
     "install": "^1.0.4",
-    "webcam": "webcam-directive#^3.1.1"
+    "webcam": "webcam-directive#^3.1.1",
+    "moment-timezone": "^0.5.10"
   },
   "resolutions": {
     "angular": "1.5.5",
