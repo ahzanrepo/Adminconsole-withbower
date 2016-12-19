@@ -10,34 +10,42 @@
                     <form name="signUpForm">
                         <h1 class="font-robot dark-frm-header font-300">SignUp </h1>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 col-xs-12">
                                 <div class="form-group has-feedback validation-area">
                                     <!-- user name -->
                                     <label class="dark-frm-label">Company Name
                                         <span class="inline-block validation-on"
                                               ng-show="signUpForm.companyName.$invalid && !signUpForm.companyName.$pristine">*
                                     </span></label>
-                                    <input focus type="text" name="companyName" ng-model="companyName"
+                                    <input unique-company type="text" name="companyName" ng-model="companyName"
                                            class="form-control dark-frm-input"
                                            placeholder=""
                                            required
                                            autofocus/>
                                     <span id="companystate" class="fa form-control-feedback" aria-hidden="true"
-                                          style="color: #009fd8 ;"></span>
+                                          style="color: #cccbcb ;"></span>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="validation-area">
-                            <label class="dark-frm-label">Email
-                                 <span class="inline-block validation-on"
-                                       ng-show="signUpForm.email.$invalid && !signUpForm.email.$pristine">*
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12">
+                                <div class="form-group has-feedback validation-area">
+                                    <!-- user name -->
+                                    <label class="dark-frm-label">Email
+                                       <span class="inline-block validation-on"
+                                             ng-show="signUpForm.email.$invalid && !signUpForm.email.$pristine">*
                                     </span></label>
-                            <input type="email" name="email" ng-model="email"
-                                   class="form-control dark-frm-input "
-                                   placeholder=""
-                                   required/>
+                                    <input unique-owner type="email" name="email" ng-model="email"
+                                           class="form-control dark-frm-input"
+                                           placeholder=""
+                                           required
+                                           autofocus/>
+                                    <span id="emailstate" class="fa form-control-feedback" aria-hidden="true"
+                                          style="color: #cccbcb ;"></span>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -82,7 +90,6 @@
 
 
                         <div class="recaptcha-wrapper"
-                             ng-if="captchaConfig==true"
                              ng-show="!isSignUp">
                             <div vc-recaptcha
                                  theme="'dark'"

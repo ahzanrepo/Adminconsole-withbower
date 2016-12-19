@@ -114,8 +114,8 @@
             });
         };
 
-        var bulkCloseTickets = function(ticketIds){
-            var sendObj = {TicketIds: ticketIds, Status: "closed"}
+        var bulkStatusChangeTickets = function(ticketIds, bulkAction){
+            var sendObj = {TicketIds: ticketIds, Status: bulkAction.action, specificOperations: bulkAction.specificOperations};
             return $http({
                 method: 'PUT',
                 url: baseUrls.ticketUrl+'Ticket/Status/Bulk',
@@ -175,7 +175,7 @@
             getCase: getCase,
             addTicketToCase: addTicketToCase,
             removeTicketFromCase: removeTicketFromCase,
-            bulkCloseTickets: bulkCloseTickets,
+            bulkStatusChangeTickets: bulkStatusChangeTickets,
             deleteCase: deleteCase,
             getAllTags: getAllTags,
             getTagCategories:getTagCategories
