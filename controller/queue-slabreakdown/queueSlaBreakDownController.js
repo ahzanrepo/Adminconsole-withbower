@@ -19,7 +19,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         $scope.dailySLAbreakObj = [];
         $scope.isTableLoading = 0;
         // get daily summary data
-        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
+        queueSummaryBackendService.getQueueDailySlaBreakDown($scope.qDate).then(function (response) {
             if (response && response.data && response.data.Result) {
                 $scope.isTableLoading = 1;
                 $scope.dailiySummaryList = response.data.Result;
@@ -156,4 +156,4 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
     ChartJsProvider.setOptions({
         chartColors: ['#18c89c', '#f1c410', '#2f6e96', '#f2a725', '#8ea61a', '#089c51', '#ac6c82', '#334d5c']
     });
-}])
+}]);
