@@ -19,7 +19,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         $scope.dailySLAbreakObj = [];
         $scope.isTableLoading = 0;
         // get daily summary data
-        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
+        queueSummaryBackendService.getQueueDailySlaBreakDown($scope.qDate).then(function (response) {
             if (response && response.data && response.data.Result) {
                 $scope.isTableLoading = 1;
                 $scope.dailiySummaryList = response.data.Result;
