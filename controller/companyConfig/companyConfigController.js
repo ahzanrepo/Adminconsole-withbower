@@ -451,4 +451,106 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.getCustomTicketStatus();
 
+    $scope.createPhoneConfig = function (config) {
+        companyConfigBackendService.createPhoneConfig(config).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.phoneConfig = response.Result;
+                $scope.phoneConfig.autoAnswerDelay = parseInt(response.Result.autoAnswerDelay)/1000;
+                $scope.isPhoneConfiged = true;
+                $scope.showAlert('Phone Config', "Successfully Saved.", 'success');
+
+            }
+            else
+            {
+                $scope.showAlert('Phone Config', "Fail To Save Phone Config.", 'error');
+            }
+        }, function(err){
+            $scope.showAlert('Phone Config', "Fail To Save Phone Config.", 'error');
+        });
+    };
+
+    $scope.updatePhoneConfig = function (config) {
+        companyConfigBackendService.updatePhoneConfig(config).then(function (response) {
+            if(response)
+            {
+                $scope.showAlert('Phone Config', "Successfully Updated.", 'success');
+
+            }
+            else
+            {
+                $scope.showAlert('Phone Config', "Fail To Update Phone Config.", 'error');
+            }
+        }, function(err){
+            $scope.showAlert('Phone Config', "Fail To Update Phone Config.", 'error');
+        });
+    };
+
+    $scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
+
+        (new PNotify({
+            title: tittle,
+            text: content,
+            icon: 'glyphicon glyphicon-question-sign',
+            hide: false,
+            confirm: {
+                confirm: true
+            },
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            }
+        })).get().on('pnotify.confirm', function () {
+            OkCallback("confirm");
+        }).on('pnotify.cancel', function () {
+
+        });
+
+    };
+
+    $scope.deletePhoneConfig = function (config) {
+        $scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete " , function (obj) {
+
+            companyConfigBackendService.deletePhoneConfig(config).then(function (response) {
+                if(response)
+                {
+                    $scope.phoneConfig = {};
+                    $scope.isPhoneConfiged = false;
+                    $scope.showAlert('Phone Config', "Successfully deleted.", 'success');
+
+                }
+                else
+                {
+                    $scope.showAlert('Phone Config', "Fail To Delete Phone Config.", 'error');
+                }
+            }, function(err){
+                $scope.showAlert('Phone Config', "Fail To Delete Phone Config.", 'error');
+            });
+
+        }, function () {
+
+        }, config)
+
+
+    };
+
+    $scope.phoneConfig = {};
+    $scope.isPhoneConfiged = false;
+    var getPhoneConfig = function () {
+        companyConfigBackendService.getPhoneConfig().then(function (response) {
+            $scope.phoneConfig = response;
+            $scope.phoneConfig.autoAnswerDelay = parseInt(response.autoAnswerDelay)/1000;
+            if(response){
+                $scope.isPhoneConfiged =true;
+            }
+        }, function(err){
+            $scope.showAlert('Phone Config', "Fail To Get Phone Config.", 'error');
+        });
+    };
+    getPhoneConfig();
+
+
 });
