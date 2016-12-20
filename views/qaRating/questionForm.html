@@ -2,7 +2,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12 x_content x_panel">
         <br><br>
         <div class="col-md-11 col-sm-11 col-xs-11">
-            <h3>Add New Section</h3>
+            <h3>Add New Question Paper</h3>
         </div>
         <div class="clearfix"></div>
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -11,26 +11,18 @@
                     <br>
                     <div class="col-md-12 col-sm-12 col-xs-12">
 
-                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                            <label>Section Name</label>
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <label>Question Paper Name</label>
                             <input type="text" class="form-control"
-                                   ng-model="currentSection.name">
+                                   ng-model="currentPaper.name">
                         </div>
-
-                        <div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
-                            <label>Description</label>
-                            <input type="text" class="form-control"
-                                   ng-model="currentSection.description">
-                        </div>
-
-                        <div class="clearfix"></div>
 
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                            <button class="btn btn-success" ng-click="addSection()" ng-disabled="!currentSection.name || !currentSection.description">
+                            <button class="btn btn-success" ng-click="addPaper()" ng-disabled="!currentPaper.name">
                                 Add Section
                             </button>
 
-                            <button class="btn btn-success" ng-click="closeModalSection()">
+                            <button class="btn btn-success" ng-click="closeModalPaper()">
                                 Cancel
                             </button>
                         </div>
