@@ -728,11 +728,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                     }
 
                     onlineAgentList.sort(function (a, b) {
+                        if (!a.name || !b.name) return 0;
                         if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                         if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                         return 0;
                     });
                     offlineAgentList.sort(function (a, b) {
+                        if (!a.name || !b.name) return 0;
                         if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                         if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                         return 0;

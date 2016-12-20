@@ -369,8 +369,7 @@
 
                 ticketReportsService.getTicketDetailsNoPaging($scope.FilterData).then(function (ticketDetailsResp) {
                     if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
-                        $scope.ticketList = ticketDetailsResp.Result;
-
+                        
                         ticketDetailsResp.Result.forEach(function (ticketInfo) {
                             var ticketInfoTemp =
                             {
@@ -441,8 +440,9 @@
                                         {
                                             $scope.tagHeaders.push(tempFieldName);
 
-                                            ticketInfoTemp[tempFieldName] = field.value;
                                         }
+
+                                        ticketInfoTemp[tempFieldName] = field.value;
 
                                     }
                                 })

@@ -91,8 +91,8 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                params: {
-                    "ticketid[]": ticketIds
+                data: {
+                    "ticketid": ticketIds
                 }
             }).then(function(response){
                 return response.data;
@@ -106,8 +106,8 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                params: {
-                    "ticketid[]": ticketIds
+                data: {
+                    "ticketid": ticketIds
                 }
             }).then(function(response){
                 return response.data;
