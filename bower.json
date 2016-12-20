@@ -82,10 +82,12 @@
     "angucomplete-jwl": "^0.0.13",
     "angular-cron-jobs": "^3.2.0",
     "ng-img-crop": "ngImgCrop#^0.3.2",
-    "bower": "*",
     "install": "^1.0.4",
-    "chart.js": "^2.4.0"
-    "moment-timezone": "^0.5.10"
+    "chart.js": "^2.4.0",
+    "moment-timezone": "^0.5.10",
+    "angular-number-picker": "^2.2.0",
+    "angular-underscore-module": "^1.0.3",
+    "underscore": "^1.8.3"
   },
   "resolutions": {
     "angular": "1.5.5",
