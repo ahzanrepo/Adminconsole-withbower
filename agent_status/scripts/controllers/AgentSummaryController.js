@@ -2,7 +2,7 @@
  * Created by Rajinda on 9/1/2016.
  */
 mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
-                                                       dashboardService, moment) {
+                                                       dashboardService, moment,userImageList) {
     var getAllRealTime = function () {
         $scope.getProfileDetails();
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
@@ -40,21 +40,26 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                     var profile = {
                         name: '',
                         slotState: null,
+                        slotMode: null,
                         LastReservedTime: 0,
                         LastReservedTimeT: 0,
                         other: null
                     };
 
                     profile.name = response[i].ResourceName;
+                    //get current user profile image
+                    userImageList.getAvatarByUserName(profile.name, function (res) {
+                        profile.avatar = res;
+                    });
                     if (response[i].ConcurrencyInfo.length > 0 &&
                         response[i].ConcurrencyInfo[0].SlotInfo.length > 0) {
 
                         // is user state Reason
-                        var resonseStatus = null,
-                            resonseAvailability = null;
+                        var resonseStatus = null, resonseAvailability = null, resourceMode = null;
                         if (response[i].Status.Reason && response[i].Status.State) {
                             resonseAvailability = response[i].Status.State;
                             resonseStatus = response[i].Status.Reason;
+                            resourceMode = response[i].Status.Mode;
                         }
                         if (response[i].ConcurrencyInfo[0].IsRejectCountExceeded) {
                             resonseAvailability = "NotAvailable";
@@ -65,10 +70,12 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         var reservedDate = response[i].ConcurrencyInfo[0].
                             SlotInfo[0].StateChangeTime;
 
+
+                        profile.slotMode = resourceMode;
                         if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
                             profile.slotState = resonseStatus;
                             profile.other = "Reject";
-                        } else if (resonseAvailability == "NotAvailable") {
+                        } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
                             profile.slotState = resonseStatus;
                             profile.other = "Break";
                             reservedDate = response[i].Status.StateChangeTime;
@@ -98,7 +105,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                             $scope.ConnectedProfile.push(profile);
                         } else if (profile.slotState == 'AfterWork') {
                             $scope.AfterWorkProfile.push(profile);
-                        } else if (profile.slotState == 'Outbound') {
+                        } else if (profile.slotMode == 'Outbound') {
                             $scope.OutboundProfile.push(profile);
                         } else if (profile.slotState == 'Suspended') {
                             $scope.SuspendedProfile.push(profile);

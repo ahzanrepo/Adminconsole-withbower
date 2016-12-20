@@ -215,6 +215,10 @@ section .author a:hover {
     font-size: 20px;
 }
 
+.font-10 {
+    font-size: 10px !important;
+}
+
 a {
     font-family: 'Roboto', sans-serif;
 }
@@ -404,18 +408,47 @@ a {
 }
 
 .media .profile_thumb {
-    border: 3px solid;
+    border: 0px solid;
     width: 50px;
     height: 50px;
     margin: 5px 10px 5px 0;
     border-radius: 50%;
-    padding: 6px 11px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+.profile-status-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.media > div > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-status-dah {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    top: 9px;
+    z-index: 1000;
+    left: 45px;
+    background: #000;
 }
 
 /*reserved*/
 .reserved > .media-body > p > small {
     border-color: #db4114 !important;
     color: #f8b01d !important;
+}
+
+.reserved > .profile-status-dah {
+    background: #f8b01d;
 }
 
 .reserved > a {
@@ -438,6 +471,10 @@ a {
     border-color: rgb(43, 168, 156) !important;
 }
 
+.available > .profile-status-dah {
+    background: rgb(43, 168, 156);
+}
+
 .available > a > i {
     color: #2BA89C !important;
 }
@@ -451,6 +488,10 @@ a {
 .connected > a {
     background: #114858;
     border-color: #db4114 !important;
+}
+
+.connected > .profile-status-dah {
+    background: #0cf0dd;
 }
 
 .connected > a > i {
@@ -468,6 +509,10 @@ a {
     border-color: #36ba45 !important;
 }
 
+.afterWork > .profile-status-dah {
+    background: #36ba45;
+}
+
 .afterWork > a > i {
     color: #36ba45 !important;
 }
@@ -481,6 +526,10 @@ a {
 .outbound > a {
     background: #30395c;
     border-color: #85a5cc !important;
+}
+
+.outbound > .profile-status-dah {
+    background: #85a5cc;
 }
 
 .outbound > a > i {
@@ -498,6 +547,10 @@ a {
     border-color: #ff8c00 !important;
 }
 
+.suspended > .profile-status-dah {
+    background: #000;
+}
+
 .suspended > a > i {
     color: #ff8c00 !important;
 }
@@ -510,6 +563,10 @@ a {
 
 .break > a > i {
     color: #731630 !important;
+}
+
+.break > .profile-status-dah {
+    background: #cc1e2d;
 }
 
 .break > .media-body > p > small {
@@ -560,6 +617,18 @@ a {
     margin: 60px auto;
     width: 100%;
 
+}
+
+.small-card h3 {
+    font-size: 11px !important;
+}
+
+.small-card span {
+    font-size: 11px !important;
+}
+
+.small-card .count{
+    font-size: 15px !important;
 }
 
 .queued-footer-list > li {
@@ -805,6 +874,10 @@ ul.top_profiles li {
     border-radius: 5px;
     margin-top: 4px;
     margin-bottom: 4px;
+    overflow: hidden;
+    min-height: 60px;
+    height: auto;
+    position: relative;
 }
 
 ul.top_profiles li:nth-child(odd) {
@@ -3795,10 +3868,10 @@ ul#strength {
     position: absolute;
     top: -125px;
     left: 1px;
-    background: #272624;
+    background: #080808;
     padding: 15px 23px 13px 20px;
     z-index: 100;
-    border-radius: 2px;
+    border-radius: 10px;
 }
 
 .password-leg-wrapper > ul > li {
@@ -3843,7 +3916,7 @@ ul#strength {
     height: 0;
     border-left: 9px solid transparent;
     border-right: 9px solid transparent;
-    border-top: 12px solid #262523;
+    border-top: 12px solid #060606;
 }
 
 .password-progress {
@@ -3899,6 +3972,26 @@ footer {
 
 .customer-type-wrapper.defaultType > li {
     background: #383b3b !important;
+}
+
+.defaultPrefixType {
+    display: inline-block;
+    text-align: left;
+    padding: 6px 13px 6px 10px;
+    margin: 0px 0px 0px 4px;
+    text-transform: uppercase;
+    background: #f8b01d;
+    border-radius: 5px;
+    color: #fff;
+    background: #1ce820 !important;
+}
+
+.available_msg {
+    color: green;
+}
+
+.unavailable_msg {
+    display: none;
 }
 
 .ticket-type-wrapper {
@@ -3988,4 +4081,44 @@ footer {
     overflow: hidden;
     font-size: 25px;
     padding-top: 18px;
+}
+
+.case-card-wrapper {
+    width: 100%;
+    min-height: 150px;
+    height: auto;
+    overflow: hidden;
+    background: #f7f7f7;
+    margin-bottom: 10px;
+    padding: 15px 5px 15px 28px;
+    list-style: none;
+}
+
+tags-input .tags {
+    height: auto !important;
+}
+
+.image_edit > i {
+    position: absolute;
+    top: 70pt;
+    right: 30pt;
+    color: #fff;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cropArea {
+    background: #E4E4E4;
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+}
+
+.sla-chart-wrapper {
+    background: #f7f7f7;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
 }

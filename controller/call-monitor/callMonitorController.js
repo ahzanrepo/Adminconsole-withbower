@@ -1,139 +1,30 @@
 /**
- * Created by Pawan on 5/29/2016.
+ * Created by Pawan on 7/21/2016.
  */
 
-'use strict';
+mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $uibModal, $timeout,
+                                                  callMonitorSrv, notificationService,
+                                                  jwtHelper, authService, loginService) {
 
-mainApp.controller('callmonitorcntrl', function ($scope, $uibModal, callMonitorSrv,
-                                                 notificationService, jwtHelper, authService, loginService) {
-
-    // Update the dataset at 25FPS for a smoothly-animating chart
     $scope.CallObj = {};
-    $scope.CallStatus = null;
-    $scope.phoneSatus = false;
+    $scope.isRegistered = false;
     $scope.currentSessionID = null;
-    $scope.loginData = {};
-    $scope.callListStatus = false;
-
-    $scope.showAlert = function (title, content, type) {
-
-        new PNotify({
-            title: title,
-            text: content,
-            type: type,
-            styling: 'bootstrap3'
-        });
-    };
-
-    $scope.pickPassword = function (response) {
-        $scope.password = response;
-        console.log("Hit");
-        console.log("password ", response);
-
-        if ($scope.password != null) {
-            console.log("Password picked " + $scope.password);
-            $scope.loginData.password = $scope.password;
-            Initiate($scope.loginData, onRegistrationCompleted, onCallDisconnected, onCallConnected, onUnRegisterCompleted);
-        }
-    };
-
     var authToken = authService.GetToken();
 
-
-    $scope.showModal = function (User) {
-        //modal show
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'views/call-monitor/partials/loginModal.html',
-            controller: 'loginModalController',
-            size: 'sm',
-            resolve: {
-                user: function () {
-                    return User;
-                },
-                pickPassword: function () {
-                    return $scope.pickPassword;
-                }
-            }
-        });
-    };
+    $rootScope.$on("is_registered", function (events, args) {
+        console.log("isRegisterd " + args);
+        $scope.isRegistered = args;
 
 
-    var getRegistrationData = function (authToken) {
-
-        var decodeData = jwtHelper.decodeToken(authToken);
-        console.log("Token Obj " + decodeData);
-
-        if (decodeData.context.veeryaccount) {
-            var values = decodeData.context.veeryaccount.contact.split("@");
-            $scope.sipUri = "sip:" + decodeData.context.veeryaccount.contact;
-            $scope.WSUri = "wss://" + values[1] + ":7443";
-            $scope.realm = values[1];
-            $scope.username = values[0];
-            $scope.displayname = values[0];
-            $scope.loginData = {
-                realm: $scope.realm,
-                impi: $scope.displayname,
-                impu: $scope.sipUri,
-                display_name: decodeData.iss,
-                websocket_proxy_url: $scope.WSUri
+    });
 
 
-            }
+    var protocol = "user";
+    var actionObject = {};
 
-            $scope.showModal(decodeData.iss);
-        }
-        else {
-            $scope.showAlert("Error", "Unauthorized user details to login ", "error");
-        }
-
-
-    };
-
-
-    var onBargeComplete = function (response) {
-
-        console.log(JSON.stringify(response));
-        if (response.data.Exception) {
-            console.log("Barge Error");
-            onError(response.data.Exception.Message);
-        }
-        else {
-            console.log("Barge success");
-            $scope.CallStatus = "BARGED";
-            //acceptCall();
-        }
-    };
-    var onListenComplete = function (response) {
-
-        console.log(JSON.stringify(response));
-        if (response.data.Exception) {
-            console.log("Barge Error");
-            onError(response.data.Exception.Message);
-        }
-        else {
-            /*console.log("Listen success");
-             $scope.CallStatus = "LISTEN";
-             $scope.phoneSatus = true;
-             $scope.clickBtnStateName = "Listen"*/
-            //acceptCall();
-        }
-    };
-    var onThreeWayComplete = function (response) {
-
-        console.log(JSON.stringify(response));
-        if (response.data.Exception) {
-            console.log("Barge Error");
-            onError(response.data.Exception.Message);
-        }
-        else {
-            console.log("Barge success");
-            //acceptCall();
-        }
-    };
     var onCallsDataReceived = function (response) {
 
-        if (response.data.Exception) {
+        if (!response.data.IsSuccess) {
             onError(response.data.Exception.Message);
         }
         else {
@@ -149,116 +40,9 @@ mainApp.controller('callmonitorcntrl', function ($scope, $uibModal, callMonitorS
         }
 
     };
-
     var onError = function (error) {
         console.log(error);
     };
-
-
-    //#is check listen function OK
-    var onRegistrationCompleted = function (response) {
-        //console.log(response);
-        console.log("Hit registered");
-        $scope.showAlert("Registerd", "Successfully registered", "success");
-        $scope.callListStatus = true;
-        $scope.$apply(function () {
-            $scope.phoneSatus = true;
-        });
-    };
-    var onUnRegisterCompleted = function (response) {
-        //console.log(response);
-        $scope.showAlert("Unregistered", "Registration terminated", "notice");
-        $scope.callListStatus = false;
-        $scope.$apply(function () {
-            $scope.phoneSatus = false;
-        });
-    };
-
-
-    var onCallDisconnected = function () {
-        //console.log(response);
-        $scope.showAlert("Call disconnected", "Call is disconnected", "notice");
-        $scope.clickBtnStateName = "Waiting";
-        $scope.$apply(function () {
-            $scope.isCallMonitorOption = 0;
-        });
-
-        $scope.CallStatus = null;
-        $scope.currentSessionID = null;
-        $scope.LoadCurrentCalls();
-
-    };
-
-    var onCallConnected = function () {
-        $scope.$apply(function () {
-            console.log("onCallConnected");
-            $scope.CallStatus = "LISTEN";
-            $scope.clickBtnStateName = "Listen"
-            $scope.isCallMonitorOption = 1;
-        });
-
-    };
-
-    $scope.LoadCurrentCalls = function () {
-        callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
-    };
-
-
-    var protocol = "user";
-
-
-    $scope.Reregister = function () {
-        getRegistrationData(authToken);
-        $scope.LoadCurrentCalls();
-    }
-
-    $scope.BargeCall = function () {
-        //alert("barged: "+bargeID);
-
-        //callMonitorSrv.bargeCalls($scope.currentSessionID,protocol).then(onBargeComplete,onError);
-        sendDTMF('2');
-        $scope.CallStatus = "BARGED";
-        $scope.clickBtnStateName = "Barged";
-    };
-
-
-    $scope.isCallMonitorOption = 0;
-    $scope.clickBtnStateName = "waiting";
-    $scope.ListenCall = function (callData) {
-        //alert("barged: "+bargeID);
-        $scope.currentSessionID = callData.BargeID;
-        callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname).then(onListenComplete, onError);
-
-
-    };
-    $scope.ThreeWayCall = function () {
-        //alert("barged: "+bargeID);
-        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
-
-        sendDTMF('3');
-        $scope.CallStatus = 'THREEWAY';
-        $scope.clickBtnStateName = "Conference ";
-    };
-
-    $scope.SwapUser = function () {
-        //alert("barged: "+bargeID);
-        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
-
-        sendDTMF('1');
-        $scope.CallStatus = "SWAPED";
-        $scope.clickBtnStateName = "Client";
-
-    };
-
-    $scope.ReturnToListen = function () {
-        //alert("barged: "+bargeID);
-        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
-
-        sendDTMF('0');
-        $scope.CallStatus = 'LISTEN';
-        $scope.clickBtnStateName = "Listen";
-    };
-
 
     var ValidCallsPicker = function (callObj) {
 
@@ -287,7 +71,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $uibModal, callMonitorS
 
 
             if (i == callObjLen - 1) {
-                console.log(curCallArr);
+                console.log("Current calls " + JSON.stringify(curCallArr));
             }
         }
 
@@ -342,44 +126,190 @@ mainApp.controller('callmonitorcntrl', function ($scope, $uibModal, callMonitorS
         }
     };
 
-    $scope.answerMe = function () {
-        acceptCall();
-    };
-    $scope.CallMe = function () {
-        makeCall('eve');
-    };
-    $scope.RegMe = function () {
-        register();
-    };
-    $scope.AnzMe = function () {
-        acceptCall();
+    $scope.showAlert = function (title, content, type) {
+
+        new PNotify({
+            title: title,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
+        });
     };
 
-    $scope.HangUpCall = function () {
-        hangupCall();
-        $scope.CallStatus = null;
-        $scope.clickBtnStateName = "waiting";
+
+    $scope.pickPassword = function (response) {
+        $scope.password = response;
+        console.log("Hit");
+        console.log("password ", response);
+
+        if ($scope.password != null) {
+            console.log("Password picked " + $scope.password);
+            $scope.loginData.password = $scope.password;
+            //Initiate($scope.loginData,onRegistrationCompleted, onCallDisconnected, onCallConnected,onUnRegisterCompleted);
+            $rootScope.$emit("register_phone", $scope.loginData);
+        }
     };
 
-    $scope.onClosePage = function () {
-        console.log("closed");
+
+    $scope.showModal = function (User) {
+        //modal show
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/call-monitor/partials/loginModal.html',
+            controller: 'loginModalController',
+            size: 'sm',
+            resolve: {
+                user: function () {
+                    return User;
+                },
+                pickPassword: function () {
+                    return $scope.pickPassword;
+                }
+            }
+        });
     };
 
-    $scope.$on("$destroy", function () {
-        console.log("closed controller");
-        unregister();
-        //disconnectAllCalls();
+
+    $scope.LoadCurrentCalls = function () {
+        callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
+    };
+
+    $scope.RegisterThePhone = function () {
+
+        //$rootScope.$emit("register_phone",);
+        getRegistrationData(authToken);
+        $scope.LoadCurrentCalls();
+    }
+
+
+    var getRegistrationData = function (authToken) {
+
+        var decodeData = jwtHelper.decodeToken(authToken);
+        console.log("Token Obj " + decodeData);
+
+        if (decodeData.context.veeryaccount) {
+            var values = decodeData.context.veeryaccount.contact.split("@");
+            $scope.sipUri = "sip:" + decodeData.context.veeryaccount.contact;
+            $scope.WSUri = "wss://" + values[1] + ":7443";
+            $scope.realm = values[1];
+            $scope.username = values[0];
+            $scope.displayname = decodeData.context.veeryaccount.display;
+            $scope.loginData = {
+                realm: $scope.realm,
+                impi: $scope.username,
+                impu: $scope.sipUri,
+                display_name: decodeData.iss,
+                websocket_proxy_url: $scope.WSUri
+
+
+            }
+
+            console.log("Showing modal ..................................................");
+            $scope.showModal(decodeData.iss);
+        }
+        else {
+            $scope.showAlert("Error", "Unauthorized user details to login ", "error");
+        }
+
+
+    };
+    $rootScope.$on('load_calls', function (event, args) {
+
+        $scope.LoadCurrentCalls();
+
     });
 
-    getRegistrationData(authToken);
-    $scope.LoadCurrentCalls();
-    //Initiate(onRegistrationCompleted, onCallDisconnected, onCallConnected);
+    $rootScope.$on('register_status', function (event, args) {
+
+        $scope.isRegistered = args;
+        var moduleSt = [];
+        if (args) {
+            moduleSt = ["success", "Registered"];
+
+        }
+        else {
+            moduleSt = ["notice", "Unregistered"];
+        }
+
+        $scope.showAlert("Info", " Supervisor call monitor module " + moduleSt[1], moduleSt[0]);
+
+
+        if ($scope.isRegistered && actionObject && actionObject.action == "LISTEN") {
+            $scope.currentSessionID = actionObject.BargeID;
+            callMonitorSrv.listenCall(actionObject.BargeID, actionObject.protocol, actionObject.displayname).then(function (listenData) {
+                actionObject = {};
+                if (!listenData.data.IsSuccess) {
+                    console.log("Invalid or Disconnected call, Loading Current list ", listenData.data.CustomMessage);
+                    $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
+                    $scope.LoadCurrentCalls();
+                }
+
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                actionObject = {};
+                console.log("Invalid or Disconnected call, Loading Current list ", error);
+                $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
+                $scope.LoadCurrentCalls();
+            });
+        }
+
+    });
+
+    $scope.ListenCall = function (callData) {
+        //alert("barged: "+bargeID);
+        if ($scope.isRegistered) {
+            $scope.currentSessionID = callData.BargeID;
+            callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname).then(function (listenData) {
+
+                if (!listenData.data.IsSuccess) {
+                    console.log("Invalid or Disconnected call, Loading Current list ", listenData.data.CustomMessage);
+                    $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
+                    $scope.LoadCurrentCalls();
+                }
+
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                console.log("Invalid or Disconnected call, Loading Current list ", error);
+                $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
+                $scope.LoadCurrentCalls();
+
+            });
+        }
+        else {
+            getRegistrationData(authToken);
+            actionObject = {
+                action: "LISTEN",
+                BargeID: callData.BargeID,
+                protocol: protocol,
+                displayname: $scope.displayname
+            };
+
+        }
+
+
+    };
+
+
+    /*getRegistrationData(authToken);
+     $scope.LoadCurrentCalls();*/
+    $rootScope.$emit("check_register", null);
+
+    if ($scope.isRegistered) {
+        $scope.LoadCurrentCalls();
+    }
+    else {
+        console.log("going to register");
+        $scope.RegisterThePhone();
+    }
+
 
 });
 
-mainApp.controller("loginModalController", function ($scope, $uibModalInstance, user, pickPassword) {
+mainApp.controller("loginModalController", function ($scope, $rootScope, $uibModalInstance, user, pickPassword) {
+
 
     $scope.showModal = true;
+
     $scope.username = user;
 
     $scope.ok = function () {
@@ -388,7 +318,7 @@ mainApp.controller("loginModalController", function ($scope, $uibModalInstance, 
         $uibModalInstance.close($scope.password);
     };
 
-    $scope.login = function () {
+    $scope.loginPhone = function () {
         pickPassword($scope.userPasssword);
         $scope.showModal = false;
         $uibModalInstance.close($scope.password);

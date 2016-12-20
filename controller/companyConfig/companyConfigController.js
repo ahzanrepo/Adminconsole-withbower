@@ -9,6 +9,10 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.isUserError = false;
     $scope.ClusterID;
     $scope.contextList = [];
+    $scope.prefixList=[];
+    $scope.newPrefix={};
+    $scope.isValidPrefix=false;
+    $scope.validmsg="";
 
     var authToken = authService.GetToken();
     var decodeData = jwtHelper.decodeToken(authToken);
@@ -236,9 +240,91 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
 
 
+    $scope.getTicketPrefixes = function () {
+
+        companyConfigBackendService.getTicketPrefixList().then(function (response) {
+
+            if (!response.data.IsSuccess) {
+                console.info("Error in picking Prefixes " + response.data.Exception);
+
+            }
+            else {
+                $scope.prefixList = response.data.Result;
+
+                //$scope.MasterAppList = response.data.Result;
+            }
+
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in picking Prefixes " + error);
+
+        })
+
+    };
+
+    $scope.checkPrefixAvailability = function () {
+
+        companyConfigBackendService.checkPrefixAvailability($scope.newPrefix.name).then(function (response) {
+
+            if (!response.data.IsSuccess) {
+
+                $scope.isValidPrefix=false;
+                console.info("Error in picking Prefixes " + response.data.Exception);
+                $scope.validmsg="Invalid prefix";
+                //$('#validmsgID').addClass('unavailable_msg').removeClass('available_msg');
+
+
+            }
+            else
+            {
+                $scope.isValidPrefix=true;
+                $scope.validmsg="Valid prefix";
+                //$('#validmsgID').addClass('available_msg').removeClass('unavailable_msg');
+                //$scope.MasterAppList = response.data.Result;
+            }
+
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.info("Error in picking Prefixes " + error);
+
+        })
+
+    };
+
+    $scope.setChangeStatus = function () {
+        $scope.isValidPrefix=false;
+        $scope.validmsg="";
+    };
+
+    $scope.saveNewTicketPrefix = function () {
+        if( $scope.isValidPrefix && $scope.newPrefix.name)
+        {
+            companyConfigBackendService.saveNewPrefix($scope.newPrefix).then(function (resAdd) {
+
+                $scope.isValidPrefix=false;
+                $scope.validmsg="";
+                $scope.newPrefix.name="";
+                $scope.showAlert("Add new ticket prefix","Prefix added successfully","success");
+                console.log("New prefix added",$scope.newPrefix.name);
+                $scope.getTicketPrefixes();
+
+            }, function (errAdd) {
+                $scope.showAlert("Add new ticket prefix","Failed to add prefix","error");
+                console.log("New prefix adding failed"+$scope.newPrefix.name,errAdd);
+
+            });
+        }
+        else
+        {
+            $scope.showAlert("Add new ticket prefix","Failed to add prefix","error");
+            console.log("Failed to add prefix , Invalid prefix received ",$scope.newPrefix.name);
+        }
+    }
+
     $scope.GetEndUser();
     $scope.GetClusters();
     $scope.GetContexts();
+    $scope.getTicketPrefixes();
 
 
     //----------------------------Dynamic Ticket Types----------------------------------------------

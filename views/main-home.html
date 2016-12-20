@@ -1,4 +1,4 @@
-<div  class="container body" ng-controller="mainCtrl">
+<div class="container body" ng-controller="mainCtrl">
     <div class="main_container"><!--menu_fixed -->
         <div class="col-md-3 left_col ">
             <div class="left_col scroll-view">
@@ -77,6 +77,11 @@
                                     <li ng-show="accessNavigation.SCHEDULER"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goSchedule()">Scheduler</a>
                                     </li>
+                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
+                                                                                ng-click="clickDirective.goQABuilder()">QA Form Builder</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.goReportMail()">Report Email Config</a></li>
                                     <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
                                                                                             ng-click="clickDirective.goCompanyConfig()">Company
                                         configuration</a>
@@ -95,14 +100,14 @@
                                         Dynamic Form</a>
                                     </li>
 
-                                   <!-- <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
-                                                                                  ng-click="clickDirective.goPackages()">
-                                        Packages</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
-                                                                                  ng-click="clickDirective.goCredit()">
-                                        Credit</a>
-                                    </li>-->
+                                    <!-- <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
+                                                                                   ng-click="clickDirective.goPackages()">
+                                         Packages</a>
+                                     </li>
+                                     <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
+                                                                                   ng-click="clickDirective.goCredit()">
+                                         Credit</a>
+                                     </li>-->
 
 
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
@@ -115,17 +120,19 @@
                                 <a class="font-robot font-300 "><i class="fa fa-dollar"></i>Account <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li  ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);"ng-click="clickDirective.goPackages()">
+                                    <li ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goPackages()">
                                         Packages</a>
                                     </li>
-                                    <li  ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goCredit()">
+                                    <li ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goCredit()">
                                         Credit</a>
                                     </li>
 
-                                    <li ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goBillingHistory()">
+                                    <li ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goBillingHistory()">
                                         Billing Histoty</a>
                                     </li>
-
 
 
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
@@ -264,7 +271,7 @@
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goCase()">
-                                        Case Creation</a>
+                                        Cases</a>
                                     </li>
                                     <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goCaseConfiguration()">
@@ -380,7 +387,9 @@
                             <a href="javascript:void(0);" class="user-profile dropdown-toggle ubuntu-Light"
                                data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="images/console_logo.png" alt="">Hi {{userName}}
+                                <img src="asset/images/defaultProfile.png"
+                                     ng-src="{{profileAvatat}}" alt="">Hi
+                                {{userName}}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -401,10 +410,11 @@
                             </a>
 
                             <ul id="menu1" ng-show="isSocketRegistered"
-                                class="dropdown-menu list-unstyled msg_list console-drop-menu notification-menu-left" role="menu">
+                                class="dropdown-menu list-unstyled msg_list console-drop-menu notification-menu-left"
+                                role="menu">
                                 <div class="notification-header">
                                     <a class="drop-header ubuntu-Medium">Notification center ({{unredNotifications}})
-                                        </a>
+                                    </a>
                                 </div>
                                 <div class="divider"></div>
 
@@ -451,7 +461,6 @@
                                 </div>
                             </ul>
                         </li>
-
 
 
                         <li role="presentation">

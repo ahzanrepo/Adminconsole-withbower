@@ -27,6 +27,7 @@
         $scope.summaryDetails = {};
 
         $scope.tagList = [];
+        $scope.ticketStatusList = [];
 
 
         var isEmpty = function (map) {
@@ -102,6 +103,36 @@
         populateToTagList();
 
 
+        var getTicketTypeList = function ()
+        {
+
+            ticketReportsService.getTicketTypeList().then(function (typeList)
+            {
+                if (typeList && typeList.Result)
+                {
+                    var tempArr = [];
+                    if(typeList.Result.default_types)
+                    {
+                        tempArr = typeList.Result.default_types;
+                    }
+
+                    if(typeList.Result.custom_types)
+                    {
+                        tempArr = tempArr.concat(typeList.Result.custom_types);
+                    }
+
+                    $scope.ticketTypesList = tempArr;
+
+                }
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        getTicketTypeList();
+
+
         $scope.getTicketSummary = function () {
             $scope.obj.isTableLoading = 0;
             var momentTz = moment.parseZone(new Date()).format('Z');
@@ -125,16 +156,43 @@
 
                     }
                     else {
-                        $scope.obj.isTableLoading = -1;
-                        $scope.summaryDetails = {};
+                        $scope.obj.isTableLoading = 1;
+                        $scope.summaryDetails = {
+                            progressing: 0,
+                            new: 0,
+                            closed: 0,
+                            resolved: 0,
+                            reopen: 0,
+                            sla_violated: 0,
+                            overdue_done: 0,
+                            overdue_working: 0,
+                            first_call_resolved: 0,
+                            average_resolution: 0,
+                            average_response:0
+
+                        };
+
                     }
 
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
-                    $scope.obj.isTableLoading = -1;
-                    $scope.summaryDetails = {};
+                    $scope.obj.isTableLoading = 1;
+                    $scope.summaryDetails = {
+                        progressing: 0,
+                        new: 0,
+                        closed: 0,
+                        resolved: 0,
+                        reopen: 0,
+                        sla_violated: 0,
+                        overdue_done: 0,
+                        overdue_working: 0,
+                        first_call_resolved: 0,
+                        average_resolution: 0,
+                        average_response:0
+
+                    };
                 });
 
 
@@ -142,7 +200,20 @@
             catch (ex) {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                 $scope.obj.isTableLoading = -1;
-                $scope.summaryDetails = {};
+                $scope.summaryDetails = {
+                    progressing: 0,
+                    new: 0,
+                    closed: 0,
+                    resolved: 0,
+                    reopen: 0,
+                    sla_violated: 0,
+                    overdue_done: 0,
+                    overdue_working: 0,
+                    first_call_resolved: 0,
+                    average_resolution: 0,
+                    average_response:0
+
+                };
             }
 
         };

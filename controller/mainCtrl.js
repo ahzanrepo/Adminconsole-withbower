@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList) {
 
 
     //added by pawan
@@ -127,8 +127,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     loginService.getNavigationAccess(function (result) {
         $scope.accessNavigation = result;
         //if($scope.accessNavigation.BASIC INFO)
-        if($scope.accessNavigation.TICKET)
-        {
+        if ($scope.accessNavigation.TICKET) {
             $scope.loadUserGroups();
             $scope.loadUsers();
         }
@@ -282,6 +281,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goSchedule: function () {
             $state.go('console.scheduler');
         },
+        goReportMail: function () {
+            $state.go('console.reportMail');
+        },
         goCompanyConfig: function () {
             $state.go('console.companyconfig');
         },
@@ -305,6 +307,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },
         goTicketSla: function () {
             $state.go('console.sla');
+        },
+        goQABuilder: function () {
+            $state.go('console.qaRatingFormBuilder');
         },
         goAgentStatusEvt: function () {
             $state.go('console.agentstatusevents');
@@ -643,8 +648,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.userGroups = [];
 
 
-
-
     $scope.loadUserGroups = function () {
         notifiSenderService.getUserGroupList().then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -697,6 +700,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 var offlineAgentList = [];
                 $scope.agentList = [];
                 var onlineAgents = response.Result;
+                console.log($scope.users);
 
                 if ($scope.users) {
                     for (var i = 0; i < $scope.users.length; i++) {
@@ -719,6 +723,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                         } else {
                             user.status = "NotAvailable";
                             offlineAgentList.push(user);
+
                         }
                     }
 
@@ -938,6 +943,16 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         $scope.windowHeight = jsUpdateSize() - 60 + "px";
         document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
     };
+
+    //Get user image list
+    //
+    userImageList.getAllUsers(function (res) {
+        if (res) {
+            userImageList.getAvatarByUserName($scope.userName, function (res) {
+                $scope.profileAvatat = res;
+            });
+        }
+    });
 
 
 });

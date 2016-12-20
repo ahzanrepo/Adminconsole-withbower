@@ -195,6 +195,48 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 return response.data;
             });
         },
+
+        getTicketPrefixList: function () {
+
+            return $http({
+                method: 'GET',
+                url:baseUrls.ticketUrl +"TicketPrefixes"
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        makeAsDefaultPrefix: function (prefix) {
+
+            return $http({
+                method: 'PUT',
+                url:baseUrls.ticketUrl +"/TicketPrefix/"+prefix+"/Available"
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        checkPrefixAvailability: function (prefix) {
+
+            return $http({
+                method: 'GET',
+                url:baseUrls.ticketUrl +"TicketPrefix/"+prefix+"/Availability"
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        saveNewPrefix: function (prefix) {
+
+            return $http({
+                method: 'POST',
+                url:baseUrls.ticketUrl +"/TicketPrefix",
+                data: prefix
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
         createPhoneConfig: function (config) {
             return $http({
                 method: 'POST',
@@ -248,5 +290,6 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 }
             });
         }
+
     }
 });
