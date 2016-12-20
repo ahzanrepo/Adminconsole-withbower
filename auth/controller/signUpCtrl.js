@@ -114,7 +114,7 @@ mainApp.directive('passwordStrength', [
                 password: '=ngModel'
             },
 
-            link: function (scope, elem, attrs, ctrl) {
+            link: function (scope, elem, attrs, ctrl,ngModel) {
                 //password validation
                 scope.isShowBox = false;
                 scope.isPwdValidation = {
@@ -132,6 +132,10 @@ mainApp.directive('passwordStrength', [
 
                     function isSatisfied(criteria) {
                         return criteria ? 1 : 0;
+                    }
+
+                    if (scope.strength != 5) {
+                        ngModel.$setValidity('unique', true);
                     }
                 }, true);
             },
