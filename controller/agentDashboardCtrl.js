@@ -3,7 +3,7 @@
  */
 
 
-mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardService,loginService) {
+mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardService, loginService) {
 
 
 
@@ -13,7 +13,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
      var data2 = [[1, 4], [2, 8], [3, 7], [4, 5], [5, 7], [6, 5], [7, 2], [8, 1], [9, 3]];*/
     var data1 = [];
     var data2 = [];
-
+    var doughnutObj = {labels: [], data: []};
 
     $scope.difCreateVsResolvedChartOptions = {
         grid: {
@@ -21,7 +21,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             borderColor: '#fff',
             show: true
         },
-        series: {fill: true,shadowSize: 0, color: "#63a5a2"},
+        series: {fill: true, shadowSize: 0, color: "#63a5a2"},
         color: {color: '#63a5a2'},
         legend: {
             container: '#legend',
@@ -143,6 +143,14 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
     $scope.getDeferenceResolvedTicketSeries();
 
+    $scope.removeDuplicate = function (key) {
+        var index = doughnutObj.labels.indexOf(key);
+        if (index > -1) {
+            doughnutObj.labels.splice(index, 1);
+            doughnutObj.data.splice(index, 1);
+        }
+    }
+
     /*charts Configurations  End ------------*/
 
 
@@ -159,6 +167,15 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             else {
                 $scope.newTicket = 0;
             }
+            //config Doughnut  data
+
+
+            $scope.removeDuplicate("New");
+
+            doughnutObj.labels.push("New");
+            doughnutObj.data.push($scope.newTicket);
+
+
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.newTicket = 0;
@@ -210,6 +227,10 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             else {
                 $scope.openTicket = 0;
             }
+            //config Doughnut  data
+            $scope.removeDuplicate("Open");
+            doughnutObj.labels.push("Open");
+            doughnutObj.data.push($scope.openTicket);
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.openTicket = 0;
@@ -227,6 +248,11 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             else {
                 $scope.solvedTicket = 0;
             }
+            //config Doughnut  data
+            $scope.removeDuplicate("Resolved");
+
+            doughnutObj.labels.push("Resolved");
+            doughnutObj.data.push($scope.solvedTicket);
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.solvedTicket = 0;
@@ -247,6 +273,11 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             else {
                 $scope.reopenTicket = 0;
             }
+            //config Doughnut  data
+            $scope.removeDuplicate("Reopen");
+
+            doughnutObj.labels.push("Reopen");
+            doughnutObj.data.push($scope.reopenTicket);
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.reopenTicket = 0;
@@ -264,6 +295,11 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             else {
                 $scope.parkedTicket = 0;
             }
+            //config Doughnut  data
+            $scope.removeDuplicate("Parked");
+
+            doughnutObj.labels.push("Parked");
+            doughnutObj.data.push($scope.parkedTicket);
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.parkedTicket = 0;
@@ -281,6 +317,11 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             else {
                 $scope.progressTicket = 0;
             }
+            //config Doughnut  data
+            $scope.removeDuplicate("Progress");
+
+            doughnutObj.labels.push("Progress");
+            doughnutObj.data.push($scope.progressTicket);
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.progressTicket = 0;
@@ -298,6 +339,11 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             else {
                 $scope.closedTicket = 0;
             }
+            //config Doughnut  data
+            $scope.removeDuplicate("Closed");
+
+            doughnutObj.labels.push("Closed");
+            doughnutObj.data.push($scope.closedTicket);
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.closedTicket = 0;
@@ -494,7 +540,7 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     $scope.ticketViaOther = 0;
     $scope.ticketViaOtherCount = 0;
     var calculateOther = function () {
-        $scope.ticketViaOtherCount = $scope.ticketViaWidgetCount + $scope.ticketViaSkypeCount + $scope.ticketViaApiCount+$scope.ticketViaEmailCount;
+        $scope.ticketViaOtherCount = $scope.ticketViaWidgetCount + $scope.ticketViaSkypeCount + $scope.ticketViaApiCount + $scope.ticketViaEmailCount;
         if ($scope.totalTicket > 0)
             $scope.ticketViaOther = (($scope.ticketViaOtherCount / $scope.totalTicket) * 100).toFixed(2);
     };
@@ -590,7 +636,6 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
     };
 
 
-
     $scope.slaCompliance = 0;
     var SlaCompliance = function () {
         if ($scope.newTicket > 0)
@@ -606,6 +651,8 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
 
     var getAllRealTimeTimer = {};
     var getAllRealTime = function () {
+
+
         $scope.getCreatedTicketSeries();
         $scope.getResolvedTicketSeries();
         $scope.getDeferenceResolvedTicketSeries();
@@ -624,6 +671,10 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
         $scope.getTicketViaCall();
         $scope.getTicketViaTwitter();
         $scope.getTicketViaFB();
+
+
+        $scope.labels = doughnutObj.labels;
+        $scope.data = doughnutObj.data;
         getAllRealTimeTimer = $timeout(getAllRealTime, 1800000);//30min
     };
     getAllRealTime();
@@ -633,6 +684,35 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             $timeout.cancel(getAllRealTimeTimer);
         }
     });
+
+    //update code
+    //damith
+    $scope.options = {
+        type: 'doughnut',
+        responsive: false,
+        legend: {
+            display: true,
+            position: 'bottom',
+            padding: 5,
+            labels: {
+                fontColor: 'rgb(130, 152, 174)',
+                fontSize: 10,
+                boxWidth: 10
+            }
+        },
+        title: {
+            display: true
+        }
+    };
+
+
+    // doughnutData.push()
+    // $scope.data = [$scope.newTicket,
+    //     $scope.openTicket, $scope.progressTicket,
+    //     $scope.closedTicket,
+    //     $scope.solvedTicket,
+    //     $scope.reopenTicket,
+    //     $scope.parkedTicket];
 
 
 });

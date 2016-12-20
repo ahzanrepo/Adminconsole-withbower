@@ -21,9 +21,12 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="col-lg-6">
+                    <button ng-disabled="!selectedExsistingTickets.ids.length > 0" type="button" class="btn btn-success btn-sm  pull-right" ng-click="removeTicketFromCase()">
+                        Remove Tickets
+                    </button>
                     <button type="button" class="btn btn-success btn-sm  pull-right"
                             ng-click="addNewRelatedSlaMatrix()">
-                        New
+                        Add Tickets
                     </button>
                 </div>
             </div>
@@ -31,6 +34,43 @@
 
 
         <div class="x_panel x_content col-md-12 col-sm-12 col-xs-12">
+
+            <div class="clearfix"></div>
+
+
+            <div class="custom-type">
+                <div class="row">
+                    <h2>Bulk Operation</h2>
+                    <div class="col-md-4 col-sm-4 col-xs-12  form-group has-feedback">
+                        <select ng-disabled="!selectedExsistingTickets.ids.length > 0" class="form-control has-feedback-left "
+                                placeholder="Select Bulk Action"
+                                ng-model="bulkAction.action">
+                            <option value="" disabled selected>Select Action</option>
+                            <option value="{{action}}" ng-repeat="action in bulkActions"> {{action}} </option>
+                        </select>
+                                            <span class="glyphicon glyphicon-list form-control-feedback left"
+                                                  aria-hidden="true"></span>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <button ng-disabled="!selectedExsistingTickets.ids.length > 0" type="button" class="btn btn-success btn-sm " ng-click="bulkStatusChangeTickets()">
+                            Execute Operation
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12  ">
+                        <label>Add Custom Operations</label>
+                        <a ng-disabled="!selectedExsistingTickets.ids.length > 0" ng-click="showModal()" class="close-link"><i class="fa fa-plus"></i></a>
+                        <ul class="customer-type-wrapper">
+                            <li ng-repeat="operation in bulkAction.specificOperations">
+                                {{operation.name}} <i class="ti-close " ng-click="removeOperation(operation)"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="row">
                 <div class="col-md-6">
                     <button type="button" class="btn btn-sm " ng-click="checkAllExsisting()">
@@ -39,47 +79,9 @@
                     <button type="button" class="btn btn-sm" ng-click="uncheckAllExsisting()">
                         Uncheck All
                     </button>
-                    <button type="button" class="btn btn-sm " ng-click="removeTicketFromCase()">
-                        Remove Tickets From Case
-                    </button>
                 </div>
 
             </div>
-            <div class="clearfix"></div>
-
-            <div class="row">
-                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                    <select class="form-control has-feedback-left "
-                            placeholder="Select Bulk Action"
-                            ng-model="bulkAction.action">
-                        <option value="" disabled selected>Select Action</option>
-                        <option value="{{action}}" ng-repeat="action in bulkActions"> {{action}} </option>
-                    </select>
-                                            <span class="glyphicon glyphicon-list form-control-feedback left"
-                                                  aria-hidden="true"></span>
-                </div>
-                <div>
-                    <a ng-click="showModal()" class="close-link"><i class="fa fa-plus"></i></a>
-                    <table border="0">
-                        <tr ng-repeat="operation in bulkAction.specificOperations">
-                            <td>
-                                - {{operation.name}}
-                                <a class="inline-block" ng-click="removeOperation(operation)"
-                                   style="cursor: pointer"><i
-                                        class="fa fa-trash-o"></i></a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                    <button type="button" class="btn btn-sm " ng-click="bulkStatusChangeTickets()">
-                        Execute Action
-                    </button>
-                </div>
-
-            </div>
-            <div class="clearfix"></div>
 
             <ul class="case-card-wrapper" ng-repeat="rTicket in caseInfo.related_tickets">
                 <li>
@@ -191,6 +193,7 @@
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
+                                <option value="all">ALL</option>
                             </select>
                         </label>
                     </div>
