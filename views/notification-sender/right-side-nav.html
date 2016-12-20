@@ -15,10 +15,15 @@
             <div ng-mouseover="chatOption = true"
                  ng-mouseleave="chatOption = false"
                  class="notification-user" ng-repeat="agent in agentList | filterBy: ['name']: searchCriteria">
-                <div class="user-img">
+                <div ng-if="agent.name" class="user-img">
                     <img src="asset/images/defaultProfile.png"
                          ng-src="{{agent.avatar}}">
                     {{agent.name}}
+                </div>
+                <div ng-if="agent.name" class="user-img">
+                    <img src="asset/images/defaultProfile.png"
+                         ng-src="{{agent.avatar}}">
+                    {{agent.email.contact}}
                 </div>
                 <div class="notification-details">
                     <div class="chat-icon" ng-show="chatOption" ng-click="setExtention(agent)">
