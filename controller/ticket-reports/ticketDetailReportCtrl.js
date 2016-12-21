@@ -369,7 +369,7 @@
 
                 ticketReportsService.getTicketDetailsNoPaging($scope.FilterData).then(function (ticketDetailsResp) {
                     if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
-                        
+
                         ticketDetailsResp.Result.forEach(function (ticketInfo) {
                             var ticketInfoTemp =
                             {
