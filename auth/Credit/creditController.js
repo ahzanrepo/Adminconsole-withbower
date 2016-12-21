@@ -13,7 +13,7 @@ mainApp.controller("creditController", function ($scope, walletService) {
      };*/
 
     $scope.config = {
-        publishKey: 'pk_test_vQ7XfEY4gVbjHOqVja7CIvpo',
+        publishKey: 'pk_test_L5zUHIzLje2UXP0oPVJ8FoX3',
         title: 'Facetone',
         description: "Communication and Collaboration Platform",
         logo: 'images/logo_130x130yellow.png',
