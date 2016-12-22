@@ -18,6 +18,8 @@
 
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
 
+        $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
+
         $scope.tagHeaders = ['Reference', 'Subject', 'Phone Number', 'Email', 'SSN', 'First Name', 'Last Name', 'Address', 'From Number', 'Created Date', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
 
         $scope.moment = moment;
@@ -317,6 +319,7 @@
 
         $scope.getTicketSummaryCSV = function () {
             $scope.tagHeaders = ['Reference', 'Subject', 'Phone Number', 'Email', 'SSN', 'First Name', 'Last Name', 'Address', 'From Number', 'Created Date', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
+            $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
 
             if (!$scope.tagCount) {
                 $scope.tagCount = 0;
@@ -325,6 +328,7 @@
             if ($scope.tagCount) {
                 for (j = 0; j < $scope.tagCount; j++) {
                     $scope.tagHeaders.push('Tag' + (j + 1));
+                    $scope.tagOrder.push('Tag' + (j + 1));
                 }
             }
 
@@ -439,6 +443,7 @@
                                         if($scope.tagHeaders.indexOf(tempFieldName) < 0)
                                         {
                                             $scope.tagHeaders.push(tempFieldName);
+                                            $scope.tagOrder.push(tempFieldName);
 
                                         }
 
@@ -449,6 +454,59 @@
                             }
 
                             ticketListForCSV.push(ticketInfoTemp);
+
+
+
+                            ticketListForCSV = [];
+
+
+                            var obj1 = {
+                                aa: 'a',
+                                cc: 'c',
+                                ee: 'e',
+                                bb: 'b'
+                            };
+
+                            var obj2 = {
+                                ee: 'e',
+                                bb: 'b',
+                                ff: 'f'
+                            };
+
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
+                            ticketListForCSV.push(obj1);
+                            ticketListForCSV.push(obj2);
 
                         });
 
