@@ -15,7 +15,7 @@
     </div>
 
 
-    <div class="col-md-12 col-sm-12 col-xs-12 animated fadeIn">
+    <fieldset class="col-md-12 col-sm-12 col-xs-12 animated fadeIn">
         <div class="row">
             <div class="x_panel">
 
@@ -27,7 +27,7 @@
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>User</label>
                     <select name="datatable-responsive_length" class="select2_single form-control" aria-hidden="true" ng-options="user as user.username for user in userList track by user._id"
-                            ng-model="agentSelected">
+                            ng-model="agentSelected" ng-change="getScore(agentSelected)">
                     </select>
                 </div>
 
@@ -71,15 +71,25 @@
 
                 <div class="col-md-2 col-sm-2 col-xs-2">
                     <div class="x_content btn-wrap-header">
-                        <button type="button" class="btn btn-success" ng-click="getRecords()">
+                        <button ng-if="!showCancel" ng-disabled="!paperSelected || !engType || !agentSelected" type="button" class="btn btn-success" ng-click="getRecords()">
                             Search
                         </button>
+                        <button ng-if="showCancel" type="button" class="btn btn-success" ng-click="goBackToRecords()">
+                            Back
+                        </button>
                     </div>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-2" ng-if="agentSelected">
+                    <label style="position: relative; top: 20px;">Rating of user {{agentSelected.username}}</label>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6" ng-if="agentSelected">
+                    <span style="position: relative; top: 20px;" uib-rating ng-model="averagePoint" max="10" read-only="true"  aria-labelledby="default-rating"></span>
                 </div>
 
             </div>
         </div>
-    </div>
+    </fieldset>
 
     <div class="search-main-wrap" ng-if="isTableLoading===0">
         <div class="row ">
@@ -199,20 +209,3 @@
 
 
 </div>
-
-<!--
-<script type="text/javascript">
-    $('#timepickerSt').timepicker({
-        template: false,
-        showInputs: false,
-        minuteStep: 5
-    });
-</script>
-
-<script type="text/javascript">
-    $('#timepickerEt').timepicker({
-        template: false,
-        showInputs: false,
-        minuteStep: 5
-    });
-</script>-->

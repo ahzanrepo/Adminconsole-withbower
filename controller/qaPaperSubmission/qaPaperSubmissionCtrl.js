@@ -16,6 +16,8 @@
             });
         };
 
+        $scope.averagePoint = 0;
+
         $scope.moment = moment;
 
         $scope.config = {
@@ -52,6 +54,8 @@
         $scope.sections = [];
         $scope.currentPaper = {};
         $scope.isTableLoading = 2;
+        $scope.currentSubmission = null;
+        $scope.showCancel = false;
 
         var videogularAPI = null;
 
@@ -93,6 +97,13 @@
             }
 
 
+        };
+
+        $scope.goBackToRecords = function(){
+            $scope.showCancel = false;
+            $scope.isTableLoading = 1;
+            $scope.currentPaper = {};
+            $scope.currentSubmission = null;
         };
 
 
@@ -157,42 +168,48 @@
                 {
                     sipUser = split[0];
                 }
-            }
 
-            cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, sipUser, null, $scope.directionFilter, null, null).then(function (data)
-            {
-                if (data.IsSuccess && data.Result)
+                cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, sipUser, null, $scope.directionFilter, null, null).then(function (data)
                 {
-                    var answeredCalls = _.where(data.Result, {IsAnswered: true});
-                    $scope.cdrList = answeredCalls;
-                    $scope.isTableLoading = 1;
-                }
-                else
+                    if (data.IsSuccess && data.Result)
+                    {
+                        var answeredCalls = _.where(data.Result, {IsAnswered: true});
+                        $scope.cdrList = answeredCalls;
+                        $scope.isTableLoading = 1;
+                    }
+                    else
+                    {
+                        $scope.cdrList = [];
+                        var errMsg = data.CustomMessage;
+
+                        if (data.Exception)
+                        {
+                            errMsg = data.Exception.Message;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+
+                        $scope.isTableLoading = 1;
+
+                    }
+
+                }, function (err)
                 {
                     $scope.cdrList = [];
-                    var errMsg = data.CustomMessage;
-
-                    if (data.Exception)
-                    {
-                        errMsg = data.Exception.Message;
+                    $scope.isTableLoading = 1;
+                    loginService.isCheckResponse(err);
+                    var errMsg = "Error occurred while loading cdr records";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
                     }
                     $scope.showAlert('Error', 'error', errMsg);
-
-                    $scope.isTableLoading = 1;
-
-                }
-
-            }, function (err)
+                });
+            }
+            else
             {
-                $scope.cdrList = [];
-                $scope.isTableLoading = 1;
-                loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while loading cdr records";
-                if (err.statusText) {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('Error', 'error', errMsg);
-            });
+                $scope.showAlert('Error', 'error', 'Selected agent has no veery account');
+            }
+
+
         };
 
         var buildFormSchema = function (schema, form, fields) {
@@ -516,6 +533,52 @@
 
         getSections();
 
+        var loadNewPaperInitiate = function(sessionId){
+            var decodedToken = loginService.getTokenDecode();
+
+            $scope.currentPaper = $scope.paperSelected;
+
+            var evaluatorObj = _.find($scope.userList, {username: decodedToken.iss});
+
+            if(evaluatorObj)
+            {
+                //submit paper initially
+                var paperInfo = {
+                    paper: $scope.currentPaper._id,
+                    session: sessionId,
+                    evaluator: evaluatorObj._id,
+                    owner: owner
+                };
+
+                qaModuleService.paperSubmission(paperInfo).then(function (data)
+                {
+                    if(data.IsSuccess && data.Result && data.Result._id)
+                    {
+
+                        $scope.currentSubmission = data.Result._id;
+                        $scope.isTableLoading = 3;
+                        $scope.showCancel = true;
+                        buildQuestionPaper();
+                    }
+                    else
+                    {
+                        $scope.showAlert('Paper Submission', 'error', 'Paper submission failed');
+                    }
+
+
+                }).catch(function(err){
+                    $scope.showAlert('Paper Submission', 'error', err.Message);
+
+                })
+
+
+            }
+            else
+            {
+                $scope.showAlert('Paper Submission', 'error', 'Cannot find evaluator');
+            }
+        };
+
 
         $scope.openQuestionPaper = function(sessionId){
 
@@ -525,51 +588,40 @@
                 {
                     if(data.Result)
                     {
-                        //existing paper - open that paper with answers
+                        if(data.Result.completed === 'true')
+                        {
+                            $scope.showAlert('QA Submission', 'warn', 'Question paper already completed for this session');
+                        }
+                        else
+                        {
+                            //existing paper - open that paper with answers
+
+                            qaModuleService.deleteSubmissionById(data.Result._id)
+                                .then(function (data){
+
+                                    if(data.IsSuccess)
+                                    {
+                                        loadNewPaperInitiate(sessionId);
+                                    }
+                                    else
+                                    {
+                                        $scope.showAlert('QA Submission', 'error', 'Error occurred reseting paper');
+                                    }
+
+                                })
+                                .catch(function(err){
+
+                                    $scope.showAlert('QA Submission', 'error', err.Message);
+
+                                })
+
+                        }
                     }
                     else
                     {
                         //new paper prompt for paper selection
-                        var decodedToken = loginService.getTokenDecode();
+                        loadNewPaperInitiate(sessionId);
 
-                        var evaluatorObj = _.where($scope.userList, {username: decodedToken.issuer});
-
-                        if(evaluatorObj)
-                        {
-                            //submit paper initially
-                            var paperInfo = {
-                                paper: $scope.currentPaper._id,
-                                session: sessionId,
-                                evaluator: evaluatorObj._id,
-                                owner: owner
-                            };
-
-                            qaModuleService.paperSubmission(paperInfo).then(function (data)
-                            {
-                                if(data.IsSuccess)
-                                {
-                                    $scope.currentPaper = $scope.paperSelected;
-
-                                    $scope.isTableLoading = 3;
-                                    buildQuestionPaper();
-                                }
-                                else
-                                {
-                                    $scope.showAlert('Paper Submission', 'error', 'Paper submission failed');
-                                }
-
-
-                            }).catch(function(err){
-                                $scope.showAlert('Paper Submission', 'error', err.Message);
-
-                            })
-
-
-                        }
-                        else
-                        {
-                            $scope.showAlert('Paper Submission', 'error', 'Cannot find evaluator');
-                        }
                     }
                 }
                 else
@@ -626,68 +678,77 @@
             $scope.$broadcast('schemaFormValidate');
             if (form.$valid)
             {
-                var arr = [];
-                for (var key in $scope.model)
+                if($scope.currentSubmission)
                 {
-                    if ($scope.model.hasOwnProperty(key))
+                    var arr = [];
+                    for (var key in $scope.model)
                     {
-                        //get question type
-                        var answerInfo = {};
-                        var questionInfo = _.find($scope.currentPaper.questions, {_id: key});
-
-                        if(questionInfo)
+                        if ($scope.model.hasOwnProperty(key))
                         {
-                            answerInfo.question = key;
-                            answerInfo.section = questionInfo.section;
-                            if(questionInfo.type === 'binary')
-                            {
-                                var answer = $scope.model[key];
+                            //get question type
+                            var answerInfo = {};
+                            var questionInfo = _.find($scope.currentPaper.questions, {_id: key});
 
-                                if(answer === true)
-                                {
-                                    answerInfo.points = 10;
-                                }
-                                else
-                                {
-                                    answerInfo.points = 0;
-                                }
-                            }
-                            else if(questionInfo.type === 'rating')
+                            if(questionInfo)
                             {
-                                answerInfo.points = $scope.model[key];
+                                answerInfo.question = key;
+                                answerInfo.section = questionInfo.section;
+                                if(questionInfo.type === 'binary')
+                                {
+                                    var answer = $scope.model[key];
+
+                                    if(answer === true)
+                                    {
+                                        answerInfo.points = 10;
+                                    }
+                                    else
+                                    {
+                                        answerInfo.points = 0;
+                                    }
+                                }
+                                else if(questionInfo.type === 'rating')
+                                {
+                                    answerInfo.points = $scope.model[key];
+                                }
+                                else if(questionInfo.type === 'remark')
+                                {
+                                    answerInfo.points = -1;
+                                    answerInfo.remarks = $scope.model[key];
+                                }
                             }
-                            else if(questionInfo.type === 'remark')
-                            {
-                                answerInfo.points = -1;
-                                answerInfo.remarks = $scope.model[key];
-                            }
+                            arr.push(addAnswer($scope.currentSubmission, answerInfo));
                         }
-                        arr.push(addAnswer($scope.currentPaper._id, answerInfo));
                     }
+
+
+                    $q.all(arr).then(function(resolveData){
+                        //form complete
+                        qaModuleService.setPaperComplete($scope.currentSubmission).then(function (data)
+                        {
+                            if (data.IsSuccess)
+                            {
+                                $scope.goBackToRecords();
+                                $scope.showAlert('QA Paper', 'success', 'Question form submitted');
+                            }
+                            else
+                            {
+                                $scope.showAlert('QA Paper', 'error', 'Question form set complete fail');
+                            }
+
+                        }).catch(function (err)
+                        {
+                            $scope.showAlert('QA Paper', 'error', err.Message);
+                        });
+
+                    }).catch(function(err){
+                        $scope.showAlert('QA Paper', 'error', err.Message);
+                    })
+                }
+                else
+                {
+                    $scope.showAlert('QA Paper', 'error', 'Form submission not set');
                 }
 
-
-                $q.all(arr).then(function(resolveData){
-                    //form complete
-                    qaModuleService.setPaperComplete($scope.currentPaper._id).then(function (data)
-                    {
-                        if (data.IsSuccess)
-                        {
-                            $scope.showAlert('QA Paper', 'success', 'Question form submitted');
-                        }
-                        else
-                        {
-                            $scope.showAlert('QA Paper', 'error', 'Question form set complete fail');
-                        }
-
-                    }).catch(function (err)
-                    {
-                        $scope.showAlert('QA Paper', 'error', err.Message);
-                    });
-
-                }).catch(function(err){
-                    $scope.showAlert('QA Paper', 'error', err.Message);
-                })
 
 
             }
@@ -759,7 +820,7 @@
                                     title: 'Answer',
                                     description: '',
                                     active: true,
-                                    require: true,
+                                    require: false,
                                     type: 'checkbox'
                                 };
 
@@ -842,6 +903,48 @@
             }
 
         };
+
+
+        $scope.getScore = function(owner){
+
+            var totalQuestions = 0;
+            var totalPointsWeighted = 0;
+
+            $scope.cdrList = [];
+            $scope.isTableLoading = 2;
+
+            qaModuleService.getAllSubmissionsByOwner(owner._id).then(function (data)
+            {
+                if (data.IsSuccess && data.Result)
+                {
+                    data.Result.forEach(function(submission){
+                        if(submission.answers)
+                        {
+                            submission.answers.forEach(function(answer)
+                            {
+                                if(answer.question && answer.question.weight > 0 && answer.question.type != 'remark')
+                                {
+                                    var val = (answer.points * answer.question.weight)/10;
+                                    totalPointsWeighted = totalPointsWeighted + val;
+                                    totalQuestions++;
+                                }
+
+                            });
+                        }
+                    });
+                    $scope.averagePoint = totalPointsWeighted / totalQuestions;
+                }
+                else
+                {
+                    $scope.showAlert('QA Rating', 'error', 'Error loading rating');
+                }
+
+            }).catch(function (err)
+            {
+                $scope.showAlert('QA Paper', 'error', err.Message);
+            });
+
+        }
 
 
 

@@ -128,6 +128,17 @@
             })
         };
 
+        var deleteSubmissionById = function(id)
+        {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.qaModule + 'QuestionPaperSubmission/' + id
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var paperSubmission = function(paperInfo)
         {
 
@@ -136,6 +147,17 @@
                 method: 'POST',
                 url: baseUrls.qaModule + 'QuestionPaperSubmission',
                 data : jsonStr
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getAllSubmissionsByOwner = function(owner)
+        {
+            return $http({
+                method: 'GET',
+                url: baseUrls.qaModule + 'QuestionPaperSubmission/Owner/' + owner + '/Completed/true'
             }).then(function(resp)
             {
                 return resp.data;
@@ -153,7 +175,9 @@
             getPaperSubmissionBySession: getPaperSubmissionBySession,
             addAnswerToQuestion: addAnswerToQuestion,
             setPaperComplete: setPaperComplete,
-            paperSubmission: paperSubmission
+            paperSubmission: paperSubmission,
+            deleteSubmissionById: deleteSubmissionById,
+            getAllSubmissionsByOwner: getAllSubmissionsByOwner
         };
 
     };
