@@ -37,7 +37,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ngNumberPicker',
     'underscore',
     'webcam',
-    "chart.js"
+    "chart.js",
+    'schemaForm'
 ]);
 
 

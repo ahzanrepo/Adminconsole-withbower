@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var qaSubmissionCtrl = function ($scope, $filter, $q, $sce, userProfileApiAccess, cdrApiHandler, loginService, _) {
+    var qaSubmissionCtrl = function ($scope, $filter, $q, $sce, $uibModal, userProfileApiAccess, cdrApiHandler, qaModuleService, loginService, _) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -48,6 +48,9 @@
 
         $scope.userList = [];
         $scope.cdrList = [];
+        $scope.papers = [];
+        $scope.sections = [];
+        $scope.currentPaper = {};
         $scope.isTableLoading = 2;
 
         var videogularAPI = null;
@@ -65,6 +68,8 @@
                 $scope.cdrList.splice(index, 1);
             }
         };
+
+
 
         $scope.playStopFile = function (uuid) {
             if (videogularAPI) {
@@ -179,13 +184,659 @@
                 $scope.cdrList = [];
                 $scope.isTableLoading = 1;
                 loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while loading users";
+                var errMsg = "Error occurred while loading cdr records";
                 if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
+
+        var buildFormSchema = function (schema, form, fields) {
+            fields.forEach(function (fieldItem) {
+                if (fieldItem.field)
+                {
+                    var isActive = true;
+                    if (fieldItem.active === false) {
+                        isActive = false;
+                    }
+
+                    //field type parser
+
+                    if (fieldItem.type === 'text') {
+
+                        schema.properties[fieldItem.field] = {
+                            type: 'string',
+                            title: fieldItem.title,
+                            description: fieldItem.description,
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive
+
+                        };
+
+                        form.push({
+                            "key": fieldItem.field,
+                            "type": "text"
+                        })
+                    }
+                    else if (fieldItem.type === 'textarea') {
+
+                        schema.properties[fieldItem.field] = {
+                            type: 'string',
+                            title: fieldItem.title,
+                            description: fieldItem.description,
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive
+
+                        };
+
+                        form.push({
+                            "key": fieldItem.field,
+                            "type": "textarea"
+                        })
+                    }
+                    else if (fieldItem.type === 'url') {
+
+                        schema.properties[fieldItem.field] = {
+                            type: 'string',
+                            title: fieldItem.title,
+                            description: fieldItem.description,
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive
+
+                        };
+
+                        form.push({
+                            "key": fieldItem.field,
+                            "type": "text"
+                        })
+                    }
+                    else if (fieldItem.type === 'section') {
+                        var h2Tag = '<h4><b><u>' + 'SECTION - ' + fieldItem.title + '</u></b></h4>';
+                        form.push({
+                            "type": "help",
+                            "helpvalue": h2Tag
+                        });
+                    }
+                    else if (fieldItem.type === 'qheader') {
+                        var h2Tag = '<h2><b>' + 'QUESTION - ' + fieldItem.title + '</b></h2>';
+                        form.push({
+                            "type": "help",
+                            "helpvalue": h2Tag
+                        });
+                    }
+                    else if (fieldItem.type === 'radio') {
+                        schema.properties[fieldItem.field] = {
+                            type: 'string',
+                            title: fieldItem.title,
+                            description: fieldItem.description,
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive
+
+                        };
+
+                        var formObj = {
+                            "key": fieldItem.field,
+                            "type": "radios-inline",
+                            "titleMap": []
+                        };
+
+
+                        if (fieldItem.values && fieldItem.values.length > 0) {
+
+                            schema.properties[fieldItem.field].enum = [];
+
+                            fieldItem.values.forEach(function (enumVal) {
+                                schema.properties[fieldItem.field].enum.push(enumVal.name);
+                                formObj.titleMap.push(
+                                    {
+                                        "value": enumVal.id,
+                                        "name": enumVal.name
+                                    }
+                                )
+                            })
+
+                        }
+
+                        form.push(formObj);
+                    }
+                    else if (fieldItem.type === 'date') {
+
+                        schema.properties[fieldItem.field] = {
+                            type: 'string',
+                            title: fieldItem.title,
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive,
+                            format: 'date'
+
+                        };
+
+                        form.push({
+                            "key": fieldItem.field,
+                            "minDate": "1900-01-01"
+                        })
+                    }
+                    else if (fieldItem.type === 'number') {
+
+                        schema.properties[fieldItem.field] = {
+                            type: 'number',
+                            title: fieldItem.title,
+                            description: fieldItem.description,
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive
+
+                        };
+
+                        form.push({
+                            "key": fieldItem.field,
+                            "type": "number"
+                        })
+                    }
+                    else if (fieldItem.type === 'phone') {
+
+                        schema.properties[fieldItem.field] = {
+                            type: 'string',
+                            title: fieldItem.title,
+                            description: fieldItem.description,
+                            pattern: "^[0-9*#+]+$",
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive
+
+                        };
+
+                        form.push({
+                            "key": fieldItem.field,
+                            "type": "text"
+                        })
+                    }
+                    else if (fieldItem.type === 'boolean' || fieldItem.type === 'checkbox') {
+
+                        schema.properties[fieldItem.field] = {
+                            type: 'boolean',
+                            title: fieldItem.title,
+                            description: fieldItem.description,
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive
+
+                        };
+
+                        form.push({
+                            "key": fieldItem.field,
+                            "type": "checkbox"
+                        })
+                    }
+                    else if (fieldItem.type === 'checkboxes') {
+
+                        schema.properties[fieldItem.field] = {
+                            type: 'array',
+                            title: fieldItem.title,
+                            description: fieldItem.description,
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive,
+                            items: {
+                                type: "string",
+                                enum: []
+                            }
+
+                        };
+
+                        if (fieldItem.values && fieldItem.values.length > 0) {
+
+                            fieldItem.values.forEach(function (enumVal) {
+                                schema.properties[fieldItem.field].items.enum.push(enumVal.name);
+                            })
+
+                        }
+
+                        form.push(fieldItem.field);
+                    }
+                    else if (fieldItem.type === 'email') {
+
+                        schema.properties[fieldItem.field] = {
+                            type: 'string',
+                            title: fieldItem.title,
+                            description: fieldItem.description,
+                            pattern: "^\\S+@\\S+$",
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive
+
+                        };
+
+                        form.push({
+                            "key": fieldItem.field,
+                            "type": "text"
+                        })
+                    }
+                    else if (fieldItem.type === 'select') {
+                        schema.properties[fieldItem.field] = {
+                            type: 'string',
+                            title: fieldItem.title,
+                            required: fieldItem.require ? true : false,
+                            readonly: !isActive
+
+                        };
+
+                        var formObj = {
+                            "key": fieldItem.field,
+                            "type": "select",
+                            "titleMap": []
+                        };
+
+                        if (fieldItem.values && fieldItem.values.length > 0) {
+
+                            schema.properties[fieldItem.field].enum = [];
+
+                            fieldItem.values.forEach(function (enumVal) {
+                                schema.properties[fieldItem.field].enum.push(enumVal.name);
+                                formObj.titleMap.push(
+                                    {
+                                        "value": enumVal.id,
+                                        "name": enumVal.name
+                                    });
+                            })
+
+                        }
+                        form.push(formObj);
+                    }
+
+                    //end field type parser
+
+                }
+
+
+            });
+
+            return schema;
+        };
+
+        var getPapers = function()
+        {
+            $scope.papers = [];
+
+            qaModuleService.getPapers().then(function (data)
+            {
+                if (data.IsSuccess)
+                {
+                    $scope.papers = data.Result;
+                }
+                else
+                {
+                    if(data.Exception)
+                    {
+                        $scope.showAlert('QA Paper', 'error', data.Exception.Message);
+                    }
+                    else
+                    {
+                        $scope.showAlert('QA Paper', 'error', 'Error occurred while loading question papers');
+                    }
+                }
+
+            }).catch(function (err)
+            {
+                loginService.isCheckResponse(err);
+                $scope.showAlert('QA Paper', 'error', err.Message);
+            });
+
+        };
+
+        getPapers();
+
+        var getSections = function()
+        {
+            $scope.sections = [];
+
+            qaModuleService.getSections().then(function (data)
+            {
+                if (data.IsSuccess)
+                {
+                    $scope.sections = data.Result;
+                }
+                else
+                {
+                    if(data.Exception)
+                    {
+                        $scope.showAlert('QA Section', 'error', data.Exception.Message);
+                    }
+                    else
+                    {
+                        $scope.showAlert('QA Section', 'error', 'Error occurred while loading sections');
+                    }
+                }
+
+            }).catch(function (err)
+            {
+                loginService.isCheckResponse(err);
+                $scope.showAlert('QA Section', 'error', err.Message);
+            });
+
+        };
+
+        getSections();
+
+
+        $scope.openQuestionPaper = function(sessionId){
+
+            qaModuleService.getPaperSubmissionBySession(sessionId).then(function (data)
+            {
+                if (data.IsSuccess)
+                {
+                    if(data.Result)
+                    {
+                        //existing paper - open that paper with answers
+                    }
+                    else
+                    {
+                        //new paper prompt for paper selection
+                        $scope.currentPaper = $scope.paperSelected;
+
+                        $scope.isTableLoading = 3;
+
+                        var decodedToken = loginService.getTokenDecode();
+
+                        var evaluatorObj = _.where($scope.userList, {username: decodedToken.issuer});
+
+                        if(evaluatorObj)
+                        {
+                            //submit paper initially
+                            /*var papaerInfo = {
+                                paper: $scope.currentPaper._id,
+                                session: sessionId,
+                                evaluator: evaluatorObj._id,
+                                owner:
+                            }
+
+                            paper: req.body.paper,
+                                session: req.body.session,
+                            evaluator: req.body.evaluator,
+                            owner: req.body.owner,*/
+
+                            qaModuleService.paperSubmission(paperInfo).then(function (data)
+                            {
+
+                            }).catch(function(err){
+
+                            })
+
+                            buildQuestionPaper();
+                        }
+
+
+
+
+                    }
+                }
+                else
+                {
+                    var errMsg = data.CustomMessage;
+
+                    if (data.Exception)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+
+                }
+
+            }, function (err)
+            {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading users";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+
+
+
+        };
+
+        var addAnswer = function(paperId, answerData){
+            var deferred = $q.defer();
+
+            qaModuleService.addAnswerToQuestion(paperId, answerData).then(function (data)
+            {
+                if (data.IsSuccess)
+                {
+                    deferred.resolve(data.Result);
+                }
+                else
+                {
+                    deferred.reject(null);
+                }
+
+            }).catch(function (err)
+            {
+                deferred.reject(null);
+            });
+
+            return deferred.promise;
+
+        };
+
+        $scope.onSubmit = function (form)
+        {
+            $scope.$broadcast('schemaFormValidate');
+            if (form.$valid)
+            {
+                var arr = [];
+                for (var key in $scope.model)
+                {
+                    if ($scope.model.hasOwnProperty(key))
+                    {
+                        //get question type
+                        var answerInfo = {};
+                        var questionInfo = _.find($scope.currentPaper.questions, {_id: key});
+
+                        if(questionInfo)
+                        {
+                            answerInfo.question = key;
+                            answerInfo.section = questionInfo.section;
+                            if(questionInfo.type === 'binary')
+                            {
+                                var answer = $scope.model[key];
+
+                                if(answer === true)
+                                {
+                                    answerInfo.points = 10;
+                                }
+                                else
+                                {
+                                    answerInfo.points = 0;
+                                }
+                            }
+                            else if(questionInfo.type === 'rating')
+                            {
+                                answerInfo.points = $scope.model[key];
+                            }
+                            else if(questionInfo.type === 'remark')
+                            {
+                                answerInfo.points = -1;
+                                answerInfo.remarks = $scope.model[key];
+                            }
+                        }
+                        arr.push(addAnswer($scope.currentPaper._id, answerInfo));
+                    }
+                }
+
+
+                $q.all(arr).then(function(resolveData){
+                    //form complete
+                    qaModuleService.setPaperComplete($scope.currentPaper._id).then(function (data)
+                    {
+                        if (data.IsSuccess)
+                        {
+                            $scope.showAlert('QA Paper', 'success', 'Question form submitted');
+                        }
+                        else
+                        {
+                            $scope.showAlert('QA Paper', 'error', 'Question form set complete fail');
+                        }
+
+                    }).catch(function (err)
+                    {
+                        $scope.showAlert('QA Paper', 'error', err.Message);
+                    });
+
+                }).catch(function(err){
+                    $scope.showAlert('QA Paper', 'error', err.Message);
+                })
+
+
+            }
+            else{
+                $scope.showAlert('QA Paper', 'error', 'Incomplete question form, please answer all questions');
+            }
+        };
+
+        var buildQuestionPaper = function()
+        {
+            var schema = {
+                type: "object",
+                properties: {}
+            };
+
+            var form = [];
+
+            var model = {};
+
+            var fields = [];
+
+            if($scope.currentPaper && $scope.currentPaper.questions)
+            {
+
+                $scope.currentPaper.questionsBySection = {};
+
+                $scope.sections.forEach(function(section){
+
+                    var questionsBySec = _.where($scope.currentPaper.questions, {section: section._id});
+
+                    var obj = {
+                        SectionName: section.name,
+                        Questions: questionsBySec
+                    };
+
+                    $scope.currentPaper.questionsBySection[section._id] = obj;
+                });
+
+                for (var key in $scope.currentPaper.questionsBySection)
+                {
+                    if($scope.currentPaper.questionsBySection[key].Questions && $scope.currentPaper.questionsBySection[key].Questions.length > 0)
+                    {
+                        //add section as schema tag
+                        var field = {
+                            field: $scope.currentPaper.questionsBySection[key].SectionName,
+                            active: true,
+                            type : 'section',
+                            title : $scope.currentPaper.questionsBySection[key].SectionName
+                        };
+
+                        fields.push(field);
+
+                        //loop questions and create fields
+                        $scope.currentPaper.questionsBySection[key].Questions.forEach(function(question)
+                        {
+                            if(question.type === 'binary')
+                            {
+                                var qHeadField = {
+                                    type : 'qheader',
+                                    title : question.question,
+                                    field: 'QUESTION_' + question._id,
+                                    active: true
+                                };
+
+                                fields.push(qHeadField);
+
+                                var qField = {
+                                    field: question._id,
+                                    title: 'Answer',
+                                    description: '',
+                                    active: true,
+                                    require: true,
+                                    type: 'checkbox'
+                                };
+
+                                fields.push(qField);
+                            }
+                            else if(question.type === 'rating')
+                            {
+                                var qHeadField = {
+                                    type : 'qheader',
+                                    title : question.question,
+                                    field: 'QUESTION_' + question._id,
+                                    active: true
+                                };
+
+                                fields.push(qHeadField);
+
+                                var qField = {
+                                    field: question._id,
+                                    title: 'Answer',
+                                    description: '',
+                                    active: true,
+                                    require: true,
+                                    type: 'select',
+                                    values: []
+                                };
+
+                                qField.values.push({name: '0', id: '0'},{name: '1', id: '1'},{name: '2', id: '2'},{name: '3', id: '3'},{name: '4', id: '4'},{name: '5', id: '5'},{name: '6', id: '6'},{name: '7', id: '7'},{name: '8', id: '8'},{name: '9', id: '9'},{name: '10', id: '10'});
+
+                                fields.push(qField);
+
+                            }
+                            else if(question.type === 'remark')
+                            {
+                                var qHeadField = {
+                                    type : 'qheader',
+                                    title : question.question,
+                                    field: 'QUESTION_' + question._id,
+                                    active: true
+                                };
+
+                                fields.push(qHeadField);
+
+                                var qField = {
+                                    field: question._id,
+                                    title: 'Answer',
+                                    description: '',
+                                    active: true,
+                                    require: true,
+                                    type: 'textarea'
+                                };
+
+                                fields.push(qField);
+
+                            }
+
+                        })
+
+                    }
+                }
+
+                buildFormSchema(schema, form, fields);
+
+                form.push({
+                    type: "submit",
+                    title: "Save"
+                });
+
+                /*if (formSubmission.fields && formSubmission.fields.length > 0) {
+                    formSubmission.fields.forEach(function (fieldValueItem) {
+                        if (fieldValueItem.field) {
+                            model[fieldValueItem.field] = fieldValueItem.value;
+                        }
+
+                    });
+                }*/
+
+                $scope.schema = schema;
+                $scope.form = form;
+                $scope.model = model;
+            }
+
+        };
+
+
 
 
     };

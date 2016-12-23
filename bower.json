@@ -92,7 +92,8 @@
     "angular-slimscroll": "^1.1.5",
     "jquery-slimscroll": "^1.3.8",
     "socket.io-client": "^1.7.2",
-    "angular-timezone-selector": "^1.6.0"
+    "angular-timezone-selector": "^1.6.0",
+    "angular-schema-form": "^0.8.13"
   },
   "resolutions": {
     "angular": "1.5.5",

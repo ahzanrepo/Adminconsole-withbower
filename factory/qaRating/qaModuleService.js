@@ -49,6 +49,30 @@
             })
         };
 
+        var setPaperComplete = function(paperId)
+        {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.qaModule + 'QuestionPaperSubmission/' + paperId + '/Complete'
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var addAnswerToQuestion = function(paperId, answerInfo)
+        {
+            var jsonStr = JSON.stringify(answerInfo);
+            return $http({
+                method: 'PUT',
+                url: baseUrls.qaModule + 'QuestionPaperSubmission/' + paperId + '/QuestionAnswer',
+                data : jsonStr
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getSections = function()
         {
             return $http({
@@ -65,6 +89,17 @@
             return $http({
                 method: 'GET',
                 url: baseUrls.qaModule + 'QuestionPapers'
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getPaperSubmissionBySession = function(sessionId)
+        {
+            return $http({
+                method: 'GET',
+                url: baseUrls.qaModule + 'QuestionPaperSubmission/Session/' + sessionId
             }).then(function(resp)
             {
                 return resp.data;
@@ -93,6 +128,20 @@
             })
         };
 
+        var paperSubmission = function(paperInfo)
+        {
+
+            var jsonStr = JSON.stringify(paperInfo);
+            return $http({
+                method: 'POST',
+                url: baseUrls.qaModule + 'QuestionPaperSubmission',
+                data : jsonStr
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         return {
             addNewSection: addNewSection,
             getSections: getSections,
@@ -100,7 +149,11 @@
             addNewPaper: addNewPaper,
             getQuestionsForPaper: getQuestionsForPaper,
             addQuestionToPaper: addQuestionToPaper,
-            deleteQuestionById: deleteQuestionById
+            deleteQuestionById: deleteQuestionById,
+            getPaperSubmissionBySession: getPaperSubmissionBySession,
+            addAnswerToQuestion: addAnswerToQuestion,
+            setPaperComplete: setPaperComplete,
+            paperSubmission: paperSubmission
         };
 
     };
