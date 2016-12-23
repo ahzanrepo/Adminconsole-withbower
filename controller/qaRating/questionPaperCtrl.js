@@ -21,6 +21,7 @@
         $scope.currentQuestion = {
             weight : 1
         };
+
         $scope.currentPaper = {};
         $scope.sections = [];
         $scope.newQFormToggle = {
@@ -148,6 +149,9 @@
                 if (data.IsSuccess)
                 {
                     $scope.showAlert('QA Section', 'success', 'Section Added Successfully');
+                    $scope.closeModalSection();
+
+                    $scope.getSections();
                 }
                 else
                 {
@@ -210,6 +214,7 @@
                     $scope.showAlert('QA Paper', 'success', 'Question paper added successfully');
                     $scope.currentPaper = {};
                     $scope.closeModalPaper();
+                    $scope.getPapers();
                 }
                 else
                 {
