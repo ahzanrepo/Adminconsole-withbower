@@ -352,7 +352,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                             var slotInfo = {slotState: null, LastReservedTime: 0, other: null, slotMode: resourceMode};
 
-                                            if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
+                                            if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
                                                 slotInfo.slotState = resonseStatus;
                                                 slotInfo.other = "Reject";
                                             } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
