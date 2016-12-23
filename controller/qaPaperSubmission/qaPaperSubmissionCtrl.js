@@ -133,6 +133,8 @@
 
         loadUsers();
 
+        var owner = null;
+
         $scope.getRecords = function () {
 
             $scope.isTableLoading = 0;
@@ -148,6 +150,7 @@
 
             if($scope.agentSelected && $scope.agentSelected.veeryaccount && $scope.agentSelected.veeryaccount.contact)
             {
+                owner = $scope.agentSelected._id;
                 var split = $scope.agentSelected.veeryaccount.contact.split('@');
 
                 if(split && split.length >= 1)
@@ -527,10 +530,6 @@
                     else
                     {
                         //new paper prompt for paper selection
-                        $scope.currentPaper = $scope.paperSelected;
-
-                        $scope.isTableLoading = 3;
-
                         var decodedToken = loginService.getTokenDecode();
 
                         var evaluatorObj = _.where($scope.userList, {username: decodedToken.issuer});
@@ -538,31 +537,39 @@
                         if(evaluatorObj)
                         {
                             //submit paper initially
-                            /*var papaerInfo = {
+                            var paperInfo = {
                                 paper: $scope.currentPaper._id,
                                 session: sessionId,
                                 evaluator: evaluatorObj._id,
-                                owner:
-                            }
-
-                            paper: req.body.paper,
-                                session: req.body.session,
-                            evaluator: req.body.evaluator,
-                            owner: req.body.owner,*/
+                                owner: owner
+                            };
 
                             qaModuleService.paperSubmission(paperInfo).then(function (data)
                             {
+                                if(data.IsSuccess)
+                                {
+                                    $scope.currentPaper = $scope.paperSelected;
+
+                                    $scope.isTableLoading = 3;
+                                    buildQuestionPaper();
+                                }
+                                else
+                                {
+                                    $scope.showAlert('Paper Submission', 'error', 'Paper submission failed');
+                                }
+
 
                             }).catch(function(err){
+                                $scope.showAlert('Paper Submission', 'error', err.Message);
 
                             })
 
-                            buildQuestionPaper();
+
                         }
-
-
-
-
+                        else
+                        {
+                            $scope.showAlert('Paper Submission', 'error', 'Cannot find evaluator');
+                        }
                     }
                 }
                 else

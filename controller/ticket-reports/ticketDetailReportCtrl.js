@@ -455,59 +455,6 @@
 
                             ticketListForCSV.push(ticketInfoTemp);
 
-
-
-                            ticketListForCSV = [];
-
-
-                            var obj1 = {
-                                aa: 'a',
-                                cc: 'c',
-                                ee: 'e',
-                                bb: 'b'
-                            };
-
-                            var obj2 = {
-                                ee: 'e',
-                                bb: 'b',
-                                ff: 'f'
-                            };
-
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-                            ticketListForCSV.push(obj1);
-                            ticketListForCSV.push(obj2);
-
                         });
 
                         deferred.resolve(ticketListForCSV);
