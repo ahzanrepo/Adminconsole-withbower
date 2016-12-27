@@ -44,6 +44,7 @@
 
         $scope.showModalSection = function () {
             //modal show
+            $scope.currentSection = {};
             $scope.modalInstanceSec = $uibModal.open({
                 animation: true,
                 templateUrl: 'views/qaRating/sections.html',
@@ -63,6 +64,10 @@
         };
 
         $scope.showModalQuestion = function (sectionId) {
+
+            $scope.currentQuestion = {
+                weight : 1
+            };
 
             $scope.questionSectionId = sectionId;
             //modal show

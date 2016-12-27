@@ -12,7 +12,7 @@
 
         $scope.enableSearchButton = true;
 
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [4, 'asc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [4, 'desc']};
 
 
         $scope.showAlert = function (tittle, type, content) {
@@ -102,7 +102,7 @@
         $scope.loadPreviousPage = function () {
             var prevPage = pageStack.pop();
 
-            $scope.getProcessedCDR(prevPage.top - 1, false);
+            $scope.getProcessedCDR(prevPage.bottom + 1, false);
 
         };
 
@@ -508,7 +508,7 @@
                     pageInfo.top = -1;
                     pageInfo.bottom = -1;
                 }
-                $scope.cdrList = [];
+
 
                 $scope.isNextDisabled = true;
                 $scope.isPreviousDisabled = true;
@@ -534,6 +534,8 @@
                 cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp) {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
+
+                            $scope.cdrList = [];
                             var topSet = false;
                             var bottomSet = false;
 
@@ -725,6 +727,11 @@
                         }
                         else {
                             $scope.showAlert('Info', 'info', 'No records to load');
+
+                            if(offset === 0)
+                            {
+                                $scope.cdrList = [];
+                            }
 
                             if (pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;
