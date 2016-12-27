@@ -26,6 +26,7 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
     };
     uploader.onAfterAddingFile = function (fileItem) {
         console.info('onAfterAddingFile', fileItem);
+
     };
     uploader.onAfterAddingAll = function (addedFileItems) {
         if (!$scope.file.Category) {
@@ -61,6 +62,7 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
     };
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
+
     };
     uploader.onCompleteAll = function () {
         console.info('onCompleteAll');

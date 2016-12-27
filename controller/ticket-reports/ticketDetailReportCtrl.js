@@ -18,7 +18,9 @@
 
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
 
-        $scope.tagHeaders = "['Reference', 'Subject', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated']";
+        $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
+
+        $scope.tagHeaders = ['Reference', 'Subject', 'Phone Number', 'Email', 'SSN', 'First Name', 'Last Name', 'Address', 'From Number', 'Created Date', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
 
         $scope.moment = moment;
 
@@ -41,6 +43,8 @@
         $scope.extUserList = [];
 
         $scope.tagList = [];
+        $scope.ticketStatusList = [];
+        $scope.ticketTypesList = [];
 
         $scope.pageChanged = function () {
             $scope.getTicketSummary();
@@ -143,6 +147,49 @@
             });
         };
 
+        var getTicketStatusList = function ()
+        {
+
+            ticketReportsService.getTicketStatusList().then(function (statusList)
+            {
+                if (statusList && statusList.Result)
+                {
+                    $scope.ticketStatusList = statusList.Result;
+
+                }
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getTicketTypeList = function ()
+        {
+
+            ticketReportsService.getTicketTypeList().then(function (typeList)
+            {
+                if (typeList && typeList.Result)
+                {
+                    var tempArr = [];
+                    if(typeList.Result.default_types)
+                    {
+                        tempArr = typeList.Result.default_types;
+                    }
+
+                    if(typeList.Result.custom_types)
+                    {
+                        tempArr = tempArr.concat(typeList.Result.custom_types);
+                    }
+
+                    $scope.ticketTypesList = tempArr;
+
+                }
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
 
         var populateToTagList = function () {
             $scope.tagList = [];
@@ -176,6 +223,8 @@
         populateToTagList();
         getExternalUserList();
         getUserList();
+        getTicketStatusList();
+        getTicketTypeList();
 
 
         $scope.getTicketSummary = function () {
@@ -269,7 +318,8 @@
         };
 
         $scope.getTicketSummaryCSV = function () {
-            $scope.tagHeaders = ['Reference', 'Subject', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
+            $scope.tagHeaders = ['Reference', 'Subject', 'Phone Number', 'Email', 'SSN', 'First Name', 'Last Name', 'Address', 'From Number', 'Created Date', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
+            $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
 
             if (!$scope.tagCount) {
                 $scope.tagCount = 0;
@@ -278,6 +328,7 @@
             if ($scope.tagCount) {
                 for (j = 0; j < $scope.tagCount; j++) {
                     $scope.tagHeaders.push('Tag' + (j + 1));
+                    $scope.tagOrder.push('Tag' + (j + 1));
                 }
             }
 
@@ -322,13 +373,20 @@
 
                 ticketReportsService.getTicketDetailsNoPaging($scope.FilterData).then(function (ticketDetailsResp) {
                     if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
-                        $scope.ticketList = ticketDetailsResp.Result;
 
                         ticketDetailsResp.Result.forEach(function (ticketInfo) {
                             var ticketInfoTemp =
                             {
                                 reference: ticketInfo.reference,
                                 subject: ticketInfo.subject,
+                                phoneNumber: (ticketInfo.requester ? ticketInfo.requester.phone : ''),
+                                email: (ticketInfo.requester ? ticketInfo.requester.email : ''),
+                                ssn: (ticketInfo.requester ? ticketInfo.requester.ssn : ''),
+                                firstname: (ticketInfo.requester ? ticketInfo.requester.firstname : ''),
+                                lastname: (ticketInfo.requester ? ticketInfo.requester.lastname : ''),
+                                address: '',
+                                fromNumber: (ticketInfo.engagement_session ? ticketInfo.engagement_session.channel_from : ''),
+                                createdDate: moment(ticketInfo.created_at).local().format("YYYY-MM-DD HH:mm:ss"),
                                 assignee: (ticketInfo.assignee ? ticketInfo.assignee.name : ''),
                                 submitter: (ticketInfo.submitter ? ticketInfo.submitter.name : ''),
                                 requester: (ticketInfo.requester ? ticketInfo.requester.name : ''),
@@ -340,6 +398,31 @@
 
                             };
 
+                            if(ticketInfo.requester && ticketInfo.requester.address)
+                            {
+                                if(ticketInfo.requester.address.number)
+                                {
+                                    ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.number + ', '
+                                }
+                                if(ticketInfo.requester.address.street)
+                                {
+                                    ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.street + ', '
+                                }
+                                if(ticketInfo.requester.address.city)
+                                {
+                                    ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.city + ', '
+                                }
+                                if(ticketInfo.requester.address.province)
+                                {
+                                    ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.province + ', '
+                                }
+                                if(ticketInfo.requester.address.country)
+                                {
+                                    ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.country + ', '
+                                }
+                            }
+
+
                             if (ticketInfo.isolated_tags) {
                                 for (i = 0; i < ticketInfo.isolated_tags.length; i++) {
                                     if (i >= $scope.tagCount) {
@@ -348,6 +431,26 @@
                                     var tagName = 'Tag' + (i + 1);
                                     ticketInfoTemp[tagName] = ticketInfo.isolated_tags[i];
                                 }
+                            }
+
+                            if(ticketInfo.form_submission && ticketInfo.form_submission.fields)
+                            {
+                                ticketInfo.form_submission.fields.forEach(function(field)
+                                {
+                                    if(field.field)
+                                    {
+                                        var tempFieldName = 'DYNAMICFORM_' + field.field;
+                                        if($scope.tagHeaders.indexOf(tempFieldName) < 0)
+                                        {
+                                            $scope.tagHeaders.push(tempFieldName);
+                                            $scope.tagOrder.push(tempFieldName);
+
+                                        }
+
+                                        ticketInfoTemp[tempFieldName] = field.value;
+
+                                    }
+                                })
                             }
 
                             ticketListForCSV.push(ticketInfoTemp);

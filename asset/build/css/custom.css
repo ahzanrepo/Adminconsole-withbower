@@ -404,8 +404,9 @@ body .container.body .right_col {
     color: #fff !important;
 }
 
-.top_nav .nav > li > a:focus, .top_nav .nav > li > a:hover, .top_nav .nav .open > a, .top_nav .nav .open > a:focus, .top_nav .nav .open > a:hover {
-    background: #D9DEE4;
+.top_nav .nav > li > a:focus, .top_nav .nav > li > a:hover, .top_nav .nav .open > a,
+.top_nav .nav .open > a:focus, .top_nav .nav .open > a:hover {
+    background: #f7f7f7;
 }
 
 body {
@@ -1663,9 +1664,9 @@ ul.msg_list li a .message {
 
 .navbar-nav .open .dropdown-menu {
     position: absolute;
-    background: #fff;
+    background: #f7f7f7;
     margin-top: 0;
-    border: 1px solid #D9DEE4;
+    border: 1px solid #f7f7f7;
     -webkit-box-shadow: none;
     right: 0;
     left: auto;
@@ -1940,10 +1941,11 @@ a.user-profile {
 }
 
 .user-profile img {
-    width: 29px;
-    height: 29px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     margin-right: 10px;
+    margin-top: -8px;
 }
 
 ul.top_profiles {
@@ -2121,6 +2123,14 @@ h4.graph_title {
     margin-left: 10px;
     z-index: 5;
     padding: 0;
+}
+
+.title-status-medium .count {
+    font-size: 15px !important;
+}
+
+.title-status-medium h3 {
+    font-size: 15px !important;
 }
 
 .tile-stats h3 {
@@ -3479,11 +3489,6 @@ ul.project_files li a i {
     margin: 12px;
 }
 
-.pricing .title span {
-    background: rgba(51, 51, 51, 0.28);
-    padding: 2px 5px;
-}
-
 .pricing_features {
     background: #FAFAFA;
     padding: 20px 15px;
@@ -3496,9 +3501,8 @@ ul.project_files li a i {
 }
 
 .pricing_footer {
-    padding: 10px 15px;
+    padding: 20px 15px;
     background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
     text-align: center;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;

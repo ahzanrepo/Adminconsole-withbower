@@ -25,8 +25,16 @@
         };
 
         $scope.summaryDetails = {};
+        $scope.summaryProgressBar = {
+            resolved: 0,
+            reopen: 0,
+            sla: 0,
+            completed: 0,
+            overdue: 0
+        };
 
         $scope.tagList = [];
+        $scope.ticketStatusList = [];
 
 
         var isEmpty = function (map) {
@@ -102,6 +110,31 @@
         populateToTagList();
 
 
+        var getTicketTypeList = function () {
+
+            ticketReportsService.getTicketTypeList().then(function (typeList) {
+                if (typeList && typeList.Result) {
+                    var tempArr = [];
+                    if (typeList.Result.default_types) {
+                        tempArr = typeList.Result.default_types;
+                    }
+
+                    if (typeList.Result.custom_types) {
+                        tempArr = tempArr.concat(typeList.Result.custom_types);
+                    }
+
+                    $scope.ticketTypesList = tempArr;
+
+                }
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        getTicketTypeList();
+
+
         $scope.getTicketSummary = function () {
             $scope.obj.isTableLoading = 0;
             var momentTz = moment.parseZone(new Date()).format('Z');
@@ -122,19 +155,77 @@
                     if (ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0 && ticketSummaryResp.Result[0].statistics) {
                         $scope.summaryDetails = ticketSummaryResp.Result[0].statistics;
                         $scope.obj.isTableLoading = 1;
+                        //  $scope.labels = ["Progressing", "New", "Closed", "Other"];
+                        $scope.labels = ["Progressing", "New", "Closed"];
+                        // var other = ($scope.summaryDetails.progressing + $scope.summaryDetails.new + $scope.summaryDetails.closed)
+                        //   - $scope.summaryDetails.total;
+                        $scope.data = [$scope.summaryDetails.progressing,
+                            $scope.summaryDetails.new,
+                            $scope.summaryDetails.closed];
+
 
                     }
                     else {
-                        $scope.obj.isTableLoading = -1;
-                        $scope.summaryDetails = {};
+                        $scope.obj.isTableLoading = 1;
+                        $scope.summaryDetails = {
+                            progressing: 0,
+                            new: 0,
+                            closed: 0,
+                            resolved: 0,
+                            reopen: 0,
+                            sla_violated: 0,
+                            overdue_done: 0,
+                            overdue_working: 0,
+                            first_call_resolved: 0,
+                            average_resolution: 0,
+                            average_response: 0
+
+                        };
+
                     }
+
+
+                    //
+                    var proBarVal = 0;
+                    //Resolved Tickets %
+                    proBarVal = ($scope.summaryDetails.resolved / $scope.summaryDetails.total) * 100;
+                    $scope.summaryProgressBar.resolved = Math.floor(proBarVal);
+
+                    //RE-Opened Tickets %
+                    proBarVal = ($scope.summaryDetails.reopen / $scope.summaryDetails.total) * 100;
+                    $scope.summaryProgressBar.reopen = Math.floor(proBarVal);
+
+                    //SLA Violated Tickets %
+                    proBarVal = ($scope.summaryDetails.sla_violated / $scope.summaryDetails.total) * 100;
+                    $scope.summaryProgressBar.sla = Math.floor(proBarVal);
+
+                    //Completed Overdue Tickets %
+                    proBarVal = ($scope.summaryDetails.overdue_done / $scope.summaryDetails.total) * 100;
+                    $scope.summaryProgressBar.completed = Math.floor(proBarVal);
+
+                    //Overdue Tickets %
+                    proBarVal = ($scope.summaryDetails.overdue_working / $scope.summaryDetails.total) * 100;
+                    $scope.summaryProgressBar.overdue = Math.floor(proBarVal);
 
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
-                    $scope.obj.isTableLoading = -1;
-                    $scope.summaryDetails = {};
+                    $scope.obj.isTableLoading = 1;
+                    $scope.summaryDetails = {
+                        progressing: 0,
+                        new: 0,
+                        closed: 0,
+                        resolved: 0,
+                        reopen: 0,
+                        sla_violated: 0,
+                        overdue_done: 0,
+                        overdue_working: 0,
+                        first_call_resolved: 0,
+                        average_resolution: 0,
+                        average_response: 0
+
+                    };
                 });
 
 
@@ -142,9 +233,43 @@
             catch (ex) {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                 $scope.obj.isTableLoading = -1;
-                $scope.summaryDetails = {};
+                $scope.summaryDetails = {
+                    progressing: 0,
+                    new: 0,
+                    closed: 0,
+                    resolved: 0,
+                    reopen: 0,
+                    sla_violated: 0,
+                    overdue_done: 0,
+                    overdue_working: 0,
+                    first_call_resolved: 0,
+                    average_resolution: 0,
+                    average_response: 0
+
+                };
             }
 
+        };
+
+        //update code
+        //damith
+
+        $scope.options = {
+            type: 'pie',
+            responsive: false,
+            legend: {
+                display: true,
+                position: 'bottom',
+                padding: 5,
+                labels: {
+                    fontColor: 'rgb(130, 152, 174)',
+                    fontSize: 10,
+                    boxWidth: 10
+                }
+            },
+            title: {
+                display: true
+            }
         };
 
 

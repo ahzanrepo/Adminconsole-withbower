@@ -194,6 +194,101 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             {
                 return response.data;
             });
+        },
+
+        getTicketPrefixList: function () {
+
+            return $http({
+                method: 'GET',
+                url:baseUrls.ticketUrl +"TicketPrefixes"
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        makeAsDefaultPrefix: function (prefix) {
+
+            return $http({
+                method: 'PUT',
+                url:baseUrls.ticketUrl +"/TicketPrefix/"+prefix+"/Available"
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        checkPrefixAvailability: function (prefix) {
+
+            return $http({
+                method: 'GET',
+                url:baseUrls.ticketUrl +"TicketPrefix/"+prefix+"/Availability"
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        saveNewPrefix: function (prefix) {
+
+            return $http({
+                method: 'POST',
+                url:baseUrls.ticketUrl +"/TicketPrefix",
+                data: prefix
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        createPhoneConfig: function (config) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl +"Phone/Config",
+                data: config
+            }).then(function(response)
+            {
+                if (response.data) {
+                    return response.data;
+                } else {
+                    return false;
+                }
+            });
+        },
+        getPhoneConfig : function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl+"Phone/Config"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        },
+        updatePhoneConfig : function (config) {
+            return $http({
+                method: 'put',
+                url: baseUrls.UserServiceBaseUrl +"Phone/"+config._id+"/Config",
+                data: config
+            }).then(function(response)
+            {
+                if (response.data) {
+                    return response.data.IsSuccess;
+                } else {
+                    return false;
+                }
+            });
+        },
+        deletePhoneConfig : function (config) {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.UserServiceBaseUrl +"Phone/"+config._id+"/Config"
+            }).then(function(response)
+            {
+                if (response.data) {
+                    return response.data.IsSuccess;
+                } else {
+                    return false;
+                }
+            });
         }
 
     }

@@ -7,6 +7,67 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
     $scope.qDate = moment().format("YYYY-MM-DD");
     $scope.dateValid = true;
     $scope.queueSummaryList = [];
+    $scope.dailiySummaryList = [];
+    $scope.viewMode = 'table';
+
+    $scope.changeView = function (viewMode) {
+        $scope.viewMode = viewMode;
+    };
+
+
+    var createDailyGraph = function () {
+        $scope.dailySLAbreakObj = [];
+        $scope.isTableLoading = 0;
+        // get daily summary data
+        queueSummaryBackendService.getQueueDailySlaBreakDown($scope.qDate).then(function (response) {
+            if (response && response.data && response.data.Result) {
+                $scope.isTableLoading = 1;
+                $scope.dailiySummaryList = response.data.Result;
+                response.data.Result.forEach(function (value, key) {
+                    var chartData = {
+                        name: '',
+                        data: [],
+                        labels: []
+                    };
+                    chartData.name = response.data.Result[key].Queue;
+                    chartData.labels.push(response.data.Result[key].BreakDown);
+                    chartData.data.push(response.data.Result[key].Average);
+                    for (var i = 0; i < $scope.dailySLAbreakObj.length; i++) {
+                        if ($scope.dailySLAbreakObj[i].name == chartData.name) {
+                            $scope.dailySLAbreakObj[i].data.push(response.data.Result[key].Average);
+                            $scope.dailySLAbreakObj[i].labels.push(response.data.Result[key].BreakDown);
+                            return;
+                        }
+                    }
+                    $scope.dailySLAbreakObj.push(chartData);
+                });
+                //code update damith
+                //SLA daily summary graph
+                $scope.options = {
+                    type: 'pie',
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        padding: 5,
+                        labels: {
+                            fontColor: 'rgb(130, 152, 174)',
+                            fontSize: 10,
+                            boxWidth: 10
+                        }
+                    },
+                    title: {
+                        display: true
+                    }
+                };
+            } else {
+                $scope.isTableLoading = 2;
+            }
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.log("Error in Queue Summary loading ", error);
+        });
+    };
 
 
     $scope.onDateChange = function () {
@@ -18,19 +79,42 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         }
     };
 
+    $scope.searchOption = 'hourly';
     $scope.getQueueSummary = function () {
-        $scope.queueSummaryList = [];
+        if ($scope.searchOption == 'hourly') {
+            $scope.queueSummaryList = [];
+            $scope.isTableLoading = 0;
+            queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
+                if (!response.data.IsSuccess) {
+                    $scope.isTableLoading = 2;
+                    console.log("Queue Summary loading failed ", response.data.Exception);
+                }
+                else {
+                    $scope.isTableLoading = 1;
+                    $scope.queueSummaryList = response.data.Result;
+                }
+
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                console.log("Error in Queue Summary loading ", error);
+                $scope.isTableLoading = 2;
+            });
+        } else if ($scope.searchOption == 'daily') {
+            createDailyGraph();
+        }
+    };
+
+    $scope.getQueueDailySummary = function () {
+        $scope.dailyQueueSummaryList = [];
         $scope.isTableLoading = 0;
         queueSummaryBackendService.getQueueSlaBreakDown($scope.qDate).then(function (response) {
-
-            $scope.isTableLoading = 1;
             if (!response.data.IsSuccess) {
                 console.log("Queue Summary loading failed ", response.data.Exception);
             }
             else {
-                $scope.queueSummaryList = response.data.Result;
-
-                console.log($scope.queueSummaryList);
+                $scope.dailyQueueSummaryList = response.data.Result;
+                $scope.isTableLoading = 1;
+                console.log($scope.dailyQueueSummaryList);
             }
 
         }, function (error) {
@@ -44,7 +128,7 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
         var deferred = $q.defer();
 
         var queueSummaryListForCsv = [];
-        queueSummaryBackendService.getQueueSlaBreakDown($scope.qDate).then(function (response) {
+        queueSummaryBackendService.getQueueHourlySlaBreakDown($scope.qDate).then(function (response) {
 
             if (!response.data.IsSuccess) {
                 console.log("Queue Summary loading failed ", response.data.Exception);
@@ -67,4 +151,9 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
 
     };
 
-});
+}).config(['ChartJsProvider', function (ChartJsProvider) {
+    // Configure all charts
+    ChartJsProvider.setOptions({
+        chartColors: ['#18c89c', '#f1c410', '#2f6e96', '#f2a725', '#8ea61a', '#089c51', '#ac6c82', '#334d5c']
+    });
+}]);

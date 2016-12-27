@@ -91,8 +91,8 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                params: {
-                    "ticketid[]": ticketIds
+                data: {
+                    "ticketid": ticketIds
                 }
             }).then(function(response){
                 return response.data;
@@ -106,16 +106,16 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                params: {
-                    "ticketid[]": ticketIds
+                data: {
+                    "ticketid": ticketIds
                 }
             }).then(function(response){
                 return response.data;
             });
         };
 
-        var bulkCloseTickets = function(ticketIds){
-            var sendObj = {TicketIds: ticketIds, Status: "closed"}
+        var bulkStatusChangeTickets = function(ticketIds, bulkAction){
+            var sendObj = {TicketIds: ticketIds, Status: bulkAction.action, specificOperations: bulkAction.specificOperations};
             return $http({
                 method: 'PUT',
                 url: baseUrls.ticketUrl+'Ticket/Status/Bulk',
@@ -140,6 +140,32 @@
             });
         };
 
+        var getAllTags = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl+"Tags"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        };
+
+        var getTagCategories = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl+"TagCategories"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        };
+
         return{
             createCaseConfiguration: createCaseConfiguration,
             deleteCaseConfiguration: deleteCaseConfiguration,
@@ -149,8 +175,10 @@
             getCase: getCase,
             addTicketToCase: addTicketToCase,
             removeTicketFromCase: removeTicketFromCase,
-            bulkCloseTickets: bulkCloseTickets,
-            deleteCase: deleteCase
+            bulkStatusChangeTickets: bulkStatusChangeTickets,
+            deleteCase: deleteCase,
+            getAllTags: getAllTags,
+            getTagCategories:getTagCategories
         };
     };
 

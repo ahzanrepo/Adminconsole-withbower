@@ -84,7 +84,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         }
 
 
-    }
+    };
 
 
     $scope.GetAllQueueStatistics = function () {
@@ -158,7 +158,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         else {
             $scope.summaryText = "Table";
         }
-    }
+    };
 
     $scope.GetAllQueueStatistics();
 
@@ -187,6 +187,12 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         }
     });
 
+    //update code 
+    //damith
+    $scope.cardViewMode = 'large';
+    $scope.changeCardView = function (_viewType) {
+        $scope.cardViewMode = _viewType;
+    };
 
 });
 
@@ -197,7 +203,8 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
         scope: {
             name: "@",
             queueoption: "=",
-            pieoption: "="
+            pieoption: "=",
+            viewmode: "="
         },
 
 
@@ -205,8 +212,8 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
         link: function (scope, element, attributes) {
 
 
-            console.log(scope.queueoption)
-            console.log(scope.pieoption)
+            //console.log(scope.queueoption)
+            // console.log(scope.pieoption)
             scope.que = {};
             scope.options = {};
             scope.que.CurrentWaiting = 0;
@@ -323,7 +330,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
                 if (updatetimer) {
                     $timeout.cancel(updatetimer);
                 }
-            })
+            });
 
 
             /*
@@ -344,7 +351,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
     }
 });
 
-mainApp.directive('queuedlist', function (queueMonitorService, $timeout,loginService) {
+mainApp.directive('queuedlist', function (queueMonitorService, $timeout, loginService) {
     return {
 
         restrict: 'EA',

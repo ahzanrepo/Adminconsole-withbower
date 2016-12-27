@@ -4,7 +4,7 @@
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               loginService,
-                                              dashboardService, moment) {
+                                              dashboardService, moment, userImageList) {
 
 
     //#services call handler
@@ -144,7 +144,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions2.yaxis.max = $scope.chartymax.queued;
                         }
                     }
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             }, getAllBriged: function () {
@@ -177,7 +177,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions3.yaxis.max = $scope.chartymax.briged;
                         }
                     }
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             }, getAllChannels: function () {
@@ -232,59 +232,55 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.myChartOptions4.yaxis.max = $scope.chartymax.channels;
                         }
                     }
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             },
             getTotalCall: function () {
                 dashboardService.GetTotalCalls('inbound', null).then(function (responseInb) {
 
-                    if(responseInb && responseInb > 0)
-                    {
+                    if (responseInb && responseInb > 0) {
                         $scope.total.callsInb = responseInb;
                     }
-                    else
-                    {
+                    else {
                         $scope.total.callsInb = 0;
                     }
 
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
 
                 dashboardService.GetTotalCalls('outbound', null).then(function (responseOutb) {
 
-                    if(responseOutb && responseOutb > 0)
-                    {
+                    if (responseOutb && responseOutb > 0) {
                         $scope.total.callsOutb = responseOutb;
                     }
-                    else
-                    {
+                    else {
                         $scope.total.callsOutb = 0;
                     }
 
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             },
             getTotalQueued: function () {
                 dashboardService.GetTotalQueued().then(function (response) {
                     $scope.total.queued = response;
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             },
             getTotalQueueAnswered: function () {
                 dashboardService.GetTotalQueueAnswered().then(function (response) {
                     $scope.total.queueAnswered = response;
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             },
             getCurrentWaiting: function () {
                 dashboardService.GetCurrentWaiting().then(function (response) {
                     $scope.total.waiting = response;
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             },
@@ -296,20 +292,20 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             getTotalBriged: function () {
                 dashboardService.GetTotalBriged().then(function (response) {
                     $scope.total.briged = response;
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             },
             getTotalOnGoing: function () {
                 dashboardService.GetTotalOnGoing('inbound').then(function (response) {
                     $scope.total.onGoingInb = response;
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
 
                 dashboardService.GetTotalOnGoing('outbound').then(function (response) {
                     $scope.total.onGoingOutb = response;
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             },
@@ -327,17 +323,24 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                     var profile = {
                                         name: '',
+                                        avatar: '',
                                         slotInfo: []
                                     };
                                     profile.name = response[i].ResourceName;
+                                    
+                                    //get current user profile image
+                                    userImageList.getAvatarByUserName(profile.name, function (res) {
+                                        profile.avatar = res;
+                                    });
+
 
                                     if (response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
                                         for (var k = 0; k < response[i].ConcurrencyInfo[j].SlotInfo.length; k++) {
-                                            var resonseStatus = null,
-                                                resonseAvailability = null;
+                                            var resonseStatus = null, resonseAvailability = null, resourceMode = null;
                                             if (response[i].Status.Reason && response[i].Status.State) {
                                                 resonseAvailability = response[i].Status.State;
                                                 resonseStatus = response[i].Status.Reason;
+                                                resourceMode = response[i].Status.Mode;
                                             }
                                             if (response[i].ConcurrencyInfo[j].IsRejectCountExceeded) {
                                                 resonseAvailability = "NotAvailable";
@@ -345,15 +348,14 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                             }
 
 
-                                            var reservedDate = response[i].ConcurrencyInfo[j].
-                                                SlotInfo[k].StateChangeTime;
+                                            var reservedDate = response[i].ConcurrencyInfo[j].SlotInfo[k].StateChangeTime;
 
-                                            var slotInfo = {slotState: null, LastReservedTime: 0, other: null};
+                                            var slotInfo = {slotState: null, LastReservedTime: 0, other: null, slotMode: resourceMode};
 
-                                            if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
+                                            if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
                                                 slotInfo.slotState = resonseStatus;
                                                 slotInfo.other = "Reject";
-                                            } else if (resonseAvailability == "NotAvailable") {
+                                            } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
                                                 slotInfo.slotState = resonseStatus;
                                                 slotInfo.other = "Break";
                                                 reservedDate = response[i].Status.StateChangeTime;
@@ -391,7 +393,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             }
                         }
                     }
-                },function(err){
+                }, function (err) {
                     loginService.isCheckResponse(err);
                 });
             },

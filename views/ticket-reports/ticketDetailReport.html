@@ -135,27 +135,18 @@
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Ticket Type</label>
-                    <select name="datatable-responsive_length" ng-model="ticketType"
-                            aria-controls="datatable-responsive" class="form-control">
+                    <select name="datatable-responsive_length" class="select2_single form-control" tabindex="-1" aria-hidden="true" ng-options="item as item for item in ticketTypesList track by item"
+                            ng-model="ticketType">
                         <option value=""></option>
-                        <option value="question">Question</option>
-                        <option value="complain">Complain</option>
-                        <option value="incident">Incident</option>
-                        <option value="action">Action</option>
                     </select>
                 </div>
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Ticket Status</label>
-                    <select name="datatable-responsive_length" ng-model="ticketStatus"
-                            aria-controls="datatable-responsive" class="form-control">
+
+                    <select name="datatable-responsive_length" class="select2_single form-control" tabindex="-1" aria-hidden="true" ng-options="item.status_node as item.status_node for item in ticketStatusList track by item.status_node"
+                            ng-model="ticketStatus">
                         <option value=""></option>
-                        <option value="new">New</option>
-                        <option value="open">Open</option>
-                        <option value="progressing">In Progress</option>
-                        <option value="parked">Parked</option>
-                        <option value="solved">Solved</option>
-                        <option value="closed">Closed</option>
                     </select>
                 </div>
 
@@ -193,7 +184,7 @@
 
                 </div>
                 <div class="col-md-1 col-sm-1 col-xs-12">
-                    <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500; position: relative; top: 20px;" csv-header="tagHeaders" ng-csv="getTicketSummaryCSV()" filename="{{DownloadFileName}}.csv">
+                    <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500; position: relative; top: 20px;" csv-header="tagHeaders" csv-column-order="tagOrder" ng-csv="getTicketSummaryCSV()" filename="{{DownloadFileName}}.csv">
                         CSV&nbsp;&nbsp;&nbsp;&nbsp;
                         <i class="fa fa-download"></i>
                     </button>

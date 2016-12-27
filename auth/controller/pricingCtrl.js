@@ -3,7 +3,7 @@
  */
 
 mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
-                                            loginService) {
+                                            loginService, walletService) {
 
     //on load get my package
     $scope.packages = [];
@@ -11,27 +11,42 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
         $scope.packages = result;
     });
 
-    //onclick get my package
-    $scope.onClickBuyPackages = function (packageName) {
-        loginService.buyMyPackage(packageName, function (result) {
-            if (result) {
+    $scope.showMessage = function (tittle, content, type) {
 
-                loginService.clearCookie();
-                $state.go('login');
-            }
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: type,
+            styling: 'bootstrap3'
         });
     };
 
-    $scope.config = {
-        publishKey: 'pk_test_8FepS5OSLnghnaPfVED8Ixkx',
-        title: 'Duoworld',
-        description: "for connected business",
-        logo: 'img/small-logo.png',
-        label: 'New Card',
+    //onclick get my package
+    $scope.onClickBuyPackages = function (pak) {
+        walletService.CreditBalance().then(function (res) {
+            if ((parseInt(res.Credit) / 100) > parseInt(pak.price)) {
+                loginService.buyMyPackage(pak.packageName, function (result, data) {
+                    if (!result) {
+                        $scope.showMessage("Package Buy", "Please Contact System Administrator.", 'error');
+                        return;
+
+                    }
+                    else {
+                        loginService.clearCookie();
+                        $state.go('login');
+                        $scope.showMessage("Package Buy", "Package upgrade was done successfully.", 'Success');
+                        return;
+                    }
+                });
+            }
+            else {
+                $scope.showMessage("Package Buy", "Insufficient Balance. Please Add Credit To Your Account.", 'error');
+                $state.go('console.credit');
+            }
+        }, function (err) {
+            $scope.showMessage("Package Buy", "Fail To Get Credit Balance.", 'error');
+        });
     };
 
-    $scope.$on('stripe-token-received', function(event, args) {
-        console.log(args);
-    });
 
 });

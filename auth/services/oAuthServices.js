@@ -25,6 +25,7 @@
         service.tokenExsistes = tokenExsistes;
         service.activateAccount = activateAccount;
         service.isCheckResponse = isCheckResponse;
+        service.isOwner = isOwner;
         return service;
 
 
@@ -51,7 +52,11 @@
             var token = $auth.getToken();
             if (token) {
                 if (!jwtHelper.isTokenExpired(token)) {
-                    return token.user_meta.role;
+                    var decoded = jwtHelper.decodeToken(token);
+                    if(decoded && decoded.user_meta)
+                        return decoded.user_meta.role;
+                    else
+                        return undefined;
                 }
             }
             return undefined;
@@ -212,7 +217,9 @@
         //http://192.168.5.103:3636
         function getAllPackages(callback) {
             $http.get(baseUrls.UserServiceBaseUrl + "Packages").success(function (data, status, headers, config) {
-                callback(data.Result);
+
+               
+                    callback(data.Result);
 
             }).error(function (data, status, headers, config) {
                 callback(data.Result);
@@ -224,9 +231,14 @@
         //http://192.168.5.103:3636
         function buyMyPackage(packageName, callback) {
             $http.put(baseUrls.UserServiceBaseUrl + "Organisation/Package/" + packageName, {}).success(function (data, status, headers, config) {
-                callback(true);
+                if (data && data.IsSuccess && data.IsSuccess == true){
+                    callback(true, data.Result);
+                }else{
+                    callback(false, data.Result);
+                }
+                
             }).error(function (data, status, headers, config) {
-                callback(false);
+                callback(false, data.Result);
             });
         }
 
@@ -239,9 +251,11 @@
                     //navigations = data.Result[0];
 
                     localStorageService.set("@navigations", data.Result[0]);
-
+                    callback(true);
+                }else{
+                    callback(false);
                 }
-                callback(true);
+
             }).error(function (data, status, headers, config) {
                 callback(false);
             });

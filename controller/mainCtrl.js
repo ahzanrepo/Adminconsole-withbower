@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess) {
 
 
     //added by pawan
@@ -126,6 +126,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     //is can access
     loginService.getNavigationAccess(function (result) {
         $scope.accessNavigation = result;
+        //if($scope.accessNavigation.BASIC INFO)
+        if ($scope.accessNavigation.TICKET) {
+            $scope.loadUserGroups();
+            $scope.loadUsers();
+        }
     });
 
 
@@ -165,6 +170,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },
         goTwitterApp: function () {
             $state.go('console.twitter');
+        },
+        goEmailApp: function () {
+            $state.go('console.email');
         },
         goResourceList: function () {
             $state.go('console.resources');
@@ -214,6 +222,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },
         goDynamicForm: function () {
             $state.go('console.FormDesign');
+        },
+        goPackages: function () {
+            $state.go('console.pricing');
+        }, goCredit: function () {
+            $state.go('console.credit');
         },
         goAgentStatus: function () {
             $state.go('console.AgentStatus');
@@ -268,6 +281,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goSchedule: function () {
             $state.go('console.scheduler');
         },
+        goReportMail: function () {
+            $state.go('console.reportMail');
+        },
         goCompanyConfig: function () {
             $state.go('console.companyconfig');
         },
@@ -291,6 +307,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },
         goTicketSla: function () {
             $state.go('console.sla');
+        },
+        goQABuilder: function () {
+            $state.go('console.qaRatingFormBuilder');
+        },
+        goQASubmission: function () {
+            $state.go('console.qaSubmission');
         },
         goAgentStatusEvt: function () {
             $state.go('console.agentstatusevents');
@@ -317,9 +339,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.case');
         }, goQueueSlaBreakDown: function () {
             $state.go('console.queueSlaBreakDown');
+        }, goTicketFlow: function () {
+            $state.go('console.ticket-flow');
         }, goFileSlot: function () {
             $state.go('console.fileslotmaker');
-        }
+        }, goBillingHistory: function () {
+            $state.go('console.billingHistory');
+        },
     };
 
     var getUserName = function () {
@@ -623,10 +649,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.notificationMsg = {};
     $scope.naviSelectedUser = {};
     $scope.userGroups = [];
+
+
     $scope.loadUserGroups = function () {
         notifiSenderService.getUserGroupList().then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 $scope.userGroups = response.data.Result;
+
             }
         }, function (err) {
             loginService.isCheckResponse(err);
@@ -634,7 +663,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         });
     };
 
-    $scope.loadUserGroups();
+    //$scope.loadUserGroups();
 
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
@@ -644,7 +673,14 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
         });
     };
-    $scope.loadUsers();
+
+    //$scope.loadUsers();
+
+    /* if($scope.accessNavigation.indexOf("BASIC INFO")!=-1)
+     {
+     $scope.loadUserGroups();
+     $scope.loadUsers();
+     }*/
 
     var FilterByID = function (array, field, value) {
         if (array) {
@@ -668,6 +704,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 var offlineAgentList = [];
                 $scope.agentList = [];
                 var onlineAgents = response.Result;
+                console.log($scope.users);
 
                 if ($scope.users) {
                     for (var i = 0; i < $scope.users.length; i++) {
@@ -690,15 +727,18 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                         } else {
                             user.status = "NotAvailable";
                             offlineAgentList.push(user);
+
                         }
                     }
 
                     onlineAgentList.sort(function (a, b) {
+                        if (!a.name || !b.name) return 0;
                         if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                         if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                         return 0;
                     });
                     offlineAgentList.sort(function (a, b) {
+                        if (!a.name || !b.name) return 0;
                         if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                         if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                         return 0;
@@ -761,29 +801,30 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.showRightSideNav = false;
 
     $scope.openNav = function () {
-
         if (!$scope.showRightSideNav) {
-            getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
             document.getElementById("mySidenav").style.width = "300px";
+            //  document.getElementById("main").style.marginRight = "285px";
             $scope.showRightSideNav = true;
+            getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+
         }
         else {
+            document.getElementById("mySidenav").style.width = "0";
+            //document.getElementById("main").style.marginRight = "0";
             if (getAllRealTimeTimer) {
                 $timeout.cancel(getAllRealTimeTimer);
             }
-            document.getElementById("mySidenav").style.width = "0";
             $scope.showRightSideNav = false;
         }
-
+        $scope.isUserListOpen = !$scope.isUserListOpen;
 
         //document.getElementById("main").style.marginRight = "285px";
         // document.getElementById("navBar").style.marginRight = "300px";
     };
     /* Set the width of the side navigation to 0 */
     $scope.closeNav = function () {
-
-        //document.getElementById("main").style.marginRight = "0";
-        //  document.getElementById("navBar").style.marginRight = "0";
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginRight = "0";
     };
 
 
@@ -795,29 +836,43 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.notificationMsg.From = $scope.loginName;
             $scope.notificationMsg.Direction = "STATELESS";
             if ($scope.naviSelectedUser.listType === "Group") {
-                if ($scope.naviSelectedUser.users) {
-                    var clients = [];
-                    for (var i = 0; i < $scope.naviSelectedUser.users.length; i++) {
-                        var gUser = $scope.naviSelectedUser.users[i];
-                        if (gUser && gUser.username && gUser.username != $scope.loginName) {
-                            clients.push(gUser.username);
+                userProfileApiAccess.getGroupMembers($scope.naviSelectedUser._id).then(function (response) {
+                    if(response.IsSuccess)
+                    {
+
+                        if (response.Result) {
+                            var clients = [];
+                            for (var i = 0; i < response.Result.length; i++) {
+                                var gUser = response.Result[i];
+                                if (gUser && gUser.username && gUser.username != $scope.loginName) {
+                                    clients.push(gUser.username);
+                                }
+                            }
+                            $scope.notificationMsg.clients = clients;
+
+                            notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
+                                $scope.notificationMsg = {};
+                                console.log("send notification success :: " + JSON.stringify(clients));
+                            }, function (err) {
+                                var errMsg = "Send Notification Failed";
+                                if (err.statusText) {
+                                    errMsg = err.statusText;
+                                }
+                                $scope.showAlert('Error', 'error', errMsg);
+                            });
+                        } else {
+                            $scope.showAlert('Error', 'error', "Send Notification Failed");
                         }
                     }
-                    $scope.notificationMsg.clients = clients;
-
-                    notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
-                        $scope.notificationMsg = {};
-                        console.log("send notification success :: " + JSON.stringify(clients));
-                    }, function (err) {
-                        var errMsg = "Send Notification Failed";
-                        if (err.statusText) {
-                            errMsg = err.statusText;
-                        }
-                        $scope.showAlert('Error', 'error', errMsg);
-                    });
-                } else {
+                    else
+                    {
+                        console.log("Error in loading Group member list");
+                        $scope.showAlert('Error', 'error', "Send Notification Failed");
+                    }
+                }, function (err) {
+                    console.log("Error in loading Group member list ",err);
                     $scope.showAlert('Error', 'error', "Send Notification Failed");
-                }
+                });
 
             } else {
 
@@ -896,6 +951,29 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             }
         });
     };
+
+    //Detect Document Height
+    //update code damith
+    window.onload = function () {
+        $scope.windowHeight = jsUpdateSize() - 60 + "px";
+        document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
+    };
+
+    window.onresize = function () {
+        $scope.windowHeight = jsUpdateSize() - 60 + "px";
+        document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
+    };
+
+    //Get user image list
+    //
+    userImageList.getAllUsers(function (res) {
+        if (res) {
+            userImageList.getAvatarByUserName($scope.userName, function (res) {
+                $scope.profileAvatat = res;
+            });
+        }
+    });
+
 
 });
 

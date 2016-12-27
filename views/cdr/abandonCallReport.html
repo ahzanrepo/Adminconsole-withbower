@@ -72,31 +72,36 @@
                             <i class="icon-time"></i>
                         </div>
                     </fieldset>
-                    <div class="col-md-1 col-sm-1 col-xs-6">
-                        <div class="dataTables_length" id="datatable-responsive_length">
-                            <label>Show
-                                <select name="datatable-responsive_length" ng-model="recLimit"
-                                        aria-controls="datatable-responsive" class="form-control select-limit">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select> </label>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12">
-                        <div class="col-md-1 col-sm-1 col-xs-1">
-                        </div>
-                        <div class="col-md-11 col-sm-11 col-xs-11">
-                            <div class="x_content btn-wrap-header">
-                                <button type="button" class="btn btn-primary" ng-click="changeTimeAvailability()">{{timeEnabled}}</button>
-                                <button type="button" class="btn btn-success" ng-click="getProcessedCDR(0, true)" ng-disabled="!dateValid || !enableSearchButton">
-                                    Search
-                                </button>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <div>
+                                <label>Show
+                                    <select name="limit" ng-model="recLimit"
+                                            aria-controls="datatable-responsive" class="form-control select-limit">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> </label>
                             </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <div class="col-md-1 col-sm-1 col-xs-1">
+                            </div>
+                            <div class="col-md-11 col-sm-11 col-xs-11">
+                                <div class="x_content btn-wrap-header" style="position: relative; top: 10px;">
+                                    <button type="button" class="btn btn-primary" ng-click="changeTimeAvailability()">{{timeEnabled}}</button>
+                                    <button type="button" class="btn btn-success" ng-click="getProcessedCDR(0, true)" ng-disabled="!dateValid || !enableSearchButton">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
+
 
                 </div>
 

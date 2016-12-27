@@ -23,9 +23,11 @@
                                                 resource.slotState == 'AUXBreak' ||
                                                 resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in SuspendedProfile">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user font-blue500"></i>
-                    </a>
+                    <div class="profile-status-dah"></div>
+                    <div class="pull-left border-aero profile_thumb">
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{resource.avatar}}"/>
+                    </div>
                     <div class="media-body">
                         <a class="title" href="javascript:void(0)">
                             {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
@@ -35,6 +37,11 @@
                         <p>
                             <small>
                                 {{resource.slotState}}
+                            </small>
+                        </p>
+                        <p>
+                            <small>
+                                {{resource.slotMode}}
                             </small>
                         </p>
                     </div>
@@ -62,9 +69,11 @@
                                                 resource.slotState == 'AUXBreak' ||
                                                 resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in AvailableProfile">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user font-blue500"></i>
-                    </a>
+                    <div class="profile-status-dah"></div>
+                    <div class="pull-left border-aero profile_thumb">
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{resource.avatar}}"/>
+                    </div>
                     <div class="media-body">
                         <a class="title" href="javascript:void(0)">
                             {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
@@ -73,6 +82,11 @@
                         <p>
                             <small>
                                 {{resource.slotState}}
+                            </small>
+                        </p>
+                        <p>
+                            <small>
+                                {{resource.slotMode}}
                             </small>
                         </p>
                     </div>
@@ -99,9 +113,11 @@
                                                 resource.slotState == 'AUXBreak' ||
                                                 resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in ConnectedProfile">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user font-blue500"></i>
-                    </a>
+                    <div class="profile-status-dah"></div>
+                    <div class="pull-left border-aero profile_thumb">
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{resource.avatar}}"/>
+                    </div>
                     <div class="media-body">
                         <a class="title" href="javascript:void(0)">
                             {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
@@ -111,6 +127,11 @@
                         <p>
                             <small>
                                 {{resource.slotState}}
+                            </small>
+                        </p>
+                        <p>
+                            <small>
+                                {{resource.slotMode}}
                             </small>
                         </p>
                     </div>
@@ -138,9 +159,11 @@
                                                 resource.slotState == 'AUXBreak' ||
                                                 resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in BreakProfile">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user font-blue500"></i>
-                    </a>
+                    <div class="profile-status-dah"></div>
+                    <div class="pull-left border-aero profile_thumb">
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{resource.avatar}}"/>
+                    </div>
                     <div class="media-body">
                         <a class="title" href="javascript:void(0)">
                             {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
@@ -149,6 +172,11 @@
                         <p>
                             <small>
                                 {{resource.slotState}}
+                            </small>
+                        </p>
+                        <p>
+                            <small>
+                                {{resource.slotMode}}
                             </small>
                         </p>
                     </div>
@@ -176,9 +204,11 @@
                                                 resource.slotState == 'AUXBreak' ||
                                                 resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in OutboundProfile">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user font-blue500"></i>
-                    </a>
+                    <div class="profile-status-dah"></div>
+                    <div class="pull-left border-aero profile_thumb">
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{resource.avatar}}"/>
+                    </div>
                     <div class="media-body">
                         <a class="title" href="javascript:void(0)">
                             {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
@@ -187,6 +217,11 @@
                         <p>
                             <small>
                                 {{resource.slotState}}
+                            </small>
+                        </p>
+                        <p>
+                            <small>
+                                {{resource.slotMode}}
                             </small>
                         </p>
                     </div>
@@ -213,9 +248,11 @@
                                                 resource.slotState == 'AUXBreak' ||
                                                 resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in AfterWorkProfile">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user font-blue500"></i>
-                    </a>
+                    <div class="profile-status-dah"></div>
+                    <div class="pull-left border-aero profile_thumb">
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{resource.avatar}}"/>
+                    </div>
                     <div class="media-body">
                         <a class="title" href="javascript:void(0)">
                             {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
@@ -224,6 +261,11 @@
                         <p>
                             <small>
                                 {{resource.slotState}}
+                            </small>
+                        </p>
+                        <p>
+                            <small>
+                                {{resource.slotMode}}
                             </small>
                         </p>
                     </div>
@@ -251,9 +293,11 @@
                                                 resource.slotState == 'AUXBreak' ||
                                                 resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in ReservedProfile">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user font-blue500"></i>
-                    </a>
+                    <div class="profile-status-dah"></div>
+                    <div class="pull-left border-aero profile_thumb">
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{resource.avatar}}"/>
+                    </div>
                     <div class="media-body">
                         <a class="title" href="javascript:void(0)">
                             {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
@@ -262,6 +306,11 @@
                         <p>
                             <small>
                                 {{resource.slotState}}
+                            </small>
+                        </p>
+                        <p>
+                            <small>
+                                {{resource.slotMode}}
                             </small>
                         </p>
                     </div>
@@ -289,9 +338,11 @@
                                                 resource.slotState == 'AUXBreak' ||
                                                 resource.slotState == 'ProcessRelatedBreak'}"
                     ng-repeat="resource in profile">
-                    <a class="pull-left border-aero profile_thumb">
-                        <i class="fa fa-user font-blue500"></i>
-                    </a>
+                    <div class="profile-status-dah"></div>
+                    <div class="pull-left border-aero profile_thumb">
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{resource.avatar}}"/>
+                    </div>
                     <div class="media-body">
                         <a class="title" href="javascript:void(0)">
                             {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
@@ -300,6 +351,11 @@
                         <p>
                             <small>
                                 {{resource.slotState}}
+                            </small>
+                        </p>
+                        <p>
+                            <small>
+                                {{resource.slotMode}}
                             </small>
                         </p>
                     </div>
