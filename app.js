@@ -37,7 +37,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ngNumberPicker',
     'underscore',
     'webcam',
-    "chart.js"
+    "chart.js",
+    'schemaForm'
 ]);
 
 
@@ -266,6 +267,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/QAFormBuilder",
             templateUrl: "views/qaRating/questionFormDesigner.html",
             controller: "qaRatingCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "QUALITYASSUARANCE"
+            }
+        }).state('console.qaSubmission', {
+            url: "/QAFormSubmission",
+            templateUrl: "views/qaPaperSubmission/qaPaperSubmission.html",
+            controller: "qaSubmissionCtrl",
             data: {
                 requireLogin: true,
                 navigation: "QUALITYASSUARANCE"

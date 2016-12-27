@@ -173,37 +173,58 @@
 
         $scope.removeCron = function(cron)
         {
-            scheduleWorkerService.removeCron(cron.UniqueId).then(function (data)
-            {
-                if (data.IsSuccess)
-                {
-                    $scope.showAlert('Success', 'success', 'Schedule removed successfully');
-                    loadCrons();
-                }
-                else
-                {
-                    var errMsg = data.CustomMessage;
 
-                    if (data.Exception)
+            new PNotify({
+                title: 'Confirm deletion',
+                text: 'Are you sure you want to delete schedule ?',
+                type: 'warn',
+                hide: false,
+                confirm: {
+                    confirm: true
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                }
+            }).get().on('pnotify.confirm', function () {
+                    scheduleWorkerService.removeCron(cron.UniqueId).then(function (data)
                     {
-                        errMsg = data.Exception.Message;
-                    }
-                    $scope.showAlert('Error', 'error', errMsg);
+                        if (data.IsSuccess)
+                        {
+                            $scope.showAlert('Success', 'success', 'Schedule removed successfully');
+                            loadCrons();
+                        }
+                        else
+                        {
+                            var errMsg = data.CustomMessage;
 
-                }
+                            if (data.Exception)
+                            {
+                                errMsg = data.Exception.Message;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+
+                        }
 
 
 
-            }, function (err)
-            {
-                loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while removing schedule";
-                if (err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('Error', 'error', errMsg);
-            });
+                    }, function (err)
+                    {
+                        loginService.isCheckResponse(err);
+                        var errMsg = "Error occurred while removing schedule";
+                        if (err.statusText)
+                        {
+                            errMsg = err.statusText;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                    });
+                }).on('pnotify.cancel', function () {
+
+                });
+
         };
 
         $scope.cronEditMode = function(cron)
