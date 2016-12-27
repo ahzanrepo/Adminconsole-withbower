@@ -34,8 +34,11 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'jsplumb',
     'ui.slimscroll',
     'ngImgCrop',
+    'ngNumberPicker',
+    'underscore',
     'webcam',
-    "chart.js"
+    "chart.js",
+    'schemaForm'
 ]);
 
 
@@ -75,7 +78,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
-    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//walletservice.app.veery.cloud
+    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//104.236.197.119
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -264,6 +267,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/QAFormBuilder",
             templateUrl: "views/qaRating/questionFormDesigner.html",
             controller: "qaRatingCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "QUALITYASSUARANCE"
+            }
+        }).state('console.qaSubmission', {
+            url: "/QAFormSubmission",
+            templateUrl: "views/qaPaperSubmission/qaPaperSubmission.html",
+            controller: "qaSubmissionCtrl",
             data: {
                 requireLogin: true,
                 navigation: "QUALITYASSUARANCE"

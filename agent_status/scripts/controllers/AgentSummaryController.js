@@ -72,7 +72,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
 
                         profile.slotMode = resourceMode;
-                        if (resonseAvailability == "NotAvailable" && resonseStatus == "Reject Count Exceeded") {
+                        if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
                             profile.slotState = resonseStatus;
                             profile.other = "Reject";
                         } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
