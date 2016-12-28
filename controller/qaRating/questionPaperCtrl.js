@@ -285,7 +285,7 @@
 
                     $scope.sections.forEach(function(section){
 
-                        var questionsBySec = _.where($scope.currentPaper.questions, {section: section._id});
+                        var questionsBySec = _.filter($scope.currentPaper.questions, {section: section._id});
 
                         var obj = {
                             SectionName: section.name,
