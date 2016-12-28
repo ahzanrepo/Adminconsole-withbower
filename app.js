@@ -4,7 +4,7 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.bootstrap',
-    'ui.router', 'ui.checkbox', 'angular-flot', 'angularMoment',
+    'ui.router', 'ui.checkbox', 'angular-flot',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
     'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
@@ -35,10 +35,10 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.slimscroll',
     'ngImgCrop',
     'ngNumberPicker',
-    'underscore',
     'webcam',
     "chart.js",
-    'schemaForm'
+    'schemaForm',
+    'angular-timezone-selector'
 ]);
 
 
