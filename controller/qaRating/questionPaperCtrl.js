@@ -44,6 +44,7 @@
 
         $scope.showModalSection = function () {
             //modal show
+            $scope.currentSection = {};
             $scope.modalInstanceSec = $uibModal.open({
                 animation: true,
                 templateUrl: 'views/qaRating/sections.html',
@@ -63,6 +64,10 @@
         };
 
         $scope.showModalQuestion = function (sectionId) {
+
+            $scope.currentQuestion = {
+                weight : 1
+            };
 
             $scope.questionSectionId = sectionId;
             //modal show
@@ -280,7 +285,7 @@
 
                     $scope.sections.forEach(function(section){
 
-                        var questionsBySec = _.where($scope.currentPaper.questions, {section: section._id});
+                        var questionsBySec = _.filter($scope.currentPaper.questions, {section: section._id});
 
                         var obj = {
                             SectionName: section.name,

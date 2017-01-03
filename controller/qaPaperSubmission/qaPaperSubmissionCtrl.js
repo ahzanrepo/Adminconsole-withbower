@@ -173,7 +173,7 @@
                 {
                     if (data.IsSuccess && data.Result)
                     {
-                        var answeredCalls = _.where(data.Result, {IsAnswered: true});
+                        var answeredCalls = _.filter(data.Result, {IsAnswered: true});
                         $scope.cdrList = answeredCalls;
                         $scope.isTableLoading = 1;
                     }
@@ -777,7 +777,7 @@
 
                 $scope.sections.forEach(function(section){
 
-                    var questionsBySec = _.where($scope.currentPaper.questions, {section: section._id});
+                    var questionsBySec = _.filter($scope.currentPaper.questions, {section: section._id});
 
                     var obj = {
                         SectionName: section.name,
