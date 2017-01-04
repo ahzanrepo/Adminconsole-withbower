@@ -21,6 +21,7 @@
         $scope.currentQuestion = {
             weight : 1
         };
+
         $scope.currentPaper = {};
         $scope.sections = [];
         $scope.newQFormToggle = {
@@ -43,6 +44,7 @@
 
         $scope.showModalSection = function () {
             //modal show
+            $scope.currentSection = {};
             $scope.modalInstanceSec = $uibModal.open({
                 animation: true,
                 templateUrl: 'views/qaRating/sections.html',
@@ -62,6 +64,10 @@
         };
 
         $scope.showModalQuestion = function (sectionId) {
+
+            $scope.currentQuestion = {
+                weight : 1
+            };
 
             $scope.questionSectionId = sectionId;
             //modal show
@@ -148,6 +154,9 @@
                 if (data.IsSuccess)
                 {
                     $scope.showAlert('QA Section', 'success', 'Section Added Successfully');
+                    $scope.closeModalSection();
+
+                    $scope.getSections();
                 }
                 else
                 {
@@ -210,6 +219,7 @@
                     $scope.showAlert('QA Paper', 'success', 'Question paper added successfully');
                     $scope.currentPaper = {};
                     $scope.closeModalPaper();
+                    $scope.getPapers();
                 }
                 else
                 {
@@ -275,7 +285,7 @@
 
                     $scope.sections.forEach(function(section){
 
-                        var questionsBySec = _.where($scope.currentPaper.questions, {section: section._id});
+                        var questionsBySec = _.filter($scope.currentPaper.questions, {section: section._id});
 
                         var obj = {
                             SectionName: section.name,

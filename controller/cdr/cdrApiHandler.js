@@ -94,8 +94,6 @@
                 url: url
             }).then(function (resp) {
                 return resp.data;
-            }, function (err) {
-                loginService.isCheckResponse(err);
             })
         };
 

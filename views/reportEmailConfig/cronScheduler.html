@@ -24,10 +24,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                         <label>Time Zone</label>
 
-                        <select name="datatable-responsive_length" class="select2_single form-control" tabindex="-1" aria-hidden="true" ng-options="item as item for item in tzData.timeZones track by item"
-                                ng-model="currentCron.Timezone">
-                            <option value=""></option>
-                        </select>
+                        <timezone-selector ng-model="currentCron.Timezone"></timezone-selector>
                     </div>
 
                     <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
@@ -94,6 +91,9 @@
 
                                     <p class="font-robot">
                                         Pattern : {{cron.CronePattern}}
+                                    </p>
+                                    <p class="font-robot">
+                                        Unique Id : {{cron.UniqueId}}
                                     </p>
                                 </div>
                                 <div class="left">

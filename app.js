@@ -4,7 +4,7 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.bootstrap',
-    'ui.router', 'ui.checkbox', 'angular-flot', 'angularMoment',
+    'ui.router', 'ui.checkbox', 'angular-flot',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
     'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
@@ -35,9 +35,10 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.slimscroll',
     'ngImgCrop',
     'ngNumberPicker',
-    'underscore',
     'webcam',
-    "chart.js"
+    "chart.js",
+    'schemaForm',
+    'angular-timezone-selector'
 ]);
 
 
@@ -77,7 +78,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
-    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//walletservice.app.veery.cloud
+    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//104.236.197.119
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -266,6 +267,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/QAFormBuilder",
             templateUrl: "views/qaRating/questionFormDesigner.html",
             controller: "qaRatingCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "QUALITYASSUARANCE"
+            }
+        }).state('console.qaSubmission', {
+            url: "/QAFormSubmission",
+            templateUrl: "views/qaPaperSubmission/qaPaperSubmission.html",
+            controller: "qaSubmissionCtrl",
             data: {
                 requireLogin: true,
                 navigation: "QUALITYASSUARANCE"
