@@ -957,7 +957,7 @@ ul.top-profile-shadow li {
 .thumbnaildrag {
     display: block;
     padding: 4px;
-    line-height: 20px;
+    line-height: 55px;
     border: 2px solid rgba(227, 228, 234, 0.05);
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -969,7 +969,7 @@ ul.top-profile-shadow li {
     -moz-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
-    height: 300px;
+    height: auto;
 }
 
 a.thumbnaildrag:hover {
@@ -1771,15 +1771,18 @@ small > i {
 .draggable-item {
     width: 190px;
     display: inline !important;
+    white-space: inherit;
+
 }
 
 .drop-area-wrap {
-    height: 149px;
+    min-height: 130px;
 }
 
 .drop-area-wrap > .caption {
-    height: 130px;
-    padding: 37px 20px 20px 22px;
+    min-height: 130px;
+    padding: 10px 30px 30px 30px;
+
 }
 
 .drop-area-wrap > .caption > .drop-area-text {
@@ -4167,4 +4170,26 @@ tags-input .tags {
 .ticker-pro-wrapper {
     padding-top: 40px;
     padding-bottom: 30px;
+}
+
+.resource-skill {
+    min-height: 85px;
+    background: transparent;
+    width: 25px;
+    padding: 63px 10px 10px 10px;
+    margin: 1px;
+}
+
+.knob-wrapper {
+    display: inline-block;
+    min-width: 50px;
+    min-height: 100px;
+}
+
+.resource-skill > div {
+
+}
+
+.knob-close{
+
 }

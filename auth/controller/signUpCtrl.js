@@ -114,7 +114,7 @@ mainApp.directive('passwordStrength', [
                 password: '=ngModel'
             },
 
-            link: function (scope, elem, attrs, ctrl,ngModel) {
+            link: function (scope, elem, attrs, ctrl, ngModel) {
                 //password validation
                 scope.isShowBox = false;
                 scope.isPwdValidation = {
@@ -130,13 +130,12 @@ mainApp.directive('passwordStrength', [
                         isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
                         isSatisfied(newVal && /\d/.test(newVal));
 
+
                     function isSatisfied(criteria) {
                         return criteria ? 1 : 0;
                     }
 
-                    if (scope.strength != 5) {
-                        ngModel.$setValidity('unique', true);
-                    }
+
                 }, true);
             },
             template: '<div ng-if="strength != ' + 5 + ' " ' +
@@ -200,6 +199,12 @@ mainApp.directive('passwordStrengthBox', [
                         scope.isPwdValidation.capitalLetter = true;
                     } else {
                         scope.isPwdValidation.capitalLetter = false;
+                    }
+
+                    if (scope.strength != 5) {
+                        ngModel.$setValidity('unique', true);
+                    } else {
+                        ngModel.$setValidity('unique', false);
                     }
 
                     function isSatisfied(criteria) {
