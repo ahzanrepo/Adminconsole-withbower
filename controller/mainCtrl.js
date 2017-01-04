@@ -704,7 +704,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 var offlineAgentList = [];
                 $scope.agentList = [];
                 var onlineAgents = response.Result;
-                console.log($scope.users);
 
                 if ($scope.users) {
                     for (var i = 0; i < $scope.users.length; i++) {
@@ -764,8 +763,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                         return 0;
                     });
 
-                    $scope.agentList = userGroupList.concat($scope.agentList)
+                    $scope.userGroups = userGroupList;
                 }
+
             }
             else {
                 /*var errMsg = response.CustomMessage;
@@ -817,6 +817,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.showRightSideNav = false;
         }
         $scope.isUserListOpen = !$scope.isUserListOpen;
+        $scope.onClickGetHeight();
 
         //document.getElementById("main").style.marginRight = "285px";
         // document.getElementById("navBar").style.marginRight = "300px";
@@ -837,8 +838,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.notificationMsg.Direction = "STATELESS";
             if ($scope.naviSelectedUser.listType === "Group") {
                 userProfileApiAccess.getGroupMembers($scope.naviSelectedUser._id).then(function (response) {
-                    if(response.IsSuccess)
-                    {
+                    if (response.IsSuccess) {
 
                         if (response.Result) {
                             var clients = [];
@@ -864,13 +864,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                             $scope.showAlert('Error', 'error', "Send Notification Failed");
                         }
                     }
-                    else
-                    {
+                    else {
                         console.log("Error in loading Group member list");
                         $scope.showAlert('Error', 'error', "Send Notification Failed");
                     }
                 }, function (err) {
-                    console.log("Error in loading Group member list ",err);
+                    console.log("Error in loading Group member list ", err);
                     $scope.showAlert('Error', 'error', "Send Notification Failed");
                 });
 
@@ -955,14 +954,20 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     //Detect Document Height
     //update code damith
     window.onload = function () {
-        $scope.windowHeight = jsUpdateSize() - 60 + "px";
+        $scope.windowHeight = jsUpdateSize() - 100 + "px";
         document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
     };
 
     window.onresize = function () {
-        $scope.windowHeight = jsUpdateSize() - 60 + "px";
+        $scope.windowHeight = jsUpdateSize() - 100 + "px";
         document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
     };
+
+    $scope.onClickGetHeight = function () {
+        $scope.windowHeight = jsUpdateSize() - 100 + "px";
+        document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
+    };
+
 
     //Get user image list
     //

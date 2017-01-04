@@ -4028,7 +4028,6 @@ footer {
     height: auto;
 }
 
-
 .ti-close {
     cursor: pointer !important;
 }
@@ -4191,6 +4190,27 @@ tags-input .tags {
 
 }
 
-.knob-close{
+.knob-close {
 
+}
+
+.conversation-wrapper > .title {
+    font-family: 'Ubuntu-Bold', sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding-left: 10px;
+    padding-top: 7px;
+    padding-bottom: 6px;
+    color: #bbbaba;
+    border-bottom: 1px solid #f7f7f7;
+    margin-top: 8px;
+
+}
+
+.user-state.online {
+    background: #15a80d;
+}
+
+.user-state.offline {
+    background: #f8b01d;
 }
