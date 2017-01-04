@@ -40,8 +40,8 @@
                         </button>
                         <button type="button"
                                 style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;"
-                                csv-header="['Hour', 'Queue', 'Duration(sec)', 'Count', 'Average((Count/TotalQueueCount) *100)']"
-                                csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'Average']"
+                                csv-header="['Hour', 'Queue', 'Duration(sec)', 'Count', 'SLA Violated', 'Average((Count/TotalQueueCount) *100)']"
+                                csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'SlaViolated', 'Average']"
                                 ng-csv="getProcessedSlaCSVDownload()" filename="SLA_BreakDown_{{qDate}}.csv"></button>
 
                     </div>
@@ -128,6 +128,12 @@
                                                         <th class="sorting" tabindex="0"
                                                             aria-controls="datatable-responsive"
                                                             rowspan="1"
+                                                            colspan="1" aria-label="SLAViolated">
+                                                            SLA Violated
+                                                        </th>
+                                                        <th class="sorting" tabindex="0"
+                                                            aria-controls="datatable-responsive"
+                                                            rowspan="1"
                                                             colspan="1" aria-label="Average">Average ((Count/TotalQueueCount) *100)
                                                         </th>
 
@@ -139,6 +145,7 @@
                                                         <td>{{queueSummary.Queue}}</td>
                                                         <td>{{queueSummary.BreakDown}}</td>
                                                         <td>{{queueSummary.ThresholdCount}}</td>
+                                                        <td>{{queueSummary.SlaViolated}}</td>
                                                         <td>{{queueSummary.Average}}</td>
                                                     </tr>
                                                     </tbody>
@@ -205,6 +212,12 @@
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="datatable-responsive"
                                                                 rowspan="1"
+                                                                colspan="1" aria-label="SLAViolated">
+                                                                SLA Violated
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="datatable-responsive"
+                                                                rowspan="1"
                                                                 colspan="1" aria-label="Average">Average ((Count/TotalQueueCount) *100)
                                                             </th>
 
@@ -215,6 +228,7 @@
                                                             <td>{{queueSummary.Queue}}</td>
                                                             <td>{{queueSummary.BreakDown}}</td>
                                                             <td>{{queueSummary.ThresholdCount}}</td>
+                                                            <td>{{queueSummary.SlaViolated}}</td>
                                                             <td>{{queueSummary.Average}}</td>
                                                         </tr>
                                                         </tbody>
