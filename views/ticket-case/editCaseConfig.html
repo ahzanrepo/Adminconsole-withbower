@@ -53,7 +53,7 @@
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                 <label>Configuration Rule</label>
                                 <input type="text" class="form-control has-feedback-left"
                                        ng-model="caseConfig.configurationRule"
@@ -61,7 +61,7 @@
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
                                 <label>Threshold</label>
                                 <input type="number" class="form-control has-feedback-left"
                                        ng-model="caseConfig.threshold"
@@ -110,12 +110,14 @@
                 <p>{{caseConfig.description}} </p>
             </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                 <label class="form-control-static">Configuration Rule</label>
-                <p>{{caseConfig.configurationRule}} </p>
+                <p>
+                    {{ caseConfig.configurationRule | limitTo: 50 }}{{caseConfig.configurationRule.length > 50 ? '...' : ''}}
+                </p>
             </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <div class="col-md-2 col-sm-2 col-xs-12 form-group ">
                 <label class="form-control-static">Threshold</label>
                 <p>{{caseConfig.threshold}} </p>
             </div>

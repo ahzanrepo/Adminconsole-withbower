@@ -15,10 +15,13 @@
                                     <!-- user name -->
                                     <label class="dark-frm-label">Company Name
                                         <span class="inline-block validation-on"
-                                              ng-show="signUpForm.companyName.$invalid && !signUpForm.companyName.$pristine">*
-                                    </span></label>
+                                              ng-show="signUpForm.companyName.$invalid && !signUpForm.companyName.$pristine &&
+                                              signUpForm.companyName.$error.pattern">*
+                                    </span>
+                                    </label>
                                     <input unique-company type="text" name="companyName" ng-model="companyName"
                                            class="form-control dark-frm-input"
+                                           ng-pattern='/^[a-zA-Z0-9]+$/'
                                            placeholder=""
                                            required
                                            autofocus/>

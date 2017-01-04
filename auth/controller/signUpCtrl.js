@@ -69,6 +69,8 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
         console.log($scope.myRecaptchaResponse);
     }
 
+    
+
 
 });
 
@@ -202,9 +204,9 @@ mainApp.directive('passwordStrengthBox', [
                     }
 
                     if (scope.strength != 5) {
-                        ngModel.$setValidity('unique', true);
+                        ctrl.$setValidity('unique', true);
                     } else {
-                        ngModel.$setValidity('unique', false);
+                        ctrl.$setValidity('unique', false);
                     }
 
                     function isSatisfied(criteria) {
@@ -271,9 +273,13 @@ mainApp.directive('uniqueCompany', ['signUpServices', function (signUpServices) 
         require: 'ngModel',
         link: function (scope, element, attrs, ngModel) {
             element.bind('blur', function (e) {
-
                 scope.isLoading = false;
-                if (!ngModel || !element.val()) {
+                function validateCompany(companyName) {
+                    var re = /^[a-zA-Z0-9]+$/;
+                    return re.test(companyName);
+                };
+
+                if (!ngModel || !element.val() || !validateCompany(element.val())) {
                     $('#companystate').removeClass('fa-circle-o-notch fa-spin fa-times fa-check');
                     ngModel.$setValidity('unique', false);
                     return;
@@ -335,5 +341,6 @@ mainApp.directive('uniqueOwner', ['signUpServices', function (signUpServices) {
         }
     }
 }]);
+
 
 
