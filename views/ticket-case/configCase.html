@@ -14,7 +14,7 @@
 
 
     <div ng-hide="addNewTickets" class="x_panel ">
-        <div class="x_title">
+        <div class="x_title" ng-hide="!statusMode">
             <div class="row">
                 <div class="col-lg-6">
                     <h2>Show Related Tickets</small></h2>
@@ -38,7 +38,7 @@
             <div class="clearfix"></div>
 
 
-            <div class="custom-type">
+            <div class="custom-type"  ng-hide="!statusMode">
                 <div class="row">
                     <h2>Bulk Operation</h2>
                     <div class="col-md-4 col-sm-4 col-xs-12  form-group has-feedback">
@@ -71,7 +71,7 @@
             </div>
 
 
-            <div class="row">
+            <div class="row"  ng-hide="!statusMode">
                 <div class="col-md-6">
                     <button type="button" class="btn btn-sm " ng-click="checkAllExsisting()">
                         Check All
@@ -83,7 +83,7 @@
 
             </div>
 
-            <ul class="case-card-wrapper" ng-repeat="rTicket in caseInfo.related_tickets">
+            <ul class="case-card-wrapper" ng-repeat="rTicket in CTickets">
                 <li>
                     <div class="checkbox">
                         <label>
@@ -103,6 +103,20 @@
                     </ul>
                 </ul>
             </ul>
+
+            <paging ng-show="showPaging"
+                    class="small"
+                    page="currentPage"
+                    page-size="pageSize"
+                    total="totalTickets"
+                    show-prev-next="true"
+                    show-first-last="true"
+                    text-next-class="glyphicon glyphicon-chevron-right"
+                    text-prev-class="glyphicon glyphicon-chevron-left"
+                    text-first-class="glyphicon glyphicon-backward"
+                    text-last-class="glyphicon glyphicon-forward"
+                    paging-action="getPageData(page)">
+            </paging>
 
         </div>
     </div>
