@@ -2530,11 +2530,12 @@ ul.count2 {
     text-align: center;
     /*max-width: 900px;*/
     float: none;
+    overflow: hidden;
 }
 
 .price-wrap {
     background: #fff;
-    height: 450px;
+    min-height: 450px;
     width: 100%;
     border-radius: 10px;
 
@@ -2580,6 +2581,26 @@ ul.count2 {
 .pricing > .x_content {
     margin-top: 0;
     padding: 0px;
+}
+
+.price-water-mark{
+    position: absolute;
+    width: 100%;
+    min-height: 461px;
+    background: rgba(247, 247, 247, 0.56);
+    z-index: 1;
+}
+.select-package-icon{
+    width: 25px;
+    height: 25px;
+    background: #1abb9c;
+    border-radius: 50%;
+    overflow: hidden;
+    padding-top: 4px;
+    color: #fff;
+    position: absolute;
+    bottom: 13%;
+    left: 43%;
 }
 
 .form-data-loading {
@@ -4236,4 +4257,7 @@ tags-input .tags {
     word-spacing: normal;
     word-wrap: normal;
 }
+
+
+
 
