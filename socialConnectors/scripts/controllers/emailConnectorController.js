@@ -1,4 +1,6 @@
-mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, $window,tagBackendService, socialConnectorService) {
+mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, $window,tagBackendService, socialConnectorService,$anchorScroll)
+{
+    $anchorScroll();
 
     $scope.showAlert = function (tittle, type, content) {
         new PNotify({

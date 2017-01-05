@@ -9,6 +9,25 @@
 
         $scope.title = $stateParams.title;
         $scope.caseInfo = JSON.parse($stateParams.caseInfo);
+        $scope.statusMode = $scope.caseInfo.status !== "closed";
+
+        $scope.showPaging = true;
+        $scope.currentPage = 1;
+        $scope.pageSize = 20;
+        $scope.totalTickets = $scope.caseInfo.related_tickets? $scope.caseInfo.related_tickets.length: 0;
+        $scope.pageTotal = $scope.totalTickets > 0? $scope.totalTickets/$scope.pageSize : 0;
+        $scope.pageTotal = Math.ceil($scope.pageTotal);
+
+        $scope.getPageData = function (page) {
+            var start = ((page - 1) * $scope.pageSize);
+            var end = (page * $scope.pageSize);
+            var tIds = $scope.caseInfo.related_tickets.slice(start, end);
+
+            caseApiAccess.getTicketsForCase(tIds).then(function (response) {
+                    $scope.CTickets = response.Result;
+                }, function (err) {
+                });
+        };
 
         $scope.selectedTickets = {ids: []};
         $scope.selectedExsistingTickets = {ids: []};
@@ -24,11 +43,12 @@
             $scope.selectedTickets.ids = [];
         };
         $scope.checkAllExsisting = function () {
-            if ($scope.caseInfo.related_tickets && $scope.caseInfo.related_tickets.length > 0) {
-                for (var i = 0; i < $scope.caseInfo.related_tickets.length; i++) {
-                    $scope.selectedExsistingTickets.ids.push($scope.caseInfo.related_tickets[i]._id.toString());
-                }
-            }
+            //if ($scope.caseInfo.related_tickets && $scope.caseInfo.related_tickets.length > 0) {
+            //    for (var i = 0; i < $scope.caseInfo.related_tickets.length; i++) {
+            //        $scope.selectedExsistingTickets.ids.push($scope.caseInfo.related_tickets[i]._id.toString());
+            //    }
+            //}
+            $scope.selectedExsistingTickets.ids = $scope.caseInfo.related_tickets;
         };
         $scope.uncheckAllExsisting = function () {
             $scope.selectedExsistingTickets.ids = [];
@@ -357,6 +377,7 @@
             caseApiAccess.getCase($scope.caseInfo._id.toString()).then(function (response) {
                 if (response.IsSuccess) {
                     $scope.caseInfo = response.Result;
+                    $scope.getPageData($scope.currentPage);
                 }
                 else {
                     var errMsg = response.CustomMessage;
@@ -375,6 +396,9 @@
                 $scope.showAlert('Case', errMsg, 'error');
             });
         };
+
+
+        $scope.getPageData($scope.currentPage);
 
         $scope.addTicketToCase = function () {
             caseApiAccess.addTicketToCase($scope.caseInfo._id.toString(), $scope.selectedTickets.ids).then(function (response) {

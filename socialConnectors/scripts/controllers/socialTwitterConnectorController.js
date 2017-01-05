@@ -1,4 +1,6 @@
-mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twitterService) {
+mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twitterService,$anchorScroll)
+{
+    $anchorScroll();
 
     $scope.tweetProfile = {};
     twitterService.initialize();
