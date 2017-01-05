@@ -38,7 +38,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'webcam',
     "chart.js",
     'schemaForm',
-    'angular-timezone-selector'
+    'angular-timezone-selector',
+    'ds.objectDiff'
 ]);
 
 
@@ -262,6 +263,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "CDR"
+            }
+        }).state('console.auditTrailRep', {
+            url: "/AuditTrailReport",
+            templateUrl: "views/auditTrail/auditTrailReport.html",
+            controller: "auditTrailReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "AUDITTRAIL"
             }
         }).state('console.qaRatingFormBuilder', {
             url: "/QAFormBuilder",
