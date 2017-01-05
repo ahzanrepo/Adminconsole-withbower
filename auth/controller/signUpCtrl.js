@@ -8,6 +8,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
     //go to login
 
     $scope.myRecaptchaResponse = null;
+    $scope.confirmPwd = null;
     $scope.siteKey = "6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI";
 
     $scope.onClickLogIn = function () {
@@ -69,8 +70,6 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
         console.log($scope.myRecaptchaResponse);
     }
 
-    
-
 
 });
 
@@ -107,49 +106,49 @@ mainApp.directive('passwordVerify', function () {
 });
 
 
-mainApp.directive('passwordStrength', [
-    function () {
-        return {
-            require: 'ngModel',
-            restrict: 'E',
-            scope: {
-                password: '=ngModel'
-            },
-
-            link: function (scope, elem, attrs, ctrl, ngModel) {
-                //password validation
-                scope.isShowBox = false;
-                scope.isPwdValidation = {
-                    minLength: false,
-                    specialChr: false,
-                    digit: false,
-                    capitalLetter: false
-                };
-                scope.$watch('password', function (newVal) {
-                    scope.strength = isSatisfied(newVal && newVal.length >= 8) +
-                        isSatisfied(newVal && /[A-z]/.test(newVal)) +
-                        isSatisfied(newVal && /(?=.*[A-Z])/.test(newVal)) +
-                        isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
-                        isSatisfied(newVal && /\d/.test(newVal));
-
-
-                    function isSatisfied(criteria) {
-                        return criteria ? 1 : 0;
-                    }
-
-
-                }, true);
-            },
-            template: '<div ng-if="strength != ' + 5 + ' " ' +
-            'ng-show=strength class="password-progress-wrapper animated fadeIn "> <div class="progress password-progress">' +
-            '<div class="progress-bar progress-bar-danger" style="width: {{strength >= 1 ? 25 : 0}}%"></div>' +
-            '<div class="progress-bar progress-bar-warning" style="width: {{strength >= 2 ? 25 : 0}}%"></div>' +
-            '<div class="progress-bar progress-bar-warning" style="width: {{strength >= 3 ? 25 : 0}}%"></div>' +
-            '<div class="progress-bar progress-bar-success" style="width: {{strength >= 4 ? 25 : 0}}%"></div>' +
-            '</div></div>'
-        }
-    }
-]);
+// mainApp.directive('passwordStrength', [
+//     function () {
+//         return {
+//             require: 'ngModel',
+//             restrict: 'E',
+//             scope: {
+//                 password: '=ngModel'
+//             },
+//
+//             link: function (scope, elem, attrs, ctrl, ngModel) {
+//                 //password validation
+//                 scope.isShowBox = false;
+//                 scope.isPwdValidation = {
+//                     minLength: false,
+//                     specialChr: false,
+//                     digit: false,
+//                     capitalLetter: false
+//                 };
+//                 scope.$watch('password', function (newVal) {
+//                     scope.strength = isSatisfied(newVal && newVal.length >= 8) +
+//                         isSatisfied(newVal && /[A-z]/.test(newVal)) +
+//                         isSatisfied(newVal && /(?=.*[A-Z])/.test(newVal)) +
+//                         isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
+//                         isSatisfied(newVal && /\d/.test(newVal));
+//
+//
+//                     function isSatisfied(criteria) {
+//                         return criteria ? 1 : 0;
+//                     }
+//
+//
+//                 }, true);
+//             },
+//             template: '<div ng-if="strength != ' + 5 + ' " ' +
+//             'ng-show=strength class="password-progress-wrapper animated fadeIn "> <div class="progress password-progress">' +
+//             '<div class="progress-bar progress-bar-danger" style="width: {{strength >= 1 ? 25 : 0}}%"></div>' +
+//             '<div class="progress-bar progress-bar-warning" style="width: {{strength >= 2 ? 25 : 0}}%"></div>' +
+//             '<div class="progress-bar progress-bar-warning" style="width: {{strength >= 3 ? 25 : 0}}%"></div>' +
+//             '<div class="progress-bar progress-bar-success" style="width: {{strength >= 4 ? 25 : 0}}%"></div>' +
+//             '</div></div>'
+//         }
+//     }
+// ]);
 
 mainApp.directive('passwordStrengthBox', [
     function () {
@@ -157,7 +156,8 @@ mainApp.directive('passwordStrengthBox', [
             require: 'ngModel',
             restrict: 'E',
             scope: {
-                password: '=ngModel'
+                password: '=ngModel',
+                confirm: '='
             },
 
             link: function (scope, elem, attrs, ctrl) {
@@ -169,12 +169,21 @@ mainApp.directive('passwordStrengthBox', [
                     digit: false,
                     capitalLetter: false
                 };
+
+
                 scope.$watch('password', function (newVal) {
                     scope.strength = isSatisfied(newVal && newVal.length >= 8) +
                         isSatisfied(newVal && /[A-z]/.test(newVal)) +
                         isSatisfied(newVal && /(?=.*[A-Z])/.test(newVal)) +
                         isSatisfied(newVal && /(?=.*\W)/.test(newVal)) +
                         isSatisfied(newVal && /\d/.test(newVal));
+
+                    if (!ctrl || !newVal || scope.strength != 5) {
+                        ctrl.$setValidity('unique', false);
+                    } else {
+                        ctrl.$setValidity('unique', true);
+                    }
+
                     //length
                     if (newVal && newVal.length >= 8) {
                         scope.isPwdValidation.minLength = true;
@@ -203,11 +212,17 @@ mainApp.directive('passwordStrengthBox', [
                         scope.isPwdValidation.capitalLetter = false;
                     }
 
-                    if (scope.strength != 5) {
-                        ctrl.$setValidity('unique', true);
-                    } else {
-                        ctrl.$setValidity('unique', false);
-                    }
+
+                    //check password confirm validation
+                    // if (scope.confirm) {
+                    //     var origin = scope.confirm;
+                    //     if (origin !== newVal) {
+                    //         ctrl.$setValidity("unique", false);
+                    //     } else {
+                    //         ctrl.$setValidity("unique", true);
+                    //     }
+                    // };
+
 
                     function isSatisfied(criteria) {
                         return criteria ? 1 : 0;
@@ -274,17 +289,19 @@ mainApp.directive('uniqueCompany', ['signUpServices', function (signUpServices) 
         link: function (scope, element, attrs, ngModel) {
             element.bind('blur', function (e) {
                 scope.isLoading = false;
+                var currentValue = element.val();
+
                 function validateCompany(companyName) {
                     var re = /^[a-zA-Z0-9]+$/;
                     return re.test(companyName);
                 };
 
-                if (!ngModel || !element.val() || !validateCompany(element.val())) {
+                if (!ngModel || !element.val() || !validateCompany(currentValue)) {
                     $('#companystate').removeClass('fa-circle-o-notch fa-spin fa-times fa-check');
                     ngModel.$setValidity('unique', false);
                     return;
                 }
-                var currentValue = element.val();
+
 
                 $('#companystate').addClass('fa-circle-o-notch fa-spin').removeClass('fa-times fa-check');
                 signUpServices.checkUniqueOrganization(currentValue, function (data) {

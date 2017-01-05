@@ -58,20 +58,23 @@
                                 <div class="validation-area ">
                                     <!-- password  -->
                                     <!-- password  -->
-                                    <password-strength-box ng-model="password"></password-strength-box>
+                                    <password-strength-box ng-model="password" confirm="confirmPwd"></password-strength-box>
 
                                     <label class="dark-frm-label">Password
                                          <span class="inline-block validation-on"
-                                               ng-show="signUpForm.password.$invalid && !signUpForm.password.$pristine">*
+                                               ng-show="signUpForm.password.$invalid && !signUpForm.password.$pristine
+                                               ">*
                                     </span></label>
                                     <input type="password" ng-model="password"
                                            class="form-control dark-frm-input"
-                                           name="password"
+                                           name="pwd"
                                            id="password"
                                            placeholder=""
                                            required=""/>
                                 </div>
                             </div>
+                            <!-- signUpForm.pwd.$error.pattern
+                            ng-pattern='/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/'-->
 
                             <div class="col-lg-6">
                                 <div class="validation-area">
