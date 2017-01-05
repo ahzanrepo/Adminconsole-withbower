@@ -2,7 +2,9 @@
  * Created by Pawan on 11/22/2016.
  */
 
-mainApp.controller("billingHistoryController", function ($scope,$filter,$state, $q,loginService,billingHistoryService) {
+mainApp.controller("billingHistoryController", function ($scope,$filter,$state, $q,loginService,billingHistoryService,$anchorScroll)
+{
+    $anchorScroll();
 
     $scope.startDate = moment().format("YYYY-MM-DD");
     $scope.endDate = moment().format("YYYY-MM-DD");

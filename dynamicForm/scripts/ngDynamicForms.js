@@ -2,8 +2,9 @@
  * Created by Rajinda on 6/13/2016.
  */
 
-mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketService)
+mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketService,$anchorScroll)
 {
+    $anchorScroll();
 	$scope.addNew = false;$scope.isProgress = false;$scope.isLoading = false;
 
 	$scope.createForm = function () {

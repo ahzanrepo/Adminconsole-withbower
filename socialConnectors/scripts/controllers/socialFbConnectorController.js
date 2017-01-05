@@ -1,4 +1,6 @@
-mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scope, $window, socialConnectorService) {
+mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scope, $window, socialConnectorService,$anchorScroll)
+{
+    $anchorScroll();
 
     $scope.safeApply = function (fn) {
         var phase = this.$root.$$phase;
