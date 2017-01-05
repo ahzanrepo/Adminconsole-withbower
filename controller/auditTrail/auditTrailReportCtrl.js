@@ -72,7 +72,7 @@
         $scope.userList = [];
 
         $scope.pageChanged = function () {
-            $scope.getTicketSummary();
+            $scope.getAuditTrails();
         };
 
         $scope.searchWithNewFilter = function () {
