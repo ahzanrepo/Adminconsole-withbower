@@ -8,6 +8,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
     //go to login
 
     $scope.myRecaptchaResponse = null;
+    $scope.pwdBox = false;
     $scope.confirmPwd = null;
     $scope.siteKey = "6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI";
 
@@ -66,9 +67,12 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
     };
 
 
-    $scope.test = function () {
-        console.log($scope.myRecaptchaResponse);
-    }
+    $('#password').on('focus', function () {
+        $scope.pwdBox = true;
+    });
+    $('#password').focusout(function () {
+        $scope.pwdBox = false;
+    });
 
 
 });
@@ -157,7 +161,8 @@ mainApp.directive('passwordStrengthBox', [
             restrict: 'E',
             scope: {
                 password: '=ngModel',
-                confirm: '='
+                confirm: '=',
+                box: '='
             },
 
             link: function (scope, elem, attrs, ctrl) {
@@ -244,7 +249,7 @@ mainApp.directive('passwordStrengthBox', [
             '</li>' +
             '<li><i ng-show="isPwdValidation.digit" class="ti-check color-green"></i>' +
             '<i ng-show="!isPwdValidation.digit" class="ti-close color-red"></i>' +
-            'Digit' +
+            ' Digit' +
             '</li>' +
             '<li><i ng-show="isPwdValidation.capitalLetter" class="ti-check color-green"></i>' +
             '<i ng-show="!isPwdValidation.capitalLetter" class="ti-close color-red"></i>' +
@@ -289,6 +294,7 @@ mainApp.directive('uniqueCompany', ['signUpServices', function (signUpServices) 
         link: function (scope, element, attrs, ngModel) {
             element.bind('blur', function (e) {
                 scope.isLoading = false;
+                scope.pwdBox = false;
                 var currentValue = element.val();
 
                 function validateCompany(companyName) {

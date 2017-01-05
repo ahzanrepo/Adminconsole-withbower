@@ -58,14 +58,19 @@
                                 <div class="validation-area ">
                                     <!-- password  -->
                                     <!-- password  -->
-                                    <password-strength-box ng-model="password" confirm="confirmPwd"></password-strength-box>
+                                    <div ng-show="pwdBox">
+                                        <password-strength-box ng-model="password"
+                                                               box="pwdBox"
+                                                               confirm="confirmPwd"></password-strength-box>
+                                    </div>
 
                                     <label class="dark-frm-label">Password
                                          <span class="inline-block validation-on"
                                                ng-show="signUpForm.password.$invalid && !signUpForm.password.$pristine
                                                ">*
                                     </span></label>
-                                    <input type="password" ng-model="password"
+                                    <input type="password"
+                                           ng-model="password"
                                            class="form-control dark-frm-input"
                                            name="pwd"
                                            id="password"
