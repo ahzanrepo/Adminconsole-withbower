@@ -53,7 +53,7 @@
             if (token) {
                 if (!jwtHelper.isTokenExpired(token)) {
                     var decoded = jwtHelper.decodeToken(token);
-                    if(decoded && decoded.user_meta)
+                    if (decoded && decoded.user_meta)
                         return decoded.user_meta.role;
                     else
                         return undefined;
@@ -203,9 +203,9 @@
         function getMyPackages(callback) {
             $http.get(baseUrls.UserServiceBaseUrl + "MyOrganization/mypackages").success(function (data, status, headers, config) {
                 if (data && data.Result && data.Result.length > 0) {
-                    callback(true, status);
+                    callback(true, status, data);
                 } else {
-                    callback(false, status);
+                    callback(false, status, data);
                 }
             }).error(function (data, status, headers, config) {
                 callback(false, status);
@@ -218,8 +218,8 @@
         function getAllPackages(callback) {
             $http.get(baseUrls.UserServiceBaseUrl + "Packages").success(function (data, status, headers, config) {
 
-               
-                    callback(data.Result);
+
+                callback(data.Result);
 
             }).error(function (data, status, headers, config) {
                 callback(data.Result);
@@ -231,12 +231,12 @@
         //http://192.168.5.103:3636
         function buyMyPackage(packageName, callback) {
             $http.put(baseUrls.UserServiceBaseUrl + "Organisation/Package/" + packageName, {}).success(function (data, status, headers, config) {
-                if (data && data.IsSuccess && data.IsSuccess == true){
+                if (data && data.IsSuccess && data.IsSuccess == true) {
                     callback(true, data.Result);
-                }else{
+                } else {
                     callback(false, data.Result);
                 }
-                
+
             }).error(function (data, status, headers, config) {
                 callback(false, data.Result);
             });
@@ -252,7 +252,7 @@
 
                     localStorageService.set("@navigations", data.Result[0]);
                     callback(true);
-                }else{
+                } else {
                     callback(false);
                 }
 
