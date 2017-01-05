@@ -41,17 +41,17 @@
                     </div>
                 </fieldset>
 
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                    <label>Application</label>
+                <div class="col-md-2 col-sm-2 col-xs-2">
+                    <label>Author</label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="application" ng-model="obj.application">
+                        <input type="text" class="form-control" name="author" ng-model="obj.author" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.Display as usr.Display for usr in userList" bs-typeahead>
                     </div>
                 </div>
 
                 <div class="col-md-2 col-sm-2 col-xs-12">
-                    <label>Key Property</label>
+                    <label>Application</label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="property" ng-model="obj.property">
+                        <input type="text" class="form-control" name="application" ng-model="obj.application">
                     </div>
                 </div>
 
@@ -65,12 +65,14 @@
                     </div>
                 </div>-->
 
-                <div class="col-md-2 col-sm-2 col-xs-2">
-                    <label>Author</label>
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                    <label>Key Property</label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="author" ng-model="obj.author" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.Display as usr.Display for usr in userList" bs-typeahead>
+                        <input type="text" class="form-control" name="property" ng-model="obj.property">
                     </div>
                 </div>
+
+
 
                 <div class="col-md-4 col-sm-4 col-xs-4">
                     <div class="x_content btn-wrap-header" style="position: relative; top: 10px;">
@@ -177,7 +179,7 @@
                                 <td>{{audit.User}}</td>
                                 <td>{{audit.Application}}</td>
                                 <td>{{audit.ObjectType}}</td>
-                                <td>{{moment(audit.createdAt).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
+                                <td>{{moment(audit.createdAt).local().format("YYYY-MM-DD hh:mm:ss A")}}</td>
                                 <td style="max-width: 200px; overflow: hidden;"><div>{{audit.NewValue}}</div></td>
                                 <td style="max-width: 200px; overflow: hidden;">{{audit.OldValue}}</td>
                                 <td><button ng-click="openDiffViewer(audit.OldValue, audit.NewValue)">Diff</button></td>
