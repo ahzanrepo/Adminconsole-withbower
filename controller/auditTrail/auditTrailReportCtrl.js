@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var auditTrailReportCtrl = function ($scope, $filter, $q, $uibModal, ObjectDiff, companyConfigBackendService, loginService) {
+    var auditTrailReportCtrl = function ($scope, $filter, $q, $uibModal, ObjectDiff, companyConfigBackendService, ticketReportsService, loginService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -69,6 +69,7 @@
         $scope.recLimit = '10';
 
         $scope.auditList = [];
+        $scope.userList = [];
 
         $scope.pageChanged = function () {
             $scope.getTicketSummary();
@@ -92,6 +93,30 @@
         $scope.closeModal = function(){
             $scope.modalInstanceDiff.close();
         };
+
+        var getUserList = function () {
+
+            ticketReportsService.getUsers().then(function (userList) {
+                if (userList && userList.Result && userList.Result.length > 0) {
+                    //$scope.userList = userList.Result;
+
+                    $scope.userList = userList.Result.map(function (obj) {
+                        var rObj = {
+                            UniqueId: obj._id,
+                            Display: obj.name
+                        };
+
+                        return rObj;
+                    });
+                }
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        getUserList();
 
         $scope.openDiffViewer = function (oldValue, newValue) {
             //modal show
