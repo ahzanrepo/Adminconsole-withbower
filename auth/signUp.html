@@ -73,6 +73,7 @@
                                            ng-model="password"
                                            class="form-control dark-frm-input"
                                            name="pwd"
+                                           password-verify="{{confirmPwd}}"
                                            id="password"
                                            placeholder=""
                                            required=""/>
@@ -88,7 +89,7 @@
                                          <span class="inline-block validation-on"
                                                ng-show="signUpForm.confirmPwd.$invalid && !signUpForm.confirmPwd.$pristine">*
                                     </span></label>
-                                    <input type="password" password-verify="password"
+                                    <input type="password" password-verify="{{password}}"
                                            ng-model="confirmPwd"
                                            class="form-control dark-frm-input"
                                            name="confirmPwd"

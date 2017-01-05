@@ -177,12 +177,7 @@
                 <div class="x_panel">
                     <div class="x_content col-md-12 col-sm-12 col-xs-12">
                         <ul class="list-unstyled msg_list">
-                            <div class="mail_list_column sip-user-wrap"
-                                 ng-mouseover="viewScroll()"
-                                 ng-mouseleave="hideScroll()"
-                                 ng-slimscroll
-                                 height="670" width="100%" opacity="0.2" distance="0px"
-                                 enabled="{{ scrollEnabled }}">
+                            <div class="mail_list_column sip-user-wrap">
                                 <a href="javascript:void(0);" class="user-wrap hover-none"
                                    ng-repeat="item in userGroupList | filterBy: ['name']: searchCriteria">
                                     <div class="mail_list user-list">
