@@ -26,7 +26,8 @@
             <div class="application-edit">
                 <div class="col-sm-12">
                     <div class="col-sm-6">
-                        <h2 class="font-robot font-300 text-uppercase font-15">Edit {{caseConfig.configurationName}}</h2>
+                        <h2 class="font-robot font-300 text-uppercase font-15">Edit
+                            {{caseConfig.configurationName}}</h2>
                     </div>
                     <div class="col-sm-6">
                         <div class="edit-close pull-right">
@@ -70,9 +71,6 @@
                             </div>
 
 
-
-
-
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <button type="button" class="btn btn-success btn-sm pull-right"
@@ -100,6 +98,8 @@
             <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>-->
         <div ng-hide="editMode">
+
+
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Configuration Name</label>
                 <p>{{caseConfig.configurationName}} </p>
@@ -112,9 +112,26 @@
 
             <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
                 <label class="form-control-static">Configuration Rule</label>
-                <p>
-                    {{ caseConfig.configurationRule | limitTo: 50 }}{{caseConfig.configurationRule.length > 50 ? '...' : ''}}
+                <p ng-if="caseConfig.configurationRule.length < 40">
+                    {{ caseConfig.configurationRule | limitTo: 50 }}{{caseConfig.configurationRule.length > 40 ? '...'
+                    :''}}
                 </p>
+
+                <p ng-if="caseConfig.configurationRule.length > 40"
+                        tooltip-placement="top"
+                   uib-tooltip="{{caseConfig.configurationRule}}"
+                   ng-class="{'marquee-text':caseConfig.configurationRule.length > 40}">
+                    {{ caseConfig.configurationRule | limitTo: 30 }}{{caseConfig.configurationRule.length > 30 ? '...'
+                    :''}}
+                </p>
+                <!--<marquee class="marquee"-->
+                <!--scrollamount="0"-->
+                <!--direction="left"-->
+                <!--onmouseover="this.scrollAmount=6"-->
+                <!--onmouseout="this.scrollAmount = 0"-->
+                <!--ng-if="caseConfig.configurationRule.length > 40">-->
+                <!--{{ caseConfig.configurationRule }}-->
+                <!--</marquee>-->
             </div>
 
             <div class="col-md-2 col-sm-2 col-xs-12 form-group ">
