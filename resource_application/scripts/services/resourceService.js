@@ -35,7 +35,7 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
             method: 'GET',
             url: baseUrls.UserServiceBaseUrl + "User/" + resourceName + "/exsists"
         }).then(function (response) {
-            return response.data.Result;
+            return response.data;
         });
 
     };

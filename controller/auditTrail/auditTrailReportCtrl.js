@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ticketDetailReportCtrl = function ($scope, $filter, $q, ticketReportsService, loginService) {
+    var auditTrailReportCtrl = function ($scope, $filter, $q, $uibModal, ObjectDiff, companyConfigBackendService, ticketReportsService, loginService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -16,7 +16,42 @@
             });
         };
 
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
+        $scope.obj = {
+            startDay: moment().format("YYYY-MM-DD"),
+            endDay: moment().format("YYYY-MM-DD"),
+            startTime: '12:00 AM',
+            endTime: '12:00 AM',
+            application: null,
+            property: null,
+            author: null
+        };
+
+        $scope.timeEnabled = 'Date Only';
+        $scope.timeEnabledStatus = false;
+
+        $scope.changeTimeAvailability = function () {
+            if ($scope.timeEnabled === 'Date Only') {
+                $scope.timeEnabled = 'Date & Time';
+                $scope.timeEnabledStatus = true;
+            }
+            else {
+                $scope.timeEnabled = 'Date Only';
+                $scope.timeEnabledStatus = false;
+            }
+        };
+
+        $scope.dateValid = function () {
+            if ($scope.timeEnabled === 'Date Only') {
+                $scope.timeEnabled = 'Date & Time';
+                $scope.timeEnabledStatus = true;
+            }
+            else {
+                $scope.timeEnabled = 'Date Only';
+                $scope.timeEnabledStatus = false;
+            }
+        };
+
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
         $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
 
@@ -33,18 +68,8 @@
 
         $scope.recLimit = '10';
 
-
-        $scope.obj = {
-            startDay: moment().format("YYYY-MM-DD"),
-            endDay: moment().format("YYYY-MM-DD")
-        };
-
-        $scope.ticketList = [];
-        $scope.extUserList = [];
-
-        $scope.tagList = [];
-        $scope.ticketStatusList = [];
-        $scope.ticketTypesList = [];
+        $scope.auditList = [];
+        $scope.userList = [];
 
         $scope.pageChanged = function () {
             $scope.getTicketSummary();
@@ -52,8 +77,7 @@
 
         $scope.searchWithNewFilter = function () {
             $scope.pagination.currentPage = 1;
-            $scope.FilterData = null;
-            $scope.getTicketSummary();
+            $scope.getAuditTrails();
         };
 
 
@@ -66,32 +90,8 @@
             return true;
         };
 
-        var getExternalUserList = function () {
-
-            ticketReportsService.getExternalUsers().then(function (extUserList) {
-                if (extUserList && extUserList.Result && extUserList.Result.length > 0) {
-                    //$scope.extUserList.push.apply($scope.extUserList, extUserList.Result);
-
-                    $scope.extUserList = extUserList.Result.map(function (obj) {
-                        var rObj = {
-                            UniqueId: obj._id,
-                            Display: obj.firstname + ' ' + obj.lastname
-                        };
-
-                        return rObj;
-                    });
-
-
-                    /*$scope.extUserList.push({name: 'sukitha', age:'rrr'});
-                     $scope.extUserList.push({name: 'ddd', age:'eee'});
-                     $scope.extUserList.push({name: 'eeee', age:'rrrs'});*/
-                    //$scope.extUserList = extUserList.Result;
-                }
-
-
-            }).catch(function (err) {
-                loginService.isCheckResponse(err);
-            });
+        $scope.closeModal = function(){
+            $scope.modalInstanceDiff.close();
         };
 
         var getUserList = function () {
@@ -116,180 +116,93 @@
             });
         };
 
-
-        var getTagList = function (callback) {
-            $scope.tagList = [];
-            var tagData = {};
-            ticketReportsService.getTagList().then(function (tagList) {
-                if (tagList && tagList.Result) {
-                    tagData.AllTags = tagList.Result;
-
-                }
-
-                ticketReportsService.getCategoryList().then(function (categoryList) {
-                    if (categoryList && categoryList.Result) {
-                        tagData.TagCategories = categoryList.Result;
-                    }
-
-                    callback(tagData);
-
-
-                }).catch(function (err) {
-                    loginService.isCheckResponse(err);
-                    callback(tagData);
-
-                });
-
-
-            }).catch(function (err) {
-                loginService.isCheckResponse(err);
-                callback(tagData);
-            });
-        };
-
-        var getTicketStatusList = function ()
-        {
-
-            ticketReportsService.getTicketStatusList().then(function (statusList)
-            {
-                if (statusList && statusList.Result)
-                {
-                    $scope.ticketStatusList = statusList.Result;
-
-                }
-
-            }).catch(function (err) {
-                loginService.isCheckResponse(err);
-            });
-        };
-
-        var getTicketTypeList = function ()
-        {
-
-            ticketReportsService.getTicketTypeList().then(function (typeList)
-            {
-                if (typeList && typeList.Result)
-                {
-                    var tempArr = [];
-                    if(typeList.Result.default_types)
-                    {
-                        tempArr = typeList.Result.default_types;
-                    }
-
-                    if(typeList.Result.custom_types)
-                    {
-                        tempArr = tempArr.concat(typeList.Result.custom_types);
-                    }
-
-                    $scope.ticketTypesList = tempArr;
-
-                }
-
-            }).catch(function (err) {
-                loginService.isCheckResponse(err);
-            });
-        };
-
-
-        var populateToTagList = function () {
-            $scope.tagList = [];
-            getTagList(function (tagObj) {
-
-                if (tagObj && tagObj.TagCategories) {
-                    var newTagCategories = tagObj.TagCategories.map(function (obj) {
-                        obj.TagType = 'CATEGORIES';
-                        return obj;
-                    });
-
-                    $scope.tagList.push.apply($scope.tagList, newTagCategories);
-
-                    console.log($scope.tagList);
-                }
-
-                if (tagObj && tagObj.AllTags) {
-                    var newAllTags = tagObj.AllTags.map(function (obj) {
-                        obj.TagType = 'TAGS';
-                        return obj;
-                    });
-
-                    $scope.tagList.push.apply($scope.tagList, newAllTags);
-                }
-
-
-            })
-        };
-
-
-        populateToTagList();
-        getExternalUserList();
         getUserList();
-        getTicketStatusList();
-        getTicketTypeList();
+
+        $scope.openDiffViewer = function (oldValue, newValue) {
+            //modal show
+            var diffViewerOldTemp = null;
+
+            var diffViewerNewTemp = null;
+
+            try
+            {
+                diffViewerOldTemp = JSON.parse(oldValue);
+            }
+            catch(ex)
+            {
+                diffViewerOldTemp = [oldValue];
+            }
+
+            try
+            {
+                diffViewerNewTemp = JSON.parse(newValue);
+            }
+            catch(ex)
+            {
+                diffViewerNewTemp = [newValue];
+            }
+
+            $scope.oldValueJsonView = ObjectDiff.objToJsonView(diffViewerOldTemp);
+
+            $scope.newValueJsonView = ObjectDiff.objToJsonView(diffViewerNewTemp);
+
+            var diff = ObjectDiff.diffOwnProperties(diffViewerOldTemp, diffViewerNewTemp);
+
+            $scope.diffValue = ObjectDiff.toJsonView(diff);
+
+            $scope.modalInstanceDiff = $uibModal.open({
+                animation: true,
+                templateUrl: 'views/auditTrail/diffViewer.html',
+                size: 'lg',
+                scope: $scope
+            });
+        };
 
 
-        $scope.getTicketSummary = function ()
-        {
+
+        $scope.getAuditTrails = function () {
             $scope.obj.isTableLoading = 0;
 
-            if (!$scope.FilterData) {
-                var slaStatus = $scope.slaStatus ? ($scope.slaStatus === 'true') : null;
-                var momentTz = moment.parseZone(new Date()).format('Z');
-                momentTz = momentTz.replace("+", "%2B");
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            //var encodedTz = encodeURI(momentTz);
+            momentTz = momentTz.replace("+", "%2B");
 
-                var startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
-                var tempEndDate = $scope.obj.endDay;
+            var st = moment($scope.obj.startTime, ["h:mm A"]).format("HH:mm");
+            var et = moment($scope.obj.endTime, ["h:mm A"]).format("HH:mm");
 
-                var endDate = moment(tempEndDate).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00' + momentTz;
+            var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
+            var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-                var tagName = null;
-
-                if ($scope.selectedTag) {
-                    tagName = $scope.selectedTag.name;
-                }
-
-                var limit = parseInt($scope.recLimit);
-
-                $scope.pagination.itemsPerPage = limit;
-
-                $scope.FilterData = {
-                    sdate: startDate,
-                    edate: endDate,
-                    limitCount: limit,
-                    skipCount: 0,
-                    requester: $scope.selectedExtUser,
-                    assignee: $scope.selectedAssignee,
-                    submitter: $scope.selectedSubmitter,
-                    tag: tagName,
-                    channel: $scope.channelType,
-                    priority: $scope.priorityType,
-                    type: $scope.ticketType,
-                    status: $scope.ticketStatus,
-                    slaViolated: slaStatus
-
-                }
-            }
-            else {
-                $scope.FilterData.skipCount = ($scope.pagination.currentPage - 1) * $scope.FilterData.limitCount;
+            if (!$scope.timeEnabledStatus) {
+                startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
+                endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
             }
 
+            var limit = parseInt($scope.recLimit);
 
-            try {
+            $scope.pagination.itemsPerPage = limit;
 
-                ticketReportsService.getTicketDetailsCount($scope.FilterData).then(function (ticketCount) {
-                    if (ticketCount && ticketCount.IsSuccess) {
-                        $scope.pagination.totalItems = ticketCount.Result;
+
+            try
+            {
+
+                companyConfigBackendService.getAuditTrailsCount(startDate, endDate, $scope.obj.application, $scope.obj.property, $scope.obj.author).then(function (auditCount)
+                {
+                    if (auditCount && auditCount.IsSuccess)
+                    {
+                        $scope.pagination.totalItems = auditCount.Result;
                     }
 
-                    ticketReportsService.getTicketDetails($scope.FilterData).then(function (ticketDetailsResp) {
-                        if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
+                    companyConfigBackendService.getAuditTrails(startDate, endDate, $scope.obj.application, $scope.obj.property, $scope.obj.author, $scope.pagination.itemsPerPage, $scope.pagination.currentPage).then(function (auditTrailsResp) {
+                        if (auditTrailsResp && auditTrailsResp.Result && auditTrailsResp.Result.length > 0) {
 
-                            $scope.ticketList = ticketDetailsResp.Result;
+                            $scope.auditList = auditTrailsResp.Result;
                             $scope.obj.isTableLoading = 1;
 
                         }
                         else {
                             $scope.obj.isTableLoading = -1;
-                            $scope.ticketList = [];
+                            $scope.auditList = [];
                         }
 
 
@@ -297,7 +210,7 @@
                         loginService.isCheckResponse(err);
                         $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                         $scope.obj.isTableLoading = -1;
-                        $scope.ticketList = [];
+                        $scope.auditList = [];
                     });
 
 
@@ -305,7 +218,7 @@
                     loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                     $scope.obj.isTableLoading = -1;
-                    $scope.ticketList = [];
+                    $scope.auditList = [];
                 });
 
 
@@ -313,7 +226,7 @@
             catch (ex) {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading ticket summary');
                 $scope.obj.isTableLoading = -1;
-                $scope.ticketList = [];
+                $scope.auditList = [];
             }
 
         };
@@ -487,7 +400,7 @@
 
 
     };
-    app.controller("ticketDetailReportCtrl", ticketDetailReportCtrl);
+    app.controller("auditTrailReportCtrl", auditTrailReportCtrl);
 
 }());
 
