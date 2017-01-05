@@ -110,7 +110,7 @@
                 <p>{{caseConfig.description}} </p>
             </div>
 
-            <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Configuration Rule</label>
                 <p ng-if="caseConfig.configurationRule.length < 40">
                     {{ caseConfig.configurationRule | limitTo: 50 }}{{caseConfig.configurationRule.length > 40 ? '...'
@@ -134,7 +134,12 @@
                 <!--</marquee>-->
             </div>
 
-            <div class="col-md-2 col-sm-2 col-xs-12 form-group ">
+            <div class="col-md-1 col-sm-1 col-xs-12 form-group ">
+                <label class="form-control-static">Status</label>
+                <p>{{caseConfig.active}} </p>
+            </div>
+
+            <div class="col-md-1 col-sm-1 col-xs-12 form-group ">
                 <label class="form-control-static">Threshold</label>
                 <p>{{caseConfig.threshold}} </p>
             </div>
