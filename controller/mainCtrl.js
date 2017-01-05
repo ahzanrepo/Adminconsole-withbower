@@ -323,6 +323,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goTicketSummary: function () {
             $state.go('console.ticketSummary');
         },
+        goAuditTrailReport: function () {
+            $state.go('console.auditTrailRep');
+        },
         goTicketDetailReport: function () {
             $state.go('console.ticketDetailReport');
         },
