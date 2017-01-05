@@ -64,6 +64,8 @@
         var updateProfile = function(user, profileInfo)
         {
 
+            delete profileInfo.email;
+
             profileInfo.birthday = profileInfo.dob.year+"-"+ profileInfo.dob.month+"-" + profileInfo.dob.day;
             var jsonStr = JSON.stringify(profileInfo);
 
