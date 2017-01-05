@@ -3,7 +3,9 @@
  */
 
 mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
-                                            loginService, walletService) {
+                                            loginService, walletService,$anchorScroll)
+{
+    $anchorScroll();
 
     //on load get my package
     $scope.packages = [];
