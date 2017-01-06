@@ -77,7 +77,7 @@
                 {
                     return resp.data;
                 })
-        }
+        };
 
         var deleteContactFromProfile = function(user, contact)
         {

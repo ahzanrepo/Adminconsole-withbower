@@ -171,6 +171,40 @@
             });
         };
 
+        $scope.updateCron = function(updateCronInfo)
+        {
+            scheduleWorkerService.updateCronSchedule(updateCronInfo.UniqueId, updateCronInfo).then(function (data)
+            {
+                if (data.IsSuccess)
+                {
+                    $scope.showAlert('Success', 'success', 'Schedule updated successfully');
+                }
+                else
+                {
+                    var errMsg = data.CustomMessage;
+
+                    if (data.Exception)
+                    {
+                        errMsg = data.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+
+                }
+
+
+
+            }, function (err)
+            {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while updating schedule";
+                if (err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
+
         $scope.removeCron = function(cron)
         {
 
