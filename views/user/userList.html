@@ -210,7 +210,7 @@
                                     <!-- user list wrapper -->
                                     <div class="group-wrapper">
                                         <div class="group"
-                                             ng-class="group.name == selectedGroupName ? 'active-group' : ''"
+                                             ng-class="group.name == selectedGroup.name ? 'active-group' : ''"
                                              ng-click="loadGroupMembers(group)"
                                              ng-repeat="group in userGroupList | filterBy: ['name']: searchCriteria">
                                             <div class="col-md-3 col-lg-3 col-xs-6">
@@ -228,7 +228,7 @@
                                                         </div>
                                                     </li>
                                                     <li class="pull-right"
-                                                        ng-show="group.name == selectedGroupName">
+                                                        ng-show="group.name == selectedGroup.name">
                                                         <div class="selected-group">
                                                             <i class="ti-check"></i>
                                                         </div>
@@ -239,7 +239,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- group member  -->
+                            <!--#add new user to group member  -->
                             <div class="col-lg-8 col-md-7 col-xs-6" style="padding-left: 0px">
                                 <div class="group-member-list">
                                     <!-- header -->
@@ -265,7 +265,7 @@
 
                                             </div>
                                         </div>
-                                        <!-- add new group member -->
+                                        <!-- #add new group member -->
                                         <!-- create new group -->
                                         <div id="crateNewGroupMemberWrapper" class="new-group-wrapper new-group-member">
                                             <ul class="group-inline-des">
@@ -295,12 +295,13 @@
                                                         <select class="select2_single form-control" tabindex="-1"
                                                                 aria-hidden="true"
                                                                 placeholder="Title" name="title" ng-model="newMember"
-                                                                ng-options="user.username for user in agents">
+                                                                ng-options="user.username for user in agents"></select>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- #view group member -->
                                     <div class="group-wrapper group-member-wrapper">
                                         <div class="group-load-wrapper" ng-show="isLoadingUsers">
                                             <div class="loader-md-90"></div>

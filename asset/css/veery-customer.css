@@ -4464,7 +4464,31 @@ tags-input .tags {
 }
 
 .new-group-wrapper.new-group-member {
-    left:13px;
+    left: 13px;
+}
+
+/*confirm notify STYLE */
+.brighttheme-notice {
+    background-color: #fcfbfb;
+    border: 1px solid #ffffff;
+    color: #383b3b;
+}
+.ui-pnotify-modal-overlay {
+    background-color: rgba(0, 0, 0, .4);
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+.brighttheme .ui-pnotify-action-button {
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
 }
 
 /*pre loader*/
