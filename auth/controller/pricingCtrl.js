@@ -15,15 +15,15 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
         loginService.getMyPackages(function (status, res, data) {
             if (status && data && data.Result) {
                 $scope.myCurrentPackage = data.Result[0];
-                $scope.packages.forEach(function (value, key) {
-                    if ($scope.packages[key].packageName == data.Result[0]) {
-                        $scope.packages[key]['disable'] = true;
-                        $scope.packages[key]['active'] = true;
-                        return;
+                for (var i = 0; i < $scope.packages.length; i++) {
+                    if ($scope.packages[i].packageName == data.Result[0]) {
+                        $scope.packages[i]['disable'] = true;
+                        $scope.packages[i]['active'] = true;
+                        i = $scope.packages.length;
                     } else {
-                        $scope.packages[key]['disable'] = true;
+                        $scope.packages[i]['disable'] = true;
                     }
-                });
+                }
             }
         })
     });

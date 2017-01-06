@@ -215,6 +215,93 @@
         $scope.showMembers = false;
 
 
+        /*update code damith*/
+        $scope.groupMemberlist = [];
+        $scope.isLoadingUsers = false;
+        $scope.selectedGrupName = null;
+        $scope.loadGroupMembers = function (group) {
+            $scope.groupMemberlist = [];
+            $scope.isLoadingUsers = true;
+            $scope.selectedGroupName = group.name;
+            userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.groupMemberlist = response.Result;
+                }
+                else {
+                    console.log("Error in loading Group member list");
+                    //scope.showAlert("User removing from group", "error", "Error in removing user from group");
+                }
+                $scope.isLoadingUsers = false;
+            }, function (err) {
+                console.log("Error in loading Group member list ", err);
+                //scope.showAlert("User removing from group", "error", "Error in removing user from group");
+            });
+        };
+
+        //remove group member
+        $scope.removeGroupMember = function (userID) {
+            userProfileApiAccess.removeUserFromGroup(scope.groupid, userID).then(function (response) {
+
+                if (response.IsSuccess) {
+                    $scope.groupMemberlist.filter(function (userObj) {
+                        if (userObj._id == userID) {
+                            $scope.groupMemberlist.splice(scope.groupMemberlist.indexOf(userObj), 1);
+                            $scope.agents.push(userObj);
+                            $scope.showAlert("User removing from group", "success", "User removed from group successfully");
+                        }
+
+                    })
+                }
+                else {
+                    $scope.showAlert("User removing from group", "error", "Error in removing user from group");
+                }
+            }, function (error) {
+                $scope.showAlert("User removing from group", "error", "User removing from group failed");
+            })
+        };
+
+
+        //create new group
+        $scope.createNewGroup = function () {
+            $('#crateNewGroupWrapper').animate({
+                bottom: "-5"
+            }, 500);
+        };
+        $scope.hiddenNewGroupDIV = function () {
+            $('#crateNewGroupWrapper').animate({
+                bottom: "-95"
+            }, 300);
+        };
+
+        $scope.addNewGroupMember = function () {
+            $('#crateNewGroupMemberWrapper').animate({
+                bottom: "-5"
+            }, 500);
+        };
+        $scope.hiddenNewGroupMember = function () {
+            $('#crateNewGroupMemberWrapper').animate({
+                bottom: "-95"
+            }, 300);
+        };
+
+
+        //add user to group
+        $scope.agents = [];
+        //get all agents
+        //onload
+        $scope.loadAllAgents = function () {
+            userProfileApiAccess.getUsers().then(function (data) {
+                if (data.IsSuccess) {
+                    $scope.agents = data.Result;
+                    //removeAllocatedAgents();
+                }
+            }, function (error) {
+                $scope.showAlert("Loading Agent details", "error", "Error in loading Agent details");
+            });
+        };
+        $scope.loadAllAgents();
+
+
     };
 
     app.controller("userListCtrl", userListCtrl);

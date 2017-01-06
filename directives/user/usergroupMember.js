@@ -85,7 +85,7 @@ mainApp.directive("groupmemberviewer", function ($filter,$uibModal,userProfileAp
                 }, function (error) {
                     scope.showAlert("User removing from group","error","User removing from group failed");
                 })
-            }
+            };
 
             scope.loadGroupMembers();
 
