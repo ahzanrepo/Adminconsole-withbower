@@ -237,6 +237,7 @@
             $scope.groupMemberlist = [];
             $scope.isLoadingUsers = true;
             $scope.selectedGroup = group;
+            
             userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
                 if (response.IsSuccess) {
                     $scope.groupMemberlist = response.Result;
