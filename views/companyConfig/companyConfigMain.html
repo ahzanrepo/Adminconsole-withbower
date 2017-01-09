@@ -306,11 +306,11 @@
                 <div class="x_panel">
                     <div class="x_content">
                         <ul class="list-unstyled timeline">
-                            <li ng-repeat="prefix in prefixList">
+                          <!--  <li ng-repeat="prefix in prefixList">
                                 <editprefix prefix="prefix" prefixlist="prefixList" reloadpage="getTicketPrefixes()">
 
                                 </editprefix>
-                            </li>
+                            </li>-->
 
                             <paging ng-show="showPaging"
                                     class="small"
@@ -330,7 +330,7 @@
                 </div>
             </uib-tab>
 
-            <uib-tab index="4" heading="Phone Config">
+            <uib-tab index="5" heading="Phone Config">
                 <div ng-include="'views/companyConfig/phoneConfig.html'">
                 </div>
             </uib-tab>
