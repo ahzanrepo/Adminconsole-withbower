@@ -374,7 +374,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
             }
         }, function (err) {
-            loginService.isCheckResponse(error);
+            loginService.isCheckResponse(err);
             var errMsg = "Error occurred while saving ticket type";
             if (err.statusText) {
                 errMsg = err.statusText;

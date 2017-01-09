@@ -19,6 +19,72 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             });
         },
 
+        getAuditTrails: function (startTime, endTime, application, property, author, pageSize, pageNo) {
+
+            var url = baseUrls.clusterconfigUrl + 'AuditTrailsPaging' + '?startTime=' + startTime + '&endTime=' + endTime;
+
+            if(application)
+            {
+                url = url + '&application=' + application;
+            }
+
+            if(property)
+            {
+                url = url + '&property=' + property;
+            }
+
+            if(author)
+            {
+                url = url + '&author=' + author;
+            }
+
+            if(pageSize > 0)
+            {
+                url = url + '&pageSize=' + pageSize;
+            }
+
+            if(pageNo > 0)
+            {
+                url = url + '&pageNo=' + pageNo;
+            }
+
+            return $http({
+                method: 'GET',
+                url:url
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+
+        getAuditTrailsCount: function (startTime, endTime, application, property, author) {
+
+            var url = baseUrls.clusterconfigUrl + 'AuditTrails/Count' + '?startTime=' + startTime + '&endTime=' + endTime;
+
+            if(application)
+            {
+                url = url + '&application=' + application;
+            }
+
+            if(property)
+            {
+                url = url + '&property=' + property;
+            }
+
+            if(author)
+            {
+                url = url + '&author=' + author;
+            }
+
+            return $http({
+                method: 'GET',
+                url:url
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+
         saveNewEndUser: function (resource) {
             
 
