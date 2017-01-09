@@ -345,6 +345,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.fileslotmaker');
         }, goBillingHistory: function () {
             $state.go('console.billingHistory');
+        },goIvrNodeCountReport: function () {
+            $state.go('console.ivrnodecount');
         },
     };
 

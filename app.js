@@ -78,6 +78,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
+    'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//104.236.197.119
 };
 
@@ -780,6 +781,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('console.ticket-flow', {
             url: "/ticketFLow",
             templateUrl: "views/flow/ticket-flow-view.html",
+            data: {
+                requireLogin: true,
+                navigation: "SLA_BREAKDOWN"
+            }
+        }).state('console.ivrnodecount', {
+            url: "/ivrNode",
+            templateUrl: "ivr_node_count/view/ivrNodeCount.html",
+            controller: "ivrNodeCountController",
             data: {
                 requireLogin: true,
                 navigation: "SLA_BREAKDOWN"
