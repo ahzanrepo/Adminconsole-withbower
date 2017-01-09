@@ -142,6 +142,7 @@
                 if (data.IsSuccess)
                 {
                     $scope.showAlert('Success', 'success', 'Schedule added successfully');
+                    $scope.currentCron = {};
                     $scope.currentCron.CronePattern = '* * * * *';
                     loadCrons();
                 }
