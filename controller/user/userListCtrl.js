@@ -150,8 +150,8 @@
         $scope.removeUser = function (username) {
 
             new PNotify({
-                title: 'Confirm deletion',
-                text: 'Are you sure you want to delete user ?',
+                title: 'Confirm Deletion',
+                text: 'Are You Sure You Want To Delete User ?',
                 hide: false,
                 confirm: {
                     confirm: true
@@ -166,7 +166,7 @@
             }).get().on('pnotify.confirm', function () {
                 userProfileApiAccess.deleteUser(username).then(function (data) {
                     if (data.IsSuccess) {
-                        $scope.showAlert('Success', 'info', 'User deleted');
+                        $scope.showAlert('Success', 'info', 'User Deleted');
                         loadUsers();
                     }
                     else {
@@ -202,17 +202,17 @@
             userProfileApiAccess.addUserGroup($scope.newUserGroup).then(function (response) {
 
                 if (response.IsSuccess) {
-                    $scope.showAlert("New User group", "success", "New User group added successfully");
+                    $scope.showAlert("New User group", "success", "New User Group Added Successfully");
                     resetForm();
                     loadUserGroups();
                 }
                 else {
-                    $scope.showAlert("New User group", "error", "New User group adding failed");
+                    $scope.showAlert("New User group", "error", "New User Group Adding Failed");
                 }
 
             }, function (err) {
                 loginService.isCheckResponse(err);
-                $scope.showAlert("New User group", "error", "Error in new User group adding");
+                $scope.showAlert("New User group", "error", "Error In New User Group Adding");
             })
         };
 
@@ -281,15 +281,15 @@
                             if (userObj._id == userID) {
                                 $scope.groupMemberlist.splice($scope.groupMemberlist.indexOf(userObj), 1);
                                 $scope.agents.push(userObj);
-                                $scope.showAlert("User removing from group", "success", "User removed from group successfully");
+                                $scope.showAlert("User Removing From Group", "success", "User Removed From Group Successfully");
                             }
                         });
                     }
                     else {
-                        $scope.showAlert("User removing from group", "error", "Error in removing user from group");
+                        $scope.showAlert("User Removing From Group", "error", "Error In Removing User From Group");
                     }
                 }, function (error) {
-                    $scope.showAlert("User removing from group", "error", "User removing from group failed");
+                    $scope.showAlert("User Removing From Group", "error", "User Removing From Group Failed");
                 });
             }).on('pnotify.cancel', function () {
                 console.log('fire event cancel');
@@ -333,7 +333,7 @@
                     removeAllocatedAgents();
                 }
             }, function (error) {
-                $scope.showAlert("Loading Agent details", "error", "Error in loading Agent details");
+                $scope.showAlert("Loading Agent details", "error", "Error In Loading Agent Details");
             });
         };
         $scope.loadAllAgents();
@@ -345,16 +345,16 @@
                     $scope.agents.filter(function (userObj) {
                         if (userObj._id == userID) {
                             $scope.groupMemberlist.push(userObj);
-                            $scope.showAlert("Member added to group", "success", "Member added to group successfully");
+                            $scope.showAlert("Member Added To Group", "success", "Member Added To Group Successfully");
                             removeAllocatedAgents();
                         }
                     })
                 }
                 else {
-                    $scope.showAlert("Member added to group", "error", "Error in Member adding to group");
+                    $scope.showAlert("Member Added To Group", "error", "Error In Member Adding To Group");
                 }
             }, function (error) {
-                $scope.showAlert("Member added to group", "error", "Member added to group failed");
+                $scope.showAlert("Member Added To Group", "error", "Member Added To Group Failed");
             })
         }
 
