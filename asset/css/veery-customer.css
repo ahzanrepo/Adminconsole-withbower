@@ -4483,6 +4483,11 @@ tags-input .tags {
     z-index: 1;
 }
 
+.ui-pnotify.stack-modal {
+    right: 10px !important;
+    left: 91%;
+}
+
 .brighttheme .ui-pnotify-action-button {
     text-transform: uppercase;
     font-weight: bold;
