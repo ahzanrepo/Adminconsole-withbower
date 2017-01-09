@@ -85,6 +85,10 @@
             userProfileApiAccess.getUserGroups().then(function (data) {
                 if (data.IsSuccess) {
                     $scope.userGroupList = data.Result;
+
+                    if ($scope.userGroupList.length > 0) {
+                        $scope.loadGroupMembers($scope.userGroupList[0]);
+                    }
                 }
                 else {
                     var errMsg = data.CustomMessage;
@@ -213,6 +217,146 @@
         };
 
         $scope.showMembers = false;
+
+
+        /*update code damith*/
+        $scope.groupMemberlist = [];
+        $scope.isLoadingUsers = false;
+        $scope.selectedGroup = null;
+        var removeAllocatedAgents = function () {
+            $scope.groupMemberlist.filter(function (member) {
+                $scope.agents.filter(function (agent) {
+                    if (agent._id == member._id) {
+                        $scope.agents.splice($scope.agents.indexOf(agent), 1);
+                    }
+                })
+            })
+        };
+
+        $scope.loadGroupMembers = function (group) {
+            $scope.groupMemberlist = [];
+            $scope.isLoadingUsers = true;
+            $scope.selectedGroup = group;
+            
+            userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.groupMemberlist = response.Result;
+                    removeAllocatedAgents()
+                }
+                else {
+                    console.log("Error in loading Group member list");
+                    //scope.showAlert("User removing from group", "error", "Error in removing user from group");
+                }
+                $scope.isLoadingUsers = false;
+            }, function (err) {
+                console.log("Error in loading Group member list ", err);
+                //scope.showAlert("User removing from group", "error", "Error in removing user from group");
+            });
+        };
+
+
+        //remove group member
+        $scope.removeGroupMember = function (userID) {
+            //confirm box
+            new PNotify({
+                title: 'Confirmation Needed',
+                text: 'Are you sure?',
+                icon: 'glyphicon glyphicon-question-sign',
+                hide: false,
+                confirm: {
+                    confirm: true
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                },
+                addclass: 'stack-modal',
+            }).get().on('pnotify.confirm', function () {
+                userProfileApiAccess.removeUserFromGroup($scope.selectedGroup._id, userID).then(function (response) {
+                    if (response.IsSuccess) {
+                        $scope.groupMemberlist.filter(function (userObj) {
+                            if (userObj._id == userID) {
+                                $scope.groupMemberlist.splice($scope.groupMemberlist.indexOf(userObj), 1);
+                                $scope.agents.push(userObj);
+                                $scope.showAlert("User removing from group", "success", "User removed from group successfully");
+                            }
+                        });
+                    }
+                    else {
+                        $scope.showAlert("User removing from group", "error", "Error in removing user from group");
+                    }
+                }, function (error) {
+                    $scope.showAlert("User removing from group", "error", "User removing from group failed");
+                });
+            }).on('pnotify.cancel', function () {
+                console.log('fire event cancel');
+            });
+
+        };
+
+
+        //create new group
+        $scope.createNewGroup = function () {
+            $('#crateNewGroupWrapper').animate({
+                bottom: "-5"
+            }, 500);
+        };
+        $scope.hiddenNewGroupDIV = function () {
+            $('#crateNewGroupWrapper').animate({
+                bottom: "-95"
+            }, 300);
+        };
+
+        $scope.addNewGroupMember = function () {
+            $('#crateNewGroupMemberWrapper').animate({
+                bottom: "-5"
+            }, 500);
+        };
+        $scope.hiddenNewGroupMember = function () {
+            $('#crateNewGroupMemberWrapper').animate({
+                bottom: "-95"
+            }, 300);
+        };
+
+
+        //add user to group
+        $scope.agents = [];
+        //get all agents
+        //onload
+        $scope.loadAllAgents = function () {
+            userProfileApiAccess.getUsers().then(function (data) {
+                if (data.IsSuccess) {
+                    $scope.agents = data.Result;
+                    removeAllocatedAgents();
+                }
+            }, function (error) {
+                $scope.showAlert("Loading Agent details", "error", "Error in loading Agent details");
+            });
+        };
+        $scope.loadAllAgents();
+
+        //add new member to current selected group
+        $scope.addUserToGroup = function (userID) {
+            userProfileApiAccess.addMemberToGroup($scope.selectedGroup._id, userID).then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.agents.filter(function (userObj) {
+                        if (userObj._id == userID) {
+                            $scope.groupMemberlist.push(userObj);
+                            $scope.showAlert("Member added to group", "success", "Member added to group successfully");
+                            removeAllocatedAgents();
+                        }
+                    })
+                }
+                else {
+                    $scope.showAlert("Member added to group", "error", "Error in Member adding to group");
+                }
+            }, function (error) {
+                $scope.showAlert("Member added to group", "error", "Member added to group failed");
+            })
+        }
 
 
     };

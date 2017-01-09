@@ -18,6 +18,8 @@
 
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
 
+        $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
+
         $scope.tagHeaders = ['Reference', 'Subject', 'Phone Number', 'Email', 'SSN', 'First Name', 'Last Name', 'Address', 'From Number', 'Created Date', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
 
         $scope.moment = moment;
@@ -225,7 +227,8 @@
         getTicketTypeList();
 
 
-        $scope.getTicketSummary = function () {
+        $scope.getTicketSummary = function ()
+        {
             $scope.obj.isTableLoading = 0;
 
             if (!$scope.FilterData) {
@@ -317,6 +320,7 @@
 
         $scope.getTicketSummaryCSV = function () {
             $scope.tagHeaders = ['Reference', 'Subject', 'Phone Number', 'Email', 'SSN', 'First Name', 'Last Name', 'Address', 'From Number', 'Created Date', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
+            $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
 
             if (!$scope.tagCount) {
                 $scope.tagCount = 0;
@@ -325,6 +329,7 @@
             if ($scope.tagCount) {
                 for (j = 0; j < $scope.tagCount; j++) {
                     $scope.tagHeaders.push('Tag' + (j + 1));
+                    $scope.tagOrder.push('Tag' + (j + 1));
                 }
             }
 
@@ -369,7 +374,6 @@
 
                 ticketReportsService.getTicketDetailsNoPaging($scope.FilterData).then(function (ticketDetailsResp) {
                     if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
-                        $scope.ticketList = ticketDetailsResp.Result;
 
                         ticketDetailsResp.Result.forEach(function (ticketInfo) {
                             var ticketInfoTemp =
@@ -440,9 +444,11 @@
                                         if($scope.tagHeaders.indexOf(tempFieldName) < 0)
                                         {
                                             $scope.tagHeaders.push(tempFieldName);
+                                            $scope.tagOrder.push(tempFieldName);
 
-                                            ticketInfoTemp[tempFieldName] = field.value;
                                         }
+
+                                        ticketInfoTemp[tempFieldName] = field.value;
 
                                     }
                                 })

@@ -221,24 +221,36 @@
 					</li>-->
 
 					<div class="col-md-12 col-sm-12 col-xs-12 panel-body">
-						<div class="col-md-3 col-sm-3 col-xs-3">
+						<div class="col-md-4 col-sm-4 col-xs-4">
 							<label>Dynamic Profile Form</label>
 							<select class="select2_single form-control" tabindex="-1" aria-hidden="true"
 									ng-model="currentProfileForm" ng-model-options="{trackBy: '$value'}">
+								<option value=""></option>
 								<option ng-repeat="form in formList" value="{{form._id}}">{{form.name}}
 								</option>
 							</select>
 						</div>
 
 
-						<div class="col-md-3 col-sm-3 col-xs-3">
+						<div class="col-md-4 col-sm-4 col-xs-4">
 							<label>Dynamic Ticket Form</label>
 							<select class="select2_single form-control" tabindex="-1" aria-hidden="true"
 									ng-model="currentTicketForm" ng-model-options="{trackBy: '$value'}">
+								<option value=""></option>
 								<option ng-repeat="form in formList" value="{{form._id}}">{{form.name}}
 								</option>
 							</select>
 						</div>
+
+						<!--<div class="col-md-3 col-sm-3 col-xs-3">
+							<label>Ticket Create Form</label>
+							<select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+									ng-model="createTicketForm" ng-model-options="{trackBy: '$value'}">
+								<option value=""></option>
+								<option ng-repeat="form in formList" value="{{form._id}}">{{form.name}}
+								</option>
+							</select>
+						</div>-->
 
 						<div class="col-md-2 col-sm-2 col-xs-2">
 							<button style="position: relative; top: 26px;" class="btn btn-primary" ng-click="saveProfileForm()" ng-disabled="sipUserConfForm.$invalid">

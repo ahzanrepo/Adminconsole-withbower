@@ -1035,7 +1035,7 @@ h2 {
     padding: 10px 17px;
     display: inline-block;
     background: #fff;
-    border: 0px solid #E6E9ED;
+    border: 1px solid #E6E9ED;
     -webkit-column-break-inside: avoid;
     -moz-column-break-inside: avoid;
     column-break-inside: avoid;
@@ -1045,7 +1045,7 @@ h2 {
     -webkit-transition: all .2s ease;
     -ms-transition: all .2s ease;
     transition: all .2s ease;
-    border-radius: 7px;
+    border-radius: 0px;
 }
 
 .x_title {
@@ -2123,6 +2123,14 @@ h4.graph_title {
     margin-left: 10px;
     z-index: 5;
     padding: 0;
+}
+
+.title-status-medium .count {
+    font-size: 15px !important;
+}
+
+.title-status-medium h3 {
+    font-size: 15px !important;
 }
 
 .tile-stats h3 {
@@ -3480,7 +3488,6 @@ ul.project_files li a i {
     font-size: 30px;
     margin: 12px;
 }
-
 
 .pricing_features {
     background: #FAFAFA;

@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess) {
 
 
     //added by pawan
@@ -308,6 +308,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goTicketSla: function () {
             $state.go('console.sla');
         },
+        goQABuilder: function () {
+            $state.go('console.qaRatingFormBuilder');
+        },
+        goQASubmission: function () {
+            $state.go('console.qaSubmission');
+        },
         goAgentStatusEvt: function () {
             $state.go('console.agentstatusevents');
         },
@@ -316,6 +322,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },
         goTicketSummary: function () {
             $state.go('console.ticketSummary');
+        },
+        goAuditTrailReport: function () {
+            $state.go('console.auditTrailRep');
         },
         goTicketDetailReport: function () {
             $state.go('console.ticketDetailReport');
@@ -649,6 +658,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         notifiSenderService.getUserGroupList().then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 $scope.userGroups = response.data.Result;
+
             }
         }, function (err) {
             loginService.isCheckResponse(err);
@@ -697,7 +707,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 var offlineAgentList = [];
                 $scope.agentList = [];
                 var onlineAgents = response.Result;
-                console.log($scope.users);
 
                 if ($scope.users) {
                     for (var i = 0; i < $scope.users.length; i++) {
@@ -725,11 +734,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                     }
 
                     onlineAgentList.sort(function (a, b) {
+                        if (!a.name || !b.name) return 0;
                         if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                         if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                         return 0;
                     });
                     offlineAgentList.sort(function (a, b) {
+                        if (!a.name || !b.name) return 0;
                         if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
                         if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
                         return 0;
@@ -755,8 +766,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                         return 0;
                     });
 
-                    $scope.agentList = userGroupList.concat($scope.agentList)
+                    $scope.userGroups = userGroupList;
                 }
+
             }
             else {
                 /*var errMsg = response.CustomMessage;
@@ -808,6 +820,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.showRightSideNav = false;
         }
         $scope.isUserListOpen = !$scope.isUserListOpen;
+        $scope.onClickGetHeight();
 
         //document.getElementById("main").style.marginRight = "285px";
         // document.getElementById("navBar").style.marginRight = "300px";
@@ -827,29 +840,41 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.notificationMsg.From = $scope.loginName;
             $scope.notificationMsg.Direction = "STATELESS";
             if ($scope.naviSelectedUser.listType === "Group") {
-                if ($scope.naviSelectedUser.users) {
-                    var clients = [];
-                    for (var i = 0; i < $scope.naviSelectedUser.users.length; i++) {
-                        var gUser = $scope.naviSelectedUser.users[i];
-                        if (gUser && gUser.username && gUser.username != $scope.loginName) {
-                            clients.push(gUser.username);
+                userProfileApiAccess.getGroupMembers($scope.naviSelectedUser._id).then(function (response) {
+                    if (response.IsSuccess) {
+
+                        if (response.Result) {
+                            var clients = [];
+                            for (var i = 0; i < response.Result.length; i++) {
+                                var gUser = response.Result[i];
+                                if (gUser && gUser.username && gUser.username != $scope.loginName) {
+                                    clients.push(gUser.username);
+                                }
+                            }
+                            $scope.notificationMsg.clients = clients;
+
+                            notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
+                                $scope.notificationMsg = {};
+                                console.log("send notification success :: " + JSON.stringify(clients));
+                            }, function (err) {
+                                var errMsg = "Send Notification Failed";
+                                if (err.statusText) {
+                                    errMsg = err.statusText;
+                                }
+                                $scope.showAlert('Error', 'error', errMsg);
+                            });
+                        } else {
+                            $scope.showAlert('Error', 'error', "Send Notification Failed");
                         }
                     }
-                    $scope.notificationMsg.clients = clients;
-
-                    notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
-                        $scope.notificationMsg = {};
-                        console.log("send notification success :: " + JSON.stringify(clients));
-                    }, function (err) {
-                        var errMsg = "Send Notification Failed";
-                        if (err.statusText) {
-                            errMsg = err.statusText;
-                        }
-                        $scope.showAlert('Error', 'error', errMsg);
-                    });
-                } else {
+                    else {
+                        console.log("Error in loading Group member list");
+                        $scope.showAlert('Error', 'error', "Send Notification Failed");
+                    }
+                }, function (err) {
+                    console.log("Error in loading Group member list ", err);
                     $scope.showAlert('Error', 'error', "Send Notification Failed");
-                }
+                });
 
             } else {
 
@@ -932,14 +957,20 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     //Detect Document Height
     //update code damith
     window.onload = function () {
-        $scope.windowHeight = jsUpdateSize() - 60 + "px";
+        $scope.windowHeight = jsUpdateSize() - 100 + "px";
         document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
     };
 
     window.onresize = function () {
-        $scope.windowHeight = jsUpdateSize() - 60 + "px";
+        $scope.windowHeight = jsUpdateSize() - 100 + "px";
         document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
     };
+
+    $scope.onClickGetHeight = function () {
+        $scope.windowHeight = jsUpdateSize() - 100 + "px";
+        document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
+    };
+
 
     //Get user image list
     //

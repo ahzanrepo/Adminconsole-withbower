@@ -96,9 +96,10 @@
                     scope.showConfirm("Delete Case", "Delete", "ok", "cancel", "Do you want to delete " + scope.caseInfo.caseName, function (obj) {
                         caseApiAccess.deleteCase(scope.caseInfo._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
+                                scope.reloadPage();
                                 scope.updateCase(scope.caseInfo);
                                 scope.showAlert('Case', response.CustomMessage, 'success');
-                                $state.reload();
+                                //$state.reload();
                             }
                             else {
                                 var errMsg = response.CustomMessage;

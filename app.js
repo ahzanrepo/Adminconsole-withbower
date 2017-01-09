@@ -4,7 +4,7 @@
 
 
 var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.bootstrap',
-    'ui.router', 'ui.checkbox', 'angular-flot', 'angularMoment',
+    'ui.router', 'ui.checkbox', 'angular-flot',
     'resourceProductivityServiceModule', 'ngTagsInput', 'authServiceModule', 'jlareau.pnotify',
     'easypiechart', 'mgcrea.ngStrap', 'angular.filter', 'fileServiceModule', 'angularFileUpload', 'download',
     'ngMessages', 'ngAudio', 'bw.paging', 'ngDragDrop', 'ui.knob', 'ui-rangeSlider',
@@ -34,8 +34,12 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'jsplumb',
     'ui.slimscroll',
     'ngImgCrop',
+    'ngNumberPicker',
     'webcam',
-    "chart.js"
+    "chart.js",
+    'schemaForm',
+    'angular-timezone-selector',
+    'ds.objectDiff'
 ]);
 
 
@@ -46,7 +50,8 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 //resourceservice.app.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',//userservice.app.veery.cloud
+    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app.veery.cloud/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
@@ -66,6 +71,7 @@ var baseUrls = {
     'notification': 'http://notificationservice.app.veery.cloud/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app.veery.cloud/DVP/API/1.0.0.0/',
+    'qaModule': 'http://localhost:3637/DVP/API/1.0.0.0/QAModule/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
     'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -73,7 +79,7 @@ var baseUrls = {
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
-    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//walletservice.app.veery.cloud
+    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//104.236.197.119
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -88,6 +94,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider, vcRecaptchaServiceProvider) {
 
         var authProviderUrl = 'http://userservice.app.veery.cloud/auth/';
+        //var authProviderUrl = 'http://192.168.0.132:3637/auth/';
         vcRecaptchaServiceProvider.setSiteKey('6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI');
 
         //http://userservice.app.veery.cloud/
@@ -256,6 +263,30 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "CDR"
+            }
+        }).state('console.auditTrailRep', {
+            url: "/AuditTrailReport",
+            templateUrl: "views/auditTrail/auditTrailReport.html",
+            controller: "auditTrailReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "AUDITTRAIL"
+            }
+        }).state('console.qaRatingFormBuilder', {
+            url: "/QAFormBuilder",
+            templateUrl: "views/qaRating/questionFormDesigner.html",
+            controller: "qaRatingCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "QUALITYASSUARANCE"
+            }
+        }).state('console.qaSubmission', {
+            url: "/QAFormSubmission",
+            templateUrl: "views/qaPaperSubmission/qaPaperSubmission.html",
+            controller: "qaSubmissionCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "QUALITYASSUARANCE"
             }
         }).state('console.AgentProfileSummary', {
             url: "/AgentProfileSummary",
@@ -821,6 +852,7 @@ mainApp.constant('config', {
     appVersion: 1.0,
     client_Id_secret: 'ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048'
 });
+
 
 
 mainApp.run(function ($rootScope, loginService, $location, $auth, $state) {

@@ -84,6 +84,19 @@
             });
         };
 
+        var getTicketsForCase = function(tIds){
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl+'TicketsByIds',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {ids: tIds}
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
         var addTicketToCase = function(caseId, ticketIds){
             return $http({
                 method: 'PUT',
@@ -91,8 +104,8 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                params: {
-                    "ticketid[]": ticketIds
+                data: {
+                    "ticketid": ticketIds
                 }
             }).then(function(response){
                 return response.data;
@@ -106,16 +119,16 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                params: {
-                    "ticketid[]": ticketIds
+                data: {
+                    "ticketid": ticketIds
                 }
             }).then(function(response){
                 return response.data;
             });
         };
 
-        var bulkCloseTickets = function(ticketIds){
-            var sendObj = {TicketIds: ticketIds, Status: "closed"}
+        var bulkStatusChangeTickets = function(ticketIds, bulkAction){
+            var sendObj = {TicketIds: ticketIds, Status: bulkAction.action, specificOperations: bulkAction.specificOperations};
             return $http({
                 method: 'PUT',
                 url: baseUrls.ticketUrl+'Ticket/Status/Bulk',
@@ -173,9 +186,10 @@
             createCase: createCase,
             getCases: getCases,
             getCase: getCase,
+            getTicketsForCase: getTicketsForCase,
             addTicketToCase: addTicketToCase,
             removeTicketFromCase: removeTicketFromCase,
-            bulkCloseTickets: bulkCloseTickets,
+            bulkStatusChangeTickets: bulkStatusChangeTickets,
             deleteCase: deleteCase,
             getAllTags: getAllTags,
             getTagCategories:getTagCategories

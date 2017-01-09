@@ -8,7 +8,7 @@
 
     var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, ngAudio,
                             loginService, baseUrls) {
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'asc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
 
         $scope.config = {
             preload: "auto",
@@ -58,7 +58,7 @@
         $scope.timeEnabled = 'Date Only';
         $scope.timeEnabledStatus = false;
 
-        $scope.changeTimeAvailability = function () {
+        $scope.dateValid = function () {
             if ($scope.timeEnabled === 'Date Only') {
                 $scope.timeEnabled = 'Date & Time';
                 $scope.timeEnabledStatus = true;
@@ -170,7 +170,7 @@
         $scope.loadPreviousPage = function () {
             var prevPage = pageStack.pop();
 
-            $scope.getProcessedCDR(prevPage.top - 1, false);
+            $scope.getProcessedCDR(prevPage.bottom + 1, false);
 
         };
 
@@ -696,10 +696,13 @@
                     pageInfo.top = -1;
                     pageInfo.bottom = -1;
                 }
-                $scope.cdrList = [];
+
 
                 $scope.isNextDisabled = true;
                 $scope.isPreviousDisabled = true;
+
+
+
 
 
                 /*var startDateMoment = moment($scope.startDate, "YYYY-MM-DD");
@@ -744,6 +747,9 @@
                 cdrApiHandler.getCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter).then(function (cdrResp) {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
+
+                            $scope.cdrList = [];
+
                             var topSet = false;
                             var bottomSet = false;
 
@@ -788,6 +794,7 @@
 
 
                                 //process inbound legs first
+                                var holdSecTemp = 0;
 
                                 for (i = 0; i < filteredInb.length; i++) {
                                     var curProcessingLeg = filteredInb[i];
@@ -824,10 +831,13 @@
 
                                     cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
 
-                                    if (cdrAppendObj.DVPCallDirection === 'inbound') {
-                                        var holdSecTemp = curProcessingLeg.HoldSec + curProcessingLeg.WaitSec;
+                                    /*if (cdrAppendObj.DVPCallDirection === 'inbound') {
+                                        holdSecTemp = holdSecTemp + curProcessingLeg.HoldSec;
                                         cdrAppendObj.HoldSec = holdSecTemp;
-                                    }
+                                    }*/
+
+                                    holdSecTemp = holdSecTemp + curProcessingLeg.HoldSec;
+                                    cdrAppendObj.HoldSec = holdSecTemp;
 
 
                                     cdrAppendObj.QueueSec = curProcessingLeg.QueueSec;
@@ -950,10 +960,12 @@
 
                                         cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
 
+                                        holdSecTemp = holdSecTemp + curProcessingLeg.HoldSec;
+                                        cdrAppendObj.HoldSec = holdSecTemp;
+
 
                                         if (cdrAppendObj.DVPCallDirection === 'outbound') {
-                                            var holdSecTemp = curProcessingLeg.HoldSec;
-                                            cdrAppendObj.HoldSec = holdSecTemp;
+
                                             cdrAppendObj.Uuid = curProcessingLeg.Uuid;
                                         }
 
@@ -1089,6 +1101,11 @@
                         }
                         else {
                             $scope.showAlert('Info', 'info', 'No records to load');
+
+                            if(offset === 0)
+                            {
+                                $scope.cdrList = [];
+                            }
 
                             if (pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;

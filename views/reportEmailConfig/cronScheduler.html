@@ -22,6 +22,12 @@
                     </div>
 
                     <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                        <label>Time Zone</label>
+
+                        <timezone-selector ng-model="currentCron.Timezone"></timezone-selector>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                         <label>CRON Pattern</label>
                         <cron-selection ng-model="currentCron.CronePattern" config="cronConfig"></cron-selection>
                     </div>
@@ -86,6 +92,9 @@
                                     <p class="font-robot">
                                         Pattern : {{cron.CronePattern}}
                                     </p>
+                                    <p class="font-robot">
+                                        Unique Id : {{cron.UniqueId}}
+                                    </p>
                                 </div>
                                 <div class="left">
                                 </div>
@@ -104,10 +113,10 @@
                                            ng-model="cron.Description">
                                 </div>
 
-                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                    <label>CRON Pattern</label>
+                                <fieldset ng-disabled="true" class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                    <label>CRON Pattern *(Read Only)</label>
                                     <cron-selection ng-model="cron.CronePattern" config="cronConfig"></cron-selection>
-                                </div>
+                                </fieldset>
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <label>Callback URL</label>
@@ -116,16 +125,16 @@
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <label>Callback Data</label>
-                                    <input type="text" class="form-control" ng-model="cron.CallbackData">
+                                    <textarea class="form-control" rows="10" ng-model="cron.CallbackData"></textarea>
                                 </div>
 
                                 <div class="clearfix"></div>
 
-                                <!--<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                    <button class="btn btn-success" ng-click="updateTrunk(trunk)">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                    <button class="btn btn-success" ng-click="updateCron(cron)">
                                         Update
                                     </button>
-                                </div>-->
+                                </div>
 
                             </div>
                         </a>

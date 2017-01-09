@@ -2,7 +2,9 @@
  * Created by Rajinda on 11/22/2016.
  */
 
-mainApp.controller("creditController", function ($scope, walletService) {
+mainApp.controller("creditController", function ($scope, walletService,$anchorScroll)
+{
+    $anchorScroll();
 
     /*$scope.config = {
      publishKey: 'pk_test_1zgLjpz4eFC1bbhfkE1LZfqh',
@@ -13,7 +15,7 @@ mainApp.controller("creditController", function ($scope, walletService) {
      };*/
 
     $scope.config = {
-        publishKey: 'pk_test_vQ7XfEY4gVbjHOqVja7CIvpo',
+        publishKey: 'pk_test_L5zUHIzLje2UXP0oPVJ8FoX3',
         title: 'Facetone',
         description: "Communication and Collaboration Platform",
         logo: 'images/logo_130x130yellow.png',

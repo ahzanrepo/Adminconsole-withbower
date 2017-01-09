@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var cronScheduleCtrl = function ($scope, $location, $anchorScroll, scheduleWorkerService, cdrApiHandler, userProfileApiAccess, loginService) {
+    var cronScheduleCtrl = function ($scope, $location, $http, $anchorScroll, scheduleWorkerService, cdrApiHandler, userProfileApiAccess, loginService) {
 
         $scope.showAlert = function (title, type, content) {
 
@@ -79,6 +79,28 @@
 
         var emptyArr = [];
 
+        $scope.tzData = {
+            timeZones : []
+        };
+
+        $scope.tz = {
+            timezone: ''
+        };
+
+        var loadTimeZones = function()
+        {
+            cdrApiHandler.getTimeZones().then(function(data)
+            {
+                $scope.tzData.timeZones = data.Result;
+
+            }).catch(function(ex)
+            {
+                $scope.tzData.timeZones = [];
+            });
+        };
+
+        loadTimeZones();
+
 
         $scope.querySearch = function (query) {
             if (query === "*" || query === "") {
@@ -149,14 +171,13 @@
             });
         };
 
-        $scope.removeCron = function(cron)
+        $scope.updateCron = function(updateCronInfo)
         {
-            scheduleWorkerService.removeCron(cron.id).then(function (data)
+            scheduleWorkerService.updateCronSchedule(updateCronInfo.UniqueId, updateCronInfo).then(function (data)
             {
                 if (data.IsSuccess)
                 {
-                    $scope.showAlert('Success', 'success', 'Schedule removed successfully');
-                    loadCrons();
+                    $scope.showAlert('Success', 'success', 'Schedule updated successfully');
                 }
                 else
                 {
@@ -175,13 +196,69 @@
             }, function (err)
             {
                 loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while removing schedule";
+                var errMsg = "Error occurred while updating schedule";
                 if (err.statusText)
                 {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Error', 'error', errMsg);
             });
+        };
+
+        $scope.removeCron = function(cron)
+        {
+
+            new PNotify({
+                title: 'Confirm deletion',
+                text: 'Are you sure you want to delete schedule ?',
+                type: 'warn',
+                hide: false,
+                confirm: {
+                    confirm: true
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                }
+            }).get().on('pnotify.confirm', function () {
+                    scheduleWorkerService.removeCron(cron.UniqueId).then(function (data)
+                    {
+                        if (data.IsSuccess)
+                        {
+                            $scope.showAlert('Success', 'success', 'Schedule removed successfully');
+                            loadCrons();
+                        }
+                        else
+                        {
+                            var errMsg = data.CustomMessage;
+
+                            if (data.Exception)
+                            {
+                                errMsg = data.Exception.Message;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+
+                        }
+
+
+
+                    }, function (err)
+                    {
+                        loginService.isCheckResponse(err);
+                        var errMsg = "Error occurred while removing schedule";
+                        if (err.statusText)
+                        {
+                            errMsg = err.statusText;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                    });
+                }).on('pnotify.cancel', function () {
+
+                });
+
         };
 
         $scope.cronEditMode = function(cron)

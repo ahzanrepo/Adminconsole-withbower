@@ -64,6 +64,7 @@
 <link rel="stylesheet" href="asset/vendors/ng-tags-input.min/ng-tags-input.min.css">
 <link rel="stylesheet" href="asset/vendors/ng-tags-input.min/ng-tags-input.bootstrap.min.css">
 <link href="asset/css/veery-customer.css" rel="stylesheet">
+<link href="asset/css/responsive.css" rel="stylesheet">
 <link href="views/cdr/timePickerStyle.css" rel="stylesheet">
 <!-- pawan -->
 
@@ -95,9 +96,12 @@
 
 <link rel="stylesheet" type="text/css" href="asset/css/abn_tree.css">
 
+<link rel="stylesheet" type="text/css" href="bower_components/angular-timezone-selector/styling/angular-timezone-selector.css">
+
 <link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
 
 <link rel="stylesheet" type="text/css" href="bower_components/angular-cron-jobs/dist/angular-cron-jobs.css">
+<link type="text/css" href="bower_components/angular-object-diff/dist/angular-object-diff.css" rel='stylesheet'>
 <body class="nav-md">
 <!--style="display: none;"-->
 <div id="introLoader" class="introLoading introLoader gifLoader theme-dark bubble">
@@ -156,9 +160,27 @@
 <script type="text/javascript" src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
 <script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"></script>
 
-<script type="text/javascript" src="bower_components/moment/moment.js"></script>
-<script type="text/javascript" src="bower_components/angular-moment/angular-moment.js"></script>
+<!--<script type="text/javascript" src="bower_components/moment/moment.js"></script>
+<script type="text/javascript" src="bower_components/moment-timezone/moment-timezone.js"></script>
+<script type="text/javascript" src="bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
+<script type="text/javascript" src="bower_components/angular-moment/angular-moment.js"></script>-->
+<script type="text/javascript" src="bower_components/lodash/dist/lodash.min.js"></script>
+<script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
+<script type="text/javascript" src="bower_components/chosen/chosen.jquery.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-messages/angular-messages.js"></script>
+
+<!-- angular-timezone-selector-->
+
+
+<script type="text/javascript" src="bower_components/angular-timezone-selector/build/angular-timezone-selector.js"></script>
+
+
+
+
+
+
+
 
 <script type="text/javascript" src="bower_components/satellizer/dist/satellizer.js"></script>
 
@@ -171,6 +193,9 @@
 
 <!-- Include the JS ReCaptcha API -->
 <script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>
+
+<!--angular-number-picker-->
+<script type="text/javascript" src="bower_components/angular-number-picker/dist/angular-number-picker.js"></script>
 
 
 <!--angular-drag-and-drop-lists-->
@@ -234,6 +259,8 @@
 <!--- angular UI-grid -->
 <script type="text/javascript" src="bower_components/angular-ui-grid/ui-grid.min.js"></script>
 
+
+
 <!-- auth -->
 <script type="text/javascript" src="bower_components/angular-base64/angular-base64.js"></script>
 <script type="text/javascript" src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
@@ -271,6 +298,16 @@
 <script type="text/javascript" src="bower_components/angular-socket-io/socket.js"></script>
 <script type="text/javascript" src="bower_components/socket.io-client/dist/socket.io.js"></script>
 
+<!--- Angular Schema Form --->
+
+<script type="text/javascript" src="bower_components/tv4/tv4.js"></script>
+<script type="text/javascript" src="bower_components/objectpath/lib/ObjectPath.js"></script>
+<script type="text/javascript" src="bower_components/angular-schema-form/dist/schema-form.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-schema-form/dist/bootstrap-decorator.min.js"></script>
+
+<!-- angular-object-diff --->
+<script type="text/javascript" src="bower_components/angular-object-diff/dist/angular-object-diff.js"></script>
+
 
 <!-- controller -->
 <script type="text/javascript" src="controller/mainCtrl.js"></script>
@@ -283,6 +320,7 @@
 <script type="text/javascript" src="controller/cdr/callSummaryCustCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/agentStatusListCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/queueSummaryHourlyCtrl.js"></script>
+<script type="text/javascript" src="controller/auditTrail/auditTrailReportCtrl.js"></script>
 <script type="text/javascript" src="controller/sipuser/sipUserCtrl.js"></script>
 <script type="text/javascript" src="factory/userprofile/userProfileApiAccess.js"></script>
 <script type="text/javascript" src="controller/ringGroup/ringGroupCtrl.js"></script>
@@ -334,6 +372,14 @@
 
 <script type="text/javascript" src="factory/pbxAdmin/pbxAdminApiHandler.js"></script>
 <script type="text/javascript" src="controller/pabxAdmin/pbxAdminCtrl.js"></script>
+
+<!-- qa module -->
+
+<script type="text/javascript" src="controller/qaRating/qaRatingCtrl.js"></script>
+<script type="text/javascript" src="controller/qaRating/questionPaperCtrl.js"></script>
+<script type="text/javascript" src="factory/qaRating/qaModuleService.js"></script>
+
+<script type="text/javascript" src="controller/qaPaperSubmission/qaPaperSubmissionCtrl.js"></script>
 
 
 <!-- attribute_application -->
@@ -626,8 +672,8 @@
 <script src="bower_components/angular-timeago/dist/angular-timeago.min.js"></script>
 
 <!--payment getway-->
-<!--<script src="https://checkout.stripe.com/checkout.js"></script>-->
-<script src="asset/js/stripe/checkout.js"></script>
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<!--<script src="asset/js/stripe/checkout.js"></script>-->
 <script src="asset/js/stripe/stripe.payment.tool.js"></script>
 
 <!--Case Configuration-->

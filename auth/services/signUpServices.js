@@ -10,6 +10,7 @@
         service.createNewUser = createNewUser;
         service.createOrganisation = createOrganisation;
         service.checkUniqueOrganization = CheckUniqueOrganization;
+        service.checkUniqueOwner = CheckUniqueOwner;
         return service;
 
         //create new user
@@ -34,8 +35,17 @@
 
         //is check Organisation name
         function CheckUniqueOrganization(orgName, callback) {
-            $http.get(baseUrls.UserServiceBaseUrl + "Organisation/" + orgName + "/exists").success(function (data, status, headers, config) {
-                callback(true);
+            $http.get(baseUrls.UserServiceBaseUrl + "Organization/" + orgName + "/exists").success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
+            }).error(function (data, status, headers, config) {
+                callback(false);
+            });
+        }
+
+        //is check user exists
+        function CheckUniqueOwner(ownerName, callback) {
+            $http.get(baseUrls.UserServiceBaseUrl + "Owner/" + ownerName + "/exists").success(function (data, status, headers, config) {
+                callback(data.IsSuccess);
             }).error(function (data, status, headers, config) {
                 callback(false);
             });

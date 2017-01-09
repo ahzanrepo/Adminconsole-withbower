@@ -1,7 +1,8 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'fileService', function ($scope, $filter, FileUploader, fileService) {
-
+app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'fileService', function ($scope, $filter, FileUploader, fileService,$anchorScroll)
+{
+    $anchorScroll();
     $scope.file = {};
     var uploader = $scope.uploader = new FileUploader({
         url: fileService.UploadUrl,

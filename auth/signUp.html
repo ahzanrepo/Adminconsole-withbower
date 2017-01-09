@@ -10,34 +10,45 @@
                     <form name="signUpForm">
                         <h1 class="font-robot dark-frm-header font-300">SignUp </h1>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 col-xs-12">
                                 <div class="form-group has-feedback validation-area">
                                     <!-- user name -->
                                     <label class="dark-frm-label">Company Name
                                         <span class="inline-block validation-on"
-                                              ng-show="signUpForm.companyName.$invalid && !signUpForm.companyName.$pristine">*
-                                    </span></label>
-                                    <input focus type="text" name="companyName" ng-model="companyName"
+                                              ng-show="signUpForm.companyName.$invalid && !signUpForm.companyName.$pristine &&
+                                              signUpForm.companyName.$error.pattern">*
+                                    </span>
+                                    </label>
+                                    <input unique-company type="text" name="companyName" ng-model="companyName"
                                            class="form-control dark-frm-input"
+                                           ng-pattern='/^[a-zA-Z0-9]+$/'
                                            placeholder=""
                                            required
                                            autofocus/>
                                     <span id="companystate" class="fa form-control-feedback" aria-hidden="true"
-                                          style="color: #db4114 ;"></span>
+                                          style="color: #cccbcb ;"></span>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="validation-area">
-                            <label class="dark-frm-label">Email
-                                 <span class="inline-block validation-on"
-                                       ng-show="signUpForm.email.$invalid && !signUpForm.email.$pristine">*
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12">
+                                <div class="form-group has-feedback validation-area">
+                                    <!-- user name -->
+                                    <label class="dark-frm-label">Email
+                                       <span class="inline-block validation-on"
+                                             ng-show="signUpForm.email.$invalid && !signUpForm.email.$pristine">*
                                     </span></label>
-                            <input type="email" name="email" ng-model="email"
-                                   class="form-control dark-frm-input "
-                                   placeholder=""
-                                   required/>
+                                    <input unique-owner type="email" name="email" ng-model="email"
+                                           class="form-control dark-frm-input"
+                                           placeholder=""
+                                           required
+                                           autofocus/>
+                                    <span id="emailstate" class="fa form-control-feedback" aria-hidden="true"
+                                          style="color: #cccbcb ;"></span>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -47,21 +58,29 @@
                                 <div class="validation-area ">
                                     <!-- password  -->
                                     <!-- password  -->
-                                    <password-strength-box ng-model="password"></password-strength-box>
-                                    <password-strength ng-model="password"></password-strength>
+                                    <div ng-show="pwdBox">
+                                        <password-strength-box ng-model="password"
+                                                               box="pwdBox"
+                                                               confirm="confirmPwd"></password-strength-box>
+                                    </div>
 
                                     <label class="dark-frm-label">Password
                                          <span class="inline-block validation-on"
-                                               ng-show="signUpForm.password.$invalid && !signUpForm.password.$pristine">*
+                                               ng-show="signUpForm.password.$invalid && !signUpForm.password.$pristine
+                                               ">*
                                     </span></label>
-                                    <input type="password" ng-model="password"
+                                    <input type="password"
+                                           ng-model="password"
                                            class="form-control dark-frm-input"
-                                           name="password"
+                                           name="pwd"
+                                           password-verify="{{confirmPwd}}"
                                            id="password"
                                            placeholder=""
                                            required=""/>
                                 </div>
                             </div>
+                            <!-- signUpForm.pwd.$error.pattern
+                            ng-pattern='/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/'-->
 
                             <div class="col-lg-6">
                                 <div class="validation-area">
@@ -70,7 +89,7 @@
                                          <span class="inline-block validation-on"
                                                ng-show="signUpForm.confirmPwd.$invalid && !signUpForm.confirmPwd.$pristine">*
                                     </span></label>
-                                    <input type="password" password-verify="password"
+                                    <input type="password" password-verify="{{password}}"
                                            ng-model="confirmPwd"
                                            class="form-control dark-frm-input"
                                            name="confirmPwd"
@@ -82,7 +101,6 @@
 
 
                         <div class="recaptcha-wrapper"
-                             ng-if="captchaConfig==true"
                              ng-show="!isSignUp">
                             <div vc-recaptcha
                                  theme="'dark'"

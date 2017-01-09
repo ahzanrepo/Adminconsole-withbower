@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 11/9/2016.
  */
-mainApp.directive("groupmemberviewer", function ($filter,$uibModal,userProfileApiAccess) {
+mainApp.directive("groupmemberviewer", function ($filter, $uibModal, userProfileApiAccess) {
 
     return {
         restrict: "EAA",
@@ -14,8 +14,8 @@ mainApp.directive("groupmemberviewer", function ($filter,$uibModal,userProfileAp
 
         link: function (scope) {
 
-            scope.groupMemberlist=[];
-            scope.agents=[];
+            scope.groupMemberlist = [];
+            scope.agents = [];
             scope.showAlert = function (title, type, content) {
 
                 new PNotify({
@@ -28,79 +28,69 @@ mainApp.directive("groupmemberviewer", function ($filter,$uibModal,userProfileAp
 
 
             scope.loadAllAgents = function () {
-
-                userProfileApiAccess.getUsers().then(function(data)
-                {
-                    if(data.IsSuccess)
-                    {
-                        scope.agents=data.Result;
+                userProfileApiAccess.getUsers().then(function (data) {
+                    if (data.IsSuccess) {
+                        scope.agents = data.Result;
                         removeAllocatedAgents();
                     }
                 }, function (error) {
-                    scope.showAlert("Loading Agent details","error","Error in loading Agent details");
+                    scope.showAlert("Loading Agent details", "error", "Error in loading Agent details");
                 });
             }
             scope.loadAllAgents();
 
             scope.loadGroupMembers = function () {
                 userProfileApiAccess.getGroupMembers(scope.groupid).then(function (response) {
-                    if(response.IsSuccess)
-                    {
-                        scope.groupMemberlist=response.Result;
-                        console.log("Members ",response.Result);
+                    if (response.IsSuccess) {
+                        scope.groupMemberlist = response.Result;
+                        console.log("Members ", response.Result);
                         removeAllocatedAgents()
                     }
-                    else
-                    {
+                    else {
                         console.log("Error in loading Group member list");
-                        scope.showAlert("User removing from group","error","Error in removing user from group");
+                        scope.showAlert("User removing from group", "error", "Error in removing user from group");
                     }
                 }, function (err) {
-                    console.log("Error in loading Group member list ",err);
-                    scope.showAlert("User removing from group","error","Error in removing user from group");
+                    console.log("Error in loading Group member list ", err);
+                    scope.showAlert("User removing from group", "error", "Error in removing user from group");
                 })
             };
 
             scope.removeGroupMember = function (userID) {
-                userProfileApiAccess.removeUserFromGroup(scope.groupid,userID).then(function (response) {
+                userProfileApiAccess.removeUserFromGroup(scope.groupid, userID).then(function (response) {
 
-                    if(response.IsSuccess)
-                    {
+                    if (response.IsSuccess) {
                         scope.groupMemberlist.filter(function (userObj) {
-                            if(userObj._id==userID)
-                            {
-                                scope.groupMemberlist.splice(scope.groupMemberlist.indexOf(userObj),1);
+                            if (userObj._id == userID) {
+                                scope.groupMemberlist.splice(scope.groupMemberlist.indexOf(userObj), 1);
                                 scope.agents.push(userObj);
-                                scope.showAlert("User removing from group","success","User removed from group successfully");
+                                scope.showAlert("User removing from group", "success", "User removed from group successfully");
                             }
 
                         })
 
 
                     }
-                    else
-                    {
-                        scope.showAlert("User removing from group","error","Error in removing user from group");
+                    else {
+                        scope.showAlert("User removing from group", "error", "Error in removing user from group");
                     }
                 }, function (error) {
-                    scope.showAlert("User removing from group","error","User removing from group failed");
+                    scope.showAlert("User removing from group", "error", "User removing from group failed");
                 })
-            }
+            };
 
             scope.loadGroupMembers();
 
 
             scope.addUserToGroup = function (userID) {
-                userProfileApiAccess.addMemberToGroup(scope.groupid,userID).then(function (response) {
+                userProfileApiAccess.addMemberToGroup(scope.groupid, userID).then(function (response) {
 
-                    if(response.IsSuccess)
-                    {
+                    if (response.IsSuccess) {
 
                         scope.agents.filter(function (userObj) {
-                            if(userObj._id==userID)
-                            {
+                            if (userObj._id == userID) {
                                 scope.groupMemberlist.push(userObj);
-                                scope.showAlert("Member added to group","success","Member added to group successfully");
+                                scope.showAlert("Member added to group", "success", "Member added to group successfully");
                                 removeAllocatedAgents();
 
                             }
@@ -109,12 +99,11 @@ mainApp.directive("groupmemberviewer", function ($filter,$uibModal,userProfileAp
 
 
                     }
-                    else
-                    {
-                        scope.showAlert("Member added to group","error","Error in Member adding to group");
+                    else {
+                        scope.showAlert("Member added to group", "error", "Error in Member adding to group");
                     }
                 }, function (error) {
-                    scope.showAlert("Member added to group","error","Member added to group failed");
+                    scope.showAlert("Member added to group", "error", "Member added to group failed");
                 })
             }
 
@@ -128,9 +117,8 @@ mainApp.directive("groupmemberviewer", function ($filter,$uibModal,userProfileAp
             }
 
             scope.allStates = [
-                { "name": "Alabama", "id": "AL" },
-                { "name": "Alaska", "id": "AK" }]
-
+                {"name": "Alabama", "id": "AL"},
+                {"name": "Alaska", "id": "AK"}]
 
 
             angular.element(document).ready(function () {
@@ -143,9 +131,8 @@ mainApp.directive("groupmemberviewer", function ($filter,$uibModal,userProfileAp
                 scope.groupMemberlist.filter(function (member) {
 
                     scope.agents.filter(function (agent) {
-                        if(agent._id==member._id)
-                        {
-                            scope.agents.splice(scope.agents.indexOf(agent),1);
+                        if (agent._id == member._id) {
+                            scope.agents.splice(scope.agents.indexOf(agent), 1);
                         }
                     })
                 })

@@ -3,12 +3,29 @@
  */
 
 mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
-                                            loginService, walletService) {
+                                            loginService, walletService, $anchorScroll) {
+    $anchorScroll();
 
     //on load get my package
     $scope.packages = [];
+    $scope.myCurrentPackage = null;
     loginService.getAllPackages(function (result) {
         $scope.packages = result;
+        //get my package
+        loginService.getMyPackages(function (status, res, data) {
+            if (status && data && data.Result) {
+                $scope.myCurrentPackage = data.Result[0];
+                for (var i = 0; i < $scope.packages.length; i++) {
+                    if ($scope.packages[i].packageName == data.Result[0]) {
+                        $scope.packages[i]['disable'] = true;
+                        $scope.packages[i]['active'] = true;
+                        i = $scope.packages.length;
+                    } else {
+                        $scope.packages[i]['disable'] = true;
+                    }
+                }
+            }
+        })
     });
 
     $scope.showMessage = function (tittle, content, type) {
