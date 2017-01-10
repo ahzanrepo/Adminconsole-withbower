@@ -91,7 +91,7 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter','$anchorScroll
 
 
         $scope.isLoading = true;
-        ivrNodeCountService.GetIvrNodeCount($scope.application,$scope.fileSerach.StartTime,$scope.fileSerach.EndTime).then(function (response) {
+        ivrNodeCountService.GetIvrNodeCount($scope.application,$scope.fileSerach.StartTime.toUTCString(),$scope.fileSerach.EndTime.toUTCString()).then(function (response) {
             $scope.isLoading = false;
             if(response){
                 $scope.doughnutObj = {labels: [], data: [], node:[]};
@@ -108,11 +108,9 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter','$anchorScroll
             }
             else {
                 $scope.noDataToshow = true;
-                showAlert("IVR","error", "Fail To Get Application List.");
             }
         }, function (err) {
-            $scope.noDataToshow = true;
-            showAlert("IVR","error", "Fail To Get Application List.");
+            showAlert("IVR","error", "Fail To Get Node Count.");
         });
     };
 
