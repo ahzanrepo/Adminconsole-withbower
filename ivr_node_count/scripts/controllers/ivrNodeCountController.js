@@ -18,8 +18,10 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter','$anchorScroll
         }
 
     };
+    var d = new Date();
+    d.setDate(d.getDate() - 1);
     $scope.fileSerach = {};
-    $scope.fileSerach.StartTime = new Date();
+    $scope.fileSerach.StartTime = d;
     $scope.fileSerach.EndTime = new Date();
     // search end
 

@@ -82,7 +82,7 @@ var baseUrls = {
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
     'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
-    'cSatUrl': 'http://localhost:4445/DVP/API/1.0/'  //csatservice.app.veery.cloud
+    'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/'  //csatservice.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
