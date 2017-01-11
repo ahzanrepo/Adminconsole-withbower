@@ -268,12 +268,6 @@
                                                        placeholder="User Tag" required>
 
                                         </div>
-                                        <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                            <span style="color: black;">Description</span>
-                                            <input type="text" class="form-control "
-                                                   ng-model="newUserTag.Description"
-                                                   placeholder="Description" required>
-                                            </div>
 
 
                                     </div>
@@ -289,8 +283,8 @@
 
                                         </div>
                                         <div class="col-md-3 col-sm-3 col-xs-12  ">
-                                            <button ng-disabled="!isValidPrefix" type="button" class="btn btn-success btn-block  btn- pull-right"
-                                                    ng-click="saveNewTicketPrefix()">
+                                            <button  type="button" class="btn btn-success btn-block  btn- pull-right"
+                                                    ng-click="createNewUserTag(newUserTag.name)">
                                                 Add
                                             </button>
 
@@ -306,11 +300,11 @@
                 <div class="x_panel">
                     <div class="x_content">
                         <ul class="list-unstyled timeline">
-                          <!--  <li ng-repeat="prefix in prefixList">
-                                <editprefix prefix="prefix" prefixlist="prefixList" reloadpage="getTicketPrefixes()">
+                            <li ng-repeat="usertag in userTagList">
+                                <editusertags usertag="usertag" taglist="userTagList" reloadpage="removeDeletedTags(usertag)">
 
-                                </editprefix>
-                            </li>-->
+                                </editusertags>
+                            </li>
 
                             <paging ng-show="showPaging"
                                     class="small"
