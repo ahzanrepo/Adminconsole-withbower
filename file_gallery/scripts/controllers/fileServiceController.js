@@ -1,6 +1,6 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'fileService', function ($scope, $filter, FileUploader, fileService,$anchorScroll)
+app.controller('FileEditController', function ($scope, $filter, FileUploader, fileService,$anchorScroll)
 {
     $anchorScroll();
     $scope.file = {};
@@ -91,7 +91,7 @@ app.controller('FileEditController', ['$scope', '$filter', 'FileUploader', 'file
     $scope.loadFileService();
 
 
-}]);
+});
 
 app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state, $uibModal, $anchorScroll, fileService, jwtHelper, authService, baseUrls) {
 
@@ -410,6 +410,12 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         if ($scope.categoryId <= 0) {
             $scope.categoryId = -1;
         }
+
+        if ($scope.fileSerach.StartTime >= $scope.fileSerach.EndTime) {
+            $scope.showError("File Search","End time should be greater than start time.");
+            return
+        }
+
         fileService.SearchFiles($scope.categoryId, $scope.fileSerach.StartTime, $scope.fileSerach.EndTime).then(function (response) {
             $scope.files = response;
             $scope.noDataToshow = response ? (response.length == 0) : true;

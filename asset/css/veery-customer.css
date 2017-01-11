@@ -4473,6 +4473,7 @@ tags-input .tags {
     border: 1px solid #ffffff;
     color: #383b3b;
 }
+
 .ui-pnotify-modal-overlay {
     background-color: rgba(0, 0, 0, .4);
     top: 0;
@@ -4539,4 +4540,24 @@ tags-input .tags {
     100% {
         transform: rotate(360deg);
     }
+}
+
+.sidebar-widget {
+    font-family: 'Ubuntu-Regular', sans-serif !important;
+    text-transform: uppercase;
+    width: 160px;
+    display: inline-block;
+    vertical-align: top;
+    background: #fff;
+    border: 1px solid #abd9ea;
+    border-radius: 5px;
+    text-align: center;
+    float: none;
+    padding: 2px;
+    margin: 2px 2px 2px 2px;
+}
+
+.sidebar-widget.active {
+    background: #18c89c;
+    color: #fff;
 }
