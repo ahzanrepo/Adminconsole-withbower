@@ -40,7 +40,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     "chart.js",
     'schemaForm',
     'angular-timezone-selector',
-    'ds.objectDiff'
+    'ds.objectDiff','htmlToPdfSave'
 ]);
 
 
@@ -81,7 +81,8 @@ var baseUrls = {
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
     'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
-    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/'//104.236.197.119
+    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
+    'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/'  //csatservice.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -802,6 +803,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "SLA_BREAKDOWN"
+            }
+        }).state('console.customersatisfaction', {
+            url: "/customersatisfaction",
+            templateUrl: "customerSatisfactions/view/cSat.html",
+            controller: "cSatController",
+            data: {
+                requireLogin: true,
+                navigation: "CSATREPORT"
             }
         })
         //Todo shoud be change navigation
