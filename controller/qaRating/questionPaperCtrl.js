@@ -178,6 +178,24 @@
 
         };
 
+        $scope.addSectionToPaper = function(section)
+        {
+            var obj = {
+                SectionName: section.name,
+                Questions: []
+            };
+
+            if(!$scope.currentPaper.questionsBySection[section._id])
+            {
+                $scope.currentPaper.questionsBySection[section._id] = obj;
+            }
+            else
+            {
+                $scope.showAlert('QA Question', 'warn', 'Section already added');
+            }
+
+        };
+
         $scope.addQuestion = function(){
 
             $scope.currentQuestion.section = $scope.questionSectionId;
@@ -283,7 +301,7 @@
 
                     $scope.currentPaper.questionsBySection = {};
 
-                    $scope.sections.forEach(function(section){
+                    /*$scope.sections.forEach(function(section){
 
                         var questionsBySec = _.filter($scope.currentPaper.questions, {section: section._id});
 
@@ -293,7 +311,23 @@
                         };
 
                         $scope.currentPaper.questionsBySection[section._id] = obj;
+                    });*/
+
+                    var questionsBySec = _.groupBy($scope.currentPaper.questions, function(question){
+                        return question.section;
                     });
+
+                    for (var section in questionsBySec)
+                    {
+                        var sec = _.find($scope.sections, {_id: section});
+
+                        var obj = {
+                            SectionName: sec.name,
+                            Questions: questionsBySec[section]
+                        };
+
+                        $scope.currentPaper.questionsBySection[section] = obj;
+                    }
                 }
                 else
                 {

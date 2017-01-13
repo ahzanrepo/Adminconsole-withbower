@@ -291,7 +291,11 @@
                             title: fieldItem.title,
                             description: fieldItem.description,
                             required: fieldItem.require ? true : false,
-                            readonly: !isActive
+                            readonly: !isActive,
+                            enum: [
+                                'true',
+                                'false'
+                            ]
 
                         };
 
@@ -697,7 +701,7 @@
                                 {
                                     var answer = $scope.model[key];
 
-                                    if(answer === true)
+                                    if(answer === 'true')
                                     {
                                         answerInfo.points = 10;
                                     }
@@ -821,8 +825,11 @@
                                     description: '',
                                     active: true,
                                     require: false,
-                                    type: 'checkbox'
+                                    type: 'radio',
+                                    values: []
                                 };
+
+                                qField.values.push({name: 'true', id: 'true'},{name: 'false', id: 'false'});
 
                                 fields.push(qField);
                             }
