@@ -162,7 +162,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
 
     $scope.searchData = function () {
         if ($scope.csatSerach.StartTime >= $scope.csatSerach.EndTime) {
-            showAlert("Search","error","End time should be greater than start time.");
+            showAlert("Search","error","End Time Should Be Greater Than Start Time.");
             return
         }
 
