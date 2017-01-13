@@ -110,6 +110,8 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
     var GetSatisfactionRequestReport = function () {
         $scope.doughnutObj = {labels: [], data: []};
         $scope.isLoading = true;
+        $scope.offered = 0;
+        $scope.good = 0;
         cSatService.GetSatisfactionRequestReport($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString()).then(function (response) {
             if (response) {
                 $scope.satisfactionReport = response;
@@ -118,9 +120,9 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
                         $scope.doughnutObj.labels.push(item._id);
                         $scope.doughnutObj.data.push(item.satisfactions);
                         if(item._id==='offered')
-                            $scope.offered = item.satisfactions
+                            $scope.offered = item.satisfactions;
                         if(item._id==='good')
-                            $scope.good = item.satisfactions
+                            $scope.good = item.satisfactions;
                     }
                 });
             }
@@ -138,6 +140,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
 
     $scope.pageTotal = 0;
     var GetSatisfactionRequestCount = function () {
+        $scope.pageTotal = 0;
         cSatService.GetSatisfactionRequestCount($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction).then(function (response) {
             if (response) {
                 $scope.pageTotal = response;
