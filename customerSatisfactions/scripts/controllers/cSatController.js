@@ -33,7 +33,6 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
     $scope.currentPage = "1";
     $scope.pageTotal = "1";
     $scope.pageSize = 100;
-    $scope.isLoading = true;
     $scope.noDataToshow = false;
     $scope.satisfactionRequest = [];
     $scope.getPageData = function (Paging, page, pageSize, total) {
@@ -51,7 +50,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
         });
     };
 
-    $scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);
+    //$scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);
 
     $scope.doughnutObj = {labels: [], data: []};
     $scope.options = {
@@ -93,6 +92,9 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
             else
                 $scope.responseRate = $scope.responseRate.toFixed(2);
         }
+        else{
+            $scope.responseRate = 0;
+        }
 
         $scope.goodRate = (($scope.good/curRes)*100);
         if($scope.goodRate<100)
@@ -102,6 +104,9 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
             }
             else
             $scope.goodRate = $scope.goodRate.toFixed(2);
+        }
+        else{
+            $scope.goodRate = 0;
         }
     };
 
@@ -136,7 +141,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
             showAlert("IVR", "error", "Fail To Get Satisfaction Report.");
         });
     };
-    GetSatisfactionRequestReport();
+    //GetSatisfactionRequestReport();
 
     $scope.pageTotal = 0;
     var GetSatisfactionRequestCount = function () {
@@ -153,9 +158,14 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
             showAlert("IVR", "error", "Fail To Get Total Satisfaction Count.");
         });
     };
-    GetSatisfactionRequestCount();
+    //GetSatisfactionRequestCount();
 
     $scope.searchData = function () {
+        if ($scope.csatSerach.StartTime >= $scope.csatSerach.EndTime) {
+            showAlert("Search","error","End time should be greater than start time.");
+            return
+        }
+
         GetSatisfactionRequestCount();
         $scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);
         GetSatisfactionRequestReport();
