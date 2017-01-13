@@ -812,7 +812,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CSATREPORT"
             }
-        })
+        }).state('console.acwdetails', {
+                url: "/acwdetails",
+                templateUrl: "views/acw-details/acwDetails.html",
+                controller: "acwDetailController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ACWREPORT"
+                }
+        });
         //Todo shoud be change navigation
     }]);
 

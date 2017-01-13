@@ -352,7 +352,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.ivrnodecount');
         },gocSatReport: function () {
             $state.go('console.customersatisfaction');
-        },
+        },goAcwReport: function () {
+            $state.go('console.acwdetails');
+        }
     };
 
     var getUserName = function () {
