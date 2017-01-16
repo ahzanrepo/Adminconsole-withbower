@@ -81,6 +81,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
     };
 
     $scope.responseRate = 0;
+    $scope.goodRate = 0;
     var calculateReating = function () {
         var curRes = ($scope.pageTotal - $scope.offered);
         $scope.responseRate =  ((curRes/$scope.pageTotal)*100);
