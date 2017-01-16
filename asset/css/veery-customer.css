@@ -436,9 +436,9 @@ a {
     height: 10px;
     border-radius: 50%;
     top: 9px;
-    z-index: 1000;
+    z-index: 1;
     left: 45px;
-    background: #000;
+    background: #dad6d5;
 }
 
 /*reserved*/
