@@ -412,7 +412,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
         }
 
         if ($scope.fileSerach.StartTime >= $scope.fileSerach.EndTime) {
-            $scope.showError("File Search","End time should be greater than start time.");
+            $scope.showError("File Search","End Time Should Be Greater Than Start Time.");
             return
         }
 

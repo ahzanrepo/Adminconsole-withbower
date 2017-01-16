@@ -355,7 +355,41 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                     return false;
                 }
             });
-        }
+        },
+        saveNewUserTag: function (tag) {
+
+            return $http({
+                method: 'POST',
+                url:baseUrls.UserServiceBaseUrl +"CustomerTag",
+                data: tag
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+
+        removeUserTag : function (tagName) {
+            return $http({
+                method: 'DELETE',
+                url:baseUrls.UserServiceBaseUrl +"CustomerTag/"+tagName
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        getUserTagList: function () {
+
+            return $http({
+                method: 'GET',
+                url:baseUrls.UserServiceBaseUrl +"CustomerTags"
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+
+
 
     }
 });

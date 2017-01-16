@@ -76,7 +76,25 @@
 
         </div>
 
+
+        <div class="clearfix"></div>
         <br><br>
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <select class="form-control"
+                        ng-model="sectionToAdd" ng-options="section as section.name for section in sections">
+                </select>
+            </div>
+
+            <div class="col-md-2 col-sm-2 col-xs-2" ng-disabled="!sectionToAdd">
+                <button class="btn btn-success" ng-click="addSectionToPaper(sectionToAdd)">Add Section</button>
+            </div>
+
+        </div>
+
+        <br><br>
+
         <div class="col-md-12 col-sm-12 col-xs-12">
             <h4 style="text-decoration: none; border-bottom: 3px solid #00a3a9; display: inline-block;">Sections</h4>
         </div>

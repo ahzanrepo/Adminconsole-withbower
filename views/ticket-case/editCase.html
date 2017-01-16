@@ -92,22 +92,31 @@
             <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>-->
         <div ng-hide="editMode">
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <div class="col-md-2 col-sm-2 col-xs-12 form-group ">
                 <label class="form-control-static">Case Name</label>
                 <p>{{caseInfo.caseName}} </p>
             </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <div class="col-md-2 col-sm-2 col-xs-12 form-group ">
                 <label class="form-control-static">Description</label>
                 <p>{{caseInfo.description}} </p>
             </div>
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Case Configuration</label>
-                <p>{{caseInfo.caseConfiguration[0].configurationName}} </p>
+                <p>{{caseInfo.caseConfiguration.configurationName}} </p>
             </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <div class="col-md-2 col-sm-2 col-xs-12 form-group ">
+                <label>Active Types</label>
+                <ul class="customer-type-wrapper">
+                    <li ng-repeat="cusTypes in caseInfo.caseConfiguration.activeTicketTypes">
+                        {{cusTypes}}
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-2 col-sm-2 col-xs-12 form-group ">
                 <label class="form-control-static">Status</label>
                 <p>{{caseInfo.status}} </p>
             </div>
