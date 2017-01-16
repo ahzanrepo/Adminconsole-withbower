@@ -331,12 +331,18 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
         companyConfigBackendService.saveNewUserTag(tagData).then(function (resAdd) {
 
 
-            $scope.showAlert("Add new user tag","User tag added successfully","success");
-            console.log("New user tag added",tagName);
+
             $scope.newUserTag={};
             if(resAdd.data.Result)
             {
+                $scope.showAlert("Add new user tag","User tag added successfully","success");
+                console.log("New user tag added",tagName);
                 $scope.userTagList.push(resAdd.data.Result);
+            }
+            else
+            {
+                $scope.showAlert("Add new user tag","Invalid user Tag","error");
+                console.log("New user tag adding failed/ Invalid"+tagName);
             }
 
 
