@@ -4561,3 +4561,12 @@ tags-input .tags {
     background: #18c89c;
     color: #fff;
 }
+
+/*acwdetails title style */
+.acwdetails-title {
+    min-height: 130px;
+    height: auto;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 13px;
+}
