@@ -293,8 +293,8 @@
                             required: fieldItem.require ? true : false,
                             readonly: !isActive,
                             enum: [
-                                'true',
-                                'false'
+                                'Yes',
+                                'No'
                             ]
 
                         };
@@ -701,7 +701,7 @@
                                 {
                                     var answer = $scope.model[key];
 
-                                    if(answer === 'true')
+                                    if(answer === 'Yes')
                                     {
                                         answerInfo.points = 10;
                                     }
@@ -829,7 +829,7 @@
                                     values: []
                                 };
 
-                                qField.values.push({name: 'true', id: 'true'},{name: 'false', id: 'false'});
+                                qField.values.push({name: 'Yes', id: 'Yes'},{name: 'No', id: 'No'});
 
                                 fields.push(qField);
                             }
