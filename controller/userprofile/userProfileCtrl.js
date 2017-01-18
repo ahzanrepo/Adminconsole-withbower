@@ -16,7 +16,7 @@
             $scope.tenant = decodeData.tenant;
         };
         $scope.getCompanyTenant();
-        $scope.isEditState=false;
+        $scope.isEditState = false;
 
         $scope.languages = [
             {"code": "ab", "name": "Abkhaz", "nativeName": "?????"},
@@ -524,8 +524,7 @@
         };
 
         $scope.editProfileImage = function () {
-            if($scope.isEditState)
-            {
+            if ($scope.isEditState) {
                 $scope.showProfilePicModal();
             }
 
@@ -601,7 +600,7 @@
             $scope.contactsActive = '';
             $scope.infoActive = 'active';
             $scope.CurrentTab = 'Info';
-            $scope.isEditState=true;
+            $scope.isEditState = true;
         };
 
         $scope.tabClick = function (tab) {
@@ -660,12 +659,11 @@
             userProfileApiAccess.updateProfile($scope.CurrentProfile.username, $scope.CurrentProfile).then(function (data) {
                 if (data.IsSuccess) {
                     $scope.showAlert('Success', 'info', 'User profile updated successfully');
-
                     if (curUser) {
                         curUser.GuRefId = $scope.CurrentProfile._id;
                         sipUserApiHandler.updateUser(curUser);
                     }
-                    $scope.isEditState=false;
+                    $scope.isEditState = false;
                     resetPage();
                 }
                 else {
@@ -687,7 +685,7 @@
                 $scope.showAlert('Error', 'error', errMsg);
             });
 
-        }
+        };
 
         var loadSipUsers = function () {
             sipUserApiHandler.getSIPUsers().then(function (data) {
@@ -882,10 +880,10 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var profilePicUploadController = function ($scope, $stateParams, $filter, $uibModalInstance,$base64, $http,FileUploader, fileService, authService, changeUrl, jwtHelper) {
+    var profilePicUploadController = function ($scope, $stateParams, $filter, $uibModalInstance, $base64, $http, FileUploader, fileService, authService, changeUrl, jwtHelper) {
 
         $scope.showModal = true;
-        $scope.isUploadDisable=true;
+        $scope.isUploadDisable = true;
 
         $scope.myImage = '';
         $scope.myCroppedImage = '';
@@ -900,7 +898,6 @@
             $scope.tenant = decodeData.tenant;
         };
         $scope.getCompanyTenant();
-
 
 
         $scope.myChannel = {
@@ -920,7 +917,7 @@
         $scope.webcamError = false;
         $scope.onError = function (err) {
             $scope.$apply(
-                function() {
+                function () {
                     $scope.webcamError = err;
                 }
             );
@@ -928,14 +925,14 @@
         $scope.onSuccess = function () {
             // The video element contains the captured camera data
             _video = $scope.myChannel.video;
-            $scope.$apply(function() {
+            $scope.$apply(function () {
                 $scope.patOpts.w = _video.width;
                 $scope.patOpts.h = _video.height;
 
             });
         };
 
-        $scope.snapURI="";
+        $scope.snapURI = "";
 
         $scope.makeSnapshot = function makeSnapshot() {
             if (_video) {
@@ -950,8 +947,7 @@
                 ctxPat.putImageData(idata, 0, 0);
 
 
-
-                $scope.snapURI=patCanvas.toDataURL();
+                $scope.snapURI = patCanvas.toDataURL();
 
 
                 patData = idata;
@@ -969,7 +965,6 @@
         };
 
 
-
         $scope.file = {};
         $scope.file.Category = "PROFILE_PICTURES";
         var uploader = $scope.uploader = new FileUploader({
@@ -981,7 +976,7 @@
 
         uploader.filters.push({
             name: 'imageFilter',
-            fn: function(item /*{File|FileLikeObject}*/, options) {
+            fn: function (item /*{File|FileLikeObject}*/, options) {
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
                 return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
             }
@@ -1003,13 +998,13 @@
                 item.croppedImage = '';
 
                 var reader = new FileReader();
-                reader.onload = function(event) {
-                    $scope.$apply(function(){
+                reader.onload = function (event) {
+                    $scope.$apply(function () {
                         item.image = event.target.result;
                     });
                 };
                 reader.readAsDataURL(item._file);
-                $scope.isUploadDisable=false;
+                $scope.isUploadDisable = false;
 
             }
             else {
@@ -1042,11 +1037,11 @@
             item.formData.push({'fileCategory': 'PROFILE_PICTURES'});
         };
 
-        var dataURItoBlob = function(dataURI) {
+        var dataURItoBlob = function (dataURI) {
             var binary = atob(dataURI.split(',')[1]);
             var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
             var array = [];
-            for(var i = 0; i < binary.length; i++) {
+            for (var i = 0; i < binary.length; i++) {
                 array.push(binary.charCodeAt(i));
             }
             return new Blob([new Uint8Array(array)], {type: mimeString});
@@ -1086,16 +1081,14 @@
         };
 
 
-
         $scope.clearQueue = function () {
 
             uploader.clearQueue();
-            $scope.isUploadDisable=true;
-            document.getElementById("cropedArea").src="";
+            $scope.isUploadDisable = true;
+            document.getElementById("cropedArea").src = "";
         }
         $scope.showMe = function () {
             alert("showMe");
-
 
 
             var blob = dataURItoBlob($scope.newConverted);
@@ -1107,15 +1100,13 @@
                 headers: {
                     'Content-Type': undefined
                 }
-            }).success(function(response){
+            }).success(function (response) {
                 changeUrl(response.Result);
                 $uibModalInstance.dismiss('cancel');
-            }).error(function(error){
+            }).error(function (error) {
                 alert(error);
                 console.log("error")
             });
-
-
 
 
             /*
@@ -1168,7 +1159,7 @@
          //angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
          handleFileSelect();*/
 
-        var b64ToUint6 =  function(nChr) {
+        var b64ToUint6 = function (nChr) {
             // convert base64 encoded character to 6-bit integer
             // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
             return nChr > 64 && nChr < 91 ? nChr - 65
@@ -1178,8 +1169,7 @@
         }
 
 
-
-        var  base64DecToArr = function(sBase64, nBlocksSize) {
+        var base64DecToArr = function (sBase64, nBlocksSize) {
             // convert base64 encoded string to Uintarray
             // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
             var sB64Enc = sBase64.replace(/[^A-Za-z0-9\+\/]/g, ""), nInLen = sB64Enc.length,
@@ -1214,21 +1204,21 @@
             var http = new XMLHttpRequest();
 
             http.open("POST", fileService.UploadUrl, true);
-            http.setRequestHeader('Authorization',authService.GetToken());
+            http.setRequestHeader('Authorization', authService.GetToken());
 
             if (http.upload && http.upload.addEventListener) {
-                http.upload.addEventListener( 'progress', function(e) {
+                http.upload.addEventListener('progress', function (e) {
                     if (e.lengthComputable) {
                         var progress = e.loaded / e.total;
                         // Webcam.dispatch('uploadProgress', progress, e);
-                        console.log("Proressing ",progress);
+                        console.log("Proressing ", progress);
                     }
-                }, false );
+                }, false);
             }
 
             // completion handler
             var self = this;
-            http.onload = function(text) {
+            http.onload = function (text) {
 
                 new PNotify({
                     title: 'Your Profile picture ',
@@ -1242,18 +1232,15 @@
             };
 
             // create a blob and decode our base64 to binary
-            var blob = new Blob( [ base64DecToArr(raw_image_data) ], {type: 'image/'+image_fmt} );
+            var blob = new Blob([base64DecToArr(raw_image_data)], {type: 'image/' + image_fmt});
 
             // stuff into a form, so servers can easily receive it as a standard file upload
             var form = new FormData();
-            form.append( form_elem_name, blob, form_elem_name+"."+image_fmt.replace(/e/, '') );
-            form.append('fileCategory','PROFILE_PICTURES');
+            form.append(form_elem_name, blob, form_elem_name + "." + image_fmt.replace(/e/, ''));
+            form.append('fileCategory', 'PROFILE_PICTURES');
 
             // send data to server
             http.send(form);
-
-
-
 
 
             /*var blobSnap=dataURItoBlob(dataURI);
@@ -1286,7 +1273,6 @@
         }
 
 
-
         /* var dataURItoBlob = function(dataURI) {
          var binary = atob(dataURI.split(',')[1]);
          var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -1298,13 +1284,7 @@
          };*/
 
 
-
-
-
-
-
-
-        var convertURIToImageData = function(URI) {
+        var convertURIToImageData = function (URI) {
             return new Promise(function (resolve, reject) {
                 if (URI == null) return reject();
                 var canvas = document.createElement('canvas'),
@@ -1317,18 +1297,16 @@
                     resolve(context.getImageData(0, 0, canvas.width, canvas.height));
                 }, false);
                 image.src = URI;
-                $scope.newConverted=image.src;
+                $scope.newConverted = image.src;
 
 
-                var imageType=(URI.split(";")[0]).split(":")[1];
-                var imagefromat=((URI.split(";")[0]).split(":")[1]).split("/")[1];
-                var imageName="newProfilePic."+imagefromat;
+                var imageType = (URI.split(";")[0]).split(":")[1];
+                var imagefromat = ((URI.split(";")[0]).split(":")[1]).split("/")[1];
+                var imageName = "newProfilePic." + imagefromat;
 
                 var blob = new Blob([URI], {type: imageType});
                 //var NewCroppedfile = new File([blob], imageName,{type: imageType,lastModified:new Date()});
-                console.log("File date ",blob);
-
-
+                console.log("File date ", blob);
 
 
                 var fd = new FormData();
@@ -1339,10 +1317,10 @@
                     headers: {
                         'Content-Type': undefined
                     }
-                }).success(function(response){
+                }).success(function (response) {
                     changeUrl(response.Result);
                     $uibModalInstance.dismiss('cancel');
-                }).error(function(error){
+                }).error(function (error) {
                     alert(error);
                     console.log("error")
                 });
@@ -1351,8 +1329,6 @@
                 /* $scope.uploadCropped(NewCroppedfile).then(function (response) {
                  console.log(response);
                  })*/
-
-
 
 
                 /*if( uploader.queue.length>0)
@@ -1391,9 +1367,8 @@
             return $http({
                 method: 'POST',
                 url: fileService.UploadUrl,
-                data:file
-            }).then(function(response)
-            {
+                data: file
+            }).then(function (response) {
                 return response;
             });
 
@@ -1405,17 +1380,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var snapUploadController = function ($scope, $stateParams, $filter, $uibModalInstance,$base64, $http,FileUploader, fileService, authService, changeUrl, jwtHelper) {
+    var snapUploadController = function ($scope, $stateParams, $filter, $uibModalInstance, $base64, $http, FileUploader, fileService, authService, changeUrl, jwtHelper) {
 
         $scope.showSnapModal = true;
-
-
-
-
-
-
-
-
 
 
         /*     $scope.isUploadDisable=true;

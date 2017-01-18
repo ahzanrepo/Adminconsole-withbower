@@ -99,7 +99,6 @@ mainApp.directive('passwordVerify', function () {
                 // values
                 var val1 = ngModel.$viewValue;
                 var val2 = attrs.passwordVerify;
-
                 // set validity
                 var status = !val1 || !val2 || val1 === val2;
                 ngModel.$setValidity('passwordVerify', status);
