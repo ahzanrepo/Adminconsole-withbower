@@ -309,15 +309,17 @@
                             if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
 
 
-                                $scope.ticketList = ticketDetailsResp.Result.map(function(ticket){
+                                $scope.ticketList = [];
+                                for(var i=0; i<ticketDetailsResp.Result.length;i++){
+                                    var ticket = ticketDetailsResp.Result[i];
                                     if($scope.ticketType && $scope.ticketType.length>0){
                                         if($scope.ticketType.indexOf(ticket.type)>-1) {
-                                            return ticket
+                                            $scope.ticketList.push(ticket);
                                         }
                                     }else{
-                                        return ticket
+                                        $scope.ticketList.push(ticket);
                                     }
-                                });
+                                }
                                 $scope.obj.isTableLoading = 1;
 
                             }
@@ -349,16 +351,17 @@
 
                         ticketReportsService.getTicketDetails($scope.FilterData).then(function (ticketDetailsResp) {
                             if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
-
-                                $scope.ticketList = ticketDetailsResp.Result.map(function(ticket){
+                                $scope.ticketList = [];
+                                for(var i=0; i<ticketDetailsResp.Result.length;i++){
+                                    var ticket = ticketDetailsResp.Result[i];
                                     if($scope.ticketType && $scope.ticketType.length>0){
                                         if($scope.ticketType.indexOf(ticket.type)>-1) {
-                                            return ticket
+                                            $scope.ticketList.push(ticket);
                                         }
                                     }else{
-                                        return ticket
+                                        $scope.ticketList.push(ticket);
                                     }
-                                });
+                                }
                                 $scope.obj.isTableLoading = 1;
 
                             }
