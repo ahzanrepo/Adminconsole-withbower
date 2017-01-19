@@ -6,10 +6,11 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
-    var caseConfigController = function($scope, $state, $filter, caseApiAccess,loginService) {
+    var caseConfigController = function($scope, $state, $filter, caseApiAccess, ticketFlowService,loginService) {
         $scope.caseConfigs = [];
-        $scope.caseConfig = {};
+        $scope.caseConfig = {activeTicketTypes:[]};
         $scope.searchCriteria = "";
+        $scope.ticketType;
 
         $scope.showAlert = function (title,content,type) {
             new PNotify({
@@ -37,10 +38,12 @@
             caseApiAccess.getCaseConfigurations().then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.caseConfigs = response.Result;
-                }
-                else
-                {
+                    $scope.caseConfigs = response.Result.map(function(conf){
+                        if(conf.active && conf.configurationType === "automate"){
+                            return conf;
+                        }
+                    });
+                } else{
                     var errMsg = response.CustomMessage;
 
                     if(response.Exception)
@@ -67,7 +70,8 @@
                     $scope.caseConfigs = response.Result;
                     $scope.showAlert('Case Configuration', response.CustomMessage, 'success');
                     $scope.searchCriteria = "";
-                    $state.reload();
+                    $scope.caseConfig = {activeTicketTypes:[]};
+                    $scope.loadCaseConfigs();
                 }
                 else
                 {
@@ -91,8 +95,63 @@
         };
 
 
+        // flowTypes
+
+        $scope.flowTypes = [];
+        $scope.loadFlowTypes = function () {
+            ticketFlowService.getAvailableTicketTypes().then(function (res) {
+                //var connections = [];
+                if (res.data.IsSuccess && res.status == '200') {
+                    // var connection = [];
+                    $scope.flowTypes = res.data.Result
+                }
+            }, function (err) {
+                console.log(err);
+            });
+        };
+        $scope.loadFlowTypes();
 
 
+        $scope.onFlowChipAdd = function (chip) {
+
+            $scope.caseConfig.activeTicketTypes.push(chip.text);
+
+        };
+        $scope.onFlowChipDelete = function (chip) {
+
+            var index = $scope.caseConfig.activeTicketTypes.indexOf(chip.text);
+            console.log("index ", index);
+            if (index > -1) {
+                $scope.caseConfig.activeTicketTypes.splice(index, 1);
+            }
+
+
+        };
+
+        function createFilterForFlow(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(flow) {
+                return (flow.toLowerCase().indexOf(lowercaseQuery) != -1);
+                ;
+            };
+        }
+
+        $scope.queryFlowSearch = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.flowTypes) {
+                    return $scope.flowTypes;
+                }
+                else {
+                    return [];
+                }
+
+            }
+            else {
+                var results = query ? $scope.flowTypes.filter(createFilterForFlow(query)) : [];
+                return results;
+            }
+
+        };
 
         // tag selection
 

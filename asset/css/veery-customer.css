@@ -436,9 +436,9 @@ a {
     height: 10px;
     border-radius: 50%;
     top: 9px;
-    z-index: 1000;
+    z-index: 1;
     left: 45px;
-    background: #000;
+    background: #dad6d5;
 }
 
 /*reserved*/
@@ -4569,6 +4569,58 @@ tags-input .tags {
     overflow: hidden;
     text-align: center;
     padding-top: 13px;
+}
+
+/*ticket flow */
+.node-delete-op {
+    cursor: pointer;
+}
+
+.node-delete-op:hover {
+    background: #00415b;
+}
+
+.node-name {
+    font-family: 'Ubuntu-Bold', sans-serif !important;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.remove-bucket {
+    width: 60px;
+    height: 60px;
+    background: #fbfbfb;
+    border: 1px solid #E6E9ED;
+    font-size: 37px;
+    padding-top: 6px;
+    text-align: center;
+    position: fixed;
+    right: 25px;
+    cursor: pointer !important;
+    z-index: 1;
+}
+
+.remove-bucket > i {
+    cursor: pointer !important;
+}
+
+.remove-bucket > i:hover {
+    color: #fd3a2f;
+}
+
+.remove-bucket-close {
+    position: absolute;
+    font-size: 10px;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    background: #E6E9ED;
+    border-radius: 50px;
+    padding-top: 5px;
+    overflow: hidden;
+    left: -8px;
+    cursor: pointer !important;
+}
 }
 /* QA reporting css*/
 

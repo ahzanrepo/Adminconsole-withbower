@@ -140,6 +140,15 @@
             </div>
 
             <div class="col-md-1 col-sm-1 col-xs-12 form-group ">
+                <label>Active Types</label>
+                <ul class="customer-type-wrapper">
+                    <li ng-repeat="cusTypes in caseConfig.activeTicketTypes">
+                        {{cusTypes}}
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-1 col-sm-1 col-xs-12 form-group ">
                 <label class="form-control-static">Threshold</label>
                 <p>{{caseConfig.threshold}} </p>
             </div>
