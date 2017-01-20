@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var emailReportCtrl = function ($scope, $location, $anchorScroll, cdrApiHandler, userProfileApiAccess, loginService) {
+    var emailReportCtrl = function ($scope, $location, $anchorScroll, cdrApiHandler, userProfileApiAccess, templateMakerBackendService, loginService, _) {
 
         $scope.showAlert = function (title, type, content) {
 
@@ -20,7 +20,52 @@
             reportType: ''
         };
 
+        $scope.selectedTemplate = {
+            selectedTemplate: ''
+        };
+
         $scope.userList = [];
+        $scope.templateList = [];
+
+        var loadTemplates = function()
+        {
+            templateMakerBackendService.pickTemplates().then(function (response)
+            {
+                var data = response.data;
+                if(data)
+                {
+                    if (data.IsSuccess)
+                    {
+                        var filterTemplates = _.filter(data.Result, function(templ){
+                            return (templ.name != undefined && templ.name != null);
+                        });
+                        $scope.templateList = filterTemplates;
+                    }
+                    else
+                    {
+                        var errMsg = data.CustomMessage;
+
+                        if (data.Exception)
+                        {
+                            errMsg = data.Exception.Message;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+
+                    }
+                }
+
+
+            }, function (err)
+            {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading templates";
+                if (err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
+        };
 
         var loadUserList = function ()
         {
@@ -55,6 +100,7 @@
         };
 
         loadUserList();
+        loadTemplates();
 
         var emptyArr = [];
 
@@ -99,7 +145,7 @@
                 return item._id;
             });
 
-            cdrApiHandler.saveRecipients($scope.reportType.reportType, arrMap).then(function (data)
+            cdrApiHandler.saveRecipients($scope.reportType.reportType, $scope.selectedTemplate.selectedTemplate, arrMap).then(function (data)
             {
                 if (data.IsSuccess && data.Result && data.Result.users)
                 {
@@ -137,6 +183,7 @@
             {
                 if (data.IsSuccess && data.Result && data.Result.users)
                 {
+                    $scope.selectedTemplate.selectedTemplate = data.Result.template;
                     $scope.reportUsers = data.Result.users;
                 }
                 else

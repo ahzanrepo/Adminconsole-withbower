@@ -68,7 +68,7 @@ var baseUrls = {
     'dashBordUrl': 'http://dashboardservice.app.veery.cloud//',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'socialConnectorUrl': 'http://104.236.197.119:4647/DVP/API/1.0.0.0/Social/',
+    'socialConnectorUrl': 'http://localhost:4647/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'notification': 'http://notificationservice.app.veery.cloud/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app.veery.cloud/DVP/API/1.0.0.0/',

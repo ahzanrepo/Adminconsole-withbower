@@ -101,6 +101,19 @@ mainApp.factory('twitterService', function ($q, $http, baseUrls) {
                 }
             });
         },
+        startCronJob: function (id) {
+
+            return $http({
+                method: 'POST',
+                url: baseUrls.socialConnectorUrl + "Twitter/"+id+"/Cron/Start"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.IsSuccess;
+                } else {
+                    return false;
+                }
+            });
+        },
 
         updateTwitterAccountPicture: function (id, postData) {
             return $http({

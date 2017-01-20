@@ -391,11 +391,12 @@
             });
         };
 
-        var saveRecipients = function (repType, recipientsList) {
+        var saveRecipients = function (repType, template, recipientsList) {
             var url = baseUrls.cdrProcessor + 'MailRecipient/ReportType/' + repType;
 
             var body = {
-                recipients: recipientsList
+                recipients: recipientsList,
+                template: template
             };
 
             return $http({
