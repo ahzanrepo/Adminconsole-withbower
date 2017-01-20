@@ -187,7 +187,39 @@
 
             if(!$scope.currentPaper.questionsBySection[section._id])
             {
-                $scope.currentPaper.questionsBySection[section._id] = obj;
+                var incompleteSections = _.find($scope.currentPaper.questionsBySection, function(obj)
+                {
+                    return obj.Questions.length === 0
+                });
+
+                if(incompleteSections)
+                {
+                    new PNotify({
+                        title: 'Section Incomplete',
+                        text: 'Section ' + incompleteSections.SectionName + ' has no questions added, Do you wish to remove it ?',
+                        type: 'warn',
+                        hide: false,
+                        confirm: {
+                            confirm: true
+                        },
+                        buttons: {
+                            closer: false,
+                            sticker: false
+                        },
+                        history: {
+                            history: false
+                        }
+                    }).get().on('pnotify.confirm', function () {
+                            reloadCurrentPaper($scope.currentPaper._id);
+                        }).on('pnotify.cancel', function () {
+
+                        });
+                }
+                else
+                {
+                    $scope.currentPaper.questionsBySection[section._id] = obj;
+                }
+
             }
             else
             {
