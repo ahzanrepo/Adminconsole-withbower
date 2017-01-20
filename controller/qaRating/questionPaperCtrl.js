@@ -66,7 +66,8 @@
         $scope.showModalQuestion = function (sectionId) {
 
             $scope.currentQuestion = {
-                weight : 1
+                weight : 1,
+                type : 'binary'
             };
 
             $scope.questionSectionId = sectionId;
