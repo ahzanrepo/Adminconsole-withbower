@@ -354,6 +354,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.customersatisfaction');
         },goAcwReport: function () {
             $state.go('console.acwdetails');
+        },
+        goQAReport: function () {
+            $state.go('console.qaratingreporting');
         }
     };
 

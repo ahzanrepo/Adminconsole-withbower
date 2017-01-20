@@ -55,6 +55,7 @@ mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twi
         };
         twitterService.addTwitterAccountToSystem(data).then(function (response) {
             if(response){
+                $scope.GetTwitterAccounts();
                 $scope.showAlert("Twitter", 'success',"Successfully Added to System");
                 //document.getElementById("status")
                 $("#"+page.id+"").addClass("avoid-clicks");
@@ -136,5 +137,24 @@ mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twi
 
         /* var a = $scope.fbPageList.indexOf(page);
          $scope.fbPageList.splice(a, 1);*/
+    };
+
+    $scope.StartCronJob = function (page) {
+        $scope.isLoading = true;
+        twitterService.startCronJob(page._id).then(function (response) {
+            if(response){
+                $scope.GetTwitterAccounts();
+                $scope.showAlert("Twitter", 'success',"Start Cron Job.");
+            }
+            else{
+                $scope.showAlert("Twitter", 'error',"Fail Start Cron Job.");
+            }
+            $scope.isLoading = false;
+        }, function (error) {
+            console.error("StartCronJob err");
+            $scope.isLoading = false;
+            $scope.showAlert("Twitter", 'error',"Fail Start Cron Job.");
+        });
+
     };
 });

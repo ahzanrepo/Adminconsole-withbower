@@ -46,6 +46,17 @@
                                     </div>
 
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                        <tags-input ng-model="ticketType"
+
+                                                    add-from-autocomplete-only="true" on-tag-added="onFlowChipAdd($tag)"
+                                                    on-tag-removed="onFlowChipDelete($tag)" ng-disabled="" min-length="1"
+                                                    placeholder="Active Types">
+                                            <auto-complete source="queryFlowSearch($query)" load-on-empty="true"
+                                                           load-on-focus="true" min-length="1"></auto-complete>
+                                        </tags-input>
+                                    </div>
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                         <tags-input ng-model="postTags" display-property="name" placeholder="Configuration Rule">
                                             <auto-complete source="loadPostTags($query)"></auto-complete>
                                         </tags-input>

@@ -5,7 +5,7 @@
 (function () {
     var app = angular.module('veeryConsoleApp');
 
-    var configCaseController = function ($scope, $filter, $q, $uibModal, $stateParams, $state, ticketReportsService, caseApiAccess, loginService, triggerArdsServiceAccess, triggerTemplateServiceAccess) {
+    var configCaseController = function ($scope, $filter, $q, $uibModal, $stateParams, $state, ticketFlowService, ticketReportsService, caseApiAccess, loginService, triggerArdsServiceAccess, triggerTemplateServiceAccess) {
 
         $scope.title = $stateParams.title;
         $scope.caseInfo = JSON.parse($stateParams.caseInfo);
@@ -17,6 +17,11 @@
         $scope.totalTickets = $scope.caseInfo.related_tickets? $scope.caseInfo.related_tickets.length: 0;
         $scope.pageTotal = $scope.totalTickets > 0? $scope.totalTickets/$scope.pageSize : 0;
         $scope.pageTotal = Math.ceil($scope.pageTotal);
+
+
+        if($scope.caseInfo.caseConfiguration){
+            $scope.ticketType = $scope.caseInfo.caseConfiguration.activeTicketTypes;
+        }
 
         $scope.getPageData = function (page) {
             var start = ((page - 1) * $scope.pageSize);
@@ -270,6 +275,7 @@
 
                 $scope.pagination.itemsPerPage = limit;
 
+
                 $scope.FilterData = {
                     sdate: startDate,
                     edate: endDate,
@@ -281,7 +287,6 @@
                     tag: tagName,
                     channel: $scope.channelType,
                     priority: $scope.priorityType,
-                    type: $scope.ticketType,
                     status: $scope.ticketStatus,
                     slaViolated: slaStatus
 
@@ -303,7 +308,18 @@
                         ticketReportsService.getTicketDetailsNoPaging($scope.FilterData).then(function (ticketDetailsResp) {
                             if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
 
-                                $scope.ticketList = ticketDetailsResp.Result;
+
+                                $scope.ticketList = [];
+                                for(var i=0; i<ticketDetailsResp.Result.length;i++){
+                                    var ticket = ticketDetailsResp.Result[i];
+                                    if($scope.ticketType && $scope.ticketType.length>0){
+                                        if($scope.ticketType.indexOf(ticket.type)>-1) {
+                                            $scope.ticketList.push(ticket);
+                                        }
+                                    }else{
+                                        $scope.ticketList.push(ticket);
+                                    }
+                                }
                                 $scope.obj.isTableLoading = 1;
 
                             }
@@ -335,8 +351,17 @@
 
                         ticketReportsService.getTicketDetails($scope.FilterData).then(function (ticketDetailsResp) {
                             if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
-
-                                $scope.ticketList = ticketDetailsResp.Result;
+                                $scope.ticketList = [];
+                                for(var i=0; i<ticketDetailsResp.Result.length;i++){
+                                    var ticket = ticketDetailsResp.Result[i];
+                                    if($scope.ticketType && $scope.ticketType.length>0){
+                                        if($scope.ticketType.indexOf(ticket.type)>-1) {
+                                            $scope.ticketList.push(ticket);
+                                        }
+                                    }else{
+                                        $scope.ticketList.push(ticket);
+                                    }
+                                }
                                 $scope.obj.isTableLoading = 1;
 
                             }
@@ -476,8 +501,31 @@
             });
         };
 
-        $scope.bulkActions = ['new','open','progressing','parked','solved','closed'];
+        $scope.bulkActions = ['closed'];
 
+        $scope.getFlowNodes = function () {
+            if($scope.ticketType && $scope.ticketType.length === 1) {
+                ticketFlowService.getFlowNodes($scope.ticketType[0]).then(function (res) {
+                    //var connections = [];
+                    if (res.data.IsSuccess && res.status == '200') {
+                        // var connection = [];
+                        $scope.bulkActions = res.data.Result.map(function (item) {
+
+                            return item.node.name
+
+                        });
+                    }else{
+                        $scope.bulkActions = ['closed'];
+                    }
+                }, function (err) {
+                    $scope.bulkActions = ['closed'];
+                });
+            }else{
+                $scope.bulkActions = ['closed'];
+            }
+        };
+
+        $scope.getFlowNodes();
         $scope.loadAttributes = function () {
             triggerArdsServiceAccess.getReqMetaData().then(function (response) {
                 if (response.IsSuccess) {
