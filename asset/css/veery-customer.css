@@ -4621,3 +4621,24 @@ tags-input .tags {
     left: -8px;
     cursor: pointer !important;
 }
+}
+/* QA reporting css*/
+
+section.h3 {
+    text-color:#f8b01d
+}
+
+.qaanswers {
+    font-size: 20px;
+    padding-left: 12px;
+}
+
+.qaremarks {
+    font-size: 18px;
+    padding-left: 12px;
+}
+
+.listalign{
+    padding-left: 10px;
+    list-style: none;
+}

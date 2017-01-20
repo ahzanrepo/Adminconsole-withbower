@@ -820,7 +820,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                     requireLogin: true,
                     navigation: "ACWREPORT"
                 }
-        });
+        }).state('console.qaratingreporting', {
+                url: "/qaratingreport",
+                templateUrl: "views/qaRatingReport/qaRatingReport.html",
+                controller: "qaRatingReportCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "QUALITYASSUARANCE"
+                }
+            });
         //Todo shoud be change navigation
     }]);
 
