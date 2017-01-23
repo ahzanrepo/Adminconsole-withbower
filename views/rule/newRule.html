@@ -355,7 +355,7 @@
                         <div class="col-md-4 col-sm-6 col-xs-12 form-group">
 
                             <select class="form-control" ng-model="newObj.ObjCategory" ng-selected="$first">
-                                <option ng-selected="true">CALL</option>
+                                <option>CALL</option>
                                 <option>SMS</option>
                                 <option>CLICKTOCALL</option>
                             </select>
@@ -392,6 +392,13 @@
                                 <select class="form-control" ng-options="Trans.TransName for Trans in TransObj track by Trans.id"
                                         ng-model="newObj.ANITranslationId" ng-change="AttachANITransToRule()">
                                 </select>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-6 col-xs-12" >Schedule</label>
+                            <div class="col-md-4 col-sm-6 col-xs-12 form-group">
+                                <select class="form-control" ng-options="schedule.ScheduleName for schedule in scheduleList track by schedule.id"
+                                        ng-model="newObj.ScheduleId">
+                                </select>
+
                             </div>
 
                             <label class="control-label col-md-2 col-sm-6 col-xs-12" ng-show="isInbound">Application</label>
