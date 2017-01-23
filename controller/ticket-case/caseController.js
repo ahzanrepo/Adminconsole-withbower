@@ -116,19 +116,19 @@
                 {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
-                        errMsg = response.Exception.Message;
-                    }
+                    //if(response.Exception)
+                    //{
+                    //    errMsg = response.Exception.Message;
+                    //}
                     $scope.showAlert('Case', errMsg, 'error');
                 }
             }, function(err){
                 loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving case";
-                if(err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
+                //if(err.statusText)
+                //{
+                //    errMsg = err.statusText;
+                //}
                 $scope.showAlert('Case', errMsg, 'error');
             });
         };
