@@ -29,6 +29,7 @@
             display: 'New Form'
         };
 
+
         /*$scope.newQuestionFormToggle = function()
         {
             $scope.newQFormToggle.IsOpen = !$scope.newQFormToggle.IsOpen;

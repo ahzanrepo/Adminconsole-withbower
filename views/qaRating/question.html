@@ -17,14 +17,6 @@
                                    ng-model="currentQuestion.question"></textarea>
                         </div>
 
-
-
-                        <fieldset class="col-md-4 col-sm-4 col-xs-4 form-group has-feedback" ng-disabled="currentQuestion.type === 'remark'">
-                            <label>Weight (1 - 10)</label>
-                            <!--<input type="number" ng-model="currentQuestion.weight" ng-max="10" ng-min="0">-->
-                            <h-number change="onChanged()" value="currentQuestion.weight" min="1" max="10" step="1"></h-number>
-                        </fieldset>
-
                         <div class="col-md-4 col-sm-4 col-xs-4 form-group has-feedback">
                             <label>Type</label>
                             <select name="datatable-responsive_length" ng-model="currentQuestion.type"
@@ -34,6 +26,12 @@
                                 <option value="remark">Remark</option>
                             </select>
                         </div>
+
+                        <fieldset class="col-md-4 col-sm-4 col-xs-4 form-group has-feedback" ng-hide="currentQuestion.type === 'remark'">
+                            <label>Weight (1 - 10)</label>
+                            <!--<input type="number" ng-model="currentQuestion.weight" ng-max="10" ng-min="0">-->
+                            <h-number value="currentQuestion.weight" min="1" max="10" step="1"></h-number>
+                        </fieldset>
 
 
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
