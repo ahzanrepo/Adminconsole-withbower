@@ -266,7 +266,7 @@
             <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
                 <div class="tile-stats">
 
-                    <form class="form-horizontal form-label-left input_mask">
+                    <form class="form-horizontal form-label-left input_mask" id="frm_newRule">
                         <label class="control-label col-md-2 col-sm-6 col-xs-12">Direction</label>
                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                             <select class="form-control" ng-model="newObj.Direction" ng-disabled="editMode">
@@ -384,6 +384,7 @@
                                 <select class="form-control" ng-options="Trans.TransName for Trans in TransObj track by Trans.id"
                                         ng-model="newObj.TranslationId" ng-change="AttachDNISTransToRule()">
                                 </select>
+                                <i class="fa fa-close" ng-click="makeDNISTransEmpty()"></i>
 
                             </div>
 
@@ -392,12 +393,17 @@
                                 <select class="form-control" ng-options="Trans.TransName for Trans in TransObj track by Trans.id"
                                         ng-model="newObj.ANITranslationId" ng-change="AttachANITransToRule()">
                                 </select>
+                                <i class="fa fa-close" ng-click="makeANITransEmpty()"></i>
                             </div>
+
+
                             <label class="control-label col-md-2 col-sm-6 col-xs-12" >Schedule</label>
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group">
                                 <select class="form-control" ng-options="schedule.ScheduleName for schedule in scheduleList track by schedule.id"
                                         ng-model="newObj.ScheduleId">
                                 </select>
+                                <i class="fa fa-close" ng-click="makeScheduleEmpty()"></i>
+
 
                             </div>
 
@@ -406,6 +412,7 @@
                                 <select class="form-control" ng-options="App.AppName for App in AppObj track by App.id"
                                         ng-model="newObj.AppId">
                                 </select>
+                                <i class="fa fa-close" ng-click="makeAppEmpty()"></i>
 
                             </div>
 
@@ -415,7 +422,7 @@
 
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                             <button class="btn btn-success" ng-click="backToList()">Cancel</button>
-                            <button class="btn btn-success" ng-click="saveNewRule()" ng-disabled="frm_newRule.$invalid">Save</button>
+                            <button class="btn btn-success" ng-click="saveNewRule()" ng-disabled="frm_newRule.$invalid || isPressed">Save</button>
                         </div>
                     </form>
                 </div>
