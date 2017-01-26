@@ -4606,12 +4606,12 @@ tags-input .tags {
 }
 
 .remove-bucket {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     background: #fbfbfb;
     border: 1px solid #E6E9ED;
-    font-size: 37px;
-    padding-top: 6px;
+    font-size: 26px;
+    padding-top: 3px;
     text-align: center;
     position: fixed;
     right: 25px;
