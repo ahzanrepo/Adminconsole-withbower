@@ -4198,18 +4198,37 @@ tags-input .tags {
     min-height: 85px;
     background: transparent;
     width: 25px;
-    padding: 63px 10px 10px 10px;
+    padding: 20px;
     margin: 1px;
 }
 
 .knob-wrapper {
-    display: inline-block;
-    min-width: 50px;
-    min-height: 100px;
+    min-width: 140px;
+    min-height: 115px;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    padding: 13px;
+    text-align: center;
+}
+
+.resource-skill {
+    display: inline-table !important
 }
 
 .resource-skill > div {
 
+}
+
+.resource-skill > div > h5 {
+    font-size: 10px;
+    text-align: center;
+}
+
+.resource-skill > div > i {
+    position: absolute;
+    bottom: 13px;
+    font-size: 20px;
 }
 
 .knob-close {
@@ -4587,12 +4606,12 @@ tags-input .tags {
 }
 
 .remove-bucket {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     background: #fbfbfb;
     border: 1px solid #E6E9ED;
-    font-size: 37px;
-    padding-top: 6px;
+    font-size: 26px;
+    padding-top: 3px;
     text-align: center;
     position: fixed;
     right: 25px;
@@ -4625,7 +4644,7 @@ tags-input .tags {
 /* QA reporting css*/
 
 section.h3 {
-    text-color:#f8b01d
+    text-color: #f8b01d
 }
 
 .qaanswers {
@@ -4638,7 +4657,7 @@ section.h3 {
     padding-left: 12px;
 }
 
-.listalign{
+.listalign {
     padding-left: 10px;
     list-style: none;
 }
