@@ -266,7 +266,7 @@
             <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
                 <div class="tile-stats">
 
-                    <form class="form-horizontal form-label-left input_mask" id="frm_newRule">
+                    <form class="form-horizontal form-label-left input_mask" name="frm_newRule">
                         <label class="control-label col-md-2 col-sm-6 col-xs-12">Direction</label>
                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                             <select class="form-control" ng-model="newObj.Direction" ng-disabled="editMode">
@@ -343,7 +343,7 @@
                         <div ng-if="newObj.Direction=='OUTBOUND'">
                             <label class="control-label col-md-2 col-sm-6 col-xs-12">Trunk Number</label>
                             <div class="col-md-4 col-sm-6 col-xs-12 form-group">
-                                <select class="form-control" ng-model="newObj.TrunkNumber"   ng-model-options="{trackBy: '$value'}" ng-selected="$first">
+                                <select class="form-control" ng-model="newObj.TrunkNumber" ng-required="newObj.Direction=='OUTBOUND'"  ng-model-options="{trackBy: '$value'}" ng-selected="$first">
                                     <option ng-repeat="trunk in trunkObj" value="{{trunk.PhoneNumber}}">{{trunk.PhoneNumber}}</option>
                                 </select>
                                 <i class="fa fa-close" ng-click="makeTrunkEmpty()"></i>

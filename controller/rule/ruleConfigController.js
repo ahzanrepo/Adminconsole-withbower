@@ -205,7 +205,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
                         $scope.showAlert("Success", "Rule successfully saved", "success");
                         if ($scope.newObj.id) {
 
-                                $scope.backToList();
+                            $scope.backToList();
 
                         }
 
@@ -229,7 +229,21 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         else {
 
             if (isValid) {
-                ruleconfigservice.addNewRule($scope.newObj).then(onSaveCompleted, onError);
+                ruleconfigservice.addNewRule($scope.newObj).then(function (resposne) {
+                    if(resposne.data.IsSuccess)
+                    {
+                        $scope.showAlert("Success", "Successfully saved", "success");
+                        $scope.backToList();
+                    }
+                    else
+                    {
+                        $scope.showAlert("Error", "Saving Failed", "error");
+
+                    }
+
+                }).catch(function (error) {
+                    onError(error);
+                });
             }
             else {
                 $scope.showAlert("Error", "Invalid Custom regEx pattern", "error");
