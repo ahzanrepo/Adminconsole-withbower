@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var ticketDetailReportCtrl = function ($scope, $filter, $q, ticketReportsService, loginService) {
+    var ticketDetailReportCtrl = function ($scope, $filter, $q, $timeout, ticketReportsService, cdrApiHandler, loginService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -45,6 +45,12 @@
         $scope.tagList = [];
         $scope.ticketStatusList = [];
         $scope.ticketTypesList = [];
+
+        $scope.cancelDownload = true;
+        $scope.buttonClass = 'fa fa-file-text';
+        $scope.fileDownloadState = 'RESET';
+        $scope.currentCSVFilename = '';
+        $scope.DownloadButtonName = 'CSV';
 
         $scope.pageChanged = function () {
             $scope.getTicketSummary();
@@ -226,6 +232,58 @@
         getTicketStatusList();
         getTicketTypeList();
 
+        var checkFileReady = function (fileName) {
+            if ($scope.cancelDownload) {
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
+            }
+            else {
+                cdrApiHandler.getFileMetaData(fileName).then(function (fileStatus) {
+                    if (fileStatus && fileStatus.Result) {
+                        if (fileStatus.Result.Status === 'PROCESSING') {
+                            $timeout(checkFileReady(fileName), 10000);
+                        }
+                        else {
+
+
+                            var decodedToken = loginService.getTokenDecode();
+
+                            if (decodedToken && decodedToken.company && decodedToken.tenant) {
+                                $scope.currentCSVFilename = fileName;
+                                $scope.DownloadCSVFileUrl = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                                $scope.fileDownloadState = 'READY';
+                                $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.buttonClass = 'fa fa-file-text';
+                            }
+                            else {
+                                $scope.fileDownloadState = 'RESET';
+                                $scope.DownloadButtonName = 'CSV';
+                            }
+
+
+                        }
+                    }
+                    else {
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                    }
+
+                }).catch(function (err) {
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                });
+            }
+
+        };
+
+        $scope.downloadPress = function () {
+            $scope.fileDownloadState = 'RESET';
+            $scope.DownloadButtonName = 'CSV';
+            $scope.cancelDownload = true;
+            $scope.buttonClass = 'fa fa-file-text';
+        };
+
 
         $scope.getTicketSummary = function ()
         {
@@ -318,7 +376,8 @@
 
         };
 
-        $scope.getTicketSummaryCSV = function () {
+        $scope.getTicketSummaryCSV = function ()
+        {
             $scope.tagHeaders = ['Reference', 'Subject', 'Phone Number', 'Email', 'SSN', 'First Name', 'Last Name', 'Address', 'From Number', 'Created Date', 'Assignee', 'Submitter', 'Requester', 'Channel', 'Status', 'Priority', 'Type', 'SLA Violated'];
             $scope.tagOrder = ['reference', 'subject', 'phoneNumber', 'email', 'ssn', 'firstname', 'lastname', 'address', 'fromNumber', 'createdDate', 'assignee', 'submitter', 'requester', 'channel', 'status', 'priority', 'type', 'slaViolated'];
 
@@ -482,6 +541,88 @@
             }
 
             return deferred.promise;
+
+        };
+
+        $scope.getTicketSummaryCSVPrepare = function ()
+        {
+            if ($scope.DownloadButtonName === 'CSV') {
+                $scope.cancelDownload = false;
+                $scope.buttonClass = 'fa fa-spinner fa-spin';
+            }
+            else {
+                $scope.cancelDownload = true;
+                $scope.buttonClass = 'fa fa-file-text';
+            }
+
+            $scope.DownloadButtonName = 'PROCESSING';
+            $scope.DownloadFileName = 'TICKET_' + $scope.obj.startDay + '_' + $scope.obj.endDay;
+
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            momentTz = momentTz.replace("+", "%2B");
+
+            var startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
+            var tempEndDate = $scope.obj.endDay;
+
+            var endDate = moment(tempEndDate).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00' + momentTz;
+
+            var tagName = null;
+
+            if ($scope.selectedTag) {
+                tagName = $scope.selectedTag.name;
+            }
+
+            $scope.FilterData = {
+                sdate: startDate,
+                edate: endDate,
+                requester: $scope.selectedExtUser,
+                assignee: $scope.selectedAssignee,
+                submitter: $scope.selectedSubmitter,
+                tag: tagName,
+                channel: $scope.channelType,
+                priority: $scope.priorityType,
+                type: $scope.ticketType,
+                status: $scope.ticketStatus,
+                slaViolated: $scope.slaStatus,
+                tz: momentTz
+
+            };
+
+
+            try {
+
+                ticketReportsService.getTicketDetailsNoPaging($scope.FilterData).then(function (ticketDetailsResp) {
+                    if (ticketDetailsResp && ticketDetailsResp.Result)
+                    {
+
+                        var downloadFilename = ticketDetailsResp.Result;
+
+                        checkFileReady(downloadFilename);
+
+
+                    }
+                    else
+                    {
+                        $scope.showAlert('Error', 'error', 'Error occurred while loading ticket records');
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                    }
+
+
+                }).catch(function (err)
+                {
+                    loginService.isCheckResponse(err);
+                    $scope.showAlert('Error', 'error', 'Error occurred while loading ticket records');
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                });
+
+
+            }
+            catch (ex) {
+
+                $scope.showAlert('Error', 'error', 'Error occurred');
+            }
 
         };
 

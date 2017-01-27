@@ -91,6 +91,11 @@
                 postData.submitter = filterData.submitter;
             }
 
+            if(filterData.tz)
+            {
+                postData.tz = filterData.tz;
+            }
+
             if(filterData.slaViolated === true || filterData.slaViolated === false)
             {
                 postData.sla_violated = filterData.slaViolated;
@@ -101,7 +106,7 @@
                 url: url
             };
 
-            if(filterData.tag || filterData.channel || filterData.assignee || filterData.submitter || filterData.requester || filterData.priority || filterData.type || filterData.status || filterData.slaViolated === true || filterData.slaViolated === false)
+            if(filterData.tag || filterData.tz || filterData.channel || filterData.assignee || filterData.submitter || filterData.requester || filterData.priority || filterData.type || filterData.status || filterData.slaViolated === true || filterData.slaViolated === false)
             {
                 httpHeaders.data = JSON.stringify(postData);
             }
