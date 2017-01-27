@@ -173,6 +173,17 @@ mainApp.factory('ruleconfigservice', function ($http, baseUrls) {
                 return response;
             });
 
+        },
+        attachScheduleWithRule : function (rID,sID) {
+
+            return $http({
+                method: 'POST',
+                url: baseUrls.ruleServiceUrl + 'CallRuleApi/CallRule/'+rID+'/SetSchedule/'+sID
+            }).then(function(response)
+            {
+                return response;
+            });
+
         }
 
 
