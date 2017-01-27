@@ -101,6 +101,8 @@
                 postData.sla_violated = filterData.slaViolated;
             }
 
+            postData.tagCount = filterData.tagCount;
+
             var httpHeaders = {
                 method: 'POST',
                 url: url

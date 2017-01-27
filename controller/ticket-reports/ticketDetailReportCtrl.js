@@ -584,7 +584,8 @@
                 type: $scope.ticketType,
                 status: $scope.ticketStatus,
                 slaViolated: $scope.slaStatus,
-                tz: momentTz
+                tz: momentTz,
+                tagCount: $scope.tagCount
 
             };
 
