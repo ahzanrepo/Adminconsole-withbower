@@ -8,6 +8,7 @@ mainApp.directive("editextension", function ($filter,$uibModal,extensionBackendS
         scope: {
             extension: "=",
             extensionlist: "=",
+            applications: "=",
             'reloadpage':'&'
         },
 

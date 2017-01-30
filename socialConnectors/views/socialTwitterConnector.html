@@ -86,6 +86,7 @@
                                     <div class="tools tools-bottom">
                                         <!--<a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateFacebookAccount(page)" title="Update Account"></i></a>-->
                                         <a href="javascript:void(0);"><i class="fa fa-times" ng-click="DeleteTwitterAccount(page);" title="Delete Account"></i></a>
+                                        <a ng-show="page.cron.enable==false" href="javascript:void(0);"><i class="fa fa-play" ng-click="StartCronJob(page);" title="Start Cron Job"></i></a>
                                         <!--<a href="javascript:void(0);"><i class="fa fa-image" ng-click="updatePicture(page)" title="Update Picture"></i></a>-->
                                     </div>
                                 </div>
@@ -119,9 +120,9 @@
                             <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.avatar}}" alt="image" />
                             <div class="mask no-caption">
                                 <div class="tools tools-bottom">
-                                    <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateFacebookAccount(page)" title="Activate Account"></i></a>
-                                    <!--<a href="javascript:void(0);"><i class="fa fa-times" ng-click="DeleteFacebookAccount(page);" title="Delete Account"></i></a>
-                                    <a href="javascript:void(0);"><i class="fa fa-image" ng-click="updatePicture(page)" title="Update Picture"></i></a>-->
+                                    <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateTwitterAccount(page)" title="Activate Account"></i></a>
+
+                                    <!--<a href="javascript:void(0);"><i class="fa fa-image" ng-click="updatePicture(page)" title="Update Picture"></i></a>-->
                                 </div>
                             </div>
                         </div>

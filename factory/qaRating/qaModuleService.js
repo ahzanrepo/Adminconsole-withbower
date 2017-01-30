@@ -163,6 +163,16 @@
                 return resp.data;
             })
         };
+        var getAllSubmissionsByOwnerAndTimeRange = function(owner,sDate,eDate)
+        {
+            return $http({
+                method: 'GET',
+                url: baseUrls.qaModule + 'QuestionPaperSubmission/Owner/' + owner + '/Completed/true/From/'+sDate+'/To/'+eDate
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
 
         return {
             addNewSection: addNewSection,
@@ -177,7 +187,8 @@
             setPaperComplete: setPaperComplete,
             paperSubmission: paperSubmission,
             deleteSubmissionById: deleteSubmissionById,
-            getAllSubmissionsByOwner: getAllSubmissionsByOwner
+            getAllSubmissionsByOwner: getAllSubmissionsByOwner,
+            getAllSubmissionsByOwnerAndTimeRange: getAllSubmissionsByOwnerAndTimeRange
         };
 
     };

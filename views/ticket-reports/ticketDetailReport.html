@@ -171,7 +171,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-md-5 col-sm-5 col-xs-12">
 
                 </div>
 
@@ -183,12 +183,29 @@
                            ng-model="tagCount">
 
                 </div>
-                <div class="col-md-1 col-sm-1 col-xs-12">
+
+                <div class="col-md-2 col-sm-2 col-xs-12" style="position: relative; top: 20px;">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <label><h5>Download</h5></label>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+
+                        <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-download"></i></a>
+                        <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" ng-if="fileDownloadState === 'RESET'" type="button" ng-click="getTicketSummaryCSVPrepare()">
+                            CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i ng-class="buttonClass"></i>
+                        </button>
+                        <!--<button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" ng-click="prepareDownloadCSV()"></button>-->
+                    </div>
+
+                </div>
+                <!--<div class="col-md-1 col-sm-1 col-xs-12">
                     <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500; position: relative; top: 20px;" csv-header="tagHeaders" csv-column-order="tagOrder" ng-csv="getTicketSummaryCSV()" filename="{{DownloadFileName}}.csv">
                         CSV&nbsp;&nbsp;&nbsp;&nbsp;
                         <i class="fa fa-download"></i>
                     </button>
-                </div>
+                </div>-->
                 <div class="clearfix"></div>
 
 

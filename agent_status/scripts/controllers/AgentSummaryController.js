@@ -2,7 +2,9 @@
  * Created by Rajinda on 9/1/2016.
  */
 mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
-                                                       dashboardService, moment,userImageList) {
+                                                       dashboardService, moment,userImageList,$anchorScroll)
+{
+    $anchorScroll();
     var getAllRealTime = function () {
         $scope.getProfileDetails();
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);

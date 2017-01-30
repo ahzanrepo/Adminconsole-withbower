@@ -1,12 +1,29 @@
 <!--<small>{{selectedAttribute.Attribute}}</small>-->
-<small> {{selectedAttribute.Attribute}}    </small><i class="fa fa-times-circle-o fa-align-left"
-                                                  ng-click="deleteAttribute(selectedAttribute)"
-                                                  style="cursor: pointer">
+<div class="knob-wrapper">
 
-</i>
-<input class="knob" data-width="60" data-height="70" data-displayPrevious=true data-fgColor="#26B99A"
-       data-skin="tron"
-       data-thickness=".2" value="{{ knobValue }}" id="{{knobId}}">
+    <h5> {{selectedAttribute.Attribute}}</h5>
+
+    <input class="knob resources-knob " data-width="60"
+           data-height="70"
+           data-displayPrevious=true
+           data-fgColor="#26B99A"
+           data-skin="tron"
+           data-linecap=round
+           data-thickness=".2"
+           value="{{ knobValue }}" id="{{knobId}}">
+
+    <div class="know-delete-wrp" >
+        <button class="btn btn-sm"  ng-click="deleteAttribute(selectedAttribute)">
+            delete
+        </button>
+    </div>
+    <!--<i class="fa fa-times-circle-o "-->
+
+    <!--style="cursor: pointer">-->
+
+    <!--</i>-->
+
+</div>
 
 
 <!--<div  range-slider min="0" max="100" model-min="0" model-max="valurA" pin-handle="min" disabled="false"> </div>-->

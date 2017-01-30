@@ -298,7 +298,7 @@
                     <div class="menu_section">
                         <h3 class="font-gry-200">Other</h3>
                         <ul class="nav side-menu">
-                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN"><a
+                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN || accessNavigation.AUDITTRAIL || accessNavigation.ACWREPORT"><a
                                     class="font-robot font-300 "><i
                                     class="fa fa-line-chart"></i>
                                 Report <span
@@ -340,6 +340,9 @@
                                                                           ng-click="clickDirective.goTicketDetailReport()">Ticket
                                         Detail Report</a>
                                     </li>
+                                    <li ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goAuditTrailReport()">Audit Trail Report</a>
+                                    </li>
                                     <!-- ng-show="accessNavigation.TIMESHEET"-->
                                     <li><a href="javascript:void(0);"
                                            ng-click="clickDirective.goTimeSheet()">Time Sheet</a>
@@ -347,6 +350,18 @@
                                     <li ng-show="accessNavigation.SLA_BREAKDOWN"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goQueueSlaBreakDown()">SLA
                                         Break Down</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.SLA_BREAKDOWN"><a href="javascript:void(0);" ng-click="clickDirective.goIvrNodeCountReport()">
+                                        IVR Node Count</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CSATREPORT"><a href="javascript:void(0);" ng-click="clickDirective.gocSatReport()">
+                                        cSat</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);" ng-click="clickDirective.goAcwReport()">
+                                        ACW Detail Report</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);" ng-click="clickDirective.goQAReport()">
+                                        QA Reporting</a>
                                     </li>
                                 </ul>
                             </li>
@@ -524,9 +539,9 @@
 
             <audio id="audio_remote" autoplay="autoplay"></audio>
 
-            <ul ui-view id="main_frame">
+            <div ui-view id="main_frame">
 
-            </ul>
+            </div>
         </div>
 
         <footer>

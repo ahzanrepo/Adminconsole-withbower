@@ -29,6 +29,7 @@
             display: 'New Form'
         };
 
+
         /*$scope.newQuestionFormToggle = function()
         {
             $scope.newQFormToggle.IsOpen = !$scope.newQFormToggle.IsOpen;
@@ -66,7 +67,8 @@
         $scope.showModalQuestion = function (sectionId) {
 
             $scope.currentQuestion = {
-                weight : 1
+                weight : 1,
+                type : 'binary'
             };
 
             $scope.questionSectionId = sectionId;
@@ -178,6 +180,56 @@
 
         };
 
+        $scope.addSectionToPaper = function(section)
+        {
+            var obj = {
+                SectionName: section.name,
+                Questions: []
+            };
+
+            if(!$scope.currentPaper.questionsBySection[section._id])
+            {
+                var incompleteSections = _.find($scope.currentPaper.questionsBySection, function(obj)
+                {
+                    return obj.Questions.length === 0
+                });
+
+                if(incompleteSections)
+                {
+                    new PNotify({
+                        title: 'Section Incomplete',
+                        text: 'Section ' + incompleteSections.SectionName + ' has no questions added, Do you wish to remove it ?',
+                        type: 'warn',
+                        hide: false,
+                        confirm: {
+                            confirm: true
+                        },
+                        buttons: {
+                            closer: false,
+                            sticker: false
+                        },
+                        history: {
+                            history: false
+                        }
+                    }).get().on('pnotify.confirm', function () {
+                            reloadCurrentPaper($scope.currentPaper._id);
+                        }).on('pnotify.cancel', function () {
+
+                        });
+                }
+                else
+                {
+                    $scope.currentPaper.questionsBySection[section._id] = obj;
+                }
+
+            }
+            else
+            {
+                $scope.showAlert('QA Question', 'warn', 'Section already added');
+            }
+
+        };
+
         $scope.addQuestion = function(){
 
             $scope.currentQuestion.section = $scope.questionSectionId;
@@ -283,7 +335,7 @@
 
                     $scope.currentPaper.questionsBySection = {};
 
-                    $scope.sections.forEach(function(section){
+                    /*$scope.sections.forEach(function(section){
 
                         var questionsBySec = _.filter($scope.currentPaper.questions, {section: section._id});
 
@@ -293,7 +345,23 @@
                         };
 
                         $scope.currentPaper.questionsBySection[section._id] = obj;
+                    });*/
+
+                    var questionsBySec = _.groupBy($scope.currentPaper.questions, function(question){
+                        return question.section;
                     });
+
+                    for (var section in questionsBySec)
+                    {
+                        var sec = _.find($scope.sections, {_id: section});
+
+                        var obj = {
+                            SectionName: sec.name,
+                            Questions: questionsBySec[section]
+                        };
+
+                        $scope.currentPaper.questionsBySection[section] = obj;
+                    }
                 }
                 else
                 {

@@ -9,6 +9,7 @@
         $scope.caseInfos = [];
         $scope.caseInfo = {};
         $scope.searchCriteria = "";
+        $scope.searchOption = "activeCases";
 
         $scope.showAlert = function (title,content,type) {
             new PNotify({
@@ -29,14 +30,56 @@
         };
 
         $scope.reloadPage = function () {
-            $state.reload();
+            //$state.reload();
+            $scope.loadCases();
+        };
+
+        $scope.filterCases = function(){
+            switch ($scope.searchOption){
+                case 'activeCases':
+                    $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
+                        if(caseI.active) {
+                            return caseI
+                        }
+                    });
+                    break;
+                case 'deactivateCases':
+                    $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
+                        if(!caseI.active) {
+                            return caseI
+                        }
+                    });
+                    break;
+                default :
+                    $scope.caseInfos = $scope.tempCaseInfos;
+                    break;
+            }
         };
 
         $scope.loadCases = function(){
             caseApiAccess.getCases().then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.caseInfos = response.Result;
+                    $scope.tempCaseInfos = response.Result;
+                    switch ($scope.searchOption){
+                        case 'activeCases':
+                            $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
+                                if(caseI.active) {
+                                    return caseI
+                                }
+                            });
+                            break;
+                        case 'deactivateCases':
+                            $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
+                                if(!caseI.active) {
+                                    return caseI
+                                }
+                            });
+                            break;
+                        default :
+                            $scope.caseInfos = $scope.tempCaseInfos;
+                            break;
+                    }
                 }
                 else
                 {
@@ -66,25 +109,26 @@
                     $scope.caseInfos = response.Result;
                     $scope.showAlert('Case', response.CustomMessage, 'success');
                     $scope.searchCriteria = "";
-                    $state.reload();
+                    $scope.loadCases();
+                    //$state.reload();
                 }
                 else
                 {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
-                        errMsg = response.Exception.Message;
-                    }
+                    //if(response.Exception)
+                    //{
+                    //    errMsg = response.Exception.Message;
+                    //}
                     $scope.showAlert('Case', errMsg, 'error');
                 }
             }, function(err){
                 loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving case";
-                if(err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
+                //if(err.statusText)
+                //{
+                //    errMsg = err.statusText;
+                //}
                 $scope.showAlert('Case', errMsg, 'error');
             });
         };

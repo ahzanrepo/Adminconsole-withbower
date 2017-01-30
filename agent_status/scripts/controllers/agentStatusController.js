@@ -99,6 +99,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                 "AcwTime": ids[0].AcwTime,
                                 "BreakTime": ids[0].BreakTime,
                                 "HoldTime": ids[0].HoldTime,
+                                "TransferCallCount":ids[0].TransferCallCount,
                                 "OnCallTime": ids[0].OnCallTime,
                                 "IdleTime": ids[0].IdleTime,
                                 "StaffedTime": ids[0].StaffedTime,
