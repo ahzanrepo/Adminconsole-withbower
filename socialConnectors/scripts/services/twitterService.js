@@ -1,6 +1,18 @@
-mainApp.factory('twitterService', function ($q, $http, baseUrls) {
+mainApp.factory('twitterService', function ($q, $http, $window,$interval,baseUrls) {
 
     var authorizationResult = false;
+
+    var getParameterByName  =function (name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
     return {
         initialize: function () {
@@ -12,18 +24,73 @@ mainApp.factory('twitterService', function ($q, $http, baseUrls) {
         isReady: function () {
             return (authorizationResult);
         },
-        connectTwitter: function () {
-            var deferred = $q.defer();
-            OAuth.popup('twitter', {cache: true}, function (error, result) { //cache means to execute the callback if the tokens are already present
-                if (!error) {
-                    authorizationResult = result;
-                    deferred.resolve();
-                } else {
-                    //do something if there's an error
-                }
+        //connectTwitter: function () {
+        //    var deferred = $q.defer();
+        //    OAuth.popup('twitter', {cache: true}, function (error, result) { //cache means to execute the callback if the tokens are already present
+        //        if (!error) {
+        //            authorizationResult = result;
+        //            deferred.resolve();
+        //        } else {
+        //            //do something if there's an error
+        //        }
+        //    });
+        //    return deferred.promise;
+        //},
+
+
+
+
+
+
+        connectTwitter: function() {
+            var q = $q.defer();
+            //Open popup
+
+
+            $http({
+                method: 'POST',
+                url: baseUrls.socialConnectorUrl + "TwitterToken",
+                data: {}
+            }).then(function (response) {
+
+
+                var uri = "https://api.twitter.com/oauth/authenticate"
+                    + '?oauth_token=' + response.data.oauth_token;
+
+                var popup = $window.open(uri, '', "top=100,left=100,width=500,height=500");
+
+                var popupChecker = $interval(function () {
+
+                    var oauth_token =  getParameterByName("oauth_token", popup.document.URL);
+                    var oauth_verifier =  getParameterByName("oauth_verifier", popup.document.URL);
+
+                    if (oauth_token != undefined && oauth_verifier != undefined) {
+                        //The popup put returned a user! Resolve!
+                        q.resolve({oauth_token: oauth_token,
+                            oauth_verifier: oauth_verifier});
+                        popup.close();
+                        $interval.cancel(popupChecker);
+                        //Save and apply user locally
+                        //$rootScope.setCurrentUser(window.oAuthUser);
+                        //Cleanup
+                        //window.oAuthUser = undefined;
+                    } else if (popup.closed) {
+                        $interval.cancel(popupChecker);
+                        console.log("Error logging in.");
+                        q.reject();
+                    }
+                    console.log('tick');
+                }, 1000)
+
+
             });
-            return deferred.promise;
+
+            return q.promise;
         },
+
+
+
+
         getAuth: function () {
             return authorizationResult;
         },
