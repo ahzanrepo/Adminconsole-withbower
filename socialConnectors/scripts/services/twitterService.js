@@ -53,34 +53,38 @@ mainApp.factory('twitterService', function ($q, $http, $window,$interval,baseUrl
                 data: {}
             }).then(function (response) {
 
+                if (response.data && response.data.IsSuccess) {
+                    var uri = "https://api.twitter.com/oauth/authenticate"
+                        + '?oauth_token=' + response.data.Result.oauth_token;
 
-                var uri = "https://api.twitter.com/oauth/authenticate"
-                    + '?oauth_token=' + response.data.oauth_token;
+                    var popup = $window.open(uri, '', "top=100,left=100,width=500,height=500");
 
-                var popup = $window.open(uri, '', "top=100,left=100,width=500,height=500");
+                    var popupChecker = $interval(function () {
 
-                var popupChecker = $interval(function () {
+                        var oauth_token =  getParameterByName("oauth_token", popup.document.URL);
+                        var oauth_verifier =  getParameterByName("oauth_verifier", popup.document.URL);
 
-                    var oauth_token =  getParameterByName("oauth_token", popup.document.URL);
-                    var oauth_verifier =  getParameterByName("oauth_verifier", popup.document.URL);
+                        if (oauth_token != undefined && oauth_verifier != undefined) {
+                            //The popup put returned a user! Resolve!
+                            q.resolve({oauth_token: oauth_token,
+                                oauth_verifier: oauth_verifier});
+                            popup.close();
+                            $interval.cancel(popupChecker);
+                            //Save and apply user locally
+                            //$rootScope.setCurrentUser(window.oAuthUser);
+                            //Cleanup
+                            //window.oAuthUser = undefined;
+                        } else if (popup.closed) {
+                            $interval.cancel(popupChecker);
+                            console.log("Error logging in.");
+                            q.reject();
+                        }
+                        console.log('tick');
+                    }, 1000)
+                } else {
+                    return false;
+                }
 
-                    if (oauth_token != undefined && oauth_verifier != undefined) {
-                        //The popup put returned a user! Resolve!
-                        q.resolve({oauth_token: oauth_token,
-                            oauth_verifier: oauth_verifier});
-                        popup.close();
-                        $interval.cancel(popupChecker);
-                        //Save and apply user locally
-                        //$rootScope.setCurrentUser(window.oAuthUser);
-                        //Cleanup
-                        //window.oAuthUser = undefined;
-                    } else if (popup.closed) {
-                        $interval.cancel(popupChecker);
-                        console.log("Error logging in.");
-                        q.reject();
-                    }
-                    console.log('tick');
-                }, 1000)
 
 
             });
@@ -98,13 +102,22 @@ mainApp.factory('twitterService', function ($q, $http, $window,$interval,baseUrl
             OAuth.clearCache('twitter');
             authorizationResult = false;
         },
-        getLatestTweets: function () {
+        getLatestTweets: function (obj) {
+
+
             //create a deferred object using Angular's $q service
             var deferred = $q.defer();
-            var promise = authorizationResult.me().done(function (data) { //https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline
-                //when the data is retrieved resolved the deferred object
-                deferred.resolve(data)
+
+            $http({
+                method: 'POST',
+                url: baseUrls.socialConnectorUrl + "Profile",
+                data: obj
+            }).then(function (response) {
+
+                deferred.resolve(response)
             });
+
+
             //return the promise of the deferred object
             return deferred.promise;
         },

@@ -6,20 +6,21 @@ mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twi
     twitterService.initialize();
 
     //using the OAuth authorization result get the latest 20 tweetProfile from twitter for the user
-    $scope.refreshTimeline = function() {
-        twitterService.getLatestTweets().then(function(data) {
+    $scope.refreshTimeline = function(obj) {
+
+        twitterService.getLatestTweets(obj).then(function(data) {
             $scope.tweetProfile = data;
         });
     };
 
     //when the user clicks the connect twitter button, the popup authorization window opens
     $scope.connectButton = function() {
-        twitterService.connectTwitter().then(function() {
-            if (twitterService.isReady()) {
+        twitterService.connectTwitter().then(function(obj) {
+            if (obj) {
                 //if the authorization is successful, hide the connect button and display the tweetProfile
                 $('#connectButton').fadeOut(function(){
                     $('#getTimelineButton, #signOut').fadeIn();
-                    $scope.refreshTimeline();
+                    $scope.refreshTimeline(obj);
                 });
             }
         });
