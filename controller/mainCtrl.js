@@ -357,6 +357,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },
         goQAReport: function () {
             $state.go('console.qaratingreporting');
+        },goMissedCallReport: function () {
+            $state.go('console.missedcallreport');
         }
     };
 
