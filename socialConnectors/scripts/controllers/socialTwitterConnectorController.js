@@ -5,16 +5,30 @@ mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twi
     $scope.tweetProfile = {};
     twitterService.initialize();
 
+    $scope.isAddingPage = false;
     //using the OAuth authorization result get the latest 20 tweetProfile from twitter for the user
     $scope.refreshTimeline = function(obj) {
 
-        twitterService.getLatestTweets(obj).then(function(data) {
-            $scope.tweetProfile = data;
+        twitterService.getLatestTweets(obj).then(function(response) {
+            /*$scope.tweetProfile = data;*/
+
+
+            if(response.data.IsSuccess){
+                $scope.GetTwitterAccounts();
+                $scope.showAlert("Twitter", 'success',"Successfully Added to System");
+                //document.getElementById("status")
+                //$("#"+page.id+"").addClass("avoid-clicks");
+            }
+            else{
+                $scope.showAlert("Twitter", "error", "Fail To Add Selected Page to System.");
+            }
+            $scope.isAddingPage = false;
         });
     };
 
     //when the user clicks the connect twitter button, the popup authorization window opens
     $scope.connectButton = function() {
+        $scope.isAddingPage = true;
         twitterService.connectTwitter().then(function(obj) {
             if (obj) {
                 //if the authorization is successful, hide the connect button and display the tweetProfile

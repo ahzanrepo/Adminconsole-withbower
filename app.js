@@ -57,7 +57,7 @@ var baseUrls = {
     'authProviderUrl': 'http://userservice.app.veery.cloud/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
-    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
+    'ardsmonitoringBaseUrl': 'http://localhost:2225/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
@@ -827,6 +827,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 data: {
                     requireLogin: true,
                     navigation: "QUALITYASSUARANCE"
+                }
+            }).state('console.missedcallreport', {
+                url: "/missedcallreport",
+                templateUrl: "views/agent-missedcall-details/missedCallDetails.html",
+                controller: "agentMissedCallDetailController",
+                data: {
+                    requireLogin: true,
+                    navigation: "ACWREPORT"
                 }
             });
         //Todo shoud be change navigation
