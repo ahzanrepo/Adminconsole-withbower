@@ -6,20 +6,21 @@ mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twi
     twitterService.initialize();
 
     //using the OAuth authorization result get the latest 20 tweetProfile from twitter for the user
-    $scope.refreshTimeline = function() {
-        twitterService.getLatestTweets().then(function(data) {
+    $scope.refreshTimeline = function(obj) {
+
+        twitterService.getLatestTweets(obj).then(function(data) {
             $scope.tweetProfile = data;
         });
     };
 
     //when the user clicks the connect twitter button, the popup authorization window opens
     $scope.connectButton = function() {
-        twitterService.connectTwitter().then(function() {
-            if (twitterService.isReady()) {
+        twitterService.connectTwitter().then(function(obj) {
+            if (obj) {
                 //if the authorization is successful, hide the connect button and display the tweetProfile
                 $('#connectButton').fadeOut(function(){
                     $('#getTimelineButton, #signOut').fadeIn();
-                    $scope.refreshTimeline();
+                    $scope.refreshTimeline(obj);
                 });
             }
         });
@@ -55,6 +56,7 @@ mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twi
         };
         twitterService.addTwitterAccountToSystem(data).then(function (response) {
             if(response){
+                $scope.GetTwitterAccounts();
                 $scope.showAlert("Twitter", 'success',"Successfully Added to System");
                 //document.getElementById("status")
                 $("#"+page.id+"").addClass("avoid-clicks");
@@ -136,5 +138,24 @@ mainApp.controller('socialTwitterConnectorController',  function($scope, $q, twi
 
         /* var a = $scope.fbPageList.indexOf(page);
          $scope.fbPageList.splice(a, 1);*/
+    };
+
+    $scope.StartCronJob = function (page) {
+        $scope.isLoading = true;
+        twitterService.startCronJob(page._id).then(function (response) {
+            if(response){
+                $scope.GetTwitterAccounts();
+                $scope.showAlert("Twitter", 'success',"Start Cron Job.");
+            }
+            else{
+                $scope.showAlert("Twitter", 'error',"Fail Start Cron Job.");
+            }
+            $scope.isLoading = false;
+        }, function (error) {
+            console.error("StartCronJob err");
+            $scope.isLoading = false;
+            $scope.showAlert("Twitter", 'error',"Fail Start Cron Job.");
+        });
+
     };
 });

@@ -343,7 +343,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         }, goQueueSlaBreakDown: function () {
             $state.go('console.queueSlaBreakDown');
         }, goTicketFlow: function () {
-            $state.go('console.ticket-flow');
+            $state.go('console.ticketFlow');
         }, goFileSlot: function () {
             $state.go('console.fileslotmaker');
         }, goBillingHistory: function () {
@@ -354,6 +354,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.customersatisfaction');
         },goAcwReport: function () {
             $state.go('console.acwdetails');
+        },
+        goQAReport: function () {
+            $state.go('console.qaratingreporting');
         }
     };
 

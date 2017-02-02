@@ -360,6 +360,9 @@
                                     <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);" ng-click="clickDirective.goAcwReport()">
                                         ACW Detail Report</a>
                                     </li>
+                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);" ng-click="clickDirective.goQAReport()">
+                                        QA Reporting</a>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -536,9 +539,9 @@
 
             <audio id="audio_remote" autoplay="autoplay"></audio>
 
-            <ul ui-view id="main_frame">
+            <div ui-view id="main_frame">
 
-            </ul>
+            </div>
         </div>
 
         <footer>

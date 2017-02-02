@@ -356,6 +356,11 @@
             }, function (error) {
                 $scope.showAlert("Member Added To Group", "error", "Member Added To Group Failed");
             })
+        };
+
+        $scope.showPasswordHints = function () {
+
+            $scope.pwdBox = !$scope.pwdBox ;
         }
 
 
