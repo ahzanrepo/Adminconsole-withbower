@@ -15,17 +15,20 @@
                                     <!-- user name -->
                                     <label class="dark-frm-label">Company Name
                                         <span class="inline-block validation-on"
-                                              ng-show="signUpForm.companyName.$invalid && !signUpForm.companyName.$pristine &&
+                                              ng-show="signUpForm.companyName.$invalid
+                                              && !signUpForm.companyName.$pristine &&
                                               signUpForm.companyName.$error.pattern">*
                                     </span>
                                     </label>
-                                    <input unique-company type="text" name="companyName" ng-model="companyName"
+                                    <input unique-company type="text" name="companyName"
+                                           ng-model="companyName"
                                            class="form-control dark-frm-input"
                                            ng-pattern='/^[a-zA-Z0-9]+$/'
                                            placeholder=""
                                            required
                                            autofocus/>
-                                    <span id="companystate" class="fa form-control-feedback" aria-hidden="true"
+                                    <span id="companystate" class="fa form-control-feedback"
+                                          aria-hidden="true"
                                           style="color: #cccbcb ;"></span>
                                 </div>
                             </div>
@@ -87,7 +90,8 @@
                                     <!-- confirm password -->
                                     <label class="dark-frm-label">Confirm password
                                          <span class="inline-block validation-on"
-                                               ng-show="signUpForm.confirmPwd.$invalid && !signUpForm.confirmPwd.$pristine">*
+                                               ng-show="signUpForm.confirmPwd.$invalid &&
+                                                !signUpForm.confirmPwd.$pristine">*
                                     </span></label>
                                     <input type="password" password-verify="{{password}}"
                                            ng-model="confirmPwd"
