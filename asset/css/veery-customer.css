@@ -701,6 +701,19 @@ label {
     cursor: pointer;
 }
 
+.btn-green {
+    background: #2ea89a;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+}
+
+.btn-green:hover {
+    color: #ffffff;
+    background: #34c3b5;
+}
+
 .search-main-wrap {
     position: absolute;
     width: 85%;
@@ -4642,7 +4655,6 @@ tags-input .tags {
 }
 
 /* QA reporting css*/
-
 section.h3 {
     text-color: #f8b01d
 }
@@ -4660,4 +4672,221 @@ section.h3 {
 .listalign {
     padding-left: 10px;
     list-style: none;
+}
+
+.x_title > h2 {
+    text-transform: uppercase;
+}
+
+.s-panel {
+    width: 100%;
+    min-height: 150px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #E6E9ED;
+    margin-bottom: 20px;
+    padding: 21px;
+}
+
+.s-panel.qa-section {
+    margin-top: 20px;
+}
+
+.s-panel.qa-add-q {
+    background: #f7f7f7;
+}
+
+.s-panel.qa-add-q > h3 {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.s-panel > h3 {
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    color: #e0e0e0;
+    font-size: 14px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #fbfbfb;
+}
+
+.s-panel-body {
+    width: 100%;
+    margin-top: 18px;
+    min-height: 50px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 13px;
+}
+
+.width-100 {
+    width: 100% !important;
+}
+
+.s-panel-b-wrp {
+
+}
+
+.qa-d-header {
+    width: 100%;
+    min-height: 50px;
+    border-bottom: 1px solid #fbfbfb;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 9px;
+}
+
+.qa-d-header > div > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-top: 7px;
+}
+
+.qa-d-header > div > ul > li {
+    display: inline-block;
+    font-size: 16px;
+    padding-right: 15px;
+}
+
+.qa-d-header > div > ul > li > small {
+    width: 30px;
+    height: 30px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    background: #F8B01D;
+    color: #ffffff;
+    padding: 6px;
+    margin-left: 10px;
+}
+
+.qa-d-header > div > ul > li.right-b {
+    border-right: 1px solid #ededed;
+    line-height: 2;
+    text-transform: uppercase;
+}
+
+.qa-d-body {
+    width: 100% !important;
+    height: 547px;
+    overflow: hidden;
+    /*overflow-y: auto;*/
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.q-wrp {
+    width: 100%;
+    min-height: 45px;
+    margin-bottom: 0px;
+    border-bottom: 1px solid #fbfbfb;
+    font-size: 15px;
+    color: #ccc;
+    padding: 8px;
+    cursor: pointer;
+    padding-top: 11px;
+}
+
+.q-wrp:hover {
+    background: #fbfbfb;
+    color: #000;
+}
+
+.qa-data-loading-wrp {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    position: absolute;
+    top: 40%;
+}
+
+.q-wrp > i {
+    padding-right: 10px;
+}
+
+.q-wrp > i.fa-check-circle {
+    color: #1ec03f;
+}
+
+.q-edit {
+    display: inline-block;
+    float: right;
+    padding-right: 25px;
+    font-family: 'Ubuntu-Bold', sans-serif !important;
+    color: #ccc;
+}
+
+.q-edit:hover {
+    color: #1ec03f;
+}
+
+.q-edit.delete:hover {
+    color: #fd3a2f;
+}
+
+.s-panel-mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    text-align: center;
+    background: rgba(247, 247, 247, 0.94);
+}
+
+.section-panel-ac {
+    margin-bottom: 20px;
+    background-color: transparent !important;
+    border: 0px solid transparent !important;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+    /* box-shadow: 0 1px 1px rgba(0, 0, 0, .05); */
+}
+
+.section-panel-ac > .panel-heading {
+    font-size: 15px;
+    color: #b3b3b3;
+}
+
+.section-panel-ac > .panel-heading > h4 {
+    font-family: 'Ubuntu-Regular', sans-serif !important;
+}
+
+.section-panel-ac > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: transparent !important;
+}
+
+.create-new-q {
+    font-family: 'Ubuntu-Bold', sans-serif !important;
+    color: #ccc;
+    padding-left: 9px;
+    padding-top: 23px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.create-new-q:hover {
+    color: #1ec03f;
+}
+
+.n-q-wrp {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    background: rgba(255, 255, 255, 0.94);
+}
+
+.slimScrollDiv {
+    overflow: inherit !important;
+}
+.q-section-status{
+    text-align: center;
+    padding-top: 108px;
+    font-size: 30px;
 }
