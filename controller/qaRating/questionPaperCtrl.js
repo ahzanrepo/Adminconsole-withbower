@@ -99,7 +99,7 @@
             $scope.isAddNewQuestion = false;
         };
 
-        $scope.closeSectionView=function () {
+        $scope.closeSectionView = function () {
             $scope.isAddNewQuestion = false;
             $scope.showPaper = false;
             $scope.currentPaper = {};
@@ -167,9 +167,8 @@
             qaModuleService.addNewSection($scope.currentSection).then(function (data) {
                 if (data.IsSuccess) {
                     $scope.showAlert('QA Section', 'success', 'Section Added Successfully');
-                    $scope.closeModalSection();
-
                     $scope.getSections();
+                    $scope.currentSection = {};
                 }
                 else {
                     if (data.Exception) {
