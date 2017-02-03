@@ -1,6 +1,7 @@
 mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScroll', 'ivrNodeCountService', function ($scope, $filter, $anchorScroll, ivrNodeCountService) {
     $anchorScroll();
 
+    $scope.intiate = true;
     // search
     $scope.StartTime = {
         date: new Date()
@@ -76,8 +77,9 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     };
 
     $scope.isLoading = false;
-    $scope.noDataToshow = false;
+
     $scope.LoadNodeData = function () {
+
 
         if (!$scope.application) {
             showAlert("IVR", "error", "Please Select Application");
@@ -89,7 +91,7 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
             return
         }
 
-
+        $scope.intiate = false;
         $scope.isLoading = true;
         ivrNodeCountService.GetIvrNodeCount($scope.application, $scope.fileSerach.StartTime.toUTCString(), $scope.fileSerach.EndTime.toUTCString()).then(function (response) {
             $scope.isLoading = false;
@@ -136,8 +138,7 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     $scope.showPaging = false;
     $scope.currentPage = "1";
     $scope.pageTotal = "1";
-    $scope.pageSize = 10;
-    $scope.noDataToshow = false;
+    $scope.pageSize = 100;
     $scope.satisfactionRequest = [];
     $scope.getPageData = function (Paging, page, pageSize, total) {
         $scope.isLoading = true;
@@ -151,9 +152,12 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
         };
 
         ivrNodeCountService.GetEventByNodes($scope.application, $scope.fileSerach.StartTime.toUTCString(), $scope.fileSerach.EndTime.toUTCString(), page, pageSize, nods).then(function (response) {
-            if (response) {
+            if (response.length>0) {
                 $scope.satisfactionRequest = response;
                 $scope.showPaging = true;
+            }
+            else {
+                $scope.noDataToshow = true;
             }
             $scope.satisfaction = "all";
             $scope.isLoading = false;
