@@ -43,6 +43,18 @@
                                 <div class="clearfix"></div>
 
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <label>Username</label>
+                                    <input type="text" class="form-control"
+                                           ng-model="currentTrunk.Username">
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <label>Password</label>
+                                    <input type="text" class="form-control"
+                                           ng-model="currentTrunk.Password">
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                     <label>Trunk Outgoing Number Translation</label>
                                     <select class="select2_single form-control" tabindex="-1"
                                             aria-hidden="true"
@@ -56,7 +68,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback">
                                     <div style="position: relative; top: -20px;">
                                         <h3><label>Enable</label></h3>
                                         <checkbox class="btn-success" ng-model="currentTrunk.Enable"
@@ -153,6 +165,20 @@
                                                     <option value="">
                                                     </option>
                                                 </select>
+                                            </div>
+
+                                            <div class="clearfix"></div>
+
+                                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                                <label>Username</label>
+                                                <input type="text" class="form-control"
+                                                       ng-model="trunk.EditData.Username">
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                                <label>Password</label>
+                                                <input type="text" class="form-control"
+                                                       ng-model="trunk.EditData.Password">
                                             </div>
 
                                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
