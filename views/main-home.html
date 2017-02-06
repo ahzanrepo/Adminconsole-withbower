@@ -77,14 +77,10 @@
                                     <li ng-show="accessNavigation.SCHEDULER"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goSchedule()">Scheduler</a>
                                     </li>
-                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
-                                                                                ng-click="clickDirective.goQABuilder()">QA Form Builder</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
-                                                                                        ng-click="clickDirective.goQASubmission()">QA Form Submission</a>
-                                    </li>
+
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
-                                                                                 ng-click="clickDirective.goReportMail()">Report Email Config</a></li>
+                                                                          ng-click="clickDirective.goReportMail()">Report
+                                        Email Config</a></li>
                                     <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
                                                                                             ng-click="clickDirective.goCompanyConfig()">Company
                                         configuration</a>
@@ -226,7 +222,7 @@
                             </li>
                             <li ng-show="accessNavigation.FACEBOOK || accessNavigation.TWITTER ">
                                 <a
-                                        class="font-robot font-300 "><i class="fa fa-group"></i> Social Connectors <span
+                                        class="font-robot font-300 "><i class="fa fa-facebook-official"></i> Social Connectors <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.FACEBOOK"><a href="javascript:void(0);"
@@ -293,16 +289,33 @@
                                     </li>
                                 </ul>
                             </li>
+
+                            <li ng-show="accessNavigation.QUALITYASSUARANCE">
+                                <a
+                                        class="font-robot font-300 "><i class="fa fa-wrench"></i> QA <span
+                                        class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
+                                                                                        ng-click="clickDirective.goQABuilder()">QA
+                                        Form Designer</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
+                                                                                        ng-click="clickDirective.goQASubmission()">QA
+                                        Form Submission</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <div class="menu_section">
                         <h3 class="font-gry-200">Other</h3>
                         <ul class="nav side-menu">
-                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN || accessNavigation.AUDITTRAIL || accessNavigation.ACWREPORT"><a
-                                    class="font-robot font-300 "><i
-                                    class="fa fa-line-chart"></i>
-                                Report <span
-                                        class="fa fa-chevron-down"></span></a>
+                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN || accessNavigation.AUDITTRAIL || accessNavigation.ACWREPORT">
+                                <a
+                                        class="font-robot font-300 "><i
+                                        class="fa fa-line-chart"></i>
+                                    Report <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goCdrReport()">CDR</a>
@@ -341,7 +354,8 @@
                                         Detail Report</a>
                                     </li>
                                     <li ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
-                                                                          ng-click="clickDirective.goAuditTrailReport()">Audit Trail Report</a>
+                                                                                 ng-click="clickDirective.goAuditTrailReport()">Audit
+                                        Trail Report</a>
                                     </li>
                                     <!-- ng-show="accessNavigation.TIMESHEET"-->
                                     <li><a href="javascript:void(0);"
@@ -351,17 +365,24 @@
                                                                                     ng-click="clickDirective.goQueueSlaBreakDown()">SLA
                                         Break Down</a>
                                     </li>
-                                    <li ng-show="accessNavigation.SLA_BREAKDOWN"><a href="javascript:void(0);" ng-click="clickDirective.goIvrNodeCountReport()">
+                                    <li ng-show="accessNavigation.SLA_BREAKDOWN"><a href="javascript:void(0);"
+                                                                                    ng-click="clickDirective.goIvrNodeCountReport()">
                                         IVR Node Count</a>
                                     </li>
-                                    <li ng-show="accessNavigation.CSATREPORT"><a href="javascript:void(0);" ng-click="clickDirective.gocSatReport()">
+                                    <li ng-show="accessNavigation.CSATREPORT"><a href="javascript:void(0);"
+                                                                                 ng-click="clickDirective.gocSatReport()">
                                         cSat</a>
                                     </li>
-                                    <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);" ng-click="clickDirective.goAcwReport()">
+                                    <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);"
+                                                                                ng-click="clickDirective.goAcwReport()">
                                         ACW Detail Report</a>
                                     </li>
-                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);" ng-click="clickDirective.goQAReport()">
+                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
+                                                                                        ng-click="clickDirective.goQAReport()">
                                         QA Reporting</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);" ng-click="clickDirective.goMissedCallReport()">
+                                        Missed Call Report</a>
                                     </li>
                                 </ul>
                             </li>
