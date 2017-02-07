@@ -57,7 +57,7 @@ var baseUrls = {
     'authProviderUrl': 'http://userservice.app.veery.cloud/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
-    'ardsmonitoringBaseUrl': 'http://localhost:2225/DVP/API/1.0.0.0/ARDS/',
+    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
     'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
@@ -76,7 +76,7 @@ var baseUrls = {
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
     'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'ruleServiceUrl': 'http://127.0.0.1:8816/DVP/API/1.0.0.0/',
+    'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud

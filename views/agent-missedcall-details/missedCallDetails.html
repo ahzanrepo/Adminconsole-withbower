@@ -1,7 +1,7 @@
 <div>
     <div class="page-title">
         <div class="title_left">
-            <h3 class="font-robot font-600 ">Agent Summary Report</h3>
+            <h3 class="font-robot font-600 ">Agent Missed Call Summary Report</h3>
         </div>
     </div>
 
@@ -64,10 +64,12 @@
                         <button type="button" class="btn btn-success" ng-click="getRejectedSummery()">
                             Search
                         </button>
-                        <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;"
-                                csv-header="['Agent ID', 'Staff Time', 'Date', 'Talk Time', 'Total Answered', 'Total Calls', 'Average Handling Time', 'Break Time', 'After Work Time', 'Idle Time']" csv-column-order="['AgentName', 'StaffTime', 'Date', 'TalkTime', 'TotalAnswered', 'TotalCalls', 'AverageHandlingTime', 'BreakTime', 'AfterWorkTime', 'IdleTime']" ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv">
+
+                        <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-download"></i></a>
+                        <button ng-disabled="fileDownloadEnabled" ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" ng-if="fileDownloadState === 'RESET'" type="button" ng-click="getProcessedCDRCSVDownload()">
                             CSV&nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="fa fa-download"></i>
+                            <i ng-class="buttonClass"></i>
                         </button>
                     </div>
                 </div>
@@ -149,7 +151,7 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
-                                                colspan="1" aria-label="Reject Count">RejectCount
+                                                colspan="1" aria-label="RejectCount">Reject Count
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"

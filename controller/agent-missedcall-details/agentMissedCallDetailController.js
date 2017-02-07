@@ -5,9 +5,16 @@
 
     var app =angular.module('veeryConsoleApp');
 
-    var agentMissedCallDetailController = function($scope, $state, acwDetailApiAccess, loginService) {
+    var agentMissedCallDetailController = function($scope, $q, $timeout, $state, acwDetailApiAccess, cdrApiHandler, loginService, baseUrls) {
 
         $scope.pageSize = 10;
+        $scope.cancelDownload = true;
+        $scope.buttonClass = 'fa fa-file-text';
+        $scope.fileDownloadState = 'RESET';
+        $scope.fileDownloadEnabled = false;
+        $scope.currentCSVFilename = '';
+        $scope.DownloadButtonName = 'CSV';
+
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
         $scope.obj = {
             startDay: moment().format("YYYY-MM-DD"),
@@ -31,6 +38,109 @@
             }
 
             return minutes + ':' + seconds;
+        };
+
+        var checkFileReady = function (fileName) {
+            console.log('METHOD CALL');
+            if ($scope.cancelDownload) {
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
+            }
+            else {
+                cdrApiHandler.getFileMetaData(fileName).then(function (fileStatus) {
+                    if (fileStatus && fileStatus.Result) {
+                        if (fileStatus.Result.Status === 'PROCESSING') {
+                            $timeout(checkFileReady(fileName), 10000);
+                        }
+                        else {
+
+
+                            var decodedToken = loginService.getTokenDecode();
+
+                            if (decodedToken && decodedToken.company && decodedToken.tenant) {
+                                $scope.currentCSVFilename = fileName;
+                                $scope.DownloadCSVFileUrl = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                                $scope.fileDownloadState = 'READY';
+                                $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.fileDownloadEnabled = false;
+                                $scope.buttonClass = 'fa fa-file-text';
+                            }
+                            else {
+                                $scope.fileDownloadState = 'RESET';
+                                $scope.DownloadButtonName = 'CSV';
+                            }
+
+
+                        }
+                    }
+                    else {
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                    }
+
+                }).catch(function (err) {
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                });
+            }
+
+        };
+
+
+        $scope.downloadPress = function () {
+            $scope.fileDownloadState = 'RESET';
+            $scope.DownloadButtonName = 'CSV';
+            $scope.cancelDownload = true;
+            $scope.buttonClass = 'fa fa-file-text';
+        };
+
+
+        $scope.getProcessedCDRCSVDownload = function () {
+                if ($scope.DownloadButtonName === 'CSV') {
+                    $scope.cancelDownload = false;
+                    $scope.buttonClass = 'fa fa-spinner fa-spin';
+                }
+                else {
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
+                }
+
+                $scope.fileDownloadEnabled = true;
+                $scope.DownloadButtonName = 'PROCESSING';
+                $scope.DownloadFileName = 'MissedCallReport_' + $scope.obj.resourceId+'.csv';
+
+                var deferred = $q.defer();
+
+                var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
+                var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                momentTz = momentTz.replace("+", "%2B");
+
+                var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
+                var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
+
+                acwDetailApiAccess.PrepareDownloadDetails($scope.obj.resourceId, startDate, endDate).then(function(response){
+                    if(response.IsSuccess){
+
+                        var downloadFilename = response.Result;
+                        checkFileReady(downloadFilename);
+                    }
+                    else {
+                        $scope.showAlert('Error', 'error', 'Error occurred while loading missed call records');
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                        $scope.fileDownloadEnabled = false;
+                    }
+
+                }).catch(function (err) {
+                    loginService.isCheckResponse(err);
+                    $scope.showAlert('Error', 'error', 'Error occurred while loading missed call records');
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                    $scope.fileDownloadEnabled = false;
+                });
+
         };
 
         $scope.getResourceDetails = function(){

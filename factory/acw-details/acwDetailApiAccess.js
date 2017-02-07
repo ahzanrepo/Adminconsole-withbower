@@ -78,13 +78,26 @@
             });
         };
 
+        var prepareDownloadDetails = function(resourceId, startDate, endData){
+            return $http({
+                method: 'GET',
+                url: baseUrls.ardsmonitoringBaseUrl+'MONITORING/resource/'+resourceId+'/task/reject/prepareForDownload?startDate='+startDate+'&endDate='+endData,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
         return{
             GetAcwRecords: getAcwRecords,
             GetCdrBySessions: getCdrBySessions,
             GetResourceDetails: getResourceDetails,
             GetAcwSummeryDetails: getAcwSummeryDetails,
             GetRejectedSessionCount: getRejectedSessionCount,
-            GetRejectedSessionDetails: getRejectedSessionDetails
+            GetRejectedSessionDetails: getRejectedSessionDetails,
+            PrepareDownloadDetails: prepareDownloadDetails
         };
     };
 
