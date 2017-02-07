@@ -1,9 +1,9 @@
 mainApp.controller("campaignController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, campaignService) {
 
     $anchorScroll();
-    $scope.mechanisms = ["BLAST", "PREVIEW", "PREDICTIVE"];
-    $scope.modes = ["IVR", "AGENT", "FIFO"];
-    $scope.channels = ["SMS", "Email", "Call"];
+    $scope.mechanisms = campaignService.mechanisms;
+    $scope.modes = campaignService.modes;
+    $scope.channels = campaignService.channels;
     $scope.campaign = {};
     $scope.isLoading = true;
     $scope.isProgress = false;
@@ -29,6 +29,8 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
         campaignService.CreateCampaign(campaignx).then(function (response) {
             if(response) {
                 $scope.showAlert("Campaign", 'success',"Campaign Create Successfully.");
+                $scope.addNewCampaign = false;
+                $scope.campaigns.push(response);
 
             }else{
                 $scope.showAlert("Campaign", 'error',"Fail To Create Campaign.");
@@ -53,6 +55,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
     };
     loadExtentions();
 
+    $scope.campaigns = [];
     $scope.loadCampaign = function() {
         $scope.isLoading = true;
         campaignService.GetCampaigns().then(function (response) {
