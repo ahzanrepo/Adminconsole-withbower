@@ -310,7 +310,7 @@
                     <div class="menu_section">
                         <h3 class="font-gry-200">Other</h3>
                         <ul class="nav side-menu">
-                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN || accessNavigation.AUDITTRAIL || accessNavigation.ACWREPORT">
+                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN || accessNavigation.AUDITTRAIL || accessNavigation.ACWREPORT || accessNavigation.MISSEDCALLREPORT">
                                 <a
                                         class="font-robot font-300 "><i
                                         class="fa fa-line-chart"></i>
@@ -381,7 +381,7 @@
                                                                                         ng-click="clickDirective.goQAReport()">
                                         QA Reporting</a>
                                     </li>
-                                    <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);" ng-click="clickDirective.goMissedCallReport()">
+                                    <li ng-show="accessNavigation.MISSEDCALLREPORT"><a href="javascript:void(0);" ng-click="clickDirective.goMissedCallReport()">
                                         Missed Call Report</a>
                                     </li>
                                 </ul>

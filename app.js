@@ -834,7 +834,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "agentMissedCallDetailController",
                 data: {
                     requireLogin: true,
-                    navigation: "ACWREPORT"
+                    navigation: "MISSEDCALLREPORT"
                 }
             });
         //Todo shoud be change navigation
