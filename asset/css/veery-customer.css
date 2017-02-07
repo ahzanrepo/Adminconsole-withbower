@@ -2846,6 +2846,11 @@ ul.social li {
     overflow: hidden;
 }
 
+.daynamic-s-tble {
+    position: relative;
+    overflow-x: auto;
+}
+
 /*price table update*/
 .price-table-wrapper {
     margin-top: 25px;
@@ -4885,7 +4890,8 @@ section.h3 {
 .slimScrollDiv {
     overflow: inherit !important;
 }
-.q-section-status{
+
+.q-section-status {
     text-align: center;
     padding-top: 108px;
     font-size: 30px;
