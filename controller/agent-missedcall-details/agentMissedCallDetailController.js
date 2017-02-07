@@ -25,19 +25,25 @@
         $scope.endTime = '11:59 PM';
 
         var convertToMMSS = function (sec) {
-            var minutes = Math.floor(sec / 60);
 
-            if (minutes < 10) {
-                minutes = '0' + minutes;
+            if(typeof sec === 'number'){
+                var minutes = Math.floor(sec / 60);
+
+                if (minutes < 10) {
+                    minutes = '0' + minutes;
+                }
+
+                var seconds = sec - minutes * 60;
+
+                if (seconds < 10) {
+                    seconds = '0' + seconds;
+                }
+
+                return minutes + ':' + seconds;
+            }else{
+                return sec;
             }
 
-            var seconds = sec - minutes * 60;
-
-            if (seconds < 10) {
-                seconds = '0' + seconds;
-            }
-
-            return minutes + ':' + seconds;
         };
 
         var checkFileReady = function (fileName) {
@@ -281,7 +287,7 @@
                 if(response.IsSuccess)
                 {
 
-                    var newRecords = $scope.missedCallRecords.map(function (missedCallRecord) {
+                    $scope.missedCallRecords.forEach(function (missedCallRecord) {
                         if(response.Result) {
                             for (var i = 0; i < response.Result.length; i++) {
                                 var cdrRecord = response.Result[i];
@@ -298,11 +304,9 @@
                                 }
                             }
                         }
-
-                        return missedCallRecord;
                     });
                     $scope.obj.isTableLoading = 1;
-                    $scope.allMissedCallRecords = newRecords;
+                    $scope.allMissedCallRecords = $scope.missedCallRecords;
                 }
                 else
                 {
