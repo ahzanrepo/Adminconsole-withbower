@@ -1,0 +1,57 @@
+<div class="block">
+    <div class="tags">
+        <a class="tag">
+            <span>{{campaign.CampaignId}}</span>
+        </a>
+    </div>
+    <div class="block_content">
+        <h2 class="title">
+            <a>Name : {{campaign.CampaignName}}</a>
+            <a ng-disabled="true" ng-click="deleteCampaign(campaign)" style="cursor: pointer"><i
+                    class="fa fa-trash-o"></i></a>
+            <a ng-disabled="true" ng-click="editCampaign()" style="cursor: pointer"><i class="fa fa-edit"></i></a>
+
+
+        </h2>
+
+
+        <div class="col-md-12 col-sm-12 col-xs-12" ng-show="editMode">
+            <br>
+
+            <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+                <div class="tile-stats">
+
+                    <form class="form-horizontal form-label-left input_mask">
+                        <br>
+
+                        <div ng-include="'campaignManager/template/campaignForm.html'"></div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                            <button type="button" class="btn btn-success btn-xs " ng-click="UpdateResource(campaign)">
+                                Update
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="byline" ng-hide="editMode">
+            <span>{{campaign.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
+        </div>
+        <div ng-hide="editMode">
+            <p class="excerpt col-md-4"> Class : {{campaign.CampaignName}} </p>
+
+            <p class="excerpt col-md-4"> Type : {{campaign.CampaignMode}} </p>
+
+            <p class="excerpt col-md-4"> Category: {{campaign.CampaignChannel}} </p>
+
+            <p class="excerpt col-md-12"> Other Data : {{campaign.DialoutMechanism}} </p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+

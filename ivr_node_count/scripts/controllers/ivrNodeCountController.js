@@ -157,7 +157,8 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
                 $scope.showPaging = true;
             }
             else {
-                $scope.noDataToshow = true;
+                $scope.satisfactionRequest = [];
+                //$scope.noDataToshow = true;
             }
             $scope.satisfaction = "all";
             $scope.isLoading = false;

@@ -1,0 +1,93 @@
+<div class="col-md-8 col-sm-8 col-xs-8 form-group"
+     ng-class="{ 'has-error' : userForm.CampaignName.$invalid && !userForm.CampaignName.$pristine }">
+
+    <input type="text" class="form-control has-feedback-left" ng-model="campaign.CampaignName"
+           placeholder="Campaign Class" required>
+    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+
+    <p ng-show="userForm.CampaignName.$invalid && !userForm.CampaignName.$pristine"
+       class="help-block">You name is required.</p>
+</div>
+
+<div class="col-md-4 col-sm-4 col-xs-4 form-group"
+     ng-class="{ 'has-error' : userForm.CampaignMode.$invalid && !userForm.CampaignMode.$pristine }">
+
+    <select class="form-control has-feedback-left"  id="CampaignMode" ng-model="campaign.CampaignMode"
+           ng-options="opt as opt for opt in modes track by opt"  required>
+        <option value=''>Campaign Mode</option>
+    </select>
+    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+
+    <p ng-show="userForm.CampaignMode.$invalid && !userForm.CampaignMode.$pristine" class="help-block">
+        Campaign Mode is required.</p>
+</div>
+
+<div class="col-md-4 col-sm-4 col-xs-4 form-group"
+     ng-class="{ 'has-error' : userForm.CampaignChannel.$invalid && !userForm.CampaignChannel.$pristine }">
+
+    <select class="form-control has-feedback-left"  id="CampaignChannel" ng-model="campaign.CampaignChannel"
+            ng-options="opt as opt for opt in channels track by opt"  required>
+        <option value=''>Campaign Channels</option>
+    </select>
+    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+
+    <p ng-show="userForm.CampaignChannel.$invalid && !userForm.CampaignChannel.$pristine" class="help-block">
+        Campaign Channel is required.</p>
+</div>
+{{campaign.Extensions}}
+<div class="col-md-4 col-sm-4 col-xs-4 form-group"
+     ng-class="{ 'has-error' : userForm.Extensions.$invalid && !userForm.Extensions.$pristine }">
+    <select class="form-control has-feedback-left"  id="Extensions" ng-model="campaign.Extensions"
+            ng-options="opt.Extension as opt.Extension for opt in extensions track by opt.Extension"  required>
+        <option value=''>Extensions</option>
+    </select>
+    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+
+    <p ng-show="userForm.Extensions.$invalid && !userForm.Extensions.$pristine" class="help-block">
+        Extensions is required.</p>
+</div>
+
+<div class="col-md-4 col-sm-4 col-xs-4 form-group"
+     ng-class="{ 'has-error' : userForm.DialoutMechanism.$invalid && !userForm.DialoutMechanism.$pristine }">
+
+    <select class="form-control has-feedback-left"  id="DialoutMechanism" ng-model="campaign.DialoutMechanism"
+            ng-options="opt as opt for opt in mechanisms track by opt"  required>
+        <option value=''>Dialout Mechanism</option>
+    </select>
+    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+
+    <p ng-show="userForm.DialoutMechanism.$invalid && !userForm.DialoutMechanism.$pristine" class="help-block">
+        DialoutMechanism is required.</p>
+</div>
+
+<div class="col-md-4 col-sm-4 col-xs-4 form-group"
+     ng-class="{ 'has-error' : userForm.Class.$invalid && !userForm.Class.$pristine }">
+
+    <input type="text" class="form-control has-feedback-left" ng-model="campaign.Class"
+           placeholder="Campaign Class">
+    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+    <p ng-show="userForm.Class.$invalid && !userForm.Class.$pristine"
+       class="help-block">Class is required.</p>
+</div>
+
+<div class="col-md-4 col-sm-4 col-xs-4 form-group"
+     ng-class="{ 'has-error' : userForm.type.$invalid && !userForm.type.$pristine }">
+
+    <input type="text" class="form-control has-feedback-left" ng-model="campaign.Type"
+           placeholder="Campaign Type">
+    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+    <p ng-show="userForm.type.$invalid && !userForm.type.$pristine"
+       class="help-block">type is required.</p>
+</div>
+
+<div class="col-md-4 col-sm-4 col-xs-4 form-group"
+     ng-class="{ 'has-error' : userForm.Category.$invalid && !userForm.Category.$pristine }">
+
+
+    <input type="text" class="form-control has-feedback-left" ng-model="campaign.Category"
+           placeholder="Campaign Category">
+    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+
+    <p ng-show="userForm.Category.$invalid && !userForm.Category.$pristine"
+       class="help-block">Category is required.</p>
+</div>
