@@ -311,6 +311,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goQABuilder: function () {
             $state.go('console.qaRatingFormBuilder');
         },
+        goCreateCampaign: function () {
+            $state.go('console.campaign')
+        },
         goQASubmission: function () {
             $state.go('console.qaSubmission');
         },

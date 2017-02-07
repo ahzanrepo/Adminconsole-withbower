@@ -2,6 +2,20 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     $anchorScroll();
 
     $scope.intiate = true;
+    var viweWidth = 0;
+    $scope.reportLayoutWidth = 0;
+
+    var setReportUIwidth = function () {
+        viweWidth = getWindowWidth();
+        if (viweWidth > 1500) {
+            viweWidth = viweWidth - 360
+        } else {
+            viweWidth = viweWidth - 350
+        }
+
+        $scope.reportLayoutWidth = viweWidth + "px";
+    };
+
     // search
     $scope.StartTime = {
         date: new Date()
@@ -116,12 +130,17 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
         });
 
         $scope.getPageData("", $scope.currentPage, $scope.pageSize, $scope.pageTotal);
+
+        //set window view point
+        setReportUIwidth();
+
+
     };
 
 
     $scope.LoadDataByNode = function (eventParams) {
 
-        $scope.tags  = [];
+        $scope.tags = [];
         $scope.tags.push({
             "Name": eventParams,
             "Description": eventParams
@@ -152,12 +171,13 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
         };
 
         ivrNodeCountService.GetEventByNodes($scope.application, $scope.fileSerach.StartTime.toUTCString(), $scope.fileSerach.EndTime.toUTCString(), page, pageSize, nods).then(function (response) {
-            if (response.length>0) {
+            if (response.length > 0) {
                 $scope.satisfactionRequest = response;
                 $scope.showPaging = true;
             }
             else {
-                $scope.noDataToshow = true;
+                $scope.satisfactionRequest = [];
+                //$scope.noDataToshow = true;
             }
             $scope.satisfaction = "all";
             $scope.isLoading = false;
@@ -187,7 +207,6 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
         });
     };
     $scope.GetNodesType();
-
 
 
     var emptyArr = [];
@@ -224,5 +243,10 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
         }
 
     };
+
+    //set view point option
+    window.onresize = function () {
+        setReportUIwidth();
+    }
 
 }]);
