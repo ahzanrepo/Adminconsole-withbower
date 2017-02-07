@@ -389,7 +389,48 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             });
         },
 
+        createBreakType: function(breakObj){
+            return $http({
+                method: 'POST',
+                url: baseUrls.resourceServiceBaseUrl +"BreakTypes",
+                data: breakObj
 
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        updateBreakType: function(breakObj){
+            return $http({
+                method: 'PUT',
+                url: baseUrls.resourceServiceBaseUrl +"BreakType/"+breakObj.BreakType,
+                data: breakObj
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        deleteBreakType: function(breakName){
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.resourceServiceBaseUrl +"BreakType/"+breakName
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        getAllBreakTypes: function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.resourceServiceBaseUrl +"BreakTypes"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        }
 
     }
 });
