@@ -63,6 +63,32 @@
 
                         <div class="row">
 
+                            <div class="col-md-4 col-sm-4 col-xs-4 form-group"
+                                 ng-class="{ 'has-error' : userForm.EndTime.$invalid && !userForm.EndTime.$pristine }">
+                                <label>End Date</label>
+
+                                <div>
+                                    <p class="input-group">
+                                        <input name="EndTime" type="text" class="form-control"
+                                               datetime-picker="MM/dd/yyyy HH:mm"
+                                               ng-model="fileSerach.EndTime" is-open="EndTime.open" required/>
+                                        <span class="input-group-btn">
+                                      <button type="button" class="btn btn-default" ng-click="openCalendar('EndTime')">
+                                          <i
+                                                  class="fa fa-calendar"></i></button>
+                                  </span>
+
+                                    <p ng-show="userForm.EndTime.$error.required && !userForm.EndTime.$pristine"
+                                       class="help-block">
+                                        EndTime is required.</p>
+
+                                    <p ng-show="userForm.EndTime.$error.min && !userForm.EndTime.$pristine"
+                                       class="help-block">
+                                        End time should be greater than start time.</p>
+                                    </p>
+                                </div>
+                            </div>
+
                             <div class="col-md-5 col-sm-5 col-xs-12  form-group has-feedback"
                                  ng-class="{ 'has-error' : ivrForm.StartTime.$invalid && !ivrForm.StartTime.$pristine }">
                                 <label>Start Date</label>
