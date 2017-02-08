@@ -34,7 +34,7 @@
     <p ng-show="userForm.CampaignChannel.$invalid && !userForm.CampaignChannel.$pristine" class="help-block">
         Campaign Channel is required.</p>
 </div>
-{{campaign.Extensions}}
+
 <div class="col-md-4 col-sm-4 col-xs-4 form-group"
      ng-class="{ 'has-error' : userForm.Extensions.$invalid && !userForm.Extensions.$pristine }">
     <select class="form-control has-feedback-left"  id="Extensions" ng-model="campaign.Extensions"

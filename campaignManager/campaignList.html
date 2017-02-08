@@ -73,8 +73,8 @@
 
             <div class="x_content" ng-hide="isLoading" >
                 <ul class="list-unstyled timeline">
-                    <li ng-repeat="cam in campaigns | filterBy: ['CampaignName']: searchCriteria">
-                        <editcampaign  mechanisms="mechanisms" modes="modes" channels="channels" campaign="cam" extensions="extensions"></editcampaign>
+                    <li ng-repeat="cam in campaigns | filterBy: ['CampaignName']: searchCriteria | orderBy : '-updatedAt'">
+                        <editcampaign reload-campaign="loadCampaign"  mechanisms="mechanisms" modes="modes" channels="channels" campaign="cam" extensions="extensions"></editcampaign>
                     </li>
 
                     <paging ng-show="showPaging"
