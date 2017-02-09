@@ -16,34 +16,27 @@
                             <form class="form-horizontal form-label-left input_mask">
                                 <div class="row">
                                     <!--<label class="control-label col-md-2 col-sm-6 col-xs-12">Server Type</label>-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                         <input type="text" class="form-control has-feedback-left"
                                                ng-model="breakType.BreakType"
                                                placeholder="Break Type">
                                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                     </div>
 
-                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                         <input type="number" class="form-control has-feedback-left"
-                                               placeholder="Maximum Duration Per Day" min="0"
+                                               placeholder="Maximum Duration Per Day (minutes)" min="1"
                                                ng-model="breakType.MaxDurationPerDay" required
                                                ng-pattern="/^(?:100|[1-9]?[0-9])$/">
                                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                     </div>
-                                </div>
-
-
-                                <div class="row">
-
-
-                                    <div class="col-md-12 col-sm-12 col-xs-12  ">
-                                        <button type="button" class="btn btn-success  btn- pull-right"
+                                    <div class="col-md-2 col-sm-2 col-xs-2  ">
+                                        <button type="button" class="btn btn-success  btn- pull-right btn-block"
                                                 ng-click="createBreakType()">
                                             Add
                                         </button>
                                     </div>
                                 </div>
-
                             </form>
                         </div>
                     </div>
@@ -55,7 +48,6 @@
         <!-- end -->
 
         <!-- view application users -->
-
 
 
         <div class="x_panel " ng-if="customticketStatus.length > 0">
@@ -73,7 +65,8 @@
             <div class="x_content">
                 <ul class="list-unstyled ">
                     <li ng-repeat="bType in breakTypes | filterBy: ['BreakType']: searchCriteria">
-                        <custom-break-type-directive custom-break-type="bType" update-custom-break-types="getBreakTypes()"></custom-break-type-directive>
+                        <custom-break-type-directive custom-break-type="bType"
+                                                     update-custom-break-types="getBreakTypes()"></custom-break-type-directive>
                     </li>
 
                     <paging ng-show="showPaging"

@@ -459,6 +459,7 @@ a {
 .s-mode > i.outbound {
     color: #d1d1d1 !important;
 }
+
 /*reserved*/
 .reserved > .media-body > div {
     border-color: #db4114 !important;
@@ -4913,4 +4914,8 @@ section.h3 {
     text-align: center;
     padding-top: 108px;
     font-size: 30px;
+}
+
+.ui-pnotify-text {
+    text-transform: capitalize !important;
 }
