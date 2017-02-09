@@ -250,7 +250,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "agentStatusController",
             data: {
                 requireLogin: true,
-                navigation: "RESOURCES"
+                navigation: "AGENTSTATUSEVENT"
             }
         }).state('console.FormDesign', {
             url: "/FormDesign",
