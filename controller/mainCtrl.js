@@ -362,6 +362,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.qaratingreporting');
         },goMissedCallReport: function () {
             $state.go('console.missedcallreport');
+        },goCampaignNumberUpload: function () {
+            $state.go('console.campaignnumberupload');
         }
     };
 
