@@ -1,0 +1,21 @@
+<div>
+    <button type="button" class="btn btn-success" ng-click="reset()">Reset Grid</button>
+    <br />
+    <br />
+    <!--<div>
+        <div class="msg">
+            <div class="center">
+                <span class="muted">Select Spreadsheet File</span>
+                <br />
+                <input type="file" accept=".csv" fileread="" opts="gridOptions" multiple="false" />
+            </div>
+        </div>
+    </div>-->
+    <form><input type="file" class="file-chooser" id="files" name="files[]" /></form>
+    <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
+
+    <div>
+        <label>{{gridApi.grid.getVisibleRows().length}}</label>
+        {{gridOptions}}
+    </div>
+</div>

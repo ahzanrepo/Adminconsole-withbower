@@ -75,7 +75,7 @@
                             <label>Agents</label>
                             <tags-input ng-model="agentFilter" display-property="ResourceName"
                                         add-from-autocomplete-only="true">
-                                <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true"
+                                <auto-complete max-results-to-show="1000" source="querySearch($query)" load-on-empty="true" load-on-focus="true"
                                                min-length="1"></auto-complete>
                             </tags-input>
                         </div>
