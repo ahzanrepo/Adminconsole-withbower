@@ -34,6 +34,26 @@
             },
             onRegisterApi: function(gridApi){
                 $scope.gridApi = gridApi;
+            },
+            importerProcessHeaders: function( hData, headerArray ) {
+                var myHeaderColumns = [];
+                var thisCol;
+
+                headerArray.forEach(function (value, index) {
+                    thisCol = mySpecialLookupFunction(value, index);
+                    myHeaderColumns.push(thisCol.name);
+                });
+
+                return myHeaderColumns;
+            }
+        };
+
+        var mySpecialLookupFunction = function(value, index){
+            var headerType = typeof value;
+            if(headerType.toLowerCase() !== 'string'){
+                return {name:'Undefined Column '+index};
+            }else{
+                return {name:value};
             }
         };
 
