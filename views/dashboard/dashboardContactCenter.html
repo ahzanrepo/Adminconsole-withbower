@@ -125,11 +125,7 @@
                                                'afterWork':resource.slotInfo[0].slotState=='AfterWork',
                                                'outbound':resource.slotInfo[0].slotState=='Outbound',
                                                'suspended':resource.slotInfo[0].slotState=='Suspended',
-                                               'break': resource.slotInfo[0].slotState == 'MeetingBreak' ||
-                                                resource.slotInfo[0].slotState == 'MealBreak' || resource.slotInfo[0].slotState == 'TrainingBreak' ||
-                                                resource.slotInfo[0].slotState == 'TeaBreak' || resource.slotInfo[0].slotState == 'OfficialBreak' ||
-                                                resource.slotInfo[0].slotState == 'AUXBreak' ||
-                                                resource.slotInfo[0].slotState == 'ProcessRelatedBreak'}"
+                                               'break':resource.slotInfo[0].other=='Break'}"
                                         ng-repeat="resource in ResourceTask.CALL | orderBy: 'LastReservedTime':true track by $index">
                                         <div class="profile-status-dah"></div>
                                         <div class="pull-left border-aero profile_thumb ">
@@ -138,19 +134,22 @@
                                         </div>
                                         <div class="media-body">
                                             <a class="title" href="javascript:void(0)">
-                                                {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                                                {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' :
+                                                ''}}
                                             </a>
                                             <p>{{resource.slotInfo[0].LastReservedTime}} </p>
-                                            <p>
-                                                <small>
-                                                    {{resource.slotInfo[0].slotState}}
-                                                </small>
-                                            </p>
-                                            <p>
-                                                <small>
-                                                    {{resource.slotInfo[0].slotMode}}
-                                                </small>
-                                            </p>
+                                            <div class="s-state">
+                                                {{resource.slotInfo[0].slotState}}
+                                                <div class="s-mode" >
+                                                    <i ng-if="resource.slotInfo[0].slotMode=='Inbound'" class="main-icon-2-telephone-7 inbound"></i>
+                                                    <i ng-if="resource.slotInfo[0].slotMode=='Outbound'" class="main-icon-2-telephone-6 outbound"></i>
+                                                </div>
+                                            </div>
+                                            <!--<p>-->
+                                            <!--<small>-->
+                                            <!--{{resource.slotInfo[0].slotMode}}-->
+                                            <!--</small>-->
+                                            <!--</p>-->
                                         </div>
 
                                     </li>
