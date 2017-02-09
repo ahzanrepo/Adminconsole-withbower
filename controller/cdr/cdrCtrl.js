@@ -58,7 +58,7 @@
         $scope.timeEnabled = 'Date Only';
         $scope.timeEnabledStatus = false;
 
-        $scope.changeTimeAvailability = function () {
+        $scope.dateValid = function () {
             if ($scope.timeEnabled === 'Date Only') {
                 $scope.timeEnabled = 'Date & Time';
                 $scope.timeEnabledStatus = true;

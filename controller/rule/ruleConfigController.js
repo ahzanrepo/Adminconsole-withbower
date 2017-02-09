@@ -2,7 +2,7 @@
  * Created by Pawan on 6/6/2016.
  */
 'use strict';
-mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, notificationService, $state, $stateParams, loginService) {
+mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, notificationService, $state, $stateParams, loginService,scheduleBackendService) {
 
 
     $scope.newObj = {};
@@ -14,6 +14,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     $scope.isInbound = false;
     $scope.DNISRequired = true;
     $scope.ANIRequired = true;
+    $scope.scheduleList;
 
 
     $scope.showAlert = function (title, content, type) {
@@ -68,6 +69,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
             loadContexts();
             loadTranslations();
             $scope.setEnableStatus();
+            $scope.newObj.ScheduleId = {id: $scope.newObj.ScheduleId};
 
             if ($scope.newObj.Direction == "INBOUND") {
                 loadApplications();
@@ -75,6 +77,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
                 console.log($scope.newObj.AppId);
                 //$scope.newObj.AppId=$scope.newObj.AppId;
                 $scope.newObj.AppId = {id: $scope.newObj.AppId};
+
             }
             else {
                 $scope.isInbound = false;
@@ -131,7 +134,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         else {
             $scope.showAlert("Success", "Application added to Rule", "success");
             console.log("Done attached");
-            $scope.backToList();
+
 
         }
     };
@@ -148,8 +151,24 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     };
 
 
+
+    var loadSchedules = function () {
+        scheduleBackendService.getSchedules().then(function (resSchedule) {
+
+            if(resSchedule.data.IsSuccess)
+            {
+                $scope.scheduleList=resSchedule.data.Result;
+            }
+
+        }).catch(function (errSchedule) {
+            onError(errSchedule);
+        });
+    };
+
+
     $scope.saveNewRule = function () {
         //$scope.newObj.Direction=Direction;
+        $scope.isPressed=true;
         var isValid = true;
         try {
             new RegExp($scope.newObj.CustomRegEx);
@@ -161,26 +180,45 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         if ($scope.editMode) {
             if (isValid) {
                 //ruleconfigservice.updateRules($scope.newObj).then(onSaveCompleted, onError);
+                var scheduleID;
+                if($scope.newObj.ScheduleId)
+                {
+                    $scope.newObj.ScheduleId=$scope.newObj.ScheduleId.id;
+
+                }
+                if($scope.newObj.ANITranslationId)
+                {
+                    $scope.newObj.ANITranslationId =  $scope.newObj.ANITranslationId.id;
+
+                }
+                if($scope.newObj.TranslationId)
+                {
+                    $scope.newObj.TranslationId = $scope.newObj.TranslationId.id;
+                }
+                if($scope.newObj.AppId)
+                {
+                    $scope.newObj.AppId = $scope.newObj.AppId.id;
+                }
                 ruleconfigservice.updateRules($scope.newObj).then(function (response) {
 
                     if (response.data.IsSuccess) {
+                        $scope.showAlert("Success", "Rule successfully saved", "success");
                         if ($scope.newObj.id) {
-                            if ($scope.newObj.AppId.id) {
-                                $scope.AttachAppToRule();
-                                $scope.showAlert("Success", "Inbound rule successfully saved", "success");
-                            }
-                            else {
-                                $scope.showAlert("Success", "Outbound rule successfully saved", "success");
-                            }
 
+                            $scope.backToList();
 
                         }
+
+
+
                     }
                     else {
                         $scope.showAlert("Error", "Rule updating failed ", "error");
                         $scope.backToList();
                     }
                 }, function (err) {
+                    $scope.showAlert("Error", "Rule updating failed ", "error");
+                    $scope.backToList();
                     loginService.isCheckResponse(err);
                 });
             } else {
@@ -191,7 +229,21 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         else {
 
             if (isValid) {
-                ruleconfigservice.addNewRule($scope.newObj).then(onSaveCompleted, onError);
+                ruleconfigservice.addNewRule($scope.newObj).then(function (resposne) {
+                    if(resposne.data.IsSuccess)
+                    {
+                        $scope.showAlert("Success", "Successfully saved", "success");
+                        $scope.backToList();
+                    }
+                    else
+                    {
+                        $scope.showAlert("Error", "Saving Failed", "error");
+
+                    }
+
+                }).catch(function (error) {
+                    onError(error);
+                });
             }
             else {
                 $scope.showAlert("Error", "Invalid Custom regEx pattern", "error");
@@ -211,16 +263,36 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         console.log("After Remove TrunkNumber " + $scope.newObj.TrunkNumber);
     };
 
+    $scope.makeANITransEmpty = function () {
+        $scope.newObj.ANITranslationId = null;
+        console.log("After Remove ANITranslation " + $scope.newObj.ANITranslationId);
+    };
+    $scope.makeDNISTransEmpty = function () {
+        $scope.newObj.TranslationId = null;
+        console.log("After Remove DNISTranslationId " + $scope.newObj.TranslationId);
+    };
+    $scope.makeScheduleEmpty = function () {
+
+        $scope.newObj.ScheduleId = null;
+        console.log("After Remove Schedule " + $scope.newObj.ScheduleId);
+    };
+    $scope.makeAppEmpty = function () {
+        $scope.newObj.AppId = null;
+        console.log("After Remove Application " + $scope.newObj.AppId);
+    };
+
     function loadContexts() {
         ruleconfigservice.getContextList().then(onContextLoad, onError);
     };
 
     $scope.backToList = function () {
+        $scope.isPressed=false;
         $state.go('console.rule');
     };
 
     //loadContexts();
     function initiateProcess() {
+        loadSchedules();
         if ($scope.ruleID) {
             ruleconfigservice.getRule($scope.ruleID).then(onRuleLoad, onError);
 
@@ -265,6 +337,30 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
             console.log("Id " + $scope.newObj.id);
             console.log("APPId " + $scope.newObj.AppId.id);
             ruleconfigservice.attchAppWithRule($scope.newObj.id, $scope.newObj.AppId.id).then(onAttachCompleted, onError);
+        }
+
+    };
+    $scope.AttachScheduleToRule = function (scheduleID) {
+
+        if ($scope.editMode) {
+            console.log("Id " + $scope.newObj.id);
+            console.log("ScheduleId " + scheduleID);
+            ruleconfigservice.attachScheduleWithRule($scope.newObj.id, scheduleID).then(function (response) {
+
+                if (!response.data.IsSuccess) {
+                    onError(response.data.Exception.Message);
+                }
+                else
+                {
+                    $scope.showAlert("Success", "Schedule attached to Rule", "success");
+                    console.log("Done Schedule attached");
+                    $scope.backToList();
+                }
+
+
+            }).catch(function (error) {
+                onError(error);
+            });
         }
 
     };

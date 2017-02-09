@@ -33,6 +33,20 @@
             })
         };
 
+        var updateCronSchedule = function(uniqueId, cronInfo)
+        {
+            var jsonStr = JSON.stringify(cronInfo);
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.scheduleWorker + 'Cron/' + uniqueId,
+                data : jsonStr
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
 
         var removeCron = function(id)
         {
@@ -51,7 +65,8 @@
         return {
             getCrons: getCrons,
             addNewCronSchedule: addNewCronSchedule,
-            removeCron: removeCron
+            removeCron: removeCron,
+            updateCronSchedule: updateCronSchedule
         };
 
 

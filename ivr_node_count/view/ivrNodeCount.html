@@ -1,0 +1,195 @@
+<div class="row">
+    <div class="col-md-12 col-sm-6 col-xs-12">
+
+        <!--<div ng-show="isProgress">
+            <div class="row ">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="data-state-wrap">
+                        Progress...
+                    </div>
+
+                </div>
+            </div>
+        </div>-->
+
+        <div class="clearfix"></div>
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><i class="fa fa-bars"></i> IVR Node
+                        <small>Count</small>
+                    </h2>
+
+
+                    <div class="clearfix"></div>
+                </div>
+                </br>
+                <div class="x_content">
+
+                    <form id="ivrForm" name="ivrForm" novalidate>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12 form-group"
+                             ng-class="{ 'has-error' : ivrForm.ivrapplication.$invalid && !ivrForm.ivrapplication.$pristine }">
+                            <label>Application</label>
+
+                            <div>
+                                <p class="input-group">
+                                    <select class="form-control" name="ivrapplication" ng-model="application"
+                                            ng-options="opt.id as opt.AppName for opt in applicationList" required
+                                            ng-class="{ 'has-error' : ivrForm.ivrapplication.$invalid && !ivrForm.ivrapplication.$pristine }">
+                                    </select>
+
+                                <p ng-show="ivrForm.ivrapplication.$error.required && !ivrForm.ivrapplication.$pristine"
+                                   class="help-block">
+                                    Select Application</p>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group"
+                             ng-class="{ 'has-error' : ivrForm.StartTime.$invalid && !ivrForm.StartTime.$pristine }">
+                            <label>Start Date</label>
+
+                            <div>
+                                <p class="input-group">
+                                    <input required name="StartTime" type="text" class="form-control"
+                                           datetime-picker="MM/dd/yyyy HH:mm"
+                                           ng-model="fileSerach.StartTime" is-open="StartTime.open"
+                                           ng-class="{ 'has-error' : ivrForm.StartTime.$invalid && !ivrForm.StartTime.$pristine }"/>
+                                    <span class="input-group-btn">
+                                      <button type="button" class="btn btn-default"
+                                              ng-click="openCalendar('StartTime')"><i
+                                              class="fa fa-calendar"></i></button>
+                                  </span>
+                                <p ng-show="ivrForm.StartTime.$error.required && !ivrForm.StartTime.$pristine"
+                                   class="help-block">
+                                    StartTime is required.</p>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group"
+                             ng-class="{ 'has-error' : ivrForm.EndTime.$invalid && !ivrForm.EndTime.$pristine }">
+                            <label>End Date</label>
+
+                            <div>
+                                <p class="input-group">
+                                    <input name="EndTime" type="text" class="form-control"
+                                           datetime-picker="MM/dd/yyyy HH:mm" min="fileSerach.StartTime"
+                                           ng-model="fileSerach.EndTime" is-open="EndTime.open" required/>
+                                    <span class="input-group-btn">
+                                      <button type="button" class="btn btn-default" ng-click="openCalendar('EndTime')">
+                                          <i
+                                                  class="fa fa-calendar"></i></button>
+                                  </span>
+
+                                <p ng-show="ivrForm.EndTime.$error.required && !ivrForm.EndTime.$pristine"
+                                   class="help-block">
+                                    EndTime is required.</p>
+
+                                <p ng-show="ivrForm.EndTime.$error.min && !ivrForm.EndTime.$pristine"
+                                   class="help-block">
+                                    End time should be greater than start time.</p>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-12">
+                            <button ng-disabled="ivrForm.$invalid" type="button" class="btn btn-success" style="
+    margin-top: 24px;" ng-click="LoadNodeData();">
+                                Search
+                            </button>
+                        </div>
+
+
+                    </form>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <small>Report</small>
+
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <div class="x_content">
+
+                    <div ng-show="isLoading">
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    Please Wait...
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-show="noDataToshow">
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    No Data...
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-hide="isLoading">
+
+
+                        <div class="col-md-6 col-sm-6 col-xs-12 text-center">
+                            <canvas id="doughnut" class="chart chart-doughnut"
+                                    width="400" height="400"
+                                    chart-data="doughnutObj.data" chart-labels="doughnutObj.labels"
+                                    chart-legend="true"
+                                    chart-options="options">
+                            </canvas>
+
+
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12 text-center">
+
+                            <canvas id="polar-area" class="chart chart-polar-area"
+                                    width="400" height="400"
+                                    chart-data="doughnutObj.data" chart-labels="doughnutObj.labels"
+                                    chart-legend="true"
+                                    chart-options="options">
+                            </canvas>
+
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="sidebar-widget" ng-repeat="ivrnode in doughnutObj.node">
+                                <h4>{{ivrnode.EventParams}}</h4>
+                                <!--<canvas width="150" height="80" id={{$index}} class="" style="width: 160px; height: 100px;"></canvas>-->
+                                <div class="goal-wrapper">
+                                    <span id='{{$index}}_text' class="gauge-value ">{{ivrnode.count}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

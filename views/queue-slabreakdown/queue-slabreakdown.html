@@ -1,7 +1,7 @@
 <div ng-controller="queueSlaBreakDownController">
     <div class="page-title">
         <div class="title_left">
-            <h3 class="font-robot font-600 ">Queue SLA Break Down Report</h3>
+            <h3 class="font-robot font-600 ">Queue SLA Breakdown Report</h3>
         </div>
     </div>
 
@@ -25,13 +25,11 @@
                     <label class="radio-inline">
                         <input type="radio" name="slaBreakOption" ng-model="searchOption"
                                id="hourly"
-                               value="hourly" ng-checked="true"> Hourly SLA
-                        break down
+                               value="hourly" ng-checked="true"> Hourly SLA Breakdown
                     </label>
                     <label class="radio-inline">
                         <input type="radio" ng-model="searchOption" name="slaBreakOption" id="daily"
-                               value="daily"> Daily SLA break
-                        down
+                               value="daily"> Daily SLA Breakdown
                     </label>
                 </div>
                 <div class="col-sm-3 col-xs-3">
@@ -42,8 +40,8 @@
                         </button>
                         <button type="button"
                                 style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;"
-                                csv-header="['Hour', 'Queue', 'Duration(sec)', 'Threshold Count', 'Average']"
-                                csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'Average']"
+                                csv-header="['Hour', 'Queue', 'Duration(sec)', 'Count', 'SLA Violated', 'Average((Count/TotalQueueCount) *100)']"
+                                csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'SlaViolated', 'Average']"
                                 ng-csv="getProcessedSlaCSVDownload()" filename="SLA_BreakDown_{{qDate}}.csv"></button>
 
                     </div>
@@ -72,10 +70,10 @@
                         <div class="x_panel">
                             <div class="x_title bottom-gray-200 m-bottom20">
                                 <h4 ng-if="searchOption == 'hourly'" class="font-robot font-300 text-uppercase font-15">
-                                    Hourly SLA Break Down
+                                    Hourly SLA Breakdown
                                 </h4>
                                 <h4 ng-if="searchOption == 'daily'" class="font-robot font-300 text-uppercase font-15">
-                                    Daily SLA Break Down
+                                    Daily SLA Breakdown
                                     <div class="btn-group pull-right">
                                         <label class="btn btn-sm btn-default" ng-click="changeView('table');" ng-model="viewMode"
                                                uib-btn-radio="'table'"
@@ -125,12 +123,18 @@
                                                             aria-controls="datatable-responsive"
                                                             rowspan="1"
                                                             colspan="1" aria-label="ThresholdCount">
-                                                            Threshold Count
+                                                            Count
                                                         </th>
                                                         <th class="sorting" tabindex="0"
                                                             aria-controls="datatable-responsive"
                                                             rowspan="1"
-                                                            colspan="1" aria-label="Average">Average
+                                                            colspan="1" aria-label="SLAViolated">
+                                                            SLA Violated
+                                                        </th>
+                                                        <th class="sorting" tabindex="0"
+                                                            aria-controls="datatable-responsive"
+                                                            rowspan="1"
+                                                            colspan="1" aria-label="Average">Average ((Count/TotalQueueCount) *100)
                                                         </th>
 
                                                     </thead>
@@ -141,7 +145,8 @@
                                                         <td>{{queueSummary.Queue}}</td>
                                                         <td>{{queueSummary.BreakDown}}</td>
                                                         <td>{{queueSummary.ThresholdCount}}</td>
-                                                        <td>{{queueSummary.Average}}</td>
+                                                        <td>{{queueSummary.SlaViolated}}</td>
+                                                        <td>{{queueSummary.Average}}%</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -202,12 +207,18 @@
                                                                 aria-controls="datatable-responsive"
                                                                 rowspan="1"
                                                                 colspan="1" aria-label="ThresholdCount">
-                                                                Threshold Count
+                                                                Count
                                                             </th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="datatable-responsive"
                                                                 rowspan="1"
-                                                                colspan="1" aria-label="Average">Average
+                                                                colspan="1" aria-label="SLAViolated">
+                                                                SLA Violated
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="datatable-responsive"
+                                                                rowspan="1"
+                                                                colspan="1" aria-label="Average">Average ((Count/TotalQueueCount) *100)
                                                             </th>
 
                                                         </thead>
@@ -217,7 +228,8 @@
                                                             <td>{{queueSummary.Queue}}</td>
                                                             <td>{{queueSummary.BreakDown}}</td>
                                                             <td>{{queueSummary.ThresholdCount}}</td>
-                                                            <td>{{queueSummary.Average}}</td>
+                                                            <td>{{queueSummary.SlaViolated}}</td>
+                                                            <td>{{queueSummary.Average}}%</td>
                                                         </tr>
                                                         </tbody>
                                                     </table>

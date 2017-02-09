@@ -37,7 +37,7 @@
                 <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
-                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>Extension</label>
                                 <input type="text" class="form-control has-feedback-left"
@@ -46,13 +46,22 @@
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback"
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback"
                                  style="margin-bottom: 15px;">
                                 <label>Extension Name</label>
                                 <input type="text" class="form-control has-feedback-left"
                                        ng-model="extension.ExtensionName"
                                        placeholder="Description">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback"
+                                 style="margin-bottom: 15px;">
+                                <label>DOD Number</label>
+                                <input type="text" class="form-control has-feedback-left "
+                                       ng-model="extension.DodNumber"
+                                       placeholder="Dod Number">
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
@@ -71,14 +80,13 @@
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback"
-                                 style="margin-bottom: 15px;">
-                                <label>DOD Number</label>
-                                <input type="text" class="form-control has-feedback-left "
-                                       ng-model="extension.DodNumber"
-                                       placeholder="Dod Number">
+                            <fieldset class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <label>IVR App</label>
+                                <select class="form-control has-feedback-left" placeholder="select application type"
+                                        ng-model="extension.ExtraData" ng-options="app.id as app.AppName for app in applications">
+                                </select>
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
-                            </div>
+                            </fieldset>
 
 
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">

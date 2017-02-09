@@ -8,7 +8,7 @@
             <uib-tabset active="0">
                 <uib-tab index="0" heading="Email Report Recipients">
                     <br><br>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <label>Report Type</label>
                         <select name="datatable-responsive_length" ng-model="reportType.reportType" ng-change="loadRecipients()"
                                 aria-controls="datatable-responsive" class="form-control">
@@ -18,10 +18,16 @@
                             <option value="CALL_SUMMARY_DAILY_REPORT">CALL SUMMARY DAILY REPORT</option>
                         </select>
                     </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <label>Template</label>
+                        <select name="templateSelect" class="select2_single form-control" aria-hidden="true" ng-options="template.name as template.name for template in templateList"
+                                ng-model="selectedTemplate.selectedTemplate">
+                        </select>
+                    </div>
                     <div class="col-md-2 col-sm-2 col-xs-2">
                         <button type="button" ng-disabled="!reportType" style="position: relative; top: 25px;" class="btn btn-success" ng-click="saveRecipients()">Save</button>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4"></div>
+                    <div class="clearfix"></div>
 
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <br><br>

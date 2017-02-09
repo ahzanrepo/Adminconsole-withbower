@@ -84,6 +84,19 @@
             });
         };
 
+        var getTicketsForCase = function(tIds){
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl+'TicketsByIds',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {ids: tIds}
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
         var addTicketToCase = function(caseId, ticketIds){
             return $http({
                 method: 'PUT',
@@ -166,6 +179,19 @@
             });
         };
 
+        var getStatusFlowTypes = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl+"TagCategories"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        };
+
         return{
             createCaseConfiguration: createCaseConfiguration,
             deleteCaseConfiguration: deleteCaseConfiguration,
@@ -173,6 +199,7 @@
             createCase: createCase,
             getCases: getCases,
             getCase: getCase,
+            getTicketsForCase: getTicketsForCase,
             addTicketToCase: addTicketToCase,
             removeTicketFromCase: removeTicketFromCase,
             bulkStatusChangeTickets: bulkStatusChangeTickets,

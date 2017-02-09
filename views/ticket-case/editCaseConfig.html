@@ -26,7 +26,8 @@
             <div class="application-edit">
                 <div class="col-sm-12">
                     <div class="col-sm-6">
-                        <h2 class="font-robot font-300 text-uppercase font-15">Edit {{caseConfig.configurationName}}</h2>
+                        <h2 class="font-robot font-300 text-uppercase font-15">Edit
+                            {{caseConfig.configurationName}}</h2>
                     </div>
                     <div class="col-sm-6">
                         <div class="edit-close pull-right">
@@ -53,7 +54,7 @@
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                 <label>Configuration Rule</label>
                                 <input type="text" class="form-control has-feedback-left"
                                        ng-model="caseConfig.configurationRule"
@@ -61,16 +62,13 @@
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
                                 <label>Threshold</label>
                                 <input type="number" class="form-control has-feedback-left"
                                        ng-model="caseConfig.threshold"
                                        placeholder="Threshold" min="0">
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                             </div>
-
-
-
 
 
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
@@ -100,6 +98,8 @@
             <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
         </div>-->
         <div ng-hide="editMode">
+
+
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Configuration Name</label>
                 <p>{{caseConfig.configurationName}} </p>
@@ -112,10 +112,43 @@
 
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Configuration Rule</label>
-                <p>{{caseConfig.configurationRule}} </p>
+                <p ng-if="caseConfig.configurationRule.length < 40">
+                    {{ caseConfig.configurationRule | limitTo: 50 }}{{caseConfig.configurationRule.length > 40 ? '...'
+                    :''}}
+                </p>
+
+                <p ng-if="caseConfig.configurationRule.length > 40"
+                        tooltip-placement="top"
+                   uib-tooltip="{{caseConfig.configurationRule}}"
+                   ng-class="{'marquee-text':caseConfig.configurationRule.length > 40}">
+                    {{ caseConfig.configurationRule | limitTo: 30 }}{{caseConfig.configurationRule.length > 30 ? '...'
+                    :''}}
+                </p>
+                <!--<marquee class="marquee"-->
+                <!--scrollamount="0"-->
+                <!--direction="left"-->
+                <!--onmouseover="this.scrollAmount=6"-->
+                <!--onmouseout="this.scrollAmount = 0"-->
+                <!--ng-if="caseConfig.configurationRule.length > 40">-->
+                <!--{{ caseConfig.configurationRule }}-->
+                <!--</marquee>-->
             </div>
 
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <div class="col-md-1 col-sm-1 col-xs-12 form-group ">
+                <label class="form-control-static">Status</label>
+                <p>{{caseConfig.active}} </p>
+            </div>
+
+            <div class="col-md-1 col-sm-1 col-xs-12 form-group ">
+                <label>Active Types</label>
+                <ul class="customer-type-wrapper">
+                    <li ng-repeat="cusTypes in caseConfig.activeTicketTypes">
+                        {{cusTypes}}
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-1 col-sm-1 col-xs-12 form-group ">
                 <label class="form-control-static">Threshold</label>
                 <p>{{caseConfig.threshold}} </p>
             </div>

@@ -94,7 +94,9 @@
     "angular-timezone-selector": "^1.6.0",
     "angular-schema-form": "^0.8.13",
     "lodash": "^4.17.3",
-    "chosen": "^1.6.2"
+    "chosen": "^1.6.2",
+    "angular-object-diff": "^1.0.3",
+    "angular-save-html-to-pdf": "*"
   },
   "resolutions": {
     "angular": "1.5.5",

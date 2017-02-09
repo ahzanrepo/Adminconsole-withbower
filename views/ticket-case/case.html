@@ -58,6 +58,32 @@
         </div>
         <!-- end -->
 
+        <div class="x_panel  animated fadeIn">
+            <div class="x_content">
+                <div class="x_title border-0">
+                    <div class="col-lg-12">
+                        <h2 class="font-robot font-300 text-uppercase font-15">Filter Cases</h2>
+                    </div>
+                    <div class="col-sm-12 col-xs-12" style="margin-top: 30px;">
+                        <label class="radio-inline">
+                            <input type="radio" name="caseOption" ng-model="searchOption"
+                                   id="activeCases"
+                                   value="activeCases" ng-checked="true" ng-click="filterCases()"> Active Cases
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="searchOption" name="caseOption" id="deactivateCases"
+                                   value="deactivateCases" ng-click="filterCases()"> Deactivate Cases
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="caseOption" ng-model="searchOption"
+                                   id="allCases"
+                                   value="allCases" ng-click="filterCases()"> All
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- view application users -->
         <div class="x_panel">
             <div class="x_content">

@@ -2,7 +2,7 @@
  * Created by Pawan on 6/17/2016.
  */
 
-mainApp.controller("extensionController", function ($scope, $state, extensionBackendService, loginService) {
+mainApp.controller("extensionController", function ($scope, $state, extensionBackendService, ruleconfigservice, loginService) {
 
 
     $scope.Extensions = [];
@@ -42,6 +42,30 @@ mainApp.controller("extensionController", function ($scope, $state, extensionBac
     $scope.cancleEdit = function () {
         $scope.addNew = false;
     };
+
+    $scope.applications = [];
+
+    var loadApplications = function(){
+        ruleconfigservice.loadApps()
+            .then(function(appList)
+            {
+                $scope.applications = [];
+                if(appList.data)
+                {
+                    var arr = appList.data.Result.map(function(app){
+                        app.id = app.id.toString();
+                        return app;
+                    });
+                    $scope.applications = arr;
+                }
+
+            }).catch(function(err)
+            {
+                $scope.showAlert("Error", "Extension saving error ", "error");
+            })
+    };
+
+    loadApplications();
 
 
     // $scope.GetApplications();

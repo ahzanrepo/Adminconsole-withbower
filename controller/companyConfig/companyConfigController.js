@@ -10,6 +10,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.ClusterID;
     $scope.contextList = [];
     $scope.prefixList=[];
+    $scope.userTagList=[];
     $scope.newPrefix={};
     $scope.isValidPrefix=false;
     $scope.validmsg="";
@@ -321,10 +322,74 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
         }
     }
 
+    $scope.createNewUserTag = function (tagName) {
+
+        var tagData = {
+            name:tagName
+        }
+
+        companyConfigBackendService.saveNewUserTag(tagData).then(function (resAdd) {
+
+
+
+            $scope.newUserTag={};
+            if(resAdd.data.Result)
+            {
+                $scope.showAlert("Add new user tag","User tag added successfully","success");
+                console.log("New user tag added",tagName);
+                $scope.userTagList.push(resAdd.data.Result);
+            }
+            else
+            {
+                $scope.showAlert("Add new user tag","Invalid user Tag","error");
+                console.log("New user tag adding failed/ Invalid"+tagName);
+            }
+
+
+
+        }, function (errAdd) {
+            $scope.showAlert("Add new user tag","Failed to add new user tag","error");
+            console.log("New user tag adding failed"+tagName);
+
+        });
+
+    }
+
+    $scope.removeDeletedTags = function (item) {
+        var index = $scope.userTagList.indexOf(item);
+        if (index != -1) {
+            $scope.userTagList.splice(index, 1);
+        }
+    }
+
+
+    $scope.getUserTags = function () {
+
+        companyConfigBackendService.getUserTagList().then(function (response) {
+
+            if (!response.data.IsSuccess) {
+                console.info("Error in picking UserTags " + response.data.Exception);
+
+            }
+            else {
+                console.info(" UserTags found ");
+                $scope.userTagList = response.data.Result;
+
+            }
+
+        }, function (error) {
+
+            console.info("Error in picking UserTags " + error);
+
+        })
+
+    };
+
     $scope.GetEndUser();
     $scope.GetClusters();
     $scope.GetContexts();
     $scope.getTicketPrefixes();
+    $scope.getUserTags();
 
 
     //----------------------------Dynamic Ticket Types----------------------------------------------
@@ -374,7 +439,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 $scope.showAlert('Dynamic Ticket Types', errMsg, 'error');
             }
         }, function (err) {
-            loginService.isCheckResponse(error);
+            loginService.isCheckResponse(err);
             var errMsg = "Error occurred while saving ticket type";
             if (err.statusText) {
                 errMsg = err.statusText;
@@ -590,10 +655,10 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 history: false
             }
         })).get().on('pnotify.confirm', function () {
-            OkCallback("confirm");
-        }).on('pnotify.cancel', function () {
+                OkCallback("confirm");
+            }).on('pnotify.cancel', function () {
 
-        });
+            });
 
     };
 
