@@ -197,7 +197,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
 
                     if(scope.curAppointment.RecurrencePattern === 'NONE' || scope.curAppointment.RecurrencePattern === 'DAILY')
                     {
-                        if(startDateMoment.isBefore(endDateMoment) || startDateMoment.isSame(endDateMoment))
+                        if(startDateMoment.isAfter(endDateMoment))
                         {
                             scope.validationError = 'Start date and time need to be less than or equal to end date';
                             return false;
