@@ -111,15 +111,17 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                             $scope.OutboundProfile.push(profile);
                         } else if (profile.slotState == 'Suspended') {
                             $scope.SuspendedProfile.push(profile);
-                        } else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
-                            profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
-                            profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
-                            profile.slotState == 'AUXBreak' ||
-                            profile.slotState == 'ProcessRelatedBreak') {
+                        }  else {
+                            //$scope.profile.push(profile);
                             $scope.BreakProfile.push(profile);
-                        } else {
-                            $scope.profile.push(profile);
                         }
+                    // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
+                        //         profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
+                        //         profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
+                        //         profile.slotState == 'AUXBreak' ||
+                        //         profile.slotState == 'ProcessRelatedBreak') {
+                        //         $scope.BreakProfile.push(profile);
+                        //     }
 
                     }
                 }

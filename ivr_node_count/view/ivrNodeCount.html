@@ -51,7 +51,8 @@
                             <div class="col-md-9 col-sm-9 col-xs-12  form-group has-feedback">
                                 <label>Tags</label>
                                 <div class="input-group col-md-12">
-                                    <tags-input ng-model="tags" display-property="Name" key-property="Name" placeholder="Select Tag"
+                                    <tags-input ng-model="tags" display-property="Name" key-property="Name"
+                                                placeholder="Select Tag"
                                                 add-from-autocomplete-only="true" min-length="0">
                                         <auto-complete source="querySearch($query)" load-on-empty="true"
                                                        max-results-to-show="10000" min-length="1"
@@ -63,29 +64,59 @@
 
                         <div class="row">
 
-                            <div class="col-md-5 col-sm-5 col-xs-12  form-group has-feedback"
-                                 ng-class="{ 'has-error' : ivrForm.StartTime.$invalid && !ivrForm.StartTime.$pristine }">
+                            <div class="col-md-5 col-sm-5 col-xs-5 form-group"
+                                 ng-class="{ 'has-error' : userForm.StartTime.$invalid && !userForm.StartTime.$pristine }">
                                 <label>Start Date</label>
 
                                 <div>
                                     <p class="input-group">
-                                        <input required name="StartTime" type="text" class="form-control"
+                                        <input name="EndTime" type="text" class="form-control"
                                                datetime-picker="MM/dd/yyyy HH:mm"
-                                               ng-model="fileSerach.StartTime" is-open="StartTime.open"
-                                               ng-class="{ 'has-error' : ivrForm.StartTime.$invalid && !ivrForm.StartTime.$pristine }"/>
+                                               ng-model="fileSerach.StartTime" is-open="StartTime.open" required/>
                                         <span class="input-group-btn">
-                                      <button type="button" class="btn btn-default"
-                                              ng-click="openCalendar('StartTime')"><i
-                                              class="fa fa-calendar"></i></button>
+                                      <button type="button" class="btn btn-default" ng-click="openCalendar('StartTime')">
+                                          <i
+                                                  class="fa fa-calendar"></i></button>
                                   </span>
-                                    <p ng-show="ivrForm.StartTime.$error.required && !ivrForm.StartTime.$pristine"
+
+                                    <p ng-show="userForm.StartTime.$error.required && !userForm.StartTime.$pristine"
                                        class="help-block">
-                                        StartTime is required.</p>
+                                        EndTime is required.</p>
+
+                                    <p ng-show="userForm.StartTime.$error.min && !userForm.StartTime.$pristine"
+                                       class="help-block">
+                                        End time should be greater than start time.</p>
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="col-md-5 col-sm-5 col-xs-12  form-group has-feedback"
+                            <div class="col-md-5 col-sm-5 col-xs-5 form-group"
+                                 ng-class="{ 'has-error' : userForm.EndTime.$invalid && !userForm.EndTime.$pristine }">
+                                <label>End Date</label>
+
+                                <div>
+                                    <p class="input-group">
+                                        <input name="EndTime" type="text" class="form-control"
+                                               datetime-picker="MM/dd/yyyy HH:mm"
+                                               ng-model="fileSerach.EndTime" is-open="EndTime.open" required/>
+                                        <span class="input-group-btn">
+                                      <button type="button" class="btn btn-default" ng-click="openCalendar('EndTime')">
+                                          <i
+                                                  class="fa fa-calendar"></i></button>
+                                  </span>
+
+                                    <p ng-show="userForm.EndTime.$error.required && !userForm.EndTime.$pristine"
+                                       class="help-block">
+                                        EndTime is required.</p>
+
+                                    <p ng-show="userForm.EndTime.$error.min && !userForm.EndTime.$pristine"
+                                       class="help-block">
+                                        End time should be greater than start time.</p>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-5 col-sm-5 col-xs-12  form-group has-feedback"
                                  ng-class="{ 'has-error' : ivrForm.EndTime.$invalid && !ivrForm.EndTime.$pristine }">
                                 <label>End Date</label>
 
@@ -109,7 +140,7 @@
                                         End time should be greater than start time.</p>
                                     </p>
                                 </div>
-                            </div>
+                            </div>-->
 
                             <div class="col-md-2 col-sm-2 col-xs-12  form-group has-feedback">
                                 <button ng-disabled="ivrForm.$invalid" type="button" class="btn btn-success" style="
@@ -191,10 +222,12 @@
 
                         <div class="row">
 
-                            <div class="sidebar-widget cursor-pointer cs-wrapper " ng-repeat="ivrnode in doughnutObj.node" ng-click="LoadDataByNode(ivrnode.EventParams);">
+                            <div class="sidebar-widget cursor-pointer cs-wrapper "
+                                 ng-repeat="ivrnode in doughnutObj.node"
+                                 ng-click="LoadDataByNode(ivrnode.EventParams);">
                                 <h4>{{ivrnode.EventParams}}</h4>
                                 <!--<canvas width="150" height="80" id={{$index}} class="" style="width: 160px; height: 100px;"></canvas>-->
-                                <div class="goal-wrapper" >
+                                <div class="goal-wrapper">
                                     <span id='{{$index}}_text' class="gauge-value ">{{ivrnode.count}}</span>
                                 </div>
                             </div>
@@ -219,7 +252,7 @@
                         </small>
                     </h2>
                     <h2>
-                        <small> Total : {{pageTotal}}                    </small>
+                        <small> Total : {{pageTotal}}</small>
                     </h2>
 
                     <div class="clearfix"></div>
@@ -253,17 +286,13 @@
                     <div class="row" ng-hide="isLoading">
 
                         <div class="col-sm-12">
-                            <div class="table-wrapper"
-                            >
-
-
+                            <div class="table-wrapper daynamic-s-tble" >
                                 <table id="datatable-responsive" dt-options="dtOptions" datatable="ng"
                                        class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
                                        cellspacing="0" width="100%" role="grid"
                                        aria-describedby="datatable-responsive_info">
                                     <thead>
                                     <tr role="row">
-
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
                                             colspan="1" aria-label="From">Event Name
