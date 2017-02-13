@@ -98,7 +98,7 @@
             <div class="x_content">
                 <ul class="list-unstyled ">
                     <li ng-repeat="Schedule in ScheduleList | filterBy: ['ScheduleName']: searchCriteria">
-                        <editschedule schedule="Schedule" scheduleList="ScheduleList" update-Schedule="removeDeleted(Schedule)"
+                        <editschedule schedule="Schedule" scheduleList="ScheduleList" showmodalappointments="showModalAppointments(scheduleId)" update-Schedule="removeDeleted(Schedule)"
                                       reloadpage="reloadPage()">
 
                         </editschedule>

@@ -2,16 +2,7 @@
  * Created by Pawan on 7/26/2016.
  */
 
-mainApp.controller("scheduleController", function ($scope, $state, scheduleBackendService, loginService) {
-
-
-    $scope.ScheduleList = [];
-    $scope.newApplication = {};
-    $scope.addNew = false;
-    $scope.MasterAppList = [];
-    $scope.IsDeveloper = false;
-    $scope.Developers = [];
-    $scope.searchCriteria = "";
+mainApp.controller("scheduleController", function ($scope, $state, $uibModal, scheduleBackendService, loginService) {
 
     $scope.showAlert = function (tittle, content, type) {
 
@@ -21,6 +12,62 @@ mainApp.controller("scheduleController", function ($scope, $state, scheduleBacke
             type: type,
             styling: 'bootstrap3'
         });
+    };
+
+    $scope.uiconfig = {
+        calendar:{}
+    };
+    $scope.events = [];
+    $scope.eventsources = [];
+
+
+
+    $scope.ScheduleList = [];
+    $scope.newApplication = {};
+    $scope.addNew = false;
+    $scope.MasterAppList = [];
+    $scope.IsDeveloper = false;
+    $scope.Developers = [];
+    $scope.searchCriteria = "";
+    $scope.scheduleAppId = -1;
+
+    $scope.advancedAppointmentList = [];
+
+    $scope.showModalAppointments = function (scheduleId) {
+
+        $scope.advancedAppointmentList = [];
+        $scope.scheduleAppId = scheduleId;
+        //modal show
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/scheduler/advancedAppointments.html',
+            size: 'lg',
+            scope: $scope
+        });
+
+        //get appointments for schedule
+
+        /*scheduleBackendService.getAppointments(scheduleId)
+        .then(function(appointments)
+        {
+            if(appointments && appointments.data && appointments.data.Result)
+            {
+                $scope.advancedAppointmentList = appointments.data.Result;
+
+            }
+            else
+            {
+                if(appointments && appointments.data && !appointments.data.IsSuccess)
+                {
+                    $scope.showAlert('Appointments', appointments.data.Exception.Message, 'error')
+                }
+            }
+
+
+        }).catch(function(err)
+        {
+            $scope.showAlert('Appointments', 'Error occurred while loading appointments', 'error')
+        })*/
     };
 
 
