@@ -22,7 +22,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'com.2fdevs.videogular.plugins.overlayplay',
     'com.2fdevs.videogular.plugins.poster', 'ui.bootstrap.datetimepicker', 'angularBootstrapNavTree', 'ui.bootstrap.accordion', 'yaru22.angular-timeago',
     'ui.bootstrap.pagination',
-    'ui.grid', 'ui.grid.grouping',
+    'ui.grid', 'ui.grid.grouping', 'ui.grid.importer',
     'mgcrea.ngStrap',
     'btford.socket-io',
     'veeryNotificationMod', 'stripe-payment-tools',
@@ -250,7 +250,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "agentStatusController",
             data: {
                 requireLogin: true,
-                navigation: "RESOURCES"
+                navigation: "AGENTSTATUSEVENT"
             }
         }).state('console.FormDesign', {
             url: "/FormDesign",
@@ -845,7 +845,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
-        });
+        }).state('console.campaignnumberupload', {
+                url: "/campaignnumberupload",
+                templateUrl: "views/campaign-number-upload/numberUpload.html",
+                controller: "numberUploadController",
+                data: {
+                    requireLogin: true,
+                    navigation: "CAMPAIGNMANAGER"
+                }
+            });
         //Todo shoud be change navigation
     }]);
 

@@ -439,12 +439,31 @@ a {
     z-index: 1;
     left: 45px;
     background: #dad6d5;
+    border: 2px solid #ffffff;
+}
+
+.s-state {
+    height: auto;
+    min-width: 25px;
+    overflow: hidden;
+}
+
+.s-mode {
+    display: inline-block;
+}
+
+.s-mode > i.inbound {
+    color: #d1d1d1 !important;
+}
+
+.s-mode > i.outbound {
+    color: #d1d1d1 !important;
 }
 
 /*reserved*/
-.reserved > .media-body > p > small {
+.reserved > .media-body > div {
     border-color: #db4114 !important;
-    color: #f8b01d !important;
+    color: #d1d1d1 !important;
 }
 
 .reserved > .profile-status-dah {
@@ -460,7 +479,7 @@ a {
     color: #F8B01D !important;
 }
 
-.available > .media-body > p > small {
+.available > .media-body > div {
     border-color: #2ba89c !important;
     color: #2ba89c !important;
 }
@@ -480,7 +499,7 @@ a {
 }
 
 /*connected*/
-.connected > .media-body > p > small {
+.connected > .media-body > div {
     border-color: #114858 !important;
     color: #114858 !important;
 }
@@ -499,7 +518,7 @@ a {
 }
 
 /*AfterWork*/
-.afterWork > .media-body > p > small {
+.afterWork > .media-body > div {
     border-color: #45bf55 !important;
     color: #45bf55 !important;
 }
@@ -518,7 +537,7 @@ a {
 }
 
 /*outbound*/
-.outbound > .media-body > p > small {
+.outbound > .media-body > div {
     border-color: #85a5cc !important;
     color: #85a5cc !important;
 }
@@ -537,7 +556,7 @@ a {
 }
 
 /*suspended*/
-.suspended > .media-body > p > small {
+.suspended > .media-body > div {
     border-color: #fff !important;
     color: #000 !important;
 }
@@ -569,15 +588,15 @@ a {
     background: #cc1e2d;
 }
 
-.break > .media-body > p > small {
+.break > .media-body > div {
     color: #731630 !important;
 }
 
-.connected > .media-body > p > small,
-.available > .media-body > p > small,
-.break > .media-body > p > small,
-.reserved > .media-body > p > small {
-    font-family: 'Roboto', sans-serif;
+.connected > .media-body > div,
+.available > .media-body > div,
+.break > .media-body > div,
+.reserved > .media-body > div {
+    font-family: 'Ubuntu-Light', sans-serif !important;
     font-weight: bold !important;
 }
 
@@ -4895,4 +4914,8 @@ section.h3 {
     text-align: center;
     padding-top: 108px;
     font-size: 30px;
+}
+
+.ui-pnotify-text {
+    text-transform: capitalize !important;
 }

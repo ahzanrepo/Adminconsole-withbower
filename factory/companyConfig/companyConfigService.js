@@ -430,6 +430,16 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             {
                 return response.data;
             });
+        },
+        getAllActiveBreakTypes: function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.resourceServiceBaseUrl +"BreakTypes/Active"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
         }
 
     }

@@ -318,6 +318,9 @@
                                                                                         ng-click="clickDirective.goQASubmission()">QA
                                         Form Submission</a>
                                     </li>-->
+                                    <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goCampaignNumberUpload()">Numner Upload</a>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -326,7 +329,7 @@
                     <div class="menu_section">
                         <h3 class="font-gry-200">Other</h3>
                         <ul class="nav side-menu">
-                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN || accessNavigation.AUDITTRAIL || accessNavigation.ACWREPORT || accessNavigation.MISSEDCALLREPORT">
+                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN || accessNavigation.AUDITTRAIL || accessNavigation.ACWREPORT || accessNavigation.MISSEDCALLREPORT || accessNavigation.AGENTSTATUSEVENT">
                                 <a
                                         class="font-robot font-300 "><i
                                         class="fa fa-line-chart"></i>
@@ -357,7 +360,7 @@
                                                                           ng-click="clickDirective.goAgentSummary()">Agent
                                         productivity Summary</a>
                                     </li>
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.AGENTSTATUSEVENT"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goAgentStatusEvt()">Agent
                                         Status Events</a>
                                     </li>
@@ -427,7 +430,6 @@
                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                     </a>
                 </div>
-
             </div>
         </div>
         <div class="top_nav">

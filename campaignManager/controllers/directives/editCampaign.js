@@ -1,11 +1,12 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService) {
+mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,scheduleBackendService) {
 
     return {
         restrict: "EAA",
         scope: {
+            campaigns: "=",
             campaign: "=",
             extensions: "=",
             reasons: "=",
@@ -71,12 +72,20 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService)
             scope.updateConfig = false;
             scope.updateEdit = false;
             scope.deleteConfig = false;
+            scope.editMapSchedule = false;
             scope.editCampaign = function () {
                 scope.editMode = scope.editMode === 'edit' ? 'view' : 'edit';
             };
 
             scope.configCampaign = function () {
                 scope.editMode = scope.editMode === 'config' ? 'view' : 'config';
+            };
+
+            scope.scheduleCampaign = function () {
+                scope.editMode = scope.editMode === 'schedule' ? 'view' : 'schedule';
+                if(scope.editMode ==='schedule'&& scope.ScheduleList.length===0){
+                    scope.GetSchedules();
+                }
             };
 
 
@@ -305,7 +314,6 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService)
                 });
             };
 
-
             scope.updateCampaignConfig = function (callback) {
                 scope.updateConfig = true;
                 if (callback.ConfigureId > 0) {
@@ -340,8 +348,23 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService)
                 }
             };
 
-
+            scope.ScheduleList = [];
+            scope.GetSchedules = function () {
+                scope.editMapSchedule = true;
+                scheduleBackendService.getSchedules().then(function (response) {
+                    if (response.data.IsSuccess) {
+                        scope.ScheduleList = response.data.Result;
+                    }
+                    else {
+                        console.info("Error in GetSchedules " + response.data.Exception);
+                        scope.showAlert("Campaign", 'error', "Fail To Get Schedules");
+                    }
+                    scope.editMapSchedule = false;
+                }, function (error) {
+                    scope.showAlert("Campaign", 'error', "Fail To Get Schedules");
+                    scope.editMapSchedule = false;
+                });
+            };
         }
-
     }
 });

@@ -269,6 +269,10 @@
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
+                                            colspan="1" aria-label="Call Time">contact
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
                                             colspan="1" aria-label="Call Time">ticket
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -288,6 +292,7 @@
                                         <td>{{cdr.method}}</td>
                                         <td>{{cdr.submitter?cdr.submitter.name:"Unknown"}}</td>
                                         <td>{{cdr.requester?cdr.requester.username:"Unknown"}}</td>
+                                        <td>{{cdr.contact?cdr.contact:"Unknown"}}</td>
                                         <td>{{cdr.ticket?cdr.ticket.reference:""}}</td>
                                         <td>{{cdr.comment}}</td>
                                         <td>{{cdr.created_at| date : 'dd-MM-yyyy, HH:mm'}}</td>

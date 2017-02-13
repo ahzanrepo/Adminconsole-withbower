@@ -1,0 +1,202 @@
+<div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+    <div class="tile-stats">
+        <div class="col-md-12 col-sm-6 col-xs-12" >
+            <div class="x_panel">
+                <div class="x_title">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <h2><i class="fa fa-calendar-o"><small>Map Schedule to Campaign</small></i>
+
+                        </h2>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div ng-show="editMapSchedule" >
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-state-wrap">
+                                Please Wait...
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-hide="editMapSchedule" class="x_content"  >
+                    <form class="col-md-12 col-sm-6 col-xs-12 col-xs-12" name="mapscheduleForm" novalidate>
+                        <br>
+
+                        <div class="col-md-5 col-sm-5 col-xs-5 form-group"
+                             ng-class="{ 'has-error' : mapscheduleForm.CampaignName.$invalid && !mapscheduleForm.CampaignName.$pristine }">
+
+                            <select class="form-control has-feedback-left" id="CampaignName"
+                                    ng-model="mapSchedule.CampaignId"
+                                    ng-options="opt.CampaignId as opt.CampaignName for opt in campaigns" required>
+                                <option value=''>Select Campaign</option>
+                            </select>
+                            <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>
+
+                            <p ng-show="mapscheduleForm.CampaignName.$invalid && !mapscheduleForm.CampaignName.$pristine" class="help-block">
+                                Campaign is required.</p>
+                        </div>
+
+                        <div class="col-md-5 col-sm-5 col-xs-5 form-group"
+                             ng-class="{ 'has-error' : mapscheduleForm.ScheduleList.$invalid && !mapscheduleForm.ScheduleList.$pristine }">
+
+                            <select class="form-control has-feedback-left"  id="ScheduleList" ng-model="mapSchedule.ScheduleId"
+                                    ng-options="opt.id as opt.ScheduleName for opt in ScheduleList"  required>
+                                <option value=''>Select Schedule </option>
+                            </select>
+                            <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>
+
+                            <p ng-show="mapscheduleForm.ScheduleList.$invalid && !mapscheduleForm.ScheduleList.$pristine" class="help-block">
+                                Schedule is required.</p>
+                        </div>
+
+
+
+                        <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
+                            <button type="button" class="btn btn-success btn-xs " ng-click="mapScheduleToCampaign(mapSchedule)" ng-disabled="mapscheduleForm.$invalid">
+                                Map
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <h2><i class="fa fa-calendar"><small>Map Number to Campaign</small></i>
+
+                        </h2>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div ng-show="editMapSchedule" >
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-state-wrap">
+                                Please Wait...
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-hide="editMapSchedule" class="x_content"  >
+                    <form class="col-md-12 col-sm-6 col-xs-12 col-xs-12" name="mapscheduleForm" novalidate>
+                        <br>
+
+                        <div class="col-md-5 col-sm-5 col-xs-5 form-group"
+                             ng-class="{ 'has-error' : mapscheduleForm.CampaignName.$invalid && !mapscheduleForm.CampaignName.$pristine }">
+
+                            <select class="form-control has-feedback-left" id="CampaignName"
+                                    ng-model="mapSchedule.CampaignId"
+                                    ng-options="opt.CampaignId as opt.CampaignName for opt in campaigns" required>
+                                <option value=''>Select Campaign</option>
+                            </select>
+                            <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>
+
+                            <p ng-show="mapscheduleForm.CampaignName.$invalid && !mapscheduleForm.CampaignName.$pristine" class="help-block">
+                                Campaign is required.</p>
+                        </div>
+
+                        <div class="col-md-5 col-sm-5 col-xs-5 form-group"
+                             ng-class="{ 'has-error' : mapscheduleForm.ScheduleList.$invalid && !mapscheduleForm.ScheduleList.$pristine }">
+
+                            <select class="form-control has-feedback-left"  id="ScheduleList" ng-model="mapSchedule.ScheduleId"
+                                    ng-options="opt.id as opt.ScheduleName for opt in ScheduleList"  required>
+                                <option value=''>Select Schedule </option>
+                            </select>
+                            <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>
+
+                            <p ng-show="mapscheduleForm.ScheduleList.$invalid && !mapscheduleForm.ScheduleList.$pristine" class="help-block">
+                                Schedule is required.</p>
+                        </div>
+
+
+
+                        <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
+                            <button type="button" class="btn btn-success btn-xs " ng-click="mapScheduleToCampaign(mapSchedule)" ng-disabled="mapscheduleForm.$invalid">
+                                Map
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <h2><i class="fa fa-calendar"><small>Map Number Group and Schedule to Campaign</small></i>
+
+                        </h2>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div ng-show="editMapSchedule" >
+                    <div class="row ">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-state-wrap">
+                                Please Wait...
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-hide="editMapSchedule" class="x_content"  >
+                    <form class="col-md-12 col-sm-6 col-xs-12 col-xs-12" name="mapscheduleForm" novalidate>
+                        <br>
+
+                        <div class="col-md-5 col-sm-5 col-xs-5 form-group"
+                             ng-class="{ 'has-error' : mapscheduleForm.CampaignName.$invalid && !mapscheduleForm.CampaignName.$pristine }">
+
+                            <select class="form-control has-feedback-left" id="CampaignName"
+                                    ng-model="mapSchedule.CampaignId"
+                                    ng-options="opt.CampaignId as opt.CampaignName for opt in campaigns" required>
+                                <option value=''>Select Campaign</option>
+                            </select>
+                            <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>
+
+                            <p ng-show="mapscheduleForm.CampaignName.$invalid && !mapscheduleForm.CampaignName.$pristine" class="help-block">
+                                Campaign is required.</p>
+                        </div>
+
+                        <div class="col-md-5 col-sm-5 col-xs-5 form-group"
+                             ng-class="{ 'has-error' : mapscheduleForm.ScheduleList.$invalid && !mapscheduleForm.ScheduleList.$pristine }">
+
+                            <select class="form-control has-feedback-left"  id="ScheduleList" ng-model="mapSchedule.ScheduleId"
+                                    ng-options="opt.id as opt.ScheduleName for opt in ScheduleList"  required>
+                                <option value=''>Select Schedule </option>
+                            </select>
+                            <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>
+
+                            <p ng-show="mapscheduleForm.ScheduleList.$invalid && !mapscheduleForm.ScheduleList.$pristine" class="help-block">
+                                Schedule is required.</p>
+                        </div>
+
+
+
+                        <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
+                            <button type="button" class="btn btn-success btn-xs " ng-click="mapScheduleToCampaign(mapSchedule)" ng-disabled="mapscheduleForm.$invalid">
+                                Map
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+

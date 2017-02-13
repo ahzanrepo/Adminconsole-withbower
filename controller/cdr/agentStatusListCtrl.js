@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var agentStatusListCtrl = function ($scope, $filter, $q, cdrApiHandler, resourceService, loginService) {
+    var agentStatusListCtrl = function ($scope, $filter, $q, cdrApiHandler, resourceService, companyConfigBackendService, loginService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -18,19 +18,58 @@
 
         $scope.moment = moment;
 
+
         $scope.agentStatuses = [
             {DisplayName: 'Register', Status: 'Register'},
             {DisplayName: 'Un-Register', Status: 'UnRegister'},
             {DisplayName: 'Inbound', Status: 'Inbound'},
-            {DisplayName: 'Outbound', Status: 'Outbound'},
-            {DisplayName: 'Training Break', Status: 'TrainingBreak'},
-            {DisplayName: 'Meal Break', Status: 'MealBreak'},
-            {DisplayName: 'Tea Break', Status: 'TeaBreak'},
-            {DisplayName: 'Official Break', Status: 'OfficialBreak'},
-            {DisplayName: 'AUX Break', Status: 'AUXBreak'},
-            {DisplayName: 'Process Related Break', Status: 'ProcessRelatedBreak'},
-            {DisplayName: 'Meeting Break', Status: 'MeetingBreak'}
+            {DisplayName: 'Outbound', Status: 'Outbound'}
+            /*{DisplayName: 'Training Break', Status: 'TrainingBreak'},
+             {DisplayName: 'Meal Break', Status: 'MealBreak'},
+             {DisplayName: 'Tea Break', Status: 'TeaBreak'},
+             {DisplayName: 'Official Break', Status: 'OfficialBreak'},
+             {DisplayName: 'AUX Break', Status: 'AUXBreak'},
+             {DisplayName: 'Process Related Break', Status: 'ProcessRelatedBreak'},
+             {DisplayName: 'Meeting Break', Status: 'MeetingBreak'}*/
         ];
+
+
+
+        $scope.getBreakTypes = function () {
+            companyConfigBackendService.getAllActiveBreakTypes().then(function (response) {
+                if(response.IsSuccess)
+                {
+                    response.Result.forEach(function(bType){
+                        $scope.agentStatuses.push(
+                            {
+                                DisplayName: bType.BreakType,
+                                Status: bType.BreakType
+                            }
+                        );
+                    });
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Agent List', errMsg, 'error');
+                }
+            }, function(err){
+                var errMsg = "Error occurred while receiving Break Types";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Agent List', errMsg, 'error');
+            });
+        };
+
+        $scope.getBreakTypes();
+
 
 
         $scope.obj = {
@@ -67,6 +106,38 @@
 
         var emptyArr = [];
 
+        $scope.querySearch = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.resList) {
+                    return $scope.resList;
+                }
+                else {
+                    return emptyArr;
+                }
+
+            }
+            else {
+                if ($scope.resList) {
+                    var filteredArr = $scope.resList.filter(function (item) {
+                        var regEx = "^(" + query + ")";
+
+                        if (item.ResourceName) {
+                            return item.ResourceName.match(regEx);
+                        }
+                        else {
+                            return false;
+                        }
+
+                    });
+
+                    return filteredArr;
+                }
+                else {
+                    return emptyArr;
+                }
+            }
+
+        };
 
         $scope.querySearchStatus = function (query) {
             if (query === "*" || query === "") {
