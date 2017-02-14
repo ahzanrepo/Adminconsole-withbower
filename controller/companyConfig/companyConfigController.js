@@ -711,37 +711,36 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.breakTypes = [];
 
     $scope.createBreakType = function () {
-        if($scope.breakType && $scope.breakType.MaxDurationPerDay < 0){
-            $scope.breakType.MaxDurationPerDay = 0;
-        }else{
-            $scope.breakType.MaxDurationPerDay = 0;
-        }
-
-        companyConfigBackendService.createBreakType($scope.breakType).then(function (response) {
-            if(response.IsSuccess)
-            {
-                $scope.showAlert('Custom Break Type', response.CustomMessage, 'success');
-                $scope.breakType = {};
-                $scope.getBreakTypes();
+        if($scope.breakType) {
+            if($scope.breakType.MaxDurationPerDay){
+                if($scope.breakType.MaxDurationPerDay < 0) {
+                    $scope.breakType.MaxDurationPerDay = 0;
+                }else if($scope.breakType.MaxDurationPerDay > 100){
+                    $scope.breakType.MaxDurationPerDay = 100;
+                }
             }
-            else
-            {
-                var errMsg = response.CustomMessage;
+            companyConfigBackendService.createBreakType($scope.breakType).then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.showAlert('Custom Break Type', response.CustomMessage, 'success');
+                    $scope.breakType = {};
+                    $scope.getBreakTypes();
+                }
+                else {
+                    var errMsg = response.CustomMessage;
 
-                if(response.Exception)
-                {
-                    errMsg = response.Exception.Message;
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Custom Break Type', errMsg, 'error');
+                }
+            }, function (err) {
+                var errMsg = "Error occurred while add new Break Type";
+                if (err.statusText) {
+                    errMsg = err.statusText;
                 }
                 $scope.showAlert('Custom Break Type', errMsg, 'error');
-            }
-        }, function(err){
-            var errMsg = "Error occurred while add new Break Type";
-            if(err.statusText)
-            {
-                errMsg = err.statusText;
-            }
-            $scope.showAlert('Custom Break Type', errMsg, 'error');
-        });
+            });
+        }
     };
 
     $scope.getBreakTypes = function () {

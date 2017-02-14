@@ -847,11 +847,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaignnumberupload', {
                 url: "/campaignnumberupload",
-                templateUrl: "views/campaign-number-upload/numberUpload.html",
-                controller: "numberUploadController",
+                templateUrl: "views/campaign-number-upload/numberUploadMain.html",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
+                    navigation: "CAMPAIGNNUMBERS"
                 }
             });
         //Todo shoud be change navigation
