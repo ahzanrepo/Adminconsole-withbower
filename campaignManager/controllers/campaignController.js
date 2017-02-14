@@ -26,6 +26,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
     };
 
     $scope.createCampaign = function(campaignx) {
+        $scope.isProgress =true;
         campaignService.CreateCampaign(campaignx).then(function (response) {
             if(response) {
                 $scope.showAlert("Campaign", 'success',"Campaign Create Successfully.");
@@ -35,9 +36,10 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
             }else{
                 $scope.showAlert("Campaign", 'error',"Fail To Create Campaign.");
             }
-
+            $scope.isProgress =false;
         }, function (error) {
             $scope.showAlert("Campaign", 'error',"Fail To Create Campaign.");
+            $scope.isProgress =false;
         });
     };
 
@@ -71,4 +73,19 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
         });
     };
     $scope.loadCampaign();
+
+    $scope.reasons = [];
+    $scope.GetReasons = function() {
+        campaignService.GetReasons().then(function (response) {
+            if(response) {
+                $scope.reasons = response;
+            }else{
+                $scope.showAlert("Campaign","error","There is an error, Error on loading Callback Reasons");
+            }
+        }, function (error) {
+            $scope.showAlert("Campaign","error","There is an error, Error on loading campaigns");
+        });
+    };
+    $scope.GetReasons();
+
 });

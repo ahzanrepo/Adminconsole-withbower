@@ -8,6 +8,7 @@
 
     var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, ngAudio,
                             loginService, baseUrls) {
+
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
 
         $scope.config = {
@@ -57,6 +58,17 @@
 
         $scope.timeEnabled = 'Date Only';
         $scope.timeEnabledStatus = false;
+
+        $scope.changeTimeAvailability = function () {
+            if ($scope.timeEnabled === 'Date Only') {
+                $scope.timeEnabled = 'Date & Time';
+                $scope.timeEnabledStatus = true;
+            }
+            else {
+                $scope.timeEnabled = 'Date Only';
+                $scope.timeEnabledStatus = false;
+            }
+        };
 
         $scope.dateValid = function () {
             if ($scope.timeEnabled === 'Date Only') {

@@ -1,57 +1,27 @@
-<div class="block">
-    <div class="tags">
-        <a class="tag">
-            <span>{{campaign.CampaignId}}</span>
-        </a>
+<div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
+    <div ng-show="updateEdit" >
+        <div class="row ">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="data-state-wrap">
+                    Please Wait...
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="block_content">
-        <h2 class="title">
-            <a>Name : {{campaign.CampaignName}}</a>
-            <a ng-disabled="true" ng-click="deleteCampaign(campaign)" style="cursor: pointer"><i
-                    class="fa fa-trash-o"></i></a>
-            <a ng-disabled="true" ng-click="editCampaign()" style="cursor: pointer"><i class="fa fa-edit"></i></a>
+    <div class="tile-stats" ng-hide="updateEdit">
 
-
-        </h2>
-
-
-        <div class="col-md-12 col-sm-12 col-xs-12" ng-show="editMode">
+        <form class="form-horizontal form-label-left input_mask">
             <br>
 
-            <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
-                <div class="tile-stats">
+            <div ng-hide="updateEdit" ng-include="'campaignManager/template/campaignForm.html'"></div>
 
-                    <form class="form-horizontal form-label-left input_mask">
-                        <br>
+            <div ng-hide="updateEdit" class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                <button type="button" class="btn btn-success btn-xs " ng-click="updateCampaign(campaign)">
+                    Update
+                </button>
 
-                        <div ng-include="'campaignManager/template/campaignForm.html'"></div>
-
-                        <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
-                            <button type="button" class="btn btn-success btn-xs " ng-click="updateCampaign(campaign)">
-                                Update
-                            </button>
-
-                        </div>
-                    </form>
-                </div>
             </div>
-
-        </div>
-
-
-        <div class="byline" ng-hide="editMode">
-            <span>{{campaign.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
-        </div>
-        <div ng-hide="editMode">
-            <p class="excerpt col-md-4"> Class : {{campaign.CampaignName}} </p>
-
-            <p class="excerpt col-md-4"> Type : {{campaign.CampaignMode}} </p>
-
-            <p class="excerpt col-md-4"> Category: {{campaign.CampaignChannel}} </p>
-
-            <p class="excerpt col-md-12"> Other Data : {{campaign.DialoutMechanism}} </p>
-        </div>
-        <div class="clearfix"></div>
+        </form>
     </div>
 </div>
-

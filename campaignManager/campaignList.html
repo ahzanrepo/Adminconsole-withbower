@@ -3,7 +3,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <h2><i class="fa fa-child"></i> Campaign
+                    <h2><i class="fa fa-bullhorn"></i> Campaign
                         <small>Manager</small>
                     </h2>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="col-xs-12" ng-hide="isProgress">
                     <div class="col-md-12 col-sm-12 col-xs-12" ng-show="addNewCampaign">
 
-                        <form class="form-horizontal form-label-left" name="userForm" novalidate>
+                        <form class="form-horizontal form-label-left" name="campaingForm" novalidate>
 
                             <div ng-include="'campaignManager/template/campaignForm.html'"></div>
 
@@ -46,7 +46,7 @@
 
                             <div class="form-group">
                                 <button class="btn btn-success" ng-click="createCampaign(campaign)"
-                                        ng-disabled="userForm.$invalid">
+                                        ng-disabled="campaingForm.$invalid">
                                     Save
                                 </button>
                             </div>
@@ -74,7 +74,7 @@
             <div class="x_content" ng-hide="isLoading" >
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="cam in campaigns | filterBy: ['CampaignName']: searchCriteria | orderBy : '-updatedAt'">
-                        <editcampaign reload-campaign="loadCampaign"  mechanisms="mechanisms" modes="modes" channels="channels" campaign="cam" extensions="extensions"></editcampaign>
+                        <editcampaign reload-campaign="loadCampaign()" reasons="reasons"  mechanisms="mechanisms" modes="modes" channels="channels" campaigns="campaigns" campaign="cam" extensions="extensions"></editcampaign>
                     </li>
 
                     <paging ng-show="showPaging"

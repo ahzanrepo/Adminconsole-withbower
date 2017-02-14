@@ -68,8 +68,9 @@ mainApp.factory('twitterService', function ($q, $http, $window,$interval,baseUrl
                             //The popup put returned a user! Resolve!
                             q.resolve({oauth_token: oauth_token,
                                 oauth_verifier: oauth_verifier});
-                            popup.close();
                             $interval.cancel(popupChecker);
+                            popup.close();
+
                             //Save and apply user locally
                             //$rootScope.setCurrentUser(window.oAuthUser);
                             //Cleanup
