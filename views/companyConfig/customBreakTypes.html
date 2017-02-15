@@ -13,31 +13,27 @@
 
                     <div class="col-xs-12">
                         <div class="tile-stats m-top15">
-                            <form class="form-horizontal form-label-left input_mask" novalidate>
+                            <form class="form-horizontal form-label-left input_mask" novalidate name="frmBreakType">
                                 <div class="row">
                                     <!--<label class="control-label col-md-2 col-sm-6 col-xs-12">Server Type</label>-->
-                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback item">
+                                    <div class="col-md-5 col-sm-4 col-xs-12 form-group has-feedback item">
                                         <input type="text" class="form-control has-feedback-left"
                                                ng-model="breakType.BreakType"
+                                               ng-pattern="/^\S+[a-zA-Z0-9-_\\s]+$/"
                                                placeholder="Break Type" required>
                                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                     </div>
 
-                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback item">
+                                    <div class="col-md-5 col-sm-4 col-xs-12 form-group has-feedback item">
                                         <input type="number" class="form-control has-feedback-left"
                                                placeholder="Maximum Duration Per Day(minutes)"
                                                ng-model="breakType.MaxDurationPerDay" required
                                                data-validate-minmax="0,120">
                                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                     </div>
-                                </div>
-
-
-                                <div class="row">
-
-
-                                    <div class="col-md-12 col-sm-12 col-xs-12  ">
-                                        <button type="button" class="btn btn-success  btn- pull-right"
+                                    <div class="col-md-2 col-sm-4 col-xs-12 form-group has-feedback item">
+                                        <button ng-disabled="frmBreakType.$invalid" type="button"
+                                                class="btn btn-success  btn-block pull-right"
                                                 ng-click="createBreakType()">
                                             Add
                                         </button>
@@ -57,7 +53,6 @@
         <!-- view application users -->
 
 
-
         <div class="x_panel " ng-if="customticketStatus.length > 0">
 
             <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search">
@@ -73,7 +68,8 @@
             <div class="x_content">
                 <ul class="list-unstyled ">
                     <li ng-repeat="bType in breakTypes | filterBy: ['BreakType']: searchCriteria">
-                        <custom-break-type-directive custom-break-type="bType" update-custom-break-types="getBreakTypes()"></custom-break-type-directive>
+                        <custom-break-type-directive custom-break-type="bType"
+                                                     update-custom-break-types="getBreakTypes()"></custom-break-type-directive>
                     </li>
 
                     <paging ng-show="showPaging"
@@ -94,11 +90,10 @@
         </div>
 
 
-
         <!-- validator -->
         <script>
             // initialize the validator function
-            validator.message.date = 'not a real date';
+            // validator.message.empty = 'please enter break type';
 
             // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
             $('form')
@@ -106,11 +101,11 @@
                     .on('change', 'select.required', validator.checkField)
                     .on('keypress', 'input[required][pattern]', validator.keypress);
 
-            $('.multi.required').on('keyup blur', 'input', function() {
+            $('.multi.required').on('keyup blur', 'input', function () {
                 validator.checkField.apply($(this).siblings().last()[0]);
             });
 
-            $('form').submit(function(e) {
+            $('form').submit(function (e) {
                 e.preventDefault();
                 var submit = true;
 
