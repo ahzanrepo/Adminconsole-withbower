@@ -4924,8 +4924,8 @@ ul.verticle_bars li {
 /** PNotify **/
 .alert-success {
     color: #ffffff;
-    background-color: rgba(38, 185, 154, 0.88);
-    border-color: rgba(38, 185, 154, 0.88);
+    background-color: rgba(23, 175, 82, 0.88);
+    border-color: rgba(23, 175, 82, 0.88);
 }
 
 .alert-info {

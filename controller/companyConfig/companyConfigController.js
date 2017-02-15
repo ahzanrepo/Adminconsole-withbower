@@ -721,7 +721,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             }
             companyConfigBackendService.createBreakType($scope.breakType).then(function (response) {
                 if (response.IsSuccess) {
-                    $scope.showAlert('Custom Break Type', response.CustomMessage, 'success');
+                    $scope.showAlert('Custom Break Type', 'Break Type Added Successfully.', 'success');
                     $scope.breakType = {};
                     $scope.getBreakTypes();
                 }
@@ -731,14 +731,14 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                     if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Custom Break Type', errMsg, 'error');
+                    $scope.showAlert('Custom Break Type', 'Break Type Added Error.', 'error');
                 }
             }, function (err) {
                 var errMsg = "Error occurred while add new Break Type";
                 if (err.statusText) {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Custom Break Type', errMsg, 'error');
+                $scope.showAlert('Custom Break Type', 'Break Type Added Error.', 'error');
             });
         }
     };
