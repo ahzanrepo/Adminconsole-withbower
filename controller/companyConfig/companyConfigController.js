@@ -9,11 +9,11 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.isUserError = false;
     $scope.ClusterID;
     $scope.contextList = [];
-    $scope.prefixList = [];
-    $scope.userTagList = [];
-    $scope.newPrefix = {};
-    $scope.isValidPrefix = false;
-    $scope.validmsg = "";
+    $scope.prefixList=[];
+    $scope.userTagList=[];
+    $scope.newPrefix={};
+    $scope.isValidPrefix=false;
+    $scope.validmsg="";
 
     var authToken = authService.GetToken();
     var decodeData = jwtHelper.decodeToken(authToken);
@@ -269,16 +269,17 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
             if (!response.data.IsSuccess) {
 
-                $scope.isValidPrefix = false;
+                $scope.isValidPrefix=false;
                 console.info("Error in picking Prefixes " + response.data.Exception);
-                $scope.validmsg = "Invalid prefix";
+                $scope.validmsg="Invalid prefix";
                 //$('#validmsgID').addClass('unavailable_msg').removeClass('available_msg');
 
 
             }
-            else {
-                $scope.isValidPrefix = true;
-                $scope.validmsg = "Valid prefix";
+            else
+            {
+                $scope.isValidPrefix=true;
+                $scope.validmsg="Valid prefix";
                 //$('#validmsgID').addClass('available_msg').removeClass('unavailable_msg');
                 //$scope.MasterAppList = response.data.Result;
             }
@@ -292,57 +293,63 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
 
     $scope.setChangeStatus = function () {
-        $scope.isValidPrefix = false;
-        $scope.validmsg = "";
+        $scope.isValidPrefix=false;
+        $scope.validmsg="";
     };
 
     $scope.saveNewTicketPrefix = function () {
-        if ($scope.isValidPrefix && $scope.newPrefix.name) {
+        if( $scope.isValidPrefix && $scope.newPrefix.name)
+        {
             companyConfigBackendService.saveNewPrefix($scope.newPrefix).then(function (resAdd) {
 
-                $scope.isValidPrefix = false;
-                $scope.validmsg = "";
-                $scope.newPrefix.name = "";
-                $scope.showAlert("Add new ticket prefix", "Prefix added successfully", "success");
-                console.log("New prefix added", $scope.newPrefix.name);
+                $scope.isValidPrefix=false;
+                $scope.validmsg="";
+                $scope.newPrefix.name="";
+                $scope.showAlert("Add new ticket prefix","Prefix added successfully","success");
+                console.log("New prefix added",$scope.newPrefix.name);
                 $scope.getTicketPrefixes();
 
             }, function (errAdd) {
-                $scope.showAlert("Add new ticket prefix", "Failed to add prefix", "error");
-                console.log("New prefix adding failed" + $scope.newPrefix.name, errAdd);
+                $scope.showAlert("Add new ticket prefix","Failed to add prefix","error");
+                console.log("New prefix adding failed"+$scope.newPrefix.name,errAdd);
 
             });
         }
-        else {
-            $scope.showAlert("Add new ticket prefix", "Failed to add prefix", "error");
-            console.log("Failed to add prefix , Invalid prefix received ", $scope.newPrefix.name);
+        else
+        {
+            $scope.showAlert("Add new ticket prefix","Failed to add prefix","error");
+            console.log("Failed to add prefix , Invalid prefix received ",$scope.newPrefix.name);
         }
     }
 
     $scope.createNewUserTag = function (tagName) {
 
         var tagData = {
-            name: tagName
+            name:tagName
         }
 
         companyConfigBackendService.saveNewUserTag(tagData).then(function (resAdd) {
 
 
-            $scope.newUserTag = {};
-            if (resAdd.data.Result) {
-                $scope.showAlert("Add new user tag", "User tag added successfully", "success");
-                console.log("New user tag added", tagName);
+
+            $scope.newUserTag={};
+            if(resAdd.data.Result)
+            {
+                $scope.showAlert("Add new user tag","User tag added successfully","success");
+                console.log("New user tag added",tagName);
                 $scope.userTagList.push(resAdd.data.Result);
             }
-            else {
-                $scope.showAlert("Add new user tag", "Invalid user Tag", "error");
-                console.log("New user tag adding failed/ Invalid" + tagName);
+            else
+            {
+                $scope.showAlert("Add new user tag","Invalid user Tag","error");
+                console.log("New user tag adding failed/ Invalid"+tagName);
             }
+
 
 
         }, function (errAdd) {
-            $scope.showAlert("Add new user tag", "Failed to add new user tag", "error");
-            console.log("New user tag adding failed" + tagName);
+            $scope.showAlert("Add new user tag","Failed to add new user tag","error");
+            console.log("New user tag adding failed"+tagName);
 
         });
 
@@ -518,58 +525,66 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.customticketStatus = [];
     $scope.systemTicketStatus = [];
 
-    $scope.getCustomTicketStatus = function () {
+    $scope.getCustomTicketStatus = function(){
         $scope.customticketStatus = [];
         $scope.systemTicketStatus = [];
-        companyConfigBackendService.getCustomTicketStatus().then(function (response) {
-            if (response.IsSuccess) {
-                if (response.Result) {
-                    for (var i = 0; i < response.Result.length; i++) {
-                        if (response.Result[i].node_type === "system") {
+        companyConfigBackendService.getCustomTicketStatus().then(function(response){
+            if(response.IsSuccess)
+            {
+                if(response.Result){
+                    for(var i=0; i< response.Result.length; i++){
+                        if(response.Result[i].node_type === "system"){
                             $scope.systemTicketStatus.push(response.Result[i]);
-                        } else {
+                        }else{
                             $scope.customticketStatus.push(response.Result[i]);
                         }
                     }
-                } else {
+                }else{
                     $scope.customticketStatus = [];
                 }
             }
-            else {
+            else
+            {
                 var errMsg = response.CustomMessage;
 
-                if (response.Exception) {
+                if(response.Exception)
+                {
                     errMsg = response.Exception.Message;
                 }
                 $scope.showAlert('Custom Ticket Status', errMsg, 'error');
             }
-        }, function (err) {
+        }, function(err){
             var errMsg = "Error occurred while receiving ticket status";
-            if (err.statusText) {
+            if(err.statusText)
+            {
                 errMsg = err.statusText;
             }
             $scope.showAlert('Custom Ticket Status', errMsg, 'error');
         });
     };
 
-    $scope.addCustomTicketStatus = function () {
+    $scope.addCustomTicketStatus = function(){
         companyConfigBackendService.addCustomTicketStatus($scope.cusTicketStatus).then(function (response) {
-            if (response.IsSuccess) {
+            if(response.IsSuccess)
+            {
                 $scope.showAlert('Custom Ticket Status', response.CustomMessage, 'success');
                 $scope.cusTicketStatus = {};
                 $scope.getCustomTicketStatus();
             }
-            else {
+            else
+            {
                 var errMsg = response.CustomMessage;
 
-                if (response.Exception) {
+                if(response.Exception)
+                {
                     errMsg = response.Exception.Message;
                 }
                 $scope.showAlert('Custom Ticket Status', errMsg, 'error');
             }
-        }, function (err) {
+        }, function(err){
             var errMsg = "Error occurred while add new ticket status";
-            if (err.statusText) {
+            if(err.statusText)
+            {
                 errMsg = err.statusText;
             }
             $scope.showAlert('Custom Ticket Status', errMsg, 'error');
@@ -591,31 +606,35 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.createPhoneConfig = function (config) {
         companyConfigBackendService.createPhoneConfig(config).then(function (response) {
-            if (response.IsSuccess) {
+            if(response.IsSuccess)
+            {
                 $scope.phoneConfig = response.Result;
-                $scope.phoneConfig.autoAnswerDelay = parseInt(response.Result.autoAnswerDelay) / 1000;
+                $scope.phoneConfig.autoAnswerDelay = parseInt(response.Result.autoAnswerDelay)/1000;
                 $scope.isPhoneConfiged = true;
                 $scope.showAlert('Phone Config', "Successfully Saved.", 'success');
 
             }
-            else {
+            else
+            {
                 $scope.showAlert('Phone Config', "Fail To Save Phone Config.", 'error');
             }
-        }, function (err) {
+        }, function(err){
             $scope.showAlert('Phone Config', "Fail To Save Phone Config.", 'error');
         });
     };
 
     $scope.updatePhoneConfig = function (config) {
         companyConfigBackendService.updatePhoneConfig(config).then(function (response) {
-            if (response) {
+            if(response)
+            {
                 $scope.showAlert('Phone Config', "Successfully Updated.", 'success');
 
             }
-            else {
+            else
+            {
                 $scope.showAlert('Phone Config', "Fail To Update Phone Config.", 'error');
             }
-        }, function (err) {
+        }, function(err){
             $scope.showAlert('Phone Config', "Fail To Update Phone Config.", 'error');
         });
     };
@@ -638,27 +657,29 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 history: false
             }
         })).get().on('pnotify.confirm', function () {
-            OkCallback("confirm");
-        }).on('pnotify.cancel', function () {
+                OkCallback("confirm");
+            }).on('pnotify.cancel', function () {
 
-        });
+            });
 
     };
 
     $scope.deletePhoneConfig = function (config) {
-        $scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete ", function (obj) {
+        $scope.showConfirm("Delete File", "Delete", "ok", "cancel", "Do you want to delete " , function (obj) {
 
             companyConfigBackendService.deletePhoneConfig(config).then(function (response) {
-                if (response) {
+                if(response)
+                {
                     $scope.phoneConfig = {};
                     $scope.isPhoneConfiged = false;
                     $scope.showAlert('Phone Config', "Successfully deleted.", 'success');
 
                 }
-                else {
+                else
+                {
                     $scope.showAlert('Phone Config', "Fail To Delete Phone Config.", 'error');
                 }
-            }, function (err) {
+            }, function(err){
                 $scope.showAlert('Phone Config', "Fail To Delete Phone Config.", 'error');
             });
 
@@ -674,11 +695,11 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     var getPhoneConfig = function () {
         companyConfigBackendService.getPhoneConfig().then(function (response) {
             $scope.phoneConfig = response;
-            $scope.phoneConfig.autoAnswerDelay = parseInt(response.autoAnswerDelay) / 1000;
-            if (response) {
-                $scope.isPhoneConfiged = true;
+            $scope.phoneConfig.autoAnswerDelay = parseInt(response.autoAnswerDelay)/1000;
+            if(response){
+                $scope.isPhoneConfiged =true;
             }
-        }, function (err) {
+        }, function(err){
             $scope.showAlert('Phone Config', "Fail To Get Phone Config.", 'error');
         });
     };
@@ -690,54 +711,61 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.breakTypes = [];
 
     $scope.createBreakType = function () {
-        if ($scope.breakType && $scope.breakType.MaxDurationPerDay < 0) {
-            $scope.breakType.MaxDurationPerDay = 0;
-        } else {
-            $scope.breakType.MaxDurationPerDay = 0;
-        }
-
-        companyConfigBackendService.createBreakType($scope.breakType).then(function (response) {
-            if (response.IsSuccess) {
-                $scope.showAlert('Custom Break Type', 'Custom Break Created Successfully.', 'success');
-                $scope.breakType = {};
-                $scope.getBreakTypes();
-            }
-            else {
-                var errMsg = response.CustomMessage;
-
-                if (response.Exception) {
-                    errMsg = response.Exception.Message;
+        if($scope.breakType) {
+            if($scope.breakType.MaxDurationPerDay){
+                if($scope.breakType.MaxDurationPerDay < 0) {
+                    $scope.breakType.MaxDurationPerDay = 0;
+                }else if($scope.breakType.MaxDurationPerDay > 100){
+                    $scope.breakType.MaxDurationPerDay = 100;
                 }
-                $scope.showAlert('Custom Break Type', 'Please Add Break Type', 'error');
             }
-        }, function (err) {
-            var errMsg = "Error occurred while add new Break Type";
-            if (err.statusText) {
-                errMsg = err.statusText;
-            }
-            $scope.showAlert('Custom Break Type', 'Please Add Break Type', 'error');
-        });
+            companyConfigBackendService.createBreakType($scope.breakType).then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.showAlert('Custom Break Type', response.CustomMessage, 'success');
+                    $scope.breakType = {};
+                    $scope.getBreakTypes();
+                }
+                else {
+                    var errMsg = response.CustomMessage;
+
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Custom Break Type', errMsg, 'error');
+                }
+            }, function (err) {
+                var errMsg = "Error occurred while add new Break Type";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Custom Break Type', errMsg, 'error');
+            });
+        }
     };
 
     $scope.getBreakTypes = function () {
         companyConfigBackendService.getAllBreakTypes().then(function (response) {
-            if (response.IsSuccess) {
+            if(response.IsSuccess)
+            {
                 $scope.breakTypes = response.Result;
             }
-            else {
+            else
+            {
                 var errMsg = response.CustomMessage;
 
-                if (response.Exception) {
+                if(response.Exception)
+                {
                     errMsg = response.Exception.Message;
                 }
-                $scope.showAlert('Custom Break Type', 'Error occurred while receiving Break Types', 'error');
+                $scope.showAlert('Custom Break Type', errMsg, 'error');
             }
-        }, function (err) {
+        }, function(err){
             var errMsg = "Error occurred while receiving Break Types";
-            if (err.statusText) {
+            if(err.statusText)
+            {
                 errMsg = err.statusText;
             }
-            $scope.showAlert('Custom Break Type', 'Error occurred while receiving Break Types', 'error');
+            $scope.showAlert('Custom Break Type', errMsg, 'error');
         });
     };
 
