@@ -466,6 +466,10 @@ a {
     color: #d1d1d1 !important;
 }
 
+.error-msg {
+    color: #cc1e2d !important;
+}
+
 .reserved > .profile-status-dah {
     background: #f8b01d;
 }
