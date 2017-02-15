@@ -41,7 +41,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     "chart.js",
     'schemaForm',
     'angular-timezone-selector',
-    'ds.objectDiff', 'htmlToPdfSave'
+    'ds.objectDiff', 'htmlToPdfSave',
+    'ui.grid.selection'
 ]);
 
 
@@ -84,7 +85,7 @@ var baseUrls = {
     'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
-    'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/' //campaignmanager.app.veery.cloud
+    'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/' //campaignmanager.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -848,7 +849,16 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaignnumberupload', {
                 url: "/campaignnumberupload",
-                templateUrl: "views/campaign-number-upload/numberUploadMain.html",
+                templateUrl: "views/campaign-number-upload/numberUpload.html",
+                controller: "numberUploadController",
+                data: {
+                    requireLogin: true,
+                    navigation: "CAMPAIGNNUMBERS"
+                }
+            }).state('console.dncnumbermanage', {
+                url: "/dncnumbermanage",
+                templateUrl: "views/campaign-number-upload/dncList.html",
+                controller: "numberDncController",
                 data: {
                     requireLogin: true,
                     navigation: "CAMPAIGNNUMBERS"

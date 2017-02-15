@@ -4,7 +4,7 @@
 
 (function(){
 
-    var campaignNumberApiAccess = function($http, baseUrls){
+    var campaignNumberApiAccess = function($http, $q, baseUrls){
 
         //----------------Number Category-------------------------------------------
 
@@ -62,7 +62,12 @@
         //----------------Number Upload-------------------------------------------
 
         var uploadNumbers = function(numberData){
-            return $http({
+
+
+
+            var differed = $q.defer();
+
+            $http({
                 method: 'POST',
                 url: baseUrls.campaignmanagerUrl+'CampaignNumbers',
                 headers: {
@@ -70,8 +75,11 @@
                 },
                 data: numberData
             }).then(function(response){
-                return response.data;
+
+                deferred.resolve(response.data)
             });
+
+            return differed.promise;
         };
 
         var deleteNumbersFromCampaign = function(campaignId, numberData){
@@ -142,6 +150,49 @@
             });
         };
 
+
+
+        //----------------Dnc List-------------------------------------------
+
+        var addNumbersToDnc = function(dncNumbers){
+            return $http({
+                method: 'POST',
+                url: baseUrls.campaignmanagerUrl+'Dnc',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: dncNumbers
+            }).then(function(response){
+               return response.data;
+            });
+        };
+
+        var deleteNumbersFromDnc = function(dncNumbers){
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.campaignmanagerUrl+'Dnc',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: dncNumbers
+            }).then(function(response){
+               return response.data;
+            });
+        };
+
+        var getDncNumbers = function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.campaignmanagerUrl+'Dnc',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+
         return{
             CreateNumberCategory: createNumberCategory,
             ChangeNumberCategoryName: changeNumberCategoryName,
@@ -152,7 +203,10 @@
             GetAllNumbers: getAllNumbers,
             GetNumbersByCampaign: getNumbersByCampaign,
             GetNewlyCreatedCampaigns: getNewlyCreatedCampaigns,
-            GetCampaignSchedule: getCampaignSchedule
+            GetCampaignSchedule: getCampaignSchedule,
+            AddNumbersToDnc: addNumbersToDnc,
+            DeleteNumbersFromDnc: deleteNumbersFromDnc,
+            GetDncNumbers: getDncNumbers
         };
     };
 
