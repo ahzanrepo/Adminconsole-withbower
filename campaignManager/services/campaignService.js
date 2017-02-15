@@ -218,6 +218,92 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getCategorys = function(){
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "CampaignCategorys"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return undefined;
+            }
+        });
+    };
+
+
+    var mapNumberToCampaign = function(campaignId,categoryId){
+        return $http({
+            method: 'POST',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Category/"+categoryId+"/map"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return false;
+            }
+        });
+    };
+
+    var mapScheduleToCampaign = function(campaignId,camScheduleId){
+        return $http({
+            method: 'POST',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule/"+camScheduleId+"/map"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return false;
+            }
+        });
+    };
+
+    var mapNumberAndScheduleToCampaign = function(campaignId,categoryId,camScheduleId){
+        return $http({
+            method: 'POST',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Category/"+categoryId+"/Schedule/"+camScheduleId+"/map"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return false;
+            }
+        });
+    };
+
+    var addScheduleToCampaign = function(campaignId,data){
+        return $http({
+            method: 'POST',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule",
+            data:data
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return false;
+            }
+        });
+    };
+
+    var getScheduleCampaign = function(campaignId){
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return [];
+            }
+        });
+    };
+
     return {
         mechanisms: ["BLAST", "PREVIEW", "PREDICTIVE"],
         modes: ["IVR", "AGENT", "FIFO"],
@@ -234,7 +320,13 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         GetCampaignConfig:getCampaignConfig,
         GetCallBacks:getCallBacks,
         SetCallBack:setCallBack,
-        DeleteCallBack:deleteCallBack
+        DeleteCallBack:deleteCallBack,
+        GetCategorys:getCategorys,
+        MapNumberToCampaign:mapNumberToCampaign,
+        MapScheduleToCampaign:mapScheduleToCampaign,
+        MapNumberAndScheduleToCampaign:mapNumberAndScheduleToCampaign,
+        AddScheduleToCampaign:addScheduleToCampaign,
+        GetScheduleCampaign:getScheduleCampaign
     }
 
 });

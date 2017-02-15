@@ -98,10 +98,48 @@
 </div>
 
 <div class="col-md-12 col-sm-12 col-xs-12">
-    <div ui-calendar="uiconfig.calendar" ng-model="eventsources" calendar="myCalendar1"></div>
-    <button ng-click="changeView('month', 'myCalendar1')">Month View</button>
-    <button ng-click="changeView('agendaWeek', 'myCalendar1')">Week View</button>
-    <button ng-click="changeView('agendaDay', 'myCalendar1')">Day View</button>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div ui-calendar="uiconfig.calendar" ng-model="eventsources" calendar="myCalendar1"></div>
+    </div>
+
+    <br>
+
+    <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 5px 5px 5px 5px">
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <button ng-click="changeView('month', 'myCalendar1')">Month View</button>
+            <button ng-click="changeView('agendaWeek', 'myCalendar1')">Week View</button>
+            <button ng-click="changeView('agendaDay', 'myCalendar1')">Day View</button>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-2"></div>
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <div class="calendar-legend cal-none"></div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-3" style="position: relative; top: 5px;">
+                <span>Rec - None</span>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <div class="calendar-legend cal-daily"></div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-3" style="position: relative; top: 5px;">
+                <span>Rec - Daily</span>
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+                <div class="calendar-legend cal-weekly"></div>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-3" style="position: relative; top: 5px;">
+                <span>Rec - Weekly</span>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+
 </div>
 
 

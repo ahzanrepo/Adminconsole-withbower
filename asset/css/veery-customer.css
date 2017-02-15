@@ -466,6 +466,10 @@ a {
     color: #d1d1d1 !important;
 }
 
+.error-msg {
+    color: #cc1e2d !important;
+}
+
 .reserved > .profile-status-dah {
     background: #f8b01d;
 }
@@ -4918,4 +4922,24 @@ section.h3 {
 
 .ui-pnotify-text {
     text-transform: capitalize !important;
+}
+
+.calendar-legend {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.cal-none {
+    background: #28af26;
+}
+
+.cal-daily {
+    background: #d8db2e;
+}
+
+.cal-weekly {
+    background: #2edbc4;
 }
