@@ -311,20 +311,49 @@
             var numOfIterations = Math.ceil(numberCount / 1000);
             var funcArray = [];
 
+            var numberArray = [];
+
             for(var i=0; i<numOfIterations;i++){
                 var start = i*1000;
                 var end = (i*1000)+1000;
                 var numberChunk = $scope.campaignNumberObj.Contacts.slice(start, end);
 
                 var sendObj = {CategoryID: $scope.campaignNumberObj.CategoryID, Contacts: numberChunk};
-                //funcArray.push(campaignNumberApiAccess.UploadNumbers(sendObj));
-
-                campaignNumberApiAccess.UploadNumbers(sendObj);
+                numberArray.push(sendObj);
             }
 
+            $scope.BatchUploader(numberArray).then(function() {
 
-            batchedHTTP(funcArray, 0);
+                console.log("Upload done ..................");
+
+                //$scope.numberProgress = Math.ceil((index / array.length)*100);
+            }, function(reason) {
+
+            });
+
         };
+
+
+
+        $scope.BatchUploader =function(array){
+            var index = 0;
+
+
+            return new Promise(function(resolve, reject) {
+
+                function next() {
+                    $scope.numberProgress = Math.ceil((index / array.length)*100);
+                    if (index < array.length) {
+                        campaignNumberApiAccess.UploadNumbers(array[index++]).then(next, reject);
+                    } else {
+                        resolve();
+                    }
+                }
+                next();
+            });
+        };
+
+
 
         $scope.searchNumbersByCategories = function(){
             $scope.gridOptions3.data = [];

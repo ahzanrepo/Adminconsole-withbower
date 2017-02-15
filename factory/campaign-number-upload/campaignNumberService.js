@@ -65,7 +65,7 @@
 
 
 
-            var differed = $q.defer();
+            var deferred = $q.defer();
 
             $http({
                 method: 'POST',
@@ -79,7 +79,7 @@
                 deferred.resolve(response.data)
             });
 
-            return differed.promise;
+            return deferred.promise;
         };
 
         var deleteNumbersFromCampaign = function(campaignId, numberData){
