@@ -304,6 +304,75 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getAssignableScheduleCampaign = function(campaignId){
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule/Assignable"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return [];
+            }
+        });
+    };
+    var getOngoingCampaign = function(){
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Campaigns/Operations/State/Ongoing"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return [];
+            }
+        });
+    };
+
+    var sendCommandToCampaign = function(campaignId,command){
+        return $http({
+            method: 'PUT',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Operations/"+command
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.IsSuccess;
+            }else{
+                return false;
+            }
+        });
+    };
+
+    var getCampaignByState = function(state){
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Campaigns/State/"+state+"/100"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return [];
+            }
+        });
+    };
+
+    var startCampaign = function(campaignId){
+        return $http({
+            method: 'put',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/State/start"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return [];
+            }
+        });
+    };
+
     return {
         mechanisms: ["BLAST", "PREVIEW", "PREDICTIVE"],
         modes: ["IVR", "AGENT", "FIFO"],
@@ -326,7 +395,12 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         MapScheduleToCampaign:mapScheduleToCampaign,
         MapNumberAndScheduleToCampaign:mapNumberAndScheduleToCampaign,
         AddScheduleToCampaign:addScheduleToCampaign,
-        GetScheduleCampaign:getScheduleCampaign
+        GetScheduleCampaign:getScheduleCampaign,
+        GetAssignableScheduleCampaign:getAssignableScheduleCampaign,
+        GetOngoingCampaign:getOngoingCampaign,
+        GetCampaignByState:getCampaignByState,
+        StartCampaign:startCampaign,
+        SendCommandToCampaign:sendCommandToCampaign
     }
 
 });

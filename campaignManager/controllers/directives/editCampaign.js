@@ -75,6 +75,8 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             scope.editMapSchedule = false;
             scope.editMapNumberSchedule = false;
             scope.addScheduleToCampaign = false;
+            scope.mapnumberScheduleToCam = false;
+            scope.scheduleList = false;
             scope.editCampaign = function () {
                 scope.editMode = scope.editMode === 'edit' ? 'view' : 'edit';
             };
@@ -88,6 +90,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 if (scope.editMode === 'schedule' && scope.ScheduleList.length === 0) {
                     scope.GetSchedules();
                     scope.GetScheduleCampaign();
+                    //scope.GetAssignableScheduleCampaign();
                 }
             };
 
@@ -354,6 +357,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             scope.ScheduleList = [];
             scope.GetSchedules = function () {
                 scope.editMapSchedule = true;
+                scope.scheduleList = true;
                 scheduleBackendService.getSchedules().then(function (response) {
                     if (response.data.IsSuccess) {
                         scope.ScheduleList = response.data.Result;
@@ -364,15 +368,19 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                         scope.showAlert("Campaign", 'error', "Fail To Get Schedules");
                     }
                     scope.editMapSchedule = false;
+                    scope.scheduleList = false;
                 }, function (error) {
                     scope.showAlert("Campaign", 'error', "Fail To Get Schedules");
                     scope.editMapSchedule = false;
+                    scope.scheduleList = false;
                 });
             };
 
             scope.camSchedule = [];
             scope.addedSchedule = [];
+            scope.availableSchedule = [];
             scope.GetScheduleCampaign = function () {
+                scope.scheduleList = true;
                 campaignService.GetScheduleCampaign(scope.campaign.CampaignId).then(function (response) {
                     scope.camSchedule = [];
                     scope.addedSchedule = [];
@@ -386,11 +394,26 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                                 scope.addedSchedule.push(t);
                             }
                         });
+                        scope.availableSchedule = scope.camSchedule;
                     }
+                    else{
+                        scope.availableSchedule = scope.ScheduleList;
+                    }
+                    scope.scheduleList = false;
+                }, function (error) {
+                    console.log("Error in GetScheduleCampaign " + error);
+                    scope.scheduleList = false;
+                });
+            };
+
+            /*scope.assignableSchedule = [];
+            scope.GetAssignableScheduleCampaign = function () {
+                campaignService.GetAssignableScheduleCampaign(scope.campaign.CampaignId).then(function (response) {
+                    scope.assignableSchedule = response;
                 }, function (error) {
                     console.log("Error in GetScheduleCampaign " + error);
                 });
-            };
+            };*/
 
             scope.Categorys = [];
             scope.GetCategorys = function () {
@@ -406,6 +429,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 scope.editMapNumberSchedule = true;
                 campaignService.MapNumberToCampaign(scope.campaign.CampaignId, mapnumber.CategoryID).then(function (response) {
                     if (response) {
+
                         scope.showAlert("Campaign", 'success', "Successfully Map Numbers To Campaign.");
                     } else {
                         scope.showAlert("Campaign", 'error', "Fail To Map");
@@ -418,32 +442,32 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             };
 
             scope.MapScheduleToCampaign = function (mapSchedule) {
-                scope.editMapNumberSchedule = true;
+                scope.editMapSchedule = true;
                 campaignService.MapScheduleToCampaign(scope.campaign.CampaignId, mapSchedule.ScheduleId).then(function (response) {
                     if (response) {
                         scope.showAlert("Campaign", 'success', "Successfully Map Schedule To Campaign.");
                     } else {
                         scope.showAlert("Campaign", 'error', "Fail To Map");
                     }
-                    scope.editMapNumberSchedule = false;
+                    scope.editMapSchedule = false;
                 }, function (error) {
                     scope.showAlert("Campaign", 'error', "Fail To Map");
-                    scope.editMapNumberSchedule = false;
+                    scope.editMapSchedule = false;
                 });
             };
 
             scope.MapNumberAndScheduleToCampaign = function (mapnumberschedue) {
-                scope.editMapNumberSchedule = true;
+                scope.mapnumberScheduleToCam = true;
                 campaignService.MapNumberAndScheduleToCampaign(scope.campaign.CampaignId, mapnumberschedue.CategoryID, mapnumberschedue.ScheduleId).then(function (response) {
                     if (response) {
                         scope.showAlert("Campaign", 'success', "Successfully Map To Campaign.");
                     } else {
                         scope.showAlert("Campaign", 'error', "Fail To Map");
                     }
-                    scope.editMapNumberSchedule = false;
+                    scope.mapnumberScheduleToCam = false;
                 }, function (error) {
                     scope.showAlert("Campaign", 'error', "Fail To Map");
-                    scope.editMapNumberSchedule = false;
+                    scope.mapnumberScheduleToCam = false;
                 });
             };
 
@@ -452,6 +476,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 campaignService.AddScheduleToCampaign(scope.campaign.CampaignId,data).then(function (response) {
                     if (response) {
                         scope.GetScheduleCampaign();
+                        //scope.GetAssignableScheduleCampaign();
                         scope.showAlert("Campaign", 'success', "Successfully Add To Campaign.");
                     } else {
                         scope.showAlert("Campaign", 'error', "Fail To Add");

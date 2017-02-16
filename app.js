@@ -848,6 +848,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
+        }).state('console.campaignmonitor', {
+            url: "/campaignmonitor",
+            templateUrl: "campaignManager/campaignMonitor.html",
+            controller: "campaignMonitorController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
         }).state('console.campaignnumberupload', {
             url: "/campaignnumberupload",
             templateUrl: "views/campaign-number-upload/numberUpload.html",
