@@ -1,14 +1,22 @@
-<div ng-controller="numberUploadController">
+<div>
 
     <div class="row">
 
         <div class="col-md-12 col-sm-6 col-xs-12">
-            <div class="x_panel bg-light-gray animated fadeIn">
+            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback pull-right">
+
+                <button type="button" class="btn btn-success pull-right" ng-click="switchUpload()">
+                    {{uploadState}}
+                </button>
+
+            </div>
+
+            <div class="x_panel bg-light-gray animated fadeIn" ng-show="showUpload">
                 <div class="x_title border-0">
 
                     <div class="custom-type">
                         <div class="col-md-6 col-sm-6 col-xs-6">
-                            <h2 class="font-robot font-300 text-uppercase font-15">Campaign Number Upload</h2>
+                            <h2 class="font-robot font-300 text-uppercase font-15">Number Upload</h2>
                         </div>
 
                         <div class="col-xs-12">
@@ -71,7 +79,7 @@
                                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                             <select class="form-control has-feedback-left"
                                                     ng-model="campaignNumberObj.CampaignId"
-                                                    ng-change="loadCampaignSchedules(campaignNumberObj.CampaignId)"
+                                                    ng-change="loadCampaignSchedules()"
                                                     ng-model-options="{trackBy: '$value'}">
                                                 <option value="" disabled selected>Select Campaign</option>
                                                 <option value="">DEFAULT</option>
@@ -87,7 +95,6 @@
                                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                             <select class="form-control has-feedback-left"
                                                     ng-model="campaignNumberObj.CamScheduleId"
-                                                    ng-change="loadCampaignSchedules()"
                                                     ng-model-options="{trackBy: '$value'}">
                                                 <option value="" disabled selected>Select Campaign Schedule</option>
                                                 <option ng-repeat="cSchedule in campaignSchedules"
@@ -100,17 +107,57 @@
                                         </div>
                                     </div>
 
-
                                     <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
 
+                                            <div>
 
-                                        <div class="col-md-12 col-sm-12 col-xs-12  ">
-                                            <button type="button" class="btn btn-success  btn- pull-right"
-                                                    ng-click="createBreakType()">
-                                                Add
-                                            </button>
+                                                <div>
+                                                    <select ng-change="loadNumbers()" ng-model="selectObj.name"
+                                                            ng-model-options="{trackBy: '$value'}">
+                                                        <option value="" disabled selected>Select Number Column</option>
+                                                        <option ng-repeat="hData in headerData" value="{{hData.name}}">
+                                                            {{hData.name}}
+                                                        </option>
+                                                    </select>
+
+                                                    <select ng-if="enablePreviewData" ng-change="loadNumbers()" ng-model="selectObj.name"
+                                                            ng-model-options="{trackBy: '$value'}">
+                                                        <option value="" disabled selected>Select Preview Data Column</option>
+                                                        <option ng-repeat="hData in headerData" value="{{hData.name}}">
+                                                            {{hData.name}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <button type="button" class="btn btn-success" ng-click="uploadNumbers()">Upload</button>
+                                                    <button type="button" class="btn btn-success" ng-click="reset()">Reset Grid</button>
+                                                </div>
+                                                <div>
+                                                    <uib-progressbar animate="false" value="numberProgress" type="success"><b>{{numberProgress}}%</b></uib-progressbar>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <br/>
+                                            <!--<div>
+                                                <div class="msg">
+                                                    <div class="center">
+                                                        <span class="muted">Select Spreadsheet File</span>
+                                                        <br />
+                                                        <input type="file" accept=".csv" fileread="" opts="gridOptions" multiple="false" />
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <form><input type="file" class="file-chooser" id="files123" name="files[]"/></form>
+                                            <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
+
+                                            <div>
+                                                <label>rows: {{gridApi.grid.getVisibleRows().length}}</label>
+                                            </div>
                                         </div>
+
                                     </div>
+
 
                                 </form>
                             </div>
@@ -120,61 +167,121 @@
 
                 </div>
             </div>
-        </div>
 
-    </div>
+            <div class="x_panel bg-light-gray animated fadeIn" ng-hide="showUpload">
+                <div class="x_title border-0">
 
-    <div>
-        <div class="row">
+                    <div class="custom-type">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <h2 class="font-robot font-300 text-uppercase font-15">Number Base</h2>
+                        </div>
 
-        </div>
+                        <div class="col-xs-12">
+                            <div class="tile-stats m-top15">
+                                <form class="form-horizontal form-label-left input_mask">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                            <select class="form-control has-feedback-left"
+                                                    ng-model="searchObj.CategoryID"
+                                                    ng-model-options="{trackBy: '$value'}" ng-disabled="searchObj.CampaignId">
+                                                <option value="" disabled selected>Select Number Category</option>
+                                                <option value="Default">DEFAULT</option>
+                                                <option ng-repeat="camCategory in campaignCategories"
+                                                        value="{{camCategory.CategoryID}}">
+                                                    {{camCategory.CategoryName.toUpperCase()}}
+                                                </option>
+                                            </select>
+                                            <span class="fa fa-cog form-control-feedback left"
+                                                  aria-hidden="true"></span>
+
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                            <select class="form-control has-feedback-left"
+                                                    ng-model="searchObj.CampaignId"
+                                                    ng-change="loadCampaignSchedules()"
+                                                    ng-model-options="{trackBy: '$value'}">
+                                                <option value="" disabled selected>Select Campaign</option>
+                                                <option value="">DEFAULT</option>
+                                                <option ng-repeat="newCampaign in newlyCreatedCampaigns"
+                                                        value="{{newCampaign.CampaignId}}">
+                                                    {{newCampaign.CampaignName.toUpperCase()}}
+                                                </option>
+                                            </select>
+                                            <span class="fa fa-cog form-control-feedback left"
+                                                  aria-hidden="true"></span>
+                                        </div>
+
+                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                            <select class="form-control has-feedback-left"
+                                                    ng-model="searchObj.CamScheduleId"
+                                                    ng-model-options="{trackBy: '$value'}" ng-disabled="!searchObj.CampaignId">
+                                                <option value="" disabled selected>Select Campaign Schedule</option>
+                                                <option ng-repeat="cSchedule in campaignSchedules"
+                                                        value="{{cSchedule.CamScheduleId}}">
+                                                    {{cSchedule.CamScheduleId}}
+                                                </option>
+                                            </select>
+                                            <span class="fa fa-cog form-control-feedback left"
+                                                  aria-hidden="true"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback pull-right">
+                                            <button type="button" class="btn btn-success pull-right" ng-click="searchNumbersByCategories()">Search</button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
 
 
-        <div>
+                                        </div>
 
-            <div>
-                <select ng-change="loadNumbers()" ng-model="selectObj.name"
-                        ng-model-options="{trackBy: '$value'}">
-                    <option value="" disabled selected>Select Number Column</option>
-                    <option ng-repeat="hData in headerData" value="{{hData.name}}">
-                        {{hData.name}}
-                    </option>
-                </select>
+                                    </div>
 
-                <select ng-if="enablePreviewData" ng-change="loadNumbers()" ng-model="selectObj.name"
-                        ng-model-options="{trackBy: '$value'}">
-                    <option value="" disabled selected>Select Preview Data Column</option>
-                    <option ng-repeat="hData in headerData" value="{{hData.name}}">
-                        {{hData.name}}
-                    </option>
-                </select>
-            </div>
-            <div>
-                <button type="button" class="btn btn-success" ng-click="uploadNumbers()">Upload</button>
-                <button type="button" class="btn btn-success" ng-click="reset()">Reset Grid</button>
-            </div>
-        </div>
-        <br/>
-        <br/>
-        <!--<div>
-            <div class="msg">
-                <div class="center">
-                    <span class="muted">Select Spreadsheet File</span>
-                    <br />
-                    <input type="file" accept=".csv" fileread="" opts="gridOptions" multiple="false" />
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
                 </div>
             </div>
-        </div>-->
-        <form><input type="file" class="file-chooser" id="files123" name="files[]"/></form>
-        <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
 
-        <div>
-            <label>{{gridApi.grid.getVisibleRows().length}}</label>
+            <div class="x_panel animated fadeIn" ng-hide="showUpload">
+                <div class="x_title border-0">
+
+                    <div ng-if="isTableLoading==0">
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    Please Wait...
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="isTableLoading==1">
+
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                <div ui-grid="gridOptions3" class="grid"></div>
+                                <div>
+                                    <label>{{gridApi3.grid.getVisibleRows().length}}</label>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
-        <div>
-            {{campaignNumberObj.Contacts.length}}
-            {{campaignNumberObj.Contacts}}
-        </div>
     </div>
 </div>

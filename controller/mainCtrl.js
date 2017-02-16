@@ -367,6 +367,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.missedcallreport');
         },goCampaignNumberUpload: function () {
             $state.go('console.campaignnumberupload');
+        },goDncNumberManage: function () {
+            $state.go('console.dncnumbermanage');
         }
     };
 

@@ -7,7 +7,7 @@
     var app =angular.module('veeryConsoleApp');
 
 
-    var numberUploadController = function ($scope, $q, campaignNumberApiAccess, loginService) {
+    var numberUploadController = function ($scope, $q, campaignNumberApiAccess, loginService, $timeout) {
         $scope.campaignNumberObj = {};
         $scope.numberCategory = {};
 
@@ -16,6 +16,22 @@
         $scope.selectObj = {};
         $scope.campaignNumberObj.Contacts = [];
         $scope.enablePreviewData = false;
+        $scope.showUpload = false;
+        $scope.uploadState = "Show Upload";
+        $scope.numberProgress = 0;
+
+
+        $scope.searchObj = {};
+        $scope.isTableLoading = 2;
+
+        $scope.switchUpload = function(){
+            $scope.showUpload = !$scope.showUpload;
+            if($scope.showUpload){
+                $scope.uploadState = "Show Number Base";
+            }else{
+                $scope.uploadState = "Show Upload";
+            }
+        };
 
         $scope.reset = function() {
             $scope.selectObj = {};
@@ -23,6 +39,7 @@
             $scope.campaignNumberObj.Contacts = [];
             $scope.gridOptions.data = [];
             $scope.gridOptions.columnDefs = [];
+            $scope.numberProgress = 0;
         };
 
         $('.collapse-link').on('click', function() {
@@ -43,6 +60,8 @@
             $ICON.toggleClass('fa-chevron-up fa-chevron-down');
         });
 
+
+        //--------------------------------------------------Number Upload Grid-------------------------------------
         function validateNumbers(data, filter) {
             var deferred = $q.defer();
             setTimeout(function () {
@@ -117,6 +136,19 @@
         }
 
 
+        //--------------------------------Number Base Grid---------------------------------------------------
+
+
+        $scope.gridOptions3 = {
+            enableSorting: true,
+            enableFiltering: true,
+            treeRowHeaderAlwaysVisible: true,
+            onRegisterApi: function( gridApi ) {
+                $scope.gridApi3 = gridApi;
+            }
+        };
+
+
 
         //-----------------------CampaignCategory---------------------------------------
 
@@ -174,9 +206,6 @@
                 $scope.showAlert('Campaign Number Upload', errMsg, 'error');
             });
         };
-
-
-
 
         $scope.loadCampaignCategories();
 
@@ -256,30 +285,111 @@
 
         //-----------------------Campaign Numbers---------------------------------------
 
+        var batchedHTTP = function(items, current) {
+
+            if (items.length < current) {
+                return;
+            }
+
+            var end = current + 1;
+            var execPromises = items.slice(current, end);
+
+            //$q.all(execPromises).then(function (response) {
+            //    $scope.numberProgress = Math.ceil((end / items.length)*100);
+            //    batchedHTTP(items, end);
+            //});
+
+            execPromises[0].then(function (response) {
+                $scope.numberProgress = Math.ceil((end / items.length)*100);
+                batchedHTTP(items, end);
+            });
+        };
+
         $scope.uploadNumbers = function(){
-            campaignNumberApiAccess.UploadNumbers($scope.campaignNumberObj).then(function(response){
+            $scope.numberProgress = 0;
+            var numberCount = $scope.campaignNumberObj.Contacts.length;
+            var numOfIterations = Math.ceil(numberCount / 1000);
+            var funcArray = [];
+
+            var numberArray = [];
+
+            for(var i=0; i<numOfIterations;i++){
+                var start = i*1000;
+                var end = (i*1000)+1000;
+                var numberChunk = $scope.campaignNumberObj.Contacts.slice(start, end);
+
+                var sendObj = {CategoryID: $scope.campaignNumberObj.CategoryID, Contacts: numberChunk};
+                numberArray.push(sendObj);
+            }
+
+            $scope.BatchUploader(numberArray).then(function() {
+
+                console.log("Upload done ..................");
+
+                //$scope.numberProgress = Math.ceil((index / array.length)*100);
+            }, function(reason) {
+
+            });
+
+        };
+
+
+
+        $scope.BatchUploader =function(array){
+            var index = 0;
+
+
+            return new Promise(function(resolve, reject) {
+
+                function next() {
+                    $scope.numberProgress = Math.ceil((index / array.length)*100);
+                    if (index < array.length) {
+                        campaignNumberApiAccess.UploadNumbers(array[index++]).then(next, reject);
+                    } else {
+                        resolve();
+                    }
+                }
+                next();
+            });
+        };
+
+
+
+        $scope.searchNumbersByCategories = function(){
+            $scope.gridOptions3.data = [];
+            $scope.gridOptions3.columnDefs = [];
+            $scope.isTableLoading = 0;
+
+            campaignNumberApiAccess.GetNumbersByCategory($scope.searchObj.CategoryID).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.showAlert('Campaign Number Upload', 'Upload Success', 'success');
+                    $scope.gridOptions3.data = response.Result.CampContactInfo.map(function(contact){
+
+                        return contact;
+
+                    });
+                    $scope.isTableLoading = 1;
                 }
                 else
                 {
+                    $scope.isTableLoading = 2;
                     var errMsg = response.CustomMessage;
 
                     if(response.Exception)
                     {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                    $scope.showAlert('Number Base', errMsg, 'error');
                 }
             }, function(err){
+                $scope.isTableLoading = 2;
                 loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while uploading numbers";
+                var errMsg = "Error occurred while loading numbers";
                 if(err.statusText)
                 {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                $scope.showAlert('Number Base', errMsg, 'error');
             });
         };
     };
