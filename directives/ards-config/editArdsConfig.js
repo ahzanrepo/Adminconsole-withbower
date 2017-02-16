@@ -11,7 +11,7 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
             ardslist: "=",
             groups: "=",
             tasks: "=",
-            RequestServers: "=",
+            requestServers: "=",
             'updateApplication': '&',
             'reloadpage':'&'
         },
@@ -53,13 +53,42 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                     if(response.data.IsSuccess)
                     {
                         scope.groups=response.data.Result;
-                        for(var i=0; i<scope.ards.AttributeGroups.length; i++){
-                            var group = scope.groups.inArray(scope.ards.AttributeGroups[i]);
-                            if(group != null) {
-                                scope.attributeGroups.push(group);
-                                scope.NewattributeGroups.push(group);
+
+                        if(scope.ards.AttributeMeta)
+                        {
+                            for(var i=0;i<scope.ards.AttributeMeta.length;i++)
+                            {
+                                var checkedGroup= scope.groups.map(function (group) {
+                                    if(group.GroupName==scope.ards.AttributeMeta[i].AttributeGroupName)
+                                    {
+                                        scope.attributeGroups.push(group);
+                                        scope.NewattributeGroups.push(group);
+                                    }
+                                });
+
                             }
                         }
+                        else
+                        {
+                            console.log("No Attribute meta data found");
+                        }
+
+
+                        /*if(scope.ards.AttributeGroups)
+                         {
+                         for(var i=0; i<scope.ards.AttributeGroups.length; i++){
+                         var group = scope.groups.inArray(scope.ards.AttributeGroups[i]);
+                         if(group != null) {
+                         scope.attributeGroups.push(group);
+                         scope.NewattributeGroups.push(group);
+                         }
+                         }
+                         }
+                         else
+                         {
+                         console.log("No groups found");
+                         }*/
+
                     }
                     else
                     {
@@ -74,8 +103,8 @@ mainApp.directive("editardsconfig", function ($filter,$uibModal,ardsBackendServi
                 ardsBackendService.getRequestServers().then(function (response) {
                     if(response.data.IsSuccess)
                     {
-                        scope.RequestServers=response.data.Result;
-                        console.log("servers "+scope.RequestServers);
+                        scope.requestServers=response.data.Result;
+                        console.log("servers "+scope.requestServers);
                     }
                     else
                     {

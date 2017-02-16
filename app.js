@@ -85,7 +85,8 @@ var baseUrls = {
     'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
-    'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/' //campaignmanager.app.veery.cloud
+    'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
+    'softPhoneContactUrl': 'http://192.168.0.15:8827/DVP/API/1.0.0.0/ContactManager/' //campaignmanager.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -847,23 +848,39 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
+        }).state('console.campaignmonitor', {
+            url: "/campaignmonitor",
+            templateUrl: "campaignManager/campaignMonitor.html",
+            controller: "campaignMonitorController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
         }).state('console.campaignnumberupload', {
-                url: "/campaignnumberupload",
-                templateUrl: "views/campaign-number-upload/numberUpload.html",
-                controller: "numberUploadController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNNUMBERS"
-                }
-            }).state('console.dncnumbermanage', {
-                url: "/dncnumbermanage",
-                templateUrl: "views/campaign-number-upload/dncList.html",
-                controller: "numberDncController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNNUMBERS"
-                }
-            });
+            url: "/campaignnumberupload",
+            templateUrl: "views/campaign-number-upload/numberUpload.html",
+            controller: "numberUploadController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNNUMBERS"
+            }
+        }).state('console.dncnumbermanage', {
+            url: "/dncnumbermanage",
+            templateUrl: "views/campaign-number-upload/dncList.html",
+            controller: "numberDncController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNNUMBERS"
+            }
+        }).state('console.softphone', {
+            url: "/softphone",
+            templateUrl: "views/softPhone/soft-phone-option.html",
+            controller: "softPhoneCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNNUMBERS"
+            }
+        });
         //Todo shoud be change navigation
     }]);
 
