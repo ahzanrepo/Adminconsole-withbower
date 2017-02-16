@@ -314,6 +314,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goCreateCampaign: function () {
             $state.go('console.campaign')
         },
+        goCampaignMonitor: function () {
+            $state.go('console.campaignmonitor')
+        },
         goQASubmission: function () {
             $state.go('console.qaSubmission');
         },

@@ -186,7 +186,7 @@ mainApp.factory('twitterService', function ($q, $http, $window,$interval,baseUrl
 
             return $http({
                 method: 'POST',
-                url: baseUrls.socialConnectorUrl + "Twitter/"+id+"/Cron/Start"
+                url: baseUrls.scheduleWorker + "Twitter/"+id+"/Cron/Start"
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.IsSuccess;
