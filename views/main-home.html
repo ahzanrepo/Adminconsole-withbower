@@ -98,6 +98,10 @@
                                                                                   ng-click="clickDirective.goDynamicForm()">
                                         Dynamic Form</a>
                                     </li>
+                                    <li ng-show="accessNavigation.DYNAMICFORM"><a href="javascript:void(0);"
+                                                                                  ng-click="clickDirective.softPhone()">
+                                        Soft Phone</a>
+                                    </li>
 
                                     <!-- <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
                                                                                    ng-click="clickDirective.goPackages()">
@@ -222,8 +226,9 @@
                             </li>
                             <li ng-show="accessNavigation.FACEBOOK || accessNavigation.TWITTER ">
                                 <a
-                                        class="font-robot font-300 "><i class="fa fa-facebook-official"></i> Social Connectors <span
-                                        class="fa fa-chevron-down"></span></a>
+                                        class="font-robot font-300 "><i class="fa fa-facebook-official"></i> Social
+                                    Media <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.FACEBOOK"><a href="javascript:void(0);"
                                                                                ng-click="clickDirective.goFacebookApp()">Facebook </a>
@@ -308,21 +313,24 @@
 
                             <li ng-show="accessNavigation.CAMPAIGNMANAGER">
                                 <a
-                                        class="font-robot font-300 "><i class="fa fa-bullhorn"></i> Campaign Manager <span
-                                        class="fa fa-chevron-down"></span></a>
+                                        class="font-robot font-300 "><i class="fa fa-bullhorn"></i> Campaign
+                                     <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                        ng-click="clickDirective.goCreateCampaign()">Create</a>
+                                                                                      ng-click="clickDirective.goCreateCampaign()">Create</a>
                                     </li>
                                     <!--<li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
                                                                                         ng-click="clickDirective.goQASubmission()">QA
                                         Form Submission</a>
                                     </li>-->
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                      ng-click="clickDirective.goCampaignNumberUpload()">Numner Upload</a>
+                                                                                      ng-click="clickDirective.goCampaignNumberUpload()">Numner
+                                        Upload</a>
                                     </li>
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                      ng-click="clickDirective.goDncNumberManage()">DNC List</a>
+                                                                                      ng-click="clickDirective.goDncNumberManage()">DNC
+                                        List</a>
                                     </li>
                                 </ul>
                             </li>
@@ -364,7 +372,7 @@
                                         productivity Summary</a>
                                     </li>
                                     <li ng-show="accessNavigation.AGENTSTATUSEVENT"><a href="javascript:void(0);"
-                                                                          ng-click="clickDirective.goAgentStatusEvt()">Agent
+                                                                                       ng-click="clickDirective.goAgentStatusEvt()">Agent
                                         Status Events</a>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
@@ -403,7 +411,8 @@
                                                                                         ng-click="clickDirective.goQAReport()">
                                         QA Reporting</a>
                                     </li>
-                                    <li ng-show="accessNavigation.MISSEDCALLREPORT"><a href="javascript:void(0);" ng-click="clickDirective.goMissedCallReport()">
+                                    <li ng-show="accessNavigation.MISSEDCALLREPORT"><a href="javascript:void(0);"
+                                                                                       ng-click="clickDirective.goMissedCallReport()">
                                         Missed Call Report</a>
                                     </li>
                                 </ul>

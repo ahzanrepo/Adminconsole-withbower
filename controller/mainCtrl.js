@@ -365,7 +365,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },goCampaignNumberUpload: function () {
             $state.go('console.campaignnumberupload');
         },goDncNumberManage: function () {
-            $state.go('console.dncnumbermanage');
+            $state.go('console.softphone');
+        },
+        softPhone:function(){
+            
         }
     };
 

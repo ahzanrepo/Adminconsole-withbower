@@ -94,15 +94,11 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         } else {
                             profile.LastReservedTime = moment(reservedDate).format("h:mm a");
                         }
-
                         if (profile.slotState == 'Reserved') {
                             $scope.ReservedProfile.push(profile);
                         }
                         else if (profile.other == 'Break' && profile.slotMode == 'Outbound') {
                             $scope.BreakProfile.push(profile);
-                        }
-                        else if (profile.slotState == 'Available') {
-                            $scope.AvailableProfile.push(profile);
                         }
                         else if (profile.slotState == 'Connected') {
                             $scope.ConnectedProfile.push(profile);
@@ -112,6 +108,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                             $scope.OutboundProfile.push(profile);
                         } else if (profile.slotState == 'Suspended') {
                             $scope.SuspendedProfile.push(profile);
+                        } else if (profile.slotState == 'Available') {
+                            $scope.AvailableProfile.push(profile);
                         } else {
                             //$scope.profile.push(profile);
                             $scope.BreakProfile.push(profile);

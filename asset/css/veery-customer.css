@@ -725,7 +725,7 @@ label {
 }
 
 .btn-green {
-    background: #2ea89a;
+    background: #0d3a35;
     color: #ffffff;
     text-transform: uppercase;
     font-family: 'Roboto', sans-serif;
@@ -734,7 +734,7 @@ label {
 
 .btn-green:hover {
     color: #ffffff;
-    background: #34c3b5;
+    background: #17716a;
 }
 
 .search-main-wrap {
