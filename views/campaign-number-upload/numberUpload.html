@@ -121,10 +121,51 @@
                                         </div>
 
                                         <div class="row">
+
+
+                                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+
+                                                <center>
+
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                                        <label>Load From Customer Profile</label>
+                                                        <br>
+                                                        <tags-input ng-model="cusTag" display-property="name"
+
+                                                                    add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
+                                                                    on-tag-removed="onChipDelete($tag)" min-length="0"
+                                                                    placeholder="Select Tags">
+                                                            <auto-complete source="querySearch($query)" load-on-empty="true"
+                                                                           load-on-focus="true" min-length="0">
+
+                                                            </auto-complete>
+                                                        </tags-input>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback pull-right">
+                                                        <button type="button" class="btn btn-success"
+                                                                ng-click="searchFromProfile()">Load
+                                                        </button>
+                                                    </div>
+
+                                                </center>
+
+                                            </div>
+
+
+
+                                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                                <center>
+                                                    <br><br>
+                                                    <form><input type="file" class="file-chooser" id="files123"
+                                                                 name="files[]"/></form>
+                                                </center>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
 
-                                                <form><input type="file" class="file-chooser" id="files123"
-                                                             name="files[]"/></form>
                                                 <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
 
                                                 <div>
@@ -132,6 +173,8 @@
                                                 </div>
                                             </div>
                                         </div>
+
+
 
 
                                     </form>

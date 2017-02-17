@@ -23,6 +23,7 @@
 
         $scope.searchObj = {};
         $scope.isTableLoading = 2;
+        $scope.selectedCustomerTags = [];
 
         $scope.showAlert = function (title,content,type) {
             new PNotify({
@@ -71,6 +72,47 @@
 
 
         //--------------------------------------------------Number Upload Grid-------------------------------------
+
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(cTag) {
+                return (cTag.name.toLowerCase().indexOf(lowercaseQuery) != -1);
+
+            };
+        }
+
+        $scope.querySearch = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.customerTags) {
+                    return $scope.customerTags;
+                }
+                else {
+                    return [];
+                }
+
+            }
+            else {
+                var results = query ? $scope.customerTags.filter(createFilterFor(query)) : [];
+                return results;
+            }
+
+        };
+
+        $scope.onChipAdd = function (chip) {
+
+            $scope.selectedCustomerTags.push(chip.name);
+
+        };
+        $scope.onChipDelete = function (chip) {
+
+            var index = $scope.selectedCustomerTags.indexOf(chip.name);
+            if (index > -1) {
+                $scope.selectedCustomerTags.splice(index, 1);
+            }
+
+
+        };
+
         function validateNumbers(data, filter) {
             var deferred = $q.defer();
             setTimeout(function () {
@@ -145,6 +187,91 @@
         }
 
 
+        var loadCustomersByTags = function(){
+            $scope.headerData = [];
+            campaignNumberApiAccess.GetCustomersByTags($scope.selectedCustomerTags).then(function(response){
+                if(response.IsSuccess)
+                {
+                    var externalUserResult = response.Result;
+                    $scope.data = externalUserResult.map(function(eur){
+                        return{
+                            ExternalUser: eur.firstname+ " "+eur.lastname,
+                            Number: eur.phone
+                        };
+                    });
+
+                    $scope.headerData.push({name: 'ExternalUser', index: 0});
+                    $scope.headerData.push({name: 'Number', index: 1});
+                    console.log($scope.data);
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                }
+            }, function(err){
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading numbers from profile";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+            });
+        };
+
+        var loadCustomers = function(){
+            $scope.headerData = [];
+            campaignNumberApiAccess.GetCustomers().then(function(response){
+                if(response.IsSuccess)
+                {
+                    var externalUserResult = response.Result;
+                    $scope.data = externalUserResult.map(function(eur){
+                        return{
+                            ExternalUser: eur.firstname+ " "+eur.lastname,
+                            Number: eur.phone
+                        };
+                    });
+
+                    $scope.headerData.push({name: 'ExternalUser', index: 0});
+                    $scope.headerData.push({name: 'Number', index: 1});
+                    console.log($scope.data);
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                }
+            }, function(err){
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading numbers from profile";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+            });
+        };
+
+        $scope.searchFromProfile = function(){
+            if($scope.selectedCustomerTags && $scope.selectedCustomerTags.length > 0){
+                loadCustomersByTags();
+            }else{
+                loadCustomers();
+            }
+        };
+
+
         //--------------------------------Number Base Grid---------------------------------------------------
 
 
@@ -215,7 +342,30 @@
             }
         };
 
+        $scope.loadCustomerTags = function(){
+            campaignNumberApiAccess.GetCustomersTags().then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.customerTags = response.Result;
+                }
+                else {
+                    var errMsg = response.CustomMessage;
+                     if (response.Exception) {
+                         errMsg = response.Exception.Message;
+                     }
+                    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading customer tags";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+            });
+        };
+
         $scope.loadCampaignCategories();
+        $scope.loadCustomerTags();
 
 
         //-----------------------Campaign---------------------------------------
@@ -313,7 +463,7 @@
         };
 
         $scope.uploadNumbers = function(){
-            if(typeof $scope.campaignNumberObj.CategoryID === "integer") {
+            if(typeof $scope.campaignNumberObj.CategoryID === "number") {
                 $scope.numberProgress = 0;
                 var numberCount = $scope.campaignNumberObj.Contacts.length;
                 var numOfIterations = Math.ceil(numberCount / 1000);
