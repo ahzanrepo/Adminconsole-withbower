@@ -185,7 +185,7 @@
                              ng-class="{ 'has-error' : mapscheduleForm.ScheduleList.$invalid && !mapscheduleForm.ScheduleList.$pristine }">
 
                             <select class="form-control has-feedback-left"  id="ScheduleList" ng-model="mapSchedule.ScheduleId"
-                                    ng-options="opt.id as opt.ScheduleName for opt in camSchedule"  required>
+                                    ng-options="opt.id as opt.ScheduleName for opt in addedSchedule"  required>
                                 <option value=''>Select Schedule </option>
                             </select>
                             <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>

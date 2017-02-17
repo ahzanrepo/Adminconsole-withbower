@@ -407,13 +407,13 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             };
 
             /*scope.assignableSchedule = [];
-            scope.GetAssignableScheduleCampaign = function () {
-                campaignService.GetAssignableScheduleCampaign(scope.campaign.CampaignId).then(function (response) {
-                    scope.assignableSchedule = response;
-                }, function (error) {
-                    console.log("Error in GetScheduleCampaign " + error);
-                });
-            };*/
+             scope.GetAssignableScheduleCampaign = function () {
+             campaignService.GetAssignableScheduleCampaign(scope.campaign.CampaignId).then(function (response) {
+             scope.assignableSchedule = response;
+             }, function (error) {
+             console.log("Error in GetScheduleCampaign " + error);
+             });
+             };*/
 
             scope.Categorys = [];
             scope.GetCategorys = function () {

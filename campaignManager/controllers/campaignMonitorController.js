@@ -42,33 +42,5 @@ mainApp.controller("campaignMonitorController", function ($scope, $compile, $uib
     };
     $scope.GetCampaignByState();
 
-    $scope.StartCampaign = function(cam) {
-        campaignService.StartCampaign(cam.CampaignId).then(function (response) {
-            if(response) {
-                var index = $scope.pendingCampaign.indexOf(cam);
-                if (index > -1) {
-                    $scope.pendingCampaign.splice(index, 1);
-                }
-                $scope.GetOngoingCampaign();
-                $scope.showAlert("Campaign", 'success', "Successfully Start Campaign.");
 
-            }else{
-                $scope.showAlert("Campaign", 'error',"Fail To Start Campaign.");
-            }
-        }, function (error) {
-            $scope.showAlert("Campaign", 'error',"Fail To Start Campaign.");
-        });
-    };
-
-    $scope.SendCommandToCampaign = function(cam,command) {
-        campaignService.SendCommandToCampaign(cam.CampaignId,command).then(function (response) {
-            if(response) {
-                $scope.showAlert("Campaign", 'success', "Operation Execute Successfully.");
-            }else{
-                $scope.showAlert("Campaign", 'error',"Fail To Execute Command.");
-            }
-        }, function (error) {
-            $scope.showAlert("Campaign", 'error',"Fail To Execute Command.");
-        });
-    };
 });
