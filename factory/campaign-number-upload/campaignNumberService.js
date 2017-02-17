@@ -119,6 +119,18 @@
             });
         };
 
+        var getNumbersByCampaignAndSchedule = function(campaignId , scheduleId){
+            return $http({
+                method: 'GET',
+                url: baseUrls.campaignmanagerUrl+'Campaign/'+campaignId+'/Numbers/'+scheduleId,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
 
         //----------------Campaign-------------------------------------------
 
@@ -155,7 +167,10 @@
         //----------------Dnc List-------------------------------------------
 
         var addNumbersToDnc = function(dncNumbers){
-            return $http({
+
+            var deferred = $q.defer();
+
+            $http({
                 method: 'POST',
                 url: baseUrls.campaignmanagerUrl+'Dnc',
                 headers: {
@@ -163,21 +178,31 @@
                 },
                 data: dncNumbers
             }).then(function(response){
-               return response.data;
+
+                deferred.resolve(response.data)
             });
+
+            return deferred.promise;
         };
 
         var deleteNumbersFromDnc = function(dncNumbers){
-            return $http({
-                method: 'DELETE',
-                url: baseUrls.campaignmanagerUrl+'Dnc',
+
+
+            var deferred = $q.defer();
+
+            $http({
+                method: 'POST',
+                url: baseUrls.campaignmanagerUrl+'Dnc/Delete',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 data: dncNumbers
             }).then(function(response){
-               return response.data;
+
+                deferred.resolve(response.data)
             });
+
+            return deferred.promise;
         };
 
         var getDncNumbers = function(){
@@ -206,7 +231,8 @@
             GetCampaignSchedule: getCampaignSchedule,
             AddNumbersToDnc: addNumbersToDnc,
             DeleteNumbersFromDnc: deleteNumbersFromDnc,
-            GetDncNumbers: getDncNumbers
+            GetDncNumbers: getDncNumbers,
+            GetNumbersByCampaignAndSchedule: getNumbersByCampaignAndSchedule
         };
     };
 
