@@ -1,5 +1,4 @@
-mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scope, $window, socialConnectorService,$anchorScroll)
-{
+mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scope, $window, socialConnectorService, $anchorScroll) {
     $anchorScroll();
 
     $scope.safeApply = function (fn) {
@@ -14,14 +13,22 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
     };
 
     $window.fbAsyncInit = function () {
+
         FB.init({
-            appId: '825442624259571', // App ID
-            channelUrl: '', // Channel File
-            status: true, // check login status
-            cookie: true, // enable cookies to allow the server to access the session
-            xfbml: true,  // parse XFBML
-            oAuth: true
+            appId: '1643344935974822',
+            cookie: true,
+            xfbml: true,
+            version: 'v2.8'
         });
+
+        /* FB.init({
+         appId: '825442624259571', // App ID
+         channelUrl: '', // Channel File
+         status: true, // check login status
+         cookie: true, // enable cookies to allow the server to access the session
+         xfbml: true,  // parse XFBML
+         oAuth: true
+         });*/
 
 
         FB.Event.subscribe('auth.authResponseChange', function (response) {
@@ -64,9 +71,11 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
     $scope.getUserPageList = function (auth) {
         FB.api('/me?fields=accounts{access_token,category,name,id,picture.type(large)},picture,email,name&access_token=', function (response) {//me/accounts?fields=id,picture,category,email,name&access_token=
             $scope.safeApply(function () {
-                $scope.fbPageList = response.accounts.data.map(function(item,index){
+                $scope.fbPageList = response.accounts.data.map(function (item, index) {
                     item.auth = auth;
                     item.email = response.email;
+                    item.profileID = response.id;
+                    item.profileName = response.name;
                     return item;
                 });
             });
@@ -115,26 +124,29 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
     $scope.addPageToSystem = function (page) {
         var data = {
             "id": page.id,
+            "profileID": page.profileID,
+            "profileName": page.profileName,
             "fb": {
                 "access_token": page.auth.accessToken,
                 "pageID": page.id,
-                "pagePicture":page.picture.data.url,
+                "pagePicture": page.picture.data.url,
                 "firstName": page.name,
                 "lastName": page.category,
                 "email": page.email,
                 "ticketToPost": true,
                 "subscribe": true,
                 "status": true,
-                "auth":page.auth
+                "auth": page.auth
             }
         };
         socialConnectorService.AddFacebookPageToSystem(data).then(function (response) {
-            if(response){
-                $scope.showAlert("Add FB Page", 'success',"Successfully Added to System");
+            if (response) {
+                $scope.showAlert("Add FB Page", 'success', "Successfully Added to System");
                 //document.getElementById("status")
-                $("#"+page.id+"").addClass("avoid-clicks");
+                $("#" + page.id + "").addClass("avoid-clicks");
+                $scope.GetFacebookAccounts();
             }
-            else{
+            else {
                 $scope.showAlert("Add FB Page", "error", "Fail To Add Selected Page to System.");
             }
 
@@ -158,12 +170,12 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
 
     $scope.DeleteFacebookAccount = function (page) {
         socialConnectorService.DeleteFacebookAccount(page._id).then(function (response) {
-            if(response){
+            if (response) {
                 $scope.GetFacebookAccounts();
-                $scope.showAlert("Remove FB Page", 'success',"Successfully Remove Page from System.");
+                $scope.showAlert("Remove FB Page", 'success', "Successfully Remove Page from System.");
             }
-            else{
-                $scope.showAlert("Remove FB Page", 'error',"Fail To Remove Page.");
+            else {
+                $scope.showAlert("Remove FB Page", 'error', "Fail To Remove Page.");
             }
         }, function (error) {
             console.error("AddFacebookPageToSystem err");
@@ -171,20 +183,20 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
         });
 
 
-       /* var a = $scope.fbPageList.indexOf(page);
-        $scope.fbPageList.splice(a, 1);*/
+        /* var a = $scope.fbPageList.indexOf(page);
+         $scope.fbPageList.splice(a, 1);*/
     };
 
     $scope.updatePicture = function (page) {
-        FB.api('/'+page.id+'/picture?type=large', function (response) {//me/accounts?fields=id,picture,category,email,name&access_token=
-            if(response){
-                socialConnectorService.UpdatePagePicture(page._id,{"picture":response.data.url}).then(function (response) {
-                    if(response){
+        FB.api('/' + page.id + '/picture?type=large', function (response) {//me/accounts?fields=id,picture,category,email,name&access_token=
+            if (response) {
+                socialConnectorService.UpdatePagePicture(page._id, {"picture": response.data.url}).then(function (response) {
+                    if (response) {
                         $scope.GetFacebookAccounts();
-                        $scope.showAlert("FB Page", 'success',"Successfully Update Profile Picture.");
+                        $scope.showAlert("FB Page", 'success', "Successfully Update Profile Picture.");
                     }
-                    else{
-                        $scope.showAlert("FB Page", 'error',"Fail To Update.");
+                    else {
+                        $scope.showAlert("FB Page", 'error', "Fail To Update.");
                     }
                 }, function (error) {
                     console.error("AddFacebookPageToSystem err");
@@ -195,8 +207,8 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
     };
 
     $scope.ActivateFacebookAccount = function (page) {
-        if(!$scope.auth){
-            $scope.showAlert("FB Page", 'error',"Please Login to Facebook.");
+        if (!$scope.auth) {
+            $scope.showAlert("FB Page", 'error', "Please Login to Facebook.");
             return;
         }
         var data = {
@@ -205,23 +217,23 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
                 "access_token": $scope.auth
             }
         };
-        socialConnectorService.ActivateFacebookAccount(page._id,data).then(function (response) {
-            if(response){
+        socialConnectorService.ActivateFacebookAccount(page._id, data).then(function (response) {
+            if (response) {
                 $scope.GetFacebookAccounts();
-                $scope.showAlert("FB Page", 'success',"Page Added Back To System.");
+                $scope.showAlert("FB Page", 'success', "Page Added Back To System.");
             }
-            else{
-                $scope.showAlert("FB Page", 'error',"Fail To Add.");
+            else {
+                $scope.showAlert("FB Page", 'error', "Fail To Add.");
             }
         }, function (error) {
             console.error("AddFacebookPageToSystem err");
             $scope.isLoading = false;
-            $scope.showAlert("FB Page", 'error',"Fail To Add.");
+            $scope.showAlert("FB Page", 'error', "Fail To Add.");
         });
 
 
-       /* var a = $scope.fbPageList.indexOf(page);
-        $scope.fbPageList.splice(a, 1);*/
+        /* var a = $scope.fbPageList.indexOf(page);
+         $scope.fbPageList.splice(a, 1);*/
     };
 
 // Load the SDK asynchronously
