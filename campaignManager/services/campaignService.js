@@ -379,8 +379,8 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
             url: baseUrls.dialerAPIUrl + "GetTotalConnectedCount/0/0/"+campaignId
         }).then(function(response)
         {
-            if(response.data && response.data.IsSuccess) {
-                return response.data.Result;
+            if(response.status == 200) {
+                return response.data;
             }else{
                 return 0;
             }
@@ -393,8 +393,8 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
             url: baseUrls.dialerAPIUrl + "GetTotalDialCount/0/0/"+campaignId
         }).then(function(response)
         {
-            if(response.data && response.data.IsSuccess) {
-                return response.data.Result;
+            if(response.status == 200) {
+                return response.data;
             }else{
                 return 0;
             }
