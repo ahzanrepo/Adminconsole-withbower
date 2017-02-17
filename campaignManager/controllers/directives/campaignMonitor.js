@@ -81,6 +81,11 @@ mainApp.directive("campaignmonitor", function ($filter, $uibModal, campaignServi
                 });
             };
             scope.GetTotalConnectedCount();
+
+            scope.Reload = function() {
+                scope.GetTotalDialCount();
+                scope.GetTotalConnectedCount();
+            };
         }
     }
 });
