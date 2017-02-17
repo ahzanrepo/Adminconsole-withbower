@@ -66,18 +66,26 @@
                             <div class="row">
 
 
-                                <div class="col-md-3 col-sm-3 col-xs-12  ">
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <span style="color: grey">Start Date</span>
+                                    <input type="text" class="form-control" ng-model="newSchedule.StartDate" name="startDate"
+                                           ng-required="newSchedule.StartDate"
+                                           datepicker>
 
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12  ">
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <span style="color: grey">End Date</span>
+                                    <input type="text" class="form-control" ng-model="newSchedule.EndDate" name="endDate"
+                                           ng-required="newSchedule.EndDate"
+                                           datepicker>
 
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12  ">
+                                <div class="col-md-3 col-sm-3 col-xs-12">
 
                                 </div>
 
-                                <div class="col-md-3 col-sm-3 col-xs-12  ">
-                                    <button type="button" class="btn btn-success btn-block  btn- pull-right"
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <button type="button" class="btn btn-success btn-block  btn-pull-right"
                                             ng-click="saveSchedule()">
                                         Add
                                     </button>
