@@ -86,7 +86,8 @@ var baseUrls = {
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
     'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
-    'softPhoneContactUrl': 'http://192.168.0.15:8827/DVP/API/1.0.0.0/ContactManager/' //campaignmanager.app.veery.cloud
+    'softPhoneContactUrl': 'http://192.168.0.15:8827/DVP/API/1.0.0.0/ContactManager/',
+    'dialerAPIUrl': 'http://192.168.0.68:2226/DVP/DialerAPI/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
