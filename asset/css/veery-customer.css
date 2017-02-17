@@ -4785,8 +4785,8 @@ section.h3 {
     overflow: hidden;
     position: relative;
     text-align: center;
-    background: #F8B01D;
-    color: #ffffff;
+    background: rgba(248, 176, 29, 0.09);
+    color: #F8B01D;
     padding: 6px;
     margin-left: 10px;
 }
@@ -5017,4 +5017,16 @@ ul.row-option > li.edit:focus {
 ul.row-option > li.delete:hover,
 ul.row-option > li.delete:focus {
     color: #fd3a2f;
+}
+
+.contact-update-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+.center-section{
+    margin-top: 30px;
 }

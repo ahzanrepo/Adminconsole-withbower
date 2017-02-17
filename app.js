@@ -873,8 +873,8 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNNUMBERS"
             }
-        }).state('console.softphone', {
-            url: "/softphone",
+        }).state('console.contact-book', {
+            url: "/contact-book",
             templateUrl: "views/softPhone/soft-phone-option.html",
             controller: "softPhoneCtrl",
             data: {

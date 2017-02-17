@@ -354,24 +354,24 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.fileslotmaker');
         }, goBillingHistory: function () {
             $state.go('console.billingHistory');
-        },goIvrNodeCountReport: function () {
+        }, goIvrNodeCountReport: function () {
             $state.go('console.ivrnodecount');
-        },gocSatReport: function () {
+        }, gocSatReport: function () {
             $state.go('console.customersatisfaction');
-        },goAcwReport: function () {
+        }, goAcwReport: function () {
             $state.go('console.acwdetails');
         },
         goQAReport: function () {
             $state.go('console.qaratingreporting');
-        },goMissedCallReport: function () {
+        }, goMissedCallReport: function () {
             $state.go('console.missedcallreport');
-        },goCampaignNumberUpload: function () {
+        }, goCampaignNumberUpload: function () {
             $state.go('console.campaignnumberupload');
-        },goDncNumberManage: function () {
+        }, goDncNumberManage: function () {
             $state.go('console.dncnumbermanage');
         },
-        softPhone:function(){
-            $state.go('console.softphone');
+        newContact: function () {
+            $state.go('console.contact-book');
         }
     };
 
