@@ -235,7 +235,7 @@ a {
 .nav_menu {
     background: #EDEDED;
     border-bottom: 1px solid #D9DEE4;
-    height: 57px;
+    height: 61px;
     z-index: 101;
     position: relative;
 }
@@ -305,7 +305,7 @@ a {
 }
 
 .nav.side-menu > li > a > i {
-    color: #fff;
+    color: #868686;
 }
 
 .nav.side-menu > li.active > a {
@@ -464,6 +464,10 @@ a {
 .reserved > .media-body > div {
     border-color: #db4114 !important;
     color: #d1d1d1 !important;
+}
+
+.error-msg {
+    color: #cc1e2d !important;
 }
 
 .reserved > .profile-status-dah {
@@ -721,7 +725,7 @@ label {
 }
 
 .btn-green {
-    background: #2ea89a;
+    background: #21cccc;
     color: #ffffff;
     text-transform: uppercase;
     font-family: 'Roboto', sans-serif;
@@ -730,7 +734,7 @@ label {
 
 .btn-green:hover {
     color: #ffffff;
-    background: #34c3b5;
+    background: #17716a;
 }
 
 .search-main-wrap {
@@ -4938,4 +4942,79 @@ section.h3 {
 
 .cal-weekly {
     background: #2edbc4;
+}
+
+/*soft phone */
+.contact-type {
+    width: 100%;
+    min-height: 55px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.contact-l-item {
+    width: 100%;
+    min-height: 35px;
+    overflow: hidden;
+    position: relative;
+    /* border: 1px solid rgba(0, 0, 0, .2); */
+    -webkit-box-shadow: 3px 2px 7px -7px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 3px 2px 7px -7px rgba(0, 0, 0, 0.75);
+    box-shadow: 3px 2px 7px -7px rgba(0, 0, 0, 0.75);
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.contact-type-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.contact-type-icon.home {
+    background: rgba(10, 152, 10, 0.10);
+    color: #00A000;
+}
+
+.contact-type-icon.work {
+    background: rgba(216, 98, 11, 0.10);
+    color: #d8620b;
+}
+
+.contact-type-icon.mobile {
+    background: rgba(10, 13, 152, 0.10);
+    color: #0a0d98;
+}
+
+.contact-l-item:hover,
+.contact-l-item:focus {
+    background: #f7f7f7;
+    color: #797979;
+}
+
+ul.row-option {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul.row-option > li {
+    display: inline-block;
+    font-family: 'Ubuntu-Bold', sans-serif !important;
+    padding-left: 8px;
+    cursor: pointer;
+}
+
+ul.row-option > li.edit:hover,
+ul.row-option > li.edit:focus {
+    color: #1ec03f;
+}
+
+ul.row-option > li.delete:hover,
+ul.row-option > li.delete:focus {
+    color: #fd3a2f;
 }

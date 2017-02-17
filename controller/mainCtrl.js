@@ -314,6 +314,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goCreateCampaign: function () {
             $state.go('console.campaign')
         },
+        goCampaignMonitor: function () {
+            $state.go('console.campaignmonitor')
+        },
         goQASubmission: function () {
             $state.go('console.qaSubmission');
         },
@@ -364,6 +367,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.missedcallreport');
         },goCampaignNumberUpload: function () {
             $state.go('console.campaignnumberupload');
+        },goDncNumberManage: function () {
+            $state.go('console.dncnumbermanage');
+        },
+        softPhone:function(){
+            $state.go('console.softphone');
         }
     };
 

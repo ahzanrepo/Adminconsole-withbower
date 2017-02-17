@@ -4,7 +4,7 @@
 
 (function(){
 
-    var campaignNumberApiAccess = function($http, baseUrls){
+    var campaignNumberApiAccess = function($http, $q, baseUrls){
 
         //----------------Number Category-------------------------------------------
 
@@ -62,7 +62,12 @@
         //----------------Number Upload-------------------------------------------
 
         var uploadNumbers = function(numberData){
-            return $http({
+
+
+
+            var deferred = $q.defer();
+
+            $http({
                 method: 'POST',
                 url: baseUrls.campaignmanagerUrl+'CampaignNumbers',
                 headers: {
@@ -70,8 +75,11 @@
                 },
                 data: numberData
             }).then(function(response){
-                return response.data;
+
+                deferred.resolve(response.data)
             });
+
+            return deferred.promise;
         };
 
         var deleteNumbersFromCampaign = function(campaignId, numberData){
@@ -111,6 +119,18 @@
             });
         };
 
+        var getNumbersByCampaignAndSchedule = function(campaignId , scheduleId){
+            return $http({
+                method: 'GET',
+                url: baseUrls.campaignmanagerUrl+'Campaign/'+campaignId+'/Numbers/'+scheduleId,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
 
         //----------------Campaign-------------------------------------------
 
@@ -142,6 +162,62 @@
             });
         };
 
+
+
+        //----------------Dnc List-------------------------------------------
+
+        var addNumbersToDnc = function(dncNumbers){
+
+            var deferred = $q.defer();
+
+            $http({
+                method: 'POST',
+                url: baseUrls.campaignmanagerUrl+'Dnc',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: dncNumbers
+            }).then(function(response){
+
+                deferred.resolve(response.data)
+            });
+
+            return deferred.promise;
+        };
+
+        var deleteNumbersFromDnc = function(dncNumbers){
+
+
+            var deferred = $q.defer();
+
+            $http({
+                method: 'POST',
+                url: baseUrls.campaignmanagerUrl+'Dnc/Delete',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: dncNumbers
+            }).then(function(response){
+
+                deferred.resolve(response.data)
+            });
+
+            return deferred.promise;
+        };
+
+        var getDncNumbers = function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.campaignmanagerUrl+'Dnc',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+
         return{
             CreateNumberCategory: createNumberCategory,
             ChangeNumberCategoryName: changeNumberCategoryName,
@@ -152,7 +228,11 @@
             GetAllNumbers: getAllNumbers,
             GetNumbersByCampaign: getNumbersByCampaign,
             GetNewlyCreatedCampaigns: getNewlyCreatedCampaigns,
-            GetCampaignSchedule: getCampaignSchedule
+            GetCampaignSchedule: getCampaignSchedule,
+            AddNumbersToDnc: addNumbersToDnc,
+            DeleteNumbersFromDnc: deleteNumbersFromDnc,
+            GetDncNumbers: getDncNumbers,
+            GetNumbersByCampaignAndSchedule: getNumbersByCampaignAndSchedule
         };
     };
 

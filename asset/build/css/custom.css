@@ -619,15 +619,28 @@ a:hover, a:focus {
     cursor: pointer;
 }
 
+.nav.side-menu > li > a:hover,
+.nav.side-menu > li:hover,
+.nav.side-menu > li:focus,
+.nav.side-menu > li > a > i:hover,
+.nav.side-menu > li > a > i:focus,
+.nav.side-menu > li > a:focus {
+    background-color: #383b3b;
+    text-decoration: none;
+    color: #17bab8;
+}
+
+.nav.side-menu > li.active,
+.nav.side-menu > li.active > a,
+.nav.side-menu > li.active > a > i {
+    color: #17bab8 !important;
+}
+
 .nav.side-menu > li > a {
     margin-bottom: 6px;
 }
 
-.nav.side-menu > li > a:hover {
-    color: #F2F5F7 !important;
-}
-
-.nav.side-menu > li > a:hover, .nav > li > a:focus {
+.nav > li > a:focus {
     text-decoration: none;
     background: transparent;
 }
@@ -646,7 +659,7 @@ a:hover, a:focus {
 }
 
 .nav-md ul.nav.child_menu li:before {
-    background: #f8b01d;
+    background: #525252;
     bottom: auto;
     content: "";
     height: 8px;
@@ -662,7 +675,7 @@ a:hover, a:focus {
 }
 
 .nav-md ul.nav.child_menu li:after {
-    border-left: 1px solid #2ba88c;
+    border-left: 1px solid #4a4a4a;
     bottom: 0;
     content: "";
     left: 27px;
@@ -671,7 +684,7 @@ a:hover, a:focus {
 }
 
 .nav.side-menu > li > a, .nav.child_menu > li > a {
-    color: #E7E7E7;
+    color: #868686;
     font-weight: 500;
 }
 
@@ -690,7 +703,8 @@ a:hover, a:focus {
     display: block;
     padding: 13px 15px 12px;
     font-family: 'Roboto', sans-serif !important;
-    font-weight: 300;
+    font-weight: 500 !important;
+    font-size: 12px;
 }
 
 .nav.side-menu > li.current-page, .nav.side-menu > li.active {
@@ -769,7 +783,6 @@ a:hover, a:focus {
 .top_search .form-control {
     border-right: 0;
     box-shadow: inset 0 1px 0px rgba(0, 0, 0, 0.075);
-    border-radius: 25px 0px 0px 25px;
     padding-left: 20px;
     border: 1px solid rgba(221, 226, 232, 0.49);
 }
@@ -2562,12 +2575,15 @@ input.parsley-error, textarea.parsley-error, select.parsley-error {
     display: block;
     height: 0;
     width: 0;
-    border-color: transparent #CE5454 transparent transparent;
+    /* border-color: transparent #CE5454 transparent transparent; */
     border-style: solid;
-    border-width: 11px 7px;
+    /* border-width: 11px 7px; */
     position: absolute;
-    left: -13px;
-    top: 1px;
+    /* left: -13px; */
+    top: -9px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #CE5454;
 }
 
 .item.bad .alert {
@@ -4921,8 +4937,8 @@ ul.verticle_bars li {
 /** PNotify **/
 .alert-success {
     color: #ffffff;
-    background-color: rgba(38, 185, 154, 0.88);
-    border-color: rgba(38, 185, 154, 0.88);
+    background-color: rgba(23, 175, 82, 0.88);
+    border-color: rgba(23, 175, 82, 0.88);
 }
 
 .alert-info {
