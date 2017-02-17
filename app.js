@@ -85,11 +85,7 @@ var baseUrls = {
     'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
-<<<<<<< .mine
-    'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/' //campaignmanager.app.veery.cloud
-=======
-    'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
->>>>>>> .theirs
+    'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://192.168.0.15:8827/DVP/API/1.0.0.0/ContactManager/' //campaignmanager.app.veery.cloud
 };
 
