@@ -457,7 +457,7 @@
                                aria-expanded="false">
                                 <img src="asset/images/defaultProfile.png"
                                      ng-src="{{profileAvatat}}" alt="">Hi
-                                {{userName}}
+                                <span ng-show="showDisplayName">{{displayname}}</span>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
