@@ -213,7 +213,7 @@
 			</div>
 
 			<div class="x_content" ng-hide="isLoading" >
-				<ul class="list-unstyled timeline">
+
 
 					<!--<li ng-repeat="res in resources">
 						<editresource  resource="res" tasks="tasksList" attributes="attributesList" page-reload="reloadPage()"
@@ -259,6 +259,52 @@
 						</div>
 					</div>
 
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="col-md-12 col-sm-12 col-xs-12" style="border-style: solid; border-width: 2px; padding: 10px;">
+							<span>Dynamic form by tags</span>
+							<br><br>
+							<div class="col-md-7 col-sm-7 col-xs-7">
+								<tags-input ng-model="postTags" display-property="name" placeholder="Tag Display" on-tag-removed="clearTagList($tag)" on-tag-added="addIsolatedTag($tag)">
+								<!--<auto-complete source="loadPostTags($query)"></auto-complete>-->
+							</tags-input>
+							</div>
+
+							<div class="col-md-3 col-sm-3 col-xs-3">
+								<select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+										ng-model="currentTagForm" ng-model-options="{trackBy: '$value'}">
+									<option value=""></option>
+									<option ng-repeat="form in formList" value="{{form._id}}">{{form.name}}
+									</option>
+								</select>
+							</div>
+
+
+							<div class="col-md-2 col-sm-2 col-xs-2">
+								<button style="background-color: #0081c2" class="btn btn-primary" ng-click="addIsolatedTag()" ng-disabled="!postTags || !currentTagForm">
+									Set Dynamic Form
+								</button>
+							</div>
+							<br><br>
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<tags-input ng-if="postTags < 1" ng-model="newAddTags" placeholder="Choose Tags"
+											replace-spaces-with-dashes="false"
+											display-property="name"
+											add-from-autocomplete-only="true"
+											on-tag-added="onChipAddTag($tag)"
+											on-tag-removed="onChipDeleteTag($tag)"
+											ng-disabled="" min-length="1">
+									<auto-complete source="queryTagSearch($query)"
+												   load-on-empty="true"
+												   load-on-focus="true"
+												   min-length="1"></auto-complete>
+								</tags-input>
+							</div>
+
+
+						</div>
+
+					</div>
+
 
 
 					<paging ng-show="showPaging"
@@ -274,7 +320,7 @@
 							text-last-class="glyphicon glyphicon-forward"
 							paging-action="getPageData('attribute', page, pageSize, total)">
 					</paging>
-				</ul>
+
 
 			</div>
 		</div>
