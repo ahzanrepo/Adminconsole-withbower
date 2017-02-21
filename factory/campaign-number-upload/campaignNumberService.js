@@ -217,6 +217,43 @@
             });
         };
 
+        var getCustomersByTags = function(tags){
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl+'ExternalUsersByTags',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {tags:tags}
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var getCustomersTags = function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl+'CustomerTags',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var getCustomers = function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl+'ExternalUsers',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
 
         return{
             CreateNumberCategory: createNumberCategory,
@@ -232,7 +269,10 @@
             AddNumbersToDnc: addNumbersToDnc,
             DeleteNumbersFromDnc: deleteNumbersFromDnc,
             GetDncNumbers: getDncNumbers,
-            GetNumbersByCampaignAndSchedule: getNumbersByCampaignAndSchedule
+            GetNumbersByCampaignAndSchedule: getNumbersByCampaignAndSchedule,
+            GetCustomersByTags: getCustomersByTags,
+            GetCustomersTags: getCustomersTags,
+            GetCustomers: getCustomers
         };
     };
 

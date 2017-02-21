@@ -123,12 +123,15 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
                         if(c.Credit && c.Credit>0)
                         {
-                            c.Credit= (c.Credit/100);
+                            c.Credit= (c.Credit/100).toFixed(2);;
+
+
                         }
                         else
                         {
                             c.Credit=0;
                         }
+
 
 
                         return c;

@@ -35,33 +35,57 @@ mainApp.directive("campaignmonitor", function ($filter, $uibModal, campaignServi
             scope.StartCampaign = function(cam) {
                 campaignService.StartCampaign(cam.CampaignId).then(function (response) {
                     if(response) {
-                        var index = $scope.pendingCampaign.indexOf(cam);
+                        var index = scope.pendingCampaign.indexOf(cam);
                         if (index > -1) {
-                            $scope.pendingCampaign.splice(index, 1);
+                            scope.pendingCampaign.splice(index, 1);
                         }
-                        $scope.GetOngoingCampaign();
-                        $scope.showAlert("Campaign", 'success', "Successfully Start Campaign.");
+                        scope.GetOngoingCampaign();
+                        scope.showAlert("Campaign", 'success', "Successfully Start Campaign.");
 
                     }else{
-                        $scope.showAlert("Campaign", 'error',"Fail To Start Campaign.");
+                        scope.showAlert("Campaign", 'error',"Fail To Start Campaign.");
                     }
                 }, function (error) {
-                    $scope.showAlert("Campaign", 'error',"Fail To Start Campaign.");
+                    scope.showAlert("Campaign", 'error',"Fail To Start Campaign.");
                 });
             };
 
             scope.SendCommandToCampaign = function(cam,command) {
                 campaignService.SendCommandToCampaign(cam.CampaignId,command).then(function (response) {
                     if(response) {
-                        $scope.showAlert("Campaign", 'success', "Operation Execute Successfully.");
+                        scope.showAlert("Campaign", 'success', "Operation Execute Successfully.");
                     }else{
-                        $scope.showAlert("Campaign", 'error',"Fail To Execute Command.");
+                        scope.showAlert("Campaign", 'error',"Fail To Execute Command.");
                     }
                 }, function (error) {
-                    $scope.showAlert("Campaign", 'error',"Fail To Execute Command.");
+                    scope.showAlert("Campaign", 'error',"Fail To Execute Command.");
                 });
             };
 
+            scope.totalDialCount = 0;
+            scope.GetTotalDialCount = function() {
+                campaignService.GetTotalDialCount(scope.campaign.CampaignId).then(function (response) {
+                    scope.totalDialCount = response
+                }, function (error) {
+                    scope.showAlert("Campaign", 'error',"Fail To Get Dial Call Count.");
+                });
+            };
+            scope.GetTotalDialCount();
+
+            scope.totalConnectedCount = 0;
+            scope.GetTotalConnectedCount = function() {
+                campaignService.GetTotalConnectedCount(scope.campaign.CampaignId).then(function (response) {
+                    scope.totalConnectedCount = response
+                }, function (error) {
+                    scope.showAlert("Campaign", 'error',"Fail To Get Connected Call Count.");
+                });
+            };
+            scope.GetTotalConnectedCount();
+
+            scope.Reload = function() {
+                scope.GetTotalDialCount();
+                scope.GetTotalConnectedCount();
+            };
         }
     }
 });

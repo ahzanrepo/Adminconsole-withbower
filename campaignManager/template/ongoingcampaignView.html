@@ -3,6 +3,9 @@
         <div class="x_title">
             <h2>{{campaign.CampCampaignInfo.CampaignName}}</h2>
 
+            <ul class="nav navbar-right panel_toolbox">
+                <li><a class="close-link"><i class="fa fa-refresh" ng-click="Reload()"></i></a></li>
+            </ul>
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
@@ -32,6 +35,14 @@
                     <tr>
                         <td>CampaignState</td>
                         <td class="fs15 fw700 text-right">{{campaign.CampaignState}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Dial Count</td>
+                        <td class="fs15 fw700 text-right">{{totalDialCount}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Connected Count</td>
+                        <td class="fs15 fw700 text-right">{{totalConnectedCount}}</td>
                     </tr>
                     <tr>
                         <td>Action</td>

@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess,myUserProfileApiAccess) {
 
 
     //added by pawan
@@ -354,32 +354,94 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.fileslotmaker');
         }, goBillingHistory: function () {
             $state.go('console.billingHistory');
-        },goIvrNodeCountReport: function () {
+        }, goIvrNodeCountReport: function () {
             $state.go('console.ivrnodecount');
-        },gocSatReport: function () {
+        }, gocSatReport: function () {
             $state.go('console.customersatisfaction');
-        },goAcwReport: function () {
+        }, goAcwReport: function () {
             $state.go('console.acwdetails');
         },
         goQAReport: function () {
             $state.go('console.qaratingreporting');
-        },goMissedCallReport: function () {
+        }, goMissedCallReport: function () {
             $state.go('console.missedcallreport');
-        },goCampaignNumberUpload: function () {
+        }, goCampaignNumberUpload: function () {
             $state.go('console.campaignnumberupload');
-        },goDncNumberManage: function () {
+        }, goDncNumberManage: function () {
             $state.go('console.dncnumbermanage');
         },
-        softPhone:function(){
-            $state.go('console.softphone');
+        newContact: function () {
+            $state.go('console.contact-book');
         }
     };
-
+    $scope.showDisplayName=false;
     var getUserName = function () {
         var userDetails = loginService.getTokenDecode();
         console.log(userDetails);
         if (userDetails) {
             $scope.userName = userDetails.iss;
+            $scope.displayname=$scope.userName;
+
+            myUserProfileApiAccess.getMyProfile().then(function (resMyProf) {
+                if(resMyProf.IsSuccess && resMyProf.Result)
+                {
+                    myUserProfileApiAccess.getMyOrganization().then(function (resOrg) {
+
+                            if(resOrg.IsSuccess && resOrg.Result)
+                            {
+                                if(resOrg.Result.ownerRef==resMyProf.Result._id)
+                                {
+                                    $scope.displayname=resOrg.Result.companyName;
+
+                                }
+                                else
+                                {
+                                    if(resMyProf.Result.firstname && resMyProf.Result.lastname)
+                                    {
+                                        $scope.displayname=resMyProf.firstname+" "+resMyProf.lastname;
+
+                                    }
+
+
+                                }
+                                $scope.showDisplayName=true;
+                            }
+                            else
+                            {
+                                if(resMyProf.Result.firstname && resMyProf.Result.lastname)
+                                {
+                                    $scope.displayname=resMyProf.Result.firstname+" "+resMyProf.Result.lastname;
+
+                                }
+                                $scope.showDisplayName=true;
+                            }
+
+
+                        }, function (errOrg){
+
+                            console.log("Error in searching company");
+                            if(resMyProf.Result.firstname && resMyProf.Result.lastname)
+                            {
+                                $scope.displayname=resMyProf.Result.firstname+" "+resMyProf.Result.lastname;
+
+                            }
+                            $scope.showDisplayName=true;
+                        }
+                    );
+                }
+                else
+                {
+                    console.log("Error in searching client profile");
+                    $scope.showDisplayName=true;
+
+                }
+
+            }, function (errMyProf) {
+                console.log("Error in searching client profile");
+                $scope.showDisplayName=true;
+            });
+
+
         }
     };
     getUserName();

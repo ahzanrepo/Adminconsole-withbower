@@ -373,6 +373,34 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getTotalConnectedCount = function(campaignId){
+        return $http({
+            method: 'get',
+            url: baseUrls.dialerAPIUrl + "GetTotalConnectedCount/0/0/"+campaignId
+        }).then(function(response)
+        {
+            if(response.status == 200) {
+                return response.data;
+            }else{
+                return 0;
+            }
+        });
+    };
+
+    var getTotalDialCount = function(campaignId){
+        return $http({
+            method: 'get',
+            url: baseUrls.dialerAPIUrl + "GetTotalDialCount/0/0/"+campaignId
+        }).then(function(response)
+        {
+            if(response.status == 200) {
+                return response.data;
+            }else{
+                return 0;
+            }
+        });
+    };
+
     return {
         mechanisms: ["BLAST", "PREVIEW", "PREDICTIVE"],
         modes: ["IVR", "AGENT", "FIFO"],
@@ -400,7 +428,9 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         GetOngoingCampaign:getOngoingCampaign,
         GetCampaignByState:getCampaignByState,
         StartCampaign:startCampaign,
-        SendCommandToCampaign:sendCommandToCampaign
+        SendCommandToCampaign:sendCommandToCampaign,
+        GetTotalConnectedCount:getTotalConnectedCount,
+        GetTotalDialCount:getTotalDialCount
     }
 
 });
