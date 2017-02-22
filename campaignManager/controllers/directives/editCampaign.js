@@ -263,7 +263,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                     campaignService.DeleteCampaign(scope.campaign.CampaignId).then(function (response) {
                         if (response) {
                             scope.reloadCampaign();
-                            scope.showAlert("Campaign", 'success', "Delete Successfully ");
+                            scope.showAlert("Campaign", 'success', "Deleted Successfully ");
 
                         } else {
                             scope.showAlert("Campaign", 'error', "Fail To Delete Campaign");

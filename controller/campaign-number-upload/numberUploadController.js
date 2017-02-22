@@ -174,7 +174,7 @@
             if (target && target.files && target.files.length === 1) {
                 var fileObject = target.files[0];
                 $scope.gridApi.importer.importFile( fileObject );
-                target.form.reset();
+                //target.form.reset();
             }
         };
 
@@ -488,8 +488,8 @@
                 $scope.BatchUploader(numberArray).then(function () {
 
                     console.log("Upload done ..................");
-
-                    //$scope.numberProgress = Math.ceil((index / array.length)*100);
+                    $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
+                    $scope.reset();
                 }, function (reason) {
 
                 });
@@ -528,12 +528,17 @@
             campaignNumberApiAccess.GetNumbersByCategory($scope.searchObj.CategoryID).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.gridOptions3.data = response.Result.CampContactInfo.map(function(contact){
+                    if(response.Result && response.Result.CampContactInfo && response.Result.CampContactInfo.length >0){
+                        $scope.gridOptions3.data = response.Result.CampContactInfo.map(function(contact){
 
-                        return contact;
+                            return contact;
 
-                    });
-                    $scope.isTableLoading = 1;
+                        });
+                        $scope.isTableLoading = 1;
+                    }else{
+                        $scope.isTableLoading = 2;
+                    }
+
                 }
                 else
                 {
@@ -566,12 +571,17 @@
             campaignNumberApiAccess.GetNumbersByCampaignAndSchedule($scope.searchObj.CampaignId, $scope.searchObj.CamScheduleId).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.gridOptions3.data = response.Result.map(function(contact){
+                    if(response.Result && response.Result.length >0){
+                        $scope.gridOptions3.data = response.Result.map(function(contact){
 
-                        return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
+                            return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
 
-                    });
-                    $scope.isTableLoading = 1;
+                        });
+                        $scope.isTableLoading = 1;
+                    }else{
+                        $scope.isTableLoading = 2;
+                    }
+
                 }
                 else
                 {
@@ -604,12 +614,17 @@
             campaignNumberApiAccess.GetNumbersByCampaign($scope.searchObj.CampaignId).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.gridOptions3.data = response.Result.map(function(contact){
+                    if(response.Result && response.Result.length >0){
+                        $scope.gridOptions3.data = response.Result.map(function(contact){
 
-                        return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
+                            return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
 
-                    });
-                    $scope.isTableLoading = 1;
+                        });
+                        $scope.isTableLoading = 1;
+                    }else{
+                        $scope.isTableLoading = 2;
+                    }
+
                 }
                 else
                 {
