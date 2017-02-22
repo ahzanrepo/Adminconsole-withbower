@@ -4,10 +4,21 @@
 
 (function(){
 
-    var app =angular.module('veeryConsoleApp');
+    //var app =angular.module('veeryConsoleApp');
 
 
     var numberUploadController = function ($scope, $q, campaignNumberApiAccess, loginService, $timeout) {
+        $scope.safeApply = function(fn) {
+            var phase = this.$root.$$phase;
+            if(phase == '$apply' || phase == '$digest') {
+                if(fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
+            }
+        };
+
         $scope.campaignNumberObj = {};
         $scope.numberCategory = {};
 
@@ -19,6 +30,7 @@
         $scope.showUpload = false;
         $scope.uploadState = "Show Upload";
         $scope.numberProgress = 0;
+        $scope.uploadButtonValue = "Upload";
 
 
         $scope.searchObj = {};
@@ -44,12 +56,17 @@
         };
 
         $scope.reset = function() {
-            $scope.selectObj = {};
-            $scope.headerData = [];
-            $scope.campaignNumberObj.Contacts = [];
-            $scope.gridOptions.data = [];
-            $scope.gridOptions.columnDefs = [];
-            $scope.numberProgress = 0;
+            $scope.safeApply(function() {
+                $scope.target.form.reset();
+                $scope.selectObj = {};
+                $scope.headerData = [];
+                $scope.campaignNumberObj.Contacts = [];
+                $scope.gridOptions.data = [];
+                $scope.gridOptions.columnDefs = [];
+                $scope.numberProgress = 0;
+                $scope.uploadButtonValue = "Upload";
+            });
+
         };
 
         $('.collapse-link').on('click', function() {
@@ -170,6 +187,7 @@
 
         var handleFileSelect = function( event ){
             var target = event.srcElement || event.target;
+            $scope.target = target;
 
             if (target && target.files && target.files.length === 1) {
                 var fileObject = target.files[0];
@@ -486,16 +504,18 @@
                         numberArray.push(sendObj);
                     }
 
+                    $scope.uploadButtonValue = "Uploading...";
+
                     $scope.BatchUploader(numberArray).then(function () {
 
                         console.log("Upload done ..................");
-                        $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
                         $scope.reset();
+                        $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
                     }, function (reason) {
 
                     });
                 }else{
-                    $scope.showAlert('Campaign Number Upload', 'Please select numbers to upload', 'error');
+                    $scope.showAlert('Campaign Number Upload', 'Please select number column before upload', 'error');
                 }
             }else{
                 $scope.showAlert('Campaign Number Upload', 'Add number category before use', 'error');
@@ -670,5 +690,5 @@
 
     };
 
-    app.controller('numberUploadController', numberUploadController);
+    mainApp.controller('numberUploadController', numberUploadController);
 }());
