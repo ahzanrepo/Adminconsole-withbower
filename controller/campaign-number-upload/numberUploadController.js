@@ -464,35 +464,39 @@
 
         $scope.uploadNumbers = function(){
             if(typeof $scope.campaignNumberObj.CategoryID === "number") {
-                $scope.numberProgress = 0;
-                var numberCount = $scope.campaignNumberObj.Contacts.length;
-                var numOfIterations = Math.ceil(numberCount / 1000);
-                var funcArray = [];
+                if($scope.campaignNumberObj && $scope.campaignNumberObj.Contacts.length > 0) {
+                    $scope.numberProgress = 0;
+                    var numberCount = $scope.campaignNumberObj.Contacts.length;
+                    var numOfIterations = Math.ceil(numberCount / 1000);
+                    var funcArray = [];
 
-                var numberArray = [];
+                    var numberArray = [];
 
-                for (var i = 0; i < numOfIterations; i++) {
-                    var start = i * 1000;
-                    var end = (i * 1000) + 1000;
-                    var numberChunk = $scope.campaignNumberObj.Contacts.slice(start, end);
+                    for (var i = 0; i < numOfIterations; i++) {
+                        var start = i * 1000;
+                        var end = (i * 1000) + 1000;
+                        var numberChunk = $scope.campaignNumberObj.Contacts.slice(start, end);
 
-                    var sendObj = {
-                        CampaignId: $scope.campaignNumberObj.CampaignId,
-                        CamScheduleId: $scope.campaignNumberObj.CamScheduleId,
-                        CategoryID: $scope.campaignNumberObj.CategoryID,
-                        Contacts: numberChunk
-                    };
-                    numberArray.push(sendObj);
+                        var sendObj = {
+                            CampaignId: $scope.campaignNumberObj.CampaignId,
+                            CamScheduleId: $scope.campaignNumberObj.CamScheduleId,
+                            CategoryID: $scope.campaignNumberObj.CategoryID,
+                            Contacts: numberChunk
+                        };
+                        numberArray.push(sendObj);
+                    }
+
+                    $scope.BatchUploader(numberArray).then(function () {
+
+                        console.log("Upload done ..................");
+                        $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
+                        $scope.reset();
+                    }, function (reason) {
+
+                    });
+                }else{
+                    $scope.showAlert('Campaign Number Upload', 'Please select numbers to upload', 'error');
                 }
-
-                $scope.BatchUploader(numberArray).then(function () {
-
-                    console.log("Upload done ..................");
-                    $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
-                    $scope.reset();
-                }, function (reason) {
-
-                });
             }else{
                 $scope.showAlert('Campaign Number Upload', 'Add number category before use', 'error');
             }
