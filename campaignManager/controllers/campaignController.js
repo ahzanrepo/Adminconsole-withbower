@@ -29,7 +29,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
         $scope.isProgress =true;
         campaignService.CreateCampaign(campaignx).then(function (response) {
             if(response) {
-                $scope.showAlert("Campaign", 'success',"Campaign Create Successfully.");
+                $scope.showAlert("Campaign", 'success',"Campaign Created Successfully.");
                 $scope.addNewCampaign = false;
                 $scope.campaigns.push(response);
 
