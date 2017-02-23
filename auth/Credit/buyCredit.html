@@ -2,7 +2,7 @@
     <div class="x_panel">
         <div class="x_title">
             <h2>Credit
-                <small>Balance : ${{wallet.Credit}}</small>
+                <span style="color:blue">Balance : ${{wallet.Credit}}</span>
             </h2>
             <ul class="nav navbar-right panel_toolbox" ng-show="wallet.WalletId===-1">
                 <button class="btn btn-success -mouse-pointer" stripe-payment="config"
@@ -10,6 +10,34 @@
                 </button>
             </ul>
             <div class="clearfix"></div>
+            <div class="x_panel" style="padding-bottom: 55px;">
+                <div class="x_title">
+                    <h2>BUY CREDIT</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-6 col-lg-offset-3">
+                    <div class="form-group" ng-hide="isBuyCredit">
+                        <div class="form-group text-center" style="margin-top: 30px;">
+                            <div class="col-md-10">
+                                <input type="number" min="1"
+                                       class="form-control has-feedback-left"
+                                       name="Amount"
+                                       ng-model="Amount"
+                                       placeholder="Amount [$]">
+                            </div>
+                            <div class="col-md-2">
+                                <button href="javascript:void(0);"
+                                        ng-click="buyCredit(Amount)"
+                                        class="btn btn-success btn-block "
+                                        role="button">Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
 
         <div class="x_content">
@@ -189,34 +217,7 @@
         </div>
     </div>
 
-    <div class="x_panel" style="padding-bottom: 55px;">
-        <div class="x_title">
-            <h2>BUY CREDIT</h2>
-            <div class="clearfix"></div>
-        </div>
-        <div class="col-md-6 col-lg-offset-3">
-            <div class="form-group" ng-hide="isBuyCredit">
-                <div class="form-group text-center" style="margin-top: 30px;">
-                    <div class="col-md-10">
-                        <input type="number" min="1"
-                               class="form-control has-feedback-left"
-                               name="Amount"
-                               ng-model="Amount"
-                               placeholder="Amount [$]">
-                    </div>
-                    <div class="col-md-2">
-                        <button href="javascript:void(0);"
-                                ng-click="buyCredit(Amount)"
-                                class="btn btn-success btn-block "
-                                role="button">Buy
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-
-    </div>
 
     <div class="x_panel">
         <div class="x_title">

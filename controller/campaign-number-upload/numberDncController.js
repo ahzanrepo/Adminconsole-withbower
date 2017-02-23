@@ -8,11 +8,24 @@
 
     var numberDncController = function($scope, $q, campaignNumberApiAccess, loginService){
 
+        $scope.safeApply = function(fn) {
+            var phase = this.$root.$$phase;
+            if(phase == '$apply' || phase == '$digest') {
+                if(fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
+            }
+        };
+
         $scope.dncNumberList = [];
         $scope.numbersToUpdate = {};
         $scope.numbersToUpdate.ContactIds = [];
         $scope.manageDncNumbers = true;
         $scope.numberProgress = 0;
+        $scope.uploadButtonValue = true;
+        $scope.removeButtonValue = true;
 
 
         $scope.data = [];
@@ -30,12 +43,17 @@
         };
 
         $scope.reset = function() {
-            $scope.numberProgress = 0;
-            $scope.selectObj = {};
-            $scope.headerData = [];
-            $scope.numbersToUpdate.ContactIds = [];
-            $scope.gridOptions2.data = [];
-            $scope.gridOptions2.columnDefs = [];
+            $scope.safeApply(function() {
+                $scope.target.form.reset();
+                $scope.numberProgress = 0;
+                $scope.selectObj = {};
+                $scope.headerData = [];
+                $scope.numbersToUpdate.ContactIds = [];
+                $scope.gridOptions2.data = [];
+                $scope.gridOptions2.columnDefs = [];
+                $scope.uploadButtonValue = true;
+            });
+
         };
 
 
@@ -98,7 +116,7 @@
 
         var handleFileSelect = function( event ){
             var target = event.srcElement || event.target;
-
+            $scope.target = target;
             if (target && target.files && target.files.length === 1) {
                 var fileObject = target.files[0];
                 $scope.gridApi2.importer.importFile( fileObject );
@@ -190,30 +208,36 @@
         $scope.addNumbersToDncList = function(){
 
             $scope.numberProgress = 0;
-            var numberCount = $scope.numbersToUpdate.ContactIds.length;
-            var numOfIterations = Math.ceil(numberCount / 1000);
+            if($scope.numbersToUpdate && $scope.numbersToUpdate.ContactIds && $scope.numbersToUpdate.ContactIds.length >0) {
+                var numberCount = $scope.numbersToUpdate.ContactIds.length;
+                var numOfIterations = Math.ceil(numberCount / 1000);
 
-            var numberArray = [];
+                var numberArray = [];
 
-            for (var i = 0; i < numOfIterations; i++) {
-                var start = i * 1000;
-                var end = (i * 1000) + 1000;
-                var numberChunk = $scope.numbersToUpdate.ContactIds.slice(start, end);
+                for (var i = 0; i < numOfIterations; i++) {
+                    var start = i * 1000;
+                    var end = (i * 1000) + 1000;
+                    var numberChunk = $scope.numbersToUpdate.ContactIds.slice(start, end);
 
-                var sendObj = {
-                    ContactIds: numberChunk
-                };
-                numberArray.push(sendObj);
+                    var sendObj = {
+                        ContactIds: numberChunk
+                    };
+                    numberArray.push(sendObj);
+                }
+
+                $scope.uploadButtonValue = false;
+                $scope.BatchUploader(numberArray).then(function () {
+
+                    console.log("Upload done ..................");
+                    $scope.loadDncNumberList();
+                    $scope.reset();
+                    $scope.showAlert('Dnc Number Upload', 'Add numbers to DNC list success', 'success');
+                }, function (reason) {
+
+                });
+            }else{
+                $scope.showAlert('Dnc Number Upload', 'Please select number column before upload', 'error');
             }
-
-            $scope.BatchUploader(numberArray).then(function () {
-
-                console.log("Upload done ..................");
-                $scope.loadDncNumberList();
-                $scope.showAlert('Dnc Number Upload', 'Add numbers to DNC list success', 'success');
-            }, function (reason) {
-
-            });
         };
 
         $scope.BatchUploader =function(array){
@@ -257,33 +281,39 @@
             $scope.numberProgress = 0;
             var selectedRows = $scope.gridApi3.selection.getSelectedRows();
             var numberCount = selectedRows.length;
-            var numOfIterations = Math.ceil(numberCount / 1000);
+            if(numberCount > 0) {
+                var numOfIterations = Math.ceil(numberCount / 1000);
 
-            var numberArray = [];
-
-
-            var numbersToRemove = selectedRows.map(function (row) {
-                return row.ContactId;
-            });
+                var numberArray = [];
 
 
-            for (var i = 0; i < numOfIterations; i++) {
-                var start = i * 1000;
-                var end = (i * 1000) + 1000;
-                var numberChunk = numbersToRemove.slice(start, end);
+                var numbersToRemove = selectedRows.map(function (row) {
+                    return row.ContactId;
+                });
 
-                var removeObj = {ContactIds: numberChunk};
-                numberArray.push(removeObj);
+
+                for (var i = 0; i < numOfIterations; i++) {
+                    var start = i * 1000;
+                    var end = (i * 1000) + 1000;
+                    var numberChunk = numbersToRemove.slice(start, end);
+
+                    var removeObj = {ContactIds: numberChunk};
+                    numberArray.push(removeObj);
+                }
+
+                $scope.removeButtonValue = false;
+                $scope.BatchRemove(numberArray).then(function () {
+
+                    console.log("Remove done ..................");
+                    $scope.loadDncNumberList();
+                    $scope.reset();
+                    $scope.showAlert('Dnc Number Upload', 'Remove numbers from DNC list success', 'success');
+                }, function (reason) {
+
+                });
+            }else{
+                $scope.showAlert('Dnc Number Upload', 'Select numbers to remove', 'error');
             }
-
-            $scope.BatchRemove(numberArray).then(function () {
-
-                console.log("Remove done ..................");
-                $scope.loadDncNumberList();
-                $scope.showAlert('Dnc Number Upload', 'Remove numbers from DNC list success', 'success');
-            }, function (reason) {
-
-            });
         };
 
         $scope.loadDncNumberList();

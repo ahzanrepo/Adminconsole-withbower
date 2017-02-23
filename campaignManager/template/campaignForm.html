@@ -2,7 +2,7 @@
      ng-class="{ 'has-error' : campaingForm.CampaignName.$invalid && !campaingForm.CampaignName.$pristine }">
 
     <input type="text" class="form-control has-feedback-left" ng-model="campaign.CampaignName"
-           placeholder="Campaign Class" required>
+           placeholder="Campaign Name" required>
     <span class="fa fa-tty form-control-feedback left" aria-hidden="true"></span>
 
     <p ng-show="campaingForm.CampaignName.$invalid && !campaingForm.CampaignName.$pristine"
@@ -14,7 +14,7 @@
 
     <select class="form-control has-feedback-left"  id="CampaignMode" ng-model="campaign.CampaignMode"
            ng-options="opt as opt for opt in modes track by opt"  required>
-        <option value=''>Campaign Mode</option>
+        <option disabled value=''>Campaign Mode</option>
     </select>
     <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
 
@@ -27,7 +27,7 @@
 
     <select class="form-control has-feedback-left"  id="CampaignChannel" ng-model="campaign.CampaignChannel"
             ng-options="opt as opt for opt in channels track by opt"  required>
-        <option value=''>Campaign Channels</option>
+        <option disabled value=''>Campaign Channels</option>
     </select>
     <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
 
@@ -39,7 +39,7 @@
      ng-class="{ 'has-error' : campaingForm.Extensions.$invalid && !campaingForm.Extensions.$pristine }">
     <select class="form-control has-feedback-left"  id="Extensions" ng-model="campaign.Extensions"
             ng-options="opt.Extension as opt.Extension for opt in extensions track by opt.Extension"  required>
-        <option value=''>Extensions</option>
+        <option disabled value=''>Extensions</option>
     </select>
     <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
 
@@ -52,7 +52,7 @@
 
     <select class="form-control has-feedback-left"  id="DialoutMechanism" ng-model="campaign.DialoutMechanism"
             ng-options="opt as opt for opt in mechanisms track by opt"  required>
-        <option value=''>Dialout Mechanism</option>
+        <option disabled value=''>Dialout Mechanism</option>
     </select>
     <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
 

@@ -4,10 +4,21 @@
 
 (function(){
 
-    var app =angular.module('veeryConsoleApp');
+    //var app =angular.module('veeryConsoleApp');
 
 
     var numberUploadController = function ($scope, $q, campaignNumberApiAccess, loginService, $timeout) {
+        $scope.safeApply = function(fn) {
+            var phase = this.$root.$$phase;
+            if(phase == '$apply' || phase == '$digest') {
+                if(fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
+            }
+        };
+
         $scope.campaignNumberObj = {};
         $scope.numberCategory = {};
 
@@ -19,10 +30,12 @@
         $scope.showUpload = false;
         $scope.uploadState = "Show Upload";
         $scope.numberProgress = 0;
+        $scope.uploadButtonValue = "Upload";
 
 
         $scope.searchObj = {};
         $scope.isTableLoading = 2;
+        $scope.selectedCustomerTags = [];
 
         $scope.showAlert = function (title,content,type) {
             new PNotify({
@@ -43,12 +56,17 @@
         };
 
         $scope.reset = function() {
-            $scope.selectObj = {};
-            $scope.headerData = [];
-            $scope.campaignNumberObj.Contacts = [];
-            $scope.gridOptions.data = [];
-            $scope.gridOptions.columnDefs = [];
-            $scope.numberProgress = 0;
+            $scope.safeApply(function() {
+                $scope.target.form.reset();
+                $scope.selectObj = {};
+                $scope.headerData = [];
+                $scope.campaignNumberObj.Contacts = [];
+                $scope.gridOptions.data = [];
+                $scope.gridOptions.columnDefs = [];
+                $scope.numberProgress = 0;
+                $scope.uploadButtonValue = "Upload";
+            });
+
         };
 
         $('.collapse-link').on('click', function() {
@@ -71,6 +89,47 @@
 
 
         //--------------------------------------------------Number Upload Grid-------------------------------------
+
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(cTag) {
+                return (cTag.name.toLowerCase().indexOf(lowercaseQuery) != -1);
+
+            };
+        }
+
+        $scope.querySearch = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.customerTags) {
+                    return $scope.customerTags;
+                }
+                else {
+                    return [];
+                }
+
+            }
+            else {
+                var results = query ? $scope.customerTags.filter(createFilterFor(query)) : [];
+                return results;
+            }
+
+        };
+
+        $scope.onChipAdd = function (chip) {
+
+            $scope.selectedCustomerTags.push(chip.name);
+
+        };
+        $scope.onChipDelete = function (chip) {
+
+            var index = $scope.selectedCustomerTags.indexOf(chip.name);
+            if (index > -1) {
+                $scope.selectedCustomerTags.splice(index, 1);
+            }
+
+
+        };
+
         function validateNumbers(data, filter) {
             var deferred = $q.defer();
             setTimeout(function () {
@@ -128,11 +187,12 @@
 
         var handleFileSelect = function( event ){
             var target = event.srcElement || event.target;
+            $scope.target = target;
 
             if (target && target.files && target.files.length === 1) {
                 var fileObject = target.files[0];
                 $scope.gridApi.importer.importFile( fileObject );
-                target.form.reset();
+                //target.form.reset();
             }
         };
 
@@ -143,6 +203,91 @@
         } else {
             fileChooser[0].addEventListener('change', handleFileSelect, false);
         }
+
+
+        var loadCustomersByTags = function(){
+            $scope.headerData = [];
+            campaignNumberApiAccess.GetCustomersByTags($scope.selectedCustomerTags).then(function(response){
+                if(response.IsSuccess)
+                {
+                    var externalUserResult = response.Result;
+                    $scope.data = externalUserResult.map(function(eur){
+                        return{
+                            ExternalUser: eur.firstname+ " "+eur.lastname,
+                            Number: eur.phone
+                        };
+                    });
+
+                    $scope.headerData.push({name: 'ExternalUser', index: 0});
+                    $scope.headerData.push({name: 'Number', index: 1});
+                    console.log($scope.data);
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                }
+            }, function(err){
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading numbers from profile";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+            });
+        };
+
+        var loadCustomers = function(){
+            $scope.headerData = [];
+            campaignNumberApiAccess.GetCustomers().then(function(response){
+                if(response.IsSuccess)
+                {
+                    var externalUserResult = response.Result;
+                    $scope.data = externalUserResult.map(function(eur){
+                        return{
+                            ExternalUser: eur.firstname+ " "+eur.lastname,
+                            Number: eur.phone
+                        };
+                    });
+
+                    $scope.headerData.push({name: 'ExternalUser', index: 0});
+                    $scope.headerData.push({name: 'Number', index: 1});
+                    console.log($scope.data);
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                }
+            }, function(err){
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading numbers from profile";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+            });
+        };
+
+        $scope.searchFromProfile = function(){
+            if($scope.selectedCustomerTags && $scope.selectedCustomerTags.length > 0){
+                loadCustomersByTags();
+            }else{
+                loadCustomers();
+            }
+        };
 
 
         //--------------------------------Number Base Grid---------------------------------------------------
@@ -215,7 +360,30 @@
             }
         };
 
+        $scope.loadCustomerTags = function(){
+            campaignNumberApiAccess.GetCustomersTags().then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.customerTags = response.Result;
+                }
+                else {
+                    var errMsg = response.CustomMessage;
+                     if (response.Exception) {
+                         errMsg = response.Exception.Message;
+                     }
+                    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                var errMsg = "Error occurred while loading customer tags";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+            });
+        };
+
         $scope.loadCampaignCategories();
+        $scope.loadCustomerTags();
 
 
         //-----------------------Campaign---------------------------------------
@@ -313,36 +481,42 @@
         };
 
         $scope.uploadNumbers = function(){
-            if(typeof $scope.campaignNumberObj.CategoryID === "integer") {
-                $scope.numberProgress = 0;
-                var numberCount = $scope.campaignNumberObj.Contacts.length;
-                var numOfIterations = Math.ceil(numberCount / 1000);
-                var funcArray = [];
+            if(typeof $scope.campaignNumberObj.CategoryID === "number") {
+                if($scope.campaignNumberObj && $scope.campaignNumberObj.Contacts.length > 0) {
+                    $scope.numberProgress = 0;
+                    var numberCount = $scope.campaignNumberObj.Contacts.length;
+                    var numOfIterations = Math.ceil(numberCount / 1000);
+                    var funcArray = [];
 
-                var numberArray = [];
+                    var numberArray = [];
 
-                for (var i = 0; i < numOfIterations; i++) {
-                    var start = i * 1000;
-                    var end = (i * 1000) + 1000;
-                    var numberChunk = $scope.campaignNumberObj.Contacts.slice(start, end);
+                    for (var i = 0; i < numOfIterations; i++) {
+                        var start = i * 1000;
+                        var end = (i * 1000) + 1000;
+                        var numberChunk = $scope.campaignNumberObj.Contacts.slice(start, end);
 
-                    var sendObj = {
-                        CampaignId: $scope.campaignNumberObj.CampaignId,
-                        CamScheduleId: $scope.campaignNumberObj.CamScheduleId,
-                        CategoryID: $scope.campaignNumberObj.CategoryID,
-                        Contacts: numberChunk
-                    };
-                    numberArray.push(sendObj);
+                        var sendObj = {
+                            CampaignId: $scope.campaignNumberObj.CampaignId,
+                            CamScheduleId: $scope.campaignNumberObj.CamScheduleId,
+                            CategoryID: $scope.campaignNumberObj.CategoryID,
+                            Contacts: numberChunk
+                        };
+                        numberArray.push(sendObj);
+                    }
+
+                    $scope.uploadButtonValue = "Uploading...";
+
+                    $scope.BatchUploader(numberArray).then(function () {
+
+                        console.log("Upload done ..................");
+                        $scope.reset();
+                        $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
+                    }, function (reason) {
+
+                    });
+                }else{
+                    $scope.showAlert('Campaign Number Upload', 'Please select number column before upload', 'error');
                 }
-
-                $scope.BatchUploader(numberArray).then(function () {
-
-                    console.log("Upload done ..................");
-
-                    //$scope.numberProgress = Math.ceil((index / array.length)*100);
-                }, function (reason) {
-
-                });
             }else{
                 $scope.showAlert('Campaign Number Upload', 'Add number category before use', 'error');
             }
@@ -378,12 +552,17 @@
             campaignNumberApiAccess.GetNumbersByCategory($scope.searchObj.CategoryID).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.gridOptions3.data = response.Result.CampContactInfo.map(function(contact){
+                    if(response.Result && response.Result.CampContactInfo && response.Result.CampContactInfo.length >0){
+                        $scope.gridOptions3.data = response.Result.CampContactInfo.map(function(contact){
 
-                        return contact;
+                            return contact;
 
-                    });
-                    $scope.isTableLoading = 1;
+                        });
+                        $scope.isTableLoading = 1;
+                    }else{
+                        $scope.isTableLoading = 2;
+                    }
+
                 }
                 else
                 {
@@ -416,12 +595,17 @@
             campaignNumberApiAccess.GetNumbersByCampaignAndSchedule($scope.searchObj.CampaignId, $scope.searchObj.CamScheduleId).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.gridOptions3.data = response.Result.map(function(contact){
+                    if(response.Result && response.Result.length >0){
+                        $scope.gridOptions3.data = response.Result.map(function(contact){
 
-                        return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
+                            return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
 
-                    });
-                    $scope.isTableLoading = 1;
+                        });
+                        $scope.isTableLoading = 1;
+                    }else{
+                        $scope.isTableLoading = 2;
+                    }
+
                 }
                 else
                 {
@@ -454,12 +638,17 @@
             campaignNumberApiAccess.GetNumbersByCampaign($scope.searchObj.CampaignId).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.gridOptions3.data = response.Result.map(function(contact){
+                    if(response.Result && response.Result.length >0){
+                        $scope.gridOptions3.data = response.Result.map(function(contact){
 
-                        return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
+                            return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
 
-                    });
-                    $scope.isTableLoading = 1;
+                        });
+                        $scope.isTableLoading = 1;
+                    }else{
+                        $scope.isTableLoading = 2;
+                    }
+
                 }
                 else
                 {
@@ -501,5 +690,5 @@
 
     };
 
-    app.controller('numberUploadController', numberUploadController);
+    mainApp.controller('numberUploadController', numberUploadController);
 }());

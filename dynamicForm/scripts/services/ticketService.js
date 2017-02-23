@@ -25,6 +25,51 @@ mainApp.factory("ticketService", function ($http, $log, $filter, authService, ba
         });
     };
 
+    var getAllIsolatedTagForms = function()
+    {
+        return $http({
+            method: 'get',
+            url: baseUrls.ticketUrl + 'FormMasters/IsolatedTagForms'
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var removeIsolatedTagForm = function(isolatedTag)
+    {
+        return $http({
+            method: 'delete',
+            url: baseUrls.ticketUrl + 'FormMasters/IsolatedTag/' + isolatedTag
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+
+    var getFormByIsolatedTag = function (isolated_tag) {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.ticketUrl + 'FormMasters/Tag/' + isolated_tag
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var updateFormByTag = function (formId, isolatedTag)
+    {
+        var formBody = {
+            isolated_tag: isolatedTag
+        };
+        return $http({
+            method: 'put',
+            url: baseUrls.ticketUrl + 'FormMaster/' + formId,
+            data: JSON.stringify(formBody)
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
     var saveFormProfile = function (formProfile) {
 
         return $http({
@@ -61,7 +106,11 @@ mainApp.factory("ticketService", function ($http, $log, $filter, authService, ba
         LoadFormList: loadFormList,
         getFormProfile: getFormProfile,
         saveFormProfile: saveFormProfile,
-        updateFormProfile: updateFormProfile
+        updateFormProfile: updateFormProfile,
+        getFormByIsolatedTag: getFormByIsolatedTag,
+        updateFormByTag: updateFormByTag,
+        getAllIsolatedTagForms: getAllIsolatedTagForms,
+        removeIsolatedTagForm: removeIsolatedTagForm
     }
 
 });

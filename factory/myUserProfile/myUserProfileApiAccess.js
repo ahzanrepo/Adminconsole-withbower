@@ -64,13 +64,25 @@
             })
         };
 
+        var getMyOrganization = function()
+        {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl+'Organisation'
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
 
 
         return {
             addContactToProfile: addContactToMyProfile,
             deleteContactFromMyProfile: deleteContactFromMyProfile,
             updateMyProfile: updateMyProfile,
-            getMyProfile: getMyProfile
+            getMyProfile: getMyProfile,
+            getMyOrganization: getMyOrganization
         };
     };
 

@@ -45,7 +45,7 @@
 
                                     <button type="button" class="btn pull-right" style="background-color: light-grey; color: #000000; font-weight: 500 position: relative; top: 5px;"
                                             ng-click="getBillingHistory()">More...</button>
-                                    <button type="button" class="btn pull-right" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;" csv-header="['Bill Date','Invoked By', 'Description','Reason', 'Payment','Balance','Currency']" csv-column-order="['createdAt','InvokeBy', 'Description','Reason','Payment','Credit','CurrencyISO']" ng-csv="getBillHistoryCSV()" filename="{{DownloadFileName}}.csv">
+                                    <button type="button" class="btn pull-right" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;" csv-header="['Bill Date','User', 'Description','Reason', 'Payment','Balance']" csv-column-order="['createdAt','InvokeBy', 'Description','Reason','Payment','Credit']" ng-csv="getBillHistoryCSV()" filename="{{DownloadFileName}}.csv">
                                         CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                         <i class="fa fa-download"></i>
                                     </button>
@@ -62,7 +62,7 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
-                                                colspan="1" aria-label="Call Direction">Invoked By
+                                                colspan="1" aria-label="Call Direction">User
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
@@ -74,16 +74,13 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
-                                                colspan="1" aria-label="To">Payment
+                                                colspan="1" aria-label="To">Payment ($)
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
-                                                colspan="1" aria-label="To">Balance
+                                                colspan="1" aria-label="To">Balance ($)
                                             </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                                rowspan="1"
-                                                colspan="1" aria-label="To">Currency
-                                            </th>
+
 
 
 
@@ -97,7 +94,7 @@
                                             <td>{{record.Reason}}</td>
                                             <td>{{record.Payment}}</td>
                                             <td>{{record.Credit}}</td>
-                                            <td>{{record.CurrencyISO}}</td>
+
 
 
 

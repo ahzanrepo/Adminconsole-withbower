@@ -15,7 +15,7 @@ mainApp.controller('socialFbConnectorController', function FormBuilderCtrl($scop
     $window.fbAsyncInit = function () {
 
         FB.init({
-            appId: '1643344935974822',
+            appId: '825442624259571',
             cookie: true,
             xfbml: true,
             version: 'v2.8'

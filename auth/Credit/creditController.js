@@ -18,7 +18,7 @@ mainApp.controller("creditController", function ($scope, walletService, $anchorS
         title: 'Facetone',
         description: "Communication and Collaboration Platform",
         logo: 'images/logo_130x130yellow.png',
-        label: 'New Card'
+        label: 'Save Card'
     };
 
     $scope.Amount = 0;
