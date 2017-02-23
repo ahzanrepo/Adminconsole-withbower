@@ -6,7 +6,8 @@ mainApp.directive("campaignmonitor", function ($filter, $uibModal, campaignServi
     return {
         restrict: "EAA",
         scope: {
-            campaign: "="
+            campaign: "=",
+            'reloadCampaign': '&'
         },
 
         template: '<ng-include src="getTemplateUrl()"/>',
@@ -35,11 +36,7 @@ mainApp.directive("campaignmonitor", function ($filter, $uibModal, campaignServi
             scope.StartCampaign = function(cam) {
                 campaignService.StartCampaign(cam.CampaignId).then(function (response) {
                     if(response) {
-                        var index = scope.pendingCampaign.indexOf(cam);
-                        if (index > -1) {
-                            scope.pendingCampaign.splice(index, 1);
-                        }
-                        scope.GetOngoingCampaign();
+                        scope.reloadCampaign();
                         scope.showAlert("Campaign", 'success', "Successfully Start Campaign.");
 
                     }else{

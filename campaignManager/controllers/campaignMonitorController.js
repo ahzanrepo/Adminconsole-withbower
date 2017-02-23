@@ -30,17 +30,25 @@ mainApp.controller("campaignMonitorController", function ($scope, $compile, $uib
 
     $scope.pendingCampaign =[];
     $scope.GetCampaignByState = function() {
+        $scope.scheduleList = true;
         campaignService.GetCampaignByState("create").then(function (response) {
             if(response) {
                 $scope.pendingCampaign = response;
             }else{
                 $scope.showAlert("Campaign", 'error',"Fail To Load Campaign List.");
             }
+            $scope.scheduleList = false;
         }, function (error) {
+            $scope.scheduleList = false;
             $scope.showAlert("Campaign", 'error',"Fail To Load Campaign List.");
         });
     };
     $scope.GetCampaignByState();
 
+    $scope.ResetCampaignList = function() {
+
+        $scope.GetOngoingCampaign();
+        $scope.GetCampaignByState();
+    };
 
 });
