@@ -402,9 +402,9 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
     };
 
     return {
-        mechanisms: ["BLAST", "PREVIEW", "PREDICTIVE"],
+        mechanisms: ["BLAST", "FIFO", "PREVIEW", "AGENT"],
         modes: ["IVR", "AGENT", "FIFO"],
-        channels: ["SMS", "Email", "Call"],
+        channels: ["SMS", "EMAIL", "CALL"],
         CreateCampaign: createCampaign,
         GetExtensions: getExtensions,
         GetCampaigns: getCampaigns,
