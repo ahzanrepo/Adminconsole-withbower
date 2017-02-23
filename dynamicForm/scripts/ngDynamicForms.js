@@ -38,6 +38,14 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 		form: null
 	};
 
+	$scope.currentTicketForm = {
+		currentTicketForm: null
+	};
+
+	$scope.currentProfileForm = {
+		currentProfileForm: null
+	};
+
 	$scope.loadTags = function () {
 		caseApiAccess.getAllTags().then(function (response) {
 			$scope.tagList = response;
@@ -324,11 +332,11 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 	$scope.saveProfileForm = function()
 	{
 		var obj = {
-			ticket_form : $scope.currentTicketForm,
-			profile_form : $scope.currentProfileForm
+			ticket_form : $scope.currentTicketForm.currentTicketForm,
+			profile_form : $scope.currentProfileForm.currentProfileForm
 		};
 
-		if($scope.currentProfileForm || $scope.currentTicketForm)
+		if($scope.currentProfileForm.currentProfileForm || $scope.currentTicketForm.currentTicketForm)
 		{
 			//Update
 			ticketService.updateFormProfile(obj).then(function(resp)
@@ -381,11 +389,11 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 			{
 				if(resp.Result.profile_form)
 				{
-					$scope.currentProfileForm = resp.Result.profile_form._id;
+					$scope.currentProfileForm.currentProfileForm = resp.Result.profile_form._id;
 				}
 				if(resp.Result.ticket_form)
 				{
-					$scope.currentTicketForm = resp.Result.ticket_form._id;
+					$scope.currentTicketForm.currentTicketForm = resp.Result.ticket_form._id;
 				}
 
 			}

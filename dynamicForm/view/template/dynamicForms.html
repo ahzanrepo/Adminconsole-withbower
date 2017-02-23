@@ -226,7 +226,7 @@
 							<div class="col-md-4 col-sm-4 col-xs-4">
 								<label>Dynamic Profile Form</label>
 								<select class="select2_single form-control" tabindex="-1" aria-hidden="true"
-										ng-model="currentProfileForm" ng-model-options="{trackBy: '$value'}">
+										ng-model="currentProfileForm.currentProfileForm" ng-model-options="{trackBy: '$value'}">
 									<option value=""></option>
 									<option ng-repeat="form in formList" value="{{form._id}}">{{form.name}}
 									</option>
@@ -237,7 +237,7 @@
 							<div class="col-md-4 col-sm-4 col-xs-4">
 								<label>Dynamic Ticket Form</label>
 								<select class="select2_single form-control" tabindex="-1" aria-hidden="true"
-										ng-model="currentTicketForm" ng-model-options="{trackBy: '$value'}">
+										ng-model="currentTicketForm.currentTicketForm" ng-model-options="{trackBy: '$value'}">
 									<option value=""></option>
 									<option ng-repeat="form in formList" value="{{form._id}}">{{form.name}}
 									</option>
