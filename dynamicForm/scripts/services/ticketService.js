@@ -25,6 +25,27 @@ mainApp.factory("ticketService", function ($http, $log, $filter, authService, ba
         });
     };
 
+    var getAllIsolatedTagForms = function()
+    {
+        return $http({
+            method: 'get',
+            url: baseUrls.ticketUrl + 'FormMasters/IsolatedTagForms'
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var removeIsolatedTagForm = function(isolatedTag)
+    {
+        return $http({
+            method: 'delete',
+            url: baseUrls.ticketUrl + 'FormMasters/IsolatedTag/' + isolatedTag
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+
     var getFormByIsolatedTag = function (isolated_tag) {
 
         return $http({
@@ -87,7 +108,9 @@ mainApp.factory("ticketService", function ($http, $log, $filter, authService, ba
         saveFormProfile: saveFormProfile,
         updateFormProfile: updateFormProfile,
         getFormByIsolatedTag: getFormByIsolatedTag,
-        updateFormByTag: updateFormByTag
+        updateFormByTag: updateFormByTag,
+        getAllIsolatedTagForms: getAllIsolatedTagForms,
+        removeIsolatedTagForm: removeIsolatedTagForm
     }
 
 });
