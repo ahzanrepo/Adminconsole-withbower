@@ -5194,11 +5194,11 @@ ul.row-option > li.delete:focus {
 
 .widget-dyn {
     width: 100%;
-    min-height: 100px;
+    min-height: 125px;
     overflow: hidden;
     position: relative;
-    margin-bottom: 15px;
-    margin-left: 8px;
+    margin-bottom: 0px;
+    margin-left: 9px;
     word-break: break-all;
     word-spacing: normal;
     word-wrap: normal;
