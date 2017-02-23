@@ -2,8 +2,7 @@
  * Created by Rajinda on 11/22/2016.
  */
 
-mainApp.controller("creditController", function ($scope, walletService,$anchorScroll)
-{
+mainApp.controller("creditController", function ($scope, walletService, $anchorScroll) {
     $anchorScroll();
 
     /*$scope.config = {
@@ -42,10 +41,10 @@ mainApp.controller("creditController", function ($scope, walletService,$anchorSc
                 history: false
             }
         })).get().on('pnotify.confirm', function () {
-                OkCallback("confirm");
-            }).on('pnotify.cancel', function () {
+            OkCallback("confirm");
+        }).on('pnotify.cancel', function () {
 
-            });
+        });
 
     };
 
@@ -70,13 +69,14 @@ mainApp.controller("creditController", function ($scope, walletService,$anchorSc
     $scope.isBuyCredit = false;
     $scope.Amount = 50;
     $scope.buyCredit = function (amount) {
-        amount = amount * 100;$scope.isBuyCredit = true;
+        amount = amount * 100;
+        $scope.isBuyCredit = true;
         walletService.BuyCredit(amount, $scope.wallet.WalletId).then(function (res) {
             if (res.IsSuccess) {
-                $scope.showAlert("Credit", "Your Current Balance is : " + res.Result/100);
+                $scope.showAlert("Credit", "Your Current Balance is : " + res.Result / 100);
                 $scope.wallet.Credit = res.Result / 100;
             } else {
-                var msg = res.Exception.Message?res.Exception.Message:"Fail To Buy Credit.";
+                var msg = res.Exception.Message ? res.Exception.Message : "Fail To Buy Credit.";
                 $scope.showError("Credit", msg);
             }
             $scope.isBuyCredit = false;
@@ -132,7 +132,7 @@ mainApp.controller("creditController", function ($scope, walletService,$anchorSc
         $scope.showConfirm("Delete Card", "Delete", "ok", "cancel", "Do you want to delete " + card.name, function (obj) {
             walletService.RemoveCard($scope.wallet.WalletId, card.id).then(function (res) {
                 if (res) {
-                    $scope.showAlert("Credit", "Selected Card Removed Form Your Account.");
+                    $scope.showAlert("Credit", "Selected Card Has Been Removed Form You Account Successfully.");
                     $scope.ListCards();
                 } else {
                     $scope.showError("Credit", "Fail To Remove Selected Card.");

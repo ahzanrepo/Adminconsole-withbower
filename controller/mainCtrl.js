@@ -627,8 +627,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
     $SIDEBAR_MENU.find('a').on('click', function (ev) {
+        $('.child_menu li').removeClass('active');
         var $li = $(this).parent();
-
         if ($li.is('.active')) {
             $li.removeClass('active');
             $('ul:first', $li).slideUp(function () {

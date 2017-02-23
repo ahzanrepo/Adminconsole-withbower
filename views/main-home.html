@@ -4,11 +4,7 @@
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="index.html" class="site_title ">
-                        <img src="images/console_logo.png" width="45px" height="45px">
-                        <span class="font-robot font-700 font-green-light500 ubuntu-Light">
-                         <small class="font-black500 ubuntu-Light">FACE</small>
-                             TONE
-                        </span>
+                        <img src="images/logo_main.png" width="180px" height="50px">
                     </a>
                 </div>
                 <div class="clearfix"></div>
@@ -29,8 +25,9 @@
                     <div class="menu_section active">
                         <h3 class="font-gry-200">General</h3>
                         <ul class="nav side-menu">
-                            <li class="" ng-show="accessNavigation.DASHBOARD"><a ng-click="clickDirective.goDashboard()"
-                                                                                 class="font-robot font-300">
+                            <li class="" ng-show="accessNavigation.DASHBOARD"><a
+                                    ng-click="clickDirective.goDashboard()"
+                                    class="font-robot font-300">
                                 <i class="fa fa-home"></i> Home </a>
                             </li>
                             <li ng-show="accessNavigation.AGENT_PRODUCTIVITY || accessNavigation.CALL_MONITOR"><a
@@ -81,8 +78,9 @@
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goReportMail()">Report
                                         Email Config</a></li>
-                                    <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
-                                                                                            ng-click="clickDirective.goCompanyConfig()">Company
+                                    <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a
+                                            href="javascript:void(0);"
+                                            ng-click="clickDirective.goCompanyConfig()">Company
                                         configuration</a>
 
                                     </li>
@@ -156,7 +154,8 @@
                                         Users</a>
                                     </li>
                                     <li ng-show="accessNavigation.AUTOATTENDANCE"><a href="javascript:void(0);"
-                                                                                     ng-click="clickDirective.goAutoAttendance()">AutoAttendance
+                                                                                     ng-click="clickDirective.goAutoAttendance()">Auto
+                                        Attendance
                                     </a>
                                     </li>
 
@@ -164,8 +163,9 @@
                                                                                  ng-click="clickDirective.goPbxAdmin()">PABX
                                         Admin</a>
                                     </li>
-                                    <li ng-show="accessNavigation.SIPUSER_CONFIGURATION"><a href="javascript:void(0);"
-                                                                                            ng-click="clickDirective.goSipUser()">SIP
+                                    <li ng-show="accessNavigation.SIPUSER_CONFIGURATION"><a
+                                            href="javascript:void(0);"
+                                            ng-click="clickDirective.goSipUser()">SIP
                                         User</a>
                                     </li>
                                     <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION"><a
@@ -315,13 +315,13 @@
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-bullhorn"></i> Campaign
                                      <span
-                                            class="fa fa-chevron-down"></span></a>
+                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goCreateCampaign()">Create</a>
                                     </li>
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                        ng-click="clickDirective.goCampaignMonitor()">Monitor</a>
+                                                                                      ng-click="clickDirective.goCampaignMonitor()">Monitor</a>
                                     </li>
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goCampaignNumberUpload()">Numner
@@ -350,13 +350,13 @@
                                                                           ng-click="clickDirective.goCdrReport()">CDR</a>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
-                                                                          ng-click="clickDirective.goAbandonCallList()">Abandon
-                                        Call Report</a>
+                                                                          ng-click="clickDirective.goAbandonCallList()">Abandoned
+                                        Call </a>
                                     </li>
 
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goCallSummary()">Call
-                                        Summary Report</a>
+                                        Summary </a>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goQueueSummary()">Queue
@@ -380,15 +380,15 @@
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goTicketDetailReport()">Ticket
-                                        Detail Report</a>
+                                        Detail </a>
                                     </li>
                                     <li ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goAuditTrailReport()">Audit
-                                        Trail Report</a>
+                                        Trail </a>
                                     </li>
                                     <!-- ng-show="accessNavigation.TIMESHEET"-->
                                     <li><a href="javascript:void(0);"
-                                           ng-click="clickDirective.goTimeSheet()">Time Sheet</a>
+                                           ng-click="clickDirective.goTimeSheet()">Time Sheet </a>
                                     </li>
                                     <li ng-show="accessNavigation.SLA_BREAKDOWN"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goQueueSlaBreakDown()">SLA
@@ -404,15 +404,15 @@
                                     </li>
                                     <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goAcwReport()">
-                                        ACW Detail Report</a>
+                                        ACW Detail </a>
                                     </li>
                                     <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
                                                                                         ng-click="clickDirective.goQAReport()">
-                                        QA Reporting</a>
+                                        QA </a>
                                     </li>
                                     <li ng-show="accessNavigation.MISSEDCALLREPORT"><a href="javascript:void(0);"
                                                                                        ng-click="clickDirective.goMissedCallReport()">
-                                        Missed Call Report</a>
+                                        Missed Call </a>
                                     </li>
                                 </ul>
                             </li>
@@ -437,7 +437,8 @@
                     <a data-toggle="tooltip" data-placement="top" title="Lock">
                         <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                     </a>
-                    <a data-toggle="tooltip" data-placement="top" ng-click="clickDirective.goLogout()" title="Logout">
+                    <a data-toggle="tooltip" data-placement="top" ng-click="clickDirective.goLogout()"
+                       title="Logout">
                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                     </a>
                 </div>
@@ -481,7 +482,8 @@
                                 class="dropdown-menu list-unstyled msg_list console-drop-menu notification-menu-left"
                                 role="menu">
                                 <div class="notification-header">
-                                    <a class="drop-header ubuntu-Medium">Notification center ({{unredNotifications}})
+                                    <a class="drop-header ubuntu-Medium">Notification center
+                                        ({{unredNotifications}})
                                     </a>
                                 </div>
                                 <div class="divider"></div>
@@ -557,11 +559,13 @@
                         <div class="call-moitor-btn-wrap">
                             <!--ng-if="inCall"-->
                             <div ng-if="inCall">
-                                <button class="btn bg-blue700 hvr-pop" ng-click=""><span class="fa fa-microphone-slash "
-                                                                                         aria-hidden="true"></span>
+                                <button class="btn bg-blue700 hvr-pop" ng-click=""><span
+                                        class="fa fa-microphone-slash "
+                                        aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span class="fa fa-phone"
-                                                                                                     aria-hidden="true"></span>
+                                <button class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span
+                                        class="fa fa-phone"
+                                        aria-hidden="true"></span>
                                 </button>
                                 <button class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span
                                         class="fa fa-group"
