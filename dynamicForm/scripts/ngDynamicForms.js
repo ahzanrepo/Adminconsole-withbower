@@ -33,6 +33,18 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 
 	$scope.newAddTags = [];
 	$scope.postTags = [];
+	$scope.isolatedTags = [];
+	$scope.currentTagForm = {
+		form: null
+	};
+
+	$scope.currentTicketForm = {
+		currentTicketForm: null
+	};
+
+	$scope.currentProfileForm = {
+		currentProfileForm: null
+	};
 
 	$scope.loadTags = function () {
 		caseApiAccess.getAllTags().then(function (response) {
@@ -47,25 +59,36 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 	$scope.clearTagList = function(tag)
 	{
 		setToDefault();
-		$scope.currentTagForm = null;
+		$scope.currentTagForm = {
+			form: null
+		};
 	};
 
 	$scope.addIsolatedTag = function()
 	{
-		ticketService.updateFormByTag($scope.currentTagForm, $scope.postTags[0].name).then(function (response)
+		ticketService.updateFormByTag($scope.currentTagForm.form, $scope.postTags[0].name).then(function (response)
 		{
 			if(response.IsSuccess)
 			{
 				$scope.showAlert("Dynamic Form", "Form added to isolated tag");
+				$scope.postTags = [];
+				$scope.currentTagForm = {
+					form: null
+				};
+				loadCurrentIsolatedTagForms();
 			}
 			else
 			{
-				$scope.currentTagForm = null;
+				$scope.currentTagForm = {
+					form: null
+				};
 				$scope.showError("Dynamic Form", "Error loading form for isolated tag");
 			}
 		}, function (err)
 		{
-			$scope.currentTagForm = null;
+			$scope.currentTagForm = {
+				form: null
+			};
 			$scope.showError("Dynamic Form", "Error loading form for isolated tag");
 		});
 	};
@@ -102,29 +125,6 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 			$scope.postTags.push({name: ticTag});
 			$scope.postTags = removeDuplicate($scope.postTags);
 
-			ticketService.getFormByIsolatedTag(ticTag).then(function (response)
-			{
-				if(response.IsSuccess)
-				{
-					if(response.Result)
-					{
-						$scope.currentTagForm = response.Result._id;
-					}
-					else
-					{
-						$scope.currentTagForm = null;
-					}
-				}
-				else
-				{
-					$scope.currentTagForm = null;
-					$scope.showError("Dynamic Form", "Error loading form for isolated tag");
-				}
-			}, function (err)
-			{
-				$scope.currentTagForm = null;
-				$scope.showError("Dynamic Form", "Error loading form for isolated tag");
-			});
 		}
 
 		$scope.newAddTags = [];
@@ -140,6 +140,87 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 	$scope.loadPostTags = function (query) {
 		return $scope.postTags;
 	};
+
+	var loadCurrentIsolatedTagForms = function()
+	{
+		$scope.isolatedTags = [];
+		ticketService.getAllIsolatedTagForms().then(function(isolatedTags)
+		{
+			if(isolatedTags.Result)
+			{
+				$scope.isolatedTags = isolatedTags.Result;
+			}
+			else
+			{
+				$scope.isolatedTags = [];
+			}
+
+
+		}).catch(function(err)
+		{
+			$scope.isolatedTags = [];
+		})
+	};
+
+	$scope.deleteIsolatedTag = function(isolatedTag)
+	{
+
+		new PNotify({
+			title: 'Confirm Deletion',
+			text: 'Are You Sure You Want To Delete Isolated Tag ?',
+			hide: false,
+			confirm: {
+				confirm: true
+			},
+			buttons: {
+				closer: false,
+				sticker: false
+			},
+			history: {
+				history: false
+			}
+		}).get().on('pnotify.confirm', function () {
+				ticketService.removeIsolatedTagForm(isolatedTag).then(function (response)
+				{
+					if(response.IsSuccess)
+					{
+						$scope.showAlert("Dynamic Form", "Isolated tag removed successfully");
+
+						loadCurrentIsolatedTagForms();
+					}
+					else
+					{
+						$scope.showError("Dynamic Form", "Isolated tag remove failed");
+					}
+				}, function (err)
+				{
+					$scope.showError("Dynamic Form", "Isolated tag remove failed");
+				});
+			}).on('pnotify.cancel', function () {
+
+			});
+
+	};
+
+	$scope.selectValueChanged = function(formId, isolatedTag)
+	{
+		ticketService.updateFormByTag(formId, isolatedTag).then(function (response)
+		{
+			if(response.IsSuccess)
+			{
+				$scope.showAlert("Dynamic Form", "Isolated tag updated successfully");
+			}
+			else
+			{
+				$scope.showError("Dynamic Form", "Isolated tag update failed");
+			}
+		}, function (err)
+		{
+			$scope.showError("Dynamic Form", "Isolated tag update failed");
+		});
+	}
+
+	loadCurrentIsolatedTagForms();
 
 	var removeDuplicate = function (arr) {
 		var newArr = [];
@@ -251,11 +332,11 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 	$scope.saveProfileForm = function()
 	{
 		var obj = {
-			ticket_form : $scope.currentTicketForm,
-			profile_form : $scope.currentProfileForm
+			ticket_form : $scope.currentTicketForm.currentTicketForm,
+			profile_form : $scope.currentProfileForm.currentProfileForm
 		};
 
-		if($scope.currentProfileForm || $scope.currentTicketForm)
+		if($scope.currentProfileForm.currentProfileForm || $scope.currentTicketForm.currentTicketForm)
 		{
 			//Update
 			ticketService.updateFormProfile(obj).then(function(resp)
@@ -308,11 +389,11 @@ mainApp.controller('FormBuilderCtrl',function FormBuilderCtrl($scope,ticketServi
 			{
 				if(resp.Result.profile_form)
 				{
-					$scope.currentProfileForm = resp.Result.profile_form._id;
+					$scope.currentProfileForm.currentProfileForm = resp.Result.profile_form._id;
 				}
 				if(resp.Result.ticket_form)
 				{
-					$scope.currentTicketForm = resp.Result.ticket_form._id;
+					$scope.currentTicketForm.currentTicketForm = resp.Result.ticket_form._id;
 				}
 
 			}
