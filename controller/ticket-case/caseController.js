@@ -114,7 +114,7 @@
                     //{
                     //    errMsg = response.Exception.Message;
                     //}
-                    $scope.showAlert('Case', 'Entered Case Added Error.', 'error');
+                    $scope.showAlert('Case', 'Entered Case Already Exists.', 'error');
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
