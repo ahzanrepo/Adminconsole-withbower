@@ -29,6 +29,14 @@
                                            <!--ng-model="newUser.username">-->
                                     <!--<span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
                                 <!--</div>-->
+
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="E-mail Address"
+                                           ng-model="newUser.mail">
+                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                     <div ng-show="pwdBox">
                                         <password-strength-box ng-model="newUser.password"
@@ -70,12 +78,7 @@
                                     <span class="fa fa-meh-o form-control-feedback left" aria-hidden="true"></span>
                                 </div>
 
-                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left"
-                                           placeholder="E-mail Address"
-                                           ng-model="newUser.mail">
-                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
-                                </div>
+
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                     <input type="text" class="form-control has-feedback-left" placeholder="Phone Number"
                                            ng-model="newUser.phone">
@@ -88,7 +91,7 @@
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <button class="btn btn-success" ng-click="addNewUser()"
-                                            ng-disabled="!(newUser.username && newUser.password && newUser.name &&
+                                            ng-disabled="!(newUser.password && newUser.name &&
                                          newUser.mail && newUser.phone && newUser.role)">
                                         Add User
                                     </button>
