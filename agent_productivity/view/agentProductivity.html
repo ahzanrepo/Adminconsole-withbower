@@ -35,8 +35,8 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="page-title">
-                <div class="title_left">
+            <div class="page-title ">
+                <div class="title_left ">
                     <h3 class="font-robot font-600 ">Agent Productivity</h3>
                 </div>
             </div>
@@ -46,11 +46,21 @@
 
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12" ng-repeat="p in OnlineAgents">
-            <div class="x_panel">
-
+            <div class="x_panel x-panel-overflow ">
                 <div class="x_content productivity-panel">
-                    <div class="x_title">
-                        <h2 class="font-robot font-300 text-uppercase font-15">{{p.ResourceName}} </h2>
+                    <div class="x_title ">
+                        <h4 ng-if="p.ResourceName.length < 21"
+                            class="font-robot font-300 text-uppercase ">
+                            {{p.ResourceName}}
+                        </h4>
+
+                        <h4 class="font-robot font-300 text-uppercase "
+                            ng-if="p.ResourceName.length > 19"
+                            tooltip-placement="top"
+                            uib-tooltip="{{p.ResourceName}}">
+                            {{ p.ResourceName | limitTo: 19 }}{{p.ResourceName.length > 19 ?
+                            '...':''}}
+                        </h4>
                         <div class="clearfix"></div>
                     </div>
                     <div id="{{p.ResourceId}}" style="height:350px;"></div>
@@ -58,7 +68,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 

@@ -5243,3 +5243,31 @@ ul.row-option > li.delete:focus {
     right: 25px;
     top: 9px;
 }
+.default-card {
+    position: absolute;
+    right: 25px;
+    bottom: 50px;
+}
+
+.view-first > img {
+    width: 150px;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.word-space {
+    word-break: break-all;
+    word-spacing: normal;
+    word-wrap: normal;
+}
+
+.x-panel-overflow {
+    overflow: hidden;
+    position: relative;
+}
+
+.text-white-space {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
