@@ -37,7 +37,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
             angular.forEach(scope.resource.ResResourceTask, function (item) {
                 try {
                     if (item) {
-                        var items = $filter('filter')(scope.availableTask, {TaskId: parseInt( item.TaskId)},true);
+                        var items = $filter('filter')(scope.availableTask, {TaskId: parseInt(item.TaskId)}, true);
                         if (items) {
                             var index = scope.availableTask.indexOf(items[0]);
                             if (index > -1) {
@@ -74,10 +74,14 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
 
             };
 
+
+            //  scope.showAlert = function (tittle, label, button, content) {
+
             scope.UpdateResource = function (item) {
 
                 resourceService.UpdateResource(item).then(function (response) {
                     if (response) {
+                        scope.showAlert("Update Resource", "Update Resource", "OK", "Resource Updated successfully.");
                         console.info("UpdateResource : " + response);
                         scope.editMode = false;
                         /*scope.pageReload();*/
@@ -131,10 +135,10 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                         history: false
                     }
                 })).get().on('pnotify.confirm', function () {
-                        OkCallback("confirm");
-                    }).on('pnotify.cancel', function () {
+                    OkCallback("confirm");
+                }).on('pnotify.cancel', function () {
 
-                    });
+                });
 
             };
 
@@ -197,7 +201,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                     resourceService.AssignTaskToResource(selectedItem.resourceId, selectedItem.task.TaskId, selectedItem.task.Concurrency).then(function (response) {
                         if (response.IsSuccess) {
                             scope.GetTaskAttachToResource();
-                            var items = $filter('filter')(scope.attachedTask, {TaskId: parseInt(  response.Result.TaskId)},true);
+                            var items = $filter('filter')(scope.attachedTask, {TaskId: parseInt(response.Result.TaskId)}, true);
                             if (items) {
                                 var index = scope.attachedTask.indexOf(items[0]);
                                 if (index > -1) {
@@ -261,7 +265,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
 
                         try {
                             if (item) {
-                                var items = $filter('filter')(scope.assignSkill_selectedTask.attributes, {AttributeId: parseInt(  item.AttributeId)},true);
+                                var items = $filter('filter')(scope.assignSkill_selectedTask.attributes, {AttributeId: parseInt(item.AttributeId)}, true);
                                 if (items) {
                                     var index = scope.assignSkill_selectedTask.attributes.indexOf(items[0]);
                                     if (index > -1) {

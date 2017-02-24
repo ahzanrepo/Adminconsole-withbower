@@ -2,16 +2,16 @@
  * Created by Heshan.i on 10/19/2016.
  */
 
-(function(){
-    var app =angular.module('veeryConsoleApp');
+(function () {
+    var app = angular.module('veeryConsoleApp');
 
-    var caseController = function($scope, $state, caseApiAccess,loginService) {
+    var caseController = function ($scope, $state, caseApiAccess, loginService) {
         $scope.caseInfos = [];
         $scope.caseInfo = {};
         $scope.searchCriteria = "";
         $scope.searchOption = "activeCases";
 
-        $scope.showAlert = function (title,content,type) {
+        $scope.showAlert = function (title, content, type) {
             new PNotify({
                 title: title,
                 text: content,
@@ -34,18 +34,18 @@
             $scope.loadCases();
         };
 
-        $scope.filterCases = function(){
-            switch ($scope.searchOption){
+        $scope.filterCases = function () {
+            switch ($scope.searchOption) {
                 case 'activeCases':
                     $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
-                        if(caseI.active) {
+                        if (caseI.active) {
                             return caseI
                         }
                     });
                     break;
                 case 'deactivateCases':
                     $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
-                        if(!caseI.active) {
+                        if (!caseI.active) {
                             return caseI
                         }
                     });
@@ -56,22 +56,21 @@
             }
         };
 
-        $scope.loadCases = function(){
-            caseApiAccess.getCases().then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.loadCases = function () {
+            caseApiAccess.getCases().then(function (response) {
+                if (response.IsSuccess) {
                     $scope.tempCaseInfos = response.Result;
-                    switch ($scope.searchOption){
+                    switch ($scope.searchOption) {
                         case 'activeCases':
                             $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
-                                if(caseI.active) {
+                                if (caseI.active) {
                                     return caseI
                                 }
                             });
                             break;
                         case 'deactivateCases':
                             $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
-                                if(!caseI.active) {
+                                if (!caseI.active) {
                                     return caseI
                                 }
                             });
@@ -81,48 +80,43 @@
                             break;
                     }
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('Case', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
                 loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading cases";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Case', errMsg, 'error');
             });
         };
 
-        $scope.saveCase = function(){
-            caseApiAccess.createCase($scope.caseInfo).then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.saveCase = function () {
+            caseApiAccess.createCase($scope.caseInfo).then(function (response) {
+                if (response.IsSuccess) {
                     $scope.caseInfos = response.Result;
-                    $scope.showAlert('Case', response.CustomMessage, 'success');
+                    $scope.showAlert('Case', 'Case Added Successfully.', 'success');
                     $scope.searchCriteria = "";
                     $scope.loadCases();
                     //$state.reload();
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
-
+                    console.log(errMsg);
                     //if(response.Exception)
                     //{
                     //    errMsg = response.Exception.Message;
                     //}
-                    $scope.showAlert('Case', errMsg, 'error');
+                    $scope.showAlert('Case', 'Entered Case Already Exists.', 'error');
                 }
-            }, function(err){
+            }, function (err) {
                 loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving case";
                 //if(err.statusText)

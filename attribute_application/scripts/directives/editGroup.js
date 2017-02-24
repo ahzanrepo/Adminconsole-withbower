@@ -54,11 +54,12 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
 
                     if (response) {
                         console.info("UpdateAttributes : " + response);
+                        scope.showAlert("Update Group", "success", "ok", "User Group Updated Successfully.");
                         scope.editMode = false;
                     }
                 }, function (error) {
                     console.error("UpdateAttributes err" + error);
-                    scope.showError("Error", "Error", "ok", "Fail To Update.");
+                    scope.showError("Error", "Error", "ok", "User Group Updated Error.");
                 });
             };
 
@@ -102,10 +103,10 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
                         history: false
                     }
                 })).get().on('pnotify.confirm', function () {
-                        OkCallback("confirm");
-                    }).on('pnotify.cancel', function () {
+                    OkCallback("confirm");
+                }).on('pnotify.cancel', function () {
 
-                    });
+                });
 
             };
 
@@ -202,26 +203,26 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
             scope.resetAfterAddFail = function (chip) {
                 scope.GetAttributeByGroupId();
                 /*scope.safeApply(function () {
-                    var index = scope.attachedAttributes.indexOf(chip);
-                    if (index > 0)
-                        scope.attachedAttributes.splice(index, 1);
-                    index = scope.attribinfo.indexOf(chip);
-                    if (index > 0)
-                        scope.attribinfo.push(chip);
-                });*/
+                 var index = scope.attachedAttributes.indexOf(chip);
+                 if (index > 0)
+                 scope.attachedAttributes.splice(index, 1);
+                 index = scope.attribinfo.indexOf(chip);
+                 if (index > 0)
+                 scope.attribinfo.push(chip);
+                 });*/
 
             };
 
             scope.resetAfterDeleteFail = function (chip) {
                 scope.GetAttributeByGroupId();
-               /* scope.safeApply(function () {
-                    var index = scope.attribinfo.indexOf(chip);
-                    if (index > 0)
-                        scope.attribinfo.splice(index, 1);
-                    index = scope.attachedAttributes.indexOf(chip);
-                    if (index > 0)
-                        scope.attachedAttributes.push(chip);
-                });*/
+                /* scope.safeApply(function () {
+                 var index = scope.attribinfo.indexOf(chip);
+                 if (index > 0)
+                 scope.attribinfo.splice(index, 1);
+                 index = scope.attachedAttributes.indexOf(chip);
+                 if (index > 0)
+                 scope.attachedAttributes.push(chip);
+                 });*/
             }
         }
     }
