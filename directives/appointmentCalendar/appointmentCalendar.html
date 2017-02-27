@@ -1,7 +1,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12 panel panel-default" style="padding: 10px 10px 10px 10px">
     <div class="col-md-8 col-sm-8 col-xs-8">
         <div class="col-md-5 col-sm-5 col-xs-5">
-            <input type="text" class="form-control" ng-model="curAppointment.AppointmentName" placeholder="Appointment Name">
+            <input ng-disabled="curAppointment.id" type="text" class="form-control" ng-model="curAppointment.AppointmentName" placeholder="Appointment Name">
         </div>
         <div class="col-md-5 col-sm-5 col-xs-5">
             <select class="form-control" placeholder="Recurrence Pattern" ng-model="curAppointment.RecurrencePattern" ng-change="onRecurrenceValueChanged()">
