@@ -93,8 +93,6 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     $scope.isLoading = false;
 
     $scope.LoadNodeData = function () {
-
-
         if (!$scope.application) {
             showAlert("IVR", "error", "Please Select Application");
             return
