@@ -85,7 +85,7 @@
 
                                         <input type="number" min="0" class="form-control has-feedback-left"
                                                ng-model="callback.MaxCallBackCount"
-                                               placeholder="Max CallBack Count">
+                                               placeholder="Max CallBack Count" required>
                                         <span class="fa fa-sort-numeric-asc form-control-feedback left" aria-hidden="true"></span>
                                         <p ng-show="campaingConfigForm.MaxCallBackCount.$invalid && !campaingConfigForm.MaxCallBackCount.$pristine"
                                            class="help-block">Max CallBackCount is required.</p>
@@ -96,7 +96,7 @@
 
                                         <input type="number" min="0" class="form-control has-feedback-left"
                                                ng-model="callback.CallbackInterval"
-                                               placeholder="Callback Interval(sec)">
+                                               placeholder="Callback Interval(sec)" required>
                                         <span class="fa fa-sort-numeric-asc form-control-feedback left" aria-hidden="true"></span>
                                         <p ng-show="campaingConfigForm.CallbackInterval.$invalid && !campaingConfigForm.CallbackInterval.$pristine"
                                            class="help-block">Callback Interval is required.</p>
