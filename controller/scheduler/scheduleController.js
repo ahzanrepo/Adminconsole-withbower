@@ -75,28 +75,38 @@ mainApp.controller("scheduleController", function ($scope, $state, $uibModal, sc
 
     $scope.saveSchedule = function () {
 
+        var isBefore = moment().isBefore(moment($scope.newSchedule.EndDate));
+        if(!(isBefore))
+        {
+            $scope.showAlert("Error", "End date occurs in the past - please select a future date", "error");
+        }
+        else
+        {
+            scheduleBackendService.saveNewSchedule($scope.newSchedule).then(function (response) {
 
-        scheduleBackendService.saveNewSchedule($scope.newSchedule).then(function (response) {
+                if (!response.data.IsSuccess) {
 
-            if (!response.data.IsSuccess) {
+                    console.info("Error in adding new Application " + response.data.Exception);
+                    $scope.showAlert("Error", "There is an error in saving Application ", "error");
+                    //$scope.showAlert("Error",)
+                }
+                else {
+                    $scope.searchCriteria = "";
+                    $scope.addNew = !response.data.IsSuccess;
+                    $scope.showAlert("Success", "New Application added sucessfully.", "success");
 
-                console.info("Error in adding new Application " + response.data.Exception);
-                $scope.showAlert("Error", "There is an error in saving Application ", "error");
-                //$scope.showAlert("Error",)
-            }
-            else {
-                $scope.searchCriteria = "";
-                $scope.addNew = !response.data.IsSuccess;
-                $scope.showAlert("Success", "New Application added sucessfully.", "success");
+                    $scope.ScheduleList.splice(0, 0, response.data.Result);
+                    $scope.newSchedule = {};
+                }
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                console.info("Error in adding new Application " + error);
+                $scope.showAlert("Error", "There is an Exception in saving Application " + error, "error");
+            });
+        }
 
-                $scope.ScheduleList.splice(0, 0, response.data.Result);
-                $scope.newSchedule = {};
-            }
-        }, function (error) {
-            loginService.isCheckResponse(error);
-            console.info("Error in adding new Application " + error);
-            $scope.showAlert("Error", "There is an Exception in saving Application " + error, "error");
-        });
+
+
     };
 
 

@@ -93,8 +93,6 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
     $scope.isLoading = false;
 
     $scope.LoadNodeData = function () {
-
-
         if (!$scope.application) {
             showAlert("IVR", "error", "Please Select Application");
             return
@@ -139,7 +137,8 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
 
 
     $scope.LoadDataByNode = function (eventParams) {
-
+        $('.widget-dy-wrp').removeClass('active');
+        $('#' + eventParams).addClass('active');
         $scope.tags = [];
         $scope.tags.push({
             "Name": eventParams,
