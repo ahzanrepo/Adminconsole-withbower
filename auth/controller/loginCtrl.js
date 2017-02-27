@@ -10,7 +10,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         if ($auth.isAuthenticated()) {
 
             loginService.getUserNavigation(function (isnavigation) {
-                if(isnavigation){
+                if (isnavigation) {
                     $state.go('console');
                 }
             })
@@ -47,10 +47,10 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.isSocialMedia = false;
     $scope.authenticate = function (provider) {
 
-        para.scope =  ["all_all", "profile_veeryaccount"];
+        para.scope = ["all_all", "profile_veeryaccount"];
 
         $scope.isSocialMedia = true;
-        $auth.authenticate(provider,para)
+        $auth.authenticate(provider, para)
             .then(function () {
                 //toastr.success('You have successfully signed in with ' + provider + '!');
                 loginService.getMyPackages(function (result, status) {
@@ -91,7 +91,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.onClickLogin = function () {
         para.userName = $scope.userName;
         para.password = $scope.password;
-        para.scope =  ["all_all", "profile_veeryaccount"]
+        para.scope = ["all_all", "profile_veeryaccount"]
         //parameter option
         //username
         //password
@@ -109,32 +109,38 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         $auth.login(para, params)
             .then(function () {
                 loginService.getMyPackages(function (result, status) {
+
                     if (status == 200) {
                         if (result) {
                             loginService.getUserNavigation(function (isnavigation) {
-                                if(isnavigation)
+                                if (isnavigation)
                                     $state.go('console');
                                 //else
-                                   // $state.go('login');
+                                // $state.go('login');
                             })
                         } else {
-                            if(loginService.isOwner() == 'admin') {
+                            if (loginService.isOwner() == 'admin') {
                                 $state.go('console.pricing');
-                            }else{
+                            } else {
                                 $state.go('login');
                             }
                         }
                     } else {
 
                         loginService.getUserNavigation(function (isnavigation) {
-                            if(isnavigation)
+                            if (isnavigation)
                                 $state.go('console');
                         })
                     }
                 });
             })
             .catch(function (error) {
-                showAlert('Error', 'error', 'Please check login details...');
+                if (error.status == 449) {
+                    showAlert('Account Info', 'warning', 'Please ' + error.data.message);
+                } else {
+                    showAlert('Error', 'error', 'Please check login details...');
+
+                }
                 $scope.isLogin = false;
                 $scope.loginFrm.$invalid = false;
             });

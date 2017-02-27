@@ -2,9 +2,8 @@
  * Created by Damith on 6/1/2016.
  */
 
-mainApp.controller('activateCtrl', function ($rootScope, $scope,$stateParams, $state, $http,
-                                          loginService) {
-
+mainApp.controller('activateCtrl', function ($rootScope, $scope, $stateParams, $state, $http,
+                                             loginService) {
 
 
     var showAlert = function (title, type, content) {
@@ -25,19 +24,18 @@ mainApp.controller('activateCtrl', function ($rootScope, $scope,$stateParams, $s
 
 
         loginService.activateAccount($stateParams.token, function (isSuccess) {
-            if(isSuccess){
-                showAlert('Success', 'success', "Your account has been updated, Please login");
+            if (isSuccess) {
+                showAlert('Success', 'success', "Your Account Has Been Activated, Please Login");
                 $state.go('login');
-            }else{
+            } else {
                 showAlert('Error', 'error', "Account activation failed");
             }
         })
 
 
-
     }
 
-    $scope.BackToLogin= function () {
+    $scope.BackToLogin = function () {
 
 
         $state.go('login');

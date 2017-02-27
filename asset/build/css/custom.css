@@ -218,8 +218,9 @@
     background: #EDEDED;
     border-bottom: 1px solid #D9DEE4;
     margin-bottom: 10px;
-    width: 100%;
     position: relative;
+
+
 }
 
 @media (min-width: 480px) {
@@ -411,7 +412,7 @@ body .container.body .right_col {
 
 body {
     color: #73879C;
-    background: #383b3b;
+    background: #38373a;
     font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -672,6 +673,10 @@ a:hover, a:focus {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+}
+
+.nav-md ul.nav.child_menu li.active:before {
+    background: #17bab8 ;
 }
 
 .nav-md ul.nav.child_menu li:after {
@@ -3593,7 +3598,7 @@ ul.project_files li a i {
 /* *********  /pricing  **************************** */
 /* *********  media gallery  **************************** */
 .thumbnail .image {
-    height: 120px;
+    height: 150px;
     overflow: hidden;
 }
 
@@ -3607,7 +3612,7 @@ ul.project_files li a i {
 }
 
 .thumbnail {
-    height: 190px;
+    height: 230px;
     overflow: hidden;
 }
 

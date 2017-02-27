@@ -95,7 +95,7 @@
                         caseApiAccess.deleteCaseConfiguration(scope.caseConfig._id.toString()).then(function (response) {
                             if (response.IsSuccess) {
                                 scope.updateCaseConfig(scope.caseConfig);
-                                scope.showAlert('Case Configuration', response.CustomMessage, 'success');
+                                scope.showAlert('Case Configuration', 'Case Configuration Deactivated Successfully.', 'success');
                                 $state.reload();
                             }
                             else {
@@ -104,14 +104,14 @@
                                 if (response.Exception) {
                                     errMsg = response.Exception.Message;
                                 }
-                                scope.showAlert('Case Configuration', errMsg, 'error');
+                                scope.showAlert('Case Configuration', 'Case Configuration Deactivated Error.', 'error');
                             }
                         }, function (err) {
                             var errMsg = "Error occurred while deleting Case Configuration";
                             if (err.statusText) {
                                 errMsg = err.statusText;
                             }
-                            scope.showAlert('Case Configuration', errMsg, 'error');
+                            scope.showAlert('Case Configuration', 'Case Configuration Deactivated Error.', 'error');
                         });
                     }, function () {
 

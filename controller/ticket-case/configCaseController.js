@@ -14,12 +14,12 @@
         $scope.showPaging = true;
         $scope.currentPage = 1;
         $scope.pageSize = 20;
-        $scope.totalTickets = $scope.caseInfo.related_tickets? $scope.caseInfo.related_tickets.length: 0;
-        $scope.pageTotal = $scope.totalTickets > 0? $scope.totalTickets/$scope.pageSize : 0;
+        $scope.totalTickets = $scope.caseInfo.related_tickets ? $scope.caseInfo.related_tickets.length : 0;
+        $scope.pageTotal = $scope.totalTickets > 0 ? $scope.totalTickets / $scope.pageSize : 0;
         $scope.pageTotal = Math.ceil($scope.pageTotal);
 
 
-        if($scope.caseInfo.caseConfiguration){
+        if ($scope.caseInfo.caseConfiguration) {
             $scope.ticketType = $scope.caseInfo.caseConfiguration.activeTicketTypes;
         }
 
@@ -29,9 +29,9 @@
             var tIds = $scope.caseInfo.related_tickets.slice(start, end);
 
             caseApiAccess.getTicketsForCase(tIds).then(function (response) {
-                    $scope.CTickets = response.Result;
-                }, function (err) {
-                });
+                $scope.CTickets = response.Result;
+            }, function (err) {
+            });
         };
 
         $scope.selectedTickets = {ids: []};
@@ -266,9 +266,9 @@
 
                 var limit = 0;
 
-                if($scope.recLimit === 'all'){
+                if ($scope.recLimit === 'all') {
                     limit = 0;
-                }else{
+                } else {
                     limit = parseInt($scope.recLimit);
                 }
 
@@ -299,7 +299,7 @@
 
             try {
 
-                if($scope.recLimit === 'all'){
+                if ($scope.recLimit === 'all') {
                     ticketReportsService.getTicketDetailsCount($scope.FilterData).then(function (ticketCount) {
                         if (ticketCount && ticketCount.IsSuccess) {
                             $scope.pagination.totalItems = ticketCount.Result;
@@ -310,13 +310,13 @@
 
 
                                 $scope.ticketList = [];
-                                for(var i=0; i<ticketDetailsResp.Result.length;i++){
+                                for (var i = 0; i < ticketDetailsResp.Result.length; i++) {
                                     var ticket = ticketDetailsResp.Result[i];
-                                    if($scope.ticketType && $scope.ticketType.length>0){
-                                        if($scope.ticketType.indexOf(ticket.type)>-1) {
+                                    if ($scope.ticketType && $scope.ticketType.length > 0) {
+                                        if ($scope.ticketType.indexOf(ticket.type) > -1) {
                                             $scope.ticketList.push(ticket);
                                         }
-                                    }else{
+                                    } else {
                                         $scope.ticketList.push(ticket);
                                     }
                                 }
@@ -343,7 +343,7 @@
                         $scope.obj.isTableLoading = -1;
                         $scope.ticketList = [];
                     });
-                }else{
+                } else {
                     ticketReportsService.getTicketDetailsCount($scope.FilterData).then(function (ticketCount) {
                         if (ticketCount && ticketCount.IsSuccess) {
                             $scope.pagination.totalItems = ticketCount.Result;
@@ -352,13 +352,13 @@
                         ticketReportsService.getTicketDetails($scope.FilterData).then(function (ticketDetailsResp) {
                             if (ticketDetailsResp && ticketDetailsResp.Result && ticketDetailsResp.Result.length > 0) {
                                 $scope.ticketList = [];
-                                for(var i=0; i<ticketDetailsResp.Result.length;i++){
+                                for (var i = 0; i < ticketDetailsResp.Result.length; i++) {
                                     var ticket = ticketDetailsResp.Result[i];
-                                    if($scope.ticketType && $scope.ticketType.length>0){
-                                        if($scope.ticketType.indexOf(ticket.type)>-1) {
+                                    if ($scope.ticketType && $scope.ticketType.length > 0) {
+                                        if ($scope.ticketType.indexOf(ticket.type) > -1) {
                                             $scope.ticketList.push(ticket);
                                         }
-                                    }else{
+                                    } else {
                                         $scope.ticketList.push(ticket);
                                     }
                                 }
@@ -386,7 +386,6 @@
                         $scope.ticketList = [];
                     });
                 }
-
 
 
             }
@@ -480,7 +479,7 @@
         $scope.bulkStatusChangeTickets = function () {
             caseApiAccess.bulkStatusChangeTickets($scope.selectedExsistingTickets.ids, $scope.bulkAction).then(function (response) {
                 if (response.IsSuccess) {
-                    $scope.showAlert('Case', 'success', response.CustomMessage);
+                    $scope.showAlert('Case', 'success', "Tickets Have Been Updated Successfully.");
                     //$state.reload();
                 }
                 else {
@@ -489,7 +488,7 @@
                     if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Case', 'error', errMsg);
+                    $scope.showAlert('Case', 'error', "Tickets Have Been Updated Error.");
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -497,14 +496,14 @@
                 if (err.statusText) {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Case', 'error', errMsg);
+                $scope.showAlert('Case', 'error', "Tickets Have Been Updated Error.");
             });
         };
 
         $scope.bulkActions = ['closed'];
 
         $scope.getFlowNodes = function () {
-            if($scope.ticketType && $scope.ticketType.length === 1) {
+            if ($scope.ticketType && $scope.ticketType.length === 1) {
                 ticketFlowService.getFlowNodes($scope.ticketType[0]).then(function (res) {
                     //var connections = [];
                     if (res.data.IsSuccess && res.status == '200') {
@@ -514,13 +513,13 @@
                             return item.node.name
 
                         });
-                    }else{
+                    } else {
                         $scope.bulkActions = ['closed'];
                     }
                 }, function (err) {
                     $scope.bulkActions = ['closed'];
                 });
-            }else{
+            } else {
                 $scope.bulkActions = ['closed'];
             }
         };

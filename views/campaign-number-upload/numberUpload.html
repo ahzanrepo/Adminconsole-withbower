@@ -63,7 +63,7 @@
                                                     <option value="" disabled selected>Select Campaign Schedule</option>
                                                     <option ng-repeat="cSchedule in campaignSchedules"
                                                             value="{{cSchedule.CamScheduleId}}">
-                                                        {{cSchedule.CamScheduleId}}
+                                                        {{cSchedule.ScheduleName}}
                                                     </option>
                                                 </select>
                                             <span class="fa fa-cog form-control-feedback left"
@@ -235,8 +235,8 @@
                                                                 {{camCategory.CategoryName.toUpperCase()}}
                                                             </option>
                                                         </select>
-                                            <span class="fa fa-cog form-control-feedback left"
-                                                  aria-hidden="true"></span>
+                                                        <span class="fa fa-cog form-control-feedback left"
+                                                        aria-hidden="true"></span>
 
                                                     </div>
 
@@ -252,8 +252,8 @@
                                                                 {{newCampaign.CampaignName.toUpperCase()}}
                                                             </option>
                                                         </select>
-                                            <span class="fa fa-cog form-control-feedback left"
-                                                  aria-hidden="true"></span>
+                                                        <span class="fa fa-cog form-control-feedback left"
+                                                        aria-hidden="true"></span>
                                                     </div>
 
                                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
@@ -265,11 +265,11 @@
                                                             </option>
                                                             <option ng-repeat="cSchedule in campaignSchedules"
                                                                     value="{{cSchedule.CamScheduleId}}">
-                                                                {{cSchedule.CamScheduleId}}
+                                                                {{cSchedule.ScheduleName}}
                                                             </option>
                                                         </select>
-                                            <span class="fa fa-cog form-control-feedback left"
-                                                  aria-hidden="true"></span>
+                                                        <span class="fa fa-cog form-control-feedback left"
+                                                            aria-hidden="true"></span>
                                                     </div>
                                                 </div>
                                                 <div class="row">

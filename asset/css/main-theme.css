@@ -17,6 +17,7 @@
 }
 
 .nav_title {
-    background: #F8B01D;
+    background: #353535;
     height: 60px;
+    border-bottom: 1px solid #2f3333 !important;
 }
