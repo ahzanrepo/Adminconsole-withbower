@@ -3085,7 +3085,7 @@ tags-input .tags {
     font-size: 14px;
     height: 40px;
     color: #555;
-    border: 2px solid #e6e5e5;
+    border: 1px solid #e6e5e5;
 }
 
 tags-input .tags.focused {
@@ -4502,7 +4502,7 @@ tags-input .tags {
     float: right;
     width: 25px;
     height: 25px;
-    background: #17bab8;
+    background: #45eaca;
     border-radius: 50%;
     text-align: center;
     padding-top: 4px;
@@ -5163,11 +5163,15 @@ ul.row-option > li.delete:focus {
 }
 
 .icon-green {
-    color: #18c89c;
+    color: #45eaca;
 }
 
 .icon-yellow {
-    color: #f1c410;
+    color: #f1ea0e;
+}
+
+.icon-indeego{
+    color: #ba70fc;
 }
 
 .text-w-row-back-600 {
@@ -5211,7 +5215,7 @@ ul.row-option > li.delete:focus {
     overflow: hidden;
     position: relative;
     display: inline-block;
-    margin: 10px 10px 10px 0px;
+    margin: 2px 5px 0px 0px;
     padding: 10px 5px 5px 10px;
     border-left: 3px solid #ededed;
     cursor: pointer;
@@ -5235,7 +5239,7 @@ ul.row-option > li.delete:focus {
 }
 
 .widget-dy-wrp.active {
-    border-left: 3px solid #17bab8;
+    border-left: 3px solid #45eaca;
 }
 
 .active-card {

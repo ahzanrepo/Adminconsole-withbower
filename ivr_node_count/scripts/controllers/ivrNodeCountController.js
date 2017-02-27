@@ -139,7 +139,8 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
 
 
     $scope.LoadDataByNode = function (eventParams) {
-
+        $('.widget-dy-wrp').removeClass('active');
+        $('#' + eventParams).addClass('active');
         $scope.tags = [];
         $scope.tags.push({
             "Name": eventParams,
