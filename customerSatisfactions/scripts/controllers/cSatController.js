@@ -1,4 +1,4 @@
-mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q, cSatService) {
+mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $q, cSatService) {
     $anchorScroll();
 
     // search
@@ -84,29 +84,27 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
     $scope.goodRate = 0;
     var calculateReating = function () {
         var curRes = ($scope.pageTotal - $scope.offered);
-        $scope.responseRate =  ((curRes/$scope.pageTotal)*100);
-        if($scope.responseRate<=100)
-        {
-            if($scope.responseRate<0){
+        $scope.responseRate = ((curRes / $scope.pageTotal) * 100);
+        if ($scope.responseRate <= 100) {
+            if ($scope.responseRate < 0) {
                 $scope.responseRate = 0;
             }
             else
                 $scope.responseRate = $scope.responseRate.toFixed(2);
         }
-        else{
+        else {
             $scope.responseRate = 0;
         }
 
-        $scope.goodRate = (($scope.good/curRes)*100);
-        if($scope.goodRate<=100)
-        {
-            if($scope.goodRate<0){
+        $scope.goodRate = (($scope.good / curRes) * 100);
+        if ($scope.goodRate <= 100) {
+            if ($scope.goodRate < 0) {
                 $scope.goodRate = 0;
             }
             else
-            $scope.goodRate = $scope.goodRate.toFixed(2);
+                $scope.goodRate = $scope.goodRate.toFixed(2);
         }
-        else{
+        else {
             $scope.goodRate = 0;
         }
     };
@@ -125,9 +123,9 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
                     if (item) {
                         $scope.doughnutObj.labels.push(item._id);
                         $scope.doughnutObj.data.push(item.satisfactions);
-                        if(item._id==='offered')
+                        if (item._id === 'offered')
                             $scope.offered = item.satisfactions;
-                        if(item._id==='good')
+                        if (item._id === 'good')
                             $scope.good = item.satisfactions;
                     }
                 });
@@ -163,7 +161,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
 
     $scope.searchData = function () {
         if ($scope.csatSerach.StartTime >= $scope.csatSerach.EndTime) {
-            showAlert("Search","error","End Time Should Be Greater Than Start Time.");
+            showAlert("Search", "error", "End Time Should Be Greater Than Start Time.");
             return
         }
 
@@ -174,7 +172,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll,$q
 
     $scope.satisfaction = "all";
     $scope.searchDataBySatisfaction = function (satisfaction) {
-        $('.cs-wrapper').removeClass('active');
+        $('.widget-dy-wrp').removeClass('active');
         $('#' + satisfaction).addClass('active');
         $scope.satisfaction = satisfaction;
         $scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);

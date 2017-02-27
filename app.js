@@ -86,7 +86,7 @@ var baseUrls = {
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
     'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
-    'softPhoneContactUrl': 'http://192.168.0.15:8827/DVP/API/1.0.0.0/ContactManager/',
+    'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
     'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/'
 };
 
@@ -902,6 +902,7 @@ mainApp.filter('durationFilter', function () {
 var setContentHeight = function () {
     // reset height
     $RIGHT_COL.css('min-height', $(window).height());
+    
 
     var bodyHeight = $BODY.outerHeight(),
         footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height(),
