@@ -30,13 +30,15 @@ mainApp.controller("scheduleController", function ($scope, $state, $uibModal, sc
     $scope.Developers = [];
     $scope.searchCriteria = "";
     $scope.scheduleAppId = -1;
+    $scope.parentSchedule = null;
 
     $scope.advancedAppointmentList = [];
 
-    $scope.showModalAppointments = function (scheduleId) {
+    $scope.showModalAppointments = function (scheduleId, schedule) {
 
         $scope.advancedAppointmentList = [];
         $scope.scheduleAppId = scheduleId;
+        $scope.parentSchedule = schedule;
         //modal show
         $scope.modalInstance = $uibModal.open({
             animation: true,

@@ -165,7 +165,17 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                         else {
                             callback.Status = true;
                             callback.CallBackConfId = response.CallBackConfId;
-                            scope.callbacks.push(callback);
+
+                            var items = $filter('filter')(scope.callbacks, {CallBackConfId: parseInt(response.CallBackConfId)}, true);
+                            if (items) {
+                                var index = scope.callbacks.indexOf(items[0]);
+                                if (index === -1) {
+                                    var tempCallback = {};
+                                    angular.copy(callback,tempCallback);
+                                    scope.callbacks.push(tempCallback);
+                                }
+                            }
+
                         }
                         scope.updateConfig = false;
                     }, function (error) {
@@ -263,7 +273,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                     campaignService.DeleteCampaign(scope.campaign.CampaignId).then(function (response) {
                         if (response) {
                             scope.reloadCampaign();
-                            scope.showAlert("Campaign", 'success', "Delete Successfully ");
+                            scope.showAlert("Campaign", 'success', "Deleted Successfully ");
 
                         } else {
                             scope.showAlert("Campaign", 'error', "Fail To Delete Campaign");

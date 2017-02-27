@@ -26,7 +26,7 @@
                                                                data-min-length="0"
                                                                data-html="1" data-auto-select="true"
                                                                data-animation="am-flip-x"
-                                                               bs-options="camCategory.CategoryID as camCategory.CategoryName.toUpperCase() for camCategory in campaignCategories"
+                                                               bs-options="camCategory.CategoryID as camCategory.CategoryName for camCategory in campaignCategories"
                                                                placeholder="Select Number Category" bs-typeahead>
                                                                     <span class="input-group-btn">
                                                                         <button type="button" class="btn btn-primary"
@@ -111,7 +111,7 @@
                                                 <!--<div class="x_panel" style="border: dotted">-->
                                                     <center>
                                                         <br><br>
-                                                        <form><input type="file" class="file-chooser" id="files123"
+                                                        <form><input accept=".csv" type="file" class="file-chooser" id="files123"
                                                                      name="files[]"/></form>
                                                     </center>
                                                 <!--</div>-->
@@ -155,12 +155,15 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                                <button type="button" class="btn btn-success"
-                                                        ng-click="uploadNumbers()">Upload
-                                                </button>
-                                                <button type="button" class="btn btn-success"
-                                                        ng-click="reset()">Reset Grid
-                                                </button>
+                                                <fieldset>
+                                                    <button type="button" class="btn btn-success"
+                                                            ng-click="uploadNumbers()" ng-disabled="uploadButtonValue == 'Uploading...'">{{uploadButtonValue}}
+                                                    </button>
+                                                    <button type="button" class="btn btn-success"
+                                                            ng-click="reset()">Clear All
+                                                    </button>
+                                                </fieldset>
+
                                             </div>
 
                                         </div>
@@ -299,6 +302,17 @@
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="data-state-wrap">
                                                 Please Wait...
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if="isTableLoading==2">
+                                    <div class="row ">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="data-state-wrap">
+                                                No Data To Show
                                             </div>
 
                                         </div>

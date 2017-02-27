@@ -674,6 +674,10 @@ a:hover, a:focus {
     border-radius: 50%;
 }
 
+.nav-md ul.nav.child_menu li.active:before {
+    background: #17bab8 ;
+}
+
 .nav-md ul.nav.child_menu li:after {
     border-left: 1px solid #4a4a4a;
     bottom: 0;
@@ -3593,7 +3597,7 @@ ul.project_files li a i {
 /* *********  /pricing  **************************** */
 /* *********  media gallery  **************************** */
 .thumbnail .image {
-    height: 120px;
+    height: 150px;
     overflow: hidden;
 }
 
@@ -3607,7 +3611,7 @@ ul.project_files li a i {
 }
 
 .thumbnail {
-    height: 190px;
+    height: 230px;
     overflow: hidden;
 }
 

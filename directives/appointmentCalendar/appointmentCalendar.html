@@ -4,7 +4,7 @@
             <input type="text" class="form-control" ng-model="curAppointment.AppointmentName" placeholder="Appointment Name">
         </div>
         <div class="col-md-5 col-sm-5 col-xs-5">
-            <select class="form-control" placeholder="Recurrence Pattern" ng-model="curAppointment.RecurrencePattern">
+            <select class="form-control" placeholder="Recurrence Pattern" ng-model="curAppointment.RecurrencePattern" ng-change="onRecurrenceValueChanged()">
                 <option value="NONE">Recurrence - NONE</option>
                 <option value="DAILY">Recurrence - DAILY</option>
                 <option value="WEEKLY">Recurrence - WEEKLY</option>
@@ -25,14 +25,14 @@
         <div class="col-md-2 col-sm-2 col-xs-2" style="position: relative; top: 20px;">
             <button type="button" class="btn btn-primary" ng-click="clearCurrentAppointment()">Clear</button>
         </div>
-        <fieldset class="col-md-5 col-sm-5 col-xs-5">
+        <fieldset class="col-md-5 col-sm-5 col-xs-5" ng-disabled="curAppointment.RecurrencePattern === 'DAILY'">
             <span>Start Time (HH:MM) 24 HR</span>
             <div class="bootstrap-timepicker">
                 <input id="timepickerSt" type="text" class="form-control" ng-model="curAppointment.StartTime">
                 <i class="icon-time"></i>
             </div>
         </fieldset>
-        <fieldset class="col-md-5 col-sm-5 col-xs-5">
+        <fieldset class="col-md-5 col-sm-5 col-xs-5" ng-disabled="curAppointment.RecurrencePattern === 'DAILY'">
             <span>End Time (HH:MM) 24 HR</span>
             <div class="bootstrap-timepicker">
                 <input id="timepickerEt" type="text" class="form-control" ng-model="curAppointment.EndTime">
@@ -43,7 +43,7 @@
             <button type="button" class="btn btn-primary" ng-click="saveUpdateAppointment()">{{saveButtonName}}</button>
         </div>
     </div>
-    <div class="col-md-4 col-sm-4 col-xs-4">
+    <fieldset class="col-md-4 col-sm-4 col-xs-4" ng-disabled="isWeeksDisabled">
         <p style="padding-left: 10px;">Days of Week</p>
         <div class="col-md-3 col-sm-3 col-xs-3">
             <checkbox class="btn-success" ng-model="curAppointment.WeeklyMonday" ng-init="curAppointment.WeeklyMonday=false"></checkbox>
@@ -93,7 +93,7 @@
                 <small>Sunday</small>
             </label>
         </div>
-    </div>
+    </fieldset>
 
 </div>
 

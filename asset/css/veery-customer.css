@@ -2739,7 +2739,7 @@ label {
     font-family: 'Roboto', sans-serif !important;
     font-weight: 400;
     font-size: 13px !important;
-    color: #5d5d5f;
+    color: #b9b9bb;
     margin-right: 0px !important;
 }
 
@@ -3051,11 +3051,12 @@ ul.social li {
 }
 
 .x_title span {
-    color: #e6e5e5;
+    color: #838383;
 }
 
 tags-input .autocomplete {
-    z-index: 99999
+    z-index: 99999;
+    position: relative;
 }
 
 tags-input .autocomplete .suggestion-list {
@@ -3084,7 +3085,7 @@ tags-input .tags {
     font-size: 14px;
     height: 40px;
     color: #555;
-    border: 2px solid #e6e5e5;
+    border: 1px solid #e6e5e5;
 }
 
 tags-input .tags.focused {
@@ -4501,7 +4502,7 @@ tags-input .tags {
     float: right;
     width: 25px;
     height: 25px;
-    background: #1abb9c;
+    background: #45eaca;
     border-radius: 50%;
     text-align: center;
     padding-top: 4px;
@@ -4704,6 +4705,7 @@ section.h3 {
 
 .x_title > h2 {
     text-transform: uppercase;
+    font-size: 18px;
 }
 
 .s-panel {
@@ -5027,6 +5029,249 @@ ul.row-option > li.delete:focus {
     height: 100%;
     background: #fff;
 }
-.center-section{
+
+.center-section {
     margin-top: 30px;
+}
+
+/*csat*/
+.rate-card-wrp {
+    width: 100%;
+    min-height: 125px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+.rate-card {
+    width: 100%;
+    min-height: 110px;
+    /* background: #000; */
+    -webkit-box-shadow: 0px 2px 12px 1px rgba(0, 0, 0, 0.14);
+    -moz-box-shadow: 0px 2px 12px 1px rgba(0, 0, 0, 0.14);
+    box-shadow: 0px 2px 12px 1px rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+    margin-top: 5px;
+    padding: 20px;
+}
+
+.rate-card > .rate-text,
+.rate-card > .rate-footer-title {
+    text-align: center;
+    font-family: 'Ubuntu-Bold', sans-serif !important;
+}
+
+.rate-card > .rate-footer-title {
+    font-size: 20px;
+    color: #21cccc;
+}
+
+.rate-card > .rate-text {
+    font-size: 28px;
+}
+
+/*dashboard  UI update */
+.card-dashboard {
+    width: 100%;
+    min-height: 140px;
+    overflow: hidden;
+    position: relative;
+}
+
+/*auth form */
+.lost-pwd-link > a {
+    color: #fff;
+}
+
+/*widget*/
+.chart-widget {
+    width: 100%;
+    min-height: 350px;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    margin-bottom: 15px;
+}
+
+.chart-ng-w-tr {
+    background: rgba(255, 255, 255, 0.41) !important;
+}
+
+.chart-widget > .widget-h,
+.widget-h {
+
+}
+
+.widget-m-wrp {
+    width: 100%;
+    min-height: 409px;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 25px;
+}
+
+.widget-h > h2 {
+    text-align: left;
+    font-family: 'Ubuntu-Light', sans-serif !important;
+    text-transform: capitalize;
+    font-size: 18px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid #f7f7f7;
+}
+
+.widget-body {
+    width: 100%;
+    min-height: 320px;
+    overflow: hidden;
+    position: relative;
+}
+
+.chart-center {
+    text-align: center;
+}
+
+/*text widget */
+.text-widget {
+    width: 100%;
+    height: 409px;
+    position: relative;
+    background: #fff;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.text-w-row {
+    width: 100%;
+    min-height: 25px;
+    overflow: hidden;
+    margin-top: 25px;
+    /* padding-top: 12px; */
+    padding-bottom: 22px;
+}
+
+.text-w-border-b {
+    border-bottom: 1px solid #f7f7f7;
+}
+
+.text-w-row-back-500 {
+    background: #353535;
+}
+
+.txt-color-b-500 {
+    color: #353535;
+}
+
+.icon-green {
+    color: #45eaca;
+}
+
+.icon-yellow {
+    color: #f1ea0e;
+}
+
+.icon-indeego{
+    color: #ba70fc;
+}
+
+.text-w-row-back-600 {
+    background: #353535;
+}
+
+.w-bg-icon {
+    padding-top: 22px;
+}
+
+.w-bg-icon > i {
+    font-size: 33px;
+}
+
+.w-bg-text-bg {
+    font-size: 40px;
+}
+
+.w-bg-text {
+    font-size: 16px;
+    text-align: left;
+    padding-left: 8px;
+}
+
+.widget-dyn {
+    width: 100%;
+    min-height: 125px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0px;
+    margin-left: 9px;
+    word-break: break-all;
+    word-spacing: normal;
+    word-wrap: normal;
+}
+
+.widget-dy-wrp {
+    min-width: 196px;
+    min-height: 91px;
+    background: rgb(255, 255, 255);
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    margin: 2px 5px 0px 0px;
+    padding: 10px 5px 5px 10px;
+    border-left: 3px solid #ededed;
+    cursor: pointer;
+}
+
+.widget-dy-wrp:hover {
+    background: #ededed;
+}
+
+.widget-txt-s {
+    font-size: 20px;
+    color: #353535;
+}
+
+.widget-dy-wrp > .active-card {
+    display: none;
+}
+
+.widget-dy-wrp.active > .active-card {
+    display: block;
+}
+
+.widget-dy-wrp.active {
+    border-left: 3px solid #45eaca;
+}
+
+.active-card {
+    position: absolute;
+    right: 25px;
+    top: 9px;
+}
+.default-card {
+    position: absolute;
+    right: 25px;
+    bottom: 50px;
+}
+
+.view-first > img {
+    width: 150px;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.word-space {
+    word-break: break-all;
+    word-spacing: normal;
+    word-wrap: normal;
+}
+
+.x-panel-overflow {
+    overflow: hidden;
+    position: relative;
+}
+
+.text-white-space {
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

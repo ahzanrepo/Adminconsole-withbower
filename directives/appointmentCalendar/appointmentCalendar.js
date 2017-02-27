@@ -7,7 +7,9 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
     return {
         scope: {
             data: '=',
-            schedule: '='
+            schedule: '=',
+            schedulesdate: '=',
+            scheduleedate: '='
         },
         restrict: 'EAA',
         templateUrl: 'directives/appointmentCalendar/appointmentCalendar.html',
@@ -16,6 +18,27 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
             {
                 scope.saveButtonName = 'Save';
                 scope.validationError = '';
+
+                scope.isWeeksDisabled = true;
+
+                scope.onRecurrenceValueChanged = function()
+                {
+                    if(scope.curAppointment.RecurrencePattern === 'WEEKLY')
+                    {
+                        scope.isWeeksDisabled = false;
+                    }
+                    else
+                    {
+                        scope.isWeeksDisabled = true;
+                        scope.curAppointment.WeeklyMonday = false;
+                        scope.curAppointment.WeeklyTuesday = false;
+                        scope.curAppointment.WeeklyWednesday = false;
+                        scope.curAppointment.WeeklyThursday = false;
+                        scope.curAppointment.WeeklyFriday = false;
+                        scope.curAppointment.WeeklySaturday = false;
+                        scope.curAppointment.WeeklySunday = false;
+                    }
+                };
 
                 scope.validateSubmitData = function()
                 {
@@ -33,6 +56,16 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                         scope.validationError = 'Appointment name is mandatory';
                         return false;
                     }
+                    if(!scope.schedulesdate)
+                    {
+                        scope.validationError = 'Parent schedule must have a start date';
+                        return false;
+                    }
+                    if(!scope.scheduleedate)
+                    {
+                        scope.validationError = 'Parent schedule must have a end date';
+                        return false;
+                    }
                     if(!scope.curAppointment.StartDate)
                     {
                         scope.validationError = 'Start date is mandatory';
@@ -40,6 +73,14 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                     }
                     else
                     {
+                        //moment('2010-10-20').isSameOrBefore('2010-10-21')
+                        var isBefore = moment(scope.schedulesdate).isBefore(moment(scope.curAppointment.StartDate));
+                        var isSame = moment(scope.schedulesdate).isSame(moment(scope.curAppointment.StartDate));
+                        if(!(isBefore || isSame))
+                        {
+                            scope.validationError = 'Start date of parent schedule should be less than or equal to appointment start date';
+                            return false;
+                        }
                         try
                         {
                             var dateSplit = scope.curAppointment.StartDate.split('-');
@@ -52,7 +93,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
 
                                 startDateMoment = moment(new Date(syear, smonth, sday));
 
-                                if(!startDateMoment.isValid())
+                                if(!moment(scope.curAppointment.StartDate, 'YYYY-MM-DD', true).isValid())
                                 {
                                     scope.validationError = 'Start date is not a valid date format';
                                     return false;
@@ -78,6 +119,13 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                     }
                     else
                     {
+                        var isAfter = moment(scope.scheduleedate).isAfter(moment(scope.curAppointment.EndDate));
+                        var isSame = moment(scope.scheduleedate).isSame(moment(scope.curAppointment.EndDate));
+                        if(!(isAfter || isSame))
+                        {
+                            scope.validationError = 'End date of parent schedule should be larger than or equal to appointment end date';
+                            return false;
+                        }
                         try
                         {
                             var dateSplit = scope.curAppointment.EndDate.split('-');
@@ -90,7 +138,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
 
                                 endDateMoment = moment(new Date(eyear, emonth, eday));
 
-                                if(!endDateMoment.isValid())
+                                if(!moment(scope.curAppointment.EndDate, 'YYYY-MM-DD', true).isValid())
                                 {
                                     scope.validationError = 'End date is not a valid date format';
                                     return false;
@@ -127,7 +175,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
 
                                 startDateMoment = moment(new Date(syear, smonth, sday, shour, sminute));
 
-                                if(!startDateMoment.isValid())
+                                if(!moment(scope.curAppointment.StartTime, 'HH:mm', true).isValid())
                                 {
                                     scope.validationError = 'Start time is not a valid time format';
                                     return false;
@@ -148,9 +196,9 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                     }
                     else
                     {
-                        if(scope.curAppointment.RecurrencePattern === 'WEEKLY' || scope.curAppointment.RecurrencePattern === 'DAILY')
+                        if(scope.curAppointment.RecurrencePattern === 'WEEKLY' || scope.curAppointment.RecurrencePattern === 'NONE')
                         {
-                            scope.validationError = 'Start time is mandatory for daily or weekly events';
+                            scope.validationError = 'Start time is mandatory for NONE and WEEKLY events';
                             return false;
                         }
                     }
@@ -167,7 +215,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
 
                                 endDateMoment = moment(new Date(eyear, emonth, eday, ehour, eminute));
 
-                                if(!endDateMoment.isValid())
+                                if(!moment(scope.curAppointment.EndTime, 'HH:mm', true).isValid())
                                 {
                                     scope.validationError = 'End time is not a valid time format';
                                     return false;
@@ -188,9 +236,9 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                     }
                     else
                     {
-                        if(scope.curAppointment.RecurrencePattern === 'WEEKLY' || scope.curAppointment.RecurrencePattern === 'DAILY')
+                        if(scope.curAppointment.RecurrencePattern === 'WEEKLY' || scope.curAppointment.RecurrencePattern === 'NONE')
                         {
-                            scope.validationError = 'End time is mandatory for daily or weekly events';
+                            scope.validationError = 'End time is mandatory for NONE and WEEKLY events';
                             return false;
                         }
                     }
@@ -397,7 +445,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                             }
                             else
                             {
-                                scope.curAppointment.WeeklyWednesday = true;
+                                scope.curAppointment.WeeklyWednesday = false;
                             }
                             if (event.appointmentObj.DaysOfWeek.includes("Thursday"))
                             {
@@ -724,7 +772,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                                     {
                                         tempEvt.color = '#28af26';
 
-                                        if (appointment.StartDate && appointment.EndDate)
+                                        if (appointment.StartDate && appointment.EndDate && appointment.StartTime && appointment.EndTime)
                                         {
                                             var sDateStr = appointment.StartDate;
                                             var eDateStr = appointment.EndDate;
@@ -749,13 +797,10 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                                     else if (appointment.RecurrencePattern === 'DAILY')
                                     {
                                         tempEvt.color = '#d8db2e';
-                                        if (appointment.StartDate && appointment.EndDate && appointment.StartTime && appointment.EndTime)
+                                        if (appointment.StartDate && appointment.EndDate)
                                         {
                                             var sDateStr = appointment.StartDate;
                                             var eDateStr = appointment.EndDate;
-
-                                            sDateStr = sDateStr + ' ' + appointment.StartTime;
-                                            eDateStr = eDateStr + ' ' + appointment.EndTime;
 
                                             tempEvt.start = sDateStr;
                                             tempEvt.end = eDateStr;
@@ -798,7 +843,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                                             }
                                             if (appointment.DaysOfWeek.includes("Sunday"))
                                             {
-                                                tempEvt.dow.push(7);
+                                                tempEvt.dow.push(0);
                                             }
 
                                         }
@@ -958,6 +1003,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                                     {
 
                                         redrawEvent();
+                                        scope.clearCurrentAppointment();
 
                                         scope.showAlert('Success', 'success', 'Appointment updated successfully');
                                     }
@@ -982,17 +1028,18 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                                     {
 
                                         redrawEvent();
+                                        scope.clearCurrentAppointment();
 
-                                        scope.showAlert('Success', 'success', 'Appointment updated successfully');
+                                        scope.showAlert('Success', 'success', 'Appointment saved successfully');
                                     }
                                     else
                                     {
-                                        scope.showAlert('Error', 'error', 'Error occurred while updating appointment');
+                                        scope.showAlert('Error', 'error', 'Error occurred while saving appointment');
                                     }
 
                                 }).catch(function (err)
                                 {
-                                    scope.showAlert('Error', 'error', 'Error occurred while updating appointment');
+                                    scope.showAlert('Error', 'error', 'Error occurred while saving appointment');
                                 })
 
                         }

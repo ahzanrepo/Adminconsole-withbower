@@ -44,11 +44,11 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
         $auth.signup(newUser)
             .then(function (response) {
                 //$auth.setToken(response);
-                showAlert('Job Done', 'success', 'Registration successfully please check email for verification...');
+                showAlert('Job Done', 'success', 'You have successfully registered with Face Tone.Please check your email for verification.');
                 $state.go('login');
             })
             .catch(function (response) {
-                showAlert('Error', 'error', 'User Registration error...');
+                showAlert('Error', 'error', 'User Registration error.');
                 $scope.isSignUp = false;
             });
     };
@@ -73,6 +73,10 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
     $('#password').focusout(function () {
         $scope.pwdBox = false;
     });
+
+    $scope.onClickBackToLogin = function () {
+        $state.go('login');
+    };
 
 
 });
