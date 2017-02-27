@@ -218,8 +218,9 @@
     background: #EDEDED;
     border-bottom: 1px solid #D9DEE4;
     margin-bottom: 10px;
-    width: 100%;
     position: relative;
+
+
 }
 
 @media (min-width: 480px) {
@@ -411,7 +412,7 @@ body .container.body .right_col {
 
 body {
     color: #73879C;
-    background: #383b3b;
+    background: #38373a;
     font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     font-size: 13px;
     font-weight: 400;
