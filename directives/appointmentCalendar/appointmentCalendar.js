@@ -196,9 +196,9 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                     }
                     else
                     {
-                        if(scope.curAppointment.RecurrencePattern === 'WEEKLY')
+                        if(scope.curAppointment.RecurrencePattern === 'WEEKLY' || scope.curAppointment.RecurrencePattern === 'NONE')
                         {
-                            scope.validationError = 'Start time is mandatory for daily or weekly events';
+                            scope.validationError = 'Start time is mandatory for NONE and WEEKLY events';
                             return false;
                         }
                     }
@@ -236,9 +236,9 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                     }
                     else
                     {
-                        if(scope.curAppointment.RecurrencePattern === 'WEEKLY')
+                        if(scope.curAppointment.RecurrencePattern === 'WEEKLY' || scope.curAppointment.RecurrencePattern === 'NONE')
                         {
-                            scope.validationError = 'End time is mandatory for daily or weekly events';
+                            scope.validationError = 'End time is mandatory for NONE and WEEKLY events';
                             return false;
                         }
                     }
@@ -1003,6 +1003,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                                     {
 
                                         redrawEvent();
+                                        scope.clearCurrentAppointment();
 
                                         scope.showAlert('Success', 'success', 'Appointment updated successfully');
                                     }
@@ -1027,17 +1028,18 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                                     {
 
                                         redrawEvent();
+                                        scope.clearCurrentAppointment();
 
-                                        scope.showAlert('Success', 'success', 'Appointment updated successfully');
+                                        scope.showAlert('Success', 'success', 'Appointment saved successfully');
                                     }
                                     else
                                     {
-                                        scope.showAlert('Error', 'error', 'Error occurred while updating appointment');
+                                        scope.showAlert('Error', 'error', 'Error occurred while saving appointment');
                                     }
 
                                 }).catch(function (err)
                                 {
-                                    scope.showAlert('Error', 'error', 'Error occurred while updating appointment');
+                                    scope.showAlert('Error', 'error', 'Error occurred while saving appointment');
                                 })
 
                         }
