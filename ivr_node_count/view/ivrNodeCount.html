@@ -152,15 +152,16 @@
 
 <!-- chart area -->
 <div ng-hide="intiate" class="row">
+
     <div class="col-lg-6 col-md-6 col-xs-12">
-        <div class="chart-widget animated fadeIn ">
+        <div class="chart-widget  animated fadeIn ">
             <div class="widget-m-wrp">
                 <div class="widget-h">
-                    <h2>IVER NOTE - Doughnut Chart </h2>
+                    <h2>IVR NOTE - Doughnut Chart </h2>
                 </div>
                 <div class="widget-body chart-center">
                     <canvas id="doughnut" class="chart chart-doughnut"
-                            width="400" height="400"
+                            width="300" height="300"
                             chart-data="doughnutObj.data"
                             chart-labels="doughnutObj.labels"
                             chart-legend="true"
@@ -176,11 +177,11 @@
         <div class="chart-widget  chart-ng-w-tr animated fadeIn ">
             <div class="widget-m-wrp">
                 <div class="widget-h">
-                    <h2>IVER NOTE - Polar Area Chart </h2>
+                    <h2>IVR NOTE - Polar Area Chart </h2>
                 </div>
                 <div class="widget-body chart-center">
                     <canvas id="polar-area" class="chart chart-polar-area"
-                            width="400" height="400"
+                            width="300" height="300"
                             chart-data="doughnutObj.data"
                             chart-labels="doughnutObj.labels"
                             chart-legend="true"
@@ -194,7 +195,8 @@
 </div>
 
 <div ng-hide="intiate" class="row">
-    <div class="col-lg-12 col-md-12 col-xs-12">
+    <div class="widget-dyn">
+
         <div class="widget-dy-wrp "
              id="{{ivrnode.EventParams}}"
              ng-repeat="ivrnode in doughnutObj.node track by $index"
@@ -215,7 +217,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    
+        </div>
 </div>
 
 <div class="row">
