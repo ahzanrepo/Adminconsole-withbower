@@ -17,10 +17,11 @@ mainApp.factory("ivrNodeCountService", function ($http, download,authService,bas
         });
     };
 
-    var getIvrNodeCount = function (appId,startDate,endDate) {
+    var getIvrNodeCount = function (appId,startDate,endDate,nodes) {
         return $http({
-            method: 'GET',
-            url: baseUrls.eventserviceUrl+ "EventService/Events/App/"+appId+"/Type/COMMAND/NodeCount?start="+startDate+"&end="+endDate
+            method: 'POST',
+            url: baseUrls.eventserviceUrl+ "EventService/Events/App/"+appId+"/Type/COMMAND/NodeCount?start="+startDate+"&end="+endDate,
+            data:nodes
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
