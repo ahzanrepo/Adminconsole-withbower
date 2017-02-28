@@ -38,7 +38,7 @@
 <div class="col-md-4 col-sm-4 col-xs-4 form-group"
      ng-class="{ 'has-error' : campaingForm.Extensions.$invalid && !campaingForm.Extensions.$pristine }">
     <select class="form-control has-feedback-left"  id="Extensions" ng-model="campaign.Extensions"
-            ng-options="opt.Extension as opt.Extension for opt in extensions track by opt.Extension"  required>
+            ng-options="opt as opt for opt in extensions track by opt"  required>
         <option disabled value=''>Extensions</option>
     </select>
     <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>

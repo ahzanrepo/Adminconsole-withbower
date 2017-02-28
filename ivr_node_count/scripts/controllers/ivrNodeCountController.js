@@ -103,9 +103,17 @@ mainApp.controller('ivrNodeCountController', ['$scope', '$filter', '$anchorScrol
             return
         }
 
+        var nodeList = $scope.tags.map(function (t) {
+            return t.Name
+        });
+
+        var nods = {
+            "nodes": nodeList
+        };
+
         $scope.intiate = false;
         $scope.isLoading = true;
-        ivrNodeCountService.GetIvrNodeCount($scope.application, $scope.fileSerach.StartTime.toUTCString(), $scope.fileSerach.EndTime.toUTCString()).then(function (response) {
+        ivrNodeCountService.GetIvrNodeCount($scope.application, $scope.fileSerach.StartTime.toUTCString(), $scope.fileSerach.EndTime.toUTCString(),nods).then(function (response) {
             $scope.isLoading = false;
             if (response) {
                 $scope.doughnutObj = {labels: [], data: [], node: []};

@@ -17,7 +17,6 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
         link: function (scope, element, attributes) {
 
-            scope.campaign.Extensions = {"Extension": scope.campaign.Extensions};
 
             scope.showAlert = function (tittle, type, content) {
                 new PNotify({
@@ -253,7 +252,12 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             scope.updateCampaign = function (campaignx) {
                 scope.updateEdit = true;
-                campaignService.UpdateCampaign(scope.campaign.CampaignId, campaignx).then(function (response) {
+                var updateCam = {};
+                angular.copy(campaignx,updateCam);
+                updateCam.CampConfigurations = undefined;
+                updateCam.CampContactSchedule = undefined;
+
+                campaignService.UpdateCampaign(scope.campaign.CampaignId, updateCam).then(function (response) {
                     if (response) {
                         scope.showAlert("Campaign", 'success', "Campaign Updated successfully ");
                     } else {
