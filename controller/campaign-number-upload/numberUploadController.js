@@ -421,25 +421,47 @@
                 $scope.campaignSchedules = [];
                 $scope.enablePreviewData = false;
                 if (campaignId) {
+                    var promiseFnList = [];
                     for (var i = 0; i < $scope.newlyCreatedCampaigns.length; i++) {
                         var newCamp = $scope.newlyCreatedCampaigns[i];
                         if (newCamp.CampaignId.toString() === campaignId) {
 
-                            var scheduleId = newCamp.CampScheduleInfo[0].ScheduleId;
-                            scheduleBackendService.getSchedule(scheduleId).then(function (response) {
-                                if (response.IsSuccess) {
-                                    newCamp.CampScheduleInfo[0].ScheduleName = response.Result[0].ScheduleName;
-                                    $scope.campaignSchedules.push(newCamp.CampScheduleInfo[0]);
-                                    if(newCamp.CampaignChannel.toLowerCase() === 'call' && newCamp.DialoutMechanism.toLowerCase() === 'preview'){
-                                        $scope.enablePreviewData = true;
-                                    }
-                                }
-                                else {
-                                    $scope.showAlert('Campaign Number Upload', 'Fail To oad Schedules', 'error');
-                                }
-                            }, function (error) {
-                                $scope.showAlert('Campaign Number Upload', 'Fail To oad Schedules', 'error');
+                            newCamp.CampScheduleInfo.forEach(function (camSchedule) {
+                                promiseFnList.push(scheduleBackendService.getSchedule(camSchedule.ScheduleId));
                             });
+
+
+                            $q.all(promiseFnList).then(function (response) {
+                                response.forEach(function(fnRes, k){
+                                    if (fnRes.IsSuccess) {
+                                        newCamp.CampScheduleInfo[k].ScheduleName = fnRes.Result[0].ScheduleName;
+                                        $scope.campaignSchedules.push(newCamp.CampScheduleInfo[k]);
+
+                                    }
+
+                                });
+
+
+                                if (newCamp.CampaignChannel.toLowerCase() === 'call' && newCamp.DialoutMechanism.toLowerCase() === 'preview') {
+                                    $scope.enablePreviewData = true;
+                                }
+                            });
+
+
+                        //.then(function (response) {
+                        //        if (response.IsSuccess) {
+                        //            newCamp.CampScheduleInfo[0].ScheduleName = response.Result[0].ScheduleName;
+                        //            $scope.campaignSchedules.push(newCamp.CampScheduleInfo[0]);
+                        //            if(newCamp.CampaignChannel.toLowerCase() === 'call' && newCamp.DialoutMechanism.toLowerCase() === 'preview'){
+                        //                $scope.enablePreviewData = true;
+                        //            }
+                        //        }
+                        //        else {
+                        //            $scope.showAlert('Campaign Number Upload', 'Fail To oad Schedules', 'error');
+                        //        }
+                        //    }, function (error) {
+                        //        $scope.showAlert('Campaign Number Upload', 'Fail To oad Schedules', 'error');
+                        //    });
 
 
                             break;
@@ -498,41 +520,46 @@
 
         $scope.uploadNumbers = function(){
             if(typeof $scope.campaignNumberObj.CategoryID === "number") {
-                if($scope.campaignNumberObj && $scope.campaignNumberObj.Contacts.length > 0) {
-                    $scope.numberProgress = 0;
-                    var numberCount = $scope.campaignNumberObj.Contacts.length;
-                    var numOfIterations = Math.ceil(numberCount / 1000);
-                    var funcArray = [];
-
-                    var numberArray = [];
-
-                    for (var i = 0; i < numOfIterations; i++) {
-                        var start = i * 1000;
-                        var end = (i * 1000) + 1000;
-                        var numberChunk = $scope.campaignNumberObj.Contacts.slice(start, end);
-
-                        var sendObj = {
-                            CampaignId: $scope.campaignNumberObj.CampaignId,
-                            CamScheduleId: $scope.campaignNumberObj.CamScheduleId,
-                            CategoryID: $scope.campaignNumberObj.CategoryID,
-                            Contacts: numberChunk
-                        };
-                        numberArray.push(sendObj);
-                    }
-
-                    $scope.uploadButtonValue = "Uploading...";
-
-                    $scope.BatchUploader(numberArray).then(function () {
-
-                        console.log("Upload done ..................");
-                        $scope.reset();
-                        $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
-                    }, function (reason) {
-
-                    });
+                if($scope.campaignNumberObj.CampaignId && !$scope.campaignNumberObj.CamScheduleId){
+                    $scope.showAlert('Campaign Number Upload', 'Select schedule before use', 'error');
                 }else{
-                    $scope.showAlert('Campaign Number Upload', 'Please select number column before upload', 'error');
+                    if($scope.campaignNumberObj && $scope.campaignNumberObj.Contacts.length > 0) {
+                        $scope.numberProgress = 0;
+                        var numberCount = $scope.campaignNumberObj.Contacts.length;
+                        var numOfIterations = Math.ceil(numberCount / 1000);
+                        var funcArray = [];
+
+                        var numberArray = [];
+
+                        for (var i = 0; i < numOfIterations; i++) {
+                            var start = i * 1000;
+                            var end = (i * 1000) + 1000;
+                            var numberChunk = $scope.campaignNumberObj.Contacts.slice(start, end);
+
+                            var sendObj = {
+                                CampaignId: $scope.campaignNumberObj.CampaignId,
+                                CamScheduleId: $scope.campaignNumberObj.CamScheduleId,
+                                CategoryID: $scope.campaignNumberObj.CategoryID,
+                                Contacts: numberChunk
+                            };
+                            numberArray.push(sendObj);
+                        }
+
+                        $scope.uploadButtonValue = "Uploading...";
+
+                        $scope.BatchUploader(numberArray).then(function () {
+
+                            console.log("Upload done ..................");
+                            $scope.reset();
+                            $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
+                        }, function (reason) {
+
+                        });
+                    }else{
+                        $scope.showAlert('Campaign Number Upload', 'Please select number column before upload', 'error');
+                    }
                 }
+
             }else{
                 $scope.showAlert('Campaign Number Upload', 'Add number category before use', 'error');
             }
