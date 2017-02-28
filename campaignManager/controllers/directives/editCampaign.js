@@ -441,18 +441,29 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             scope.mapNumberToCampaign = function (mapnumber) {
                 scope.editMapNumberSchedule = true;
-                campaignService.MapNumberToCampaign(scope.campaign.CampaignId, mapnumber.CategoryID).then(function (response) {
-                    if (response) {
 
-                        scope.showAlert("Campaign", 'success', "Successfully Map Numbers To Campaign.");
-                    } else {
+
+                scope.showConfirm("Map Numbers To Campaign", "Map Numbers", "ok", "cancel", "You Are Not Allowed To Revert This Process. Do You Really Want To Continue?", function (obj) {
+
+                    campaignService.MapNumberToCampaign(scope.campaign.CampaignId, mapnumber.CategoryID).then(function (response) {
+                        if (response) {
+
+                            scope.showAlert("Campaign", 'success', "Successfully Map Numbers To Campaign.");
+                        } else {
+                            scope.showAlert("Campaign", 'error', "Fail To Map");
+                        }
+                        scope.editMapNumberSchedule = false;
+                    }, function (error) {
                         scope.showAlert("Campaign", 'error', "Fail To Map");
-                    }
-                    scope.editMapNumberSchedule = false;
-                }, function (error) {
-                    scope.showAlert("Campaign", 'error', "Fail To Map");
-                    scope.editMapNumberSchedule = false;
-                });
+                        scope.editMapNumberSchedule = false;
+                    });
+
+                }, function () {
+                    scope.safeApply(function () {
+                        scope.editMapNumberSchedule = false;
+                    });
+                }, mapnumber)
+
             };
 
             scope.MapScheduleToCampaign = function (mapSchedule) {
@@ -503,10 +514,26 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             };
 
             scope.AssignedCategory = [];
+            scope.AvailableCategory = [];
             scope.GetAssignedCategory = function () {
+                scope.AssignedCategory = [];
+                scope.AvailableCategory = [];
                 campaignService.GetAssignedCategory(scope.campaign.CampaignId).then(function (response) {
-                    if(response && response.CampContactInfo){
-                        scope.AssignedCategory = response.CampContactInfo.CampContactCategory
+                    if(response ){
+                        var tempCategory = response.map(function (item) {
+                            return item.CampContactCategory;
+                        });
+
+                        scope.Categorys.map(function (t) {
+                            var items = $filter('filter')(tempCategory, {CategoryID: parseInt(t.CategoryID)}, true);
+                            if (items && items.length===0) {
+                                scope.AvailableCategory.push(t);
+                            }
+                            else{
+                                scope.AssignedCategory.push(t);
+                            }
+                        });
+
                     }
                 }, function (error) {
 
