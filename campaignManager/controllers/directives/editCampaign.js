@@ -502,6 +502,17 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 });
             };
 
+            scope.AssignedCategory = [];
+            scope.GetAssignedCategory = function () {
+                campaignService.GetAssignedCategory(scope.campaign.CampaignId).then(function (response) {
+                    if(response && response.CampContactInfo){
+                        scope.AssignedCategory = response.CampContactInfo.CampContactCategory
+                    }
+                }, function (error) {
+
+                });
+            };
+            scope.GetAssignedCategory();
         }
     }
 });

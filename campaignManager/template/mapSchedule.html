@@ -4,70 +4,6 @@
 
 
 
-            <!--Schedule List-->
-            <div class="x_panel">
-                <div class="x_title">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <h2><i class="fa fa-calendar-o"><small>Schedule List</small></i>
-
-                        </h2>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div ng-show="scheduleList" >
-                    <div class="row ">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="data-state-wrap">
-                                Please Wait...
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div ng-hide="scheduleList" class="x_content"  >
-                    <div class="table-wrapper daynamic-s-tble" >
-                        <table id="datatable-responsive" dt-options="dtOptions" datatable="ng"
-                               class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
-                               cellspacing="0" width="100%" role="grid"
-                               aria-describedby="datatable-responsive_info">
-                            <thead>
-                            <tr role="row">
-                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="From">ScheduleName
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="To">Action
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="AgentSkill">ExtraData
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="AgentSkill">Delete
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr role="row" class="odd"
-                                ng-repeat="schedule in addedSchedule">
-
-                                <td>{{schedule.ScheduleName}}</td>
-                                <td>{{schedule.Action}}</td>
-                                <td>{{schedule.ExtraData}}</td>
-                                <td><a ng-disabled="true" ng-click="deleteReason(cdr)" style="cursor: pointer"><i
-                                        class="fa fa-trash-o" ></i></a> </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
             <!--Add Schedule to Campaign-->
             <div class="x_panel">
                 <div class="x_title">
@@ -139,10 +75,76 @@
                         </div>
                     </form>
                 </div>
+
+                <!--Schedule List-->
+                <div class="x_panel">
+                    <div class="x_title">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <h2><i class="fa fa-calendar-o"><small>Schedule List</small></i>
+
+                            </h2>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div ng-show="scheduleList" >
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    Please Wait...
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-hide="scheduleList" class="x_content"  >
+                        <div class="table-wrapper daynamic-s-tble" >
+                            <table id="datatable-responsive" dt-options="dtOptions" datatable="ng"
+                                   class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
+                                   cellspacing="0" width="100%" role="grid"
+                                   aria-describedby="datatable-responsive_info">
+                                <thead>
+                                <tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="From">ScheduleName
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="To">Action
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="AgentSkill">ExtraData
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="AgentSkill">Delete
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr role="row" class="odd"
+                                    ng-repeat="schedule in addedSchedule">
+
+                                    <td>{{schedule.ScheduleName}}</td>
+                                    <td>{{schedule.Action}}</td>
+                                    <td>{{schedule.ExtraData}}</td>
+                                    <td><a ng-disabled="true" ng-click="deleteReason(cdr)" style="cursor: pointer"><i
+                                            class="fa fa-trash-o" ></i></a> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+
+
             <!--Map Schedule to Campaign-->
-            <div class="x_panel">
+            <!--<div class="x_panel">
                 <div class="x_title">
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <h2><i class="fa fa-calendar-o"><small>Map Schedule to Campaign</small></i>
@@ -167,7 +169,7 @@
                     <form class="col-md-12 col-sm-6 col-xs-12 col-xs-12" name="mapscheduleForm" novalidate>
                         <br>
 
-                       <!-- <div class="col-md-5 col-sm-5 col-xs-5 form-group"
+                       &lt;!&ndash; <div class="col-md-5 col-sm-5 col-xs-5 form-group"
                              ng-class="{ 'has-error' : mapscheduleForm.CampaignName.$invalid && !mapscheduleForm.CampaignName.$pristine }">
 
                             <select class="form-control has-feedback-left" id="CampaignName"
@@ -179,7 +181,7 @@
 
                             <p ng-show="mapscheduleForm.CampaignName.$invalid && !mapscheduleForm.CampaignName.$pristine" class="help-block">
                                 Campaign is required.</p>
-                        </div>-->
+                        </div>&ndash;&gt;
 
                         <div class="col-md-10 col-sm-10 col-xs-10 form-group"
                              ng-class="{ 'has-error' : mapscheduleForm.ScheduleList.$invalid && !mapscheduleForm.ScheduleList.$pristine }">
@@ -204,7 +206,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>-->
 
             <!--Map Numbers to Campaign-->
             <div class="x_panel">
@@ -265,6 +267,11 @@
                             </button>
 
                         </div>
+
+                        <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
+                            <label ng-repeat="cat in AssignedCategory ">{{cat}}</label>
+                        </div>
+
                     </form>
                 </div>
             </div>
