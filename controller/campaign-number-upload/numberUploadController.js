@@ -7,7 +7,7 @@
     //var app =angular.module('veeryConsoleApp');
 
 
-    var numberUploadController = function ($scope, $q, campaignNumberApiAccess, loginService, $timeout) {
+    var numberUploadController = function ($scope, $q, campaignNumberApiAccess, loginService, scheduleBackendService, $timeout) {
         $scope.safeApply = function(fn) {
             var phase = this.$root.$$phase;
             if(phase == '$apply' || phase == '$digest') {
@@ -386,6 +386,7 @@
         $scope.loadCustomerTags();
 
 
+
         //-----------------------Campaign---------------------------------------
 
         $scope.loadNewlyCreatedCampaigns = function(){
@@ -423,13 +424,28 @@
                     for (var i = 0; i < $scope.newlyCreatedCampaigns.length; i++) {
                         var newCamp = $scope.newlyCreatedCampaigns[i];
                         if (newCamp.CampaignId.toString() === campaignId) {
-                            $scope.campaignSchedules = newCamp.CampScheduleInfo;
-                            if(newCamp.CampaignChannel.toLowerCase() === 'call' && newCamp.DialoutMechanism.toLowerCase() === 'preview'){
-                                $scope.enablePreviewData = true;
-                            }
+
+                            var scheduleId = newCamp.CampScheduleInfo[0].ScheduleId;
+                            scheduleBackendService.getSchedule(scheduleId).then(function (response) {
+                                if (response.IsSuccess) {
+                                    newCamp.CampScheduleInfo[0].ScheduleName = response.Result[0].ScheduleName;
+                                    $scope.campaignSchedules.push(newCamp.CampScheduleInfo[0]);
+                                    if(newCamp.CampaignChannel.toLowerCase() === 'call' && newCamp.DialoutMechanism.toLowerCase() === 'preview'){
+                                        $scope.enablePreviewData = true;
+                                    }
+                                }
+                                else {
+                                    $scope.showAlert('Campaign Number Upload', 'Fail To oad Schedules', 'error');
+                                }
+                            }, function (error) {
+                                $scope.showAlert('Campaign Number Upload', 'Fail To oad Schedules', 'error');
+                            });
+
+
                             break;
                         }
                     }
+
                     //campaignNumberApiAccess.GetCampaignSchedule(campaignId).then(function (response) {
                     //    if (response.IsSuccess) {
                     //        $scope.campaignSchedules = response.Result;

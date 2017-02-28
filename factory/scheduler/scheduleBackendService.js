@@ -97,6 +97,14 @@ mainApp.factory('scheduleBackendService', function ($http, baseUrls) {
             }).then(function (response) {
                 return response;
             });
+        },
+        getSchedule: function (scheduleId) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.limitHandlerUrl + 'LimitAPI/Schedule/'+scheduleId
+            }).then(function (response) {
+                return response.data;
+            });
         }
 
 
