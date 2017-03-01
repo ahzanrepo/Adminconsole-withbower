@@ -360,8 +360,8 @@
                              ng-class="{ 'has-error' : mapnumberschedueForm.mapnumberschedueScheduleList.$invalid && !mapnumberschedueForm.mapnumberschedueScheduleList.$pristine }">
 
                             <select class="form-control has-feedback-left" id="mapnumberschedueScheduleList"
-                                    ng-model="mapnumberschedue.ScheduleId"
-                                    ng-options="opt.id as opt.ScheduleName for opt in addedSchedule" required>
+                                    ng-model="mapnumberschedue.Schedule"
+                                    ng-options="opt as opt.ScheduleName for opt in addedSchedule" required>
                                 <option value=''>Select Schedule</option>
                             </select>
                             <span class="fa fa-indent form-control-feedback left" aria-hidden="true"></span>
@@ -421,7 +421,7 @@
                                     <tr role="row" class="odd"
                                         ng-repeat="schedule in AssignedCategory">
                                         <td>{{schedule.CategoryID}}</td>
-                                        <td>{{schedule.CategoryName}}</td>
+                                        <td>{{schedule.CampContactCategory.CategoryName}}</td>
                                         <td>{{schedule.CamSchedule}}</td>
                                     </tr>
                                     </tbody>
