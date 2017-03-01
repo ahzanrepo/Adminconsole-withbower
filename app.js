@@ -796,7 +796,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.ticketFlow', {
             url: "/ticketFlow",
-            templateUrl: "views/flow/ticket-flow-view.html",
+            templateUrl: "views/flow/flowTest.html",
             data: {
                 requireLogin: true,
                 navigation: "SLA_BREAKDOWN"
@@ -902,7 +902,7 @@ mainApp.filter('durationFilter', function () {
 var setContentHeight = function () {
     // reset height
     $RIGHT_COL.css('min-height', $(window).height());
-    
+
 
     var bodyHeight = $BODY.outerHeight(),
         footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height(),
