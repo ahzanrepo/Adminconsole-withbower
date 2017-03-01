@@ -25,6 +25,20 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
         });
     };
 
+    var loadExtentions = function(){
+        campaignService.GetExtensions().then(function (response) {
+            if(response){
+                $scope.extensions = response.map(function (item) {
+                    return item.Extension
+                })
+            }
+
+        }, function (error) {
+            $scope.showAlert("Campaign","error","Fail To Load Extension List.");
+        });
+    };
+    loadExtentions();
+
     $scope.createCampaign = function(campaignx) {
         $scope.isProgress =true;
         campaignService.CreateCampaign(campaignx).then(function (response) {
@@ -48,14 +62,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
         $scope.addNewCampaign = !$scope.addNewCampaign;
     };
 
-    var loadExtentions = function(){
-        campaignService.GetExtensions().then(function (response) {
-            $scope.extensions = response;
-        }, function (error) {
-            $scope.showAlert("Campaign","error","Fail To Load Extension List.");
-        });
-    };
-    loadExtentions();
+
 
     $scope.campaigns = [];
     $scope.loadCampaign = function() {

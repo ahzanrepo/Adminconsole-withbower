@@ -401,6 +401,20 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getAssignedCategory = function(campaignId){
+        return $http({
+            method: 'get',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/NumberCategory"
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }else{
+                return [];
+            }
+        });
+    };
+
     return {
         mechanisms: ["BLAST", "FIFO", "PREVIEW", "AGENT"],
         modes: ["IVR", "AGENT", "FIFO"],
@@ -430,7 +444,8 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         StartCampaign:startCampaign,
         SendCommandToCampaign:sendCommandToCampaign,
         GetTotalConnectedCount:getTotalConnectedCount,
-        GetTotalDialCount:getTotalDialCount
+        GetTotalDialCount:getTotalDialCount,
+        GetAssignedCategory:getAssignedCategory
     }
 
 });

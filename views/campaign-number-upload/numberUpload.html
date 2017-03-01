@@ -46,7 +46,7 @@
                                                         ng-change="loadCampaignSchedules(campaignNumberObj.CampaignId)"
                                                         ng-model-options="{trackBy: '$value'}">
                                                     <option value="" disabled selected>Select Campaign</option>
-                                                    <option value="">DEFAULT</option>
+                                                    <option value=""></option>
                                                     <option ng-repeat="newCampaign in newlyCreatedCampaigns"
                                                             value="{{newCampaign.CampaignId}}">
                                                         {{newCampaign.CampaignName.toUpperCase()}}
@@ -246,7 +246,7 @@
                                                                 ng-change="loadCampaignSchedules(searchObj.CampaignId)"
                                                                 ng-model-options="{trackBy: '$value'}">
                                                             <option value="" disabled selected>Select Campaign</option>
-                                                            <option value="">DEFAULT</option>
+                                                            <option value=""></option>
                                                             <option ng-repeat="newCampaign in newlyCreatedCampaigns"
                                                                     value="{{newCampaign.CampaignId}}">
                                                                 {{newCampaign.CampaignName.toUpperCase()}}

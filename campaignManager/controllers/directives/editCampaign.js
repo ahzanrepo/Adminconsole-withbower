@@ -17,7 +17,6 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
         link: function (scope, element, attributes) {
 
-            scope.campaign.Extensions = {"Extension": scope.campaign.Extensions};
 
             scope.showAlert = function (tittle, type, content) {
                 new PNotify({
@@ -253,7 +252,12 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             scope.updateCampaign = function (campaignx) {
                 scope.updateEdit = true;
-                campaignService.UpdateCampaign(scope.campaign.CampaignId, campaignx).then(function (response) {
+                var updateCam = {};
+                angular.copy(campaignx,updateCam);
+                updateCam.CampConfigurations = undefined;
+                updateCam.CampContactSchedule = undefined;
+
+                campaignService.UpdateCampaign(scope.campaign.CampaignId, updateCam).then(function (response) {
                     if (response) {
                         scope.showAlert("Campaign", 'success', "Campaign Updated successfully ");
                     } else {
@@ -437,18 +441,29 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             scope.mapNumberToCampaign = function (mapnumber) {
                 scope.editMapNumberSchedule = true;
-                campaignService.MapNumberToCampaign(scope.campaign.CampaignId, mapnumber.CategoryID).then(function (response) {
-                    if (response) {
 
-                        scope.showAlert("Campaign", 'success', "Successfully Map Numbers To Campaign.");
-                    } else {
+
+                scope.showConfirm("Map Numbers To Campaign", "Map Numbers", "ok", "cancel", "You Are Not Allowed To Revert This Process. Do You Really Want To Continue?", function (obj) {
+
+                    campaignService.MapNumberToCampaign(scope.campaign.CampaignId, mapnumber.CategoryID).then(function (response) {
+                        if (response) {
+
+                            scope.showAlert("Campaign", 'success', "Successfully Map Numbers To Campaign.");
+                        } else {
+                            scope.showAlert("Campaign", 'error', "Fail To Map");
+                        }
+                        scope.editMapNumberSchedule = false;
+                    }, function (error) {
                         scope.showAlert("Campaign", 'error', "Fail To Map");
-                    }
-                    scope.editMapNumberSchedule = false;
-                }, function (error) {
-                    scope.showAlert("Campaign", 'error', "Fail To Map");
-                    scope.editMapNumberSchedule = false;
-                });
+                        scope.editMapNumberSchedule = false;
+                    });
+
+                }, function () {
+                    scope.safeApply(function () {
+                        scope.editMapNumberSchedule = false;
+                    });
+                }, mapnumber)
+
             };
 
             scope.MapScheduleToCampaign = function (mapSchedule) {
@@ -498,6 +513,33 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 });
             };
 
+            scope.AssignedCategory = [];
+            scope.AvailableCategory = [];
+            scope.GetAssignedCategory = function () {
+                scope.AssignedCategory = [];
+                scope.AvailableCategory = [];
+                campaignService.GetAssignedCategory(scope.campaign.CampaignId).then(function (response) {
+                    if(response ){
+                        var tempCategory = response.map(function (item) {
+                            return item.CampContactCategory;
+                        });
+
+                        scope.Categorys.map(function (t) {
+                            var items = $filter('filter')(tempCategory, {CategoryID: parseInt(t.CategoryID)}, true);
+                            if (items && items.length===0) {
+                                scope.AvailableCategory.push(t);
+                            }
+                            else{
+                                scope.AssignedCategory.push(t);
+                            }
+                        });
+
+                    }
+                }, function (error) {
+
+                });
+            };
+            scope.GetAssignedCategory();
         }
     }
 });
