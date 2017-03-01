@@ -540,7 +540,8 @@
                                 CampaignId: $scope.campaignNumberObj.CampaignId,
                                 CamScheduleId: $scope.campaignNumberObj.CamScheduleId,
                                 CategoryID: $scope.campaignNumberObj.CategoryID,
-                                Contacts: numberChunk
+                                Contacts: numberChunk,
+                                ScheduleName : "test"
                             };
                             numberArray.push(sendObj);
                         }

@@ -89,6 +89,21 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var deleteSchedule = function(campaignId,id){
+        return $http({
+            method: 'DELETE',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule/"+id
+        }).then(function(response)
+        {
+            if(response.data && response.data.IsSuccess) {
+                return response.data.IsSuccess;
+            }else{
+                return false;
+            }
+
+        });
+    };
+
     var getReasons = function(){
 
         return $http({
@@ -445,7 +460,8 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         SendCommandToCampaign:sendCommandToCampaign,
         GetTotalConnectedCount:getTotalConnectedCount,
         GetTotalDialCount:getTotalDialCount,
-        GetAssignedCategory:getAssignedCategory
+        GetAssignedCategory:getAssignedCategory,
+        DeleteSchedule:deleteSchedule
     }
 
 });

@@ -170,7 +170,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                                 var index = scope.callbacks.indexOf(items[0]);
                                 if (index === -1) {
                                     var tempCallback = {};
-                                    angular.copy(callback,tempCallback);
+                                    angular.copy(callback, tempCallback);
                                     scope.callbacks.push(tempCallback);
                                 }
                             }
@@ -209,7 +209,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             scope.deleteReason = function (callback) {
                 scope.updateConfig = true;
-                scope.showConfirm("Delete Campaign", "Delete", "ok", "cancel", "Do you want to delete " + callback.CampCallBackReasons.Reason, function (obj) {
+                scope.showConfirm("Delete Callback Reason", "Delete", "ok", "cancel", "Do you want to delete " + callback.CampCallBackReasons.Reason, function (obj) {
 
                     function showMsg() {
                         var items = $filter('filter')(scope.callbacks, {ReasonId: parseInt(callback.ReasonId)}, true);
@@ -253,7 +253,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             scope.updateCampaign = function (campaignx) {
                 scope.updateEdit = true;
                 var updateCam = {};
-                angular.copy(campaignx,updateCam);
+                angular.copy(campaignx, updateCam);
                 updateCam.CampConfigurations = undefined;
                 updateCam.CampContactSchedule = undefined;
 
@@ -398,19 +398,20 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 campaignService.GetScheduleCampaign(scope.campaign.CampaignId).then(function (response) {
                     scope.camSchedule = [];
                     scope.addedSchedule = [];
-                    if(response && response.length>0){
+                    if (response && response.length > 0) {
                         scope.ScheduleList.map(function (t) {
                             var items = $filter('filter')(response, {ScheduleId: parseInt(t.id)}, true);
-                            if (items && items.length===0) {
+                            if (items && items.length === 0) {
                                 scope.camSchedule.push(t);
                             }
-                            else{
+                            else {
+                                t.camSchedule = items[0];
                                 scope.addedSchedule.push(t);
                             }
                         });
                         scope.availableSchedule = scope.camSchedule;
                     }
-                    else{
+                    else {
                         scope.availableSchedule = scope.ScheduleList;
                     }
                     scope.scheduleList = false;
@@ -498,7 +499,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             scope.AddScheduleToCampaign = function (data) {
                 scope.addScheduleToCampaign = true;
-                campaignService.AddScheduleToCampaign(scope.campaign.CampaignId,data).then(function (response) {
+                campaignService.AddScheduleToCampaign(scope.campaign.CampaignId, data).then(function (response) {
                     if (response) {
                         scope.GetScheduleCampaign();
                         //scope.GetAssignableScheduleCampaign();
@@ -519,27 +520,53 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 scope.AssignedCategory = [];
                 scope.AvailableCategory = [];
                 campaignService.GetAssignedCategory(scope.campaign.CampaignId).then(function (response) {
-                    if(response ){
+                    if (response) {
                         var tempCategory = response.map(function (item) {
                             return item.CampContactCategory;
                         });
-
-                        scope.Categorys.map(function (t) {
-                            var items = $filter('filter')(tempCategory, {CategoryID: parseInt(t.CategoryID)}, true);
-                            if (items && items.length===0) {
-                                scope.AvailableCategory.push(t);
-                            }
-                            else{
-                                scope.AssignedCategory.push(t);
-                            }
-                        });
-
+                        if (tempCategory && tempCategory.length > 0) {
+                            scope.Categorys.map(function (t) {
+                                var items = $filter('filter')(tempCategory, {CategoryID: parseInt(t.CategoryID)}, true);
+                                if (items && items.length === 0) {
+                                    scope.AvailableCategory.push(t);
+                                }
+                                else {
+                                    scope.AssignedCategory.push(t);
+                                }
+                            });
+                        }
+                        else {
+                            scope.AvailableCategory = scope.Categorys;
+                        }
                     }
                 }, function (error) {
-
+                    scope.AvailableCategory = scope.Categorys;
                 });
             };
             scope.GetAssignedCategory();
+
+            scope.deleteSchedule = function (schedule) {
+
+                scope.showConfirm("Delete Schedule", "Delete", "ok", "cancel", "Do you want to delete " + schedule.ScheduleName, function (obj) {
+
+                    campaignService.DeleteSchedule(scope.campaign.CampaignId,schedule.camSchedule.CamScheduleId).then(function (response) {
+                        if (response) {
+                            scope.GetScheduleCampaign();
+                        }
+                        else
+                            scope.showAlert("Delete Schedule", 'error', "Fail To Delete Schedule");
+                    }, function (error) {
+                        scope.showAlert("Delete Schedule", 'error', "Fail To Delete Schedule");
+                    });
+
+                }, function () {
+
+                }, schedule);
+
+
+
+
+            }
         }
     }
 });
