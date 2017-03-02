@@ -86,6 +86,7 @@ var baseUrls = {
 };
 
 mainApp.constant('baseUrls', baseUrls);
+mainApp.constant('turnServers', [{url: "stun:stun.l.google.com:19302"}, {url: "stun:stun.counterpath.net:3478"}, {url: "stun:numb.viagenie.ca:3478"}]);
 
 var applicationConfig = {
     'captchaEnable': false

@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, turnServers) {
 
 
     //added by pawan
@@ -432,6 +432,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
             }
+            loginData.turnServers = turnServers;
 
             return loginData;
 
@@ -563,6 +564,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     $rootScope.$on("register_phone", function (event, args) {
 
+        args.turnServers = turnServers;
         Initiate(args, onRegistrationCompleted, onCallDisconnected, onCallConnected, onUnRegisterCompleted);
     });
 
