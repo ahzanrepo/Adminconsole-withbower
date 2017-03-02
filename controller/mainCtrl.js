@@ -500,6 +500,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
             }
+            loginData.turnServers = turnServers;
 
             return loginData;
 
@@ -631,6 +632,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     $rootScope.$on("register_phone", function (event, args) {
 
+        args.turnServers = turnServers;
         Initiate(args, onRegistrationCompleted, onCallDisconnected, onCallConnected, onUnRegisterCompleted);
     });
 

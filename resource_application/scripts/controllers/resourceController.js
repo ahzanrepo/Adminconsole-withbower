@@ -105,6 +105,8 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
     };
 
     $scope.userNameReadOnly = false;
+
+
     $scope.checkAvailability = function (resource) {
         resourceService.ResourceNameIsExsists(resource.ResourceName).then(function (response) {
             $scope.userNameAvilable = response.IsSuccess;
