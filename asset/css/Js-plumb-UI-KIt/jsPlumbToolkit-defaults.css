@@ -16,6 +16,10 @@
     position: absolute;
 }
 
+.jtk-node:hover {
+    /*background: #216477 !important;*/
+}
+
 /*
     This style was created in response to this Chrome bug:
     http://stackoverflow.com/questions/13758215/artifacts-when-css-scaled-in-chrome
@@ -52,7 +56,7 @@
         then consumed the events so you don't have to be bothered by them. They've "done a lot of research"
         about this stuff and put together a really great default experience for everyone in the entire world.
     */
-    touch-action:none;
+    touch-action: none;
 
     /*
         Another Chrome issue that appears to have been fixed in later versions
@@ -91,7 +95,7 @@
     to be droppable on a Surface via its `registerDroppableNodes` method.
 */
 .jtk-surface-droppable-node {
-    touch-action:none;
+    touch-action: none;
 }
 
 /*
@@ -99,16 +103,16 @@
 */
 .jtk-surface-nopan {
     overflow: scroll !important;
-    cursor:default;
+    cursor: default;
 }
 
 /*
 Assigned to tile images in a tiled background
 */
 .jtk-surface-tile {
-    border:none;
-    outline:none;
-    margin:0;
+    border: none;
+    outline: none;
+    margin: 0;
     -webkit-transition: opacity .3s ease .15s;
     -moz-transition: opacity .3s ease .15s;
     -o-transition: opacity .3s ease .15s;
@@ -195,7 +199,6 @@ Assigned to tile images in a tiled background
     height: 100%;
     line-height: 40;
 }
-
 
 /*
     Assigned to a pan button when the user is pressing it.
@@ -344,7 +347,7 @@ Assigned to tile images in a tiled background
 }
 
 .jtk-dialog-overlay-x {
-    max-height:0;
+    max-height: 0;
     transition: max-height 0.5s ease-in;
     -moz-transition: max-height 0.5s ease-in;
     -ms-transition: max-height 0.5s ease-in;
@@ -353,7 +356,7 @@ Assigned to tile images in a tiled background
 }
 
 .jtk-dialog-overlay-y {
-    max-width:0;
+    max-width: 0;
     transition: max-width 0.5s ease-in;
     -moz-transition: max-width 0.5s ease-in;
     -ms-transition: max-width 0.5s ease-in;
@@ -362,27 +365,27 @@ Assigned to tile images in a tiled background
 }
 
 .jtk-dialog-overlay-top {
-    top:20px;
+    top: 20px;
 }
 
 .jtk-dialog-overlay-bottom {
-    bottom:20px;
+    bottom: 20px;
 }
 
 .jtk-dialog-overlay-left {
-    left:20px;
+    left: 20px;
 }
 
 .jtk-dialog-overlay-right {
-    right:20px;
+    right: 20px;
 }
 
 .jtk-dialog-overlay-x.jtk-dialog-overlay-visible {
-    max-height:1000px;
+    max-height: 1000px;
 }
 
 .jtk-dialog-overlay-y.jtk-dialog-overlay-visible {
-    max-width:1000px;
+    max-width: 1000px;
 }
 
 /*
@@ -423,15 +426,15 @@ Assigned to tile images in a tiled background
 }
 
 .jtk-dialog-content {
-    font-size:12px;
-    text-align:left;
-    min-width:250px;
+    font-size: 12px;
+    text-align: left;
+    min-width: 250px;
     margin: 0 14px;
 }
 
 .jtk-dialog-content ul {
-    width:100%;
-    padding-left:0;
+    width: 100%;
+    padding-left: 0;
 }
 
 .jtk-dialog-content label {
@@ -527,7 +530,7 @@ Assigned to tile images in a tiled background
     not visible by defaut; enable if you need it.
 */
 .jtk-draw-drag {
-    display:none;
+    display: none;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -553,17 +556,17 @@ Assigned to tile images in a tiled background
 }
 
 .jtk-bezier-handle {
-    width:15px;
-    height:15px;
-    border-radius:50%;
-    background-color:darkcyan;
-    cursor:move;
-    z-index:10;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: darkcyan;
+    cursor: move;
+    z-index: 10;
 }
 
 .jtk-bezier-handle-secondary {
-    cursor:default;
-    background-color:lightgreen;
+    cursor: default;
+    background-color: lightgreen;
 }
 
 .jtk-bezier-handle-secondary-source {
@@ -571,14 +574,14 @@ Assigned to tile images in a tiled background
 }
 
 .jtk-bezier-guideline {
-    position:absolute;
+    position: absolute;
 }
 
 .jtk-bezier-guideline path {
-    stroke:darkcyan;
-    stroke-linewidth:3;
+    stroke: darkcyan;
+    stroke-linewidth: 3;
 }
 
 .jtk-connection-edit path {
-    stroke-dasharray:2 2;
+    stroke-dasharray: 2 2;
 }
