@@ -21,6 +21,17 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
 
                 scope.isWeeksDisabled = true;
 
+                scope.clearCurrentAppointment = function ()
+                {
+                    scope.curAppointment = {
+                        RecurrencePattern: 'NONE'
+                    };
+
+                    scope.isWeeksDisabled = true;
+
+                    scope.saveButtonName = 'Save';
+                };
+
                 scope.onRecurrenceValueChanged = function()
                 {
                     if(scope.curAppointment.RecurrencePattern === 'WEEKLY')
@@ -653,6 +664,7 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
 
                     if (event.appointmentObj.RecurrencePattern === 'WEEKLY')
                     {
+                        scope.isWeeksDisabled = false;
                         if (event.appointmentObj.DaysOfWeek)
                         {
                             if (event.appointmentObj.DaysOfWeek.includes("Monday"))
@@ -714,6 +726,10 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
 
                         }
 
+                    }
+                    else
+                    {
+                        scope.isWeeksDisabled = true;
                     }
 
                     scope.saveButtonName = 'Update';
@@ -1158,14 +1174,6 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
                     RecurrencePattern: 'NONE'
                 };
 
-                scope.clearCurrentAppointment = function ()
-                {
-                    scope.curAppointment = {
-                        RecurrencePattern: 'NONE'
-                    };
-
-                    scope.saveButtonName = 'Save';
-                };
 
                 scope.deleteCurrentAppointment = function ()
                 {
