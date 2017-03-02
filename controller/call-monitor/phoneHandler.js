@@ -138,7 +138,8 @@ function createSipStack() {
         password: regData.password,//'DuoS123', //optional
         display_name: regData.display_name,//'charlie', // optional
         websocket_proxy_url: regData.websocket_proxy_url,//'wss://159.203.160.47:7443', // optiona
-        enable_rtcweb_breaker: true, // optional
+        enable_rtcweb_breaker: false, // optional
+        ice_servers: regData.turnServers,
         events_listener: {events: '*', listener: EventListener} /* optional , '*' means all events */
     });
 

@@ -60,6 +60,10 @@ mainApp.directive("appointmentdir", function ($filter, $uibModal, scheduleBacken
 
             };
 
+            scope.$on('APPOINTMENT_RELOAD', function (event, args) {
+                scope.LoadAppointments(args);
+            });
+
             scope.LoadAppointments = function (scheduleId) {
 
                 scheduleBackendService.getAppointments(scheduleId).then(function (response) {
