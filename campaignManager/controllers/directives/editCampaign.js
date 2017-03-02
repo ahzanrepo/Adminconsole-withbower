@@ -555,6 +555,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                     campaignService.DeleteSchedule(scope.campaign.CampaignId,schedule.camSchedule.CamScheduleId).then(function (response) {
                         if (response) {
                             scope.GetScheduleCampaign();
+                            scope.showAlert("Delete Schedule", 'success', "Successfully Delete.");
                         }
                         else
                             scope.showAlert("Delete Schedule", 'error', "Fail To Delete Schedule");
