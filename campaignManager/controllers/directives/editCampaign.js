@@ -484,8 +484,9 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             scope.MapNumberAndScheduleToCampaign = function (mapnumberschedue) {
                 scope.mapnumberScheduleToCam = true;
-                campaignService.MapNumberAndScheduleToCampaign(scope.campaign.CampaignId, mapnumberschedue.CategoryID, mapnumberschedue.ScheduleId).then(function (response) {
+                campaignService.MapNumberAndScheduleToCampaign(scope.campaign.CampaignId, mapnumberschedue.CategoryID, mapnumberschedue.Schedule.Id,mapnumberschedue.Schedule.ScheduleName).then(function (response) {
                     if (response) {
+                        scope.GetAssignedCategory();
                         scope.showAlert("Campaign", 'success', "Successfully Map To Campaign.");
                     } else {
                         scope.showAlert("Campaign", 'error', "Fail To Map");
@@ -521,7 +522,9 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 scope.AvailableCategory = [];
                 campaignService.GetAssignedCategory(scope.campaign.CampaignId).then(function (response) {
                     if (response) {
-                        var tempCategory = response.map(function (item) {
+                        scope.AssignedCategory = response;
+
+                        /*var tempCategory = response.map(function (item) {
                             return item.CampContactCategory;
                         });
                         if (tempCategory && tempCategory.length > 0) {
@@ -537,7 +540,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                         }
                         else {
                             scope.AvailableCategory = scope.Categorys;
-                        }
+                        }*/
                     }
                 }, function (error) {
                     scope.AvailableCategory = scope.Categorys;

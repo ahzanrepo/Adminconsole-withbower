@@ -518,6 +518,15 @@
             });
         };
 
+        $scope.onChangeSchedule = function () {
+            $scope.campaignSchedules.forEach(function (cs) {
+               if(cs.CamScheduleId.toString() === $scope.campaignNumberObj.CamScheduleId) {
+
+                   $scope.scheduleName = cs.ScheduleName;
+               }
+            });
+        };
+
         $scope.uploadNumbers = function(){
             if(typeof $scope.campaignNumberObj.CategoryID === "number") {
                 if($scope.campaignNumberObj.CampaignId && !$scope.campaignNumberObj.CamScheduleId){
@@ -541,7 +550,7 @@
                                 CamScheduleId: $scope.campaignNumberObj.CamScheduleId,
                                 CategoryID: $scope.campaignNumberObj.CategoryID,
                                 Contacts: numberChunk,
-                                ScheduleName : "test"
+                                ScheduleName : $scope.scheduleName
                             };
                             numberArray.push(sendObj);
                         }

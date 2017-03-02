@@ -276,10 +276,11 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var mapNumberAndScheduleToCampaign = function(campaignId,categoryId,camScheduleId){
+    var mapNumberAndScheduleToCampaign = function(campaignId,categoryId,camScheduleId,scheduleName){
         return $http({
             method: 'POST',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Category/"+categoryId+"/Schedule/"+camScheduleId+"/map"
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Category/"+categoryId+"/Schedule/"+camScheduleId+"/map",
+            data:{ScheduleName:scheduleName}
         }).then(function(response)
         {
             if(response.data && response.data.IsSuccess) {
