@@ -2,7 +2,7 @@
  * Created by Pawan on 7/26/2016.
  */
 
-mainApp.controller("scheduleController", function ($scope, $state, $uibModal, scheduleBackendService, loginService) {
+mainApp.controller("scheduleController", function ($scope, $rootScope, $state, $uibModal, scheduleBackendService, loginService) {
 
     $scope.showAlert = function (tittle, content, type) {
 
@@ -45,7 +45,10 @@ mainApp.controller("scheduleController", function ($scope, $state, $uibModal, sc
             templateUrl: 'views/scheduler/advancedAppointments.html',
             size: 'lg',
             scope: $scope
-        });
+        }).closed.then(function()
+            {
+                $scope.GetSchedules();
+            });
 
         //get appointments for schedule
 
