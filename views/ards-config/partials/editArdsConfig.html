@@ -123,8 +123,9 @@
                                 <label>Max Reserved Time</label>
                                 <input type="number" class="form-control has-feedback-left "
                                        ng-model="ards.MaxReservedTime"
-                                       placeholder="Max Reserved Time">sec
-                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                       placeholder="Max Reserved Time"
+                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/">
+                                <span class="form-control-feedback left" aria-hidden="true">sec</span>
                             </div>
 
 
@@ -133,8 +134,8 @@
                                 <label>Max AfterWork Time</label>
                                 <input type="number" class="form-control has-feedback-left "
                                        ng-model="ards.MaxAfterWorkTime"
-                                       placeholder="Max AfterWork Time">sec
-                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                       placeholder="Max AfterWork Time" ng-pattern="/^(?:100|[1-9]?[0-9])$/">
+                                <span class="form-control-feedback left" aria-hidden="true">sec</span>
                             </div>
 
                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback"
@@ -156,7 +157,7 @@
                             </div>
 
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-md-12 col-sm-6 col-xs-12">
                                     <button type="button" class="btn btn-success btn-sm pull-right"
                                             ng-click="UpdateArds()">
                                         Update

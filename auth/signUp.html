@@ -1,5 +1,5 @@
 <div class="login animated fadeIn" ng-controller="signUpCtrl">
-    <img src="asset/images/bg_10444x10002.jpg" id="bg" alt="">
+    <!--<img src="asset/images/bg_10444x10002.jpg" id="bg" alt="">-->
     <div>
         <div class="login_wrapper signup-wrap">
             <div class="form login_form">
@@ -15,17 +15,20 @@
                                     <!-- user name -->
                                     <label class="dark-frm-label">Company Name
                                         <span class="inline-block validation-on"
-                                              ng-show="signUpForm.companyName.$invalid && !signUpForm.companyName.$pristine &&
+                                              ng-show="signUpForm.companyName.$invalid
+                                              && !signUpForm.companyName.$pristine &&
                                               signUpForm.companyName.$error.pattern">*
                                     </span>
                                     </label>
-                                    <input unique-company type="text" name="companyName" ng-model="companyName"
+                                    <input unique-company type="text" name="companyName"
+                                           ng-model="companyName"
                                            class="form-control dark-frm-input"
                                            ng-pattern='/^[a-zA-Z0-9]+$/'
                                            placeholder=""
                                            required
                                            autofocus/>
-                                    <span id="companystate" class="fa form-control-feedback" aria-hidden="true"
+                                    <span id="companystate" class="fa form-control-feedback"
+                                          aria-hidden="true"
                                           style="color: #cccbcb ;"></span>
                                 </div>
                             </div>
@@ -87,7 +90,8 @@
                                     <!-- confirm password -->
                                     <label class="dark-frm-label">Confirm password
                                          <span class="inline-block validation-on"
-                                               ng-show="signUpForm.confirmPwd.$invalid && !signUpForm.confirmPwd.$pristine">*
+                                               ng-show="signUpForm.confirmPwd.$invalid &&
+                                                !signUpForm.confirmPwd.$pristine">*
                                     </span></label>
                                     <input type="password" password-verify="{{password}}"
                                            ng-model="confirmPwd"
@@ -107,6 +111,7 @@
                                  key="siteKey"></div>
                         </div>
 
+
                         <div class="m-bottom20">
                             <button class="btn btn-default btn-block signUp dark-frm-btn-signup  pull-right"
                                     ng-class="isSignUp==true ?'disabled-btn':'dark-frm-btn'"
@@ -118,16 +123,20 @@
 
                         </div>
 
-
-                        <div class="m-bottom20">
-
-                        </div>
-
                         <div class="clearfix"></div>
 
                         <div class="dark-separator">
                             <div class="clearfix"></div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <p class="change_link">
+                                        <a href="javascript:void(0);" ng-click="onClickBackToLogin()"
+                                           class="to_register to_register_dark"> Back to login </a>
+                                    </p>
+                                </div>
+                            </div>
                             <br/>
+
 
                             <div>
                                 <p class="font-robot font-300 dark-frm-footer">

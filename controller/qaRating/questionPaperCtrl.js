@@ -6,6 +6,26 @@
 
     var questionPaperCtrl = function ($scope, $uibModal, loginService, qaModuleService, _) {
 
+
+        //Detect Document Height
+        //update code damith
+        var setElementHeight = function () {
+            $scope.qaDetailsHeight = jsUpdateSize() - 280 + "px";
+            document.getElementById('qaDetailsWrp').style.height = $scope.qaDetailsHeight;
+        };
+        window.onload = function () {
+            setElementHeight();
+        };
+
+        window.onresize = function () {
+            setElementHeight();
+        };
+
+        $scope.init = function () {
+            setElementHeight();
+        };
+
+
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({
@@ -19,7 +39,7 @@
         $scope.currentSection = {};
         $scope.addQuestionSection = {};
         $scope.currentQuestion = {
-            weight : 1
+            weight: 1
         };
 
         $scope.currentPaper = {};
@@ -31,17 +51,17 @@
 
 
         /*$scope.newQuestionFormToggle = function()
-        {
-            $scope.newQFormToggle.IsOpen = !$scope.newQFormToggle.IsOpen;
-            if($scope.newQFormToggle.display === 'New Form')
-            {
-                $scope.newQFormToggle.display = 'Close';
-            }
-            else
-            {
-                $scope.newQFormToggle.display = 'New Form';
-            }
-        };*/
+         {
+         $scope.newQFormToggle.IsOpen = !$scope.newQFormToggle.IsOpen;
+         if($scope.newQFormToggle.display === 'New Form')
+         {
+         $scope.newQFormToggle.display = 'Close';
+         }
+         else
+         {
+         $scope.newQFormToggle.display = 'New Form';
+         }
+         };*/
 
         $scope.showModalSection = function () {
             //modal show
@@ -64,138 +84,120 @@
             });
         };
 
+        $scope.isAddNewQuestion = false;
         $scope.showModalQuestion = function (sectionId) {
-
             $scope.currentQuestion = {
-                weight : 1,
-                type : 'binary'
+                weight: 1,
+                type: 'binary'
             };
-
             $scope.questionSectionId = sectionId;
-            //modal show
-            $scope.modalInstanceQues = $uibModal.open({
-                animation: true,
-                templateUrl: 'views/qaRating/question.html',
-                size: 'lg',
-                scope: $scope
-            });
-
             $scope.getSections();
+            $scope.isAddNewQuestion = true;
         };
 
-        $scope.paperEditMode = function(paper){
+        $scope.closeQuestion = function () {
+            $scope.isAddNewQuestion = false;
+        };
 
-            $scope.currentPaper = paper;
+        $scope.closeSectionView = function () {
+            $scope.isAddNewQuestion = false;
+            $scope.showPaper = false;
+            $scope.currentPaper = {};
+        };
 
-            if($scope.showPaper === null || $scope.showPaper === undefined)
-            {
+        $scope.paperEditMode = function (paper) {
+
+            //$scope.currentPaper = paper;
+
+            if ($scope.showPaper === null || $scope.showPaper === undefined) {
                 $scope.showPaper = false;
             }
             $scope.showPaper = !$scope.showPaper;
 
-            if($scope.showPaper)
-            {
+            if ($scope.showPaper) {
                 reloadCurrentPaper(paper._id);
             }
         };
 
-        $scope.backToListView = function(){
+        $scope.backToListView = function () {
 
             $scope.currentPaper = {};
 
             $scope.showPaper = false;
         };
 
-        $scope.closeModalSection = function(){
+        $scope.closeModalSection = function () {
             $scope.modalInstanceSec.close();
         };
 
-        $scope.closeModalQuestion = function(){
+        $scope.closeModalQuestion = function () {
             $scope.modalInstanceQues.close();
         };
 
-        $scope.closeModalPaper = function(){
+        $scope.closeModalPaper = function () {
             $scope.modalInstancePaper.close();
         };
 
 
+        $scope.deleteQuestion = function (id) {
 
-        $scope.deleteQuestion = function(id){
-
-            qaModuleService.deleteQuestionById(id).then(function (data)
-            {
-                if (data.IsSuccess)
-                {
+            qaModuleService.deleteQuestionById(id).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.showAlert('QA Question', 'success', 'Question Deleted Successfully');
                     reloadCurrentPaper($scope.currentPaper._id);
                 }
-                else
-                {
-                    if(data.Exception)
-                    {
+                else {
+                    if (data.Exception) {
                         $scope.showAlert('QA Question', 'error', data.Exception.Message);
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('QA Question', 'error', 'Error occurred while deleting question');
                     }
                 }
 
-            }).catch(function (err)
-            {
+            }).catch(function (err) {
                 loginService.isCheckResponse(err);
                 $scope.showAlert('QA Question', 'error', err.Message);
             });
 
         };
 
-        $scope.addSection = function(){
+        $scope.addSection = function () {
 
-            qaModuleService.addNewSection($scope.currentSection).then(function (data)
-            {
-                if (data.IsSuccess)
-                {
+            qaModuleService.addNewSection($scope.currentSection).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.showAlert('QA Section', 'success', 'Section Added Successfully');
-                    $scope.closeModalSection();
-
                     $scope.getSections();
+                    $scope.currentSection = {};
                 }
-                else
-                {
-                    if(data.Exception)
-                    {
+                else {
+                    if (data.Exception) {
                         $scope.showAlert('QA Section', 'error', data.Exception.Message);
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('QA Section', 'error', 'Error occurred while adding section');
                     }
                 }
 
-            }).catch(function (err)
-            {
+            }).catch(function (err) {
                 loginService.isCheckResponse(err);
                 $scope.showAlert('QA Section', 'error', err.Message);
             });
 
         };
 
-        $scope.addSectionToPaper = function(section)
-        {
+        $scope.addSectionToPaper = function (section) {
             var obj = {
                 SectionName: section.name,
                 Questions: []
             };
 
-            if(!$scope.currentPaper.questionsBySection[section._id])
-            {
-                var incompleteSections = _.find($scope.currentPaper.questionsBySection, function(obj)
-                {
+            if (!$scope.currentPaper.questionsBySection[section._id]) {
+                var incompleteSections = _.find($scope.currentPaper.questionsBySection, function (obj) {
                     return obj.Questions.length === 0
                 });
 
-                if(incompleteSections)
-                {
+                if (incompleteSections) {
                     new PNotify({
                         title: 'Section Incomplete',
                         text: 'Section ' + incompleteSections.SectionName + ' has no questions added, Do you wish to remove it ?',
@@ -212,111 +214,88 @@
                             history: false
                         }
                     }).get().on('pnotify.confirm', function () {
-                            reloadCurrentPaper($scope.currentPaper._id);
-                        }).on('pnotify.cancel', function () {
+                        reloadCurrentPaper($scope.currentPaper._id);
+                    }).on('pnotify.cancel', function () {
 
-                        });
+                    });
                 }
-                else
-                {
+                else {
                     $scope.currentPaper.questionsBySection[section._id] = obj;
                 }
 
             }
-            else
-            {
+            else {
                 $scope.showAlert('QA Question', 'warn', 'Section already added');
             }
 
         };
 
-        $scope.addQuestion = function(){
+        $scope.addQuestion = function () {
 
             $scope.currentQuestion.section = $scope.questionSectionId;
-
-            qaModuleService.addQuestionToPaper($scope.currentPaper._id, $scope.currentQuestion).then(function (data)
-            {
-                if (data.IsSuccess)
-                {
+            qaModuleService.addQuestionToPaper($scope.currentPaper._id, $scope.currentQuestion).then(function (data) {
+                if (data.IsSuccess) {
+                    $scope.isAddNewQuestion = false;
                     $scope.showAlert('QA Question', 'success', 'Question Added Successfully');
-                    $scope.modalInstanceQues.close();
                     reloadCurrentPaper($scope.currentPaper._id);
                 }
-                else
-                {
-                    if(data.Exception)
-                    {
+                else {
+                    if (data.Exception) {
                         $scope.showAlert('QA Question', 'error', data.Exception.Message);
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('QA Question', 'error', 'Error occurred while adding question');
                     }
                 }
 
-            }).catch(function (err)
-            {
+            }).catch(function (err) {
                 loginService.isCheckResponse(err);
                 $scope.showAlert('QA Question', 'error', err.Message);
             });
 
         };
 
-        $scope.addPaper = function(){
+        $scope.addPaper = function () {
 
-            qaModuleService.addNewPaper($scope.currentPaper).then(function (data)
-            {
-                if (data.IsSuccess)
-                {
+            qaModuleService.addNewPaper($scope.currentPaper).then(function (data) {
+                if (data.IsSuccess) {
                     $scope.showAlert('QA Paper', 'success', 'Question paper added successfully');
                     $scope.currentPaper = {};
-                    $scope.closeModalPaper();
                     $scope.getPapers();
                 }
-                else
-                {
-                    if(data.Exception)
-                    {
+                else {
+                    if (data.Exception) {
                         $scope.showAlert('QA Paper', 'error', data.Exception.Message);
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('QA Paper', 'error', 'Error occurred while adding question paper');
                     }
                 }
 
-            }).catch(function (err)
-            {
+            }).catch(function (err) {
                 loginService.isCheckResponse(err);
                 $scope.showAlert('QA Paper', 'error', err.Message);
             });
 
         };
 
-        $scope.getSections = function()
-        {
+        $scope.getSections = function () {
             $scope.sections = [];
 
-            qaModuleService.getSections().then(function (data)
-            {
-                if (data.IsSuccess)
-                {
+            qaModuleService.getSections().then(function (data) {
+                if (data.IsSuccess) {
                     $scope.sections = data.Result;
                 }
-                else
-                {
-                    if(data.Exception)
-                    {
+                else {
+                    if (data.Exception) {
                         $scope.showAlert('QA Section', 'error', data.Exception.Message);
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('QA Section', 'error', 'Error occurred while loading sections');
                     }
                 }
 
-            }).catch(function (err)
-            {
+            }).catch(function (err) {
                 loginService.isCheckResponse(err);
                 $scope.showAlert('QA Section', 'error', err.Message);
             });
@@ -325,34 +304,30 @@
 
         $scope.getSections();
 
-        var reloadCurrentPaper = function(id)
-        {
-            qaModuleService.getQuestionsForPaper(id).then(function (data)
-            {
-                if (data.IsSuccess && data.Result)
-                {
+        var reloadCurrentPaper = function (id) {
+            qaModuleService.getQuestionsForPaper(id).then(function (data) {
+                if (data.IsSuccess && data.Result) {
                     $scope.currentPaper = data.Result;
 
                     $scope.currentPaper.questionsBySection = {};
 
                     /*$scope.sections.forEach(function(section){
 
-                        var questionsBySec = _.filter($scope.currentPaper.questions, {section: section._id});
+                     var questionsBySec = _.filter($scope.currentPaper.questions, {section: section._id});
 
-                        var obj = {
-                            SectionName: section.name,
-                            Questions: questionsBySec
-                        };
+                     var obj = {
+                     SectionName: section.name,
+                     Questions: questionsBySec
+                     };
 
-                        $scope.currentPaper.questionsBySection[section._id] = obj;
-                    });*/
+                     $scope.currentPaper.questionsBySection[section._id] = obj;
+                     });*/
 
-                    var questionsBySec = _.groupBy($scope.currentPaper.questions, function(question){
+                    var questionsBySec = _.groupBy($scope.currentPaper.questions, function (question) {
                         return question.section;
                     });
 
-                    for (var section in questionsBySec)
-                    {
+                    for (var section in questionsBySec) {
                         var sec = _.find($scope.sections, {_id: section});
 
                         var obj = {
@@ -363,20 +338,16 @@
                         $scope.currentPaper.questionsBySection[section] = obj;
                     }
                 }
-                else
-                {
-                    if(data.Exception)
-                    {
+                else {
+                    if (data.Exception) {
                         $scope.showAlert('QA Section', 'error', data.Exception.Message);
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('QA Section', 'error', 'Error occurred while loading sections');
                     }
                 }
 
-            }).catch(function (err)
-            {
+            }).catch(function (err) {
                 loginService.isCheckResponse(err);
                 $scope.showAlert('QA Section', 'error', err.Message);
             });
@@ -384,45 +355,40 @@
         };
 
         /*var getQuestionsBySection = function()
-        {
-            $scope.currentPaper.questionsBySection = {};
+         {
+         $scope.currentPaper.questionsBySection = {};
 
-            $scope.sections.forEach(function(section){
+         $scope.sections.forEach(function(section){
 
-                var questionsBySec = _.where($scope.currentPaper.questions, {section: section._id});
+         var questionsBySec = _.where($scope.currentPaper.questions, {section: section._id});
 
-                $scope.currentPaper.questionsBySection[section.name] = questionsBySec;
-            });
+         $scope.currentPaper.questionsBySection[section.name] = questionsBySec;
+         });
 
 
-            //paper.questionsBySection = groupedList;
+         //paper.questionsBySection = groupedList;
 
-        };*/
+         };*/
 
-        $scope.getPapers = function()
-        {
+        $scope.isPapersLoading = false;
+        $scope.getPapers = function () {
             $scope.papers = [];
-
-            qaModuleService.getPapers().then(function (data)
-            {
-                if (data.IsSuccess)
-                {
+            $scope.isPapersLoading = true;
+            qaModuleService.getPapers().then(function (data) {
+                if (data.IsSuccess) {
                     $scope.papers = data.Result;
                 }
-                else
-                {
-                    if(data.Exception)
-                    {
+                else {
+                    if (data.Exception) {
                         $scope.showAlert('QA Paper', 'error', data.Exception.Message);
                     }
-                    else
-                    {
+                    else {
                         $scope.showAlert('QA Paper', 'error', 'Error occurred while loading question papers');
                     }
                 }
+                $scope.isPapersLoading = false;
 
-            }).catch(function (err)
-            {
+            }).catch(function (err) {
                 loginService.isCheckResponse(err);
                 $scope.showAlert('QA Paper', 'error', err.Message);
             });

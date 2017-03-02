@@ -1,9 +1,9 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller("resourceProductivityController", function ($scope, $filter, $location, $log,$anchorScroll, resourceProductivityService) {
+app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll, resourceProductivityService) {
 
     $anchorScroll();
-    $scope.reloadPage = function(){
+    $scope.reloadPage = function () {
         $scope.OnlineAgents = [];
         $scope.productivity = [];
         $scope.GetOnlineAgents();
@@ -46,28 +46,28 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 try {
                     if (agent) {
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
-                        if(ids[0]){
+                        if (ids[0]) {
 
-                        var agentProductivity = {
-                            "data": [{
-                                value: ids[0].AcwTime ? ids[0].AcwTime : 0,
-                                name: 'After work'
-                            }, {
-                                value: ids[0].BreakTime ? ids[0].BreakTime : 0,
-                                name: 'Break'
-                            }, {
-                                value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
-                                name: 'On Call'
-                            }, {
-                                value: ids[0].IdleTime ? ids[0].IdleTime : 0,
-                                name: 'Idle'
-                            }],
-                            "ResourceId": agent.ResourceId,
-                            "ResourceName": agent.ResourceName,
-                            "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
-                            "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
-                            "Chatid": agent.ResourceId
-                        };
+                            var agentProductivity = {
+                                "data": [{
+                                    value: ids[0].AcwTime ? ids[0].AcwTime : 0,
+                                    name: 'After work'
+                                }, {
+                                    value: ids[0].BreakTime ? ids[0].BreakTime : 0,
+                                    name: 'Break'
+                                }, {
+                                    value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
+                                    name: 'On Call'
+                                }, {
+                                    value: ids[0].IdleTime ? ids[0].IdleTime : 0,
+                                    name: 'Idle'
+                                }],
+                                "ResourceId": agent.ResourceId,
+                                "ResourceName": agent.ResourceName,
+                                "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
+                                "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
+                                "Chatid": agent.ResourceId
+                            };
 
                             $scope.Productivitys.push(agentProductivity);
                         }
@@ -83,7 +83,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     /* $scope.labels = ["After work", "Break", "On Call", "Idle"];
      $scope.data = [300, 500, 100, 100];*/
-    $scope.showError = function (tittle,content) {
+    $scope.showError = function (tittle, content) {
 
         new PNotify({
             title: tittle,
@@ -336,7 +336,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 toolbox: {
                     show: true,
                     feature: {
-                        mark : {show: true},
+                        mark: {show: true},
                         //dataView : {show: true, readOnly: false},
                         magicType: {
                             show: true,

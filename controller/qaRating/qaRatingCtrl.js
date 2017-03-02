@@ -7,7 +7,6 @@
     var qaRatingCtrl = function ($scope, $uibModal, $location, $anchorScroll, loginService) {
 
         $scope.showAlert = function (title, type, content) {
-
             new PNotify({
                 title: title,
                 text: content,

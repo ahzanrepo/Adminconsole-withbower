@@ -6,7 +6,6 @@
                 <div class="col-md-9">
                     <h2 class=" font-300">
                         <a ng-hide="editMode">Name : {{schedule.ScheduleName}}</a>
-
                     </h2>
                 </div>
                 <div class="col-md-3 ">
@@ -18,6 +17,8 @@
                                     class="fa fa-edit"></i></small>
                             <small ng-disabled="true" ng-click="showAppointments()" style="cursor: pointer"><i
                                     class="fa fa-cog"></i></small>
+                            <small ng-disabled="true" ng-click="pressAdvAppointment()" style="cursor: pointer"><i
+                                    class="fa fa-calendar"></i></small>
                         </h3>
                     </div>
                 </div>
@@ -81,11 +82,9 @@
                                 <timezone-selector ng-model="schedule.TimeZone"></timezone-selector>
                             </div>
 
-                            <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12 m-top15">
 
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-md-1 col-sm-2 col-xs-1">
                                     <button type="button" class="btn btn-success btn-sm pull-right"
                                             ng-click="modifySchedule()">
                                         Update

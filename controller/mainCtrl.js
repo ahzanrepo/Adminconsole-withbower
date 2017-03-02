@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess) {
 
 
     //added by pawan
@@ -311,6 +311,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goQABuilder: function () {
             $state.go('console.qaRatingFormBuilder');
         },
+        goCreateCampaign: function () {
+            $state.go('console.campaign')
+        },
+        goCampaignMonitor: function () {
+            $state.go('console.campaignmonitor')
+        },
         goQASubmission: function () {
             $state.go('console.qaSubmission');
         },
@@ -348,23 +354,85 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.fileslotmaker');
         }, goBillingHistory: function () {
             $state.go('console.billingHistory');
-        },goIvrNodeCountReport: function () {
+        }, goIvrNodeCountReport: function () {
             $state.go('console.ivrnodecount');
-        },gocSatReport: function () {
+        }, gocSatReport: function () {
             $state.go('console.customersatisfaction');
-        },goAcwReport: function () {
+        }, goAcwReport: function () {
             $state.go('console.acwdetails');
         },
         goQAReport: function () {
             $state.go('console.qaratingreporting');
+        }, goMissedCallReport: function () {
+            $state.go('console.missedcallreport');
+        }, goCampaignNumberUpload: function () {
+            $state.go('console.campaignnumberupload');
+        }, goDncNumberManage: function () {
+            $state.go('console.dncnumbermanage');
+        },
+        newContact: function () {
+            $state.go('console.contact-book');
         }
     };
-
+    $scope.showDisplayName = false;
     var getUserName = function () {
         var userDetails = loginService.getTokenDecode();
         console.log(userDetails);
         if (userDetails) {
             $scope.userName = userDetails.iss;
+            $scope.displayname = $scope.userName;
+
+            myUserProfileApiAccess.getMyProfile().then(function (resMyProf) {
+                if (resMyProf.IsSuccess && resMyProf.Result) {
+                    myUserProfileApiAccess.getMyOrganization().then(function (resOrg) {
+
+                            if (resOrg.IsSuccess && resOrg.Result) {
+                                if (resOrg.Result.ownerRef == resMyProf.Result._id) {
+                                    $scope.displayname = resOrg.Result.companyName;
+
+                                }
+                                else {
+                                    if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
+                                        $scope.displayname = resMyProf.firstname + " " + resMyProf.lastname;
+
+                                    }
+
+
+                                }
+                                $scope.showDisplayName = true;
+                            }
+                            else {
+                                if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
+                                    $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
+
+                                }
+                                $scope.showDisplayName = true;
+                            }
+
+
+                        }, function (errOrg) {
+
+                            console.log("Error in searching company");
+                            if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
+                                $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
+
+                            }
+                            $scope.showDisplayName = true;
+                        }
+                    );
+                }
+                else {
+                    console.log("Error in searching client profile");
+                    $scope.showDisplayName = true;
+
+                }
+
+            }, function (errMyProf) {
+                console.log("Error in searching client profile");
+                $scope.showDisplayName = true;
+            });
+
+
         }
     };
     getUserName();
@@ -432,6 +500,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
             }
+            loginData.turnServers = turnServers;
 
             return loginData;
 
@@ -563,6 +632,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     $rootScope.$on("register_phone", function (event, args) {
 
+        args.turnServers = turnServers;
         Initiate(args, onRegistrationCompleted, onCallDisconnected, onCallConnected, onUnRegisterCompleted);
     });
 
@@ -612,8 +682,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
     $SIDEBAR_MENU.find('a').on('click', function (ev) {
+        $('.child_menu li').removeClass('active');
         var $li = $(this).parent();
-
         if ($li.is('.active')) {
             $li.removeClass('active');
             $('ul:first', $li).slideUp(function () {
@@ -632,6 +702,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 setContentHeight();
             });
         }
+
+        //slide menu height set daynamically
+        $scope.windowMenuHeight = jsUpdateSize() - 120 + "px";
+        document.getElementById('sidebar-menu').style.height = $scope.windowMenuHeight;
     });
     // toggle small or large menu
     $MENU_TOGGLE.on('click', function () {
@@ -649,6 +723,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             }
         }
         // setContentHeight();
+
+
     });
 
     //get screen height
@@ -965,15 +1041,26 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     //Detect Document Height
     //update code damith
-    window.onload = function () {
-        $scope.windowHeight = jsUpdateSize() - 100 + "px";
-        document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
-    };
+    $(document).ready(function () {
+        // moment.lang("fr"); // Set current local to French
+        window.onload = function () {
+            $scope.windowHeight = jsUpdateSize() - 100 + "px";
+            document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
 
-    window.onresize = function () {
-        $scope.windowHeight = jsUpdateSize() - 100 + "px";
-        document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
-    };
+            //slide menu height set daynamically
+            $scope.windowMenuHeight = jsUpdateSize() - 120 + "px";
+            document.getElementById('sidebar-menu').style.height = $scope.windowMenuHeight;
+        };
+
+        window.onresize = function () {
+            $scope.windowHeight = jsUpdateSize() - 100 + "px";
+            document.getElementById('onlineUserWraper').style.height = $scope.windowHeight;
+
+            //slide menu height set daynamically
+            $scope.windowMenuHeight = jsUpdateSize() - 120 + "px";
+            document.getElementById('sidebar-menu').style.height = $scope.windowMenuHeight;
+        };
+    });
 
     $scope.onClickGetHeight = function () {
         $scope.windowHeight = jsUpdateSize() - 100 + "px";
