@@ -484,18 +484,31 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             scope.MapNumberAndScheduleToCampaign = function (mapnumberschedue) {
                 scope.mapnumberScheduleToCam = true;
-                campaignService.MapNumberAndScheduleToCampaign(scope.campaign.CampaignId, mapnumberschedue.CategoryID, mapnumberschedue.Schedule.Id,mapnumberschedue.Schedule.ScheduleName).then(function (response) {
-                    if (response) {
-                        scope.GetAssignedCategory();
-                        scope.showAlert("Campaign", 'success', "Successfully Map To Campaign.");
-                    } else {
+
+                scope.showConfirm("Map Numbers and Schedule To Campaign", "Map Numbers", "ok", "cancel", "You Are Not Allowed To Revert This Process. Do You Really Want To Continue?", function (obj) {
+
+                    campaignService.MapNumberAndScheduleToCampaign(scope.campaign.CampaignId, mapnumberschedue.CategoryID, mapnumberschedue.Schedule.Id,mapnumberschedue.Schedule.ScheduleName).then(function (response) {
+                        if (response) {
+                            scope.GetAssignedCategory();
+                            scope.showAlert("Campaign", 'success', "Successfully Map To Campaign.");
+                        } else {
+                            scope.showAlert("Campaign", 'error', "Fail To Map");
+                        }
+                        scope.mapnumberScheduleToCam = false;
+                    }, function (error) {
                         scope.showAlert("Campaign", 'error', "Fail To Map");
-                    }
-                    scope.mapnumberScheduleToCam = false;
-                }, function (error) {
-                    scope.showAlert("Campaign", 'error', "Fail To Map");
-                    scope.mapnumberScheduleToCam = false;
-                });
+                        scope.mapnumberScheduleToCam = false;
+                    });
+
+                }, function () {
+                    scope.safeApply(function () {
+                        scope.mapnumberScheduleToCam = false;
+                    });
+                }, mapnumberschedue)
+
+
+
+
             };
 
             scope.AddScheduleToCampaign = function (data) {
