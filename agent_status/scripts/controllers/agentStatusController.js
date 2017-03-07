@@ -34,14 +34,17 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
     $scope.productivity = [];
-    $scope.Productivitys = [];
+    $scope.productivity = [];
+    $scope.isLoading = true;
     $scope.GetProductivity = function () {
         agentStatusService.GetProductivity().then(function (response) {
             $scope.productivity = response;
+            $scope.isLoading = true;
             calculateProductivity();
         }, function (error) {
             $log.debug("productivity err");
             $scope.showAlert("Error", "Error", "ok", "Fail To Get productivity.");
+            $scope.isLoading = false;
         });
     };
     $scope.GetProductivity();
@@ -50,31 +53,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
+            if ($scope.profile.length == 0) {
+                angular.copy($scope.availableProfile, $scope.profile);
+            }
+
             angular.forEach($scope.profile, function (agent) {
                 try {
                     if (agent) {
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId}, true);//"ResourceId":"1"
-
-                        /*var agentProductivity = {
-                         "data": [{
-                         value: 0,
-                         name: 'After work'
-                         }, {
-                         value: 0,
-                         name: 'Break'
-                         }, {
-                         value: 0,
-                         name: 'On Call'
-                         }, {
-                         value: 0,
-                         name: 'Idle'
-                         }],
-                         "ResourceId": agent.ResourceId,
-                         "ResourceName": agent.ResourceName,
-                         "IncomingCallCount": 0,
-                         "MissCallCount": 100,
-                         "Chatid": agent.ResourceId
-                         };*/
 
                         if (ids.length > 0) {
                             var agentProductivity = {
@@ -105,7 +91,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                 "StaffedTime": ids[0].StaffedTime,
                                 "slotState": {}
                             };
-
 
                         }
                         if (agent.ConcurrencyInfo.length > 0 &&
@@ -211,15 +196,21 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
                         /* Set ConcurrencyInfo*/
 
+                        agentProductivity.profileName = agent.ResourceName;
                         $scope.Productivitys.push(agentProductivity);
+                        $scope.isLoading = false;
                     }
                 } catch (ex) {
                     console.log(ex);
+                    $scope.isLoading = false;
                 }
             });
 
-
         }
+        else {
+            $scope.isLoading = false;
+        }
+
     };
 
 
@@ -249,10 +240,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.GetAllAttributes();
 
     $scope.profile = [];
+    $scope.availableProfile = [];
 
     $scope.getProfileDetails = function () {
         agentStatusService.GetProfileDetails().then(function (response) {
-            $scope.profile = response;
+            $scope.availableProfile = response;
+            if ($scope.profile.length == 0) {
+                angular.copy($scope.availableProfile, $scope.profile);
+            }
             /*$scope.profile = [];
              if (response.length > 0) {
              angular.forEach(response,function(resItem){
@@ -386,6 +381,44 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     }, function (error) {
         $log.debug("get user list error.....");
     });
+
+    $scope.querySearch = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.availableProfile) {
+                return $scope.availableProfile;
+            }
+            else {
+                return [];
+            }
+
+        }
+        else {
+            if ($scope.availableProfile) {
+                var filteredArr = $scope.availableProfile.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.ResourceName) {
+                        return item.ResourceName.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArr;
+            }
+            else {
+                return [];
+            }
+        }
+
+    };
+
+    $scope.ResourceAdded = function () {
+        $scope.isLoading = true;
+        getAllRealTime();
+    }
 });
 
 
