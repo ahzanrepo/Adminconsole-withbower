@@ -394,7 +394,6 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                     trigger: 'item',
                     //formatter: "{a} <br/>{b} : {c} ({d}%)",
                     formatter: function (params,ticket,callback) {
-                        console.log(params);
                         var res = params.seriesName +' <br/>' + params.name +' '+secondsToTime(params.value)+' '+params.percent+'%';
                         setTimeout(function (){
                             callback(ticket, res);
