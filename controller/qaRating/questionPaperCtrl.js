@@ -141,6 +141,8 @@
 
         $scope.deleteQuestion = function (id) {
 
+            //Check for completed submissions
+
             qaModuleService.deleteQuestionById(id).then(function (data) {
                 if (data.IsSuccess) {
                     $scope.showAlert('QA Question', 'success', 'Question Deleted Successfully');

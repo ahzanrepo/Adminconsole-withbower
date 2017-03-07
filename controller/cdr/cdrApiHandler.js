@@ -97,7 +97,7 @@
             })
         };
 
-        var prepareDownloadCDRByType = function (startDate, endDate, agent, skill, direction, record, custNumber, fileType, tz) {
+        var prepareDownloadCDRByType = function (startDate, endDate, agent, skill, direction, record, custNumber, didNumber, fileType, tz) {
             var url = baseUrls.cdrProcessor + 'PrepareDownload?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
@@ -115,6 +115,10 @@
 
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if (didNumber) {
+                url = url + '&didnumber=' + didNumber;
             }
 
             if (fileType) {
@@ -136,7 +140,7 @@
             })
         };
 
-        var prepareDownloadCDRAbandonByType = function (startDate, endDate, agent, skill, direction, record, custNumber, fileType, tz) {
+        var prepareDownloadCDRAbandonByType = function (startDate, endDate, agent, skill, direction, record, custNumber, didNumber, fileType, tz) {
             var url = baseUrls.cdrProcessor + 'PrepareDownloadAbandon?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
@@ -154,6 +158,10 @@
 
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if (didNumber) {
+                url = url + '&didnumber=' + didNumber;
             }
 
             if (fileType) {
