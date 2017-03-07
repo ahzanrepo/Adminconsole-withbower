@@ -502,7 +502,8 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
                 }, function () {
                     scope.safeApply(function () {
-                        scope.mapnumberScheduleToCam = false;
+                        scope.mapnumberScheduleToCam
+                            = false;
                     });
                 }, mapnumberschedue)
 

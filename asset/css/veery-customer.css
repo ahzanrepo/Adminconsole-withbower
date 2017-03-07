@@ -1408,7 +1408,9 @@ a.thumbnaildrag:hover {
 /*productivity services*/
 
 .productivity-panel {
-    height: 455px;
+    height: 430px;
+    padding-top: 33px
+
 }
 
 .productivity-text-uppercase {
