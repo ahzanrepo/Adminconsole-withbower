@@ -87,7 +87,7 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
          });
 
          return deferred.promise;*/
-    }
+    };
 
 
 
