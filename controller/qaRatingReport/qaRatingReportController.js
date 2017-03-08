@@ -18,9 +18,6 @@
         };
 
 
-
-
-
         $scope.sectionArray={};
         $scope.questionArray={};
 
@@ -35,6 +32,70 @@
                         if(submissions.answers)
                         {
                             angular.forEach(submissions.answers, function (answer) {
+
+                                if(answer.question && answer.section)
+                                {
+                                    var questionObj = {
+                                        question:answer.question,
+                                        answer:answer.points
+                                    };
+
+                                    if(answer.remarks)
+                                    {
+                                        questionObj.remarks = answer.remarks;
+                                    }
+
+                                    if($scope.questionArray[submissions._id])
+                                    {
+
+                                        var secIndexes = $scope.questionArray[submissions._id].sectionData.map(function(obj, index) {
+                                            if(obj.section._id == answer.section._id) {
+                                                return index;
+                                            }
+                                        }).filter(isFinite);
+
+
+
+                                        if(secIndexes.length>0)
+                                        {
+
+                                            $scope.questionArray[submissions._id].sectionData[0].questionDetails.push(questionObj);
+                                        }
+                                        else
+                                        {
+
+
+
+                                            var sectionObj= {
+                                                section:answer.section,
+                                                questionDetails :[questionObj]
+                                            }
+
+
+
+
+                                            $scope.questionArray[submissions._id].sectionData.push(sectionObj);
+                                        }
+                                    }
+                                    else
+                                    {
+
+
+                                        $scope.questionArray[submissions._id]={
+
+                                            paper:submissions.paper,
+                                            sectionData:[
+                                                {
+                                                    section:answer.section,
+                                                    questionDetails :[questionObj]
+                                                }
+                                            ]
+                                        }
+
+
+
+                                    }
+                                }
 
 
                                 if(answer.section && answer.question && answer.question.weight > 0 && answer.question.type != 'remark')
@@ -106,11 +167,11 @@
                             angular.forEach(submission.answers, function (answer) {
 //answer id
 
-                                var questionObj;
+                                /*var questionObj;
 
                                 if(answer.remarks)
                                 {
-                                    var questionObj= {
+                                    questionObj= {
                                         question:answer.question,
                                         answer:answer.points,
                                         remarks:answer.remarks
@@ -120,7 +181,7 @@
                                 }
                                 else
                                 {
-                                    var questionObj= {
+                                    questionObj= {
                                         question:answer.question,
                                         answer:answer.points
 
@@ -177,7 +238,7 @@
 
 
 
-                                }
+                                }*/
 
                             });
                         }
@@ -215,7 +276,7 @@
                 $scope.sectionArray={};
                 $scope.questionArray={};
                 pickAllSubmittedPapersByDateRange(owner,startDate,endDate);
-                pickAllSubmissionQuestionDetails(owner,startDate,endDate);
+                //pickAllSubmissionQuestionDetails(owner,startDate,endDate);
 
 
 
