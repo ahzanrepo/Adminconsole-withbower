@@ -652,7 +652,7 @@ a {
 }
 
 .small-card h3 {
-    font-size: 11px !important;
+    font-size: 25px !important;
 }
 
 .small-card span {
@@ -660,7 +660,7 @@ a {
 }
 
 .small-card .count {
-    font-size: 15px !important;
+    font-size: 25px !important;
 }
 
 .queued-footer-list > li {
