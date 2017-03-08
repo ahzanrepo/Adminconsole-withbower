@@ -8,9 +8,12 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         $scope.productivity = [];
         $scope.GetOnlineAgents();
     };
+    $scope.isLoading = true;
     $scope.productivity = [];
     $scope.getProductivity = function () {
-
+        if ($scope.OnlineAgents.length == 0) {
+            angular.copy($scope.AvailableAgents, $scope.OnlineAgents);
+        }
         resourceProductivityService.GetProductivity().then(function (response) {
 
             $log.debug("GetCallServers: response" + response);
@@ -19,16 +22,17 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         }, function (error) {
             $log.debug("GetCallServers err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
+            $scope.isLoading = false;
         });
 
     };
 
+    $scope.AvailableAgents = [];
     $scope.OnlineAgents = [];
     $scope.GetOnlineAgents = function () {
         resourceProductivityService.GetOnlineAgents().then(function (response) {
-
-            $log.debug("GetOnlineAgents: response" + response);
-            $scope.OnlineAgents = response;
+            $scope.AvailableAgents = response;
+            angular.copy(response, $scope.OnlineAgents);
             $scope.getProductivity();
         }, function (error) {
             $log.debug("GetOnlineAgents err");
@@ -37,6 +41,45 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     };
     $scope.GetOnlineAgents();
+
+
+    $scope.querySearch = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.AvailableAgents) {
+                return $scope.AvailableAgents;
+            }
+            else {
+                return [];
+            }
+
+        }
+        else {
+            if ($scope.AvailableAgents) {
+                var filteredArr = $scope.AvailableAgents.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.ResourceName) {
+                        return item.ResourceName.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArr;
+            }
+            else {
+                return [];
+            }
+        }
+
+    };
+
+    $scope.AgentAdded = function () {
+        $scope.getProductivity();
+    };
+
 
     $scope.Productivitys = [];
 
@@ -72,8 +115,10 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                             $scope.Productivitys.push(agentProductivity);
                         }
                     }
+                    $scope.isLoading = false;
                 } catch (ex) {
                     console.log(ex);
+                    $scope.isLoading = false;
                 }
             });
 
@@ -318,14 +363,43 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     //-----------------------------------------------
 
+    function secondsToTime(secs)
+    {
+        var hours = Math.floor(secs / (60 * 60));
+
+        var divisor_for_minutes = secs % (60 * 60);
+        var minutes = Math.floor(divisor_for_minutes / 60);
+
+        var divisor_for_seconds = divisor_for_minutes % 60;
+        var seconds = Math.ceil(divisor_for_seconds);
+
+        return hours+":"+minutes+":"+seconds;
+    }
     var myObject = {};
     $scope.echartDonutSetOption = function () {
         angular.forEach($scope.Productivitys, function (productivity) {
             myObject[productivity.Chatid] = echarts.init(document.getElementById(productivity.ResourceId), theme);
             myObject[productivity.Chatid].setOption({
+                title: {
+                    show:true,
+                    text:productivity.ResourceName,
+                    textStyle:{
+                        fontSize: 18,
+                        fontWeight: 'bolder',
+                        color: '#333',
+                        fontFamily:'Ubuntu-Regular'
+                    }
+                },
                 tooltip: {
                     trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    //formatter: "{a} <br/>{b} : {c} ({d}%)",
+                    formatter: function (params,ticket,callback) {
+                        var res = params.seriesName +' <br/>' + params.name +' '+secondsToTime(params.value)+' '+params.percent+'%';
+                        setTimeout(function (){
+                            callback(ticket, res);
+                        }, 100);
+                        return 'loading';
+                    }
                 },
                 calculable: true,
                 legend: {
