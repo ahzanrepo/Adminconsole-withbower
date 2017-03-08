@@ -2,16 +2,7 @@
  * Created by Pawan on 7/26/2016.
  */
 
-mainApp.controller("scheduleController", function ($scope, $state, scheduleBackendService, loginService) {
-
-
-    $scope.ScheduleList = [];
-    $scope.newApplication = {};
-    $scope.addNew = false;
-    $scope.MasterAppList = [];
-    $scope.IsDeveloper = false;
-    $scope.Developers = [];
-    $scope.searchCriteria = "";
+mainApp.controller("scheduleController", function ($scope, $rootScope, $state, $uibModal, scheduleBackendService, loginService) {
 
     $scope.showAlert = function (tittle, content, type) {
 
@@ -23,31 +14,102 @@ mainApp.controller("scheduleController", function ($scope, $state, scheduleBacke
         });
     };
 
+    $scope.uiconfig = {
+        calendar:{}
+    };
+    $scope.events = [];
+    $scope.eventsources = [];
+
+
+
+    $scope.ScheduleList = [];
+    $scope.newApplication = {};
+    $scope.addNew = false;
+    $scope.MasterAppList = [];
+    $scope.IsDeveloper = false;
+    $scope.Developers = [];
+    $scope.searchCriteria = "";
+    $scope.scheduleAppId = -1;
+    $scope.parentSchedule = null;
+
+    $scope.advancedAppointmentList = [];
+
+    $scope.showModalAppointments = function (scheduleId, schedule) {
+
+        $scope.advancedAppointmentList = [];
+        $scope.scheduleAppId = scheduleId;
+        $scope.parentSchedule = schedule;
+        //modal show
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'views/scheduler/advancedAppointments.html',
+            size: 'lg',
+            scope: $scope
+        }).closed.then(function()
+            {
+                $scope.GetSchedules();
+            });
+
+        //get appointments for schedule
+
+        /*scheduleBackendService.getAppointments(scheduleId)
+        .then(function(appointments)
+        {
+            if(appointments && appointments.data && appointments.data.Result)
+            {
+                $scope.advancedAppointmentList = appointments.data.Result;
+
+            }
+            else
+            {
+                if(appointments && appointments.data && !appointments.data.IsSuccess)
+                {
+                    $scope.showAlert('Appointments', appointments.data.Exception.Message, 'error')
+                }
+            }
+
+
+        }).catch(function(err)
+        {
+            $scope.showAlert('Appointments', 'Error occurred while loading appointments', 'error')
+        })*/
+    };
+
 
     $scope.saveSchedule = function () {
 
+        var isBefore = moment().isBefore(moment($scope.newSchedule.EndDate));
+        if(!(isBefore))
+        {
+            $scope.showAlert("Error", "End date occurs in the past - please select a future date", "error");
+        }
+        else
+        {
+            scheduleBackendService.saveNewSchedule($scope.newSchedule).then(function (response) {
 
-        scheduleBackendService.saveNewSchedule($scope.newSchedule).then(function (response) {
+                if (!response.data.IsSuccess) {
 
-            if (!response.data.IsSuccess) {
+                    console.info("Error in adding new Application " + response.data.Exception);
+                    $scope.showAlert("Error", "There is an error in saving Application ", "error");
+                    //$scope.showAlert("Error",)
+                }
+                else {
+                    $scope.searchCriteria = "";
+                    $scope.addNew = !response.data.IsSuccess;
+                    $scope.showAlert("Success", "New Application added sucessfully.", "success");
 
-                console.info("Error in adding new Application " + response.data.Exception);
-                $scope.showAlert("Error", "There is an error in saving Application ", "error");
-                //$scope.showAlert("Error",)
-            }
-            else {
-                $scope.searchCriteria = "";
-                $scope.addNew = !response.data.IsSuccess;
-                $scope.showAlert("Success", "New Application added sucessfully.", "success");
+                    $scope.ScheduleList.splice(0, 0, response.data.Result);
+                    $scope.newSchedule = {};
+                }
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                console.info("Error in adding new Application " + error);
+                $scope.showAlert("Error", "There is an Exception in saving Application " + error, "error");
+            });
+        }
 
-                $scope.ScheduleList.splice(0, 0, response.data.Result);
-                $scope.newSchedule = {};
-            }
-        }, function (error) {
-            loginService.isCheckResponse(error);
-            console.info("Error in adding new Application " + error);
-            $scope.showAlert("Error", "There is an Exception in saving Application " + error, "error");
-        });
+
+
     };
 
 

@@ -45,34 +45,48 @@
                                               aria-hidden="true"></span>
                                     </div>
 
-                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                        <tags-input ng-model="ticketType"
+                                    <div class="col-md-12 col-sm-12 col-xs-12  has-feedback">
+                                        <div class="form-group">
+                                            <tags-input ng-model="ticketType"
 
-                                                    add-from-autocomplete-only="true" on-tag-added="onFlowChipAdd($tag)"
-                                                    on-tag-removed="onFlowChipDelete($tag)" ng-disabled="" min-length="1"
-                                                    placeholder="Active Types">
-                                            <auto-complete source="queryFlowSearch($query)" load-on-empty="true"
-                                                           load-on-focus="true" min-length="1"></auto-complete>
-                                        </tags-input>
+                                                        add-from-autocomplete-only="true"
+                                                        on-tag-added="onFlowChipAdd($tag)"
+                                                        on-tag-removed="onFlowChipDelete($tag)" ng-disabled=""
+                                                        min-length="1"
+                                                        placeholder="Active Types">
+                                                <auto-complete source="queryFlowSearch($query)" load-on-empty="true"
+                                                               load-on-focus="true" min-length="1"></auto-complete>
+                                            </tags-input>
+                                        </div>
                                     </div>
 
-                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                        <tags-input ng-model="postTags" display-property="name" placeholder="Configuration Rule">
-                                            <auto-complete source="loadPostTags($query)"></auto-complete>
-                                        </tags-input>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                        <div class="form-group">
+                                            <tags-input ng-model="postTags" display-property="name"
+                                                        placeholder="Configuration Rule">
+                                                <auto-complete source="loadPostTags($query)"></auto-complete>
+                                            </tags-input>
+                                        </div>
+                                    </div>
 
-                                        <tags-input ng-if="postTags < 1" ng-model="newAddTags" placeholder="Choose Tags"
-                                                    replace-spaces-with-dashes="false"
-                                                    display-property="name"
-                                                    add-from-autocomplete-only="true"
-                                                    on-tag-added="onChipAddTag($tag)"
-                                                    on-tag-removed="onChipDeleteTag($tag)"
-                                                    ng-disabled="" min-length="1">
-                                            <auto-complete source="queryTagSearch($query)"
-                                                           load-on-empty="true"
-                                                           load-on-focus="true"
-                                                           min-length="1"></auto-complete>
-                                        </tags-input>
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                        <div class="form-group">
+                                            <tags-input ng-if="postTags < 1"
+                                                        ng-model="newAddTags"
+                                                        placeholder="Choose Tags"
+                                                        replace-spaces-with-dashes="false"
+                                                        display-property="name"
+                                                        add-from-autocomplete-only="true"
+                                                        on-tag-added="onChipAddTag($tag)"
+                                                        on-tag-removed="onChipDeleteTag($tag)"
+                                                        ng-disabled="" min-length="1">
+                                                <auto-complete source="queryTagSearch($query)"
+                                                               load-on-empty="true"
+                                                               load-on-focus="true"
+                                                               min-length="1"></auto-complete>
+                                            </tags-input>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -101,7 +115,7 @@
                 <ul class="list-unstyled timeline">
                     <li ng-repeat="caseConfig in caseConfigs | filterBy: ['configurationName']: searchCriteria">
                         <case-config-directive case-config="caseConfig" update-case-config="removeDeleted(caseConfig)"
-                                       reload-page="reloadPage()"></case-config-directive>
+                                               reload-page="reloadPage()"></case-config-directive>
                     </li>
 
                     <paging ng-show="showPaging"

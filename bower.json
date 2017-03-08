@@ -67,7 +67,6 @@
     "ng-csv": "^0.3.6",
     "flip": "^1.1.1",
     "angular-drag-and-drop-lists": "^1.4.0",
-    "jsPlumb": "^2.2.6",
     "bootstrap-timepicker": "^0.5.2",
     "angular-timeago": "^0.4.3",
     "angular-file-upload": "^2.3.4",
@@ -96,7 +95,9 @@
     "lodash": "^4.17.3",
     "chosen": "^1.6.2",
     "angular-object-diff": "^1.0.3",
-    "angular-save-html-to-pdf": "*"
+    "angular-save-html-to-pdf": "*",
+    "angular-ui-calendar": "^1.0.2",
+    "js-xlsx": "^0.8.2"
   },
   "resolutions": {
     "angular": "1.5.5",

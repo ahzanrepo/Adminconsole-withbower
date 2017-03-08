@@ -72,6 +72,19 @@
                                 <span class="form-control-feedback right" aria-hidden="true">ms</span>
                             </div>
 
+                            <label class="control-label col-md-2 col-sm-6 col-xs-12">Max Queue Time</label>
+                            <div class="col-md-4 col-sm-6 col-xs-12 form-group">
+                                <input type="number" class="form-control has-feedback-left" ng-model="holdmusic.MaxQueueTime" min="0">
+                                <span class="form-control-feedback right" aria-hidden="true">ms</span>
+                            </div>
+
+                            <label class="control-label col-md-2 col-sm-6 col-xs-12">Position Announcement</label>
+                            <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                                <input type="checkbox"  ng-model="newHoldMusic.PositionAnnouncement">
+
+                            </div>
+
+
 
                         </form>
                     </div>

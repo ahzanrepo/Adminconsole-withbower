@@ -134,6 +134,15 @@
                 return resp.data;
             })
         };
+        var getMyProfile = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'Myprofile'
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
 
 
         return {
@@ -148,7 +157,8 @@
             getUserGroups: getUserGroups,
             removeUserFromGroup: removeUserFromGroup,
             getGroupMembers: getGroupMembers,
-            addMemberToGroup: addMemberToGroup
+            addMemberToGroup: addMemberToGroup,
+            getMyProfile: getMyProfile
         };
     };
 

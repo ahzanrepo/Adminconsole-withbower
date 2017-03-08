@@ -2,7 +2,7 @@
     <div class="x_panel">
         <div class="x_title">
             <h2>Credit
-                <small>Balance : ${{wallet.Credit}}</small>
+                <span style="color:blue">Balance : ${{wallet.Credit}}</span>
             </h2>
             <ul class="nav navbar-right panel_toolbox" ng-show="wallet.WalletId===-1">
                 <button class="btn btn-success -mouse-pointer" stripe-payment="config"
@@ -10,6 +10,34 @@
                 </button>
             </ul>
             <div class="clearfix"></div>
+            <div class="x_panel" style="padding-bottom: 55px;">
+                <div class="x_title">
+                    <h2>BUY CREDIT</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-6 col-lg-offset-3">
+                    <div class="form-group" ng-hide="isBuyCredit">
+                        <div class="form-group text-center" style="margin-top: 30px;">
+                            <div class="col-md-10">
+                                <input type="number" min="1"
+                                       class="form-control has-feedback-left"
+                                       name="Amount"
+                                       ng-model="Amount"
+                                       placeholder="Amount [$]">
+                            </div>
+                            <div class="col-md-2">
+                                <button href="javascript:void(0);"
+                                        ng-click="buyCredit(Amount)"
+                                        class="btn btn-success btn-block "
+                                        role="button">Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
 
         <div class="x_content">
@@ -70,7 +98,8 @@
                                                                             class="required">$ *</span>
                                                                 </label>
                                                                 <div class="col-md-8">
-                                                                    <input type="number" id="ThresholdValue" min="0"
+                                                                    <input ng-disabled="!wallet.AutoRecharge"
+                                                                           type="number" id="ThresholdValue" min="0"
                                                                            ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
                                                                            step="5"
                                                                            required="required"
@@ -85,7 +114,9 @@
                                                                         class="required">$ *</span>
                                                                 </label>
                                                                 <div class="col-md-8">
-                                                                    <input type="number" id="AutoRechargeAmount" min="0"
+                                                                    <input type="number"
+                                                                           ng-disabled="!wallet.AutoRecharge"
+                                                                           id="AutoRechargeAmount" min="0"
                                                                            ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
                                                                            step="5"
                                                                            name="AutoRechargeAmount" required="required"
@@ -186,34 +217,6 @@
         </div>
     </div>
 
-    <div class="x_panel" style="padding-bottom: 55px;">
-        <div class="x_title">
-            <h2>BUY CREDIT</h2>
-            <div class="clearfix"></div>
-        </div>
-        <div class="col-md-6 col-lg-offset-3">
-            <div class="form-group" ng-hide="isBuyCredit">
-                <div class="form-group text-center" style="margin-top: 30px;">
-                    <div class="col-md-10">
-                        <input type="number" min="1"
-                               class="form-control has-feedback-left"
-                               name="Amount"
-                               ng-model="Amount"
-                               placeholder="Amount [$]">
-                    </div>
-                    <div class="col-md-2">
-                        <button href="javascript:void(0);"
-                                ng-click="buyCredit(Amount)"
-                                class="btn btn-success btn-block "
-                                role="button">Buy
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
 
     <div class="x_panel">
         <div class="x_title">
@@ -227,10 +230,12 @@
         </div>
         <div class="x_content">
             <div class="row">
-                <div ng-repeat-start="card in cardList" ng-if="$first" big>
+                <div ng-repeat="card in cardList track by $index">
+                    <!-- select default  card -->
                     <div class="col-md-55" ng-hide="isLoading">
                         <div class="thumbnail">
-                            <div class="image view view-first" style="border: #004444">
+
+                            <div class="image view view-first" style="border: #004444;margin: 0 auto;" width="150px">
                                 <img style="width: 100%; display: block;" src="images/4.jpg" alt="image"
                                      ng-src="{{(card.brand==='Visa')?'asset/images/credit_card/visa.png':((card.brand==='Mastercard')?'asset/images/credit_card/master_card.png':((card.brand==='American Express')?'asset/images/credit_card/amex.png':((card.brand==='JCB')?'asset/images/credit_card/jcb.png':((card.brand==='Discover')?'asset/images/credit_card/discover.png':((card.brand==='Diners Club')?'asset/images/credit_card/diners_club.png':('asset/images/credit_card/unknown.png'))))))}}"/>
 
@@ -248,34 +253,11 @@
                                 </div>
                             </div>
                             <div class="caption">
-                                <p>Name : {{card.name}}</p>
-
-                                <p>{{card.brand}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div ng-repeat-end ng-if="!$first">
-                    <div class="col-md-55" ng-hide="isLoading">
-                        <div class="thumbnail">
-                            <div class="image view view-first">
-                                <img style="width: 100%; display: block;" src="images/4.jpg" alt="image"
-                                     ng-src="{{(card.brand==='Visa')?'asset/images/credit_card/visa.png':((card.brand==='Mastercard')?'asset/images/credit_card/master_card.png':((card.brand==='American Express')?'asset/images/credit_card/amex.png':((card.brand==='JCB')?'asset/images/credit_card/jcb.png':((card.brand==='Discover')?'asset/images/credit_card/discover.png':((card.brand==='Diners Club')?'asset/images/credit_card/diners_club.png':('asset/images/credit_card/unknown.png'))))))}}"/>
-
-                                <div class="mask">
-                                    <p> ****-****-****-{{card.last4}} </p>
-
-                                    <div class="tools tools-bottom">
-                                        <a href="javascript:void(0);"><i class="fa fa-check-square-o"
-                                                                         ng-click="setDefaultCard(card)"
-                                                                         title="Set To Default"></i></a>
-                                        <a href="javascript:void(0);"><i class="fa fa-times"
-                                                                         ng-click="RemoveCord(card)" title="Delete"></i></a>
-
+                                <div class="default-card" ng-if="$index==0">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="caption">
                                 <p>Name : {{card.name}}</p>
 
                                 <p>{{card.brand}}</p>
@@ -283,6 +265,36 @@
                         </div>
                     </div>
                 </div>
+                <!--<div ng-repeat-end ng-if="!$first">-->
+                <!--<div class="col-md-55" ng-hide="isLoading">-->
+                <!--<div class="thumbnail">-->
+                <!--<div class="image view view-first">-->
+                <!--<img style="width: 100%; display: block; margin: 0 auto;"-->
+                <!--src="images/4.jpg" alt="image"-->
+                <!--width="150px"-->
+                <!--ng-src="{{(card.brand==='Visa')?'asset/images/credit_card/visa.png':((card.brand==='Mastercard')?'asset/images/credit_card/master_card.png':((card.brand==='American Express')?'asset/images/credit_card/amex.png':((card.brand==='JCB')?'asset/images/credit_card/jcb.png':((card.brand==='Discover')?'asset/images/credit_card/discover.png':((card.brand==='Diners Club')?'asset/images/credit_card/diners_club.png':('asset/images/credit_card/unknown.png'))))))}}"/>-->
+
+                <!--<div class="mask">-->
+                <!--<p> ****-****-****-{{card.last4}} </p>-->
+
+                <!--<div class="tools tools-bottom">-->
+                <!--<a href="javascript:void(0);"><i class="fa fa-check-square-o"-->
+                <!--ng-click="setDefaultCard(card)"-->
+                <!--title="Set To Default"></i></a>-->
+                <!--<a href="javascript:void(0);"><i class="fa fa-times"-->
+                <!--ng-click="RemoveCord(card)" title="Delete"></i></a>-->
+
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="caption">-->
+                <!--<p>Name : {{card.name}}</p>-->
+
+                <!--<p>{{card.brand}}</p>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
 
                 <!--<div class="col-md-55" ng-repeat="card in cardList" ng-hide="isLoading">
                     <div class="thumbnail">

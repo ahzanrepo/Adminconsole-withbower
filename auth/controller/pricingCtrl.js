@@ -50,7 +50,7 @@ mainApp.controller('pricingCtrl', function ($rootScope, $scope, $state,
                     }
                     else {
                         loginService.clearCookie();
-                        $state.go('login');
+                        //$state.go('login');
                         $scope.showMessage("Package Buy", "Package upgrade was done successfully.", 'Success');
                         return;
                     }

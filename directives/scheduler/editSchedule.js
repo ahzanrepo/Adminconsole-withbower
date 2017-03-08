@@ -10,6 +10,7 @@ mainApp.directive("editschedule", function ($filter, $uibModal, scheduleBackendS
         scope: {
             schedule: "=",
             scheduleList: "=",
+            showmodalappointments: "&",
             'updateSchedule': '&',
             'reloadpage': '&'
         },
@@ -25,6 +26,10 @@ mainApp.directive("editschedule", function ($filter, $uibModal, scheduleBackendS
             scope.editAppointment = function () {
                 scope.editMode = !scope.editMode;
                 console.log(scope.applist);
+            };
+
+            scope.pressAdvAppointment = function(){
+                scope.showmodalappointments({scheduleId: scope.schedule.id});
             };
 
 
@@ -87,6 +92,11 @@ mainApp.directive("editschedule", function ($filter, $uibModal, scheduleBackendS
             scope.showAppointments = function () {
                 console.log("hit show " + scope.configMode);
                 scope.configMode = !scope.configMode;
+
+            };
+
+            scope.showAppointmentsAdvanced = function () {
+                console.log('--------------------- ADVANCED ----------------------')
 
             };
 

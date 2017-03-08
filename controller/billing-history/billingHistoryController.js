@@ -42,10 +42,10 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
         $scope.DownloadFileName = 'BILL_HISTORY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();
 
-       /* var billData = $scope.summaryData.map(function (c,index) {
+        /* var billData = $scope.summaryData.map(function (c,index) {
 
-            return c;
-        });*/
+         return c;
+         });*/
 
 
         //$scope.AgentDetailsAssignToSummery();
@@ -55,39 +55,39 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
 
         /*$scope.historyList=[];
-        billingHistoryService.getBillingHistory($scope.rowCount,$scope.pageNo).then(function (response) {
+         billingHistoryService.getBillingHistory($scope.rowCount,$scope.pageNo).then(function (response) {
 
-            if(!response.data.IsSuccess)
-            {
-                console.log("Bill history loading failed ",response.data.Exception);
-                deferred.reject($scope.summaryData);
-            }
-            else
-            {
-                $scope.isTableLoading=1;
+         if(!response.data.IsSuccess)
+         {
+         console.log("Bill history loading failed ",response.data.Exception);
+         deferred.reject($scope.summaryData);
+         }
+         else
+         {
+         $scope.isTableLoading=1;
 
-                var NewSummaryData=$scope.summaryData.concat(response.data.Result);
-                $scope.summaryData=NewSummaryData;
-
-
-                var billData = $scope.summaryData.map(function (c,index) {
-                    c.description = c.OtherJsonData.msg;
-                    return c;
-                });
+         var NewSummaryData=$scope.summaryData.concat(response.data.Result);
+         $scope.summaryData=NewSummaryData;
 
 
-                //$scope.AgentDetailsAssignToSummery();
-                deferred.resolve(billData);
-            }
+         var billData = $scope.summaryData.map(function (c,index) {
+         c.description = c.OtherJsonData.msg;
+         return c;
+         });
 
-        }, function (error) {
-            loginService.isCheckResponse(error);
-            console.log("Error in Queue Summary loading ",error);
-            deferred.reject(agentSummaryList);
-        });
 
-        return deferred.promise;*/
-    }
+         //$scope.AgentDetailsAssignToSummery();
+         deferred.resolve(billData);
+         }
+
+         }, function (error) {
+         loginService.isCheckResponse(error);
+         console.log("Error in Queue Summary loading ",error);
+         deferred.reject(agentSummaryList);
+         });
+
+         return deferred.promise;*/
+    };
 
 
 
@@ -109,7 +109,7 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
                 {
                     //$scope.summaryData=$scope.summaryData.concat(response.data.Result);
                     $scope.summaryData=response.data.Result;
-                   // $scope.pageNo+=1;
+                    // $scope.pageNo+=1;
                     $scope.rowCount+=5;
 
 
@@ -123,11 +123,18 @@ mainApp.controller("billingHistoryController", function ($scope,$filter,$state, 
 
                         if(c.Credit && c.Credit>0)
                         {
-                            c.Credit= (c.Credit/100);
+                            c.Credit= (c.Credit/100).toFixed(2);;
+
+
                         }
                         else
                         {
                             c.Credit=0;
+                        }
+
+                        if(c.createdAt)
+                        {
+                            c.createdAt=new Date(c.createdAt);
                         }
 
 

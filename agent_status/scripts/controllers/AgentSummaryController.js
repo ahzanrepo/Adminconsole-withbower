@@ -2,8 +2,7 @@
  * Created by Rajinda on 9/1/2016.
  */
 mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
-                                                       dashboardService, moment,userImageList,$anchorScroll)
-{
+                                                       dashboardService, moment, userImageList, $anchorScroll) {
     $anchorScroll();
     var getAllRealTime = function () {
         $scope.getProfileDetails();
@@ -69,8 +68,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         }
 
 
-                        var reservedDate = response[i].ConcurrencyInfo[0].
-                            SlotInfo[0].StateChangeTime;
+                        var reservedDate = response[i].ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
 
 
                         profile.slotMode = resourceMode;
@@ -96,30 +94,33 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         } else {
                             profile.LastReservedTime = moment(reservedDate).format("h:mm a");
                         }
-
                         if (profile.slotState == 'Reserved') {
                             $scope.ReservedProfile.push(profile);
                         }
-                        else if (profile.slotState == 'Available') {
-                            $scope.AvailableProfile.push(profile);
+                        else if (profile.other == 'Break' && profile.slotMode == 'Outbound') {
+                            $scope.BreakProfile.push(profile);
                         }
                         else if (profile.slotState == 'Connected') {
                             $scope.ConnectedProfile.push(profile);
                         } else if (profile.slotState == 'AfterWork') {
                             $scope.AfterWorkProfile.push(profile);
-                        } else if (profile.slotMode == 'Outbound') {
+                        } else if (profile.slotMode == 'Outbound' && profile.other == null) {
                             $scope.OutboundProfile.push(profile);
                         } else if (profile.slotState == 'Suspended') {
                             $scope.SuspendedProfile.push(profile);
-                        } else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
-                            profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
-                            profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
-                            profile.slotState == 'AUXBreak' ||
-                            profile.slotState == 'ProcessRelatedBreak') {
-                            $scope.BreakProfile.push(profile);
+                        } else if (profile.slotState == 'Available') {
+                            $scope.AvailableProfile.push(profile);
                         } else {
-                            $scope.profile.push(profile);
+                            //$scope.profile.push(profile);
+                            $scope.BreakProfile.push(profile);
                         }
+                        // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
+                        //         profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
+                        //         profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
+                        //         profile.slotState == 'AUXBreak' ||
+                        //         profile.slotState == 'ProcessRelatedBreak') {
+                        //         $scope.BreakProfile.push(profile);
+                        //     }
 
                     }
                 }

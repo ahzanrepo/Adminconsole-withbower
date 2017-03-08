@@ -154,6 +154,8 @@ mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $st
 }).config(['ChartJsProvider', function (ChartJsProvider) {
     // Configure all charts
     ChartJsProvider.setOptions({
-        chartColors: ['#18c89c', '#f1c410', '#2f6e96', '#f2a725', '#8ea61a', '#089c51', '#ac6c82', '#334d5c']
+        chartColors: ['#ba70fc', '#45eaca', '#9e7cf4', '#ffef54',
+            '#8defee', '#00e1dd', '#009c98', '#00498e','#fac13c', '#d22859', '#F564A3', '#5AA8B2',
+            '#53d4c0','#7BC1A1', '#4eecfa', '#1671db', '#c1ef5e']
     });
 }]);
