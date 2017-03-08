@@ -1,8 +1,0 @@
-#!/bin/sh
-ssh app@35.187.198.165 <<EOF
-  cd ~/home/AdminConsole
-  git pull
-  npm install --production
-  forever restartall
-  exit
-EOF
