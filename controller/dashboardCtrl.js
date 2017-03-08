@@ -22,7 +22,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     //#profile object
     $scope.AvailableTask = [];
-    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: []};
+    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE:[]};
     $scope.profile = [];
 
 
@@ -312,36 +312,42 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             getProfileDetails: function () {
                 dashboardService.GetProfileDetails().then(function (response) {
                     //$scope.profile = [];
-                    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: []};
+                    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE:[]};
                     if (response.length > 0) {
                         for (var i = 0; i < response.length; i++) {
 
-                            if (response[i].ConcurrencyInfo.length > 0) {
+
+                            var profile = {
+                                name: '',
+                                avatar: '',
+                                slotInfo: []
+                            };
+                            profile.name = response[i].ResourceName;
+
+                            //get current user profile image
+                            userImageList.getAvatarByUserName(profile.name, function (res) {
+                                profile.avatar = res;
+                            });
+
+                            if (response[i].Status.Reason && response[i].Status.State) {
+                                resonseAvailability = response[i].Status.State;
+                                resonseStatus = response[i].Status.Reason;
+                                resourceMode = response[i].Status.Mode;
+                            }
+
+
+
+                            if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0) {
 
                                 for (var j = 0; j < response[i].ConcurrencyInfo.length; j++) {
                                     var resourceTask = response[i].ConcurrencyInfo[j].HandlingType;
 
-                                    var profile = {
-                                        name: '',
-                                        avatar: '',
-                                        slotInfo: []
-                                    };
-                                    profile.name = response[i].ResourceName;
-                                    
-                                    //get current user profile image
-                                    userImageList.getAvatarByUserName(profile.name, function (res) {
-                                        profile.avatar = res;
-                                    });
 
 
                                     if (response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
                                         for (var k = 0; k < response[i].ConcurrencyInfo[j].SlotInfo.length; k++) {
-                                            var resonseStatus = null, resonseAvailability = null, resourceMode = null;
-                                            if (response[i].Status.Reason && response[i].Status.State) {
-                                                resonseAvailability = response[i].Status.State;
-                                                resonseStatus = response[i].Status.Reason;
-                                                resourceMode = response[i].Status.Mode;
-                                            }
+                                            var resonseStatus = null, resonseAvailability = null;
+
                                             if (response[i].ConcurrencyInfo[j].IsRejectCountExceeded) {
                                                 resonseAvailability = "NotAvailable";
                                                 resonseStatus = "Suspended";
@@ -390,6 +396,21 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                 // is user state Reason
 
+                            }else{
+
+                                reservedDate = response[i].Status.StateChangeTime;
+                                var slotInfoOffline = {slotState: "Other", LastReservedTime: moment(reservedDate).format("h:mm a"), other: "Offline", slotMode: resourceMode};
+
+                                if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+
+
+                                    slotInfoOffline.slotState = resonseStatus;
+                                    slotInfoOffline.other = "Break";
+
+                                }
+
+                                profile.slotInfo.push(slotInfoOffline);
+                                $scope.ResourceTask['OFFLINE'].push(profile);
                             }
                         }
                     }

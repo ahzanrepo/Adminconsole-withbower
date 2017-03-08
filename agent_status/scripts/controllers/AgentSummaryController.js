@@ -122,8 +122,9 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         resourceMode = response[i].Status.Mode;
                         resonseAvailability = response[i].Status.State;
                         resonseStatus = response[i].Status.Reason;
-                        profile.slotState = "";
+                        profile.slotState = "Other";
                         profile.slotMode = resourceMode;
+                        profile.other = "Offline";
 
                         if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
                             profile.slotState = resonseStatus;
