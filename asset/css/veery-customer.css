@@ -462,11 +462,16 @@ a {
 }
 
 .s-mode > i.inbound {
-    color: #d1d1d1 !important;
+    color: #0cb745 !important;
 }
 
+.s-mode > i.offline {
+    color: #b70b0b !important;
+}
+
+
 .s-mode > i.outbound {
-    color: #d1d1d1 !important;
+    color: #0cb745 !important;
 }
 
 /*reserved*/

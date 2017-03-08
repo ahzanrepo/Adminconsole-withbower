@@ -52,7 +52,17 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                     userImageList.getAvatarByUserName(profile.name, function (res) {
                         profile.avatar = res;
                     });
-                    if (response[i].ConcurrencyInfo.length > 0 &&
+
+
+
+
+
+
+
+
+
+
+                    if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0 &&
                         response[i].ConcurrencyInfo[0].SlotInfo.length > 0) {
 
                         // is user state Reason
@@ -62,16 +72,18 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                             resonseStatus = response[i].Status.Reason;
                             resourceMode = response[i].Status.Mode;
                         }
+
+
                         if (response[i].ConcurrencyInfo[0].IsRejectCountExceeded) {
                             resonseAvailability = "NotAvailable";
                             resonseStatus = "Suspended";
                         }
 
+                        profile.slotMode = resourceMode;
 
                         var reservedDate = response[i].ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
 
 
-                        profile.slotMode = resourceMode;
                         if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
                             profile.slotState = resonseStatus;
                             profile.other = "Reject";
@@ -94,26 +106,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         } else {
                             profile.LastReservedTime = moment(reservedDate).format("h:mm a");
                         }
-                        if (profile.slotState == 'Reserved') {
-                            $scope.ReservedProfile.push(profile);
-                        }
-                        else if (profile.other == 'Break' && profile.slotMode == 'Outbound') {
-                            $scope.BreakProfile.push(profile);
-                        }
-                        else if (profile.slotState == 'Connected') {
-                            $scope.ConnectedProfile.push(profile);
-                        } else if (profile.slotState == 'AfterWork') {
-                            $scope.AfterWorkProfile.push(profile);
-                        } else if (profile.slotMode == 'Outbound' && profile.other == null) {
-                            $scope.OutboundProfile.push(profile);
-                        } else if (profile.slotState == 'Suspended') {
-                            $scope.SuspendedProfile.push(profile);
-                        } else if (profile.slotState == 'Available') {
-                            $scope.AvailableProfile.push(profile);
-                        } else {
-                            //$scope.profile.push(profile);
-                            $scope.BreakProfile.push(profile);
-                        }
+
+
+
+
                         // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
                         //         profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
                         //         profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
@@ -122,6 +118,40 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         //         $scope.BreakProfile.push(profile);
                         //     }
 
+                    }else{
+                        resourceMode = response[i].Status.Mode;
+                        resonseAvailability = response[i].Status.State;
+                        resonseStatus = response[i].Status.Reason;
+                        profile.slotState = "";
+                        profile.slotMode = resourceMode;
+
+                        if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+                            profile.slotState = resonseStatus;
+                            profile.other = "Break";
+                            reservedDate = response[i].Status.StateChangeTime;
+                        }
+                    }
+
+
+                    if (profile.slotState == 'Reserved') {
+                        $scope.ReservedProfile.push(profile);
+                    }
+                    else if (profile.other == 'Break') {
+                        $scope.BreakProfile.push(profile);
+                    }
+                    else if (profile.slotState == 'Connected') {
+                        $scope.ConnectedProfile.push(profile);
+                    } else if (profile.slotState == 'AfterWork') {
+                        $scope.AfterWorkProfile.push(profile);
+                    } else if (profile.slotMode == 'Outbound' && profile.other == null) {
+                        $scope.OutboundProfile.push(profile);
+                    } else if (profile.slotState == 'Suspended') {
+                        $scope.SuspendedProfile.push(profile);
+                    } else if (profile.slotState == 'Available') {
+                        $scope.AvailableProfile.push(profile);
+                    } else {
+                        $scope.profile.push(profile);
+                        //$scope.BreakProfile.push(profile);
                     }
                 }
             }

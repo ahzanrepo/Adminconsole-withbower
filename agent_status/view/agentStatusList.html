@@ -39,7 +39,7 @@
                         <div class="row">
                             <form id="csatForm" name="csatForm" novalidate>
 
-                                <div class="col-md-11 col-sm-11 col-xs-12  form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12  form-group">
                                     <div class="form-group">
                                         <label>Agent</label>
                                         <div class="input-group col-md-12">
@@ -54,6 +54,20 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="form-group">
+                                        <label>Agent Mode</label>
+                                        <div class="input-group col-md-12">
+                                            <tags-input ng-model="agentMode" display-property="Name" key-property="Name"
+                                                        placeholder="Select Agent"
+                                                        add-from-autocomplete-only="true" min-length="0" on-tag-removed="AgentModeAdded()" on-tag-added="AgentModeAdded()">
+                                                <auto-complete source="agentModeQuerySearch($query)" load-on-empty="true"
+                                                               max-results-to-show="10000" min-length="1"
+                                                               load-on-focus="true"></auto-complete>
+                                            </tags-input>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-1 col-sm-1 col-xs-12">
                                     <button ng-disabled="csatForm.$invalid" type="button"
                                             ng-if="!isLoading"
