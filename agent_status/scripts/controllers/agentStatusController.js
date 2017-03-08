@@ -159,9 +159,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(offlineReservedDate))).format("HH:mm:ss");
 
                         }
-                        else {
-                            agentProductivity.slotState = 'Offline';
-                        }
 
 
                         /* Set Task Info*/
