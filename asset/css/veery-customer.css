@@ -244,9 +244,9 @@ a {
     position: fixed;
     left: 230px;
     right: 0;
-    -webkit-box-shadow: 4px 13px 26px -21px rgba(0,0,0,0.75);
-    -moz-box-shadow: 4px 13px 26px -21px rgba(0,0,0,0.75);
-    box-shadow: 4px 13px 26px -21px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 4px 13px 26px -21px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 4px 13px 26px -21px rgba(0, 0, 0, 0.75);
+    box-shadow: 4px 13px 26px -21px rgba(0, 0, 0, 0.75);
 }
 
 .main_menu_side {
@@ -469,7 +469,6 @@ a {
     color: #b70b0b !important;
 }
 
-
 .s-mode > i.outbound {
     color: #0cb745 !important;
 }
@@ -607,6 +606,11 @@ a {
 }
 
 .break > .media-body > div {
+    color: #731630 !important;
+}
+
+/*other */
+.other > .media-body > .s-state {
     color: #731630 !important;
 }
 

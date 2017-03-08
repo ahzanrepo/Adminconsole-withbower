@@ -93,16 +93,20 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             };
 
                         }
+                        var resonseStatus = null,
+                            resonseAvailability = null;
+
+                        if (agent.Status.Reason && agent.Status.State) {
+                            resonseAvailability = agent.Status.State;
+                            resonseStatus = agent.Status.Reason;
+                        }
+
                         if (agent.ConcurrencyInfo.length > 0 &&
                             agent.ConcurrencyInfo[0].SlotInfo.length > 0) {
 
                             // is user state Reason
-                            var resonseStatus = null,
-                                resonseAvailability = null;
-                            if (agent.Status.Reason && agent.Status.State) {
-                                resonseAvailability = agent.Status.State;
-                                resonseStatus = agent.Status.Reason;
-                            }
+
+
 
 
                             var reservedDate = agent.ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
@@ -131,6 +135,19 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                 agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
                             }
 
+
+                        }else{
+                            agentProductivity.slotState = "Offline";
+                            agentProductivity.other = "Offline";
+                            var offlineReservedDate = agent.Status.StateChangeTime;
+
+                            if (resonseAvailability == "NotAvailable") {
+                                agentProductivity.slotState = resonseStatus;
+                                agentProductivity.other = "Break";
+                            }
+
+                            agentProductivity.LastReservedTime = moment(offlineReservedDate).format('DD/MM/YYYY HH:mm:ss');
+                            agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(offlineReservedDate))).format("HH:mm:ss");
 
                         }
 

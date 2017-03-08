@@ -278,8 +278,6 @@
         <!-- END AVAILABLE PROFILE -->
 
 
-
-
         <!-- BREAK PROFILE -->
         <div class="x_panel">
             <h2>Break <b class="profile-status-right">{{BreakProfile.length}}</b>
@@ -325,7 +323,6 @@
         <!-- END BREAK PROFILE -->
 
 
-
         <!-- RESERVED  PROFILE -->
         <div class="x_panel">
             <h2> Other <b class="profile-status-right">{{profile.length}}</b>
@@ -337,6 +334,7 @@
                                                'connected':resource.slotState=='Connected',
                                                'afterWork':resource.slotState=='AfterWork',
                                                'outbound':resource.slotState=='Outbound',
+                                               'other':resource.slotState=='Other',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
                     ng-repeat="resource in profile">
