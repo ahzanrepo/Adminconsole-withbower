@@ -77,7 +77,7 @@ var baseUrls = {
     'qaModule': 'http://qamodule.app.veery.cloud/DVP/API/1.0.0.0/QAModule/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
-    'ardsLiteServiceUrl': 'http://localhost:8828/DVP/API/1.0.0.0/',
+    'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
