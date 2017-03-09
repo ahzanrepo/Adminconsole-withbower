@@ -6,6 +6,8 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
     return {
         restrict: "EAA",
         scope: {
+            resourceId: "=",
+            taskType: "=",
             selectedAttribute: "=",
             'deleteAttributedrictive': '&'
         },
@@ -47,6 +49,29 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
 
                         if (response.IsSuccess) {
                             console.log("UpdateAttributesAttachToResource : " + value);
+
+                            if(value && value > 0) {
+                                var updateRealTimeObj = {
+                                    ResourceId: scope.resourceId,
+                                    ResourceAttributeInfo: {
+                                        Attribute: scope.selectedAttribute.savedObj.AttributeId.toString(),
+                                        HandlingType: scope.taskType,
+                                        Percentage: value
+                                    },
+                                    OtherInfo: ""
+                                };
+
+                                resourceService.AssignAttributeToResource(updateRealTimeObj).then(function (response) {
+                                    if(response.IsSuccess){
+                                        console.info("AssignAttributeToResource real time success");
+                                    }else{
+                                        console.info("AssignAttributeToResource real time failed");
+                                    }
+                                    
+                                },function (error) {
+                                    console.info("AssignAttributeToResource real time err" + error);
+                                });
+                            }
                         }
                         else {
 
