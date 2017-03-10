@@ -87,6 +87,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         var newKeyObj = {};
         var skill = "";
         var callDuration = "";
+        var localTime = "";
 
         for (var j = 0; j < objKey.length; j++) {
 
@@ -118,6 +119,8 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                 var b = moment(objKey[j]['CHANNEL-BRIDGE-TIME']);
                 var duration = moment.duration(a.diff(b));
 
+                localTime = b.local().format('YYYY-MM-DD HH:mm:ss');
+
                 callDuration = duration.hours() + 'h ' + duration.minutes() + 'm ' + duration.seconds() + 's';
             }
 
@@ -130,6 +133,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                     newKeyObj.Receiver = Receiver;
                     newKeyObj.CallDuration = callDuration;
                     newKeyObj.Skill = skill;
+                    newKeyObj.LocalTime = localTime;
 
                     return newKeyObj;
                 }

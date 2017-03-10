@@ -38,6 +38,7 @@
                             <th class="column-title selectedTpcs">Receiver</th>
                             <th class="column-title selectedTpcs">Skill</th>
                             <th class="column-title selectedTpcs">Call Duration</th>
+                            <th class="column-title selectedTpcs">Call Answered Time</th>
                             <th class="column-title lstCol"></th>
 
                         </tr>
@@ -52,6 +53,7 @@
                             <td class="valAlgn">{{call.Receiver}}</td>
                             <td class="valAlgn">{{call.Skill}}</td>
                             <td class="valAlgn">{{call.CallDuration}}</td>
+                            <td class="valAlgn">{{call.LocalTime}}</td>
 
                             <td class="lstCol">
                                 <button ng-disabled="!isRegistered" type="submit" class="btn btn-primary btn-sm"
