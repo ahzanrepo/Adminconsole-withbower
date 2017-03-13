@@ -50,7 +50,7 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
                         if (response.IsSuccess) {
                             console.log("UpdateAttributesAttachToResource : " + value);
 
-                            if(value && value >= 0) {
+                            if(value >= 0) {
                                 var updateRealTimeObj = {
                                     ResourceId: scope.resourceId,
                                     ResourceAttributeInfo: {
