@@ -2,6 +2,34 @@
 
     <div class="col-md-12 col-sm-6 col-xs-12">
 
+        <!-- Trigger Organisation Config -->
+        <div class="x_panel bg-light-gray animated fadeIn">
+            <div class="x_title border-0">
+                <div class="col-md-6 col-sm-6 col-xs-6 "><h2 class="font-robot font-300 text-uppercase font-15">Trigger Main Configuration</h2></div>
+
+
+                <div class="col-xs-12">
+                    <div class="tile-stats m-top15">
+                        <form class="form-horizontal form-label-left input_mask">
+                            <div class="row">
+
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <checkbox class="btn-success" ng-model="triggerConfig.highPriorityMatch"
+                                              ng-click="CreateTriggerConfiguration(triggerConfig)"></checkbox>
+                                    <label>
+                                        <small>Execute Only High Priority Match</small>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- end -->
+
         <!-- application list -->
         <div class="x_panel bg-light-gray animated fadeIn">
             <div class="x_title border-0">
