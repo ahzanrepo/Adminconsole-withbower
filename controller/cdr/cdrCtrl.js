@@ -6,7 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, ngAudio,
+    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls) {
 
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
@@ -141,6 +141,8 @@
         //set loagin option
         $scope.isTableLoading = 3;
         $scope.cdrList = [];
+        $scope.userList = [];
+        $scope.attrList = [];
 
         var pageStack = [];
 
@@ -286,6 +288,35 @@
             $scope.cancelDownload = true;
             $scope.buttonClass = 'fa fa-file-text';
         };
+
+        var getUserList = function () {
+
+            sipUserApiHandler.getSIPUsers().then(function (userList) {
+                if (userList && userList.Result && userList.Result.length > 0) {
+                    $scope.userList = userList.Result;
+                }
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getSkillList = function () {
+
+            resourceService.GetAttributes().then(function (attrList) {
+                if (attrList && attrList.length > 0) {
+                    $scope.attrList = attrList;
+                }
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        getUserList();
+        getSkillList();
 
 
         $scope.getProcessedCDRCSVDownload = function () {

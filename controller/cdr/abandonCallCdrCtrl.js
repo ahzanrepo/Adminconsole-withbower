@@ -8,7 +8,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var abandonCallCdrCtrl = function ($scope, $filter, $q, $timeout, cdrApiHandler, loginService, baseUrls) {
+    var abandonCallCdrCtrl = function ($scope, $filter, $q, $timeout, cdrApiHandler, sipUserApiHandler, resourceService, loginService, baseUrls) {
 
         $scope.enableSearchButton = true;
 
@@ -46,6 +46,8 @@
         //set loagin option
         $scope.isTableLoading = 3;
         $scope.cdrList = [];
+        $scope.userList = [];
+        $scope.attrList = [];
 
         var pageStack = [];
 
@@ -198,6 +200,35 @@
             }
 
         };
+
+        var getUserList = function () {
+
+            sipUserApiHandler.getSIPUsers().then(function (userList) {
+                if (userList && userList.Result && userList.Result.length > 0) {
+                    $scope.userList = userList.Result;
+                }
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getSkillList = function () {
+
+            resourceService.GetAttributes().then(function (attrList) {
+                if (attrList && attrList.length > 0) {
+                    $scope.attrList = attrList;
+                }
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        getUserList();
+        getSkillList();
 
         $scope.downloadPress = function () {
             $scope.fileDownloadState = 'RESET';

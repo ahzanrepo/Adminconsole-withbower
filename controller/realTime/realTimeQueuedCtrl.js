@@ -214,6 +214,13 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
 
             //console.log(scope.queueoption)
             // console.log(scope.pieoption)
+            // scope.skillList=scope.name.match(/attribute_[0-9]*/g);
+            scope.tempSkills=scope.name.match(/attribute_([^\-]+)/g);
+
+            scope.skillList = scope.tempSkills.map(function (item) {
+                return item.split('_')[1].toString();
+            });
+
             scope.que = {};
             scope.options = {};
             scope.que.CurrentWaiting = 0;
@@ -270,6 +277,18 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
                     loginService.isCheckResponse(err);
                 });
             };
+            var skilledResources = function () {
+
+                var skillObj = {
+                    skills:scope.skillList
+                }
+
+                queueMonitorService.getAvailableResourcesToSkill(skillObj).then(function (response) {
+                    scope.agentCount=response.length;
+                }, function (err) {
+                    loginService.isCheckResponse(err);
+                });
+            };
 
 
             var qStats = function () {
@@ -310,12 +329,14 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
 
             qData();
             qStats();
+            skilledResources();
 
 
             var updateRealtime = function () {
 
                 qData();
                 qStats();
+                skilledResources();
 
                 updatetimer = $timeout(updateRealtime, 2000);
 

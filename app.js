@@ -72,7 +72,7 @@ var baseUrls = {
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl': 'http://localhost:4647/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'notification': 'http://notificationservice.app.veery.cloud/',
-    'cdrProcessor': 'http://localhost:9093/DVP/API/1.0.0.0/CallCDR/',
+    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app.veery.cloud/DVP/API/1.0.0.0/',
     'qaModule': 'http://qamodule.app.veery.cloud/DVP/API/1.0.0.0/QAModule/',
     'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -85,7 +85,7 @@ var baseUrls = {
     'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
-    'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
+    'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
     'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/'
 };

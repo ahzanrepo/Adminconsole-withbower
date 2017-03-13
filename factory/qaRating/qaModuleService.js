@@ -117,6 +117,17 @@
             })
         };
 
+        var validateBeforeDeleteQuestion = function(id)
+        {
+            return $http({
+                method: 'GET',
+                url: baseUrls.qaModule + 'Question/' + id + '/ValidateSubmission'
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var deleteQuestionById = function(id)
         {
             return $http({
@@ -188,7 +199,8 @@
             paperSubmission: paperSubmission,
             deleteSubmissionById: deleteSubmissionById,
             getAllSubmissionsByOwner: getAllSubmissionsByOwner,
-            getAllSubmissionsByOwnerAndTimeRange: getAllSubmissionsByOwnerAndTimeRange
+            getAllSubmissionsByOwnerAndTimeRange: getAllSubmissionsByOwnerAndTimeRange,
+            validateBeforeDeleteQuestion: validateBeforeDeleteQuestion
         };
 
     };

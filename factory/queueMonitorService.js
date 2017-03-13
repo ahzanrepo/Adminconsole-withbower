@@ -86,6 +86,26 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
         });
 
     };
+    var getAvailableResourcesToSkill = function (skillObj) {
+        //dashboard.app.veery.cloud
+        return $http({
+            method: 'POST',
+            url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/resources",
+            data: skillObj
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result ){
+                    return response.data.Result;
+                }else{
+                    return {};
+                }
+            } else {
+
+                return {};
+            }
+        });
+
+    };
 
 
 
@@ -97,7 +117,8 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
         GetAllQueueStats: getAllQueueStats,
         GetAllConcurrentQueue: getAllConcurrentQueue,
         GetSingleQueueStats: getSingleQueueStats,
-        GetSingleQueueGraph: getSingleQueueGraph
+        GetSingleQueueGraph: getSingleQueueGraph,
+        getAvailableResourcesToSkill: getAvailableResourcesToSkill
 
     }
 });

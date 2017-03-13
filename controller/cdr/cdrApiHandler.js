@@ -285,6 +285,19 @@
             });
         };
 
+        var getCallSummaryForQueueByHr = function (date, skill, hr, tz) {
+            var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill + '&hour=' + hr;
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
         var getCallSummaryForQueueHrDownload = function (date, skills, tz, fileType) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly/Download?date=' + date + '&tz=' + tz;
 
@@ -438,7 +451,8 @@
             getCallSummaryForCust: getCallSummaryForCust,
             getEmailRecipientsForReport: getEmailRecipientsForReport,
             saveRecipients: saveRecipients,
-            getTimeZones: getTimeZones
+            getTimeZones: getTimeZones,
+            getCallSummaryForQueueByHr: getCallSummaryForQueueByHr
         };
     };
 

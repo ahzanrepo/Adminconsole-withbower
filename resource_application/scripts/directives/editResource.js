@@ -318,6 +318,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                             scope.selectedAttributes.splice(index, 1);
                             scope.assignSkill_selectedTask.attributes.push(scope.selectedAttribute)
                         }
+                        scope.showAlert("Update Task", "", "", "This change will be affected on next login");
                     }
                 }, function (error) {
                     console.info("AssignTaskToResource err" + error);
