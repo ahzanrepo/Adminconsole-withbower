@@ -20,9 +20,14 @@
 
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="col-md-4 col-sm-4 col-xs-4">
-                        <button style="position: relative; top: 25px;" type="button" class="btn btn-success" ng-click="getCallSummary()">
+                        <!--<button style="position: relative; top: 25px;" type="button" class="btn btn-success" ng-click="getCallSummary()">
+                            Search
+                        </button>-->
+
+                        <button style="position: relative; top: 25px;" ng-disabled="obj.isTableLoadingHr===0" type="button" class="btn btn-success" ng-click="getCallSummaryByHr()">
                             Search
                         </button>
+
                     </div>
 
                     <div class="col-md-8 col-sm-8 col-xs-8">
@@ -63,9 +68,9 @@
 
                 <div class="col-md-12 col-sm-12 col-xs-12" style="z-index:0" ng-if="obj.isTableLoadingHr==1">
                     <uib-accordion>
-                        <div uib-accordion-group class="panel-default" ng-repeat="summary in summaryArr">
+                        <div uib-accordion-group class="panel-default" ng-repeat="(skill, records) in summaryArr">
                             <uib-accordion-heading>
-                                {{summary.Skill}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': true, 'glyphicon-chevron-right': false}"></i>
+                                {{skill}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': true, 'glyphicon-chevron-right': false}"></i>
                             </uib-accordion-heading>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="x_panel">
@@ -131,7 +136,7 @@
                                                             </thead>
                                                             <tbody>
                                                             <tr role="row" class="odd"
-                                                                ng-repeat="sumDay in summary.Data">
+                                                                ng-repeat="sumDay in records">
                                                                 <td>{{sumDay.Caption}}</td>
                                                                 <td>{{sumDay.IVRCallsCount}}</td>
                                                                 <td>{{sumDay.QueuedCallsCount}}</td>
@@ -167,6 +172,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="data-state-wrap">
                     Please Wait...
+                    <uib-progressbar class="progress-striped" value="progressSumVal" type="warning">{{progressSumVal}}%</uib-progressbar>
                 </div>
 
             </div>
