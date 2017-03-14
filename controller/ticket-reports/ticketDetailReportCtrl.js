@@ -236,6 +236,7 @@
             if ($scope.cancelDownload) {
                 $scope.fileDownloadState = 'RESET';
                 $scope.DownloadButtonName = 'CSV';
+                $scope.buttonClass = 'fa fa-file-text';
             }
             else {
                 cdrApiHandler.getFileMetaData(fileName).then(function (fileStatus) {
@@ -259,6 +260,8 @@
                             else {
                                 $scope.fileDownloadState = 'RESET';
                                 $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.buttonClass = 'fa fa-file-text';
                             }
 
 
@@ -267,11 +270,15 @@
                     else {
                         $scope.fileDownloadState = 'RESET';
                         $scope.DownloadButtonName = 'CSV';
+                        $scope.cancelDownload = true;
+                        $scope.buttonClass = 'fa fa-file-text';
                     }
 
                 }).catch(function (err) {
                     $scope.fileDownloadState = 'RESET';
                     $scope.DownloadButtonName = 'CSV';
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
                 });
             }
 
@@ -607,6 +614,8 @@
                         $scope.showAlert('Error', 'error', 'Error occurred while loading ticket records');
                         $scope.fileDownloadState = 'RESET';
                         $scope.DownloadButtonName = 'CSV';
+                        $scope.cancelDownload = true;
+                        $scope.buttonClass = 'fa fa-file-text';
                     }
 
 
@@ -616,6 +625,8 @@
                     $scope.showAlert('Error', 'error', 'Error occurred while loading ticket records');
                     $scope.fileDownloadState = 'RESET';
                     $scope.DownloadButtonName = 'CSV';
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
                 });
 
 

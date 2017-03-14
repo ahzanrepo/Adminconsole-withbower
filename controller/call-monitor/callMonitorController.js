@@ -115,23 +115,27 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
             }
 
             if (objKey[j]['CHANNEL-BRIDGE-TIME']) {
-                var a = moment();
                 var b = moment(objKey[j]['CHANNEL-BRIDGE-TIME']);
-                var duration = moment.duration(a.diff(b));
 
                 localTime = b.local().format('YYYY-MM-DD HH:mm:ss');
-
-                callDuration = duration.hours() + 'h ' + duration.minutes() + 'm ' + duration.seconds() + 's';
             }
 
-            if (j == objKey.length - 1) {
+            if(objKey[j]['BRIDGE-DURATION'])
+            {
+                callDuration = objKey[j]['BRIDGE-DURATION'];
+            }
+
+
+
+            //if (j == objKey.length - 1) {
+            if(objKey[j]['Call-Direction'] === 'inbound'){
                 if (Bridged) {
                     newKeyObj.FromID = FromID;
                     newKeyObj.ToID = ToID;
                     newKeyObj.BargeID = bargeID;
                     newKeyObj.Direction = Direction;
                     newKeyObj.Receiver = Receiver;
-                    newKeyObj.CallDuration = callDuration;
+                    newKeyObj.CallDuration = objKey[j]['BRIDGE-DURATION'];
                     newKeyObj.Skill = skill;
                     newKeyObj.LocalTime = localTime;
 
