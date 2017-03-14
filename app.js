@@ -882,6 +882,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNNUMBERS"
             }
+        }).state('console.callcenterperformance', {
+                url: "/callcenterperformance",
+                templateUrl: "views/callcenter-performance-summery/callcenterPerformance.html",
+                controller: "callcenterPerformanceController",
+                data: {
+                    requireLogin: true,
+                    navigation: "CALLCENTER_PERFORMANCE"
+                }
         });
         //Todo shoud be change navigation
     }]);
