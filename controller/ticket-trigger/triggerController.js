@@ -91,6 +91,40 @@
         };
 
         $scope.loadTriggers();
+
+        $scope.triggerConfig = {
+            highPriorityMatch : false
+        };
+        $scope.CreateTriggerConfiguration = function(triggerConfig){
+            var tempConfig ={}
+            angular.copy(triggerConfig,tempConfig);
+
+            tempConfig.highPriorityMatch = !tempConfig.highPriorityMatch;
+            triggerApiAccess.CreateTriggerConfiguration(tempConfig).then(function(response){
+                if(response)
+                {
+                    $scope.showAlert('Trigger Config', "Successfully Update", 'success');
+                }
+                else
+                {
+                    $scope.showAlert('Trigger Config', "Fail To Set Configure", 'error');
+                }
+            }, function(err){
+                $scope.showAlert('Trigger Config', "Fail To Set Configure", 'error');
+            });
+        };
+
+        $scope.GetTriggerConfiguration = function(){
+            triggerApiAccess.GetTriggerConfiguration().then(function(response){
+                if(response){
+                    $scope.triggerConfig.highPriorityMatch = response.highPriority_match;
+                }
+
+            }, function(err){
+                $scope.showAlert('Trigger Config', "Fail To Get Configure", 'error');
+            });
+        };
+        $scope.GetTriggerConfiguration();
     };
 
     app.controller('triggerController', triggerController);

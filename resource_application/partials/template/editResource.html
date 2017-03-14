@@ -157,10 +157,23 @@
 
         </div>
 
+
+
         <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12" ng-show="editAttribute">
             <br>
 
-            <div class="col-md-12 col-sm-12 col-xs-12 tile-stats">
+            <div ng-show="isLoadingAttribute" >
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="data-state-wrap">
+                            Please Wait...
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div ng-hide="isLoadingAttribute"  class="col-md-12 col-sm-12 col-xs-12 tile-stats">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>SKILLS
@@ -269,16 +282,7 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="tile-stats">-->
 
-            <!--<small>Assign Skill</small><br>-->
-            <!--<form class="form-horizontal form-label-left input_mask">-->
-
-            <!--<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" ng-repeat="atTask in attachedTask">-->
-            <!--<resourceskill attachtask="atTask" attributelist="attributes" resourceid="{{resource.ResourceId}}"></resourceskill>-->
-            <!--</div>-->
-            <!--</form>-->
-            <!--</div>-->
 
         </div>
 

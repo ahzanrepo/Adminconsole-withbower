@@ -29,7 +29,7 @@
                         <div class="col-md-3 col-sm-3 col-xs-3 form-group"
                              ng-class="{ 'has-error' : campaingConfigForm.ChannelConcurrency.$invalid && !campaingConfigForm.ChannelConcurrency.$pristine }">
 
-                            <input type="number" min="0" class="form-control has-feedback-left"
+                            <input type="number" min="1" class="form-control has-feedback-left"
                                    ng-model="callback.ChannelConcurrency"
                                    placeholder="Channel Concurrency">
                             <span class="fa fa-sort-numeric-asc form-control-feedback left" aria-hidden="true"></span>

@@ -335,6 +335,10 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             };
 
             scope.updateCampaignConfig = function (callback) {
+                if (callback.ChannelConcurrency === undefined || callback.ChannelConcurrency < 1) {
+                    scope.showAlert("Campaign", 'error', "Please Set Channel Concurrency.");
+                    return;
+                }
                 scope.updateConfig = true;
                 if (callback.ConfigureId > 0) {
                     /*update config id, configId, config*/
@@ -487,7 +491,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
                 scope.showConfirm("Map Numbers and Schedule To Campaign", "Map Numbers", "ok", "cancel", "You Are Not Allowed To Revert This Process. Do You Really Want To Continue?", function (obj) {
 
-                    campaignService.MapNumberAndScheduleToCampaign(scope.campaign.CampaignId, mapnumberschedue.CategoryID, mapnumberschedue.Schedule.Id,mapnumberschedue.Schedule.ScheduleName).then(function (response) {
+                    campaignService.MapNumberAndScheduleToCampaign(scope.campaign.CampaignId, mapnumberschedue.CategoryID, mapnumberschedue.Schedule.Id, mapnumberschedue.Schedule.ScheduleName).then(function (response) {
                         if (response) {
                             scope.GetAssignedCategory();
                             scope.showAlert("Campaign", 'success', "Successfully Map To Campaign.");
@@ -506,8 +510,6 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                             = false;
                     });
                 }, mapnumberschedue)
-
-
 
 
             };
@@ -539,22 +541,22 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                         scope.AssignedCategory = response;
 
                         /*var tempCategory = response.map(function (item) {
-                            return item.CampContactCategory;
-                        });
-                        if (tempCategory && tempCategory.length > 0) {
-                            scope.Categorys.map(function (t) {
-                                var items = $filter('filter')(tempCategory, {CategoryID: parseInt(t.CategoryID)}, true);
-                                if (items && items.length === 0) {
-                                    scope.AvailableCategory.push(t);
-                                }
-                                else {
-                                    scope.AssignedCategory.push(t);
-                                }
-                            });
-                        }
-                        else {
-                            scope.AvailableCategory = scope.Categorys;
-                        }*/
+                         return item.CampContactCategory;
+                         });
+                         if (tempCategory && tempCategory.length > 0) {
+                         scope.Categorys.map(function (t) {
+                         var items = $filter('filter')(tempCategory, {CategoryID: parseInt(t.CategoryID)}, true);
+                         if (items && items.length === 0) {
+                         scope.AvailableCategory.push(t);
+                         }
+                         else {
+                         scope.AssignedCategory.push(t);
+                         }
+                         });
+                         }
+                         else {
+                         scope.AvailableCategory = scope.Categorys;
+                         }*/
                     }
                 }, function (error) {
                     scope.AvailableCategory = scope.Categorys;
@@ -566,7 +568,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
                 scope.showConfirm("Delete Schedule", "Delete", "ok", "cancel", "Do you want to delete " + schedule.ScheduleName, function (obj) {
 
-                    campaignService.DeleteSchedule(scope.campaign.CampaignId,schedule.camSchedule.CamScheduleId).then(function (response) {
+                    campaignService.DeleteSchedule(scope.campaign.CampaignId, schedule.camSchedule.CamScheduleId).then(function (response) {
                         if (response) {
                             scope.GetScheduleCampaign();
                             scope.showAlert("Delete Schedule", 'success', "Successfully Delete.");
@@ -580,8 +582,6 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 }, function () {
 
                 }, schedule);
-
-
 
 
             }
