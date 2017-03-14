@@ -398,6 +398,7 @@
                     $scope.fileDownloadState = 'RESET';
                     $scope.DownloadButtonName = 'CSV';
                     $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
                 }
 
             }).catch(function (err) {
@@ -406,6 +407,7 @@
                 $scope.fileDownloadState = 'RESET';
                 $scope.DownloadButtonName = 'CSV';
                 $scope.cancelDownload = true;
+                $scope.buttonClass = 'fa fa-file-text';
             });
 
         };
