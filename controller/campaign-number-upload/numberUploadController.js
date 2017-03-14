@@ -390,10 +390,28 @@
         //-----------------------Campaign---------------------------------------
 
         $scope.loadNewlyCreatedCampaigns = function(){
+            $scope.newlyCreatedCampaigns = [];
             campaignNumberApiAccess.GetNewlyCreatedCampaigns().then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.newlyCreatedCampaigns = response.Result;
+                    var newCampaigns = response.Result;
+
+
+                    campaignNumberApiAccess.GetOngoingCampaigns().then(function(response){
+                        if(response.IsSuccess)
+                        {
+                            $scope.newlyCreatedCampaigns = newCampaigns.concat(response.Result);
+
+                        }
+                        else
+                        {
+                            $scope.newlyCreatedCampaigns = newCampaigns;
+                        }
+                    }, function(err){
+                        $scope.newlyCreatedCampaigns = newCampaigns;
+                    });
+
+
                 }
                 else
                 {

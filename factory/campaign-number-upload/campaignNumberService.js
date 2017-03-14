@@ -146,6 +146,18 @@
             });
         };
 
+        var getOngoingCampaigns = function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.campaignmanagerUrl+'Campaigns/State/ongoing/500',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
 
 
         //----------------Campaign Schedule-------------------------------------------
@@ -265,6 +277,7 @@
             GetAllNumbers: getAllNumbers,
             GetNumbersByCampaign: getNumbersByCampaign,
             GetNewlyCreatedCampaigns: getNewlyCreatedCampaigns,
+            GetOngoingCampaigns: getOngoingCampaigns,
             GetCampaignSchedule: getCampaignSchedule,
             AddNumbersToDnc: addNumbersToDnc,
             DeleteNumbersFromDnc: deleteNumbersFromDnc,
