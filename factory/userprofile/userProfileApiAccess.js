@@ -143,6 +143,16 @@
                 return resp.data;
             })
         };
+        var updateUserSecurityLevel = function (username,body) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'User/'+username,
+                data:body
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
 
 
         return {
@@ -158,7 +168,8 @@
             removeUserFromGroup: removeUserFromGroup,
             getGroupMembers: getGroupMembers,
             addMemberToGroup: addMemberToGroup,
-            getMyProfile: getMyProfile
+            getMyProfile: getMyProfile,
+            updateUserSecurityLevel: updateUserSecurityLevel
         };
     };
 

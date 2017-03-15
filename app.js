@@ -53,10 +53,10 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 //resourceservice.app.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl':'http://127.0.0.1:3638/DVP/API/1.0.0.0/' ,//'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
-    'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
-    'authProviderUrl': 'http://userservice.app.veery.cloud/',
+    'authServiceBaseUrl': 'http://127.0.0.1:3638/oauth/',
+    'authProviderUrl': 'http://127.0.0.1:3638/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
@@ -882,7 +882,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNNUMBERS"
             }
-        });
+        }).state('console.seclevels', {
+                url: "/SecutityLevels",
+                templateUrl: "user_security_level_management/views/securityLevelManagement.html",
+                controller: "securityLevelManagementController",
+                data: {
+                    requireLogin: true,
+                    navigation: "USERS"
+                }
+            });
         //Todo shoud be change navigation
     }]);
 

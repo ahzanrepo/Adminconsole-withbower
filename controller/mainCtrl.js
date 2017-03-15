@@ -370,6 +370,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         }, goDncNumberManage: function () {
             $state.go('console.dncnumbermanage');
         },
+        goSecLevels: function () {
+            $state.go('console.seclevels');
+        },
         newContact: function () {
             $state.go('console.contact-book');
         }
@@ -832,6 +835,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                     });
 
                     $scope.agentList = onlineAgentList.concat(offlineAgentList);
+                    agentDetailsFactory.agentList=$scope.agentList;
+                    console.log(agentDetailsFactory.agentList);
+
                 }
 
                 if ($scope.userGroups) {
