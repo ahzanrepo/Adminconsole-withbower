@@ -375,6 +375,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },
         newContact: function () {
             $state.go('console.contact-book');
+        }, goCallCenterPerformance: function () {
+            $state.go('console.callcenterperformance');
         }
     };
     $scope.showDisplayName = false;

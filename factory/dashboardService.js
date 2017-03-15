@@ -465,6 +465,129 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     /*ticket*/
 
+    //-----Call Center Performance------------
+
+    var getTotalTalkTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTime/CONNECTED/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getTotalStaffTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTimeWithCurrentSessions/LOGIN/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getTotalAcwTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTime/AFTERWORK/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getAverageStaffTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageTimePerKeyWithCurrentSessions/LOGIN/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getAverageAcwTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageTime/AFTERWORK/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getAverageCallsPerAgent = function (direction) {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageCountPerKey/CONNECTED/*/CALL"+direction
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+
     return {
         GetAll: getAllCalls,
         GetAllQueued: getAllQueued,
@@ -486,6 +609,12 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         GetDeferenceResolvedTicketSeries:getDeferenceResolvedTicketSeries,
         GetTotalTicketCount:getTotalTicketCount,
         GetTotalTicketAvg:getTotalTicketAvg,
-        GetNewTicketCountViaChannel:getNewTicketCountViaChenal
+        GetNewTicketCountViaChannel:getNewTicketCountViaChenal,
+        GetTotalTalkTime:getTotalTalkTime,
+        GetTotalStaffTime:getTotalStaffTime,
+        GetTotalAcwTime:getTotalAcwTime,
+        GetAverageStaffTime:getAverageStaffTime,
+        GetAverageAcwTime:getAverageAcwTime,
+        GetAverageCallsPerAgent:getAverageCallsPerAgent
     }
 });

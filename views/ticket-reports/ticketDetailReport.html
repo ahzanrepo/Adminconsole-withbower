@@ -192,7 +192,7 @@
 
                         <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="fa fa-download"></i></a>
-                        <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" ng-if="fileDownloadState === 'RESET'" type="button" ng-click="getTicketSummaryCSVPrepare()">
+                        <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getTicketSummaryCSVPrepare()">
                             CSV&nbsp;&nbsp;&nbsp;&nbsp;
                             <i ng-class="buttonClass"></i>
                         </button>
