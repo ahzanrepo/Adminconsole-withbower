@@ -85,7 +85,7 @@ var baseUrls = {
     'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
-    'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
+    'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
     'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/'
 };
@@ -851,7 +851,31 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "CAMPAIGNMANAGER"
             }
         }).state('console.campaignmonitor', {
-            url: "/campaignmonitor",
+            url: "/campaign/monitor",
+            templateUrl: "campaignManager/campaignMonitor.html",
+            controller: "campaignMonitorController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaignsummeryreport', {
+            url: "/campaign/report/summery",
+            templateUrl: "campaignManager/campaignSummeryReport.html",
+            controller: "campaignReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaigndispositionreport', {
+            url: "/campaign/report/disposition",
+            templateUrl: "campaignManager/campaignMonitor.html",
+            controller: "campaignMonitorController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaignattemptreport', {
+            url: "/campaign/report/attempt",
             templateUrl: "campaignManager/campaignMonitor.html",
             controller: "campaignMonitorController",
             data: {
@@ -859,7 +883,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "CAMPAIGNMANAGER"
             }
         }).state('console.campaignnumberupload', {
-            url: "/campaignnumberupload",
+            url: "/campaign/numberupload",
             templateUrl: "views/campaign-number-upload/numberUpload.html",
             controller: "numberUploadController",
             data: {
@@ -867,7 +891,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "CAMPAIGNNUMBERS"
             }
         }).state('console.dncnumbermanage', {
-            url: "/dncnumbermanage",
+            url: "/campaign/dncnumbermanage",
             templateUrl: "views/campaign-number-upload/dncList.html",
             controller: "numberDncController",
             data: {
@@ -883,23 +907,23 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "CAMPAIGNNUMBERS"
             }
         }).state('console.callcenterperformance', {
-                url: "/callcenterperformance",
-                templateUrl: "views/callcenter-performance-summery/callcenterPerformance.html",
-                controller: "callcenterPerformanceController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CALLCENTER_PERFORMANCE"
-                }
-        
+            url: "/callcenterperformance",
+            templateUrl: "views/callcenter-performance-summery/callcenterPerformance.html",
+            controller: "callcenterPerformanceController",
+            data: {
+                requireLogin: true,
+                navigation: "CALLCENTER_PERFORMANCE"
+            }
+
         }).state('console.seclevels', {
-                url: "/SecutityLevels",
-                templateUrl: "user_security_level_management/views/securityLevelManagement.html",
-                controller: "securityLevelManagementController",
-                data: {
-                    requireLogin: true,
-                    navigation: "USERS"
-                }
-            });
+            url: "/SecutityLevels",
+            templateUrl: "user_security_level_management/views/securityLevelManagement.html",
+            controller: "securityLevelManagementController",
+            data: {
+                requireLogin: true,
+                navigation: "USERS"
+            }
+        });
         //Todo shoud be change navigation
     }]);
 
@@ -987,4 +1011,3 @@ mainApp.run(function ($rootScope, loginService, $location, $auth, $state) {
     });
 
 });
-
