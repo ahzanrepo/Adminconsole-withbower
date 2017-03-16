@@ -6,8 +6,8 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var pbxAdminCtrl = function ($scope, $rootScope, pbxAdminApiHandler, loginService) {
-
+    var pbxAdminCtrl = function ($scope, $rootScope, pbxAdminApiHandler, loginService,$anchorScroll) {
+        $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({

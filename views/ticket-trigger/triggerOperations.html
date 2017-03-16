@@ -26,7 +26,7 @@
                                     <div><dynamic-operation operation-name="triggerOperation.name" render-templates="templates" ards-attributes="attributes" ng-model="triggerOperation"></dynamic-operation></div>
 
                                     <div class="col-md-1">
-                                        <button type="button" class="btn btn-success btn-sm pull-right attribute-btn  "
+                                        <button type="button" ng-disabled="!addOperationsActive" class="btn btn-success btn-sm pull-right attribute-btn  "
                                                 ng-click="addTriggerOperation()">
                                             Add
                                         </button>

@@ -8,6 +8,7 @@
             scope: {
                 ticketField: "=",
                 ticketSchema: "=",
+                ticketTypes: "=",
                 companyUsers: "=",
                 companyUserGroups: "=",
                 ngModel: "="
@@ -53,7 +54,7 @@
                         case "is_sub_ticket":
                             return '<div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" ng-model="ngModel.value"> <option>TRUE</option> <option>FALSE</option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                         case "type":
-                            return '<div><input type="text" class="form-control has-feedback-left" ng-model="ngModel.value" style="" id="actionValue" placeholder="Value"> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span></div>';
+                            return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select Status" ng-model="ngModel.value"> <option value="" disabled selected>Select Type</option> <option ng-repeat="status in ticketTypes" value="{{status}}"> {{status}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                         case "time_estimation":
                         case "tid":
                             return '<div><input type="Number" min="0" class="form-control has-feedback-left" ng-model="ngModel.value" style="" id="actionValue" placeholder="Value"> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span></div>';
@@ -65,6 +66,7 @@
                             return '<div><input type="text" class="form-control has-feedback-left" ng-model="ngModel.value" style="" id="actionValue" placeholder="Value"> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span></div>';
                         case "priority":
                             return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select Priority" ng-model="ngModel.value"> <option value="" disabled selected>Select Priority</option> <option ng-repeat="priority in ticketSchema.priority.enum" value="{{priority}}"> {{priority}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
+
                         case "status":
                             return '<div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback"> <select class="form-control has-feedback-left" placeholder="Select Status" ng-model="ngModel.value"> <option value="" disabled selected>Select Status</option> <option ng-repeat="status in ticketSchema.status.enum" value="{{status}}"> {{status}} </option> </select> <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span> </div>';
                         case "assignee":

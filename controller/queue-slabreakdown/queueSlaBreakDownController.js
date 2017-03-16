@@ -2,8 +2,9 @@
  * Created by Heshan.i on 10/26/2016.
  */
 
-mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $state, $q, queueSummaryBackendService, loginService) {
+mainApp.controller("queueSlaBreakDownController", function ($scope, $filter, $state, $q, queueSummaryBackendService, loginService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.qDate = moment().format("YYYY-MM-DD");
     $scope.dateValid = true;
     $scope.queueSummaryList = [];

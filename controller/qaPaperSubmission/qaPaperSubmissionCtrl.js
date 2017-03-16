@@ -4,8 +4,8 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var qaSubmissionCtrl = function ($scope, $filter, $q, $sce, $uibModal, userProfileApiAccess, cdrApiHandler, qaModuleService, loginService, _) {
-
+    var qaSubmissionCtrl = function ($scope, $filter, $q, $sce, $uibModal, userProfileApiAccess, cdrApiHandler, qaModuleService, loginService, $anchorScroll) {
+        $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
 
             new PNotify({

@@ -1,8 +1,9 @@
 /**
  * Created by Pawan on 6/18/2016.
  */
-mainApp.controller("ardsController", function ($scope, $state, ardsBackendService, loginService) {
+mainApp.controller("ardsController", function ($scope, $state, ardsBackendService, loginService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.addNew = false;
     $scope.ArdsList = [];
     $scope.tasks = [];

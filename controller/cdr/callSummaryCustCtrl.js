@@ -1,8 +1,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var callSummaryCustCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, baseUrls) {
+    var callSummaryCustCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, baseUrls,$anchorScroll) {
 
+        $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
 
             new PNotify({
