@@ -4,8 +4,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var myUserProfileCtrl = function ($scope, $stateParams, $filter, myUserProfileApiAccess, sipUserApiHandler, loginService) {
+    var myUserProfileCtrl = function ($scope, $stateParams, $filter, myUserProfileApiAccess, sipUserApiHandler, loginService,$anchorScroll) {
 
+        $anchorScroll();
         $scope.languages = [
             {"code": "ab", "name": "Abkhaz", "nativeName": "?????"},
             {"code": "aa", "name": "Afar", "nativeName": "Afaraf"},

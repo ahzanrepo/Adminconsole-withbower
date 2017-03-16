@@ -6,6 +6,9 @@
     var app = angular.module("veeryConsoleApp");
 
     var ringGroupCtrl = function ($scope, $filter, sipUserApiHandler, loginService) {
+
+
+
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({

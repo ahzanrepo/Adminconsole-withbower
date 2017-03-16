@@ -1591,7 +1591,9 @@ small > i {
     height: 670px;
     overflow: hidden;
 }
-
+.sec-level-wrap {
+    height: 670px;
+}
 /*attributes*/
 .attribute.customer-side-header {
     width: 100%;
@@ -5095,6 +5097,20 @@ ul.row-option > li.delete:focus {
 .card-dashboard {
     width: 100%;
     min-height: 140px;
+    overflow: hidden;
+    position: relative;
+}
+
+.cp-main-card-dashboard {
+    width: 100%;
+    min-height: 210px;
+    overflow: hidden;
+    position: relative;
+}
+
+.cp-second-card-dashboard {
+    width: 100%;
+    min-height: 118px;
     overflow: hidden;
     position: relative;
 }

@@ -14,7 +14,7 @@
                                         <select class="form-control has-feedback-left" placeholder="Select Field"
                                                 ng-model="triggerAction.field" ng-change="OnChangeTriggerAction()">
                                             <option value="" disabled selected>Select Field</option>
-                                            <option ng-repeat="ticketSchemaKey in ticketSchemaKeys | filter: filterActionSchemaKeys" value="{{ticketSchemaKey}}">
+                                            <option ng-repeat="ticketSchemaKey in ticketSchemaKeys| orderBy:'toString()' | filter: filterActionSchemaKeys" value="{{ticketSchemaKey}}">
                                                 {{ticketSchemaKey}}
                                             </option>
                                         </select>
@@ -24,7 +24,7 @@
                                         <!--<input type="text" class="form-control has-feedback-left" ng-model="triggerAction.value"
                                                style="" id="actionValue" placeholder="Value">
                                         <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>-->
-                                        <div><ticket-dynamic-field  company-users="users" company-user-groups="userGroups" ng-model="triggerAction" ticket-field="triggerAction.field" ticket-schema="ticketSchema"></ticket-dynamic-field></div>
+                                        <div><ticket-dynamic-field ticket-types="ticketTypes" company-users="users" company-user-groups="userGroups" ng-model="triggerAction" ticket-field="triggerAction.field" ticket-schema="ticketSchema"></ticket-dynamic-field></div>
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-success btn-sm pull-right attribute-btn  "

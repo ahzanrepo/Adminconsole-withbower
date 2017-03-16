@@ -13,7 +13,7 @@
                                         <select class="form-control has-feedback-left" placeholder="Select Field"
                                                 ng-model="triggerFilter.field"  ng-change="updateValue()">
                                             <option value="" disabled selected>Select Field</option>
-                                            <option ng-repeat="ticketSchemaKey in ticketSchemaKeys" value="{{ticketSchemaKey}}">
+                                            <option ng-repeat="ticketSchemaKey in ticketSchemaKeys| orderBy:'toString()'" value="{{ticketSchemaKey}}">
                                                 {{ticketSchemaKey}}
                                             </option>
                                         </select>
@@ -44,7 +44,7 @@
                                         <span class="glyphicon glyphicon-list form-control-feedback left" aria-hidden="true"></span>
                                     </div>
                                     <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
-                                        <div><ticket-dynamic-field  company-users="users" company-user-groups="userGroups" ng-model="triggerFilter" ticket-field="triggerFilter.field" ticket-schema="ticketSchema"></ticket-dynamic-field></div>
+                                        <div><ticket-dynamic-field ticket-types="ticketTypes" company-users="users" company-user-groups="userGroups" ng-model="triggerFilter" ticket-field="triggerFilter.field" ticket-schema="ticketSchema"></ticket-dynamic-field></div>
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-success btn-sm pull-right attribute-btn  "

@@ -7,8 +7,9 @@
 
 
     var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
-                            loginService, baseUrls) {
+                            loginService, baseUrls,$anchorScroll) {
 
+        $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
 
         $scope.config = {

@@ -5,8 +5,9 @@
     var app = angular.module("veeryConsoleApp").constant('_', window._);
 
 
-    var qaRatingReportCtrl = function ($scope, $uibModal, $location, $anchorScroll, loginService,qaModuleService,userProfileApiAccess) {
+    var qaRatingReportCtrl = function ($scope, $uibModal, $location, $anchorScroll, loginService,qaModuleService,userProfileApiAccess,$anchorScroll) {
 
+        $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({

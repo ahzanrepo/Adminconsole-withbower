@@ -4,8 +4,10 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var emailReportCtrl = function ($scope, $location, $anchorScroll, cdrApiHandler, userProfileApiAccess, templateMakerBackendService, loginService, _) {
+    var emailReportCtrl = function ($scope, $location, $anchorScroll, cdrApiHandler, userProfileApiAccess,
+                                    templateMakerBackendService, loginService, $anchorScroll) {
 
+        $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({

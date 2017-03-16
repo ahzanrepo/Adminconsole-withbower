@@ -519,4 +519,4 @@ var ng;
     })(ng.jsplumb || (ng.jsplumb = {}));
     var jsplumb = ng.jsplumb;
 })(ng || (ng = {}));
-//# sourceMappingURL=jsplumb-angular.js.map
+

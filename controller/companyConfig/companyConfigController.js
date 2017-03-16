@@ -2,8 +2,9 @@
  * Created by Pawan on 7/29/2016.
  */
 
-mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, loginService) {
+mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, loginService,$anchorScroll) {
 
+    $anchorScroll();
 
     $scope.isNewEndUser = false;
     $scope.isUserError = false;
