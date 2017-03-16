@@ -5,8 +5,9 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q, agentSummaryBackendService,loginService) {
+mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q, agentSummaryBackendService,loginService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.startDate = moment().format("YYYY-MM-DD");
     $scope.endDate = moment().format("YYYY-MM-DD");
     $scope.dateValid = true;

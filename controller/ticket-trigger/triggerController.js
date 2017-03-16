@@ -4,9 +4,9 @@
 (function(){
     var app =angular.module('veeryConsoleApp');
 
+    var triggerController = function($scope, $state, triggerApiAccess,loginService,$anchorScroll) {
 
-
-    var triggerController = function($scope, $state, triggerApiAccess,loginService) {
+        $anchorScroll();
         $scope.triggers = [];
         $scope.trigger = {};
         $scope.searchCriteria = "";

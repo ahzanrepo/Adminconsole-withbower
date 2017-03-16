@@ -2,8 +2,9 @@
  * Created by Pawan on 6/14/2016.
  */
 
-mainApp.controller("limitController", function ($scope, $state, $uibModal, limitBackendService, loginService) {
+mainApp.controller("limitController", function ($scope, $state, $uibModal, limitBackendService, loginService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.limitList = [];
 
 

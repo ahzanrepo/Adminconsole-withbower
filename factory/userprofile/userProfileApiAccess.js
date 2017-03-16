@@ -68,6 +68,18 @@
             })
         };
 
+
+        var resetProfilePassword = function (user, profileInfo) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'User/' + user + '/profile/password',
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
+
         var deleteContactFromProfile = function (user, contact) {
 
             return $http({
@@ -160,6 +172,7 @@
             addContactToProfile: addContactToProfile,
             deleteContactFromProfile: deleteContactFromProfile,
             updateProfile: updateProfile,
+            resetProfilePassword: resetProfilePassword,
             getUsers: getUsers,
             addUser: addUser,
             deleteUser: deleteUser,

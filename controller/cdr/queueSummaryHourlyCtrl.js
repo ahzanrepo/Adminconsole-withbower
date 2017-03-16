@@ -4,8 +4,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var queueSummaryHourlyCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, _, baseUrls) {
+    var queueSummaryHourlyCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls,$anchorScroll) {
 
+        $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
 
         $scope.showAlert = function (tittle, type, content) {

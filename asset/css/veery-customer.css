@@ -5101,6 +5101,20 @@ ul.row-option > li.delete:focus {
     position: relative;
 }
 
+.cp-main-card-dashboard {
+    width: 100%;
+    min-height: 210px;
+    overflow: hidden;
+    position: relative;
+}
+
+.cp-second-card-dashboard {
+    width: 100%;
+    min-height: 118px;
+    overflow: hidden;
+    position: relative;
+}
+
 /*auth form */
 .lost-pwd-link > a {
     color: #fff;
