@@ -431,6 +431,26 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getCampaignSummery = function (startTime,endTime,pageNo,rowCount) {
+
+        var aa = [];
+        aa['startDateTime'] = startTime;
+        aa['endDateTime'] = endTime;
+        aa['pageNo'] = pageNo;
+        aa['rowCount'] = rowCount;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/summery",
+            params:aa //[{startDateTime: startTime},{endDateTime:endTime},{pageNo:pageNo},{rowCount:rowCount}]
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
     return {
         mechanisms: ["BLAST", "FIFO", "PREVIEW", "AGENT"],
         modes: ["IVR", "AGENT"],
@@ -462,7 +482,8 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         GetTotalConnectedCount:getTotalConnectedCount,
         GetTotalDialCount:getTotalDialCount,
         GetAssignedCategory:getAssignedCategory,
-        DeleteSchedule:deleteSchedule
+        DeleteSchedule:deleteSchedule,
+        GetCampaignSummery:getCampaignSummery
     }
 
 });

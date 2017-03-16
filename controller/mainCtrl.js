@@ -317,6 +317,15 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goCampaignMonitor: function () {
             $state.go('console.campaignmonitor')
         },
+        goCampaignSummery: function () {
+            $state.go('console.campaignsummeryreport')
+        },
+        goCampaignDisposition: function () {
+            $state.go('console.campaigndispositionreport')
+        },
+        goCampaignAttempt: function () {
+            $state.go('console.campaignattemptreport')
+        },
         goQASubmission: function () {
             $state.go('console.qaSubmission');
         },
@@ -369,6 +378,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.campaignnumberupload');
         }, goDncNumberManage: function () {
             $state.go('console.dncnumbermanage');
+        },
+        goSecLevels: function () {
+            $state.go('console.seclevels');
         },
         newContact: function () {
             $state.go('console.contact-book');
@@ -834,6 +846,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                     });
 
                     $scope.agentList = onlineAgentList.concat(offlineAgentList);
+                    agentDetailsFactory.agentList = $scope.agentList;
+                    console.log(agentDetailsFactory.agentList);
+
                 }
 
                 if ($scope.userGroups) {

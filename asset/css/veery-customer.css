@@ -1591,7 +1591,9 @@ small > i {
     height: 670px;
     overflow: hidden;
 }
-
+.sec-level-wrap {
+    height: 670px;
+}
 /*attributes*/
 .attribute.customer-side-header {
     width: 100%;

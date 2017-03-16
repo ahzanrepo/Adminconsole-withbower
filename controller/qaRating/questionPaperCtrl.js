@@ -4,9 +4,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var questionPaperCtrl = function ($scope, $uibModal, loginService, qaModuleService, _) {
+    var questionPaperCtrl = function ($scope, $uibModal, loginService, qaModuleService, $anchorScroll) {
 
-
+        $anchorScroll();
         //Detect Document Height
         //update code damith
         var setElementHeight = function () {

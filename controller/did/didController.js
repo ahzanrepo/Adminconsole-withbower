@@ -1,8 +1,9 @@
 /**
  * Created by Pawan on 6/30/2016.
  */
-mainApp.controller("didController", function ($scope, $state, $uibModal, $filter, didBackendService, loginService) {
+mainApp.controller("didController", function ($scope, $state, $uibModal, $filter, didBackendService, loginService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.didList = [];
 
     $scope.showAlert = function (title, content, type) {

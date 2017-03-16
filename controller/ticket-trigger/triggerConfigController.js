@@ -7,7 +7,7 @@
     var triggerConfigController = function ($scope, $state, $stateParams, triggerApiAccess,
                                             loginService,
                                             triggerUserServiceAccess, triggerTemplateServiceAccess,
-                                            triggerArdsServiceAccess) {
+                                            triggerArdsServiceAccess,companyConfigBackendService) {
         $scope.title = $stateParams.title;
         $scope.triggerId = $stateParams.triggerId;
         $scope.triggerAction = {};
@@ -64,12 +64,41 @@
                        return item.status_node;
                     })
                 }
+                $scope.getDynamicTicketTypes();
+
             }, function (error) {
-                $scope.showError("Error", "Error", "ok", "There is an error ");
+                $scope.showError("Error", "Error", "ok", "There is an error Loading Schemas.");
             });
 
         };
         $scope.getTicketStatusNodes();
+
+        $scope.ticketTypes = [];
+        $scope.getDynamicTicketTypes = function () {
+            companyConfigBackendService.getTicketTypes().then(function (response) {
+                if (response.IsSuccess) {
+                    if(response.Result){
+                        if(response.Result.custom_types){
+                            response.Result.custom_types.map(function (item) {
+                                $scope.ticketTypes.push(item);
+                            })
+                        }
+                        if(response.Result.default_types){
+                            response.Result.default_types.map(function (item) {
+                                $scope.ticketTypes.push(item);
+                            })
+                        }
+                    }
+
+                }
+                else {
+                    $scope.showAlert('Dynamic Ticket Types', "Error occurred while saving ticket type", 'error');
+                }
+                $scope.getTicketSchema();
+            }, function (err) {
+                $scope.showAlert('Dynamic Ticket Types', "Error occurred while saving ticket type", 'error');
+            });
+        };
 
         $scope.getTicketSchema = function () {
             triggerApiAccess.TicketSchema().then(function (response) {
@@ -80,7 +109,7 @@
                             $scope.ticketSchema[item.field] = item.type == "Select" ? ({
                                     type: "String",
                                     enum: item.values
-                                }) :(item.field == "status" ?({type: "String", enum : $scope.ticketSchemaStatus}):({type: item.type})) ;
+                                }) :(item.field == "status" ?({type: "String", enum : $scope.ticketSchemaStatus}):(item.field == "type"?({type: "String", enum : $scope.ticketTypes}):({type: item.type}))) ;// ({type: item.type})) ;
                         }
                     });
                 }
@@ -89,7 +118,7 @@
             });
 
         };
-        $scope.getTicketSchema();
+
 
 
         $scope.filterActionSchemaKeys = function (value) {
