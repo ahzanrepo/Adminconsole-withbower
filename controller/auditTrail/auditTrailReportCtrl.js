@@ -4,8 +4,8 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var auditTrailReportCtrl = function ($scope, $filter, $q, $uibModal, ObjectDiff, companyConfigBackendService, ticketReportsService, loginService) {
-
+    var auditTrailReportCtrl = function ($scope, $filter, $q, $uibModal, ObjectDiff, companyConfigBackendService, ticketReportsService, loginService, $anchorScroll) {
+        $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
 
             new PNotify({
@@ -90,7 +90,7 @@
             return true;
         };
 
-        $scope.closeModal = function(){
+        $scope.closeModal = function () {
             $scope.modalInstanceDiff.close();
         };
 
@@ -124,21 +124,17 @@
 
             var diffViewerNewTemp = null;
 
-            try
-            {
+            try {
                 diffViewerOldTemp = JSON.parse(oldValue);
             }
-            catch(ex)
-            {
+            catch (ex) {
                 diffViewerOldTemp = [oldValue];
             }
 
-            try
-            {
+            try {
                 diffViewerNewTemp = JSON.parse(newValue);
             }
-            catch(ex)
-            {
+            catch (ex) {
                 diffViewerNewTemp = [newValue];
             }
 
@@ -157,7 +153,6 @@
                 scope: $scope
             });
         };
-
 
 
         $scope.getAuditTrails = function () {
@@ -183,13 +178,10 @@
             $scope.pagination.itemsPerPage = limit;
 
 
-            try
-            {
+            try {
 
-                companyConfigBackendService.getAuditTrailsCount(startDate, endDate, $scope.obj.application, $scope.obj.property, $scope.obj.author).then(function (auditCount)
-                {
-                    if (auditCount && auditCount.IsSuccess)
-                    {
+                companyConfigBackendService.getAuditTrailsCount(startDate, endDate, $scope.obj.application, $scope.obj.property, $scope.obj.author).then(function (auditCount) {
+                    if (auditCount && auditCount.IsSuccess) {
                         $scope.pagination.totalItems = auditCount.Result;
                     }
 
@@ -290,48 +282,42 @@
 
                         ticketDetailsResp.Result.forEach(function (ticketInfo) {
                             var ticketInfoTemp =
-                            {
-                                reference: ticketInfo.reference,
-                                subject: ticketInfo.subject,
-                                phoneNumber: (ticketInfo.requester ? ticketInfo.requester.phone : ''),
-                                email: (ticketInfo.requester ? ticketInfo.requester.email : ''),
-                                ssn: (ticketInfo.requester ? ticketInfo.requester.ssn : ''),
-                                firstname: (ticketInfo.requester ? ticketInfo.requester.firstname : ''),
-                                lastname: (ticketInfo.requester ? ticketInfo.requester.lastname : ''),
-                                address: '',
-                                fromNumber: (ticketInfo.engagement_session ? ticketInfo.engagement_session.channel_from : ''),
-                                createdDate: moment(ticketInfo.created_at).local().format("YYYY-MM-DD HH:mm:ss"),
-                                assignee: (ticketInfo.assignee ? ticketInfo.assignee.name : ''),
-                                submitter: (ticketInfo.submitter ? ticketInfo.submitter.name : ''),
-                                requester: (ticketInfo.requester ? ticketInfo.requester.name : ''),
-                                channel: ticketInfo.channel,
-                                status: ticketInfo.status,
-                                priority: ticketInfo.priority,
-                                type: ticketInfo.type,
-                                slaViolated: (ticketInfo.ticket_matrix ? ticketInfo.ticket_matrix.sla_violated : false)
-
-                            };
-
-                            if(ticketInfo.requester && ticketInfo.requester.address)
-                            {
-                                if(ticketInfo.requester.address.number)
                                 {
+                                    reference: ticketInfo.reference,
+                                    subject: ticketInfo.subject,
+                                    phoneNumber: (ticketInfo.requester ? ticketInfo.requester.phone : ''),
+                                    email: (ticketInfo.requester ? ticketInfo.requester.email : ''),
+                                    ssn: (ticketInfo.requester ? ticketInfo.requester.ssn : ''),
+                                    firstname: (ticketInfo.requester ? ticketInfo.requester.firstname : ''),
+                                    lastname: (ticketInfo.requester ? ticketInfo.requester.lastname : ''),
+                                    address: '',
+                                    fromNumber: (ticketInfo.engagement_session ? ticketInfo.engagement_session.channel_from : ''),
+                                    createdDate: moment(ticketInfo.created_at).local().format("YYYY-MM-DD HH:mm:ss"),
+                                    assignee: (ticketInfo.assignee ? ticketInfo.assignee.name : ''),
+                                    submitter: (ticketInfo.submitter ? ticketInfo.submitter.name : ''),
+                                    requester: (ticketInfo.requester ? ticketInfo.requester.name : ''),
+                                    channel: ticketInfo.channel,
+                                    status: ticketInfo.status,
+                                    priority: ticketInfo.priority,
+                                    type: ticketInfo.type,
+                                    slaViolated: (ticketInfo.ticket_matrix ? ticketInfo.ticket_matrix.sla_violated : false)
+
+                                };
+
+                            if (ticketInfo.requester && ticketInfo.requester.address) {
+                                if (ticketInfo.requester.address.number) {
                                     ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.number + ', '
                                 }
-                                if(ticketInfo.requester.address.street)
-                                {
+                                if (ticketInfo.requester.address.street) {
                                     ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.street + ', '
                                 }
-                                if(ticketInfo.requester.address.city)
-                                {
+                                if (ticketInfo.requester.address.city) {
                                     ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.city + ', '
                                 }
-                                if(ticketInfo.requester.address.province)
-                                {
+                                if (ticketInfo.requester.address.province) {
                                     ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.province + ', '
                                 }
-                                if(ticketInfo.requester.address.country)
-                                {
+                                if (ticketInfo.requester.address.country) {
                                     ticketInfoTemp.address = ticketInfoTemp.address + ticketInfo.requester.address.country + ', '
                                 }
                             }
@@ -347,15 +333,11 @@
                                 }
                             }
 
-                            if(ticketInfo.form_submission && ticketInfo.form_submission.fields)
-                            {
-                                ticketInfo.form_submission.fields.forEach(function(field)
-                                {
-                                    if(field.field)
-                                    {
+                            if (ticketInfo.form_submission && ticketInfo.form_submission.fields) {
+                                ticketInfo.form_submission.fields.forEach(function (field) {
+                                    if (field.field) {
                                         var tempFieldName = 'DYNAMICFORM_' + field.field;
-                                        if($scope.tagHeaders.indexOf(tempFieldName) < 0)
-                                        {
+                                        if ($scope.tagHeaders.indexOf(tempFieldName) < 0) {
                                             $scope.tagHeaders.push(tempFieldName);
                                             $scope.tagOrder.push(tempFieldName);
 
