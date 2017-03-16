@@ -1,4 +1,4 @@
-mainApp.controller("campaignReportController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, campaignService) {
+mainApp.controller("campaignReportController", function ($scope,$q, $compile, $uibModal, $filter, $location, $log, $anchorScroll, campaignService) {
 
     $anchorScroll();
 

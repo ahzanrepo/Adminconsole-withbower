@@ -431,17 +431,17 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var getCampaignSummery = function (startTime,endTime,pageNo,rowCount) {
+    var getCampaignSummery = function (pageNo,rowCount) {
 
-        var aa = [];
-        aa['startDateTime'] = startTime;
-        aa['endDateTime'] = endTime;
-        aa['pageNo'] = pageNo;
-        aa['rowCount'] = rowCount;
+        var postData = [];
+        /*postData['startDateTime'] = startTime;
+        postData['endDateTime'] = endTime;*/
+        postData['pageNo'] = pageNo;
+        postData['rowCount'] = rowCount;
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/summery",
-            params:aa //[{startDateTime: startTime},{endDateTime:endTime},{pageNo:pageNo},{rowCount:rowCount}]
+            params:postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
