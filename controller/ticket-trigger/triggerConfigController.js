@@ -19,6 +19,8 @@
         $scope.users = {};
         $scope.userGroups = {};
 
+        $scope.addOperationsActive = true;
+
         /*$scope.ticketSchemaKeys = [
          "due_at",
          "active",
@@ -465,12 +467,15 @@
 
         $scope.addTriggerOperation = function () {
             console.log(JSON.stringify($scope.triggerOperation));
+            $scope.addOperationsActive = false;
             triggerApiAccess.addOperations($scope.triggerId, $scope.triggerOperation).then(function (response) {
                 if (response.IsSuccess) {
+                    $scope.addOperationsActive = true;
                     $scope.loadTriggerOperations();
                     $scope.showAlert('Trigger Operation', response.CustomMessage, 'success');
                 }
                 else {
+                    $scope.addOperationsActive = true;
                     var errMsg = response.CustomMessage;
 
                     if (response.Exception) {
@@ -479,6 +484,7 @@
                     $scope.showAlert('Trigger Operation', errMsg, 'error');
                 }
             }, function (err) {
+                $scope.addOperationsActive = true;
                 loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving trigger operation";
                 if (err.statusText) {
