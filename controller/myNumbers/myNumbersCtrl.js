@@ -4,8 +4,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi, loginService) {
+    var myNumbersCtrl = function ($scope, $uibModal, $location, $anchorScroll, phnNumApiAccess, voxboneApi, loginService,$anchorScroll) {
 
+        $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({

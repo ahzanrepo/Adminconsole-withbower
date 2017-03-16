@@ -2,9 +2,10 @@
  * Created by Pawan on 6/8/2016.
  */
 
-mainApp.controller("applicationController", function ($scope, $state, appBackendService, loginService) {
+mainApp.controller("applicationController", function ($scope, $state, appBackendService, loginService,$anchorScroll) {
 
 
+    $anchorScroll();
     $scope.AppList = [];
     $scope.newApplication = {};
     $scope.addNew = false;

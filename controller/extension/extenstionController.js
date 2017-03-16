@@ -2,9 +2,10 @@
  * Created by Pawan on 6/17/2016.
  */
 
-mainApp.controller("extensionController", function ($scope, $state, extensionBackendService, ruleconfigservice, loginService) {
+mainApp.controller("extensionController", function ($scope, $state, extensionBackendService, ruleconfigservice, loginService,$anchorScroll) {
 
 
+    $anchorScroll();
     $scope.Extensions = [];
     $scope.AppList = [];
     $scope.newApplication = {};

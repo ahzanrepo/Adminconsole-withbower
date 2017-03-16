@@ -2,11 +2,12 @@
  * Created by Damith on 5/29/2016.
  */
 
-mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService) {
+mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService,$anchorScroll) {
 
     //$scope.percent = 65;
 
     //#
+    $anchorScroll();
     $scope.isGrid = false;
     $scope.summaryText = "Table";
     $scope.isLoaded = false;

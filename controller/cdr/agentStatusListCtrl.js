@@ -4,8 +4,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var agentStatusListCtrl = function ($scope, $filter, $q, cdrApiHandler, resourceService, companyConfigBackendService, loginService) {
+    var agentStatusListCtrl = function ($scope, $filter, $q, cdrApiHandler, resourceService, companyConfigBackendService, loginService,$anchorScroll) {
 
+        $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
 
             new PNotify({

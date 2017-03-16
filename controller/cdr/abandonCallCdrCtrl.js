@@ -8,8 +8,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var abandonCallCdrCtrl = function ($scope, $filter, $q, $timeout, cdrApiHandler, sipUserApiHandler, resourceService, loginService, baseUrls) {
+    var abandonCallCdrCtrl = function ($scope, $filter, $q, $timeout, cdrApiHandler, sipUserApiHandler, resourceService, loginService, baseUrls,$anchorScroll) {
 
+        $anchorScroll();
         $scope.enableSearchButton = true;
 
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [4, 'desc']};

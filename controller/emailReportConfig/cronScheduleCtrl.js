@@ -4,8 +4,10 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var cronScheduleCtrl = function ($scope, $location, $http, $anchorScroll, scheduleWorkerService, cdrApiHandler, userProfileApiAccess, loginService) {
+    var cronScheduleCtrl = function ($scope, $location, $http, $anchorScroll, scheduleWorkerService, cdrApiHandler,
+                                     userProfileApiAccess, loginService,$anchorScroll) {
 
+        $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({
