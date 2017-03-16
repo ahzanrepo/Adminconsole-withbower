@@ -629,6 +629,28 @@
 
         };
 
+
+        $scope.resetUserPassword = function(){
+
+            userProfileApiAccess.resetProfilePassword($stateParams.username).then(function (data) {
+                if (data.IsSuccess) {
+                    if (data.Result) {
+                        $scope.showAlert('Success', 'info', data.Result);
+                    }else{
+
+                        $scope.showAlert('Error', 'error', "no data found");
+                    }
+                }
+
+
+
+            }, function (err) {
+                $scope.showAlert('Error', 'error', err.message);
+            });
+        };
+
+
+
         $scope.saveProfile = function () {
 
             var filteredUsers = $scope.sipUserList.filter(function (item) {
@@ -694,8 +716,6 @@
                         $scope.sipUserList = data.Result;
 
                     }
-
-
                 }
 
             }, function (err) {
