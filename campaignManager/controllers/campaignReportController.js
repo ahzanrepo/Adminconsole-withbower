@@ -11,43 +11,29 @@ mainApp.controller("campaignReportController", function ($scope,$q, $compile, $u
         });
     };
 
-// search
-    $scope.StartTime = {
-        date: new Date()
-    };
-    $scope.EndTime = {
-        date: new Date()
-    };
-    $scope.openCalendar = function (name) {
-        if (name == 'StartTime') {
-            $scope.StartTime.open = true;
-        }
-        else {
-            $scope.EndTime.open = true;
-        }
-
-    };
-    var d = new Date();
-    d.setDate(d.getDate() - 1);
-    $scope.campaingSerachData = {};
-    $scope.campaingSerachData.StartTime = d;
-    $scope.campaingSerachData.EndTime = new Date();
-    // search end
-
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     $scope.pageSizRange = [10, 500, 1000, 5000, 10000];
     $scope.isLoading = false;
     $scope.noDataToshow = false;
-    $scope.showPaging = false;
     $scope.currentPage = "1";
     $scope.pageTotal = "1";
-    $scope.pageSize = 10;
+    $scope.pageSize = 100;
 
     $scope.isLoading = false;
     $scope.campaignSummery = [];
-    $scope.GetCampaignSummery = function() {
+
+    $scope.CampaignSummeryReportCount = function() {
+        campaignService.CampaignSummeryReportCount().then(function (response) {
+            $scope.pageTotal = response;
+        }, function (error) {
+            $scope.showAlert("Campaign Report", 'error',"Fail To Get Page Count.");
+        });
+    };
+    $scope.CampaignSummeryReportCount();
+
+    $scope.getPageData = function (Paging, page, pageSize, total) {
         $scope.isLoading =true;
-        campaignService.GetCampaignSummery($scope.campaingSerachData.StartTime.toUTCString(),$scope.campaingSerachData.EndTime.toUTCString(),$scope.currentPage,$scope.pageSize).then(function (response) {
+        campaignService.GetCampaignSummery(page,pageSize).then(function (response) {
             $scope.campaignSummery = response;
             $scope.isLoading =false;
         }, function (error) {
@@ -55,4 +41,7 @@ mainApp.controller("campaignReportController", function ($scope,$q, $compile, $u
             $scope.isLoading =false;
         });
     };
+    $scope.getPageData("", $scope.currentPage, $scope.pageSize, $scope.pageTotal);
+
+
 });

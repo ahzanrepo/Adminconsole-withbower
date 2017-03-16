@@ -164,7 +164,7 @@
 
 
         $scope.filterActionSchemaKeys = function (value) {
-            if (value === "channel" || value === "tags" || value === "SLAViolated") {
+            if (value === "channel" || value === "tags" || value === "SLAViolated" || value === "isolated_tags") {
                 return false;
             } else {
                 return true;

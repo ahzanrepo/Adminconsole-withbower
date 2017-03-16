@@ -14,7 +14,7 @@
                                         <select class="form-control has-feedback-left" placeholder="Select Field"
                                                 ng-model="triggerAction.field" ng-change="OnChangeTriggerAction()">
                                             <option value="" disabled selected>Select Field</option>
-                                            <option ng-repeat="ticketSchemaKey in ticketSchemaKeys | filter: filterActionSchemaKeys" value="{{ticketSchemaKey}}">
+                                            <option ng-repeat="ticketSchemaKey in ticketSchemaKeys| orderBy:'toString()' | filter: filterActionSchemaKeys" value="{{ticketSchemaKey}}">
                                                 {{ticketSchemaKey}}
                                             </option>
                                         </select>
