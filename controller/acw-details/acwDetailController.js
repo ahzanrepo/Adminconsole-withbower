@@ -6,7 +6,7 @@
 
     var app =angular.module('veeryConsoleApp');
 
-    var acwDetailController = function($scope, $state, acwDetailApiAccess, loginService) {
+    var acwDetailController = function($scope, $state, acwDetailApiAccess, resourceService, loginService) {
 
         $scope.obj = {
             startDay: moment().format("YYYY-MM-DD"),
@@ -15,6 +15,23 @@
 
         $scope.startTime = '12:00 AM';
         $scope.endTime = '11:59 PM';
+
+        $scope.attrList = [];
+
+
+        var getSkillList = function () {
+
+            resourceService.GetAttributes().then(function (attrList) {
+                if (attrList && attrList.length > 0) {
+                    $scope.attrList = attrList;
+                }
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+        getSkillList();
 
         $scope.getResourceDetails = function(){
             acwDetailApiAccess.GetResourceDetails().then(function(response){
@@ -67,7 +84,7 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.GetAcwSummeryDetails($scope.obj.resourceId, startDate, endDate).then(function(response){
+            acwDetailApiAccess.GetAcwSummeryDetails($scope.obj.resourceId, startDate, endDate, $scope.skillFilter).then(function(response){
                 if(response.IsSuccess)
                 {
                     if(response.Result) {
@@ -116,19 +133,17 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId, $scope.currentPage, $scope.pageSize, startDate, endDate).then(function(response){
+            acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId, $scope.currentPage, $scope.pageSize, startDate, endDate, $scope.skillFilter).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.acwRecords = response.Result;
+                    $scope.allAcwRecords = response.Result;
+                    /*$scope.acwRecords = response.Result;*/
                     var sessionIds = [];
-                    if($scope.acwRecords && $scope.acwRecords.length > 0){
-                        sessionIds = $scope.acwRecords.map(function (record) {
-                            return record.SessionId
-                        });
+                    $scope.obj.isTableLoading = 1;
+                    if($scope.allAcwRecords && $scope.allAcwRecords.length > 0){
 
-                        $scope.getCdrRecords(sessionIds);
 
-                        if($scope.acwRecords.length < $scope.pageSize){
+                        if($scope.allAcwRecords.length < $scope.pageSize){
                             $scope.showPaging = false;
                         }else{
                             $scope.showPaging = true;
@@ -159,53 +174,6 @@
             });
         };
 
-        $scope.getCdrRecords = function(sessionIds){
-            acwDetailApiAccess.GetCdrBySessions(sessionIds).then(function(response){
-                if(response.IsSuccess)
-                {
-
-                    var newRecords = $scope.acwRecords.map(function (acwRecord) {
-                        if(response.Result) {
-                            for (var i = 0; i < response.Result.length; i++) {
-                                var cdrRecord = response.Result[i];
-                                if (cdrRecord.Uuid === acwRecord.SessionId) {
-                                    if (cdrRecord.DVPCallDirection === "outbound") {
-                                        var oriFrom = angular.copy(cdrRecord.SipFromUser);
-                                        var oriTo = angular.copy(cdrRecord.SipToUser);
-                                        cdrRecord.SipFromUser = oriTo;
-                                        cdrRecord.SipToUser = oriFrom;
-                                    }
-                                    acwRecord.cdrInfo = cdrRecord;
-                                    break;
-                                }
-                            }
-                        }
-
-                        return acwRecord;
-                    });
-                    $scope.obj.isTableLoading = 1;
-                    $scope.allAcwRecords = $scope.allAcwRecords.concat(newRecords);
-                }
-                else
-                {
-                    var errMsg = response.CustomMessage;
-
-                    if(response.Exception)
-                    {
-                        errMsg = response.Exception.Message;
-                    }
-                    $scope.showAlert('ACW Details', errMsg, 'error');
-                }
-            }, function(err){
-                loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while loading CDR details";
-                if(err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('ACW Details', errMsg, 'error');
-            });
-        };
 
         $scope.getResourceDetails();
 
