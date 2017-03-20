@@ -431,13 +431,14 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var getCampaignSummery = function (pageNo,rowCount) {
+    var getCampaignSummery = function (pageNo,rowCount,status) {
 
         var postData = [];
         /*postData['startDateTime'] = startTime;
         postData['endDateTime'] = endTime;*/
         postData['pageNo'] = pageNo;
         postData['rowCount'] = rowCount;
+        postData['Status'] = status;
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/summery",
@@ -451,15 +452,89 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
-    var campaignSummeryReportCount = function () {
+    var campaignSummeryReportCount = function (status) {
+        var postData = [];
+        postData['Status'] = status;
         return $http({
             method: 'GET',
-            url: baseUrls.campaignmanagerUrl + "Report/summery/count"
+            url: baseUrls.campaignmanagerUrl + "Report/summery/count",
+            params:postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
             } else {
                 return 0;
+            }
+        });
+    };
+
+    var campaignDispositionReportCount = function (campaignId) {
+        var postData = [];
+        postData['CampaignId'] = campaignId;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/disposition/count",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
+
+    var campaignDispositionReport = function (pageNo,rowCount,campaignId) {
+        var postData = [];
+        postData['pageNo'] = pageNo;
+        postData['rowCount'] = rowCount;
+        postData['CampaignId'] = campaignId;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/disposition",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+
+    var campaignCallbackReportCount = function (campaignId) {
+        var postData = [];
+        postData['CampaignId'] = campaignId;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/Callback/count",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
+
+    var campaignCallbackReport = function (pageNo,rowCount,campaignId) {
+        var postData = [];
+        postData['pageNo'] = pageNo;
+        postData['rowCount'] = rowCount;
+        postData['CampaignId'] = campaignId;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/Callback",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
             }
         });
     };
@@ -497,7 +572,11 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         GetAssignedCategory:getAssignedCategory,
         DeleteSchedule:deleteSchedule,
         GetCampaignSummery:getCampaignSummery,
-        CampaignSummeryReportCount:campaignSummeryReportCount
+        CampaignSummeryReportCount:campaignSummeryReportCount,
+        CampaignDispositionReport:campaignDispositionReport,
+        CampaignDispositionReportCount:campaignDispositionReportCount,
+        CampaignCallbackReport:campaignCallbackReport,
+        CampaignCallbackReportCount:campaignCallbackReportCount
     }
 
 });

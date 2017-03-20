@@ -2,89 +2,39 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Campaign Summery Report</h2>
+                <h2>Campaign Disposition Report</h2>
                 <div class="clearfix"></div>
             </div>
 
             <div class="x_content">
                 <div class="col-md-12 col-sm-6 col-xs-12">
-                    <form id="userForm" name="ivrForm" novalidate class="form-label-left input_mask">
+                    <form id="campaingForm" name="ivrForm" novalidate class="form-label-left input_mask">
 
                         <div class="row">
 
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Create"
-                                          ng-click="addConditions('create')"></checkbox>
-                                <label>
-                                    <small>Create</small>
-                                </label>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Ongoing"
-                                          ng-click="addConditions('ongoing')"></checkbox>
-                                <label>
-                                    <small>Ongoing</small>
-                                </label>
-                            </div>
+                            <div class="col-md-10 col-sm-4 col-xs-4 form-group"
+                                 ng-class="{ 'has-error' : campaingForm.Extensions.$invalid && !campaingForm.Extensions.$pristine }">
+                                <select class="form-control has-feedback-left" id="Extensions"
+                                        ng-model="campaign"
+                                        ng-options="opt as opt.CampaignName for opt in campaigns track by opt.CampaignId" required>
+                                    <option disabled value=''>Campaigns</option>
+                                </select>
+                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Offline"
-                                          ng-click="addConditions('offline')"></checkbox>
-                                <label>
-                                    <small>Offline</small>
-                                </label>
-                            </div>
-
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Start"
-                                          ng-click="addConditions('start')"></checkbox>
-                                <label>
-                                    <small>Start</small>
-                                </label>
+                                <p ng-show="campaingForm.Extensions.$invalid && !campaingForm.Extensions.$pristine"
+                                   class="help-block">
+                                    Extensions is required.</p>
                             </div>
 
 
-
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Pause"
-                                          ng-click="addConditions('pause')"></checkbox>
-                                <label>
-                                    <small>Pause</small>
-                                </label>
-                            </div>
-
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Stop"
-                                          ng-click="addConditions('stop')"></checkbox>
-                                <label>
-                                    <small>Stop</small>
-                                </label>
-                            </div>
-
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.Done"
-                                          ng-click="addConditions('done')"></checkbox>
-                                <label>
-                                    <small>Done</small>
-                                </label>
-                            </div>
-
-                            <div class="col-md-3 col-sm-3 col-xs-12">
-                                <checkbox class="btn-success" ng-model="summeryCondition.All"
-                                          ng-click="addConditions('All')"></checkbox>
-                                <label>
-                                    <small>All</small>
-                                </label>
-                            </div>
-
-                            <div class="col-md-12 col-sm-12 col-xs-12  form-group has-feedback">
-                                <button ng-if="!isLoading" ng-disabled="ivrForm.$invalid" type="button"
+                            <div class="col-md-2 col-sm-2 col-xs-12  form-group has-feedback">
+                                <button ng-if="!isLoading" ng-disabled="campaingForm.$invalid" type="button"
                                         class="btn btn-green btn-block"
-                                        ng-click="GetCampaignSummery();">
-                                    Load
+                                        ng-click="loadData();">
+                                    Search
                                 </button>
                                 <button ng-if="isLoading" disabled type="button" class="btn btn-green btn-block"
-                                         ng-click="GetCampaignSummery();">
+                                >
                                     PLEASE WAIT...
                                 </button>
                             </div>
@@ -100,7 +50,7 @@
     <div class="col-md-12 col-sm-6 col-xs-12" ng-hide="intiate">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Details
+                <h2>Campaign {{campaign.CampaignName}} Disposition
                     <!--<small> {{campaingSerachData.StartTime| date : 'dd-MM-yyyy HH:mm'}} To {{campaingSerachData.EndTime| date :
                         'dd-MM-yyyy HH:mm'}}
                     </small>-->
@@ -139,35 +89,40 @@
                                 <tr role="row">
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="From">Campaign Name
+                                        colspan="1" aria-label="From">CampaignId
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="To">Total
+                                        colspan="1" aria-label="Call Time">Campaign Name
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="AgentSkill">Answered
+                                        colspan="1" aria-label="Call Time">Dial Number
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="Call Time">Dial Success
+                                        colspan="1" aria-label="Call Time">Dialer Status
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="Answer Duration">Dial Failed
+                                        colspan="1" aria-label="Total Duration">Reason
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="Total Duration">Percentage
+                                        colspan="1" aria-label="Total Duration">Try Count
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="Total Duration">Durations
+                                        colspan="1" aria-label="Answer Duration">Dial Time
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
-                                        colspan="1" aria-label="Answer Duration">Status
+                                        colspan="1" aria-label="AgentSkill">Dialer
+                                    </th>
+
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="Answer Duration">Session
                                     </th>
 
 
@@ -175,15 +130,16 @@
                                 <tbody>
                                 <tr role="row" class="odd"
                                     ng-repeat="c in campaignSummery">
+                                    <td>{{c.CampaignId}}</td>
+                                    <td>{{c.CampaignName}}</td>
+                                    <td>{{c.DialNumber}}</td>
+                                    <td>{{c.DialerStatus}}</td>
+                                    <td>{{c.Reason}}</td>
+                                    <td>{{c.TryCount}}</td>
+                                    <td>{{c.Dialtime| date : 'dd-MM-yyyy, HH:mm:ss:sss'}}</td>
+                                    <td>{{c.DialerId}}</td>
 
-                                    <td>{{c.campaignName}}</td>
-                                    <td>{{c.total_dial}}</td>
-                                    <td>{{c.channel_answered}}</td>
-                                    <td>{{c.dial_success}}</td>
-                                    <td>{{c.dial_failed}}</td>
-                                    <td>{{c.percentage| number:2}}</td>
-                                    <td>{{c.durations}}</td>
-                                    <td>{{c.status}}</td>
+                                    <td>{{c.SessionId}}</td>
                                     <!--<td>{{c.createdAt| date : 'dd-MM-yyyy, HH:mm'}}</td>-->
                                 </tbody>
                             </table>

@@ -868,16 +868,16 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaigndispositionreport', {
             url: "/campaign/report/disposition",
-            templateUrl: "campaignManager/campaignMonitor.html",
-            controller: "campaignMonitorController",
+            templateUrl: "campaignManager/campaignDispositionReport.html",
+            controller: "campaignDispositionReportController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
         }).state('console.campaignattemptreport', {
             url: "/campaign/report/attempt",
-            templateUrl: "campaignManager/campaignMonitor.html",
-            controller: "campaignMonitorController",
+            templateUrl: "campaignManager/campaignCallbackReport.html",
+            controller: "campaignCallbackReportController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
