@@ -94,7 +94,6 @@
             acwDetailApiAccess.GetAcwSummeryDetails($scope.obj.resourceId, startDate, endDate, $scope.skillFilter).then(function(response){
                 if(response.IsSuccess)
                 {
-                    $scope.showTable = true;
                     if(response.Result) {
                         $scope.totalAcwSessions = response.Result.TotalAcwSessions?response.Result.TotalAcwSessions:0;
                         $scope.totalAcwTime = response.Result.TotalAcwTime?parseInt(response.Result.TotalAcwTime):0;
@@ -106,7 +105,7 @@
                         }else{
                             $scope.timeStr = durationObj._data.hours+'h:'+durationObj._data.minutes+'m:'+durationObj._data.seconds+'s';
                         }
-                        $scope.getAcwRecords($scope.pagination.currentPage);
+                        $scope.getAcwRecords();
                     }
 
                 }
@@ -131,61 +130,9 @@
             });
         };
 
-        $scope.getAcwRecordsPaging = function(){
+        $scope.getAcwRecords = function(){
+            //$scope.currentPage = pageNo + 1;
             $scope.showTable = false;
-            //$scope.currentPage = pageNo + 1;
-            var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
-            var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
-            var momentTz = moment.parseZone(new Date()).format('Z');
-            momentTz = momentTz.replace("+", "%2B");
-
-            var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
-            var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
-
-            acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId, $scope.pagination.currentPage, 20, startDate, endDate, $scope.skillFilter).then(function(response){
-                if(response.IsSuccess)
-                {
-                    $scope.showTable = true;
-                    $scope.allAcwRecords = response.Result;
-                    /*$scope.acwRecords = response.Result;*/
-                    var sessionIds = [];
-                    $scope.obj.isTableLoading = 1;
-                    /*if($scope.allAcwRecords && $scope.allAcwRecords.length > 0){
-
-
-                     if($scope.allAcwRecords.length < $scope.pageSize){
-                     $scope.showPaging = false;
-                     }else{
-                     $scope.showPaging = true;
-                     }
-                     }else{
-                     $scope.obj.isTableLoading = 1;
-                     $scope.showPaging = false;
-                     }*/
-                }
-                else
-                {
-                    var errMsg = response.CustomMessage;
-
-                    if(response.Exception)
-                    {
-                        errMsg = response.Exception.Message;
-                    }
-                    $scope.showAlert('ACW Details', errMsg, 'error');
-                }
-            }, function(err){
-                loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while loading ACW records";
-                if(err.statusText)
-                {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('ACW Details', errMsg, 'error');
-            });
-        };
-
-        $scope.getAcwRecords = function(pageNo){
-            //$scope.currentPage = pageNo + 1;
             var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
             var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
             var momentTz = moment.parseZone(new Date()).format('Z');
@@ -197,6 +144,7 @@
             acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId, $scope.pagination.currentPage, $scope.pageSize, startDate, endDate, $scope.skillFilter).then(function(response){
                 if(response.IsSuccess)
                 {
+                    $scope.showTable = true;
                     $scope.allAcwRecords = response.Result;
                     /*$scope.acwRecords = response.Result;*/
                     var sessionIds = [];
