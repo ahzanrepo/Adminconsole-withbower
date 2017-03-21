@@ -874,10 +874,18 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
-        }).state('console.campaignattemptreport', {
-            url: "/campaign/report/attempt",
+        }).state('console.campaigncallbackreport', {
+            url: "/campaign/report/callback",
             templateUrl: "campaignManager/campaignCallbackReport.html",
             controller: "campaignCallbackReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaignattemptreport', {
+            url: "/campaign/report/attempt",
+            templateUrl: "campaignManager/campaignAttemptReport.html",
+            controller: "campaignAttemptReportController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
