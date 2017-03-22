@@ -66,6 +66,12 @@
                                                                                              ng-click="clickDirective.goCallCenterPerformance()">Call
                                         Center Performance</a>
                                     </li>
+
+                                    <li ng-show="accessNavigation.CALLCENTER_PERFORMANCE"><a href="javascript:void(0);"
+                                                                                             ng-click="clickDirective.goToAgentDashboard()">
+                                        Agent Dashboard
+                                    </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER">
