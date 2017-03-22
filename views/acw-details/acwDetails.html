@@ -11,14 +11,21 @@
             <div class="x_panel">
                 <div class="x_content">
 
-                    <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="col-md-2 col-sm-2 col-xs-12">
                         <label>Agents</label>
-                        <select class="form-control has-feedback-left" ng-model="obj.resourceId"
+                        <select class="form-control" ng-model="obj.resourceId"
                                 ng-model-options="{trackBy: '$value'}">
                             <option ng-repeat="resourceDetail in resourceDetails" value="{{resourceDetail.ResourceId}}">
                                 {{resourceDetail.ResourceName}}
                             </option>
                         </select>
+                    </div>
+
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+
+                        <label>Skill</label>
+                        <input type="text" class="form-control" ng-model="skillFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="attr.Attribute as attr.Attribute for attr in attrList" placeholder="Skill" bs-typeahead>
+
                     </div>
 
                     <div class="col-md-2 col-sm-2 col-xs-12">
@@ -103,32 +110,29 @@
                                         <div class="col-md-2 col-sm-2 col-xs-3">ACW Duration(in sec)</div>
 
                                     </div>
-                                    <div ng-repeat="acwRecord in allAcwRecords">
+                                    <div ng-show="showTable" ng-repeat="acwRecord in allAcwRecords">
+
                                         <div class="col-md-12 col-sm-12 col-xs-12"
                                              style="border: 1px solid #ccc!important;padding: 15px;border-radius: 2px;
-                                             font-size: 15px;margin-bottom: 10px;" ng-hide="acwRecord.cdrInfo">
-                                            <div class="col-md-10 col-sm-2 col-xs-2">CDR record processing........</div>
-                                            <div class="col-md-2 col-sm-2 col-xs-3">{{acwRecord.Duration}}</div>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12 col-xs-12"
-                                             style="border: 1px solid #ccc!important;padding: 15px;border-radius: 2px;
-                                             font-size: 15px;margin-bottom: 10px;" ng-show="acwRecord.cdrInfo">
-                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.cdrInfo.DVPCallDirection}}</div>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.cdrInfo.SipFromUser}}</div>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.cdrInfo.SipToUser}}</div>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.cdrInfo.AgentSkill}}</div>
-                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.cdrInfo.HangupParty}}</div>
+                                             font-size: 15px;margin-bottom: 10px;">
+                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.DVPCallDirection}}</div>
+                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.SipFromUser}}</div>
+                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.SipToUser}}</div>
+                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.AgentSkill}}</div>
+                                            <div class="col-md-2 col-sm-2 col-xs-2">{{acwRecord.HangupParty}}</div>
                                             <div class="col-md-2 col-sm-2 col-xs-3">{{acwRecord.Duration}}</div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="showPaging"
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <ul uib-pagination total-items="totalAcwSessions" items-per-page="20" ng-model="pagination.currentPage" max-size="5" class="pagination-sm" boundary-link-numbers="true" ng-change="getAcwRecords()"></ul>
+                                    </div>
+                                    <!--<div class="col-md-12 col-sm-12 col-xs-12" ng-show="showPaging"
                                          style="border: 1px solid #ccc!important;padding: 15px;border-radius: 2px;
                                              font-size: 15px;margin-bottom: 10px;">
                                         <div class="col-md-2 col-sm-3 col-xs-3"></div>
                                         <div class="col-md-2 col-sm-2 col-xs-2"><a id="link-1" href ng-click="getAcwRecords(currentPage)">more</a></div>
                                         <div class="col-md-3 col-sm-3 col-xs-3"></div>
-
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </uib-accordion>

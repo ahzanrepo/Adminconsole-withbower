@@ -57,6 +57,48 @@
         $scope.ticketSchema = {};
         $scope.ticketSchemaStatus = [];
 
+        $scope.getInitialConfigData = function () {
+            triggerApiAccess.GetInitialConfigData().then(function (response) {
+                if (response) {
+                    if(response[0]&&response[0].data&&response[0].data.IsSuccess&&response[0].data.Result){
+                        $scope.ticketSchemaStatus = response[0].data.Result.map(function (item) {
+                            return item.status_node;
+                        })
+                    }
+                    if(response[1]&&response[1].data&&response[1].data.IsSuccess&&response[1].data.Result){
+                        if(response[1].data.Result.custom_types){
+                            response[1].data.Result.custom_types.map(function (item) {
+                                $scope.ticketTypes.push(item);
+                            })
+                        }
+                        if(response[1].data.Result.default_types){
+                            response[1].data.Result.default_types.map(function (item) {
+                                $scope.ticketTypes.push(item);
+                            })
+                        }
+                    }
+
+                    if (response[2]&&response[2].data&&response[2].data.IsSuccess&&response[2].data.Result) {
+                        angular.forEach(response[2].data.Result, function (item) {
+                            if (!(item.field === 'company' || item.field === 'tenant' || item.field === '__v' || item.field === '_id'|| item.field === 'custom_fields'|| item.field === 'form_submission'|| item.field === 'sla'|| item.field === 'comments'|| item.field === 'events'|| item.field === 'ticket_matrix'|| item.field === 'slot_attachment')) {
+                                $scope.ticketSchemaKeys.push(item.field);
+                                $scope.ticketSchema[item.field] = item.type == "Select" ? ({
+                                        type: "String",
+                                        enum: item.values
+                                    }) :(item.field == "status" ?({type: "String", enum : $scope.ticketSchemaStatus}):(item.field == "type"?({type: "String", enum : $scope.ticketTypes}):({type: item.type}))) ;// ({type: item.type})) ;
+                            }
+                        });
+                    }
+
+                }
+
+            }, function (error) {
+                $scope.showError("Error", "Error", "ok", "There is an error Loading Schemas.");
+            });
+
+        };
+        $scope.getInitialConfigData();
+
         $scope.getTicketStatusNodes = function () {
             triggerApiAccess.TicketStatusNodes().then(function (response) {
                 if (response) {
@@ -64,7 +106,7 @@
                        return item.status_node;
                     })
                 }
-                $scope.getDynamicTicketTypes();
+                //$scope.getDynamicTicketTypes();
 
             }, function (error) {
                 $scope.showError("Error", "Error", "ok", "There is an error Loading Schemas.");
@@ -94,7 +136,7 @@
                 else {
                     $scope.showAlert('Dynamic Ticket Types', "Error occurred while saving ticket type", 'error');
                 }
-                $scope.getTicketSchema();
+                //$scope.getTicketSchema();
             }, function (err) {
                 $scope.showAlert('Dynamic Ticket Types', "Error occurred while saving ticket type", 'error');
             });
@@ -122,7 +164,7 @@
 
 
         $scope.filterActionSchemaKeys = function (value) {
-            if (value === "channel" || value === "tags" || value === "SLAViolated") {
+            if (value === "channel" || value === "tags" || value === "SLAViolated" || value === "isolated_tags") {
                 return false;
             } else {
                 return true;

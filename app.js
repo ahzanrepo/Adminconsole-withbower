@@ -67,7 +67,7 @@ var baseUrls = {
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
-    'dashBordUrl': 'http://dashboardservice.app.veery.cloud//',
+    'dashBordUrl': 'http://dashboardservice.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl': 'http://localhost:4647/DVP/API/1.0.0.0/Social/', //104.236.197.119
@@ -868,16 +868,24 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaigndispositionreport', {
             url: "/campaign/report/disposition",
-            templateUrl: "campaignManager/campaignMonitor.html",
-            controller: "campaignMonitorController",
+            templateUrl: "campaignManager/campaignDispositionReport.html",
+            controller: "campaignDispositionReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaigncallbackreport', {
+            url: "/campaign/report/callback",
+            templateUrl: "campaignManager/campaignCallbackReport.html",
+            controller: "campaignCallbackReportController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
         }).state('console.campaignattemptreport', {
             url: "/campaign/report/attempt",
-            templateUrl: "campaignManager/campaignMonitor.html",
-            controller: "campaignMonitorController",
+            templateUrl: "campaignManager/campaignAttemptReport.html",
+            controller: "campaignAttemptReportController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"

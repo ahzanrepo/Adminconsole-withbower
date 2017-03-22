@@ -3,7 +3,7 @@
  */
 
 
-mainApp.controller("translationController", function ($scope,$state, transBackendService,loginService) {
+mainApp.controller("translationController", function ($scope,$state, transBackendService, didBackendService, _, loginService) {
 
 
 
@@ -31,6 +31,76 @@ mainApp.controller("translationController", function ($scope,$state, transBacken
     };
     $scope.reloadPage = function () {
         $state.reload();
+    };
+
+    var emptyArr = [];
+
+    $scope.gnFilter = [];
+
+    var getPhoneNumbers = function ()
+    {
+        didBackendService.pickPhoneNumbers().then(function (response)
+        {
+
+            if (response.data.IsSuccess)
+            {
+                if(response.data.Result && response.data.Result.length > 0)
+                {
+                    $scope.phnNumList = _.uniq(_.map(response.data.Result, 'PhoneNumber'));
+                }
+                else
+                {
+                    $scope.phnNumList = [];
+                }
+
+            }
+            else
+            {
+                $scope.phnNumList = [];
+                $scope.showAlert('Translation', 'Ghost number loading failed', 'error');
+            }
+
+        }, function (error)
+        {
+            $scope.phnNumList = [];
+            $scope.showAlert('Translation', 'Ghost number loading failed', 'error');
+        });
+    };
+
+    getPhoneNumbers();
+
+    $scope.querySearch = function (query)
+    {
+        if (query === "*" || query === "") {
+            if ($scope.phnNumList) {
+                return $scope.phnNumList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.phnNumList) {
+                var filteredArr = $scope.phnNumList.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item) {
+                        return item.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArr;
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
     };
 
     $scope.GetAllTranslations = function () {
@@ -64,6 +134,8 @@ mainApp.controller("translationController", function ($scope,$state, transBacken
         }
     };
     $scope.saveNewTranslations = function () {
+
+        $scope.newTransltion.GhostNumbers =  _.uniq(_.map($scope.newTransltion.GhostNumbers, 'PhoneNumber'));
         transBackendService.saveTranslations($scope.newTransltion).then(function (response) {
 
             if(response.data.IsSuccess)

@@ -326,6 +326,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goCampaignAttempt: function () {
             $state.go('console.campaignattemptreport')
         },
+        goCampaignCallback: function () {
+            $state.go('console.campaigncallbackreport')
+        },
         goQASubmission: function () {
             $state.go('console.qaSubmission');
         },

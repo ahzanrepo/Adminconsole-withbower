@@ -3,7 +3,7 @@
  */
 
 (function () {
-    var triggerApiAccess = function ($http, baseUrls) {
+    var triggerApiAccess = function ($http, $q, baseUrls) {
 //create ticket trigger
         var createTriggerConfiguration = function (trigger) {
             return $http({
@@ -277,6 +277,19 @@
             });
         };
 
+        var getInitialConfigData = function () {
+
+            var promise1 = $http({method: 'GET',url: baseUrls.ticketUrl + 'TicketStatusNodes',headers: {'Content-Type': 'application/json'}});
+            var promise2 = $http({method: 'GET',url: baseUrls.ticketUrl + "TicketTypes"});
+            var promise3 = $http({method: 'GET', url: baseUrls.ticketUrl + 'TicketSchema', headers: {'Content-Type': 'application/json'}});
+
+          return  $q.all([promise1, promise2,promise3]).then(function (data) {
+                return data;
+            });
+
+
+        };
+
 
         return {
             createTrigger: createTrigger,
@@ -299,7 +312,8 @@
             TicketSchema: ticketSchema,
             TicketStatusNodes: ticketStatusNodes,
             CreateTriggerConfiguration: createTriggerConfiguration,
-            GetTriggerConfiguration: getTriggerConfiguration
+            GetTriggerConfiguration: getTriggerConfiguration,
+            GetInitialConfigData:getInitialConfigData
         };
     };
 
