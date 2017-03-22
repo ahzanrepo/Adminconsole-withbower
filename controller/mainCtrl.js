@@ -393,7 +393,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                                 }
                                 else {
                                     if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
-                                        $scope.displayname = resMyProf.firstname + " " + resMyProf.lastname;
+                                        $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
 
                                     }
 
