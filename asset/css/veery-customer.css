@@ -5629,10 +5629,10 @@ ul.row-option > li.delete:focus {
     height: 14px;
 }
 
-
-.d1-sumry-count-wrp{
+.d1-sumry-count-wrp {
     background: #fff;
 }
+
 /*break dot */
 .break-border {
     border: 3px solid rgba(243, 107, 91, 0.27);
@@ -5649,7 +5649,7 @@ ul.row-option > li.delete:focus {
 }
 
 .break-bg {
-    background: rgba(243, 107, 91, 0.15);
+    border: 2px solid #F36B5B;
 }
 
 /* available dot */
@@ -5667,7 +5667,7 @@ ul.row-option > li.delete:focus {
 }
 
 .available-bg {
-    background: rgba(132, 233, 162, 0.15);
+    border: 2px solid #83E9A1;
 }
 
 /* connected dot */
@@ -5685,7 +5685,8 @@ ul.row-option > li.delete:focus {
 }
 
 .connected-bg {
-    background: rgba(43, 201, 226, 0.15);
+    /*background: rgba(56, 59, 59, 0.84);*/
+    border: 2px solid #2BC9E2;
 }
 
 /* after work dot */
@@ -5703,7 +5704,7 @@ ul.row-option > li.delete:focus {
 }
 
 .after-work-bg {
-    background: rgba(255, 208, 0, 0.15);
+    border: 2px solid #FFD001;
 }
 
 /* Reserved*/
@@ -5720,24 +5721,24 @@ ul.row-option > li.delete:focus {
 }
 
 .reserved-bg {
-    background: rgba(140, 121, 210, 0.15);
+    border: 2px solid #8C79D2;
 }
 
 /* outbound*/
 .outbound-border {
-    border: 3px solid rgba(121, 125, 128, 0.27);
+    border: 3px solid rgba(32, 255, 237, 0.27);
 }
 
 .outbound-dot {
-    background: #797D80;
+    background: #20ffed;
 }
 
 .outbound-text {
-    color: #797D80;
+    color: #20ffed;
 }
 
 .outbound-bg {
-    background: rgba(121, 125, 128, 0.15);
+    border: 2px solid #20ffed;
 }
 
 /* suspended*/
@@ -5754,24 +5755,24 @@ ul.row-option > li.delete:focus {
 }
 
 .suspended-bg {
-    background: rgba(187, 191, 159, 0.15);
+    border: 2px solid #BBBF9F;
 }
 
 /* other*/
 .other-border {
-    border: 3px solid rgba(116, 145, 55, 0.27);
+    border: 3px solid rgba(140, 61, 32, 0.27);
 }
 
 .other-dot {
-    background: #749136;
+    background: #8c3d20;
 }
 
 .other-text {
-    color: #749136;
+    color: #8c3d20;
 }
 
 .other-bg {
-    background: rgba(116, 145, 55, 0.15);
+    border: 2px solid #8c3d20;
 }
 
 /* dashboard queued */
@@ -5868,7 +5869,7 @@ ul.row-option > li.delete:focus {
     /* Current Waiting: */
     font-family: 'Ubuntu-Light', sans-serif;
     font-size: 15px;
-    color: #B0B0B0;
+    color: #383b3b;
     letter-spacing: -0.12px;
     text-align: right;
     padding-left: 10px;
@@ -5885,7 +5886,7 @@ ul.row-option > li.delete:focus {
     /* Current Waiting: */
     font-family: 'Ubuntu-Light', sans-serif;
     font-size: 15px;
-    color: #B0B0B0;
+    color: #383b3b;
     letter-spacing: -0.12px;
     text-align: right;
     padding-left: 10px;
