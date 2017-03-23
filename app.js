@@ -955,6 +955,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true
             }
 
+        }).state('console.notices', {
+            url: "/Notices",
+            templateUrl: "views/notice-config/notices.html",
+            controller: "noticeConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "NOTICE"
+            }
         });
         //Todo shoud be change navigation
     }]);

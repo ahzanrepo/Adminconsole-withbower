@@ -5629,45 +5629,45 @@ ul.row-option > li.delete:focus {
     height: 14px;
 }
 
-
-.d1-sumry-count-wrp{
+.d1-sumry-count-wrp {
     background: #fff;
 }
+
 /*break dot */
 .break-border {
-    border: 3px solid rgba(243, 107, 91, 0.27);
+    border: 3px solid rgba(210, 28, 39, 0.27);
 }
 
 .break-dot {
     /* Oval: */
-    background: #F36B5B;
+    background: #d21c27;
     /*border: 3px solid rgba(243, 107, 91, 0.27);*/
 }
 
 .break-text {
-    color: #F36B5B;
+    color: #d21c27;
 }
 
 .break-bg {
-    background: rgba(243, 107, 91, 0.15);
+    border: 2px solid #d21c27;
 }
 
 /* available dot */
 .available-border {
-    border: 3px solid rgba(132, 233, 162, 0.27);
+    border: 3px solid rgba(22, 128, 57, 0.27);
 }
 
 .available-dot {
     /* Oval: */
-    background: #83E9A1;
+    background: #168039;
 }
 
 .available-text {
-    color: #83E9A1;
+    color: #168039;
 }
 
 .available-bg {
-    background: rgba(132, 233, 162, 0.15);
+    border: 2px solid #168039;
 }
 
 /* connected dot */
@@ -5685,25 +5685,26 @@ ul.row-option > li.delete:focus {
 }
 
 .connected-bg {
-    background: rgba(43, 201, 226, 0.15);
+    /*background: rgba(56, 59, 59, 0.84);*/
+    border: 2px solid #2BC9E2;
 }
 
 /* after work dot */
 .after-work-border {
-    border: 3px solid rgba(255, 208, 0, 0.27);
+    border: 3px solid rgba(239, 201, 54, 0.27);
 }
 
 .after-work-dot {
     /* Oval: */
-    background: #FFD001;
+    background: #efc936;
 }
 
 .after-work-text {
-    color: #FFD001;
+    color: #efc936;
 }
 
 .after-work-bg {
-    background: rgba(255, 208, 0, 0.15);
+    border: 2px solid #efc936;
 }
 
 /* Reserved*/
@@ -5720,58 +5721,58 @@ ul.row-option > li.delete:focus {
 }
 
 .reserved-bg {
-    background: rgba(140, 121, 210, 0.15);
+    border: 2px solid #8C79D2;
 }
 
 /* outbound*/
 .outbound-border {
-    border: 3px solid rgba(121, 125, 128, 0.27);
+    border: 3px solid rgba(81, 29, 50, 0.27);
 }
 
 .outbound-dot {
-    background: #797D80;
+    background: #511d32;
 }
 
 .outbound-text {
-    color: #797D80;
+    color: #511d32;
 }
 
 .outbound-bg {
-    background: rgba(121, 125, 128, 0.15);
+    border: 2px solid #511d32;
 }
 
 /* suspended*/
 .suspended-border {
-    border: 3px solid rgba(187, 191, 159, 0.27);
+    border: 3px solid rgba(51, 53, 52, 0.27);
 }
 
 .suspended-dot {
-    background: #BBBF9F;
+    background: #333534;
 }
 
 .suspended-text {
-    color: #BBBF9F;
+    color: #333534;
 }
 
 .suspended-bg {
-    background: rgba(187, 191, 159, 0.15);
+    border: 2px solid #333534;
 }
 
 /* other*/
 .other-border {
-    border: 3px solid rgba(116, 145, 55, 0.27);
+    border: 3px solid rgba(104, 48, 146, 0.27);
 }
 
 .other-dot {
-    background: #749136;
+    background: #683092;
 }
 
 .other-text {
-    color: #749136;
+    color: #683092;
 }
 
 .other-bg {
-    background: rgba(116, 145, 55, 0.15);
+    border: 2px solid #683092;
 }
 
 /* dashboard queued */
@@ -5868,7 +5869,7 @@ ul.row-option > li.delete:focus {
     /* Current Waiting: */
     font-family: 'Ubuntu-Light', sans-serif;
     font-size: 15px;
-    color: #B0B0B0;
+    color: #383b3b;
     letter-spacing: -0.12px;
     text-align: right;
     padding-left: 10px;
@@ -5885,7 +5886,7 @@ ul.row-option > li.delete:focus {
     /* Current Waiting: */
     font-family: 'Ubuntu-Light', sans-serif;
     font-size: 15px;
-    color: #B0B0B0;
+    color: #383b3b;
     letter-spacing: -0.12px;
     text-align: right;
     padding-left: 10px;

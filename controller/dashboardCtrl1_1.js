@@ -700,6 +700,9 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
     $scope.refreshTime = 1000;
 
 
+
+
+
     $scope.ReservedProfile = [];
     $scope.AvailableProfile = [];
     $scope.ConnectedProfile = [];
@@ -840,33 +843,33 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
 
         //var elementAttr = this.$element.attr('data');
         // console.log(elementAttr);
-          var current = e.item;
+        var current = e.item;
 
         //console.log(e.item.index);
         //  console.log(e);
-         if (current.index == 3) {
-             $scope.agentCurrentState = 'break';
-         }
+        if (current.index == 3) {
+            $scope.agentCurrentState = 'break';
+        }
         else if (current.index == 4) {
-             $scope.agentCurrentState = 'available';
-         }
-          else if (current.index == 5) {
-             $scope.agentCurrentState = 'connected';
-         }
-         else if (current.index == 6) {
-              $scope.agentCurrentState = 'afterwork';
-          }
-         else if (current.index == 7) {
-             $scope.agentCurrentState = 'reserved';
-         }
-         else if (current.index == 8) {
-             $scope.agentCurrentState = 'outbound';
+            $scope.agentCurrentState = 'available';
+        }
+        else if (current.index == 5) {
+            $scope.agentCurrentState = 'connected';
+        }
+        else if (current.index == 6) {
+            $scope.agentCurrentState = 'afterwork';
+        }
+        else if (current.index == 7) {
+            $scope.agentCurrentState = 'reserved';
+        }
+        else if (current.index == 8) {
+            $scope.agentCurrentState = 'outbound';
 
-         } else if (current.index == 9) {
-             $scope.agentCurrentState = 'suspended';
-         }
+        } else if (current.index == 9) {
+            $scope.agentCurrentState = 'suspended';
+        }
         if (current.index == 10) {
-              $scope.agentCurrentState = 'other';
+            $scope.agentCurrentState = 'other';
         }
 
     });
@@ -903,6 +906,8 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             scope.que.presentage = 0;
             scope.maxy = 10;
             scope.val = "0";
+
+            console.log(scope.que);
 
             scope.dataSet = [{
                 data: [],
@@ -1019,7 +1024,7 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
 
             var updatetimer = $timeout(updateRealtime, 2000);
 
-            //updateRealtime();
+            updateRealtime();
 
 
             scope.$on("$destroy", function () {
