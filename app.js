@@ -52,8 +52,8 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 }]);
 //resourceservice.app.veery.cloud
 var baseUrls = {
-    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl':'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/' ,//'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app.veery.cloud/DVP
+    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app.veery.cloud/',
@@ -87,7 +87,8 @@ var baseUrls = {
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
     'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
-    'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/'
+    'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/',
+    'zohoAPIUrl': 'http://localhost:3637/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -890,6 +891,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
+        }).state('console.zoho', {
+            url: "/zoho",
+            templateUrl: "zoho/views/zohoConnector.html",
+            controller: "zohoController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.zohousers', {
+            url: "/zoho/users",
+            templateUrl: "zoho/views/zohoUsers.html",
+            controller: "zohoUsersController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
         }).state('console.campaignnumberupload', {
             url: "/campaign/numberupload",
             templateUrl: "views/campaign-number-upload/numberUpload.html",
@@ -931,6 +948,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "USERS"
             }
+        }).state('console.agentDashboard', {
+            url: "/agentDashboard",
+            templateUrl: "views/dashboard/dashboardContactCenter1.1.html",
+            data: {
+                requireLogin: true
+            }
+
         }).state('console.notices', {
             url: "/Notices",
             templateUrl: "views/notice-config/notices.html",
