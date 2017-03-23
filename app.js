@@ -52,8 +52,8 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 }]);
 //resourceservice.app.veery.cloud
 var baseUrls = {
-    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl':'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/' ,//'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app.veery.cloud/DVP
+    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app.veery.cloud/',
@@ -948,6 +948,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "USERS"
             }
+        }).state('console.agentDashboard', {
+            url: "/agentDashboard",
+            templateUrl: "views/dashboard/dashboardContactCenter1.1.html",
+            data: {
+                requireLogin: true
+            }
+
         });
         //Todo shoud be change navigation
     }]);

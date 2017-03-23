@@ -4,7 +4,7 @@
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               loginService,
-                                              dashboardService, moment, userImageList) {
+                                              dashboardService, moment, userImageList,$interval) {
 
 
     //#services call handler
@@ -22,7 +22,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     //#profile object
     $scope.AvailableTask = [];
-    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE:[]};
+    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE: []};
     $scope.profile = [];
 
 
@@ -312,7 +312,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             getProfileDetails: function () {
                 dashboardService.GetProfileDetails().then(function (response) {
                     //$scope.profile = [];
-                    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE:[]};
+                    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE: []};
                     if (response.length > 0) {
                         for (var i = 0; i < response.length; i++) {
 
@@ -336,12 +336,10 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             }
 
 
-
                             if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0) {
 
                                 for (var j = 0; j < response[i].ConcurrencyInfo.length; j++) {
                                     var resourceTask = response[i].ConcurrencyInfo[j].HandlingType;
-
 
 
                                     if (response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
@@ -356,7 +354,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                             var reservedDate = response[i].ConcurrencyInfo[j].SlotInfo[k].StateChangeTime;
 
-                                            var slotInfo = {slotState: null, LastReservedTime: 0, other: null, slotMode: resourceMode};
+                                            var slotInfo = {
+                                                slotState: null,
+                                                LastReservedTime: 0,
+                                                other: null,
+                                                slotMode: resourceMode
+                                            };
 
                                             if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
                                                 slotInfo.slotState = resonseStatus;
@@ -396,10 +399,15 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                 // is user state Reason
 
-                            }else{
+                            } else {
 
                                 reservedDate = response[i].Status.StateChangeTime;
-                                var slotInfoOffline = {slotState: "Other", LastReservedTime: moment(reservedDate).format("h:mm a"), other: "Offline", slotMode: resourceMode};
+                                var slotInfoOffline = {
+                                    slotState: "Other",
+                                    LastReservedTime: moment(reservedDate).format("h:mm a"),
+                                    other: "Offline",
+                                    slotMode: resourceMode
+                                };
 
                                 if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
 
@@ -446,36 +454,34 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     ServerHandler.getProfiles();
 
 
-    /*
-     //loop request
-     var t = $interval(function updateRandom() {
-     ServerHandler.callAllServices();
-     }, 30000);
-     var tt = $interval(function updateRandom() {
-     ServerHandler.getAllNumTotal();
-     }, 60000);
-     var t = $interval(function updateRandom() {
-     ServerHandler.updateRelaTimeFuntion();
-     ServerHandler.getProfiles();
-     }, 1000);
+    //loop request
+    var t = $interval(function updateRandom() {
+        ServerHandler.callAllServices();
+    }, 30000);
+    var tt = $interval(function updateRandom() {
+        ServerHandler.getAllNumTotal();
+    }, 60000);
+    var t = $interval(function updateRandom() {
+        ServerHandler.updateRelaTimeFuntion();
+        ServerHandler.getProfiles();
+    }, 1000);
 
-     */
 
     var countAllCallServices = function () {
         ServerHandler.callAllServices();
         countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
-    }
+    };
 
     var getAllNumTotal = function () {
         ServerHandler.getAllNumTotal();
         getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
-    }
+    };
 
     var getAllRealTime = function () {
         ServerHandler.updateRelaTimeFuntion();
         ServerHandler.getProfiles();
         getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
-    }
+    };
 
 
     ServerHandler.callAllServices();
@@ -501,6 +507,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
+
+
     });
 
 
