@@ -5635,39 +5635,39 @@ ul.row-option > li.delete:focus {
 
 /*break dot */
 .break-border {
-    border: 3px solid rgba(243, 107, 91, 0.27);
+    border: 3px solid rgba(210, 28, 39, 0.27);
 }
 
 .break-dot {
     /* Oval: */
-    background: #F36B5B;
+    background: #d21c27;
     /*border: 3px solid rgba(243, 107, 91, 0.27);*/
 }
 
 .break-text {
-    color: #F36B5B;
+    color: #d21c27;
 }
 
 .break-bg {
-    border: 2px solid #F36B5B;
+    border: 2px solid #d21c27;
 }
 
 /* available dot */
 .available-border {
-    border: 3px solid rgba(132, 233, 162, 0.27);
+    border: 3px solid rgba(22, 128, 57, 0.27);
 }
 
 .available-dot {
     /* Oval: */
-    background: #83E9A1;
+    background: #168039;
 }
 
 .available-text {
-    color: #83E9A1;
+    color: #168039;
 }
 
 .available-bg {
-    border: 2px solid #83E9A1;
+    border: 2px solid #168039;
 }
 
 /* connected dot */
@@ -5691,20 +5691,20 @@ ul.row-option > li.delete:focus {
 
 /* after work dot */
 .after-work-border {
-    border: 3px solid rgba(255, 208, 0, 0.27);
+    border: 3px solid rgba(239, 201, 54, 0.27);
 }
 
 .after-work-dot {
     /* Oval: */
-    background: #FFD001;
+    background: #efc936;
 }
 
 .after-work-text {
-    color: #FFD001;
+    color: #efc936;
 }
 
 .after-work-bg {
-    border: 2px solid #FFD001;
+    border: 2px solid #efc936;
 }
 
 /* Reserved*/
@@ -5726,53 +5726,53 @@ ul.row-option > li.delete:focus {
 
 /* outbound*/
 .outbound-border {
-    border: 3px solid rgba(32, 255, 237, 0.27);
+    border: 3px solid rgba(81, 29, 50, 0.27);
 }
 
 .outbound-dot {
-    background: #20ffed;
+    background: #511d32;
 }
 
 .outbound-text {
-    color: #20ffed;
+    color: #511d32;
 }
 
 .outbound-bg {
-    border: 2px solid #20ffed;
+    border: 2px solid #511d32;
 }
 
 /* suspended*/
 .suspended-border {
-    border: 3px solid rgba(187, 191, 159, 0.27);
+    border: 3px solid rgba(51, 53, 52, 0.27);
 }
 
 .suspended-dot {
-    background: #BBBF9F;
+    background: #333534;
 }
 
 .suspended-text {
-    color: #BBBF9F;
+    color: #333534;
 }
 
 .suspended-bg {
-    border: 2px solid #BBBF9F;
+    border: 2px solid #333534;
 }
 
 /* other*/
 .other-border {
-    border: 3px solid rgba(140, 61, 32, 0.27);
+    border: 3px solid rgba(104, 48, 146, 0.27);
 }
 
 .other-dot {
-    background: #8c3d20;
+    background: #683092;
 }
 
 .other-text {
-    color: #8c3d20;
+    color: #683092;
 }
 
 .other-bg {
-    border: 2px solid #8c3d20;
+    border: 2px solid #683092;
 }
 
 /* dashboard queued */
