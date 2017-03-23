@@ -87,7 +87,8 @@ var baseUrls = {
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
     'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
-    'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/'
+    'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/',
+    'zohoAPIUrl': 'http://localhost:3637/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -886,6 +887,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/campaign/report/attempt",
             templateUrl: "campaignManager/campaignAttemptReport.html",
             controller: "campaignAttemptReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.zoho', {
+            url: "/zoho",
+            templateUrl: "zoho/views/zohoConnector.html",
+            controller: "zohoController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.zohousers', {
+            url: "/zoho/users",
+            templateUrl: "zoho/views/zohoUsers.html",
+            controller: "zohoUsersController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"

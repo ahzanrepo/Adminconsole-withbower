@@ -326,6 +326,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goCampaignAttempt: function () {
             $state.go('console.campaignattemptreport')
         },
+        goZoho: function () {
+            $state.go('console.zoho')
+        },
+        goZohoUser: function () {
+            $state.go('console.zohousers')
+        },
         goCampaignCallback: function () {
             $state.go('console.campaigncallbackreport')
         },
