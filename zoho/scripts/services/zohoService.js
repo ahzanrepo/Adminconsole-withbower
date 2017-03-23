@@ -26,8 +26,13 @@ mainApp.factory('zohoService', function ($q, $http, $window,$interval,baseUrls) 
             var popupChecker = $interval(function () {
 
                 console.log(popup);
-                var oauth_token =  getParameterByName("code", popup.document.URL);
-                var oauth_verifier =  getParameterByName("state", popup.document.URL);
+                var url = undefined;
+                if(popup && popup.document && popup.document.URL){
+                    url = popup.document.URL;
+                }
+
+                var oauth_token =  getParameterByName("code", url);
+                var oauth_verifier =  getParameterByName("state", url);
 
                 if (oauth_token != undefined && oauth_verifier != undefined) {
                     //The popup put returned a user! Resolve!
