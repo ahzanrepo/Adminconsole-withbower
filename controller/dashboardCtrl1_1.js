@@ -824,6 +824,7 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
                     } else if (profile.slotState == 'Available') {
                         $scope.AvailableProfile.push(profile);
                     } else {
+                        $scope.profile = [];
                         $scope.profile.push(profile);
                         //$scope.BreakProfile.push(profile);
                     }
@@ -836,31 +837,36 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
 
     var owl = $('.owl-carousel');
     owl.on('change.owl.carousel', function (e) {
-        var current = e.item;
 
-        if (current.index == 1) {
-            $scope.agentCurrentState = 'break';
-        }
-        else if (current.index == 2) {
-            $scope.agentCurrentState = 'available';
-        }
-        else if (current.index == 3) {
-            $scope.agentCurrentState = 'connected';
-        }
+        //var elementAttr = this.$element.attr('data');
+        // console.log(elementAttr);
+          var current = e.item;
+
+        //console.log(e.item.index);
+        //  console.log(e);
+         if (current.index == 3) {
+             $scope.agentCurrentState = 'break';
+         }
         else if (current.index == 4) {
-            $scope.agentCurrentState = 'afterwork';
-        }
-        else if (current.index == 5) {
-            $scope.agentCurrentState = 'reserved';
-        }
-        else if (current.index == 6) {
-            $scope.agentCurrentState = 'outbound';
+             $scope.agentCurrentState = 'available';
+         }
+          else if (current.index == 5) {
+             $scope.agentCurrentState = 'connected';
+         }
+         else if (current.index == 6) {
+              $scope.agentCurrentState = 'afterwork';
+          }
+         else if (current.index == 7) {
+             $scope.agentCurrentState = 'reserved';
+         }
+         else if (current.index == 8) {
+             $scope.agentCurrentState = 'outbound';
 
-        } else if (current.index == 7) {
-            $scope.agentCurrentState = 'suspended';
-        }
-        else if (current.index == 8) {
-            $scope.agentCurrentState = 'other';
+         } else if (current.index == 9) {
+             $scope.agentCurrentState = 'suspended';
+         }
+        if (current.index == 10) {
+              $scope.agentCurrentState = 'other';
         }
 
     });

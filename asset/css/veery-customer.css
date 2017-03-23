@@ -5335,7 +5335,7 @@ ul.row-option > li.delete:focus {
     /*width: 100%;*/
     min-height: 100px;
     overflow: hidden;
-    background: #ffffff;
+    background: #383b3b;
     margin: 0;
     padding: 0;
     right: 0;
@@ -5366,20 +5366,20 @@ ul.row-option > li.delete:focus {
 .d1-h-lg {
     font-family: Ubuntu-Bold;
     font-size: 25px;
-    color: #bfbfbf;
+    color: #ffffff;
 }
 
 .d1-h-tile {
     /* TOTAL CALL: */
     font-family: Ubuntu-Light;
     font-size: 15px;
-    color: #bfbfbf;
+    color: #ffffff;
 }
 
 .d1-sub-tile-sm {
     /* Inblound/OUtbound: */
     font-family: Ubuntu-Light;
-    font-size: 11px;
+    font-size: 14px;
 }
 
 .d-border-right-1 {
@@ -5414,7 +5414,7 @@ ul.row-option > li.delete:focus {
 .d-top-icon {
     position: absolute;
     right: 0px;
-    bottom: 9px;
+    top: 20px;
 }
 
 .d-top-icon > i {
@@ -5440,7 +5440,7 @@ ul.row-option > li.delete:focus {
 
 .d1-call-s-wrp {
     width: 100%;
-    min-height: 350px;
+    min-height: 220px;
     overflow: hidden;
     position: relative;
     padding: 10px 15px 20px 15px;
