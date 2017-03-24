@@ -30,6 +30,14 @@
                     </button>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+
+                    <uib-progressbar animate="false" value="uploadProgress"
+                                     type="success"><b>{{uploadProgress}}%</b>
+                    </uib-progressbar>
+                </div>
+            </div>
         </div>
 
 
@@ -207,7 +215,8 @@
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
-                                <option value="all">ALL</option>
+                                <option value="500">500</option>
+                                <option value="1000">1000</option>
                             </select>
                         </label>
                     </div>
@@ -382,6 +391,10 @@
                     </ul>
                 </ul>
             </ul>
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <ul uib-pagination total-items="pagination.totalItems" items-per-page="pagination.itemsPerPage" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="pageChanged()"></ul>
+            </div>
 
         </div>
     </div>
