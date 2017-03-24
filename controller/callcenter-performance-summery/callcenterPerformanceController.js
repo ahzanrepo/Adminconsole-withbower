@@ -7,6 +7,10 @@
 
     mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService) {
 
+        $scope.disableCurrent = true;
+        $scope.startDate = moment().format("YYYY-MM-DD");
+        $scope.endDate = moment().format("YYYY-MM-DD");
+
         $scope.callCenterPerformance = {
             totalInbound: 0,
             totalOutbound: 0,
@@ -20,6 +24,18 @@
             AverageAcwTime: 0,
             AverageInboundCallsPerAgent: 0,
             AverageOutboundCallsPerAgent: 0
+        };
+
+        $scope.onDateChange = function()
+        {
+            if(moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid())
+            {
+                $scope.dateValid = true;
+            }
+            else
+            {
+                $scope.dateValid = false;
+            }
         };
 
         $scope.callCenterPerformanceChartConfig = {
@@ -245,6 +261,39 @@
             });
         };
 
+        $scope.getCallCenterPerformanceHistory = function () {
+            if (getCountTimer) {
+                $timeout.cancel(getCountTimer);
+            }
+
+            if (getTimesTimer) {
+                $timeout.cancel(getTimesTimer);
+            }
+
+            dashboardService.GetCallCenterPerformanceHistory($scope.startDate, $scope.endDate).then(function (response) {
+                if (response) {
+                    $scope.disableCurrent = false;
+                    $scope.callCenterPerformance = {
+                        totalInbound: response.totalInbound,
+                        totalOutbound: response.totalOutbound,
+                        totalQueued: response.totalQueued,
+                        totalQueueAnswered: response.totalQueueAnswered,
+                        totalQueueDropped: response.totalQueueDropped,
+                        totalTalkTime: TimeFormatter(response.totalTalkTime),
+                        totalStaffTime: TimeFormatter(response.totalStaffTime),
+                        totalAcwTime: TimeFormatter(response.totalAcwTime),
+                        AverageStaffTime: TimeFormatter(response.AverageStaffTime),
+                        AverageAcwTime: TimeFormatter(response.AverageAcwTime),
+                        AverageInboundCallsPerAgent: response.AverageInboundCallsPerAgent,
+                        AverageOutboundCallsPerAgent: response.AverageOutboundCallsPerAgent
+                    };
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+
 
         var getCounts = function () {
 
@@ -283,6 +332,13 @@
 
         var getCountTimer = $timeout(getCounts, 1000);
         var getTimesTimer = $timeout(getTimes, 1000);
+
+        $scope.loadCurrentCounts = function () {
+            $scope.disableCurrent = true;
+            var getCountTimer = $timeout(getCounts, 1000);
+            var getTimesTimer = $timeout(getTimes, 1000);
+        };
+
 
         $scope.$on("$destroy", function () {
             if (getCountTimer) {
