@@ -455,16 +455,16 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
 
 
     //loop request
-    var t = $interval(function updateRandom() {
-        ServerHandler.callAllServices();
-    }, 30000);
-    var tt = $interval(function updateRandom() {
-        ServerHandler.getAllNumTotal();
-    }, 60000);
-    var t = $interval(function updateRandom() {
-        ServerHandler.updateRelaTimeFuntion();
-        // ServerHandler.getProfiles();
-    }, 1000);
+    // var t = $interval(function updateRandom() {
+    //     ServerHandler.callAllServices();
+    // }, 30000);
+    // var tt = $interval(function updateRandom() {
+    //     ServerHandler.getAllNumTotal();
+    // }, 60000);
+    // var t = $interval(function updateRandom() {
+    //     ServerHandler.updateRelaTimeFuntion();
+    //     // ServerHandler.getProfiles();
+    // }, 1000);
 
 
     var countAllCallServices = function () {
@@ -480,6 +480,7 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
     var getAllRealTime = function () {
         ServerHandler.updateRelaTimeFuntion();
         ServerHandler.getProfiles();
+        GetD1AllQueueStatistics();
         getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
     };
 
@@ -685,18 +686,19 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
     GetD1AllQueueStatistics();
 
     /********** AGENT SUMMARY DETAILS ***************/
-    var getAllRealTime = function () {
-        $scope.getProfileDetails();
-        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-    };
+    // var getAllRealTime = function () {
+    //     $scope.getProfileDetails();
+    //     GetD1AllQueueStatistics();
+    //     getAllRealTimeTimerQueue = $timeout(getAllRealTime, $scope.refreshTime);
+    // };
+    //
+    // var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
-    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-
-    $scope.$on("$destroy", function () {
-        if (getAllRealTimeTimer) {
-            $timeout.cancel(getAllRealTimeTimer);
-        }
-    });
+    // $scope.$on("$destroy", function () {
+    //     if (getAllRealTimeTimer) {
+    //         $timeout.cancel(getAllRealTimeTimer);
+    //     }
+    //});
     $scope.refreshTime = 1000;
 
 
@@ -1024,7 +1026,7 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
 
             var updatetimer = $timeout(updateRealtime, 2000);
 
-            updateRealtime();
+            //updateRealtime();
 
 
             scope.$on("$destroy", function () {
