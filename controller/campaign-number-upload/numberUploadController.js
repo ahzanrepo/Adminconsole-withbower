@@ -7,7 +7,8 @@
     //var app =angular.module('veeryConsoleApp');
 
 
-    var numberUploadController = function ($scope, $q, campaignNumberApiAccess, loginService, scheduleBackendService, $timeout) {
+    var numberUploadController = function ($scope, $q, campaignNumberApiAccess, loginService, scheduleBackendService, $timeout,$anchorScroll) {
+        $anchorScroll();
         $scope.safeApply = function(fn) {
             var phase = this.$root.$$phase;
             if(phase == '$apply' || phase == '$digest') {

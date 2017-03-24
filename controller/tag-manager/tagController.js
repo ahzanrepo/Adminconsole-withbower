@@ -6,9 +6,9 @@
  */
 
 
-mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibModal, jwtHelper, authService, tagBackendService, loginService) {
+mainApp.controller('tagcontroller', function ($scope, $rootScope, $state, $uibModal, jwtHelper, authService, tagBackendService, loginService,$anchorScroll) {
     var apple_selected, tree, treedata_avm = [], treedata_geography;
-
+    $anchorScroll();
     $scope.my_data = [];
     $scope.newChildObject = {};
 

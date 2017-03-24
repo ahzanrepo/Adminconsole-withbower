@@ -181,7 +181,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.dashboard', {
             url: "/dashboard",
-            templateUrl: "views/dashboard/dashboardContactCenter.html",
+            templateUrl: "views/dashboard/dashboardContactCenter1_1.html",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"
@@ -950,7 +950,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.agentDashboard', {
             url: "/agentDashboard",
-            templateUrl: "views/dashboard/dashboardContactCenter1.1.html",
+            templateUrl: "views/dashboard/dashboardContactCenter.html",
             data: {
                 requireLogin: true
             }

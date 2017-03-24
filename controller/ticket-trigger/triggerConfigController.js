@@ -7,7 +7,8 @@
     var triggerConfigController = function ($scope, $state, $stateParams, triggerApiAccess,
                                             loginService,
                                             triggerUserServiceAccess, triggerTemplateServiceAccess,
-                                            triggerArdsServiceAccess,companyConfigBackendService) {
+                                            triggerArdsServiceAccess,companyConfigBackendService,$anchorScroll) {
+        $anchorScroll();
         $scope.title = $stateParams.title;
         $scope.triggerId = $stateParams.triggerId;
         $scope.triggerAction = {};

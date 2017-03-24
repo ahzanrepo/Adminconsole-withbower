@@ -6,8 +6,8 @@
 
     var app = angular.module('veeryConsoleApp');
 
-    var numberDncController = function($scope, $q, campaignNumberApiAccess, loginService){
-
+    var numberDncController = function($scope, $q, campaignNumberApiAccess, loginService,$anchorScroll){
+        $anchorScroll();
         $scope.safeApply = function(fn) {
             var phase = this.$root.$$phase;
             if(phase == '$apply' || phase == '$digest') {
