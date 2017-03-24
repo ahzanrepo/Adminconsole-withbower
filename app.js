@@ -52,8 +52,8 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 }]);
 //resourceservice.app.veery.cloud
 var baseUrls = {
-    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'UserServiceBaseUrl':'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/' ,//'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app.veery.cloud/DVP
+    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app.veery.cloud/',
@@ -67,7 +67,7 @@ var baseUrls = {
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
-    'dashBordUrl': 'http://dashboardservice.app.veery.cloud//',
+    'dashBordUrl': 'http://dashboardservice.app.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl': 'http://localhost:4647/DVP/API/1.0.0.0/Social/', //104.236.197.119
@@ -87,7 +87,8 @@ var baseUrls = {
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
     'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
-    'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/'
+    'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/',
+    'zohoAPIUrl': 'http://localhost:3637/DVP/API/1.0.0.0/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -868,16 +869,40 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.campaigndispositionreport', {
             url: "/campaign/report/disposition",
-            templateUrl: "campaignManager/campaignMonitor.html",
-            controller: "campaignMonitorController",
+            templateUrl: "campaignManager/campaignDispositionReport.html",
+            controller: "campaignDispositionReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaigncallbackreport', {
+            url: "/campaign/report/callback",
+            templateUrl: "campaignManager/campaignCallbackReport.html",
+            controller: "campaignCallbackReportController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
         }).state('console.campaignattemptreport', {
             url: "/campaign/report/attempt",
-            templateUrl: "campaignManager/campaignMonitor.html",
-            controller: "campaignMonitorController",
+            templateUrl: "campaignManager/campaignAttemptReport.html",
+            controller: "campaignAttemptReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.zoho', {
+            url: "/zoho",
+            templateUrl: "zoho/views/zohoConnector.html",
+            controller: "zohoController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.zohousers', {
+            url: "/zoho/users",
+            templateUrl: "zoho/views/zohoUsers.html",
+            controller: "zohoUsersController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
@@ -922,6 +947,21 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "USERS"
+            }
+        }).state('console.agentDashboard', {
+            url: "/agentDashboard",
+            templateUrl: "views/dashboard/dashboardContactCenter1.1.html",
+            data: {
+                requireLogin: true
+            }
+
+        }).state('console.notices', {
+            url: "/Notices",
+            templateUrl: "views/notice-config/notices.html",
+            controller: "noticeConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "NOTICE"
             }
         });
         //Todo shoud be change navigation

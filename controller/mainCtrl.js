@@ -326,6 +326,15 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goCampaignAttempt: function () {
             $state.go('console.campaignattemptreport')
         },
+        goZoho: function () {
+            $state.go('console.zoho')
+        },
+        goZohoUser: function () {
+            $state.go('console.zohousers')
+        },
+        goCampaignCallback: function () {
+            $state.go('console.campaigncallbackreport')
+        },
         goQASubmission: function () {
             $state.go('console.qaSubmission');
         },
@@ -386,6 +395,14 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.contact-book');
         }, goCallCenterPerformance: function () {
             $state.go('console.callcenterperformance');
+
+        },goNotices: function () {
+            $state.go('console.notices');
+
+        },
+        goToAgentDashboard: function () {
+            $state.go('console.agentDashboard');
+
         }
     };
     $scope.showDisplayName = false;
@@ -403,14 +420,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                             if (resOrg.IsSuccess && resOrg.Result) {
                                 if (resOrg.Result.ownerRef == resMyProf.Result._id) {
                                     $scope.displayname = resOrg.Result.companyName;
-
                                 }
                                 else {
                                     if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
-                                        $scope.displayname = resMyProf.firstname + " " + resMyProf.lastname;
+                                        $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
 
                                     }
-
 
                                 }
                                 $scope.showDisplayName = true;

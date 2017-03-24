@@ -8,6 +8,10 @@
 
     var acwDetailController = function($scope, $state, acwDetailApiAccess, resourceService, loginService) {
 
+        $scope.pagination = {
+            currentPage : 1
+        };
+
         $scope.obj = {
             startDay: moment().format("YYYY-MM-DD"),
             endDay: moment().format("YYYY-MM-DD")
@@ -17,6 +21,8 @@
         $scope.endTime = '11:59 PM';
 
         $scope.attrList = [];
+
+        $scope.showTable = false;
 
 
         var getSkillList = function () {
@@ -61,12 +67,13 @@
         };
 
         $scope.getAcwSummery = function(){
+            $scope.showTable = false;
             $scope.totalAcwSessions = 0;
             $scope.totalAcwTime = 0;
             $scope.averageAcwTime = 0;
 
             $scope.showPaging = false;
-            $scope.currentPage = 0;
+
             $scope.pageSize = 20;
 
 
@@ -98,7 +105,7 @@
                         }else{
                             $scope.timeStr = durationObj._data.hours+'h:'+durationObj._data.minutes+'m:'+durationObj._data.seconds+'s';
                         }
-                        $scope.getAcwRecords($scope.currentPage);
+                        $scope.getAcwRecords();
                     }
 
                 }
@@ -123,8 +130,9 @@
             });
         };
 
-        $scope.getAcwRecords = function(pageNo){
-            $scope.currentPage = pageNo + 1;
+        $scope.getAcwRecords = function(){
+            //$scope.currentPage = pageNo + 1;
+            $scope.showTable = false;
             var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
             var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
             var momentTz = moment.parseZone(new Date()).format('Z');
@@ -133,9 +141,10 @@
             var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
             var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
 
-            acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId, $scope.currentPage, $scope.pageSize, startDate, endDate, $scope.skillFilter).then(function(response){
+            acwDetailApiAccess.GetAcwRecords($scope.obj.resourceId, $scope.pagination.currentPage, $scope.pageSize, startDate, endDate, $scope.skillFilter).then(function(response){
                 if(response.IsSuccess)
                 {
+                    $scope.showTable = true;
                     $scope.allAcwRecords = response.Result;
                     /*$scope.acwRecords = response.Result;*/
                     var sessionIds = [];

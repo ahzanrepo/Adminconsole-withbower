@@ -29,6 +29,19 @@ mainApp.factory('transBackendService', function ($http, baseUrls)
             });
         },
 
+        updateTranslations: function (transId, translation) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.ruleServiceUrl+'CallRuleApi/Translation/' + transId,
+                data:translation
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+
         deleteTranslation: function (translation) {
 
             return $http({
