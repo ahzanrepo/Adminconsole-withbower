@@ -1,7 +1,10 @@
 /**
  * Created by Pawan on 3/9/2017.
  */
-mainApp.controller("securityLevelManagementController", function ($scope, $filter, $stateParams,$anchorScroll, appAccessManageService,authService, jwtHelper,userProfileApiAccess) {
+mainApp.controller("securityLevelManagementController", function ($scope, $filter, $stateParams,$anchorScroll, appAccessManageService,authService, jwtHelper,userProfileApiAccess,$location) {
+
+
+    $location.hash('top');
     $anchorScroll();
     $scope.active = true;
 
