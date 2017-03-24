@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 3/22/2017.
  */
-mainApp.controller("noticeConfigController", function ($scope, $state, noticeBackendService, loginService,$anchorScroll,notifiSenderService) {
+mainApp.controller("noticeConfigController", function ($scope, $state, noticeBackendService, loginService,$anchorScroll,notifiSenderService,FileUploader,fileService,attachmentBackendService) {
 
 
     $anchorScroll();
@@ -15,6 +15,106 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
     $scope.isSaveEnabled=true;
     $scope.toUser=[];
     $scope.toGroup=[];
+    $scope.file = {};
+    $scope.file.Category = "NOTICE_ATTACHMENTS";
+
+    var uploader = $scope.uploader = new FileUploader({
+        url: fileService.UploadUrl,
+        headers: fileService.Headers
+    });
+
+    // FILTERS
+
+    uploader.filters.push({
+        name: 'customFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            return this.queue.length < 10;
+        }
+    });
+
+
+    $scope.uploadingItemIndex=0;
+    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+    uploader.onAfterAddingFile = function (fileItem) {
+        console.info('onAfterAddingFile', fileItem);
+        $scope.uploadingItemIndex=uploader.getIndexOfItem(fileItem);
+        //uploader.clearQueue();
+       // uploader.addToQueue(fileItem);
+
+
+
+    };
+    uploader.onAfterAddingAll = function (addedFileItems) {
+
+        console.info('onAfterAddingAll', addedFileItems);
+    };
+    uploader.onBeforeUploadItem = function (item) {
+        item.formData.push({'fileCategory': $scope.file.Category});
+        console.info('onBeforeUploadItem', item);
+
+    };
+    uploader.onProgressItem = function (fileItem, progress) {
+        console.info('onProgressItem', fileItem, progress);
+    };
+    uploader.onProgressAll = function (progress) {
+        console.info('onProgressAll', progress);
+    };
+    uploader.onSuccessItem = function (fileItem, response, status, headers) {
+        console.info('onSuccessItem', fileItem, response, status, headers);
+    };
+    uploader.onErrorItem = function (fileItem, response, status, headers) {
+        console.info('onErrorItem', fileItem, response, status, headers);
+    };
+    uploader.onCancelItem = function (fileItem, response, status, headers) {
+        console.info('onCancelItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteItem = function (fileItem, response, status, headers) {
+        console.info('onCompleteItem', fileItem, response, status, headers);
+        if (response.IsSuccess) {
+            var attchmentData =
+            {
+                file: fileItem._file.name,
+                //url: baseUrls.fileService + "InternalFileService/File/Download/" + scope.userCompanyData.tenant + "/" + scope.userCompanyData.company + "/" + response.Result + "/SampleAttachment",
+                url: response.Result,
+                type: fileItem._file.type,
+                size: fileItem._file.size
+            }
+
+            attachmentBackendService.saveNewAttachment(attchmentData).then(function (response) {
+
+                if(response.IsSuccess && response.Result)
+                {
+                    $scope.newNotice.attachments=[];
+                    $scope.newNotice.attachments.push(response.Result._id);
+                    $scope.showAlert("Notice","Attachment saved successfully","success");
+                    $scope.noticeHandler();
+
+
+                }
+                else
+                {
+                    $scope.showAlert("Notice","Attachment saving failed","error");
+                    $scope.noticeHandler();
+                }
+
+
+            }, function (error) {
+                $scope.showAlert("Notice","Attachment saving failed","error");
+                $scope.noticeHandler();
+            })
+        }
+
+    };
+    uploader.onCompleteAll = function () {
+        console.info('onCompleteAll');
+
+
+    };
+
+
+
 
     $scope.showAlert = function (tittle, content, type) {
 
@@ -194,9 +294,30 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
         }
     }
 
+    $scope.noticeHandler = function () {
+        noticeBackendService.sendNotice($scope.newNotice).then(function (response) {
+            console.log("Notice sent");
+            $scope.newNotice={};
+            $scope.Rsvrtype="Users";
+            $scope.attributeGroup=null;
+            $scope.isSaveEnabled=true;
+            $scope.GetSavedNotices();
+            uploader.clearQueue();
 
+
+            $scope.showAlert("Notice","Notice sent","success");
+
+
+        }, function (error) {
+            console.log("Send failed");
+            $scope.isSaveEnabled=true;
+            $scope.showAlert("Notice","Notice sending failed","error");
+        });
+    }
 
     $scope.sendNoticeData = function () {
+
+
 
         $scope.isSaveEnabled=false;
 
@@ -211,27 +332,20 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
             $scope.newNotice.toUser=null;
         }
 
-        noticeBackendService.sendNotice($scope.newNotice).then(function (response) {
-            console.log("Notice sent");
-            $scope.newNotice={};
-            $scope.Rsvrtype="Users"
-            $scope.attributeGroup=null;
-            $scope.isSaveEnabled=true;
-            $scope.GetSavedNotices();
-
-
-            $scope.showAlert("Notice","Notice sent","success");
-
-
-        }, function (error) {
-            console.log("Send failed");
-            $scope.isSaveEnabled=true;
-            $scope.showAlert("Notice","Notice sending failed","error");
-        });
+        if(uploader.getNotUploadedItems().length>0)
+        {
+            uploader.uploadItem($scope.uploadingItemIndex);
+        }
+        else
+        {
+            $scope.noticeHandler();
+        }
 
 
 
     }
+
+
 
 });
 

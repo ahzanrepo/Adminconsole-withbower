@@ -3,16 +3,17 @@
  */
 
 
-(function(){
-    var app =angular.module('veeryConsoleApp');
+(function () {
+    var app = angular.module('veeryConsoleApp');
 
-    var caseConfigController = function($scope, $state, $filter, caseApiAccess, ticketFlowService,loginService) {
+    var caseConfigController = function ($scope, $state, $filter, caseApiAccess, ticketFlowService, loginService, $anchorScroll) {
+        $anchorScroll();
         $scope.caseConfigs = [];
-        $scope.caseConfig = {activeTicketTypes:[]};
+        $scope.caseConfig = {activeTicketTypes: []};
         $scope.searchCriteria = "";
         $scope.ticketType;
 
-        $scope.showAlert = function (title,content,type) {
+        $scope.showAlert = function (title, content, type) {
             new PNotify({
                 title: title,
                 text: content,
@@ -34,60 +35,53 @@
             $state.reload();
         };
 
-        $scope.loadCaseConfigs = function(){
-            caseApiAccess.getCaseConfigurations().then(function(response){
-                if(response.IsSuccess)
-                {
-                    $scope.caseConfigs = response.Result.map(function(conf){
-                        if(conf.active && conf.configurationType === "automate"){
+        $scope.loadCaseConfigs = function () {
+            caseApiAccess.getCaseConfigurations().then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.caseConfigs = response.Result.map(function (conf) {
+                        if (conf.active && conf.configurationType === "automate") {
                             return conf;
                         }
                     });
-                } else{
+                } else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('Case Configuration', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
                 loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while loading case configurations";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Case Configuration', errMsg, 'error');
             });
         };
 
-        $scope.saveCaseConfig = function(){
-            caseApiAccess.createCaseConfiguration($scope.caseConfig).then(function(response){
-                if(response.IsSuccess)
-                {
+        $scope.saveCaseConfig = function () {
+            caseApiAccess.createCaseConfiguration($scope.caseConfig).then(function (response) {
+                if (response.IsSuccess) {
                     $scope.caseConfigs = response.Result;
                     $scope.showAlert('Case Configuration', response.CustomMessage, 'success');
                     $scope.searchCriteria = "";
-                    $scope.caseConfig = {activeTicketTypes:[]};
+                    $scope.caseConfig = {activeTicketTypes: []};
                     $scope.loadCaseConfigs();
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
                     $scope.showAlert('Case Configuration', errMsg, 'error');
                 }
-            }, function(err){
+            }, function (err) {
                 loginService.isCheckResponse(err);
                 var errMsg = "Error occurred while saving case configuration";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
                 $scope.showAlert('Case Configuration', errMsg, 'error');

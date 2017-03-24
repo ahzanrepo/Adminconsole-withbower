@@ -4,9 +4,9 @@
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               loginService,
-                                              dashboardService, moment, userImageList,$interval) {
+                                              dashboardService, moment, userImageList,$interval,$anchorScroll) {
 
-
+    $anchorScroll();
     //#services call handler
     $scope.total = {
         callsInb: 0,

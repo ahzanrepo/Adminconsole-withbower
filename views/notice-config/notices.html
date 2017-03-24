@@ -26,7 +26,7 @@
                                     <label class="animated fadeIn">Title</label>
                                     <input type="text" class="form-control has-feedback-left"
                                            ng-model="newNotice.title"
-                                           placeholder="Notice Title">
+                                           placeholder="Notice Title" required>
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
@@ -34,7 +34,7 @@
                                     <select class="form-control has-feedback-left"
                                             ng-model="newNotice.priority"
                                             placeholder="Choose Protocol">
-                                        <option>urgent</option>
+                                        <option ng-selected="true">urgent</option>
                                         <option>high</option>
                                         <option>normal</option>
                                         <option>low</option>
@@ -48,7 +48,7 @@
 
                                 <div class="col-md-9 col-sm-9 col-xs-12 form-group has-feedback">
                                     <label class="animated fadeIn">Message body</label>
-                                    <textarea class="resizable_textarea form-control" ng-model="newNotice.message" placeholder="Enter content here"></textarea>
+                                    <textarea class="resizable_textarea form-control" ng-model="newNotice.message" placeholder="Enter content here" required></textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -77,9 +77,18 @@
                                                        min-length="1"></auto-complete>
                                     </tags-input>
                                 </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12" ng-show="uploader.isHTML5">
+                                    <input type="file" nv-file-select="" uploader="uploader"/>
+                                </div>
+                                <span class="fa fa-cross" ng-click="uploader.clearQueue()"></span>
+
+
+
+
                                 <div class="col-md-12 col-sm-12 col-xs-12  ">
                                     <button type="button" class="btn btn-success  btn- pull-right"
-                                            ng-click="sendNoticeData()" ng-disabled="!isSaveEnabled">
+                                            ng-click="sendNoticeData()" ng-disabled="!isSaveEnabled || !attributeGroup.length || !newNotice.message">
                                         Send
                                     </button>
                                 </div>
