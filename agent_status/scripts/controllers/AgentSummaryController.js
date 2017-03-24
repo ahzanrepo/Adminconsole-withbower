@@ -94,10 +94,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         } else {
                             profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
 
-                            if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
+                            /*if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
 
                                 reservedDate = response[i].Status.StateChangeTime;
-                            }
+                            }*/
                         }
 
                         profile.LastReservedTimeT = reservedDate;

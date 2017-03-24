@@ -5,7 +5,7 @@
 (function () {
     var app = angular.module('veeryConsoleApp');
 
-    var caseController = function ($scope, $state, caseApiAccess, loginService) {
+    var caseController = function ($scope, $state, $timeout, caseApiAccess, loginService) {
         $scope.caseInfos = [];
         $scope.caseInfo = {};
         $scope.searchCriteria = "";
@@ -37,14 +37,14 @@
         $scope.filterCases = function () {
             switch ($scope.searchOption) {
                 case 'activeCases':
-                    $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
+                    $scope.caseInfos = $scope.tempCaseInfos.filter(function (caseI) {
                         if (caseI.active) {
                             return caseI
                         }
                     });
                     break;
                 case 'deactivateCases':
-                    $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
+                    $scope.caseInfos = $scope.tempCaseInfos.filter(function (caseI) {
                         if (!caseI.active) {
                             return caseI
                         }
@@ -62,14 +62,14 @@
                     $scope.tempCaseInfos = response.Result;
                     switch ($scope.searchOption) {
                         case 'activeCases':
-                            $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
+                            $scope.caseInfos = $scope.tempCaseInfos.filter(function (caseI) {
                                 if (caseI.active) {
                                     return caseI
                                 }
                             });
                             break;
                         case 'deactivateCases':
-                            $scope.caseInfos = $scope.tempCaseInfos.map(function (caseI) {
+                            $scope.caseInfos = $scope.tempCaseInfos.filter(function (caseI) {
                                 if (!caseI.active) {
                                     return caseI
                                 }
@@ -126,6 +126,44 @@
                 $scope.showAlert('Case', errMsg, 'error');
             });
         };
+
+
+
+        var getOngoingBulkOperations = function(){
+            var caseIds = $scope.caseInfos.map(function(caseInfo){
+                return caseInfo._id.toString();
+            });
+
+            if(caseIds && caseIds.length >0) {
+                caseApiAccess.getBulkOperationByReference(caseIds).then(function (response) {
+                    if (response) {
+                        $scope.ongoingBulkOperations = response.map(function (bulkObj) {
+                            return{
+                                JobId: bulkObj.JobId,
+                                JobReference: bulkObj.JobReference,
+                                JobType: bulkObj.JobType,
+                                JobStatus: bulkObj.JobStatus,
+                                Percentage: Math.floor(((bulkObj.JobCount - bulkObj.OperationCount)/bulkObj.JobCount)*100)
+                            };
+                        });
+                    }
+                }, function (err) {
+                });
+            }
+        };
+
+        var getTimer = function(){
+            getOngoingBulkOperations();
+            getTimesTimer = $timeout(getTimer, 5000);
+        };
+
+        var getTimesTimer = $timeout(getTimer, 5000);
+
+        $scope.$on("$destroy", function () {
+            if (getTimesTimer) {
+                $timeout.cancel(getTimesTimer);
+            }
+        });
 
         $scope.loadCases();
     };

@@ -5,11 +5,12 @@
 (function () {
     var app = angular.module('veeryConsoleApp');
 
-    var caseDirective = function ($filter, $state, caseApiAccess) {
+    var caseDirective = function ($filter, $state, $timeout, caseApiAccess) {
         return {
             restrict: "EAA",
             scope: {
                 caseInfo: "=",
+                bulkOperations: "=",
                 'updateCase': '&',
                 'reloadPage': '&'
             },
@@ -126,6 +127,38 @@
                         title: scope.caseInfo.caseName
                     });
                 };
+
+                scope.removeBulkOperation = function(jobId){
+                    caseApiAccess.removeBulkOperation(jobId).then(function (response) {
+                        if (response) {
+                            scope.showAlert('Case', 'Bulk Operation Removed Successfully.', 'success');
+                        }else{
+                            console.log('remove Bulk Operation Failed');
+
+                        }
+                    }, function (err) {
+                        console.log('remove Bulk Operation Failed');
+                    });
+                };
+
+                var getTimer = function(){
+                    if(scope.bulkOperations && scope.bulkOperations.length >0) {
+                        scope.ongoingOperations = scope.bulkOperations.filter(function (bulkObj) {
+                            return bulkObj.JobReference === scope.caseInfo._id.toString();
+                        });
+                    }else{
+                        scope.ongoingOperations = [];
+                    }
+                    getTimesTimer = $timeout(getTimer, 5000);
+                };
+
+                var getTimesTimer = $timeout(getTimer, 5000);
+
+                scope.$on("$destroy", function () {
+                    if (getTimesTimer) {
+                        $timeout.cancel(getTimesTimer);
+                    }
+                });
 
             }
 
