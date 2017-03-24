@@ -4,8 +4,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService,$anchorScroll) {
 
+        $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
             new PNotify({
