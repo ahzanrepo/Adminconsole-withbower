@@ -395,14 +395,14 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $state.go('console.contact-book');
         }, goCallCenterPerformance: function () {
             $state.go('console.callcenterperformance');
-<<<<<<< HEAD
+
         },goNotices: function () {
             $state.go('console.notices');
-=======
+
         },
         goToAgentDashboard: function () {
             $state.go('console.agentDashboard');
->>>>>>> 6ae1ecb92888f615df5e5e4b9fb48fd315dbf453
+
         }
     };
     $scope.showDisplayName = false;

@@ -76,7 +76,7 @@
                 data: numberData
             }).then(function(response){
 
-                deferred.resolve(response.data)
+                deferred.resolve(response.data);
             });
 
             return deferred.promise;

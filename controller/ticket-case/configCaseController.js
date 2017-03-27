@@ -476,29 +476,85 @@
             });
         };
 
-        $scope.bulkStatusChangeTickets = function () {
-            caseApiAccess.bulkStatusChangeTickets($scope.selectedExsistingTickets.ids, $scope.bulkAction).then(function (response) {
-                if (response.IsSuccess) {
-                    $scope.showAlert('Case', 'success', "Tickets Have Been Updated Successfully.");
-                    //$state.reload();
-                }
-                else {
-                    var errMsg = response.CustomMessage;
 
-                    if (response.Exception) {
-                        errMsg = response.Exception.Message;
+        $scope.BatchStatusChange =function(array, jobId){
+            var index = 0;
+
+
+            return new Promise(function(resolve, reject) {
+
+                function next() {
+                    $scope.uploadProgress = Math.ceil((index / array.length)*100);
+                    if (index < array.length) {
+                        var uploadStatus = index === array.length-1? 'done': 'uploading';
+                        caseApiAccess.bulkStatusChangeTickets(array[index++], $scope.bulkAction, jobId, uploadStatus).then(next, reject);
+                    } else {
+                        resolve();
                     }
-                    $scope.showAlert('Case', 'error', "Tickets Have Been Updated Error.");
                 }
-            }, function (err) {
-                loginService.isCheckResponse(err);
-                var errMsg = "Error occurred while updating tickets";
-                if (err.statusText) {
-                    errMsg = err.statusText;
-                }
-                $scope.showAlert('Case', 'error', "Tickets Have Been Updated Error.");
+                next();
             });
         };
+        $scope.uploadProgress = 0;
+        $scope.bulkStatusChangeTickets = function () {
+
+            $scope.uploadProgress = 0;
+            var ticketCount = $scope.selectedExsistingTickets.ids.length;
+            var numOfIterations = Math.ceil(ticketCount / 1000);
+
+            var ticketArray = [];
+
+            for (var i = 0; i < numOfIterations; i++) {
+                var start = i * 1000;
+                var end = (i * 1000) + 1000;
+                var numberChunk = $scope.selectedExsistingTickets.ids.slice(start, end);
+
+                ticketArray.push(numberChunk);
+            }
+
+            caseApiAccess.getBulkOperationJobId($scope.bulkAction.action, $scope.caseInfo._id.toString()).then(function (response) {
+                if (response) {
+                    $scope.BatchStatusChange(ticketArray, response).then(function () {
+
+                        console.log("Upload done ..................");
+                        $scope.showAlert('Case', 'success', "Successfully Upload For Bulk Process");
+                        $scope.uploadProgress = 0;
+                    }, function (reason) {
+                        $scope.showAlert('Case', 'error', "Tickets Update Failed.");
+                    });
+                } else {
+                    $scope.showAlert('Case', 'error', "Get Bulk Operation Job Id Failed");
+                }
+            }, function (err) {
+                $scope.showAlert('Case', 'error', "Get Bulk Operation Job Id Failed");
+            });
+
+
+            //caseApiAccess.bulkStatusChangeTickets($scope.selectedExsistingTickets.ids, $scope.bulkAction).then(function (response) {
+            //    if (response.IsSuccess) {
+            //        $scope.showAlert('Case', 'success', "Tickets Have Been Updated Successfully.");
+            //        //$state.reload();
+            //    }
+            //    else {
+            //        var errMsg = response.CustomMessage;
+            //
+            //        if (response.Exception) {
+            //            errMsg = response.Exception.Message;
+            //        }
+            //        $scope.showAlert('Case', 'error', "Tickets Have Been Updated Error.");
+            //    }
+            //}, function (err) {
+            //    loginService.isCheckResponse(err);
+            //    var errMsg = "Error occurred while updating tickets";
+            //    if (err.statusText) {
+            //        errMsg = err.statusText;
+            //    }
+            //    $scope.showAlert('Case', 'error', "Tickets Have Been Updated Error.");
+            //});
+        };
+
+
+
 
         $scope.bulkActions = ['closed'];
 
@@ -601,6 +657,8 @@
                 $scope.bulkAction.specificOperations.splice(index, 1);
             }
         };
+
+
 
         $scope.showModal = function () {
             //modal show
