@@ -50,7 +50,7 @@ mainApp.controller('zohoController', function ($scope, $q, $anchorScroll, zohoSe
         zohoService.EnableZohoIntegration().then(function (response) {
             if (response) {
                 $scope.GetZohoAccount();
-                $scope.showAlert("Zoho", 'success', "Successfully Added to System");
+                $scope.showAlert("Zoho", 'success', "Successfully Added To System");
                 $("#" + page.id + "").addClass("avoid-clicks");
                 $scope.isAddingPage = false;
             }
@@ -85,15 +85,16 @@ mainApp.controller('zohoController', function ($scope, $q, $anchorScroll, zohoSe
         zohoService.DisableZohoIntegration().then(function (response) {
             if (response) {
                 $scope.GetZohoAccount();
-                $scope.showAlert("Zoho", 'success', "Successfully Remove Page from System.");
+                $scope.showAlert("Zoho", 'success', "Successfully Remove Account From System.");
             }
             else {
-                $scope.showAlert("Zoho", 'error', "Fail To Remove Page.");
+                $scope.showAlert("Zoho", 'error', "Fail To Remove Account From System.");
             }
             $scope.isLoading = false;
         }, function (error) {
             console.error("AddTwitterPageToSystem err");
             $scope.isLoading = false;
+            $scope.showAlert("Zoho", 'error', "Fail To Remove Account From System.");
         });
 
 
