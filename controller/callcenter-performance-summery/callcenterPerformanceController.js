@@ -5,8 +5,9 @@
 
 (function () {
 
-    mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService) {
+    mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService, $anchorScroll) {
 
+        $anchorScroll();
         $scope.disableCurrent = true;
         $scope.startDate = moment().format("YYYY-MM-DD");
         $scope.endDate = moment().format("YYYY-MM-DD");
