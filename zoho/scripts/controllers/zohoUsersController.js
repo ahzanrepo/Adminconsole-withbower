@@ -117,13 +117,13 @@ app.controller("zohoUsersController", function ($scope, $location, $log, $filter
         zohoService.DisableZohoUserCallControl(user).then(function (response) {
             if(response){
                 user.integrated = false;
-                $scope.showAlert("Zoho User","success", "Successfully Added.");
+                $scope.showAlert("Zoho User","success", "Integration Successfully Removed.");
             }else {
-                $scope.showAlert("Zoho User", 'error', "Fail To Add User.");
+                $scope.showAlert("Zoho User", 'error', "Fail To Remove Integration.");
             }
             $scope.isLoading = false;
         }, function (error) {
-            $scope.showAlert("Zoho User", 'error', "Fail To Add User.");
+            $scope.showAlert("Zoho User", 'error', "Fail To Remove Integration.");
             $scope.isLoading = false;
         });
     };
