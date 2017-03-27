@@ -9,7 +9,7 @@ mainApp.factory('noticeBackendService', function ($http, authService,baseUrls)
             var authToken = authService.GetToken();
             return $http({
                 method: 'GET',
-                url: baseUrls.notification + "DVP/API/1.0.0.0/NotificationService/SentNotices"
+                url: baseUrls.notification + "DVP/API/1.0.0.0/NotificationService/SubmittedNotices"
             }).then(function(response)
             {
                 return response;
