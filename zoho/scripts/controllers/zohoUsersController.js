@@ -140,14 +140,14 @@ app.controller("zohoUsersController", function ($scope, $location, $log, $filter
                 zohoService.EnableZohoUsersCallControl(userids).then(function (response) {
                     if(response){
                         $scope.reloadPage();
-                        $scope.showAlert("Zoho User","success", "Successfully Added.");
+                        $scope.showAlert("Zoho User","success", "Call Control Functionalities Successfully Added.");
                     }else {
-                        $scope.showAlert("Zoho User", 'error', "Fail To Add Users.");
+                        $scope.showAlert("Zoho User", 'error', "Fail To Add Call Control Functionalities.");
                         $scope.isLoading = false;
                     }
 
                 }, function (error) {
-                    $scope.showAlert("Zoho User", 'error', "Fail To Add Users.");
+                    $scope.showAlert("Zoho User", 'error', "Fail To Add Call Control Functionalities.");
                     $scope.isLoading = false;
                 });
             }
