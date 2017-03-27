@@ -88,7 +88,7 @@ var baseUrls = {
     'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
     'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/',
-    'zohoAPIUrl': 'http://localhost:3637/DVP/API/1.0.0.0/'
+    'zohoAPIUrl': 'http://crmintegrations.app.veery.cloud/DVP/API/1.0.0.0/'//crmintegrations.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);

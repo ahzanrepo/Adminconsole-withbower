@@ -33,16 +33,19 @@
         <div class="col-md-12 col-sm-6 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2><i class="fa fa-bars"></i> Zoho User <small>List</small></h2>
+                    <h2><i class="fa fa-bars"></i> Zoho User
+                        <small>List</small>
+                    </h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link" ng-click="reloadPage();"><i class="fa fa-refresh"></i></a>
+                        <li><a class="collapse-link" ng-click="reloadPage();" title="Reload"><i
+                                class="fa fa-refresh"></i></a>
                         </li>
-                        <li><a class="collapse-link" ng-click="addAll();"><i class="fa fa-plus-square"></i></a>
+                        <li><a class="collapse-link" ng-click="addAll();" title="Integrate With System."><i
+                                class="fa fa-plus-square"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
-
 
 
                 <div class="x_content">
@@ -84,10 +87,10 @@
                                         <div class="tools tools-bottom">
                                             <a ng-hide="user.integrated" href="javascript:void(0);"><i
                                                     class="fa fa-plus"
-                                                    ng-click="addUser(user)"></i></a>
+                                                    ng-click="addUser(user)" title="Integrate With System."></i></a>
                                             <a ng-show="user.integrated" href="javascript:void(0);"><i
                                                     class="fa fa-times"
-                                                    ng-click="removeUser(user)"></i></a>
+                                                    ng-click="removeUser(user)" title="Remove Integration"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +102,7 @@
 
                                     <input ng-hide="user.integrated" type="checkbox" class="flat"
                                            ng-model="user.add"
-                                           ng-change="addToDelete(user)">
+                                    >
 
                                 </div>
                             </div>
@@ -126,6 +129,7 @@
         </div>
 
     </div>
+</div>
 
 
 
