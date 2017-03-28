@@ -656,7 +656,13 @@
 
         //copy pwd token window
         $scope.copyToken = function () {
-            window.prompt("Copy to clipboard: Ctrl+C, Enter", $scope.resetToken);
+
+            var $tempInput =  $("<textarea>");
+            $("body").append($tempInput);
+            $tempInput.val($scope.resetToken).select();
+            document.execCommand("copy");
+            $tempInput.remove();
+            $scope.showAlert('Success', 'info', 'Token copied successfully');
         };
 
 
