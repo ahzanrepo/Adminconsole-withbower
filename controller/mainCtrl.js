@@ -396,7 +396,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         }, goCallCenterPerformance: function () {
             $state.go('console.callcenterperformance');
 
-        },goNotices: function () {
+        }, goNotices: function () {
             $state.go('console.notices');
 
         },
@@ -741,11 +741,16 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         if ($BODY.hasClass('nav-md')) {
             $BODY.removeClass('nav-md').addClass('nav-sm');
 
+            $('.d-top-h').removeClass('d1-header-lg').addClass('d1-header-wrp-sm');
+
             if ($SIDEBAR_MENU.find('li').hasClass('active')) {
                 $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
             }
         } else {
             $BODY.removeClass('nav-sm').addClass('nav-md');
+
+            $('.d-top-h').removeClass('d1-header-wrp-sm').addClass('d1-header-lg');
+
 
             if ($SIDEBAR_MENU.find('li').hasClass('active-sm')) {
                 $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');

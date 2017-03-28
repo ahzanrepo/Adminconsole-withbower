@@ -62,9 +62,11 @@ var CURRENT_URL = window.location.href.split('?')[0],
         if ($BODY.hasClass('nav-md')) {
             $BODY.removeClass('nav-md').addClass('nav-sm');
 
+
             if ($SIDEBAR_MENU.find('li').hasClass('active')) {
                 $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
             }
+
         } else {
             $BODY.removeClass('nav-sm').addClass('nav-md');
 
@@ -73,7 +75,7 @@ var CURRENT_URL = window.location.href.split('?')[0],
             }
         }
 
-        setContentHeight();
+        //setContentHeight();
     });
 
     // check active menu
