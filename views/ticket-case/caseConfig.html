@@ -21,26 +21,33 @@
                     </div>
                     <div class="col-xs-12">
                         <div class="tile-stats m-top15">
-                            <form class="form-horizontal form-label-left input_mask">
+                            <form class="form-horizontal form-label-left input_mask" novalidate>
                                 <div class="row">
                                     <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                         <input type="text" class="form-control has-feedback-left"
                                                ng-model="caseConfig.configurationName"
-                                               placeholder="Configuration Name">
+                                               placeholder="Configuration Name" required>
                                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                        <label class="dark-frm-label">Company Name
+                                        <span class="inline-block validation-on"
+                                              ng-show="signUpForm.companyName.$invalid
+                                              && !signUpForm.companyName.$pristine &&
+                                              signUpForm.companyName.$error.pattern">*
+                                    </span>
+                                        </label>
                                     </div>
 
                                     <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                         <input type="text" class="form-control has-feedback-left"
                                                ng-model="caseConfig.description"
-                                               placeholder="Description">
+                                               placeholder="Description" required>
                                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                     </div>
 
                                     <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                         <input type="number" class="form-control has-feedback-left"
                                                ng-model="caseConfig.threshold"
-                                               placeholder="Threshold" min="0">
+                                               placeholder="Threshold" min="0" required>
                                         <span class="fa fa-envelope form-control-feedback left"
                                               aria-hidden="true"></span>
                                     </div>
@@ -63,7 +70,7 @@
                                     <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <div class="form-group">
                                             <tags-input ng-model="postTags" display-property="name"
-                                                        placeholder="Configuration Rule">
+                                                        placeholder="Configuration Rule" ng-readonly="true">
                                                 <auto-complete source="loadPostTags($query)"></auto-complete>
                                             </tags-input>
                                         </div>
