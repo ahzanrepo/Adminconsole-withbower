@@ -944,10 +944,22 @@
 
                                 });
 
-                                if (transferLegB && transferLegB.length > 0) {
-                                    transferCallOriginalCallLeg = transferLegB[0];
-                                }
+                                if (transferLegB && transferLegB.length > 0)
+                                {
+                                    var transferLegBAnswered = filteredOutb.filter(function (item) {
+                                        return item.IsAnswered === true;
+                                    });
 
+                                    if(transferLegBAnswered && transferLegBAnswered.length > 0)
+                                    {
+                                        transferCallOriginalCallLeg = transferLegBAnswered[0];
+                                    }
+                                    else
+                                    {
+                                        transferCallOriginalCallLeg = transferLegB[0];
+                                    }
+
+                                }
 
                                 if (transferCallOriginalCallLeg) {
                                     cdrAppendObj.SipFromUser = transferCallOriginalCallLeg.SipFromUser;
