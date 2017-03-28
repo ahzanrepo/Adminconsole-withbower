@@ -20,7 +20,7 @@
                         </div>
                         <div class="r-pwd-btn-footer">
                             <button ng-disabled="frmResetPwd.$invalid"
-                                     class="btn btn-default btn-sm" ng-click="copyToken();">Copy
+                                    class="btn btn-default btn-sm" ng-click="copyToken();">Copy
                             </button>
                             <button class="btn btn-default btn-sm" ng-click="pwdTokenClose();">Close</button>
                         </div>
@@ -169,10 +169,17 @@
                                    ng-if="CurrentProfile.phoneNumber.verified"></i>
                             </li>
                         </ul>
-                        <a class="btn btn-success text-center" style="margin-top: 15px;" ng-click="editProfilePress()">Edit
-                            Profile</a>
-                        <a class="btn btn-success text-center" style="margin-top: 15px;" ng-click="resetUserPassword()">Reset
-                            Password</a>
+                        <button class="btn btn-success text-center" style="margin-top: 15px;"
+                                ng-click="editProfilePress()">Edit
+                            Profile
+                        </button>
+                        <button ng-if="!isResetPawssord" class="btn btn-success text-center" style="margin-top: 15px;"
+                                ng-click="resetUserPassword()">Reset
+                            Password
+                        </button>
+                        <button ng-if="isResetPawssord" class="btn btn-success text-center" style="margin-top: 15px;"
+                                disabled>Please Wait...
+                        </button>
 
 
                     </div>

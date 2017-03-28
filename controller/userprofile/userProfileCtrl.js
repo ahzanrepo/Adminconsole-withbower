@@ -631,8 +631,11 @@
 
 
         $scope.isShowToken = false;
+        $scope.isResetPawssord = false;
         $scope.resetUserPassword = function () {
+            $scope.isResetPawssord = true;
             userProfileApiAccess.resetProfilePassword($stateParams.username).then(function (data) {
+                $scope.isResetPawssord = false;
                 if (data.IsSuccess) {
                     if (data.Result) {
                         $scope.isShowToken = true;
@@ -656,7 +659,13 @@
 
         //copy pwd token window
         $scope.copyToken = function () {
-            window.prompt("Copy to clipboard: Ctrl+C, Enter", $scope.resetToken);
+
+            var $tempInput = $("<textarea>");
+            $("body").append($tempInput);
+            $tempInput.val($scope.resetToken).select();
+            document.execCommand("copy");
+            $tempInput.remove();
+            $scope.showAlert('Success', 'info', 'Token copied successfully');
         };
 
 

@@ -37,7 +37,7 @@
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group" >
                                 <select class="form-control has-feedback-left" id="callBackReason"
                                         ng-model="dispositionInfo.callBackReason"
-                                        ng-options="opt.Reason as opt.Reason for opt in callBackReasons track by opt.Reason" >
+                                        ng-options="opt as opt for opt in callBackReasons track by opt" >
                                     <option  value=''>Reason</option>
                                 </select>
                             </div>
