@@ -299,10 +299,13 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
             console.log("Notice sent");
             $scope.newNotice={};
             $scope.Rsvrtype="Users";
-            $scope.newNotice.toUser=$scope.toUser;
-            $scope.newNotice.toGroup=null;
+            /*$scope.newNotice.toUser=null;
+            $scope.newNotice.toGroup=null;*/
+            $scope.toUser=[];
+            $scope.toGroup=[];
             $scope.attributeGroup=null;
             $scope.isSaveEnabled=true;
+
             $scope.GetSavedNotices();
             uploader.clearQueue();
 
@@ -326,12 +329,12 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
         if($scope.Rsvrtype=="Users" )
         {
             $scope.newNotice.toUser=$scope.toUser;
-            $scope.newNotice.toGroup=null;
+            $scope.newNotice.toGroup=[];
         }
         else
         {
             $scope.newNotice.toGroup=$scope.toGroup;
-            $scope.newNotice.toUser=null;
+            $scope.newNotice.toUser=[];
         }
 
         if(uploader.getNotUploadedItems().length>0)
