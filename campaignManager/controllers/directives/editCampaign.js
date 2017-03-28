@@ -491,7 +491,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
                 scope.showConfirm("Map Numbers and Schedule To Campaign", "Map Numbers", "ok", "cancel", "You Are Not Allowed To Revert This Process. Do You Really Want To Continue?", function (obj) {
 
-                    campaignService.MapNumberAndScheduleToCampaign(scope.campaign.CampaignId, mapnumberschedue.CategoryID, mapnumberschedue.Schedule.Id, mapnumberschedue.Schedule.ScheduleName).then(function (response) {
+                    campaignService.MapNumberAndScheduleToCampaign(scope.campaign.CampaignId, mapnumberschedue.CategoryID, mapnumberschedue.Schedule.id, mapnumberschedue.Schedule.ScheduleName).then(function (response) {
                         if (response) {
                             scope.GetAssignedCategory();
                             scope.showAlert("Campaign", 'success', "Successfully Map To Campaign.");
