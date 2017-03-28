@@ -101,13 +101,13 @@ app.controller("zohoUsersController", function ($scope, $location, $log, $filter
         zohoService.EnableZohoUserCallControl(user).then(function (response) {
             if(response){
                 user.integrated = true;
-                $scope.showAlert("Zoho User","success", "Successfully Added.");
+                $scope.showAlert("Zoho User","success", "Call Control Functionalities Successfully Added.");
             }else {
-                $scope.showAlert("Zoho User", 'error', "Fail To Add User.");
+                $scope.showAlert("Zoho User", 'error', "Fail To Add Call Control Functionalities.");
             }
             $scope.isLoading = false;
         }, function (error) {
-            $scope.showAlert("Zoho User", 'error', "Fail To Add User.");
+            $scope.showAlert("Zoho User", 'error', "Fail To Add Call Control Functionalities.");
             $scope.isLoading = false;
         });
     };
@@ -117,13 +117,13 @@ app.controller("zohoUsersController", function ($scope, $location, $log, $filter
         zohoService.DisableZohoUserCallControl(user).then(function (response) {
             if(response){
                 user.integrated = false;
-                $scope.showAlert("Zoho User","success", "Successfully Added.");
+                $scope.showAlert("Zoho User","success", "Call Control Functionalities Have Been Disabled.");
             }else {
-                $scope.showAlert("Zoho User", 'error', "Fail To Add User.");
+                $scope.showAlert("Zoho User", 'error', "Fail To Disable Call Control Functionalities.");
             }
             $scope.isLoading = false;
         }, function (error) {
-            $scope.showAlert("Zoho User", 'error', "Fail To Add User.");
+            $scope.showAlert("Zoho User", 'error', "Fail To Disable Call Control Functionalities.");
             $scope.isLoading = false;
         });
     };
@@ -131,7 +131,7 @@ app.controller("zohoUsersController", function ($scope, $location, $log, $filter
     $scope.addAll = function () {
 
         $scope.isLoading = true;
-        $scope.showConfirm("Activate Users", "Activate", "ok", "cancel", "Do you want to Activate All Users", function (obj) {
+        $scope.showConfirm("Activate Users", "Activate", "ok", "cancel", "Do You Want To Activate Call Control Functionalities To All Users", function (obj) {
             var items = $filter('filter')($scope.userList, {integrated: false}, true);
             if (angular.isArray(items)) {
                 var userids = items.map(function (item) {
@@ -140,14 +140,14 @@ app.controller("zohoUsersController", function ($scope, $location, $log, $filter
                 zohoService.EnableZohoUsersCallControl(userids).then(function (response) {
                     if(response){
                         $scope.reloadPage();
-                        $scope.showAlert("Zoho User","success", "Successfully Added.");
+                        $scope.showAlert("Zoho User","success", "Call Control Functionalities Successfully Added.");
                     }else {
-                        $scope.showAlert("Zoho User", 'error', "Fail To Add Users.");
+                        $scope.showAlert("Zoho User", 'error', "Fail To Add Call Control Functionalities.");
                         $scope.isLoading = false;
                     }
 
                 }, function (error) {
-                    $scope.showAlert("Zoho User", 'error', "Fail To Add Users.");
+                    $scope.showAlert("Zoho User", 'error', "Fail To Add Call Control Functionalities.");
                     $scope.isLoading = false;
                 });
             }

@@ -587,6 +587,26 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     };
 
+    var getCallCenterPerformanceHistory = function (startDate, endDate) {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/callCenter/from/"+startDate+"/to/"+endDate
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return undefined;
+                }
+            } else {
+                return undefined;
+            }
+        });
+
+
+    };
+
 
     return {
         GetAll: getAllCalls,
@@ -615,6 +635,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         GetTotalAcwTime:getTotalAcwTime,
         GetAverageStaffTime:getAverageStaffTime,
         GetAverageAcwTime:getAverageAcwTime,
-        GetAverageCallsPerAgent:getAverageCallsPerAgent
+        GetAverageCallsPerAgent:getAverageCallsPerAgent,
+        GetCallCenterPerformanceHistory:getCallCenterPerformanceHistory
     }
 });

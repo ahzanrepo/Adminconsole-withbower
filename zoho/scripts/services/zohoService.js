@@ -17,7 +17,10 @@ mainApp.factory('zohoService', function ($q, $http, $window,$interval,baseUrls) 
         isReady: function () {
             return false;
         },
-        connectTwitter: function() {
+        clearCache: function () {
+            return false;
+        },
+        connectZoho: function() {
             var q = $q.defer();
             var uri = "https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCRM.crmphonebridge.CREATE,ZohoCRM.crmphonebridge.READ&client_id=1000.9CA76T07V09456782NDROVGLVH8D16&redirect_uri=console.veery.cloud/zoho/crm&state=veery &response_type=code&access_type=offline&prompt=consent";
 
@@ -113,6 +116,54 @@ mainApp.factory('zohoService', function ($q, $http, $window,$interval,baseUrls) 
                     return response.data.IsSuccess;
                 } else {
                     return false;
+                }
+            });
+        },
+        CreateZohoAccount:function (code) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.zohoAPIUrl+"Zoho/Account/"+code
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.IsSuccess;
+                } else {
+                    return false;
+                }
+            });
+        },
+        EnableZohoIntegration: function () {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.zohoAPIUrl + "Zoho/Integration/Event"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.IsSuccess;
+                } else {
+                    return false;
+                }
+            });
+        },
+        DisableZohoIntegration: function () {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.zohoAPIUrl + "Zoho/Integration/Event"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.IsSuccess;
+                } else {
+                    return false;
+                }
+            });
+        },
+        GetZohoAccount: function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.zohoAPIUrl + "Zoho/Integration/Account"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return [];
                 }
             });
         }

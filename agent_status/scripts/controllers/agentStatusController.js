@@ -412,13 +412,18 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     $scope.ResourceAdded = function () {
         $scope.isLoading = true;
-        getAllRealTime();
+        //getAllRealTime();
     };
 
     $scope.AgentModeAdded = function () {
         $scope.isLoading = true;
-        getAllRealTime();
-    }
+        //getAllRealTime();
+    };
+
+    $scope.LoadProductivity = function () {
+        $scope.isLoading = true;
+        $scope.GetProductivity();
+    };
 });
 
 
