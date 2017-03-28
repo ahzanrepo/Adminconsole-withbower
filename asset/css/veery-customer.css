@@ -241,7 +241,8 @@ a {
     border-bottom: 1px solid #D9DEE4;
     height: 61px;
     z-index: 101;
-    position: fixed;
+    width: 100%;
+    /*position: fixed;*/
     left: 230px;
     right: 0;
     -webkit-box-shadow: 4px 13px 26px -21px rgba(0, 0, 0, 0.75);
@@ -5331,7 +5332,6 @@ ul.row-option > li.delete:focus {
 .d1-header-wrp {
     position: absolute;
     top: 61px;
-    left: 230px;
     /*width: 100%;*/
     min-height: 100px;
     overflow: hidden;
@@ -5342,6 +5342,14 @@ ul.row-option > li.delete:focus {
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 10px;
+}
+
+.d1-header-wrp-sm {
+    left: 0px;
+}
+
+.d1-header-lg {
+    left: 230px;
 }
 
 .d1-header-widget {
@@ -5512,7 +5520,7 @@ ul.row-option > li.delete:focus {
 }
 
 .d1-summary-card {
-    width: 100%;
+    /*width: 100%;*/
     min-height: 60px;
     overflow: hidden;
     position: relative;
@@ -5539,7 +5547,7 @@ ul.row-option > li.delete:focus {
 }
 
 .d1-summary-c-left-t {
-    min-width: 150px;
+    min-width: 100px;
     height: 50px;
     overflow: hidden;
     position: relative;
@@ -5615,8 +5623,8 @@ ul.row-option > li.delete:focus {
     position: absolute;
     text-align: center;
     border-radius: 50%;
-    top: 32px;
-    left: 36px;
+    top: 13px;
+    left: 25px;
 }
 
 .summary-dot-wrp > .color-status-dot {
@@ -5784,6 +5792,16 @@ ul.row-option > li.delete:focus {
     margin-top: 10px;
 }
 
+.vticker {
+    width: 400px;
+    height: 100%;
+    position: relative;
+}
+
+.vticker > div {
+    width: 300px;
+}
+
 .q-widget-wrp {
     width: 100%;
     min-height: 70px;
@@ -5919,9 +5937,17 @@ ul.row-option > li.delete:focus {
 
 .d1-sumry-count-wrp {
     width: 100%;
-    height: 120px;
+    height: 90px;
     overflow: hidden;
     position: relative;
+}
+
+.agent-summary {
+    overflow: hidden;
+    width: 100%;
+    min-height: 180px;
+    position: relative;
+    margin-bottom: 8px;
 }
 
 .d1-summary-body {
@@ -5936,14 +5962,15 @@ ul.row-option > li.delete:focus {
 
 .d1-summary-body > .d1-header {
     width: 100%;
-    height: 40px;
-    font-size: 30px;
+    height: 30px;
+    font-size: 25px;
 }
 
 .d1-summary-body > .d1-a-status {
     width: 100%;
     height: 60px;
-    font-size: 20px;
+    font-size: 15px;
+    padding-top: 6px;
 }
 
 .d1-sumary-not-f {
@@ -5954,4 +5981,84 @@ ul.row-option > li.delete:focus {
     text-align: center;
     color: rgb(210, 210, 210);
     text-shadow: rgb(255, 255, 255) -1px 0px 3px;
+}
+
+.action-btn-wrp {
+    float: right;
+    padding-right: 92px;
+    padding-top: 3px;
+}
+
+.action-btn {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.action-btn.play {
+    color: #00A000;
+}
+
+.action-btn.stop {
+    color: #d21c27;
+}
+
+.action-btn.play:hover,
+.action-btn.play:focus {
+    color: #00A000;
+}
+
+.action-btn.stop:hover,
+.action-btn.stop:focus {
+    color: #d21c27;
+}
+
+.action-btn > i {
+    font-size: 18px;
+}
+
+/*update nav */
+.nav-sm {
+    margin-left: -71px;
+}
+
+/* reset password token viwer */
+.reset-pwd-wrp {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.57);
+    z-index: 1000;
+}
+
+.r-pwd-m-wrp {
+    width: 450px;
+    min-height: 250px;
+    overflow: hidden;
+    position: fixed;
+    z-index: 10001;
+    background: #fff;
+    box-shadow: 0px 2px 8px 0px #888888;
+    margin-top: 10px;
+    padding: 15px 0px 20px 20px;
+    border-radius: 5px;
+}
+
+.r-pwd-header {
+    font-family: 'Ubuntu-Light', sans-serif;
+    font-size: 15px;
+    color: #383b3b;
+    padding-top: 15px;
+    padding-bottom: 16px;
+    padding-right: 10px;
+}
+
+.r-pwd-token {
+    padding-bottom: 17px;
+}
+
+ul.newsticker {
+    margin: 0 !important;
+    padding: 0 !important;
 }

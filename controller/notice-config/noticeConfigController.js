@@ -299,6 +299,8 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
             console.log("Notice sent");
             $scope.newNotice={};
             $scope.Rsvrtype="Users";
+            $scope.newNotice.toUser=$scope.toUser;
+            $scope.newNotice.toGroup=null;
             $scope.attributeGroup=null;
             $scope.isSaveEnabled=true;
             $scope.GetSavedNotices();

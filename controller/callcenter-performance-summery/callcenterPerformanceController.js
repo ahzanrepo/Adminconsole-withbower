@@ -7,6 +7,16 @@
 
     mainApp.controller("callcenterPerformanceController", function ($scope, $q, $timeout, dashboardService, loginService, $anchorScroll) {
 
+        $scope.safeApply = function(fn) {
+            var phase = this.$root.$$phase;
+            if(phase == '$apply' || phase == '$digest') {
+                if(fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
+            }
+        };
         $anchorScroll();
         $scope.disableCurrent = true;
         $scope.startDate = moment().format("YYYY-MM-DD");
@@ -245,7 +255,7 @@
         var getAverageInboundCallsPerAgent = function () {
             dashboardService.GetAverageCallsPerAgent('inbound').then(function (response) {
                 if (response && response > 0) {
-                    $scope.callCenterPerformance.AverageInboundCallsPerAgent = response;
+                    $scope.callCenterPerformance.AverageInboundCallsPerAgent = response.toFixed(2);
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -255,7 +265,7 @@
         var getAverageOutboundCallsPerAgent = function () {
             dashboardService.GetAverageCallsPerAgent('outbound').then(function (response) {
                 if (response && response > 0) {
-                    $scope.callCenterPerformance.AverageOutboundCallsPerAgent = response;
+                    $scope.callCenterPerformance.AverageOutboundCallsPerAgent = response.toFixed(2);
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -273,21 +283,33 @@
 
             dashboardService.GetCallCenterPerformanceHistory($scope.startDate, $scope.endDate).then(function (response) {
                 if (response) {
-                    $scope.disableCurrent = false;
-                    $scope.callCenterPerformance = {
-                        totalInbound: response.totalInbound,
-                        totalOutbound: response.totalOutbound,
-                        totalQueued: response.totalQueued,
-                        totalQueueAnswered: response.totalQueueAnswered,
-                        totalQueueDropped: response.totalQueueDropped,
-                        totalTalkTime: TimeFormatter(response.totalTalkTime),
-                        totalStaffTime: TimeFormatter(response.totalStaffTime),
-                        totalAcwTime: TimeFormatter(response.totalAcwTime),
-                        AverageStaffTime: TimeFormatter(response.AverageStaffTime),
-                        AverageAcwTime: TimeFormatter(response.AverageAcwTime),
-                        AverageInboundCallsPerAgent: response.AverageInboundCallsPerAgent,
-                        AverageOutboundCallsPerAgent: response.AverageOutboundCallsPerAgent
-                    };
+                    $scope.safeApply(function() {
+                        $scope.disableCurrent = false;
+                        $scope.callCenterPerformance = {
+                            totalInbound: response.totalInbound,
+                            totalOutbound: response.totalOutbound,
+                            totalQueued: response.totalQueued,
+                            totalQueueAnswered: response.totalQueueAnswered,
+                            totalQueueDropped: response.totalQueueDropped,
+                            totalTalkTime: TimeFormatter(response.totalTalkTime),
+                            totalStaffTime: TimeFormatter(response.totalStaffTime),
+                            totalAcwTime: TimeFormatter(response.totalAcwTime),
+                            AverageStaffTime: TimeFormatter(response.AverageStaffTime),
+                            AverageAcwTime: TimeFormatter(response.AverageAcwTime),
+                            AverageInboundCallsPerAgent: response.AverageInboundCallsPerAgent.toFixed(2),
+                            AverageOutboundCallsPerAgent: response.AverageOutboundCallsPerAgent.toFixed(2)
+                        };
+
+                        $scope.callCenterPerformanceChartConfig.data.datasets[0].data = [
+                            $scope.callCenterPerformance.totalInbound,
+                            $scope.callCenterPerformance.totalOutbound,
+                            $scope.callCenterPerformance.totalQueued,
+                            $scope.callCenterPerformance.totalQueueAnswered,
+                            $scope.callCenterPerformance.totalQueueDropped
+                        ];
+                        window.callCenterPerformanceChart.update();
+                    });
+
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);

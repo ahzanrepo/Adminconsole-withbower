@@ -1,5 +1,34 @@
 <div class="row" ng-controller="userProfileCtrl">
+
+
     <div class="col-md-12 col-sm-12 col-xs-12">
+        <div ng-if="isShowToken" class="reset-pwd-wrp">
+            <div class="col-lg-5 col-lg-offset-3">
+                <div class="r-pwd-m-wrp">
+                    <form name="frmResetPwd">
+                        <div class="r-pwd-header">
+                            Please forward the generated token to the corresponding agent to reset the password.
+                        </div>
+
+                        <div class="r-pwd-token">
+                        <textarea class="form-control"
+                                  ng-model="resetToken"
+                                  name="resetToken"
+                                  disabled
+                                  required
+                                  id="exampleTextarea" rows="3"></textarea>
+                        </div>
+                        <div class="r-pwd-btn-footer">
+                            <button ng-disabled="frmResetPwd.$invalid"
+                                    class="btn btn-default btn-sm" ng-click="copyToken();">Copy
+                            </button>
+                            <button class="btn btn-default btn-sm" ng-click="pwdTokenClose();">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
         <div class="x_panel p-0">
             <div class="profile-header">
                 <div class="cover-image">
@@ -25,14 +54,13 @@
                                      src="asset/images/noimage.jpg" alt="Avatar"
                                      ng-src="{{CurrentProfile.avatar}}"
                                      title="Change the avatar"
-                                        ng-click="editProfileImage()">
+                                     ng-click="editProfileImage()">
 
 
-
-                               <!-- <i ng-show="isEditState"
-                                   class="fa fa-pencil fa-3x" ng-click="editProfileImage()"></i>-->
-                               <!-- <i ng-show="isEditState"
-                                   class="fa fa-camera fa-3x" ng-click="snapProfileImage()"></i>-->
+                                <!-- <i ng-show="isEditState"
+                                    class="fa fa-pencil fa-3x" ng-click="editProfileImage()"></i>-->
+                                <!-- <i ng-show="isEditState"
+                                    class="fa fa-camera fa-3x" ng-click="snapProfileImage()"></i>-->
 
                                 <!-- Cropping modal -->
                                 <div class="modal fade" id="avatar-modal" aria-hidden="true"
@@ -141,8 +169,17 @@
                                    ng-if="CurrentProfile.phoneNumber.verified"></i>
                             </li>
                         </ul>
-                        <a class="btn btn-success text-center" style="margin-top: 15px;" ng-click="editProfilePress()">Edit Profile</a>
-                        <a class="btn btn-success text-center" style="margin-top: 15px;" ng-click="resetUserPassword()">Reset Password</a>
+                        <button class="btn btn-success text-center" style="margin-top: 15px;"
+                                ng-click="editProfilePress()">Edit
+                            Profile
+                        </button>
+                        <button ng-if="!isResetPawssord" class="btn btn-success text-center" style="margin-top: 15px;"
+                                ng-click="resetUserPassword()">Reset
+                            Password
+                        </button>
+                        <button ng-if="isResetPawssord" class="btn btn-success text-center" style="margin-top: 15px;"
+                                disabled>Please Wait...
+                        </button>
 
 
                     </div>
@@ -283,9 +320,10 @@
                                                  style="margin-right: 20px;">
                                                 <label>Country</label>
                                                 <!--<input type="text" class="form-control"-->
-                                                       <!--ng-model="CurrentProfile.address.country">-->
+                                                <!--ng-model="CurrentProfile.address.country">-->
 
-                                                <select ng-disabled="!isEditState" class="select2_single form-control" tabindex="-1"
+                                                <select ng-disabled="!isEditState" class="select2_single form-control"
+                                                        tabindex="-1"
                                                         aria-hidden="true"
                                                         name="country" ng-model="CurrentProfile.address.country">
                                                     <option ng-repeat="country in countryList" value="{{country.name}}">
@@ -310,7 +348,8 @@
                                             <label><h4>Avatar URL</h4></label>
                                         </div>
                                         <div class="col-md-10 col-sm-10 col-xs-12 form-group has-feedback">
-                                            <input ng-disabled="!isEditState" type="text" class="form-control" ng-model="CurrentProfile.avatar">
+                                            <input ng-disabled="!isEditState" type="text" class="form-control"
+                                                   ng-model="CurrentProfile.avatar">
                                         </div>
                                     </div>
                                 </div>
@@ -342,13 +381,15 @@
                                             <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
                                                  style="margin-right: 20px;">
                                                 <label>Nick Name</label>
-                                                <input ng-disabled="!isEditState" type="text" class="form-control" ng-model="CurrentProfile.name">
+                                                <input ng-disabled="!isEditState" type="text" class="form-control"
+                                                       ng-model="CurrentProfile.name">
                                             </div>
 
 
                                             <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                                 <label>Locale</label>
-                                                <select ng-disabled="!isEditState" class="select2_single form-control" tabindex="-1"
+                                                <select ng-disabled="!isEditState" class="select2_single form-control"
+                                                        tabindex="-1"
                                                         aria-hidden="true"
                                                         name="contactType" ng-model="CurrentProfile.locale">
                                                     <option ng-repeat="locale in languages" value="{{locale.code}}">
@@ -362,10 +403,12 @@
 
                                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                                 <label>Gender</label>
-                                                Male <input ng-disabled="!isEditState" type="radio" ng-model="CurrentProfile.gender" class="flat"
+                                                Male <input ng-disabled="!isEditState" type="radio"
+                                                            ng-model="CurrentProfile.gender" class="flat"
                                                             name="gender"
                                                             value="male"/>
-                                                Female <input ng-disabled="!isEditState" type="radio" ng-model="CurrentProfile.gender" class="flat"
+                                                Female <input ng-disabled="!isEditState" type="radio"
+                                                              ng-model="CurrentProfile.gender" class="flat"
                                                               name="gender"
                                                               value="female"/>
                                             </div>
@@ -374,14 +417,16 @@
 
                                             <label class="control-label col-md-1 col-sm-1 col-xs-12">Birthday</label>
                                             <div class="col-md-2 col-sm-1 col-xs-4 form-group has-feedback">
-                                                <select ng-disabled="!isEditState" class="select2_single form-control" tabindex="-1"
+                                                <select ng-disabled="!isEditState" class="select2_single form-control"
+                                                        tabindex="-1"
                                                         aria-hidden="true"
                                                         name="bdayDay" ng-model="CurrentProfile.dob.day">
                                                     <option ng-repeat="day in dayList" value="{{day}}">{{day}}</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-3 col-sm-1 col-xs-4 form-group has-feedback">
-                                                <select ng-disabled="!isEditState" class="select2_single form-control" tabindex="-1"
+                                                <select ng-disabled="!isEditState" class="select2_single form-control"
+                                                        tabindex="-1"
                                                         aria-hidden="true"
                                                         name="bdayMonth" ng-model="CurrentProfile.dob.month">
                                                     <option ng-repeat="month in monthList" value="{{month.index}}">
@@ -411,14 +456,15 @@
                                             <label>Email Address</label>
                                             <input ng-disabled="true" type="text" class="form-control has-feedback-left"
                                                    ng-model="CurrentProfile.email.contact">
-                                        <span class="fa fa-envelope form-control-feedback left"
-                                              aria-hidden="true"></span>
+                                            <span class="fa fa-envelope form-control-feedback left"
+                                                  aria-hidden="true"></span>
                                         </div>
 
 
                                         <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                             <label>Phone Number</label>
-                                            <input ng-disabled="!isEditState" type="text" class="form-control has-feedback-left"
+                                            <input ng-disabled="!isEditState" type="text"
+                                                   class="form-control has-feedback-left"
                                                    ng-model="CurrentProfile.phoneNumber.contact">
                                             <span class="fa fa-phone form-control-feedback left"
                                                   aria-hidden="true"></span>
@@ -438,7 +484,8 @@
                                         <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback"
                                              style="margin-right: 20px;">
                                             <label>Active Account</label>
-                                            <input ng-disabled="!isEditState" type="text" class="form-control" ng-model="displayVeeryContact" style="opacity: 1;color: rgb(0, 0, 0);
+                                            <input ng-disabled="!isEditState" type="text" class="form-control"
+                                                   ng-model="displayVeeryContact" style="opacity: 1;color: rgb(0, 0, 0);
                                             text-align: center;font-weight: bold;padding: 5px;border-radius: 10px;
                                             background-color: rgb(135, 206, 250);"/>
 
@@ -447,12 +494,14 @@
 
                                         <div class="col-md-5 col-sm-5 col-xs-6 form-group has-feedback">
                                             <label>SIP Account</label>
-                                            <select ng-disabled="!isEditState" class="select2_single form-control" tabindex="-1" ng-disabled="!sipUserList || sipUserList.length === 0"
+                                            <select ng-disabled="!isEditState" class="select2_single form-control"
+                                                    tabindex="-1" ng-disabled="!sipUserList || sipUserList.length === 0"
                                                     aria-hidden="true"
                                                     id="sipAcc"
                                                     name="sipAcc" ng-model="selectedSipUser.id"
                                                     ng-model-options="{trackBy: '$value'}">
-                                                <option ng-repeat="user in sipUserList" value="{{user.id}}">{{user.SipUsername}}
+                                                <option ng-repeat="user in sipUserList" value="{{user.id}}">
+                                                    {{user.SipUsername}}
                                                 </option>
                                             </select>
                                         </div>
