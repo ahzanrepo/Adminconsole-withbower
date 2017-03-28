@@ -5520,7 +5520,7 @@ ul.row-option > li.delete:focus {
 }
 
 .d1-summary-card {
-    width: 100%;
+    /*width: 100%;*/
     min-height: 60px;
     overflow: hidden;
     position: relative;
@@ -5792,6 +5792,16 @@ ul.row-option > li.delete:focus {
     margin-top: 10px;
 }
 
+.vticker {
+    width: 400px;
+    height: 100%;
+    position: relative;
+}
+
+.vticker > div {
+    width: 300px;
+}
+
 .q-widget-wrp {
     width: 100%;
     min-height: 70px;
@@ -5973,6 +5983,39 @@ ul.row-option > li.delete:focus {
     text-shadow: rgb(255, 255, 255) -1px 0px 3px;
 }
 
+.action-btn-wrp {
+    float: right;
+    padding-right: 92px;
+    padding-top: 3px;
+}
+
+.action-btn {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.action-btn.play {
+    color: #00A000;
+}
+
+.action-btn.stop {
+    color: #d21c27;
+}
+
+.action-btn.play:hover,
+.action-btn.play:focus {
+    color: #00A000;
+}
+
+.action-btn.stop:hover,
+.action-btn.stop:focus {
+    color: #d21c27;
+}
+
+.action-btn > i {
+    font-size: 18px;
+}
+
 /*update nav */
 .nav-sm {
     margin-left: -71px;
@@ -6002,7 +6045,7 @@ ul.row-option > li.delete:focus {
     border-radius: 5px;
 }
 
-.r-pwd-header{
+.r-pwd-header {
     font-family: 'Ubuntu-Light', sans-serif;
     font-size: 15px;
     color: #383b3b;
@@ -6010,6 +6053,12 @@ ul.row-option > li.delete:focus {
     padding-bottom: 16px;
     padding-right: 10px;
 }
-.r-pwd-token{
+
+.r-pwd-token {
     padding-bottom: 17px;
+}
+
+ul.newsticker {
+    margin: 0 !important;
+    padding: 0 !important;
 }
