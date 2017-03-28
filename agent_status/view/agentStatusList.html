@@ -69,19 +69,18 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1 col-sm-1 col-xs-12">
-                                    <button ng-disabled="csatForm.$invalid" type="button"
-                                            ng-if="!isLoading"
+                                    <button ng-disabled="csatForm.$invalid || isLoading" type="button"
                                             class="btn btn-green btn-block "
                                             style="margin-top: 24px;"
-                                            ng-click="GetProductivity();">
+                                            ng-click="LoadProductivity();">
                                         Load
                                     </button>
-                                    <button disabled type="button"
+                                    <!--<button disabled type="button"
                                             ng-if="isLoading"
                                             class="btn btn-green btn-block"
                                             style="margin-top: 24px;">
                                         Please Wait...
-                                    </button>
+                                    </button>-->
                                 </div>
                             </form>
                         </div>
