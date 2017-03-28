@@ -193,7 +193,15 @@ mainApp.controller("campaignDispositionReportController", function ($scope, $q, 
         return  $q.all([promise1, promise2]).then(function (data) {
             if(data){
                 $scope.campaigns = data[0];
-                $scope.callBackReasons = data[1];
+                //$scope.callBackReasons
+                if(data[1])
+                {
+                    data[1].map(function (item) {
+                        if(item&&item.HangupCause){
+                            $scope.callBackReasons = $scope.callBackReasons.concat(item.HangupCause)
+                        }
+                    });
+                }
             }
             $scope.isLoading = false;
         });
