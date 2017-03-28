@@ -152,24 +152,28 @@
                                     <div class="d1-sumary-not-f" ng-if="queues.length==0">
                                         Queue detials not found
                                     </div>
-                                    <div class="col-lg-6 col-xs-12 col-md-6" ng-repeat="que in queues track by $index">
-                                        <div class="q-widget-wrp">
-                                            <d1queued name="{{que.id}}" viewmode="cardViewMode"
-                                                      queueoption="queueoption" pieoption="pieoption"></d1queued>
 
-                                        </div>
-                                    </div>
+
+
+                                    <!--<ul class="newsticker">-->
+                                        <!--<li>-->
+                                            <div class="col-lg-6 col-xs-12 col-md-6"
+                                                 ng-repeat="que in queues track by $index">
+                                                <div class="q-widget-wrp">
+                                                    <d1queued name="{{que.id}}" viewmode="cardViewMode"
+                                                              queueoption="queueoption"
+                                                              pieoption="pieoption"></d1queued>
+                                                </div>
+                                            </div>
+                                        <!--</li>-->
+                                    <!--</ul>-->
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-xs-12">
-
-
                     <div class="d1-right-wrp">
                         <div class="agent-summary">
                             <div class="col-lg-3 col-md-6 col-xs-12">
@@ -328,6 +332,14 @@
 
                         <div class="d1-grading-header">
                             {{agentCurrentState}}
+                            <div class="action-btn-wrp">
+                                <div id="play" class="action-btn play display-none">
+                                    <i class="fa fa-play"></i>
+                                </div>
+                                <div id="stop" class="action-btn stop">
+                                    <i class="fa fa-stop"></i>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="d1-right-body">
@@ -342,30 +354,32 @@
 
                                     <div ng-repeat="resource in BreakProfile track by $index"
                                          class="d1-summary-card">
-                                        <div class="d1-summary-c-img">
-                                            <img src="asset/images/defaultProfile.png"
-                                                 ng-src="{{resource.avatar}}" width="50"/>
-                                        </div>
-                                        <div class="d1-summary-c-left-t">
-                                            <div class="header">{{resource.name | limitTo: 10 }}
-                                                {{resource.name.length
-                                                > 10 ? '...' : ''}}
+                                        <div class="col-lg-12 col-xs-12">
+                                            <div class="d1-summary-c-img">
+                                                <img src="asset/images/defaultProfile.png"
+                                                     ng-src="{{resource.avatar}}" width="50"/>
                                             </div>
-                                            <div class="time">
-                                                <time-ago from-time='{{resource.LastReservedTimeT }}'
-                                                          format='MM/dd/yyyy'></time-ago>
-                                            </div>
-
-                                        </div>
-                                        <div class="summary-status">
-                                            <div class="color-wrp">
-                                                <div class="dot-wrp break-border">
-                                                    <div class="color-status-dot break-dot"></div>
+                                            <div class="d1-summary-c-left-t">
+                                                <div class="header">{{resource.name | limitTo: 10 }}
+                                                    {{resource.name.length
+                                                    > 10 ? '...' : ''}}
                                                 </div>
+                                                <div class="time">
+                                                    <time-ago from-time='{{resource.LastReservedTimeT }}'
+                                                              format='MM/dd/yyyy'></time-ago>
+                                                </div>
+
                                             </div>
-                                            <div class="text-wrp">
-                                                <div class="status break-text">Break</div>
-                                                <div class="call-status"> {{resource.slotState}}</div>
+                                            <div class="summary-status">
+                                                <div class="color-wrp">
+                                                    <div class="dot-wrp break-border">
+                                                        <div class="color-status-dot break-dot"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-wrp">
+                                                    <div class="status break-text">Break</div>
+                                                    <div class="call-status"> {{resource.slotState}}</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -379,30 +393,32 @@
                                     </div>
                                     <div ng-repeat="resource in AvailableProfile track by $index"
                                          class="d1-summary-card">
-                                        <div class="d1-summary-c-img">
-                                            <img src="asset/images/defaultProfile.png"
-                                                 ng-src="{{resource.avatar}}" width="50"/>
-                                        </div>
-                                        <div class="d1-summary-c-left-t">
-                                            <div class="header">{{resource.name | limitTo: 10 }}
-                                                {{resource.name.length
-                                                > 10 ? '...' : ''}}
+                                        <div class="col-lg-12 col-xs-12">
+                                            <div class="d1-summary-c-img">
+                                                <img src="asset/images/defaultProfile.png"
+                                                     ng-src="{{resource.avatar}}" width="50"/>
                                             </div>
-                                            <div class="time">
-                                                <time-ago from-time='{{resource.LastReservedTimeT }}'
-                                                          format='MM/dd/yyyy'></time-ago>
-                                            </div>
-
-                                        </div>
-                                        <div class="summary-status">
-                                            <div class="color-wrp">
-                                                <div class="dot-wrp available-border">
-                                                    <div class="color-status-dot available-dot"></div>
+                                            <div class="d1-summary-c-left-t">
+                                                <div class="header">{{resource.name | limitTo: 10 }}
+                                                    {{resource.name.length
+                                                    > 10 ? '...' : ''}}
                                                 </div>
+                                                <div class="time">
+                                                    <time-ago from-time='{{resource.LastReservedTimeT }}'
+                                                              format='MM/dd/yyyy'></time-ago>
+                                                </div>
+
                                             </div>
-                                            <div class="text-wrp">
-                                                <div class="status available-text">Available</div>
-                                                <div class="call-status"> {{resource.slotState}}</div>
+                                            <div class="summary-status">
+                                                <div class="color-wrp">
+                                                    <div class="dot-wrp available-border">
+                                                        <div class="color-status-dot available-dot"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-wrp">
+                                                    <div class="status available-text">Available</div>
+                                                    <div class="call-status"> {{resource.slotState}}</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -644,7 +660,8 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.owl-carousel').owlCarousel({
+        var owl = $('.owl-carousel');
+        owl.owlCarousel({
             items: 1,
             loop: true,
             margin: 10,
@@ -654,24 +671,32 @@
             autoplaySpeed: 5000,
             autoplayTimeout: 5000,
             animateOut: 'slideOutLeft',
-            animateIn: 'slideInRight',
-            dots: false,
-            responsiveClass:true,
-            responsive: {
-                678: {
-                    mergeFit: true
-                },
-                1000: {
-                    mergeFit: true
-                }
-            }
-
+            animateIn: 'slideInRight'
         });
 
-//        function moved() {
-//            var owl = $(".owl-carousel").data('status');
-//            console.log(owl);
-//        }
+        $('#play').on('click', function () {
+            owl.trigger('play.owl.autoplay', [5000]);
+            $('#stop').removeClass('display-none').addClass('display-block');
+            $('#play').addClass('display-none').removeClass('display-block');
+        });
+
+        $('#stop').on('click', function () {
+            owl.trigger('stop.owl.autoplay');
+            $('#stop').addClass('display-none').removeClass('display-block');
+            $('#play').removeClass('display-none').addClass('display-block');
+        });
+
+
+        //jquery easy ticket
+        $('.newsticker').newsTicker({
+            row_height: 70,
+            max_rows: 1,
+            speed: 1000,
+            direction: 'up',
+            duration: 5000,
+            autostart: 1,
+            pauseOnHover: 0
+        });
     });
 
 </script>
