@@ -66,9 +66,15 @@
                                                                                              ng-click="clickDirective.goCallCenterPerformance()">Call
                                         Center Performance</a>
                                     </li>
+
+                                    <li ng-show="accessNavigation.CALLCENTER_PERFORMANCE"><a href="javascript:void(0);"
+                                                                                             ng-click="clickDirective.goToAgentDashboard()">
+                                        Agent Dashboard
+                                    </a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER">
+                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER|| accessNavigation.NOTICE">
                                 <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -117,6 +123,10 @@
                                     <li ng-show="accessNavigation.DYNAMICFORM"><a href="javascript:void(0);"
                                                                                   ng-click="clickDirective.newContact()">
                                         Phone Book</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.NOTICE"><a href="javascript:void(0);"
+                                                                                  ng-click="clickDirective.goNotices()">
+                                        Notices</a>
                                     </li>
 
                                     <!-- <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
@@ -354,6 +364,23 @@
                                 </ul>
                             </li>
 
+                            <li ng-show="accessNavigation.CAMPAIGNMANAGER">
+                                <a
+                                        class="font-robot font-300 "><i class="fa fa-bullhorn"></i> CRM
+                                    <span
+                                            class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a>Zoho<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goZoho();">Zoho</a>
+                                            </li>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goZohoUser();">Users</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
                         </ul>
                     </div>
                     <div class="menu_section">
@@ -376,6 +403,7 @@
                                             </li>
                                             <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goCampaignAttempt();">Attempt</a>
                                             </li>
+
                                         </ul>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
@@ -479,9 +507,9 @@
         <div class="top_nav">
             <div class="nav_menu">
                 <nav class="" role="navigation">
-                    <!--<div class="nav toggle ">-->
-                    <!--<a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>-->
-                    <!--</div>-->
+                    <div class="nav toggle ">
+                    <a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
+                    </div>
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">

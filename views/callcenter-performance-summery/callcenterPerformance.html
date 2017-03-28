@@ -1,4 +1,36 @@
 <div>
+    <div class="col-md-12 col-sm-12 col-xs-12 animated fadeIn">
+        <div class="row">
+            <div class="x_panel">
+                <div class="x_title bottom-gray-200 m-bottom20">
+                    <h4 class="font-robot font-300 text-uppercase font-15">Search option
+                    </h4>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-sm-3">
+                    <label>Start Date</label>
+                    <input type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()" name="startDate"
+                           datepicker>
+                </div>
+                <div class="col-sm-3">
+                    <label>End Date</label>
+                    <input type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
+                           datepicker>
+                </div>
+                <div class="col-sm-3">
+                    <div class="x_content btn-wrap-header">
+                        <button type="button" style="position: relative; top: 10px;" class="btn btn-success" ng-click="getCallCenterPerformanceHistory()" ng-disabled="!dateValid">
+                            Search
+                        </button>
+                        <button type="button" style="position: relative; top: 10px;" class="btn btn-success" ng-click="loadCurrentCounts()" ng-disabled="!dateValid || disableCurrent">
+                            Current Count
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class>
 
 
