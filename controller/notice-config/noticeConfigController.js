@@ -306,6 +306,8 @@ mainApp.controller("noticeConfigController", function ($scope, $state, noticeBac
             $scope.attributeGroup=null;
             $scope.isSaveEnabled=true;
 
+
+
             $scope.GetSavedNotices();
             uploader.clearQueue();
 
