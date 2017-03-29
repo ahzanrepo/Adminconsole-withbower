@@ -47,18 +47,24 @@
 
 
             <div class="animated flipInY col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                <div class="tile-stats cp-main-card-dashboard bg-yellow300">
+                    <div class="icon"><i class="fa  fa-smile-o font-black500"></i></div>
+                    <div class="count">{{callCenterPerformance.TotalLoginAgents}}</div>
+                    <h3 class="font-robot font-700 font-black500">Logged In Agents</h3>
+                    <p class="font-robot font-200">Total Logged In Agents</p>
+                </div>
                 <div class="tile-stats cp-main-card-dashboard bg-blue700">
                     <div class="icon">
                         <i class="fa fa-smile-o font-orange800"></i>
                     </div>
                     <div class="count">{{callCenterPerformance.AverageInboundCallsPerAgent}}</div>
-                    <h3 class="font-robot font-700 font-orange800">AVG Calls Per Agent</h3>
+                    <h3 class="font-robot font-700 font-orange800">AVG Answered Calls Per Agent</h3>
                     <p class="font-robot font-200">Inbound</p>
                 </div>
                 <div class="tile-stats cp-main-card-dashboard bg-yellow300">
                     <div class="icon"><i class="fa  fa-smile-o font-black500"></i></div>
                     <div class="count">{{callCenterPerformance.AverageOutboundCallsPerAgent}}</div>
-                    <h3 class="font-robot font-700 font-black500">AVG Calls Per Agent</h3>
+                    <h3 class="font-robot font-700 font-black500">AVG Dialed Calls Per Agent</h3>
                     <p class="font-robot font-200">Outbound</p>
                 </div>
             </div>

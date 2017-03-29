@@ -567,11 +567,31 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     };
 
-    var getAverageCallsPerAgent = function (direction) {
+    var getAverageInboundCallsPerAgent = function () {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardEvent/AverageCountPerKey/CONNECTED/*/CALL"+direction
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageCountPerKey/count/CONNECTED/*/CALLinbound/key/CONNECTED/*/CALLinbound"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getAverageOutboundCallsPerAgent = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageCountPerKey/count/CALLS/outbound/*/key/CONNECTED/*/CALLoutbound"
         }).then(function (response) {
             if (response.data) {
                 if(response.data.IsSuccess && response.data.Result){
@@ -607,6 +627,26 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     };
 
+    var getTotalLoginAgentCount = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/CountPerKey/LOGIN/*/Register"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
 
     return {
         GetAll: getAllCalls,
@@ -635,7 +675,9 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         GetTotalAcwTime:getTotalAcwTime,
         GetAverageStaffTime:getAverageStaffTime,
         GetAverageAcwTime:getAverageAcwTime,
-        GetAverageCallsPerAgent:getAverageCallsPerAgent,
-        GetCallCenterPerformanceHistory:getCallCenterPerformanceHistory
+        GetAverageInboundCallsPerAgent:getAverageInboundCallsPerAgent,
+        GetAverageOutboundCallsPerAgent:getAverageOutboundCallsPerAgent,
+        GetCallCenterPerformanceHistory:getCallCenterPerformanceHistory,
+        GetTotalLoginAgentCount:getTotalLoginAgentCount
     }
 });

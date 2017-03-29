@@ -34,7 +34,8 @@
             AverageStaffTime: 0,
             AverageAcwTime: 0,
             AverageInboundCallsPerAgent: 0,
-            AverageOutboundCallsPerAgent: 0
+            AverageOutboundCallsPerAgent: 0,
+            TotalLoginAgents: 0
         };
 
         $scope.onDateChange = function()
@@ -127,6 +128,8 @@
 
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalInbound = response;
+                }else{
+                    $scope.callCenterPerformance.totalInbound = 0;
                 }
                 deferred.resolve('done');
             }, function (err) {
@@ -144,6 +147,8 @@
 
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalOutbound = response;
+                }else{
+                    $scope.callCenterPerformance.totalOutbound = 0;
                 }
                 deferred.resolve('done');
             }, function (err) {
@@ -160,6 +165,8 @@
             dashboardService.GetTotalQueued().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalQueued = response;
+                }else{
+                    $scope.callCenterPerformance.totalQueued = 0;
                 }
                 deferred.resolve('done');
             }, function (err) {
@@ -176,6 +183,8 @@
             dashboardService.GetTotalQueueAnswered().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalQueueAnswered = response;
+                }else{
+                    $scope.callCenterPerformance.totalQueueAnswered = 0;
                 }
                 deferred.resolve('done');
             }, function (err) {
@@ -192,6 +201,8 @@
             dashboardService.GetTotalQueueDropped().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalQueueDropped = response;
+                }else{
+                    $scope.callCenterPerformance.totalQueueDropped = 0;
                 }
                 deferred.resolve('done');
             }, function (err) {
@@ -206,6 +217,8 @@
             dashboardService.GetTotalTalkTime().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalTalkTime = TimeFormatter(response);
+                }else{
+                    $scope.callCenterPerformance.totalTalkTime = 0;
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -216,6 +229,8 @@
             dashboardService.GetTotalStaffTime().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalStaffTime = TimeFormatter(response);
+                }else{
+                    $scope.callCenterPerformance.totalStaffTime = 0;
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -226,6 +241,8 @@
             dashboardService.GetTotalAcwTime().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalAcwTime = TimeFormatter(response);
+                }else{
+                    $scope.callCenterPerformance.totalAcwTime = 0;
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -236,6 +253,8 @@
             dashboardService.GetAverageStaffTime().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.AverageStaffTime = TimeFormatter(response);
+                }else{
+                    $scope.callCenterPerformance.AverageStaffTime = 0;
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -246,6 +265,8 @@
             dashboardService.GetAverageAcwTime().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.AverageAcwTime = TimeFormatter(response);
+                }else{
+                    $scope.callCenterPerformance.AverageAcwTime = 0;
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -253,9 +274,11 @@
         };
 
         var getAverageInboundCallsPerAgent = function () {
-            dashboardService.GetAverageCallsPerAgent('inbound').then(function (response) {
+            dashboardService.GetAverageInboundCallsPerAgent().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.AverageInboundCallsPerAgent = response.toFixed(2);
+                }else{
+                    $scope.callCenterPerformance.AverageInboundCallsPerAgent = 0;
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -263,9 +286,23 @@
         };
 
         var getAverageOutboundCallsPerAgent = function () {
-            dashboardService.GetAverageCallsPerAgent('outbound').then(function (response) {
+            dashboardService.GetAverageOutboundCallsPerAgent().then(function (response) {
                 if (response && response > 0) {
                     $scope.callCenterPerformance.AverageOutboundCallsPerAgent = response.toFixed(2);
+                }else{
+                    $scope.callCenterPerformance.AverageOutboundCallsPerAgent = 0;
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getTotalLoginAgentCount = function () {
+            dashboardService.GetTotalLoginAgentCount().then(function (response) {
+                if (response && response > 0) {
+                    $scope.callCenterPerformance.TotalLoginAgents = response;
+                }else{
+                    $scope.callCenterPerformance.TotalLoginAgents = 0;
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -297,7 +334,8 @@
                             AverageStaffTime: TimeFormatter(response.AverageStaffTime),
                             AverageAcwTime: TimeFormatter(response.AverageAcwTime),
                             AverageInboundCallsPerAgent: response.AverageInboundCallsPerAgent.toFixed(2),
-                            AverageOutboundCallsPerAgent: response.AverageOutboundCallsPerAgent.toFixed(2)
+                            AverageOutboundCallsPerAgent: response.AverageOutboundCallsPerAgent.toFixed(2),
+                            TotalLoginAgents: response.TotalStaffCount
                         };
 
                         $scope.callCenterPerformanceChartConfig.data.datasets[0].data = [
@@ -326,7 +364,10 @@
                 getTotalOutboundCalls(),
                 getTotalQueued(),
                 getTotalQueueAnswered(),
-                getTotalQueueDropped()
+                getTotalQueueDropped(),
+                getAverageInboundCallsPerAgent(),
+                getAverageOutboundCallsPerAgent(),
+                getTotalLoginAgentCount()
             ]).then(function (response) {
                 $scope.callCenterPerformanceChartConfig.data.datasets[0].data = [
                     $scope.callCenterPerformance.totalInbound,
@@ -347,8 +388,6 @@
             getTotalAcwTime();
             getAverageStaffTime();
             getAverageAcwTime();
-            getAverageInboundCallsPerAgent();
-            getAverageOutboundCallsPerAgent();
             getTimesTimer = $timeout(getTimes, 900000);
         };
 
