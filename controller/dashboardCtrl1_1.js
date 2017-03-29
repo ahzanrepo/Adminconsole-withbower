@@ -444,7 +444,7 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
                 ServerHandler.getCurrentWaiting();
             },
             getProfiles: function () {
-                ServerHandler.getProfileDetails();
+                //ServerHandler.getProfileDetails();
             }
         }
     })();
@@ -479,7 +479,7 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
 
     var getAllRealTime = function () {
         ServerHandler.updateRelaTimeFuntion();
-        ServerHandler.getProfiles();
+        $scope.getProfileDetails();
         GetD1AllQueueStatistics();
         getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
     };
@@ -490,8 +490,8 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
     ServerHandler.updateRelaTimeFuntion();
 
 
-    var countAllCallServicesTimer = $timeout(countAllCallServices, 30000);
-    var getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
+    var countAllCallServicesTimer = $timeout(countAllCallServices, 2000);
+    var getAllNumTotalTimer = $timeout(getAllNumTotal, 2000);
     var getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
 
 
@@ -838,10 +838,10 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
         });
     };
     $scope.getProfileDetails();
-    $scope.agentCurrentState = 'break';
+    $scope.agentCurrentState = 'available';
 
     var owl = $('.owl-carousel');
-    owl.on('change.owl.carousel', function (e) {
+    owl.on('changed.owl.carousel', function (e) {
 
         //var elementAttr = this.$element.attr('data');
         // console.log(elementAttr);
@@ -849,8 +849,11 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
 
         //console.log(e.item.index);
         //  console.log(e);
-        if (current.index == 3) {
-            $scope.agentCurrentState = 'break';
+        if (current.index == 11) {
+            $scope.agentCurrentState = 'other';
+        }
+        else if (current.index == 3) {
+            $scope.agentCurrentState = 'other';
         }
         else if (current.index == 4) {
             $scope.agentCurrentState = 'available';
@@ -865,13 +868,14 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
             $scope.agentCurrentState = 'reserved';
         }
         else if (current.index == 8) {
-            $scope.agentCurrentState = 'outbound';
+            $scope.agentCurrentState = 'break';
 
-        } else if (current.index == 9) {
-            $scope.agentCurrentState = 'suspended';
         }
-        if (current.index == 10) {
-            $scope.agentCurrentState = 'other';
+        else if (current.index == 9) {
+            $scope.agentCurrentState = 'outbound';
+        }
+        else if (current.index == 10) {
+            $scope.agentCurrentState = 'suspended';
         }
 
     });
