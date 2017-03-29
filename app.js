@@ -52,8 +52,8 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 }]);
 //resourceservice.app.veery.cloud
 var baseUrls = {
-    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app.veery.cloud/DVP
-    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
+    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app.veery.cloud/',
@@ -67,11 +67,11 @@ var baseUrls = {
     'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
-    'dashBordUrl': 'http://dashboardservice.app.veery.cloud/',
+    'dashBordUrl': 'http://dashboardservice.app.veery.cloud//',
     'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl': 'http://localhost:4647/DVP/API/1.0.0.0/Social/', //104.236.197.119
-    'notification': 'http://127.0.0.1:8089/',
+    'notification': 'http://notificationservice.app.veery.cloud/',
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app.veery.cloud/DVP/API/1.0.0.0/',
     'qaModule': 'http://qamodule.app.veery.cloud/DVP/API/1.0.0.0/QAModule/',
@@ -83,12 +83,11 @@ var baseUrls = {
     'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
     'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
-    'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
+    'walletUrl': 'http://localhost:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
-    'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
+    'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
-    'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/',
-    'zohoAPIUrl': 'http://crmintegrations.app.veery.cloud/DVP/API/1.0.0.0/'//crmintegrations.app.veery.cloud
+    'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -181,7 +180,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.dashboard', {
             url: "/dashboard",
-            templateUrl: "views/dashboard/dashboardContactCenter1_1.html",
+            templateUrl: "views/dashboard/dashboardContactCenter.html",
             data: {
                 requireLogin: true,
                 navigation: "DASHBOARD"
@@ -852,63 +851,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "CAMPAIGNMANAGER"
             }
         }).state('console.campaignmonitor', {
-            url: "/campaign/monitor",
+            url: "/campaignmonitor",
             templateUrl: "campaignManager/campaignMonitor.html",
             controller: "campaignMonitorController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
-        }).state('console.campaignsummeryreport', {
-            url: "/campaign/report/summery",
-            templateUrl: "campaignManager/campaignSummeryReport.html",
-            controller: "campaignReportController",
-            data: {
-                requireLogin: true,
-                navigation: "CAMPAIGNMANAGER"
-            }
-        }).state('console.campaigndispositionreport', {
-            url: "/campaign/report/disposition",
-            templateUrl: "campaignManager/campaignDispositionReport.html",
-            controller: "campaignDispositionReportController",
-            data: {
-                requireLogin: true,
-                navigation: "CAMPAIGNMANAGER"
-            }
-        }).state('console.campaigncallbackreport', {
-            url: "/campaign/report/callback",
-            templateUrl: "campaignManager/campaignCallbackReport.html",
-            controller: "campaignCallbackReportController",
-            data: {
-                requireLogin: true,
-                navigation: "CAMPAIGNMANAGER"
-            }
-        }).state('console.campaignattemptreport', {
-            url: "/campaign/report/attempt",
-            templateUrl: "campaignManager/campaignAttemptReport.html",
-            controller: "campaignAttemptReportController",
-            data: {
-                requireLogin: true,
-                navigation: "CAMPAIGNMANAGER"
-            }
-        }).state('console.zoho', {
-            url: "/zoho",
-            templateUrl: "zoho/views/zohoConnector.html",
-            controller: "zohoController",
-            data: {
-                requireLogin: true,
-                navigation: "CAMPAIGNMANAGER"
-            }
-        }).state('console.zohousers', {
-            url: "/zoho/users",
-            templateUrl: "zoho/views/zohoUsers.html",
-            controller: "zohoUsersController",
-            data: {
-                requireLogin: true,
-                navigation: "CAMPAIGNMANAGER"
-            }
         }).state('console.campaignnumberupload', {
-            url: "/campaign/numberupload",
+            url: "/campaignnumberupload",
             templateUrl: "views/campaign-number-upload/numberUpload.html",
             controller: "numberUploadController",
             data: {
@@ -916,7 +867,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "CAMPAIGNNUMBERS"
             }
         }).state('console.dncnumbermanage', {
-            url: "/campaign/dncnumbermanage",
+            url: "/dncnumbermanage",
             templateUrl: "views/campaign-number-upload/dncList.html",
             controller: "numberDncController",
             data: {
@@ -930,38 +881,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNNUMBERS"
-            }
-        }).state('console.callcenterperformance', {
-            url: "/callcenterperformance",
-            templateUrl: "views/callcenter-performance-summery/callcenterPerformance.html",
-            controller: "callcenterPerformanceController",
-            data: {
-                requireLogin: true,
-                navigation: "CALLCENTER_PERFORMANCE"
-            }
-
-        }).state('console.seclevels', {
-            url: "/SecutityLevels",
-            templateUrl: "user_security_level_management/views/securityLevelManagement.html",
-            controller: "securityLevelManagementController",
-            data: {
-                requireLogin: true,
-                navigation: "USERS"
-            }
-        }).state('console.agentDashboard', {
-            url: "/agentDashboard",
-            templateUrl: "views/dashboard/dashboardContactCenter.html",
-            data: {
-                requireLogin: true
-            }
-
-        }).state('console.notices', {
-            url: "/Notices",
-            templateUrl: "views/notice-config/notices.html",
-            controller: "noticeConfigController",
-            data: {
-                requireLogin: true,
-                navigation: "NOTICE"
             }
         });
         //Todo shoud be change navigation
@@ -1051,3 +970,4 @@ mainApp.run(function ($rootScope, loginService, $location, $auth, $state) {
     });
 
 });
+
