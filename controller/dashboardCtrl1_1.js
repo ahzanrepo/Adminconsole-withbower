@@ -850,10 +850,10 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
         //console.log(e.item.index);
         //  console.log(e);
         if (current.index == 11) {
-            $scope.agentCurrentState = 'break';
+            $scope.agentCurrentState = 'other';
         }
         else if (current.index == 3) {
-            $scope.agentCurrentState = 'break';
+            $scope.agentCurrentState = 'other';
         }
         else if (current.index == 4) {
             $scope.agentCurrentState = 'available';
@@ -868,14 +868,14 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
             $scope.agentCurrentState = 'reserved';
         }
         else if (current.index == 8) {
-            $scope.agentCurrentState = 'outbound';
+            $scope.agentCurrentState = 'break';
 
         }
         else if (current.index == 9) {
-            $scope.agentCurrentState = 'suspended';
+            $scope.agentCurrentState = 'outbound';
         }
         else if (current.index == 10) {
-            $scope.agentCurrentState = 'other';
+            $scope.agentCurrentState = 'suspended';
         }
 
     });
