@@ -97,7 +97,7 @@
             })
         };
 
-        var prepareDownloadCDRByType = function (startDate, endDate, agent, skill, direction, record, custNumber, fileType, tz) {
+        var prepareDownloadCDRByType = function (startDate, endDate, agent, skill, direction, record, custNumber, didNumber, fileType, tz) {
             var url = baseUrls.cdrProcessor + 'PrepareDownload?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
@@ -115,6 +115,10 @@
 
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if (didNumber) {
+                url = url + '&didnumber=' + didNumber;
             }
 
             if (fileType) {
@@ -136,7 +140,7 @@
             })
         };
 
-        var prepareDownloadCDRAbandonByType = function (startDate, endDate, agent, skill, direction, record, custNumber, fileType, tz) {
+        var prepareDownloadCDRAbandonByType = function (startDate, endDate, agent, skill, direction, record, custNumber, didNumber, fileType, tz) {
             var url = baseUrls.cdrProcessor + 'PrepareDownloadAbandon?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
@@ -154,6 +158,10 @@
 
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if (didNumber) {
+                url = url + '&didnumber=' + didNumber;
             }
 
             if (fileType) {
@@ -266,6 +274,19 @@
 
         var getCallSummaryForQueueHr = function (date, skill, tz) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill;
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getCallSummaryForQueueByHr = function (date, skill, hr, tz) {
+            var url = baseUrls.cdrProcessor + 'CallCDRSummaryByQueue/Hourly?date=' + date + '&tz=' + tz + '&skill=' + skill + '&hour=' + hr;
 
             return $http({
                 method: 'GET',
@@ -430,7 +451,8 @@
             getCallSummaryForCust: getCallSummaryForCust,
             getEmailRecipientsForReport: getEmailRecipientsForReport,
             saveRecipients: saveRecipients,
-            getTimeZones: getTimeZones
+            getTimeZones: getTimeZones,
+            getCallSummaryForQueueByHr: getCallSummaryForQueueByHr
         };
     };
 

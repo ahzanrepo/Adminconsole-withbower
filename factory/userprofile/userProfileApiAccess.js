@@ -68,6 +68,18 @@
             })
         };
 
+
+        var resetProfilePassword = function (user, profileInfo) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'User/' + user + '/profile/password',
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
+
         var deleteContactFromProfile = function (user, contact) {
 
             return $http({
@@ -143,6 +155,16 @@
                 return resp.data;
             })
         };
+        var updateUserSecurityLevel = function (username,body) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'User/'+username,
+                data:body
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
 
 
         return {
@@ -150,6 +172,7 @@
             addContactToProfile: addContactToProfile,
             deleteContactFromProfile: deleteContactFromProfile,
             updateProfile: updateProfile,
+            resetProfilePassword: resetProfilePassword,
             getUsers: getUsers,
             addUser: addUser,
             deleteUser: deleteUser,
@@ -158,7 +181,8 @@
             removeUserFromGroup: removeUserFromGroup,
             getGroupMembers: getGroupMembers,
             addMemberToGroup: addMemberToGroup,
-            getMyProfile: getMyProfile
+            getMyProfile: getMyProfile,
+            updateUserSecurityLevel: updateUserSecurityLevel
         };
     };
 

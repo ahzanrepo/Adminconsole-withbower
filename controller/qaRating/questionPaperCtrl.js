@@ -4,9 +4,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var questionPaperCtrl = function ($scope, $uibModal, loginService, qaModuleService, _) {
+    var questionPaperCtrl = function ($scope, $uibModal, loginService, qaModuleService, $anchorScroll) {
 
-
+        $anchorScroll();
         //Detect Document Height
         //update code damith
         var setElementHeight = function () {
@@ -141,24 +141,94 @@
 
         $scope.deleteQuestion = function (id) {
 
-            qaModuleService.deleteQuestionById(id).then(function (data) {
-                if (data.IsSuccess) {
-                    $scope.showAlert('QA Question', 'success', 'Question Deleted Successfully');
-                    reloadCurrentPaper($scope.currentPaper._id);
+            //Check for completed submissions
+
+            qaModuleService.validateBeforeDeleteQuestion(id).then(function(data)
+            {
+                if (data.IsSuccess)
+                {
+                    if(data.Result === true)
+                    {
+                        qaModuleService.deleteQuestionById(id).then(function (data) {
+                            if (data.IsSuccess) {
+                                $scope.showAlert('QA Question', 'success', 'Question Deleted Successfully');
+                                reloadCurrentPaper($scope.currentPaper._id);
+                            }
+                            else {
+                                if (data.Exception) {
+                                    $scope.showAlert('QA Question', 'error', data.Exception.Message);
+                                }
+                                else {
+                                    $scope.showAlert('QA Question', 'error', 'Error occurred while deleting question');
+                                }
+                            }
+
+                        }).catch(function (err) {
+                            loginService.isCheckResponse(err);
+                            $scope.showAlert('QA Question', 'error', err.Message);
+                        });
+                    }
+                    else
+                    {
+                        //confirm box
+
+                        new PNotify({
+                            title: 'Question Deletion',
+                            text: 'This question has submitted answers, removing it will effect all paper submissions which have this question. Are you sure you want to continue ?',
+                            type: 'warn',
+                            hide: false,
+                            confirm: {
+                                confirm: true
+                            },
+                            buttons: {
+                                closer: false,
+                                sticker: false
+                            },
+                            history: {
+                                history: false
+                            }
+                        }).get().on('pnotify.confirm', function ()
+                            {
+                                qaModuleService.deleteQuestionById(id).then(function (data) {
+                                    if (data.IsSuccess) {
+                                        $scope.showAlert('QA Question', 'success', 'Question Deleted Successfully');
+                                        reloadCurrentPaper($scope.currentPaper._id);
+                                    }
+                                    else {
+                                        if (data.Exception) {
+                                            $scope.showAlert('QA Question', 'error', data.Exception.Message);
+                                        }
+                                        else {
+                                            $scope.showAlert('QA Question', 'error', 'Error occurred while deleting question');
+                                        }
+                                    }
+
+                                }).catch(function (err) {
+                                    loginService.isCheckResponse(err);
+                                    $scope.showAlert('QA Question', 'error', err.Message);
+                                });
+                            }).on('pnotify.cancel', function () {
+
+                            });
+
+
+
+                    }
                 }
-                else {
-                    if (data.Exception) {
+                else
+                {
+                    if (data.Exception)
+                    {
                         $scope.showAlert('QA Question', 'error', data.Exception.Message);
                     }
-                    else {
-                        $scope.showAlert('QA Question', 'error', 'Error occurred while deleting question');
+                    else
+                    {
+                        $scope.showAlert('QA Question', 'error', 'Error occurred while pre checking deletion');
                     }
                 }
+            })
 
-            }).catch(function (err) {
-                loginService.isCheckResponse(err);
-                $scope.showAlert('QA Question', 'error', err.Message);
-            });
+
 
         };
 

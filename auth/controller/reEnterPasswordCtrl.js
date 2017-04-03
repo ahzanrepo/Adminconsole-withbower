@@ -2,9 +2,8 @@
  * Created by Damith on 6/1/2016.
  */
 
-mainApp.controller('reEnterPWCtrl', function ($rootScope,$stateParams, $scope, $state, $http,
-                                          loginService) {
-
+mainApp.controller('reEnterPWCtrl', function ($rootScope, $stateParams, $scope, $state, $http,
+                                              loginService) {
 
 
     var showAlert = function (title, type, content) {
@@ -24,25 +23,27 @@ mainApp.controller('reEnterPWCtrl', function ($rootScope,$stateParams, $scope, $
     $scope.password = '';
 
 
-
-    $scope.ReEnterPassword= function () {
+    $scope.isLoadinRstPwd = false;
+    $scope.ReEnterPassword = function () {
+        $scope.isLoadinRstPwd = true;
         loginService.resetPassword($stateParams.token, $scope.password, function (isSuccess) {
-            if(isSuccess){
+            $scope.isLoadinRstPwd = false;
+            if (isSuccess) {
                 showAlert('Success', 'success', "Please login with new password");
                 $state.go('login');
-            }else{
+            } else {
                 showAlert('Error', 'error', "reset failed");
             }
         })
-    }
+    };
 
 
-    $scope.CheckTokenExists= function () {
+    $scope.CheckTokenExists = function () {
         loginService.tokenExsistes($stateParams.token, function (isSuccess) {
-            if(isSuccess){
+            if (isSuccess) {
                 //showAlert('Success', 'success', "Please login with new password");
                 //$state.go('login');
-            }else{
+            } else {
                 showAlert('Error', 'error', "reset failed due to token expire");
                 $state.go('ResetPw');
             }
@@ -50,9 +51,7 @@ mainApp.controller('reEnterPWCtrl', function ($rootScope,$stateParams, $scope, $
     }
 
 
-
-
-    $scope.BackToLogin= function () {
+    $scope.BackToLogin = function () {
         $state.go('login');
     }
 

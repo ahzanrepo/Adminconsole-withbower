@@ -18,10 +18,17 @@
             });
         };
 
-        var getAcwRecords = function(resourceId, pageNo, rowCount, startDate, endData){
+        var getAcwRecords = function(resourceId, pageNo, rowCount, startDate, endData, skill){
+
+            var url = baseUrls.ardsmonitoringBaseUrl+'MONITORING/acw/resource/'+resourceId+'/'+pageNo+'/'+rowCount+'?startDate='+startDate+'&endDate='+endData;
+
+            if(skill)
+            {
+                url = url + '&skill='+skill;
+            }
             return $http({
                 method: 'GET',
-                url: baseUrls.ardsmonitoringBaseUrl+'MONITORING/acw/resource/'+resourceId+'/'+pageNo+'/'+rowCount+'?startDate='+startDate+'&endDate='+endData,
+                url: url,
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -42,10 +49,17 @@
             });
         };
 
-        var getAcwSummeryDetails = function(resourceId, startDate, endData){
+        var getAcwSummeryDetails = function(resourceId, startDate, endData, skill){
+
+            var url = baseUrls.ardsmonitoringBaseUrl+'MONITORING/acw/summery/resource/'+resourceId+'?startDate='+startDate+'&endDate='+endData;
+
+            if(skill)
+            {
+                url = url + '&skill='+skill;
+            }
             return $http({
                 method: 'GET',
-                url: baseUrls.ardsmonitoringBaseUrl+'MONITORING/acw/summery/resource/'+resourceId+'?startDate='+startDate+'&endDate='+endData,
+                url: url,
                 headers: {
                     'Content-Type': 'application/json'
                 }

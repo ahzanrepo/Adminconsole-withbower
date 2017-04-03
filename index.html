@@ -55,6 +55,11 @@
 <!-- jVectorMap -->
 <link href="asset/css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
 
+<!-- customer css -->
+<!-- animation -->
+<link rel="stylesheet" href="asset/dist/owl.carousel/dist/assets/owl.carousel.css">
+<link rel="stylesheet" href="asset/dist/owl.carousel/dist/assets/owl.theme.default.min.css">
+
 
 <link href="asset/build/css/custom.css" rel="stylesheet">
 <link href="asset/css/main-theme.css" rel="stylesheet">
@@ -122,7 +127,7 @@
             <div class='loader-center'>
                 <div class='chars'>
                     <span class='char brace'>{</span>
-                      <span class='dots'>
+                    <span class='dots'>
                         <span class='char dot _dot-1'>.</span>
                         <span class='char dot _dot-2'>.</span>
                         <span class='char dot _dot-3'>.</span>
@@ -153,6 +158,10 @@
 <script src="asset/vendors/iCheck/icheck.js" type="text/javascript"></script>
 <script src="asset/js/jquery-ui-1.9.2-min.js" type="text/javascript"></script>
 <script src="asset/js/jquery.jsPlumb-1.4.1-all-min.js"></script>
+
+<!-- animation plugin --->
+<script type="text/javascript" src="asset/dist/owl.carousel/dist/owl.carousel.js"></script>
+<script type="text/javascript" src="asset/dist/adv-news-ticker/jquery.newsTicker.js"></script>
 
 
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
@@ -327,6 +336,7 @@
 <!-- controller -->
 <script type="text/javascript" src="controller/mainCtrl.js"></script>
 <script type="text/javascript" src="controller/dashboardCtrl.js"></script>
+<script type="text/javascript" src="controller/dashboardCtrl1_1.js"></script>
 <script type="text/javascript" src="controller/realTime/realTimeQueuedCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/cdrCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
@@ -771,6 +781,7 @@
 <script type="text/javascript" src="campaignManager/controllers/directives/editCampaign.js"></script>
 <script type="text/javascript" src="campaignManager/controllers/campaignMonitorController.js"></script>
 <script type="text/javascript" src="campaignManager/controllers/directives/campaignMonitor.js"></script>
+<script type="text/javascript" src="campaignManager/controllers/campaignReportController.js"></script>
 
 <!-- Campaign Number Upload -->
 <script type="text/javascript" src="bower_components/js-xlsx/dist/xlsx.full.min.js"></script>
@@ -784,6 +795,24 @@
 <!-- soft phone -->
 <script type="text/javascript" src="controller/softPhone/softPhoneCtrl.js"></script>
 <script type="text/javascript" src="factory/softPhone/softPhoneService.js"></script>
+
+<!-- callcenterPerformance -->
+<script type="text/javascript"
+        src="controller/callcenter-performance-summery/callcenterPerformanceController.js"></script>
+<!-- security levels -->
+<script type="text/javascript"
+        src="user_security_level_management/scripts/controllers/securityLevelManagementContoller.js"></script>
+
+<!-- Zoho -->
+<script type="text/javascript" src="zoho/scripts/controllers/zohoController.js"></script>
+<script type="text/javascript" src="zoho/scripts/services/zohoService.js"></script>
+<script type="text/javascript" src="zoho/scripts/controllers/zohoUsersController.js"></script>
+
+<!-- Notice config -->
+<script type="text/javascript" src="controller/notice-config/noticeConfigController.js"></script>
+<script type="text/javascript" src="factory/notice-config/noticeBackendService.js"></script>
+<script type="text/javascript" src="factory/attachment-config/attachmentBackendservice.js"></script>
+<script type="text/javascript" src="directives/notice-config/editNotice.js"></script>
 
 
 </html>

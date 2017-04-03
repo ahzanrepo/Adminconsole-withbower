@@ -4,8 +4,9 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var queueSummaryHourlyCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls) {
+    var queueSummaryHourlyCtrl = function ($scope, $filter, $timeout, loginService, cdrApiHandler, resourceService, baseUrls,$anchorScroll) {
 
+        $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'asc']};
 
         $scope.showAlert = function (tittle, type, content) {
@@ -177,6 +178,86 @@
 
         $scope.loadAttrList();
 
+        var tempQueueArr = {};
+        var curCount = 0;
+
+        var buildSummaryListByHr = function (day, hr, attribute, momentTz, callback)
+        {
+            cdrApiHandler.getCallSummaryForQueueByHr(day, attribute, hr, momentTz).then(function (sumResp)
+            {
+                if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result)
+                {
+                    if (typeof sumResp.Result.IvrAverage === "number") {
+                        sumResp.Result.IvrAverage = convertToMMSS(sumResp.Result.IvrAverage);
+                    }
+
+                    if (typeof sumResp.Result.HoldAverage === "number") {
+                        sumResp.Result.HoldAverage = convertToMMSS(sumResp.Result.HoldAverage);
+                    }
+
+                    if (typeof sumResp.Result.RingAverage === "number") {
+                        sumResp.Result.RingAverage = convertToMMSS(sumResp.Result.RingAverage);
+                    }
+
+                    if (typeof sumResp.Result.TalkAverage === "number") {
+                        sumResp.Result.TalkAverage = convertToMMSS(sumResp.Result.TalkAverage);
+                    }
+
+                    if(tempQueueArr[attribute])
+                    {
+                        tempQueueArr[attribute].push(sumResp.Result);
+                    }
+                    else
+                    {
+                        tempQueueArr[attribute] = [];
+                        tempQueueArr[attribute].push(sumResp.Result);
+                    }
+
+                    var maxCount = $scope.skillFilter.length * 24;
+                    curCount++;
+
+                    $scope.progressSumVal = ((curCount/maxCount)*100).toFixed(2);
+
+                    var newHr = hr + 1;
+
+                    if(newHr < 25)
+                    {
+                        buildSummaryListByHr(day, newHr, attribute, momentTz, function(err, resp)
+                        {
+                            callback(null, true);
+                        });
+                    }
+                    else
+                    {
+                        var curSkillIndex = _.findIndex($scope.skillFilter, {Attribute: attribute});
+
+                        if($scope.skillFilter.length > curSkillIndex + 1)
+                        {
+                            buildSummaryListByHr(day, 1, $scope.skillFilter[curSkillIndex+1].Attribute, momentTz, function(err, resp)
+                            {
+                                callback(null, true);
+                            });
+                        }
+                        else
+                        {
+                            callback(null, true);
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    callback(null, false);
+                }
+
+
+            }, function (err) {
+                loginService.isCheckResponse(err);
+                callback(err, false);
+            })
+        };
+
         var buildSummaryList = function (day, attribute, momentTz, summaryArrItem, callback) {
             cdrApiHandler.getCallSummaryForQueueHr(day, attribute, momentTz).then(function (sumResp) {
                 if (!sumResp.Exception && sumResp.IsSuccess && sumResp.Result) {
@@ -218,6 +299,48 @@
                 loginService.isCheckResponse(err);
                 callback(err, false);
             })
+        };
+
+        $scope.getCallSummaryByHr = function () {
+
+            try
+            {
+                $scope.summaryArr = [];
+                tempQueueArr = {};
+                $scope.progressSumVal = 0;
+                curCount = 0;
+
+                var momentTz = moment.parseZone(new Date()).format('Z');
+                momentTz = momentTz.replace("+", "%2B");
+
+                $scope.obj.isTableLoadingHr = 0;
+
+                if($scope.skillFilter.length > 0)
+                {
+                    buildSummaryListByHr($scope.obj.day, 1, $scope.skillFilter[0].Attribute, momentTz, function (err, processDoneResp)
+                    {
+                        if(err)
+                        {
+                            $scope.showAlert('Error', 'error', 'Queue wise summary', 'Error occurred');
+                        }
+                        $scope.summaryArr = tempQueueArr;
+                        $scope.obj.isTableLoadingHr = 1;
+
+                    });
+                }
+                else
+                {
+                    $scope.showAlert('Error', 'error', 'Queue wise summary', 'No queues added');
+                    $scope.obj.isTableLoadingHr = 1;
+                }
+
+
+            }
+            catch (ex) {
+                $scope.showAlert('Error', 'error', 'Queue wise summary', 'Error occurred while loading call summary');
+                $scope.obj.isTableLoadingHr = 1;
+            }
+
         };
 
         $scope.getCallSummary = function () {

@@ -3,8 +3,9 @@
  */
 
 
-mainApp.controller("fileSlotController", function ($scope, $state, $filter,tagBackendService,fileSlotService) {
+mainApp.controller("fileSlotController", function ($scope, $state, $filter,tagBackendService,fileSlotService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.tagList=[];
     $scope.tagCategoryList=[];
     $scope.availableTags=[];

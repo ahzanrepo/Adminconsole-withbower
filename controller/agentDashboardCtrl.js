@@ -3,9 +3,9 @@
  */
 
 
-mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardService, loginService) {
+mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardService, loginService, $anchorScroll) {
 
-
+    $anchorScroll();
 
     /*charts Configurations */
 

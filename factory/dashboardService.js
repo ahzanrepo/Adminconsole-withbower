@@ -465,6 +465,189 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     /*ticket*/
 
+    //-----Call Center Performance------------
+
+    var getTotalTalkTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTime/CONNECTED/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getTotalStaffTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTimeWithCurrentSessions/LOGIN/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getTotalAcwTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTime/AFTERWORK/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getAverageStaffTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageTimePerKeyWithCurrentSessions/LOGIN/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getAverageAcwTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageTime/AFTERWORK/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getAverageInboundCallsPerAgent = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageCountPerKey/count/CONNECTED/*/CALLinbound/key/CONNECTED/*/CALLinbound"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getAverageOutboundCallsPerAgent = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/AverageCountPerKey/count/CALLS/outbound/*/key/CONNECTED/*/CALLoutbound"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getCallCenterPerformanceHistory = function (startDate, endDate) {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/callCenter/from/"+startDate+"/to/"+endDate
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return undefined;
+                }
+            } else {
+                return undefined;
+            }
+        });
+
+
+    };
+
+    var getTotalLoginAgentCount = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/CountPerKey/LOGIN/*/Register"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+
     return {
         GetAll: getAllCalls,
         GetAllQueued: getAllQueued,
@@ -486,6 +669,15 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         GetDeferenceResolvedTicketSeries:getDeferenceResolvedTicketSeries,
         GetTotalTicketCount:getTotalTicketCount,
         GetTotalTicketAvg:getTotalTicketAvg,
-        GetNewTicketCountViaChannel:getNewTicketCountViaChenal
+        GetNewTicketCountViaChannel:getNewTicketCountViaChenal,
+        GetTotalTalkTime:getTotalTalkTime,
+        GetTotalStaffTime:getTotalStaffTime,
+        GetTotalAcwTime:getTotalAcwTime,
+        GetAverageStaffTime:getAverageStaffTime,
+        GetAverageAcwTime:getAverageAcwTime,
+        GetAverageInboundCallsPerAgent:getAverageInboundCallsPerAgent,
+        GetAverageOutboundCallsPerAgent:getAverageOutboundCallsPerAgent,
+        GetCallCenterPerformanceHistory:getCallCenterPerformanceHistory,
+        GetTotalLoginAgentCount:getTotalLoginAgentCount
     }
 });

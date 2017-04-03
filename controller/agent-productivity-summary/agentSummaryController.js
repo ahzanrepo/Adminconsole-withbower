@@ -5,8 +5,9 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q, agentSummaryBackendService,loginService) {
+mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q, agentSummaryBackendService,loginService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.startDate = moment().format("YYYY-MM-DD");
     $scope.endDate = moment().format("YYYY-MM-DD");
     $scope.dateValid = true;
@@ -121,7 +122,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
         });
 
         return deferred.promise;
-    }
+    };
 
     $scope.getAgents = function () {
         agentSummaryBackendService.getAgentDetails().then(function (response) {
@@ -160,7 +161,22 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
 
     var TimeFromatter = function (mins,timeFormat) {
 
-        var secondsData = mins;
+        var timeStr = '0h:0m:0s';
+        if(mins > 0) {
+            var durationObj = moment.duration(mins * 1000);
+
+            if (durationObj) {
+                if (durationObj._data.days > 0) {
+                    timeStr = durationObj._data.days + 'd ' + durationObj._data.hours + 'h:' + durationObj._data.minutes + 'm:' + durationObj._data.seconds + 's';
+                } else {
+                    timeStr = durationObj._data.hours + 'h:' + durationObj._data.minutes + 'm:' + durationObj._data.seconds + 's';
+                }
+            }
+        }
+        return timeStr;
+
+
+        /*var secondsData = mins;
 
 
         var hourData = parseInt( secondsData / 3600 );
@@ -196,12 +212,12 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
         else
         {
             return minutesData+":"+secondsData;
-        }
+        }*/
 
 
 
 
-    }
+    };
 
     $scope.getAgents();
 

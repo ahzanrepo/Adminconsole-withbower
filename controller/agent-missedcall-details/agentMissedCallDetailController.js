@@ -5,8 +5,9 @@
 
     var app =angular.module('veeryConsoleApp');
 
-    var agentMissedCallDetailController = function($scope, $q, $timeout, $state, acwDetailApiAccess, cdrApiHandler, loginService, baseUrls) {
+    var agentMissedCallDetailController = function($scope, $q, $timeout, $state, acwDetailApiAccess, cdrApiHandler, loginService, baseUrls, $anchorScroll) {
 
+        $anchorScroll();
         $scope.pageSize = 10;
         $scope.cancelDownload = true;
         $scope.buttonClass = 'fa fa-file-text';

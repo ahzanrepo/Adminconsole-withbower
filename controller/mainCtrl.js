@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess,turnServers) {
 
 
     //added by pawan
@@ -317,6 +317,24 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goCampaignMonitor: function () {
             $state.go('console.campaignmonitor')
         },
+        goCampaignSummery: function () {
+            $state.go('console.campaignsummeryreport')
+        },
+        goCampaignDisposition: function () {
+            $state.go('console.campaigndispositionreport')
+        },
+        goCampaignAttempt: function () {
+            $state.go('console.campaignattemptreport')
+        },
+        goZoho: function () {
+            $state.go('console.zoho')
+        },
+        goZohoUser: function () {
+            $state.go('console.zohousers')
+        },
+        goCampaignCallback: function () {
+            $state.go('console.campaigncallbackreport')
+        },
         goQASubmission: function () {
             $state.go('console.qaSubmission');
         },
@@ -370,8 +388,21 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         }, goDncNumberManage: function () {
             $state.go('console.dncnumbermanage');
         },
+        goSecLevels: function () {
+            $state.go('console.seclevels');
+        },
         newContact: function () {
             $state.go('console.contact-book');
+        }, goCallCenterPerformance: function () {
+            $state.go('console.callcenterperformance');
+
+        }, goNotices: function () {
+            $state.go('console.notices');
+
+        },
+        goToAgentDashboard: function () {
+            $state.go('console.agentDashboard');
+
         }
     };
     $scope.showDisplayName = false;
@@ -389,14 +420,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                             if (resOrg.IsSuccess && resOrg.Result) {
                                 if (resOrg.Result.ownerRef == resMyProf.Result._id) {
                                     $scope.displayname = resOrg.Result.companyName;
-
                                 }
                                 else {
                                     if (resMyProf.Result.firstname && resMyProf.Result.lastname) {
-                                        $scope.displayname = resMyProf.firstname + " " + resMyProf.lastname;
+                                        $scope.displayname = resMyProf.Result.firstname + " " + resMyProf.Result.lastname;
 
                                     }
-
 
                                 }
                                 $scope.showDisplayName = true;
@@ -712,11 +741,16 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         if ($BODY.hasClass('nav-md')) {
             $BODY.removeClass('nav-md').addClass('nav-sm');
 
+            $('.d-top-h').removeClass('d1-header-lg').addClass('d1-header-wrp-sm');
+
             if ($SIDEBAR_MENU.find('li').hasClass('active')) {
                 $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
             }
         } else {
             $BODY.removeClass('nav-sm').addClass('nav-md');
+
+            $('.d-top-h').removeClass('d1-header-wrp-sm').addClass('d1-header-lg');
+
 
             if ($SIDEBAR_MENU.find('li').hasClass('active-sm')) {
                 $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
@@ -832,6 +866,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                     });
 
                     $scope.agentList = onlineAgentList.concat(offlineAgentList);
+                    agentDetailsFactory.agentList = $scope.agentList;
+                    console.log(agentDetailsFactory.agentList);
+
                 }
 
                 if ($scope.userGroups) {

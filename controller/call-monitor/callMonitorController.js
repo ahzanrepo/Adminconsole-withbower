@@ -4,8 +4,9 @@
 
 mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $uibModal, $timeout,
                                                   callMonitorSrv, notificationService,
-                                                  jwtHelper, authService, loginService) {
+                                                  jwtHelper, authService, loginService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.CallObj = {};
     $scope.isRegistered = false;
     $scope.currentSessionID = null;
@@ -85,6 +86,9 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         var Receiver = "";
         var Bridged = false;
         var newKeyObj = {};
+        var skill = "";
+        var callDuration = "";
+        var localTime = "";
 
         for (var j = 0; j < objKey.length; j++) {
 
@@ -107,13 +111,34 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                 Bridged = true;
             }
 
-            if (j == objKey.length - 1) {
+            if (objKey[j]['ARDS-Skill-Display'] && objKey[j]['ARDS-Skill-Display'] !== 'null') {
+                skill = objKey[j]['ARDS-Skill-Display'];
+            }
+
+            if (objKey[j]['CHANNEL-BRIDGE-TIME']) {
+                var b = moment(objKey[j]['CHANNEL-BRIDGE-TIME']);
+
+                localTime = b.local().format('YYYY-MM-DD HH:mm:ss');
+            }
+
+            if(objKey[j]['BRIDGE-DURATION'])
+            {
+                callDuration = objKey[j]['BRIDGE-DURATION'];
+            }
+
+
+
+            //if (j == objKey.length - 1) {
+            if(objKey[j]['Call-Direction'] === 'inbound'){
                 if (Bridged) {
                     newKeyObj.FromID = FromID;
                     newKeyObj.ToID = ToID;
                     newKeyObj.BargeID = bargeID;
                     newKeyObj.Direction = Direction;
                     newKeyObj.Receiver = Receiver;
+                    newKeyObj.CallDuration = objKey[j]['BRIDGE-DURATION'];
+                    newKeyObj.Skill = skill;
+                    newKeyObj.LocalTime = localTime;
 
                     return newKeyObj;
                 }

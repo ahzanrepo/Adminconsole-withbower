@@ -8,16 +8,18 @@
             <div class="row">
                 <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
                     <div class="tile-stats text-center bg-green100" ng-class="{'small-card':viewmode!='large'}">
-                        <div class="count">{{que.CurrentWaiting}}</div>
-                        <h3 class="font-700 font-yellow800">Current Waiting</h3>
-                        <p class="font-200">Total answered calls</p>
+                        <div class="count" style=" padding-top: 10px">{{que.CurrentWaiting}}</div>
+                        <h3 class="font-700 font-yellow800" style="padding-bottom: 10px ; padding-top: 10px">Current Waiting</h3>
+
+
                     </div>
                 </div>
                 <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
                     <div class="tile-stats text-center bg-blue700" ng-class="{'small-card':viewmode!='large'}">
-                        <div class="count">{{que.CurrentMaxWaitTime}}</div>
-                        <h3 class="font-700 font-orange800">Max Wait Time</h3>
-                        <p class="font-200">Total answered calls</p>
+                        <div class="count" style="padding-top: 10px">{{que.CurrentMaxWaitTime}}</div>
+                        <h3 class="font-700 font-orange800" style="padding-bottom: 10px ; padding-top: 10px">Max Wait Time</h3>
+
+
                     </div>
                 </div>
             </div>
@@ -57,31 +59,36 @@
         </div>
 
         <div class="col-xs-12">
-            <div class="col-lg-4 text-center " ng-class="{'small-card':viewmode!='large'}">
-                <h3 class="font-700 font-green-light500 ">{{que.TotalQueued}}</h3>
-                <span class="font-700 ">Total Queued</span>
+            <div class="row">
+                <div class="col-lg-4 text-center " ng-class="{'small-card':viewmode!='large'}">
+                    <h3 class="font-700 font-green-light500 ">{{que.TotalQueued}}</h3>
+                    <span class="font-700 ">Total Queued</span>
+                </div>
+                <div class="col-lg-4 text-center" ng-class="{'small-card':viewmode!='large'}">
+                    <h3 class="font-700 font-blue500 ">{{que.MaxWaitTime}}</h3>
+                    <span class="font-700">Max Waiting</span>
+                </div>
+                <div class="col-lg-4 text-center" ng-class="{'small-card':viewmode!='large'}">
+                    <h3 class="font-700 font-yellow900">{{que.AverageWaitTime}}</h3>
+                    <span class="font-700">Average</span>
+                </div>
             </div>
-            <div class="col-lg-4 text-center" ng-class="{'small-card':viewmode!='large'}">
-                <h3 class="font-700 font-blue500 ">{{que.MaxWaitTime}}</h3>
-                <span class="font-700">Max Waiting</span>
+            <div class="row">
+                <div class="col-lg-4 text-center " ng-class="{'small-card':viewmode!='large'}">
+                    <h3 class="font-700 font-green-light500 ">{{que.QueueDropped}}</h3>
+                    <span class="font-700 ">Droped Calls</span>
+                </div>
+                <div class="col-lg-4 text-center" ng-class="{'small-card':viewmode!='large'}">
+                    <h3 class="font-700 font-blue500 ">{{que.TotalAnswered}}</h3>
+                    <span class="font-700">Answered Calls</span>
+                </div>
+                <div class="col-lg-4 text-center" ng-class="{'small-card':viewmode!='large'}">
+                    <h3 class="font-700 font-yellow900">{{agentCount}}</h3>
+                    <span class="font-700">Available Agents</span>
+                </div>
             </div>
-            <div class="col-lg-4 text-center" ng-class="{'small-card':viewmode!='large'}">
-                <h3 class="font-700 font-yellow900">{{que.AverageWaitTime}}</h3>
-                <span class="font-700">Average</span>
-            </div>
-            <!--<ul class="list-inline queued-footer-list m-top20 text-center m-bottom20">-->
-            <!--<li>-->
 
-            <!--</li>-->
-            <!--<li>-->
-            <!--<h3 class="font-700 font-blue500 ">{{que.MaxWaitTime}}</h3>-->
-            <!--<span class="font-700">Max Waiting</span>-->
-            <!--</li>-->
-            <!--<li>-->
-            <!--<h3 class="font-700 font-yellow900">{{que.AverageWaitTime}}</h3>-->
-            <!--<span class="font-700">Average</span>-->
-            <!--</li>-->
-            <!--</ul>-->
+
         </div>
 
 
