@@ -68,7 +68,7 @@ notificationMod.factory('notificationConnector', function (socketFactory) {
 
             });
 
-            socket.on('message', function (data) {
+            socket.on('notice_message', function (data) {
                 if (notificationEvent.OnMessageReceived)
                     notificationEvent.OnMessageReceived(data);
             });
@@ -102,6 +102,12 @@ notificationMod.factory('notificationConnector', function (socketFactory) {
                 //Notification.primary({message: data.Message, delay: 5000, closeOnClick: true});
 
             });
+
+            socket.on('call_monitor_registered', function (data) {
+                if (notificationEvent.onCallMonitorRegistered)
+                    notificationEvent.onCallMonitorRegistered();
+            });
+
         } catch (ex) {
             console.log("Error In socket.io");
         }
