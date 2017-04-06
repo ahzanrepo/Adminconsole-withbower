@@ -502,7 +502,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
     var authToken = authService.GetToken();
-    var displayName=jwtHelper.decodeToken(authToken).context.veeryaccount.display;
+    var displayName="";
+   if(jwtHelper.decodeToken(authToken).context.veeryaccount)
+   {
+       displayName=jwtHelper.decodeToken(authToken).context.veeryaccount.display;
+   }
+
     /*$scope.showAlert = function (tittle, type, msg) {
      new PNotify({
      title: tittle,
