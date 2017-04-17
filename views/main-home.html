@@ -125,7 +125,7 @@
                                         Phone Book</a>
                                     </li>
                                     <li ng-show="accessNavigation.NOTICE"><a href="javascript:void(0);"
-                                                                                  ng-click="clickDirective.goNotices()">
+                                                                             ng-click="clickDirective.goNotices()">
                                         Notices</a>
                                     </li>
 
@@ -372,9 +372,11 @@
                                 <ul class="nav child_menu">
                                     <li><a>Zoho<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goZoho();">Zoho</a>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goZoho();">Zoho</a>
                                             </li>
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goZohoUser();">Users</a>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goZohoUser();">Users</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -395,13 +397,17 @@
                                 <ul class="nav child_menu">
                                     <li><a>Campaign<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goCampaignSummery();">Summery</a>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goCampaignSummery();">Summery</a>
                                             </li>
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goCampaignDisposition();">Disposition</a>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goCampaignDisposition();">Disposition</a>
                                             </li>
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goCampaignCallback();">Callback</a>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goCampaignCallback();">Callback</a>
                                             </li>
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);" ng-click="clickDirective.goCampaignAttempt();">Attempt</a>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goCampaignAttempt();">Attempt</a>
                                             </li>
 
                                         </ul>
@@ -508,7 +514,7 @@
             <div class="nav_menu">
                 <nav class="" role="navigation">
                     <div class="nav toggle ">
-                    <a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
+                        <a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
                     </div>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -619,27 +625,33 @@
                         <div class="call-moitor-btn-wrap">
                             <!--ng-if="inCall"-->
                             <div ng-if="inCall">
-                                <button class="btn bg-blue700 hvr-pop" ng-click=""><span
+                                <button tooltip-placement="left" uib-tooltip="On the"
+                                        class="btn bg-blue700 hvr-pop" ng-click=""><span
                                         class="fa fa-microphone-slash "
                                         aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span
+                                <button tooltip-placement="left" uib-tooltip="Hang up call"
+                                        class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span
                                         class="fa fa-phone"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span
+                                <button tooltip-placement="left" uib-tooltip="Three way call"
+                                        class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span
                                         class="fa fa-group"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="BargeCall()"
+                                <button tooltip-placement="left" uib-tooltip="Barge call"
+                                        class="btn bg-blue700 hvr-pop" ng-click="BargeCall()"
                                         ng-disabled="(CallStatus=='BARGED' || CallStatus=='THREEWAY' || CallStatus==null)"><span
                                         class="fa fa-bullhorn" aria-hidden="true"></span></button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
+                                <button tooltip-placement="left" uib-tooltip="Return to listen"
+                                        class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
                                         ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)"><span
                                         class="fa fa-mail-reply"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
+                                <button tooltip-placement="left" uib-tooltip="Swap user"
+                                        class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
                                         ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )">
                                     <span class="fa fa-user" aria-hidden="true"></span></button>
                                 <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->
