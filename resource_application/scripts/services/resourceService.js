@@ -214,7 +214,19 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
             url: baseUrls.resourceServiceBaseUrl + "ResourceTaskAttribute/" + item.savedObj.ResAttId,
             data: item.savedObj
         }).then(function (response) {
-            return response.data.Result;
+            return response.data;
+
+        });
+
+    };
+
+    var assignAttributeToResource = function (newAttribute) {
+        return $http({
+            method: 'put',
+            url: baseUrls.ardsLiteServiceUrl + "ARDS/resource",
+            data: newAttribute
+        }).then(function (response) {
+            return response.data;
 
         });
 
@@ -274,7 +286,8 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         ResourceNameIsExsists: resourceNameIsExsists,
         GetResourcesCount: getResourcesCount,
         SetResourceToProfile:setResourceToProfile,
-        getResourcesWithoutPaging: getResourcesWithoutPaging
+        getResourcesWithoutPaging: getResourcesWithoutPaging,
+        AssignAttributeToResource: assignAttributeToResource
     }
 
 });

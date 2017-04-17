@@ -37,44 +37,56 @@
                 </div>
                 <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
                     <div class="tile-stats  m-top15">
-                        <form class="form-horizontal form-label-left input_mask">
+                        <form name="editCaseConfigForm" class="form-horizontal form-label-left input_mask">
                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                 <label>Configuration Name</label>
-                                <input type="text" class="form-control has-feedback-left"
+                                <input name="configurationName" type="text" class="form-control has-feedback-left"
                                        ng-model="caseConfig.configurationName"
-                                       placeholder="Configuration Name" ng-disabled="true">
+                                       placeholder="Configuration Name" ng-disabled="true" required>
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                <span class="inline-block validation-on"
+                                      ng-show="editCaseConfigForm.configurationName.$invalid">required*
+                                </span>
                             </div>
 
                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                 <label>Description</label>
-                                <input type="text" class="form-control has-feedback-left"
+                                <input name="description" type="text" class="form-control has-feedback-left"
                                        ng-model="caseConfig.description"
-                                       placeholder="Description">
+                                       placeholder="Description" required>
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                <span class="inline-block validation-on"
+                                      ng-show="editCaseConfigForm.description.$invalid">required*
+                                </span>
                             </div>
 
                             <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                 <label>Configuration Rule</label>
-                                <input type="text" class="form-control has-feedback-left"
+                                <input name="configurationRule" type="text" class="form-control has-feedback-left"
                                        ng-model="caseConfig.configurationRule"
-                                       placeholder="Configuration Rule" ng-disabled="true">
+                                       placeholder="Configuration Rule" ng-disabled="true" required>
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                <span class="inline-block validation-on"
+                                      ng-show="editCaseConfigForm.configurationRule.$invalid">required*
+                                </span>
                             </div>
 
                             <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
                                 <label>Threshold</label>
-                                <input type="number" class="form-control has-feedback-left"
+                                <input name="threshold" type="number" class="form-control has-feedback-left"
                                        ng-model="caseConfig.threshold"
-                                       placeholder="Threshold" min="0">
+                                       placeholder="Threshold" min="0" required>
                                 <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                <span class="inline-block validation-on"
+                                      ng-show="editCaseConfigForm.threshold.$invalid">required*
+                                </span>
                             </div>
 
 
                             <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <button type="button" class="btn btn-success btn-sm pull-right"
-                                            ng-click="editSla()">
+                                            ng-click="editSla()" ng-disabled="editCaseConfigForm.$invalid">
                                         Update
                                     </button>
                                 </div>

@@ -4,7 +4,7 @@
 
 (function(){
 
-    var caseApiAccess = function($http, baseUrls) {
+    var caseApiAccess = function($http, $q, baseUrls) {
 
         //----------------------------------Case Configuration----------------------------------------------------------------------
 
@@ -127,18 +127,25 @@
             });
         };
 
-        var bulkStatusChangeTickets = function(ticketIds, bulkAction){
+        var bulkStatusChangeTickets = function(ticketIds, bulkAction, jobId, uploadStatus){
+            var deferred = $q.defer();
+
             var sendObj = {TicketIds: ticketIds, Status: bulkAction.action, specificOperations: bulkAction.specificOperations};
-            return $http({
+            $http({
                 method: 'PUT',
                 url: baseUrls.ticketUrl+'Ticket/Status/Bulk',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: sendObj
+                data: sendObj,
+                params: {jobId: jobId, uploadStatus: uploadStatus}
             }).then(function(response){
-                return response.data;
+
+                deferred.resolve(response.data);
+
             });
+
+            return deferred.promise;
         };
 
         var deleteCase = function(caseId){
@@ -192,6 +199,47 @@
             });
         };
 
+        var getBulkOperationJobId = function (jobType, reference) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.ticketUrl+"Ticket/BulkOperation/JobId",
+                data: {JobType:jobType, JobReference: reference}
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        };
+
+        var getBulkOperationByReference = function (jobReference) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.ticketUrl+"Ticket/BulkOperation/JobIds/jobReference",
+                params: {jobReference:jobReference}
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        };
+
+        var removeBulkOperation = function (jobId) {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.ticketUrl+"Ticket/BulkOperation/JobId/"+jobId
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        };
+
         return{
             createCaseConfiguration: createCaseConfiguration,
             deleteCaseConfiguration: deleteCaseConfiguration,
@@ -205,7 +253,10 @@
             bulkStatusChangeTickets: bulkStatusChangeTickets,
             deleteCase: deleteCase,
             getAllTags: getAllTags,
-            getTagCategories:getTagCategories
+            getTagCategories:getTagCategories,
+            getBulkOperationJobId: getBulkOperationJobId,
+            getBulkOperationByReference: getBulkOperationByReference,
+            removeBulkOperation: removeBulkOperation
         };
     };
 

@@ -1,13 +1,14 @@
 /**
  * Created by Pawan on 8/5/2016.
  */
-mainApp.directive("edittanslations", function ($filter,$uibModal,transBackendService) {
+mainApp.directive("edittanslations", function ($filter,$uibModal,transBackendService, _) {
 
     return {
         restrict: "EAA",
         scope: {
             translation: "=",
             translationList: "=",
+            phonenumbers: "=",
             'updateTranslation': '&',
             'reloadpage':'&'
         },
@@ -21,6 +22,82 @@ mainApp.directive("edittanslations", function ($filter,$uibModal,transBackendSer
             scope.editApplication = function () {
                 scope.editMode = !scope.editMode;
                 console.log(scope.translationList);
+            };
+
+            scope.showAlert = function (tittle,content,type) {
+
+                new PNotify({
+                    title: tittle,
+                    text: content,
+                    type: type,
+                    styling: 'bootstrap3'
+                });
+            };
+
+            scope.editMode = false;
+
+            scope.editTranslation = function()
+            {
+                scope.editMode = !scope.editMode;
+
+            };
+
+            scope.updateTranslations = function()
+            {
+                scope.translation.GhostNumbers =  _.uniq(_.map(scope.translation.GhostNumbers, 'PhoneNumber'));
+                transBackendService.updateTranslations(scope.translation.id, scope.translation).then(function (response) {
+
+                    if(response.data.IsSuccess)
+                    {
+                        scope.showAlert("Success","Translation successfully updated","success");
+                    }
+                    else
+                    {
+                        scope.showAlert("Error","Translation update failed","error");
+                    }
+
+
+
+
+                }), function (error) {
+                    loginService.isCheckResponse(error);
+                    scope.showAlert("Error","Translation update failed","error");
+                }
+            };
+
+            scope.querySearch = function (query)
+            {
+                var emptyArr = [];
+                if (query === "*" || query === "") {
+                    if (scope.phonenumbers) {
+                        return scope.phonenumbers;
+                    }
+                    else {
+                        return emptyArr;
+                    }
+
+                }
+                else {
+                    if (scope.phonenumbers) {
+                        var filteredArr = scope.phonenumbers.filter(function (item) {
+                            var regEx = "^(" + query + ")";
+
+                            if (item) {
+                                return item.match(regEx);
+                            }
+                            else {
+                                return false;
+                            }
+
+                        });
+
+                        return filteredArr;
+                    }
+                    else {
+                        return emptyArr;
+                    }
+                }
+
             };
 
             scope.removeTranslation = function (item) {

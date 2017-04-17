@@ -629,6 +629,46 @@
 
         };
 
+
+        $scope.isShowToken = false;
+        $scope.isResetPawssord = false;
+        $scope.resetUserPassword = function () {
+            $scope.isResetPawssord = true;
+            userProfileApiAccess.resetProfilePassword($stateParams.username).then(function (data) {
+                $scope.isResetPawssord = false;
+                if (data.IsSuccess) {
+                    if (data.Result) {
+                        $scope.isShowToken = true;
+                        $scope.resetToken = data.Result;
+                    } else {
+
+                        $scope.showAlert('Error', 'error', "no data found");
+                    }
+                }
+
+
+            }, function (err) {
+                $scope.showAlert('Error', 'error', err.message);
+            });
+        };
+
+        //close pwd token window
+        $scope.pwdTokenClose = function () {
+            $scope.isShowToken = false;
+        };
+
+        //copy pwd token window
+        $scope.copyToken = function () {
+
+            var $tempInput = $("<textarea>");
+            $("body").append($tempInput);
+            $tempInput.val($scope.resetToken).select();
+            document.execCommand("copy");
+            $tempInput.remove();
+            $scope.showAlert('Success', 'info', 'Token copied successfully');
+        };
+
+
         $scope.saveProfile = function () {
 
             var filteredUsers = $scope.sipUserList.filter(function (item) {
@@ -694,8 +734,6 @@
                         $scope.sipUserList = data.Result;
 
                     }
-
-
                 }
 
             }, function (err) {
@@ -1164,8 +1202,8 @@
             // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding
             return nChr > 64 && nChr < 91 ? nChr - 65
                 : nChr > 96 && nChr < 123 ? nChr - 71
-                : nChr > 47 && nChr < 58 ? nChr + 4
-                : nChr === 43 ? 62 : nChr === 47 ? 63 : 0;
+                    : nChr > 47 && nChr < 58 ? nChr + 4
+                        : nChr === 43 ? 62 : nChr === 47 ? 63 : 0;
         }
 
 

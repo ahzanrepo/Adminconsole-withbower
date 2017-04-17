@@ -76,7 +76,7 @@
                 data: numberData
             }).then(function(response){
 
-                deferred.resolve(response.data)
+                deferred.resolve(response.data);
             });
 
             return deferred.promise;
@@ -138,6 +138,18 @@
             return $http({
                 method: 'GET',
                 url: baseUrls.campaignmanagerUrl+'Campaigns/State/create/500',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
+        var getOngoingCampaigns = function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.campaignmanagerUrl+'Campaigns/State/ongoing/500',
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -265,6 +277,7 @@
             GetAllNumbers: getAllNumbers,
             GetNumbersByCampaign: getNumbersByCampaign,
             GetNewlyCreatedCampaigns: getNewlyCreatedCampaigns,
+            GetOngoingCampaigns: getOngoingCampaigns,
             GetCampaignSchedule: getCampaignSchedule,
             AddNumbersToDnc: addNumbersToDnc,
             DeleteNumbersFromDnc: deleteNumbersFromDnc,

@@ -4,8 +4,9 @@
 
 mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $uibModal, $timeout,
                                                   callMonitorSrv, notificationService,
-                                                  jwtHelper, authService, loginService) {
+                                                  jwtHelper, authService, loginService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.CallObj = {};
     $scope.isRegistered = false;
     $scope.currentSessionID = null;
@@ -125,7 +126,8 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
         }
     };
-
+  
+  
     $scope.showAlert = function (title, content, type) {
 
         new PNotify({

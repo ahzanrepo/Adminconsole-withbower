@@ -75,8 +75,7 @@
 
                                 <div class="col-md-6 col-sm-3 col-xs-12 form-group has-feedback">
 
-                                    <input type="checkbox"
-                                           ng-model="newTransltion.Enabled" class="js-switch"/> Availability
+                                    <input type="checkbox" ng-init="true" ng-model="newTransltion.Enabled" class="js-switch"/> Availability
 
                                 </div>
 
@@ -86,11 +85,13 @@
 
                             <div class="row">
 
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                    <div class="form-group">
+                                        <label>Ghost Numbers</label>
+                                        <tags-input ng-model="newTransltion.GhostNumbers" max-tags="5" display-property="PhoneNumber" key-property="PhoneNumber" add-from-autocomplete-only="true" min-length="1">
+                                            <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>
+                                        </tags-input>
+                                    </div>
                                 </div>
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                     <button type="button" class="btn btn-success btn-block  btn- pull-right"
@@ -113,9 +114,9 @@
         <!-- view application users -->
         <div class="x_panel">
             <div class="x_content">
-                <ul class="list-unstyled timeline">
+                <ul class="list-unstyled">
                     <li ng-repeat="Translation in TranslationList | filterBy: ['TransName']: searchCriteria">
-                        <edittanslations translation="Translation" translationList="TranslationList" update-translation="removeDeleted(Translation)"
+                        <edittanslations translation="Translation" translationList="TranslationList" phonenumbers="phnNumList" update-translation="removeDeleted(Translation)"
                                          reloadpage="reloadPage()"></edittanslations>
                     </li>
 

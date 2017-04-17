@@ -8,6 +8,7 @@
 
         <div class="x_title">
             <h2>All Profiles</h2>
+
             <div class="clearfix"></div>
         </div>
         <!-- SUSPEND  PROFILE -->
@@ -44,6 +45,8 @@
                                    class="main-icon-2-telephone-7 inbound"></i>
                                 <i ng-if="resource.slotMode=='Outbound'"
                                    class="main-icon-2-telephone-6 outbound"></i>
+                                <i ng-if="resource.slotMode=='Offline'"
+                                   class="main-icon-2-telephone-4 offline"></i>
                             </div>
                         </div>
                     </div>
@@ -87,6 +90,8 @@
                                    class="main-icon-2-telephone-7 inbound"></i>
                                 <i ng-if="resource.slotMode=='Outbound'"
                                    class="main-icon-2-telephone-6 outbound"></i>
+                                <i ng-if="resource.slotMode=='Offline'"
+                                   class="main-icon-2-telephone-4 offline"></i>
                             </div>
                         </div>
                     </div>
@@ -129,6 +134,8 @@
                                    class="main-icon-2-telephone-7 inbound"></i>
                                 <i ng-if="resource.slotMode=='Outbound'"
                                    class="main-icon-2-telephone-6 outbound"></i>
+                                <i ng-if="resource.slotMode=='Offline'"
+                                   class="main-icon-2-telephone-4 offline"></i>
                             </div>
                         </div>
                     </div>
@@ -136,50 +143,6 @@
             </ul>
         </div>
         <!-- END CONNECTED PROFILE -->
-
-
-        <!-- BREAK PROFILE -->
-        <div class="x_panel">
-            <h2>Break <b class="profile-status-right">{{BreakProfile.length}}</b>
-            </h2>
-            <ul class="list-unstyled top-profile-shadow scroll-view">
-                <li class="col-md-2 col-sm-2 col-xs-2 media event "
-                    ng-class="{'reserved':resource.slotState=='Reserved',
-                                               'available':resource.slotState=='Available',
-                                               'connected':resource.slotState=='Connected',
-                                               'afterWork':resource.slotState=='AfterWork',
-                                               'outbound':resource.slotState=='Outbound',
-                                               'suspended':resource.slotState=='Suspended',
-                                               'break':resource.other=='Break'}"
-                    ng-repeat="resource in BreakProfile">
-                    <div class="profile-status-dah"></div>
-                    <div class="pull-left border-aero profile_thumb">
-                        <img src="asset/images/defaultProfile.png"
-                             ng-src="{{resource.avatar}}"/>
-                    </div>
-                    <div class="media-body">
-                        <a class="title" href="javascript:void(0)">
-                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
-                        </a>
-                        <!--<p>{{resource.LastReservedTime}} </p>-->
-                        <p>
-                            <time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>
-                        </p>
-                        <div class="s-state">
-                            {{resource.slotState}}
-                            <div class="s-mode">
-                                <i ng-if="resource.slotMode=='Inbound'"
-                                   class="main-icon-2-telephone-7 inbound"></i>
-                                <i ng-if="resource.slotMode=='Outbound'"
-                                   class="main-icon-2-telephone-6 outbound"></i>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <!-- END BREAK PROFILE -->
-
 
         <!-- OUTBOUND  PROFILE -->
         <div class="x_panel">
@@ -215,6 +178,8 @@
                                    class="main-icon-2-telephone-7 inbound"></i>
                                 <i ng-if="resource.slotMode=='Outbound'"
                                    class="main-icon-2-telephone-6 outbound"></i>
+                                <i ng-if="resource.slotMode=='Offline'"
+                                   class="main-icon-2-telephone-4 offline"></i>
                             </div>
                         </div>
                     </div>
@@ -257,6 +222,8 @@
                                    class="main-icon-2-telephone-7 inbound"></i>
                                 <i ng-if="resource.slotMode=='Outbound'"
                                    class="main-icon-2-telephone-6 outbound"></i>
+                                <i ng-if="resource.slotMode=='Offline'"
+                                   class="main-icon-2-telephone-4 offline"></i>
                             </div>
                         </div>
                     </div>
@@ -300,6 +267,8 @@
                                    class="main-icon-2-telephone-7 inbound"></i>
                                 <i ng-if="resource.slotMode=='Outbound'"
                                    class="main-icon-2-telephone-6 outbound"></i>
+                                <i ng-if="resource.slotMode=='Offline'"
+                                   class="main-icon-2-telephone-4 offline"></i>
                             </div>
                         </div>
                     </div>
@@ -309,9 +278,9 @@
         <!-- END AVAILABLE PROFILE -->
 
 
-        <!-- RESERVED  PROFILE -->
+        <!-- BREAK PROFILE -->
         <div class="x_panel">
-            <h2> Other <b class="profile-status-right">{{profile.length}}</b>
+            <h2>Break <b class="profile-status-right">{{BreakProfile.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -320,6 +289,51 @@
                                                'connected':resource.slotState=='Connected',
                                                'afterWork':resource.slotState=='AfterWork',
                                                'outbound':resource.slotState=='Outbound',
+                                               'suspended':resource.slotState=='Suspended',
+                                               'break':resource.other=='Break'}"
+                    ng-repeat="resource in BreakProfile">
+                    <div class="profile-status-dah"></div>
+                    <div class="pull-left border-aero profile_thumb">
+                        <img src="asset/images/defaultProfile.png"
+                             ng-src="{{resource.avatar}}"/>
+                    </div>
+                    <div class="media-body">
+                        <a class="title" href="javascript:void(0)">
+                            {{ resource.name | limitTo: 10 }}{{resource.name.length > 10 ? '...' : ''}}
+                        </a>
+                        <!--<p>{{resource.LastReservedTime}} </p>-->
+                        <p>
+                            <time-ago from-time='{{ resource.LastReservedTimeT }}' format='MM/dd/yyyy'></time-ago>
+                        </p>
+                        <div class="s-state">
+                            {{resource.slotState}}
+                            <div class="s-mode">
+                                <i ng-if="resource.slotMode=='Inbound'"
+                                   class="main-icon-2-telephone-7 inbound"></i>
+                                <i ng-if="resource.slotMode=='Outbound'"
+                                   class="main-icon-2-telephone-6 outbound"></i>
+                                <i ng-if="resource.slotMode=='Offline'"
+                                   class="main-icon-2-telephone-4 offline"></i>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- END BREAK PROFILE -->
+
+
+        <!-- RESERVED  PROFILE -->
+        <div class="x_panel">
+            <h2> Other <b class="profile-status-right">{{profile.length}}</b></h2>
+            <ul class="list-unstyled top-profile-shadow scroll-view">
+                <li class="col-md-2 col-sm-2 col-xs-2 media event "
+                    ng-class="{'reserved':resource.slotState=='Reserved',
+                                               'available':resource.slotState=='Available',
+                                               'connected':resource.slotState=='Connected',
+                                               'afterWork':resource.slotState=='AfterWork',
+                                               'outbound':resource.slotState=='Outbound',
+                                               'other':resource.slotState=='Other',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
                     ng-repeat="resource in profile">
@@ -343,6 +357,8 @@
                                    class="main-icon-2-telephone-7 inbound"></i>
                                 <i ng-if="resource.slotMode=='Outbound'"
                                    class="main-icon-2-telephone-6 outbound"></i>
+                                <i ng-if="resource.slotMode=='Offline'"
+                                   class="main-icon-2-telephone-4 offline"></i>
                             </div>
                         </div>
                     </div>

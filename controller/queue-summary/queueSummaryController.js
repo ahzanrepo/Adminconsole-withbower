@@ -2,8 +2,9 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("queueSummaryController", function ($scope, $filter, $state, $q, queueSummaryBackendService, loginService) {
+mainApp.controller("queueSummaryController", function ($scope, $filter, $state, $q, queueSummaryBackendService, loginService,$anchorScroll) {
 
+    $anchorScroll();
     $scope.startDate = moment().format("YYYY-MM-DD");
     $scope.endDate = moment().format("YYYY-MM-DD");
     $scope.dateValid = true;

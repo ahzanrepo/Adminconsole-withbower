@@ -65,13 +65,21 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
             scope.editResource = function () {
                 scope.editAttribute = false;
                 scope.editMode = !scope.editMode;
+                /*if(scope.editMode){
+                    scope.GetTaskAttachToResource();
+                }*/
             };
 
             scope.editAttribute = false;
+            scope.isLoadingAttribute = false;
             scope.assignAttribute = function () {
                 scope.editMode = false;
+                scope.isLoadingAttribute = scope.editAttribute;
                 scope.editAttribute = !scope.editAttribute;
+                if(scope.editAttribute){
 
+                    scope.GetTaskAttachToResource();
+                }
             };
 
 
@@ -223,16 +231,19 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
             /*Load Attached Task*/
             scope.taskAttachToResource = {};
             scope.GetTaskAttachToResource = function () {
+                scope.isLoadingAttribute = true;
                 resourceService.GetTaskAttachToResource(scope.resource.ResourceId).then(function (response) {
                     scope.taskAttachToResource = response;
                     if (response)
-                        scope.selectTask(scope.taskAttachToResource[0])
+                        scope.selectTask(scope.taskAttachToResource[0]);
+                    scope.isLoadingAttribute = false;
                 }, function (error) {
                     console.info("DeleteTaskToResource err" + error);
                     scope.showError("Error", "Fail to Get Task Attached To Resource.");
+                    scope.isLoadingAttribute = false;
                 });
             };
-            scope.GetTaskAttachToResource();
+
 
             /*assign Attribute to Task*/
             scope.selectedAttributes = [];
@@ -318,6 +329,7 @@ mainApp.directive("editresource", function ($filter, $uibModal, resourceService)
                             scope.selectedAttributes.splice(index, 1);
                             scope.assignSkill_selectedTask.attributes.push(scope.selectedAttribute)
                         }
+                        scope.showAlert("Update Task", "", "", "This change will be affected on next login");
                     }
                 }, function (error) {
                     console.info("AssignTaskToResource err" + error);

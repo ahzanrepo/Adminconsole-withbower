@@ -127,8 +127,9 @@
                                                'afterWork':resource.slotInfo[0].slotState=='AfterWork',
                                                'outbound':resource.slotInfo[0].slotState=='Outbound',
                                                'suspended':resource.slotInfo[0].slotState=='Suspended',
+                                               'other':resource.slotInfo[0].slotState=='Other',
                                                'break':resource.slotInfo[0].other=='Break'}"
-                                        ng-repeat="resource in ResourceTask.CALL | orderBy: 'LastReservedTime':true track by $index">
+                                        ng-repeat="resource in ResourceTask.CALL.concat(ResourceTask.OFFLINE) | orderBy: 'LastReservedTime':true track by $index">
                                         <div class="profile-status-dah"></div>
                                         <div class="pull-left border-aero profile_thumb ">
                                             <img src="asset/images/defaultProfile.png"
@@ -147,6 +148,8 @@
                                                        class="main-icon-2-telephone-7 inbound"></i>
                                                     <i ng-if="resource.slotInfo[0].slotMode=='Outbound'"
                                                        class="main-icon-2-telephone-6 outbound"></i>
+                                                    <i ng-if="resource.slotInfo[0].slotMode=='Offline'"
+                                                       class="main-icon-2-telephone-4 offline"></i>
                                                 </div>
                                             </div>
                                             <!--<p>-->

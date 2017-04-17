@@ -333,6 +333,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
             }
         });
     };
+
     var getOngoingCampaign = function(){
         return $http({
             method: 'GET',
@@ -431,6 +432,172 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var getCampaignSummery = function (pageNo,rowCount,status) {
+
+        var postData = [];
+        /*postData['startDateTime'] = startTime;
+        postData['endDateTime'] = endTime;*/
+        postData['pageNo'] = pageNo;
+        postData['rowCount'] = rowCount;
+
+        postData['Status'] = status;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/summery",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var campaignSummeryReportCount = function (status) {
+        var postData = [];
+        postData['Status'] = status;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/summery/count",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
+    var campaignDispositionReportCount = function (dispositionInfo) {
+        var postData = [];
+        postData['CampaignId'] = dispositionInfo.campaign.CampaignId;
+        postData['TryCount'] = dispositionInfo.tryCount;
+        postData['DialerStatus'] = dispositionInfo.dialerState;
+        postData['Reason'] = dispositionInfo.callBackReason;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/disposition/count",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
+    var campaignDispositionReport = function (pageNo,rowCount,dispositionInfo) {
+        var postData = [];
+        postData['pageNo'] = pageNo;
+        postData['rowCount'] = rowCount;
+        postData['CampaignId'] = dispositionInfo.campaign.CampaignId;
+        postData['TryCount'] = dispositionInfo.tryCount;
+        postData['DialerStatus'] = dispositionInfo.dialerState;
+        postData['Reason'] = dispositionInfo.callBackReason;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/disposition",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var campaignCallbackReportCount = function (campaignId) {
+        var postData = [];
+        postData['CampaignId'] = campaignId;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/Callback/count",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
+    var campaignCallbackReport = function (pageNo,rowCount,campaignId) {
+        var postData = [];
+        postData['pageNo'] = pageNo;
+        postData['rowCount'] = rowCount;
+        postData['CampaignId'] = campaignId;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/Callback",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var getAllCallBackReasons = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Campaign/Configuration/callback/Reasons"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var campaignAttemptReportCount = function (campaignId,filterInfo) {
+        var postData = [];
+        postData['CampaignId'] = campaignId;
+        postData['DialNumber'] = filterInfo.dialNumber;
+        postData['answeredCount'] = filterInfo.answeredCount;
+        postData['tryCount'] = filterInfo.tryCount;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/Attempt/count",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
+    var campaignAttemptReport = function (pageNo,rowCount,campaignId,filterInfo) {
+        var postData = [];
+        postData['pageNo'] = pageNo;
+        postData['rowCount'] = rowCount;
+        postData['CampaignId'] = campaignId;
+        postData['DialNumber'] = filterInfo.dialNumber;
+        postData['answeredCount'] = filterInfo.answeredCount;
+        postData['tryCount'] = filterInfo.tryCount;
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Report/Attempt",
+            params:postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
     return {
         mechanisms: ["BLAST", "FIFO", "PREVIEW", "AGENT"],
         modes: ["IVR", "AGENT"],
@@ -462,7 +629,16 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         GetTotalConnectedCount:getTotalConnectedCount,
         GetTotalDialCount:getTotalDialCount,
         GetAssignedCategory:getAssignedCategory,
-        DeleteSchedule:deleteSchedule
+        DeleteSchedule:deleteSchedule,
+        GetCampaignSummery:getCampaignSummery,
+        CampaignSummeryReportCount:campaignSummeryReportCount,
+        CampaignDispositionReport:campaignDispositionReport,
+        CampaignDispositionReportCount:campaignDispositionReportCount,
+        CampaignCallbackReport:campaignCallbackReport,
+        CampaignCallbackReportCount:campaignCallbackReportCount,
+        GetAllCallBackReasons:getAllCallBackReasons,
+        CampaignAttemptReportCount:campaignAttemptReportCount,
+        CampaignAttemptReport:campaignAttemptReport
     }
 
 });

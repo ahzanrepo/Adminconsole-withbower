@@ -6,6 +6,8 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
     return {
         restrict: "EAA",
         scope: {
+            resourceId: "=",
+            taskType: "=",
             selectedAttribute: "=",
             'deleteAttributedrictive': '&'
         },
@@ -14,6 +16,7 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
 
         link: function (scope, element, attributes) {
 
+            var knobLoading = true;
             scope.getRandomSpan = function () {
                 return Math.floor((Math.random() * 6) + 1);
             };
@@ -43,17 +46,43 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
                 release: function (value) {
                     //console.log(this.$.attr('value'));
                     scope.selectedAttribute.savedObj.Percentage = value;
-                    resourceService.UpdateAttributesAttachToResource(scope.selectedAttribute).then(function (response) {
+                    if(!knobLoading){
+                        resourceService.UpdateAttributesAttachToResource(scope.selectedAttribute).then(function (response) {
 
-                        if (response.IsSuccess) {
-                            console.log("UpdateAttributesAttachToResource : " + value);
-                        }
-                        else {
+                            if (response.IsSuccess) {
+                                console.log("UpdateAttributesAttachToResource : " + value);
 
-                        }
-                    }, function (error) {
-                        console.info("AssignTaskToResource err" + error);
-                    });
+                                if(value >= 0) {
+                                    var updateRealTimeObj = {
+                                        ResourceId: scope.resourceId,
+                                        ResourceAttributeInfo: {
+                                            Attribute: scope.selectedAttribute.savedObj.AttributeId.toString(),
+                                            HandlingType: scope.taskType,
+                                            Percentage: value
+                                        },
+                                        OtherInfo: ""
+                                    };
+
+                                    resourceService.AssignAttributeToResource(updateRealTimeObj).then(function (response) {
+                                        if(response.IsSuccess){
+                                            console.info("AssignAttributeToResource real time success");
+                                        }else{
+                                            console.info("AssignAttributeToResource real time failed");
+                                        }
+
+                                    },function (error) {
+                                        console.info("AssignAttributeToResource real time err" + error);
+                                    });
+                                }
+                            }
+                            else {
+
+                            }
+                        }, function (error) {
+                            console.info("AssignTaskToResource err" + error);
+                        });
+                    }
+                    knobLoading = false;
                     console.log("release : " + value);
 
 

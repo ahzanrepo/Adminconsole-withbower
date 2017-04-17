@@ -92,8 +92,6 @@
             catch (ex) {
                 return false;
             }
-
-
         };
 
         //get token decode

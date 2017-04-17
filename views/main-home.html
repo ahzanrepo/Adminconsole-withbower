@@ -39,9 +39,10 @@
                                     class="font-robot font-300">
                                 <i class="fa fa-home"></i> Home </a>
                             </li>
-                            <li ng-show="accessNavigation.AGENT_PRODUCTIVITY || accessNavigation.CALL_MONITOR"><a
-                                    class="font-robot font-300 "><i class="fa fa-plug"></i> Real Time
-                                <span class="fa fa-chevron-down"></span></a>
+                            <li ng-show="accessNavigation.AGENT_PRODUCTIVITY || accessNavigation.CALL_MONITOR||accessNavigation.AGENTSTATUSEVENT||accessNavigation.CALLCENTER_PERFORMANCE">
+                                <a
+                                        class="font-robot font-300 "><i class="fa fa-plug"></i> Real Time
+                                    <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.AGENT_PRODUCTIVITY"><a
                                             ng-click="clickDirective.goProductivity()">Agent Productivity </a></li>
@@ -57,9 +58,23 @@
                                     <li ng-show="accessNavigation.DASHBOARD"><a
                                             ng-click="clickDirective.goTickerAgentDashboard()">Ticket Dashboard</a>
                                     </li>
+                                    <li ng-show="accessNavigation.AGENTSTATUSEVENT"><a href="javascript:void(0);"
+                                                                                       ng-click="clickDirective.goAgentStatus()">Agent
+                                        Status</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CALLCENTER_PERFORMANCE"><a href="javascript:void(0);"
+                                                                                             ng-click="clickDirective.goCallCenterPerformance()">Call
+                                        Center Performance</a>
+                                    </li>
+
+                                    <li ng-show="accessNavigation.CALLCENTER_PERFORMANCE"><a href="javascript:void(0);"
+                                                                                             ng-click="clickDirective.goToAgentDashboard()">
+                                        Agent Dashboard
+                                    </a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER">
+                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER|| accessNavigation.NOTICE">
                                 <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -108,6 +123,10 @@
                                     <li ng-show="accessNavigation.DYNAMICFORM"><a href="javascript:void(0);"
                                                                                   ng-click="clickDirective.newContact()">
                                         Phone Book</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.NOTICE"><a href="javascript:void(0);"
+                                                                             ng-click="clickDirective.goNotices()">
+                                        Notices</a>
                                     </li>
 
                                     <!-- <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
@@ -184,6 +203,10 @@
                                     <li ng-show="accessNavigation.EXTENSION"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goExtension()">Extension</a>
                                     </li>
+                                    <li ng-show="accessNavigation.USERS"><a href="javascript:void(0);"
+                                                                            ng-click="clickDirective.goSecLevels()">Security
+                                        Levels</a>
+                                    </li>
 
                                 </ul>
                             </li>
@@ -223,9 +246,7 @@
                                     <li ng-show="accessNavigation.RESOURCES"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goResourceList()">Resources</a>
                                     </li>
-                                    <li ng-show="accessNavigation.RESOURCES"><a href="javascript:void(0);"
-                                                                                ng-click="clickDirective.goAgentStatus()">Agent
-                                        Status</a></li>
+
 
                                     <li ng-show="accessNavigation.ARDS_CONFIGURATION"><a href="javascript:void(0);"
                                                                                          ng-click="clickDirective.goArdsConfig()">Router
@@ -323,8 +344,8 @@
                             <li ng-show="accessNavigation.CAMPAIGNMANAGER">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-bullhorn"></i> Campaign
-                                     <span
-                                             class="fa fa-chevron-down"></span></a>
+                                    <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goCreateCampaign()">Campaigns</a>
@@ -343,6 +364,25 @@
                                 </ul>
                             </li>
 
+                            <li ng-show="accessNavigation.CAMPAIGNMANAGER">
+                                <a
+                                        class="font-robot font-300 "><i class="fa fa-bullhorn"></i> CRM
+                                    <span
+                                            class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a>Zoho<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goZoho();">Zoho</a>
+                                            </li>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goZohoUser();">Users</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
                         </ul>
                     </div>
                     <div class="menu_section">
@@ -355,6 +395,23 @@
                                     Report <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
+                                    <li><a>Campaign<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goCampaignSummery();">Summery</a>
+                                            </li>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goCampaignDisposition();">Disposition</a>
+                                            </li>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goCampaignCallback();">Callback</a>
+                                            </li>
+                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                              ng-click="clickDirective.goCampaignAttempt();">Attempt</a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goCdrReport()">CDR</a>
                                     </li>
@@ -456,9 +513,9 @@
         <div class="top_nav">
             <div class="nav_menu">
                 <nav class="" role="navigation">
-                    <!--<div class="nav toggle ">-->
-                        <!--<a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>-->
-                    <!--</div>-->
+                    <div class="nav toggle ">
+                        <a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
+                    </div>
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
@@ -567,27 +624,33 @@
                         <div class="call-moitor-btn-wrap">
                             <!--ng-if="inCall"-->
                             <div ng-if="inCall">
-                                <button class="btn bg-blue700 hvr-pop" ng-click=""><span
+                                <button tooltip-placement="left" uib-tooltip="mute"
+                                        class="btn bg-blue700 hvr-pop" ng-click=""><span
                                         class="fa fa-microphone-slash "
                                         aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span
+                                <button tooltip-placement="left" uib-tooltip="Hang up call"
+                                        class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span
                                         class="fa fa-phone"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span
+                                <button tooltip-placement="left" uib-tooltip="Three way call"
+                                        class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span
                                         class="fa fa-group"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="BargeCall()"
+                                <button tooltip-placement="left" uib-tooltip="Barge call"
+                                        class="btn bg-blue700 hvr-pop" ng-click="BargeCall()"
                                         ng-disabled="(CallStatus=='BARGED' || CallStatus=='THREEWAY' || CallStatus==null)"><span
                                         class="fa fa-bullhorn" aria-hidden="true"></span></button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
+                                <button tooltip-placement="left" uib-tooltip="Return to listen"
+                                        class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
                                         ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)"><span
                                         class="fa fa-mail-reply"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
+                                <button tooltip-placement="left" uib-tooltip="Swap user"
+                                        class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
                                         ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )">
                                     <span class="fa fa-user" aria-hidden="true"></span></button>
                                 <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->

@@ -4,9 +4,10 @@
 
 'use strict';
 
-mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigservice,$location, notificationService) {
+mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigservice,$location, notificationService,$anchorScroll) {
 
     // Update the dataset at 25FPS for a smoothly-animating chart
+    $anchorScroll();
     $scope.ruleObj = {};
     $scope.inBtnSt=true;
     $scope.outBtnSt=true;
