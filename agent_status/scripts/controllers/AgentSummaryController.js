@@ -81,7 +81,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                         profile.slotMode = resourceMode;
 
-                        var reservedDate = response[i].ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
+                        if(response[i].ConcurrencyInfo[0].SlotInfo[0]) {
+
+                            var reservedDate = response[i].ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
+                        }
 
 
                         if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
