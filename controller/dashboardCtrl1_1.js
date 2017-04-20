@@ -746,50 +746,73 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
                     });
 
 
-                    if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0 &&
-                        response[i].ConcurrencyInfo[0].SlotInfo.length > 0) {
-
-                        // is user state Reason
-                        var resonseStatus = null, resonseAvailability = null, resourceMode = null;
-                        if (response[i].Status.Reason && response[i].Status.State) {
-                            resonseAvailability = response[i].Status.State;
-                            resonseStatus = response[i].Status.Reason;
-                            resourceMode = response[i].Status.Mode;
-                        }
 
 
-                        if (response[i].ConcurrencyInfo[0].IsRejectCountExceeded) {
-                            resonseAvailability = "NotAvailable";
-                            resonseStatus = "Suspended";
-                        }
-
-                        profile.slotMode = resourceMode;
-
-                        var reservedDate = response[i].ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
 
 
-                        if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Reject";
-                        } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Break";
-                            reservedDate = response[i].Status.StateChangeTime;
-                        } else {
-                            profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
 
-                            if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
 
-                                reservedDate = response[i].Status.StateChangeTime;
+
+
+                    if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0) {
+
+                        response[i].ConcurrencyInfo.forEach(function (concurrency) {
+                            if(concurrency && concurrency.HandlingType === 'CALL' && concurrency.SlotInfo && concurrency.SlotInfo.length >0){
+
+                                // is user state Reason
+                                var resonseStatus = null, resonseAvailability = null, resourceMode = null;
+                                if (response[i].Status.Reason && response[i].Status.State) {
+                                    resonseAvailability = response[i].Status.State;
+                                    resonseStatus = response[i].Status.Reason;
+                                    resourceMode = response[i].Status.Mode;
+                                }
+
+
+                                if (concurrency.IsRejectCountExceeded) {
+                                    resonseAvailability = "NotAvailable";
+                                    resonseStatus = "Suspended";
+                                }
+
+                                profile.slotMode = resourceMode;
+
+                                var reservedDate ="";
+                                if(concurrency.SlotInfo[0]) {
+
+                                    reservedDate = concurrency.SlotInfo[0].StateChangeTime;
+                                }
+
+
+                                if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
+                                    profile.slotState = resonseStatus;
+                                    profile.other = "Reject";
+                                } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+                                    profile.slotState = resonseStatus;
+                                    profile.other = "Break";
+                                    reservedDate = response[i].Status.StateChangeTime;
+                                } else {
+
+                                    if (concurrency.SlotInfo[0]) {
+                                        profile.slotState = concurrency.SlotInfo[0].State;
+                                    }
+
+                                    /*if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
+
+                                     reservedDate = response[i].Status.StateChangeTime;
+                                     }*/
+                                }
+
+                                profile.LastReservedTimeT = reservedDate;
+                                if (reservedDate == "") {
+                                    profile.LastReservedTime = null;
+                                } else {
+                                    profile.LastReservedTime = moment(reservedDate).format("h:mm a");
+                                }
+
+
+
+
                             }
-                        }
-
-                        profile.LastReservedTimeT = reservedDate;
-                        if (reservedDate == "") {
-                            profile.LastReservedTime = null;
-                        } else {
-                            profile.LastReservedTime = moment(reservedDate).format("h:mm a");
-                        }
+                        });
 
 
                         // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
@@ -800,7 +823,7 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
                         //         $scope.BreakProfile.push(profile);
                         //     }
 
-                    } else {
+                    }else{
                         resourceMode = response[i].Status.Mode;
                         resonseAvailability = response[i].Status.State;
                         resonseStatus = response[i].Status.Reason;
@@ -834,7 +857,6 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
                     } else if (profile.slotState == 'Available') {
                         $scope.AvailableProfile.push(profile);
                     } else {
-                        $scope.profile = [];
                         $scope.profile.push(profile);
                         //$scope.BreakProfile.push(profile);
                     }
