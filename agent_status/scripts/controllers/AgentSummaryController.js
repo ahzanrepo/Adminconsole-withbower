@@ -83,9 +83,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                                 profile.slotMode = resourceMode;
 
+                                var reservedDate ="";
                                 if(concurrency.SlotInfo[0]) {
 
-                                    var reservedDate = concurrency.SlotInfo[0].StateChangeTime;
+                                    reservedDate = concurrency.SlotInfo[0].StateChangeTime;
                                 }
 
 
