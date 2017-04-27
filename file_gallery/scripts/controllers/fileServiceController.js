@@ -321,7 +321,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     };
 
     $scope.downloadFile = function (file) {
-        fileService.DownloadFile(file.UniqueId, file.Filename);
+        fileService.downloadInternalFile(file);
     };
 
     $scope.GetToken = function () {
@@ -468,7 +468,7 @@ app.directive('onErrorSrc', function () {
 });
 
 
-app.controller('ModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, baseUrls, file) {
+app.controller('ModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, baseUrls, file,$auth) {
 
     $scope.selectedFile = file;
 
@@ -480,14 +480,13 @@ app.controller('ModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, b
         $uibModalInstance.dismiss('cancel');
     };
 
-    //var uri_enc = encodeURIComponent(uri);
-    /*{{internalUrl}}File/Download/{{tenant}}/{{company}}/{{file.UniqueId}}/{{file.Filename}}*/
-    /*baseUrls.fileServiceInternalUrl + "File/Download/" + file.TenantId + "/" + file.CompanyId + "/" + file.UniqueId + "/" + file.Filename*/
+
+
     $scope.config = {
         preload: "auto",
         sources: [
             {
-                src: $sce.trustAsResourceUrl(baseUrls.fileServiceInternalUrl + "File/Download/" + file.TenantId + "/" + file.CompanyId + "/" + file.UniqueId + "/" + file.Filename),
+                src: $sce.trustAsResourceUrl(baseUrls.fileServiceUrl + "File/Download/"+ file.UniqueId + "/" + file.Filename+"?Authorization="+$auth.getToken()),
                 type: file.FileStructure
             }
         ],
