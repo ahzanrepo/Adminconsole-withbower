@@ -86,7 +86,7 @@ var baseUrls = {
     'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
     'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
-    'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
+    'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
     'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/',
     'zohoAPIUrl': 'http://crmintegrations.app.veery.cloud/DVP/API/1.0.0.0/'//crmintegrations.app.veery.cloud
@@ -178,7 +178,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/console",
             templateUrl: "views/main-home.html",
             data: {
-                requireLogin: true,
+                requireLogin: true
             }
         }).state('console.dashboard', {
             url: "/dashboard",
@@ -210,7 +210,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "emailConnectorController",
             data: {
                 requireLogin: true,
-                navigation: "TWITTER"
+                navigation: "EMAIL"
             }
         }).state('console.productivity', {
             url: "/productivity",
@@ -273,7 +273,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "emailReportCtrl",
             data: {
                 requireLogin: true,
-                navigation: "CDR"
+                navigation: "REPORT_EMAIL_CONFIG"
             }
         }).state('console.auditTrailRep', {
             url: "/AuditTrailReport",
@@ -289,7 +289,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "qaRatingCtrl",
             data: {
                 requireLogin: true,
-                navigation: "QUALITYASSUARANCE"
+                navigation: "QA_FORM_DESIGNER"
             }
         }).state('console.qaSubmission', {
             url: "/QAFormSubmission",
@@ -297,7 +297,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "qaSubmissionCtrl",
             data: {
                 requireLogin: true,
-                navigation: "QUALITYASSUARANCE"
+                navigation: "QA_FORM_SUBMISSION"
             }
         }).state('console.AgentProfileSummary', {
             url: "/AgentProfileSummary",
@@ -305,7 +305,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "AgentSummaryController",
             data: {
                 requireLogin: true,
-                navigation: "RESOURCES"
+                navigation: "AGENT_SUMMARY"
             }
         }).state("console.applicationAccessManager", {
             url: "/applicationAccessManager/:username/:role",
@@ -318,7 +318,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/login",
             templateUrl: "auth/login.html",
             data: {
-                requireLogin: false,
+                requireLogin: false
 
             }
         }).state('signUp', {
@@ -337,13 +337,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/reset/:token",
             templateUrl: "auth/reEnterPassword.html",
             data: {
-                requireLogin: false,
+                requireLogin: false
             }
         }).state("Activate", {
             url: "/activate/:token",
             templateUrl: "auth/activateAccount.html",
             data: {
-                requireLogin: false,
+                requireLogin: false
             }
         }).state('pricing', {
             url: "/pricing",
@@ -364,7 +364,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "creditController",
             data: {
                 requireLogin: true,
-                navigation: "PACKAGE_MANAGER"
+                navigation: "CREDIT_MANAGER"
             }
         }).state("console.cdr", {
             url: "/cdr",
@@ -473,14 +473,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "abandonCallCdrCtrl",
             data: {
                 requireLogin: true,
-                navigation: "CDR"
+                navigation: "ABANDONED_CALL_REPORT"
             }
         }).state('console.realtime-queued', {
             url: "/realtime-queued",
             templateUrl: "views/real-time/queued.html",
             data: {
                 requireLogin: true,
-                navigation: "DASHBOARD"
+                navigation: "QUEUE_SUMMARY"
             }
         }).state('console.phone', {
             url: "/call-phone",
@@ -560,7 +560,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "queueSummaryController",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "QUEUE_SUMMARY_REPORT"
                 }
             }).state('console.agentsummary', {
                 url: "/agentsummary",
@@ -568,7 +568,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "agentSummaryController",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "AGENT_PRODUCTIVITY_SUMMARY_REPORT"
                 }
             }).state('console.AgentTblList', {
                 url: "/AgentTblList",
@@ -677,7 +677,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "callSummaryCtrl",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "CALL_SUMMARY_REPORT"
                 }
 
             }).state('console.queueHourlySummary', {
@@ -686,7 +686,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "queueSummaryHourlyCtrl",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "QUEUE_HOURLY_BREAKDOWN_REPORT"
                 }
             }).state('console.sla', {
                 url: "/sla",
@@ -715,10 +715,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }).state("console.agentTicketDashboard", {
                 url: "/agentTicketDashboard",
                 templateUrl: "views/dashboard/dashboardTicket.html",
-                controller: "agentStatusListCtrl",
+                controller: "agentDashboardCtrl",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "TICKET_DASHBOARD"
                 }
             }).state("console.ticketSummary", {
                 url: "/ticketSummary",
@@ -726,7 +726,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "ticketSummaryCtrl",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "TICKET_SUMMARY_REPORT"
                 }
             }).state("console.ticketDetailReport", {
                 url: "/ticketDetailReport",
@@ -734,20 +734,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "ticketDetailReportCtrl",
                 data: {
                     requireLogin: true,
-                    navigation: "CDR"
+                    navigation: "TICKET_DETAIL_REPORT"
                 }
             }).state("console.timeSheet", {
                 url: "/timeSheet",
                 templateUrl: "views/timeSheet/time-sheet.html",
                 controller: "timeSheetCtrl",
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    navigation: "TIME_SHEET_REPORT"
                 }
             }).state("console.createFilter", {
                 url: "/createFilter",
                 templateUrl: "views/ticket-trigger/create-filter.html",
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    navigation: "TICKET_FILTER"
                 }
             }).state("console.caseConfiguration", {
                 url: "/caseConfiguration",
@@ -755,7 +757,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "caseConfigController",
                 data: {
                     requireLogin: true,
-                    navigation: "TICKET_SLA"
+                    navigation: "CASE_CONFIGURATION"
                 }
             }).state("console.case", {
                 url: "/case",
@@ -763,7 +765,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "caseController",
                 data: {
                     requireLogin: true,
-                    navigation: "TICKET_SLA"
+                    navigation: "CASES"
                 }
             }).state("console.configCase", {
                 url: "/configCase/:caseInfo/:title",
@@ -786,7 +788,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "fileSlotController",
                 data: {
                     requireLogin: true,
-                    navigation: "TICKET"
+                    navigation: "TICKET_ATTACHMENT_SLOT"
                 }
             }).state('console.billingHistory', {
                 url: "/billingHistory",
@@ -795,14 +797,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
 
                 data: {
                     requireLogin: true,
-                    navigation: "PACKAGE_MANAGER"
+                    navigation: "BILLING_HISTORY"
                 }
             }).state('console.ticketFlow', {
                 url: "/ticketFlow",
                 templateUrl: "views/flow/flowTest.html",
                 data: {
                     requireLogin: true,
-                    navigation: "SLA_BREAKDOWN"
+                    navigation: "TICKET_FLOW"
                 }
             }).state('console.ivrnodecount', {
                 url: "/ivrNode",
@@ -810,7 +812,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "ivrNodeCountController",
                 data: {
                     requireLogin: true,
-                    navigation: "SLA_BREAKDOWN"
+                    navigation: "IVR_NODE_COUNT_REPORT"
                 }
             }).state('console.customersatisfaction', {
                 url: "/customersatisfaction",
@@ -834,7 +836,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "qaRatingReportCtrl",
                 data: {
                     requireLogin: true,
-                    navigation: "QUALITYASSUARANCE"
+                    navigation: "QUALITYASSUARANCE_REPORT"
                 }
             }).state('console.missedcallreport', {
                 url: "/missedcallreport",
@@ -858,7 +860,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "campaignMonitorController",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
+                    navigation: "CAMPAIGN_MONITOR"
                 }
             }).state('console.campaignsummeryreport', {
                 url: "/campaign/report/summery",
@@ -866,7 +868,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "campaignReportController",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
+                    navigation: "CAMPAIGN_SUMMARY_REPORT"
                 }
             }).state('console.campaigndispositionreport', {
                 url: "/campaign/report/disposition",
@@ -874,7 +876,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "campaignDispositionReportController",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
+                    navigation: "CAMPAIGN_DISPOSITION_REPORT"
                 }
             }).state('console.campaigncallbackreport', {
                 url: "/campaign/report/callback",
@@ -882,7 +884,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "campaignCallbackReportController",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
+                    navigation: "CAMPAIGN_CALLBACK_REPORT"
                 }
             }).state('console.campaignattemptreport', {
                 url: "/campaign/report/attempt",
@@ -890,7 +892,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "campaignAttemptReportController",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
+                    navigation: "CAMPAIGN_ATTEMPT_REPORT"
                 }
             }).state('console.zoho', {
                 url: "/zoho",
@@ -898,7 +900,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "zohoController",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
+                    navigation: "ZOHO_CRM"
                 }
             }).state('console.zohousers', {
                 url: "/zoho/users",
@@ -906,7 +908,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "zohoUsersController",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
+                    navigation: "ZOHO_CRM_USERS"
                 }
             }).state('console.campaignnumberupload', {
                 url: "/campaign/numberupload",
@@ -914,7 +916,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "numberUploadController",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNNUMBERS"
+                    navigation: "CAMPAIGN_NUMBER_BASE"
                 }
             }).state('console.dncnumbermanage', {
                 url: "/campaign/dncnumbermanage",
@@ -922,7 +924,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "numberDncController",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNNUMBERS"
+                    navigation: "CAMPAIGN_DNCLIST"
                 }
             }).state('console.contact-book', {
                 url: "/contact-book",
@@ -930,7 +932,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 controller: "softPhoneCtrl",
                 data: {
                     requireLogin: true,
-                    navigation: "CAMPAIGNNUMBERS"
+                    navigation: "PHONE_BOOK"
                 }
             }).state('console.callcenterperformance', {
                 url: "/callcenterperformance",
@@ -953,7 +955,8 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 url: "/agentDashboard",
                 templateUrl: "views/dashboard/dashboardContactCenter.html",
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    navigation: "AGENT_DASHBOARD"
                 }
 
             }).state('console.notices', {
