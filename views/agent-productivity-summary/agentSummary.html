@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div style="position: relative; top: 20px;">
-                        <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;" csv-header="['Agent ID', 'Staff Time', 'Date', 'Talk Time', 'Total Answered', 'Total Calls', 'Average Handling Time', 'Break Time', 'After Work Time', 'Idle Time']" csv-column-order="['AgentName', 'StaffTime', 'Date', 'TalkTime', 'TotalAnswered', 'TotalCalls', 'AverageHandlingTime', 'BreakTime', 'AfterWorkTime', 'IdleTime']" ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv">
+                        <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;" csv-header="['Agent ID', 'Staff Time', 'Date', 'Talk Time(inbound)', 'Talk Time(outbound)', 'Total Answered', 'Total Calls(inbound)', 'Total Calls(outbound)', 'Average Handling Time', 'Break Time', 'After Work Time', 'Idle Time']" csv-column-order="['AgentName', 'StaffTime', 'Date', 'TalkTime', 'TalkTimeOutbound', 'TotalAnswered', 'TotalCalls', 'TotalCallsOutbound', 'AverageHandlingTime', 'BreakTime', 'AfterWorkTime', 'IdleTime']" ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv">
                             CSV&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="fa fa-download"></i>
                         </button>
@@ -104,7 +104,11 @@
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
-                                            colspan="1" aria-label="ReceivedBy">Talk Time
+                                            colspan="1" aria-label="ReceivedBy">Talk Time(inbound)
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">Talk Time(outbound)
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
@@ -112,7 +116,11 @@
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
-                                            colspan="1" aria-label="ReceivedBy">Total Calls
+                                            colspan="1" aria-label="ReceivedBy">Total Calls(inbound)
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">Total Calls(outbound)
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
@@ -139,8 +147,10 @@
                                         <td>{{agentSummary.Date|date:"yyyy-MM-dd"}}</td>
                                         <td>{{agentSummary.StaffTime}}</td>
                                         <td>{{agentSummary.TalkTime}}</td>
+                                        <td>{{agentSummary.TalkTimeOutbound}}</td>
                                         <td>{{agentSummary.TotalAnswered}}</td>
                                         <td>{{agentSummary.TotalCalls}}</td>
+                                        <td>{{agentSummary.TotalCallsOutbound}}</td>
                                         <td>{{agentSummary.AverageHandlingTime}}</td>
                                         <td>{{agentSummary.BreakTime}}</td>
                                         <td>{{agentSummary.AfterWorkTime}}</td>
