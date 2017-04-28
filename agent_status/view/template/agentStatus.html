@@ -6,12 +6,14 @@
                     'afterWork':productivity.slotState=='AfterWork',
                     'suspended':productivity.slotState=='Suspended',
                     'outbound':productivity.slotState=='Outbound',
+                    'outbound':productivity.slotState=='Offline',
                     'break': productivity.slotState == 'MeetingBreak' ||
                     productivity.slotState == 'MealBreak' || productivity.slotState == 'TrainingBreak' ||
                     productivity.slotState == 'TeaBreak' || productivity.slotState == 'OfficialBreak' ||
-                    productivity.slotState == 'AUXBreak' ||
+                    productivity.slotState == 'AUXBreak' || productivity.other=='Break' ||
                     productivity.slotState == 'ProcessRelatedBreak'}">
         <div class="x_content">
+
             <div class="flex">
 
                 <div class="col-lg-12 " ng-if="viewState!=2">
@@ -128,6 +130,11 @@
                     <span>Incoming Call</span>
 
                     <p> {{productivity.IncomingCallCount}}</p>
+                </div>
+                <div class="col-md-4 tile">
+                    <span>Out Call</span>
+
+                    <p> {{productivity.OutgoingCallCount}}</p>
                 </div>
                 <div class="col-md-4 tile">
                     <span>Transfer Call</span>

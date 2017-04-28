@@ -1,16 +1,19 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller("resourceProductivityController", function ($scope, $filter, $location, $log,$anchorScroll, resourceProductivityService) {
+app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll, resourceProductivityService) {
 
     $anchorScroll();
-    $scope.reloadPage = function(){
+    $scope.reloadPage = function () {
         $scope.OnlineAgents = [];
         $scope.productivity = [];
         $scope.GetOnlineAgents();
     };
+    $scope.isLoading = true;
     $scope.productivity = [];
     $scope.getProductivity = function () {
-
+        if ($scope.OnlineAgents.length == 0) {
+            angular.copy($scope.AvailableAgents, $scope.OnlineAgents);
+        }
         resourceProductivityService.GetProductivity().then(function (response) {
 
             $log.debug("GetCallServers: response" + response);
@@ -19,16 +22,17 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         }, function (error) {
             $log.debug("GetCallServers err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
+            $scope.isLoading = false;
         });
 
     };
 
+    $scope.AvailableAgents = [];
     $scope.OnlineAgents = [];
     $scope.GetOnlineAgents = function () {
         resourceProductivityService.GetOnlineAgents().then(function (response) {
-
-            $log.debug("GetOnlineAgents: response" + response);
-            $scope.OnlineAgents = response;
+            $scope.AvailableAgents = response;
+            angular.copy(response, $scope.OnlineAgents);
             $scope.getProductivity();
         }, function (error) {
             $log.debug("GetOnlineAgents err");
@@ -38,6 +42,45 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
     };
     $scope.GetOnlineAgents();
 
+
+    $scope.querySearch = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.AvailableAgents) {
+                return $scope.AvailableAgents;
+            }
+            else {
+                return [];
+            }
+
+        }
+        else {
+            if ($scope.AvailableAgents) {
+                var filteredArr = $scope.AvailableAgents.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.ResourceName) {
+                        return item.ResourceName.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArr;
+            }
+            else {
+                return [];
+            }
+        }
+
+    };
+
+    $scope.AgentAdded = function () {
+        $scope.getProductivity();
+    };
+
+
     $scope.Productivitys = [];
 
     var calculateProductivity = function () {
@@ -46,34 +89,39 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 try {
                     if (agent) {
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
-                        if(ids[0]){
+                        if (ids[0]) {
 
-                        var agentProductivity = {
-                            "data": [{
-                                value: ids[0].AcwTime ? ids[0].AcwTime : 0,
-                                name: 'After work'
-                            }, {
-                                value: ids[0].BreakTime ? ids[0].BreakTime : 0,
-                                name: 'Break'
-                            }, {
-                                value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
-                                name: 'On Call'
-                            }, {
-                                value: ids[0].IdleTime ? ids[0].IdleTime : 0,
-                                name: 'Idle'
-                            }],
-                            "ResourceId": agent.ResourceId,
-                            "ResourceName": agent.ResourceName,
-                            "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
-                            "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
-                            "Chatid": agent.ResourceId
-                        };
+                            var agentProductivity = {
+                                "data": [{
+                                    value: ids[0].AcwTime ? ids[0].AcwTime : 0,
+                                    name: 'After work'
+                                }, {
+                                    value: ids[0].BreakTime ? ids[0].BreakTime : 0,
+                                    name: 'Break'
+                                }, {
+                                    value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
+                                    name: 'On Call'
+                                }, {
+                                    value: ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,
+                                    name: 'Out Call Time'
+                                }, {
+                                    value: ids[0].IdleTime ? ids[0].IdleTime : 0,
+                                    name: 'Idle'
+                                }],
+                                "ResourceId": agent.ResourceId,
+                                "ResourceName": agent.ResourceName,
+                                "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
+                                "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
+                                "Chatid": agent.ResourceId
+                            };
 
                             $scope.Productivitys.push(agentProductivity);
                         }
                     }
+                    $scope.isLoading = false;
                 } catch (ex) {
                     console.log(ex);
+                    $scope.isLoading = false;
                 }
             });
 
@@ -83,7 +131,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     /* $scope.labels = ["After work", "Break", "On Call", "Idle"];
      $scope.data = [300, 500, 100, 100];*/
-    $scope.showError = function (tittle,content) {
+    $scope.showError = function (tittle, content) {
 
         new PNotify({
             title: tittle,
@@ -318,25 +366,54 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     //-----------------------------------------------
 
+    function secondsToTime(secs) {
+        var hours = Math.floor(secs / (60 * 60));
+
+        var divisor_for_minutes = secs % (60 * 60);
+        var minutes = Math.floor(divisor_for_minutes / 60);
+
+        var divisor_for_seconds = divisor_for_minutes % 60;
+        var seconds = Math.ceil(divisor_for_seconds);
+
+        return hours + ":" + minutes + ":" + seconds;
+    }
+
     var myObject = {};
     $scope.echartDonutSetOption = function () {
         angular.forEach($scope.Productivitys, function (productivity) {
             myObject[productivity.Chatid] = echarts.init(document.getElementById(productivity.ResourceId), theme);
             myObject[productivity.Chatid].setOption({
+                title: {
+                    show: true,
+                    text: productivity.ResourceName,
+                    textStyle: {
+                        fontSize: 18,
+                        fontWeight: 'bolder',
+                        color: '#333',
+                        fontFamily: 'Ubuntu-Regular'
+                    }
+                },
                 tooltip: {
                     trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    //formatter: "{a} <br/>{b} : {c} ({d}%)",
+                    formatter: function (params, ticket, callback) {
+                        var res = params.seriesName + ' <br/>' + params.name + ' ' + secondsToTime(params.value) + ' ' + params.percent + '%';
+                        setTimeout(function () {
+                            callback(ticket, res);
+                        }, 100);
+                        return 'loading';
+                    }
                 },
                 calculable: true,
                 legend: {
                     x: 'center',
                     y: 'bottom',
-                    data: ['After work', 'Break', 'On Call', 'Idle']
+                    data: ['After work', 'Break', 'On Call','Out Call Time', 'Idle']
                 },
                 toolbox: {
                     show: true,
                     feature: {
-                        mark : {show: true},
+                        mark: {show: true},
                         //dataView : {show: true, readOnly: false},
                         magicType: {
                             show: true,
