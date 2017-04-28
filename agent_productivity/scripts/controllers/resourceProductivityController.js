@@ -100,11 +100,15 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                                     name: 'Break'
                                 }, {
                                     value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
-                                    name: 'On Call'
-                                }, {
-                                    value: ids[0].IdleTime ? ids[0].IdleTime : 0,
-                                    name: 'Idle'
-                                }],
+                                    name: 'In Call Time'
+                                },
+                                    {
+                                        value: ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,
+                                        name: 'Out Call Time'
+                                    }, {
+                                        value: ids[0].IdleTime ? ids[0].IdleTime : 0,
+                                        name: 'Idle'
+                                    }],
                                 "ResourceId": agent.ResourceId,
                                 "ResourceName": agent.ResourceName,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
@@ -363,8 +367,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     //-----------------------------------------------
 
-    function secondsToTime(secs)
-    {
+    function secondsToTime(secs) {
         var hours = Math.floor(secs / (60 * 60));
 
         var divisor_for_minutes = secs % (60 * 60);
@@ -373,29 +376,30 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         var divisor_for_seconds = divisor_for_minutes % 60;
         var seconds = Math.ceil(divisor_for_seconds);
 
-        return hours+":"+minutes+":"+seconds;
+        return hours + ":" + minutes + ":" + seconds;
     }
+
     var myObject = {};
     $scope.echartDonutSetOption = function () {
         angular.forEach($scope.Productivitys, function (productivity) {
             myObject[productivity.Chatid] = echarts.init(document.getElementById(productivity.ResourceId), theme);
             myObject[productivity.Chatid].setOption({
                 title: {
-                    show:true,
-                    text:productivity.ResourceName,
-                    textStyle:{
+                    show: true,
+                    text: productivity.ResourceName,
+                    textStyle: {
                         fontSize: 18,
                         fontWeight: 'bolder',
                         color: '#333',
-                        fontFamily:'Ubuntu-Regular'
+                        fontFamily: 'Ubuntu-Regular'
                     }
                 },
                 tooltip: {
                     trigger: 'item',
                     //formatter: "{a} <br/>{b} : {c} ({d}%)",
-                    formatter: function (params,ticket,callback) {
-                        var res = params.seriesName +' <br/>' + params.name +' '+secondsToTime(params.value)+' '+params.percent+'%';
-                        setTimeout(function (){
+                    formatter: function (params, ticket, callback) {
+                        var res = params.seriesName + ' <br/>' + params.name + ' ' + secondsToTime(params.value) + ' ' + params.percent + '%';
+                        setTimeout(function () {
                             callback(ticket, res);
                         }, 100);
                         return 'loading';
@@ -405,7 +409,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 legend: {
                     x: 'center',
                     y: 'bottom',
-                    data: ['After work', 'Break', 'On Call', 'Idle']
+                    data: ['After work', 'Break', 'In Call Time', 'Out Call Time', 'Idle']
                 },
                 toolbox: {
                     show: true,
