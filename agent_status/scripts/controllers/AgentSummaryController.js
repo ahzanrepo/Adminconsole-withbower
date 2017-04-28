@@ -81,7 +81,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                         profile.slotMode = resourceMode;
 
-                        var reservedDate = response[i].ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
+                        if(response[i].ConcurrencyInfo[0].SlotInfo[0]) {
+
+                            var reservedDate = response[i].ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
+                        }
 
 
                         if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
@@ -92,12 +95,15 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                             profile.other = "Break";
                             reservedDate = response[i].Status.StateChangeTime;
                         } else {
-                            profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
+
+                            if (response[i].ConcurrencyInfo[0].SlotInfo[0]) {
+                                profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
+                            }
 
                             /*if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
 
-                                reservedDate = response[i].Status.StateChangeTime;
-                            }*/
+                             reservedDate = response[i].Status.StateChangeTime;
+                             }*/
                         }
 
                         profile.LastReservedTimeT = reservedDate;

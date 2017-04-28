@@ -78,8 +78,9 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         }
 
     };
-
-    var CallObjectCreator = function (objKey) {
+  
+  
+  var CallObjectCreator = function (objKey) {
         var bargeID = "";
         var otherID = "";
         var FromID = "";
@@ -178,7 +179,11 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
         return newKeyObj;
     };
+  
+  
 
+  
+  
     $scope.showAlert = function (title, content, type) {
 
         new PNotify({
