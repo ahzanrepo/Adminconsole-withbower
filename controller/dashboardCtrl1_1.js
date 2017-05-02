@@ -475,12 +475,13 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
     var getAllNumTotal = function () {
         ServerHandler.getAllNumTotal();
         getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
+        GetD1AllQueueStatistics();
     };
 
     var getAllRealTime = function () {
         ServerHandler.updateRelaTimeFuntion();
         $scope.getProfileDetails();
-        GetD1AllQueueStatistics();
+        //GetD1AllQueueStatistics();
         getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
     };
 
@@ -1024,7 +1025,7 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
                 qStats();
                 skilledResources();
 
-                updatetimer = $timeout(updateRealtime, 2000);
+                updatetimer = $timeout(updateRealtime, 60000);
 
             };
 
