@@ -79,7 +79,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                     value: ids[0].BreakTime ? ids[0].BreakTime : 0,
                                     name: 'Break'
                                 }, {
-                                    value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
+                                    value: ((ids[0].OnCallTime ? ids[0].OnCallTime : 0)+(ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0)),//OutboundCallTime
                                     name: 'On Call'
                                 }, {
                                     value: ids[0].IdleTime ? ids[0].IdleTime : 0,
@@ -88,13 +88,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                 "ResourceId": agent.ResourceId,
                                 "ResourceName": agent.ResourceName,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
+                                "OutgoingCallCount": ids[0].OutgoingCallCount? ids[0].OutgoingCallCount : 0,
                                 "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
                                 "Chatid": agent.ResourceId,
                                 "AcwTime": ids[0].AcwTime,
                                 "BreakTime": ids[0].BreakTime,
                                 "HoldTime": ids[0].HoldTime,
                                 "TransferCallCount": ids[0].TransferCallCount,
-                                "OnCallTime": ids[0].OnCallTime,
+                                "OnCallTime": ((ids[0].OnCallTime ? ids[0].OnCallTime : 0)+(ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0)),
                                 "IdleTime": ids[0].IdleTime,
                                 "StaffedTime": ids[0].StaffedTime,
                                 "slotState": {},
