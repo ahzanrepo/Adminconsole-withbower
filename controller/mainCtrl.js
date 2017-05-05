@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess,turnServers,callMonitorSrv) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices) {
 
 
     //added by pawan
@@ -101,7 +101,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         OnMessageReceived: $scope.OnMessage,
         onAgentDisconnected: $scope.agentDisconnected,
         onAgentAuthenticated: $scope.agentAuthenticated,
-        onCallMonitorRegistered:$scope.callMonitorRegistered
+        onCallMonitorRegistered: $scope.callMonitorRegistered
     };
 
     $scope.veeryNotification = function () {
@@ -502,11 +502,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
     var authToken = authService.GetToken();
-    var displayName="";
-   if(jwtHelper.decodeToken(authToken).context.veeryaccount)
-   {
-       displayName=jwtHelper.decodeToken(authToken).context.veeryaccount.display;
-   }
+    var displayName = "";
+    if (jwtHelper.decodeToken(authToken).context.veeryaccount) {
+        displayName = jwtHelper.decodeToken(authToken).context.veeryaccount.display;
+    }
 
     /*$scope.showAlert = function (tittle, type, msg) {
      new PNotify({
@@ -518,8 +517,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
      });
      };*/
 
-    $scope.monitorProtocol="user";
-    $scope.legID="";
+    $scope.monitorProtocol = "user";
+    $scope.legID = "";
 
     var getRegistrationData = function (authToken, password) {
 
@@ -639,15 +638,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.ThreeWayCall = function () {
         //alert("barged: "+bargeID);
 
-        callMonitorSrv.threeWayCall($scope.currentSessionID,$scope.monitorProtocol,displayName,$scope.legID).then(function(resThreeWay)
-        {
-            if(resThreeWay.data.IsSuccess)
-            {
+        callMonitorSrv.threeWayCall($scope.currentSessionID, $scope.monitorProtocol, displayName, $scope.legID).then(function (resThreeWay) {
+            if (resThreeWay.data.IsSuccess) {
                 $scope.CallStatus = 'THREEWAY';
                 $scope.clickBtnStateName = "Conference ";
             }
-            else
-            {
+            else {
                 $scope.showAlert("Call Monitor", "error", "Fail to stablish conference call");
             }
         });
@@ -658,16 +654,14 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.BargeCall = function () {
         //alert("barged: "+bargeID);
 
-        callMonitorSrv.bargeCalls($scope.currentSessionID,$scope.monitorProtocol,displayName,$scope.legID).then(function (resBarge) {
+        callMonitorSrv.bargeCalls($scope.currentSessionID, $scope.monitorProtocol, displayName, $scope.legID).then(function (resBarge) {
 
-            if(resBarge.data.IsSuccess)
-            {
+            if (resBarge.data.IsSuccess) {
 
                 $scope.CallStatus = "BARGED";
                 $scope.clickBtnStateName = "Barged";
             }
-            else
-            {
+            else {
                 $scope.showAlert("Call Monitor", "error", "Fail to stablish call barge");
             }
         });
@@ -677,40 +671,32 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.ReturnToListen = function () {
         //alert("barged: "+bargeID);
         //
-        callMonitorSrv.returnToListen($scope.currentSessionID,$scope.monitorProtocol,displayName,$scope.legID).then(function (resRetToListen) {
-            if(resRetToListen.data.IsSuccess)
-            {
+        callMonitorSrv.returnToListen($scope.currentSessionID, $scope.monitorProtocol, displayName, $scope.legID).then(function (resRetToListen) {
+            if (resRetToListen.data.IsSuccess) {
 
                 $scope.CallStatus = 'LISTEN';
                 $scope.clickBtnStateName = "Listen";
             }
-            else
-            {
+            else {
                 $scope.showAlert("Call Monitor", "error", "Fail return to listen");
             }
         });
-
 
 
     };
 
     $scope.SwapUser = function () {
         //alert("barged: "+bargeID);
-        callMonitorSrv.swapUser($scope.currentSessionID,$scope.monitorProtocol,displayName,$scope.legID).then(function(resSwap)
-        {
-            if(resSwap.data.IsSuccess)
-            {
+        callMonitorSrv.swapUser($scope.currentSessionID, $scope.monitorProtocol, displayName, $scope.legID).then(function (resSwap) {
+            if (resSwap.data.IsSuccess) {
 
                 $scope.CallStatus = "SWAPED";
                 $scope.clickBtnStateName = "Client";
             }
-            else
-            {
+            else {
                 $scope.showAlert("Call Monitor", "error", "Fail to swap between users");
             }
         });
-
-
 
 
     };
@@ -726,16 +712,16 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         $rootScope.$emit("is_registered", $scope.isRegistered);
     });
     $rootScope.$on("call_listning", function (event, args) {
-        $scope.currentSessionID=args.sessionID;
-        $scope.monitorProtocol=args.protocol;
-        $scope.legID=args.legID;
-        $scope.inCall=true;
-        $scope.CallStatus=args.CallStatus;
+        $scope.currentSessionID = args.sessionID;
+        $scope.monitorProtocol = args.protocol;
+        $scope.legID = args.legID;
+        $scope.inCall = true;
+        $scope.CallStatus = args.CallStatus;
 
     });
     $rootScope.$on("monitor_panel", function (event, args) {
 
-        $scope.inCall=args;
+        $scope.inCall = args;
 
     });
 
@@ -842,6 +828,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.userGroups = [];
 
 
+    //subscribe user
+
+    subscribeServices.connectSubscribeServer();
+
+    //todo
     $scope.loadUserGroups = function () {
         notifiSenderService.getUserGroupList().then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -856,6 +847,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     //$scope.loadUserGroups();
 
+    //todo
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
             $scope.users = response;

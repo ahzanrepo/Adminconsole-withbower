@@ -130,7 +130,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     };
 
     $scope.isImageExtension = function (ext) {
-        console.log(ext);
+
         if(ext)
         {
             if(ext.split("/")[0]=="image")
@@ -479,7 +479,6 @@ app.controller('ModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, b
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-
 
 
     $scope.config = {
