@@ -3,8 +3,104 @@
  */
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
-                                                 loginService, $filter,
-                                                 dashboardService, moment, userImageList, $interval, queueMonitorService) {
+                                              loginService, $filter,
+                                              dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices) {
+
+
+    //subscribeServices
+    subscribeServices.subscribeDashboard(function (event) {
+        switch (event.roomName) {
+            case 'QUEUE:QueueDetail':
+                //Queue Detail
+                if (event.Message) {
+                    // //
+                    // if (event.Message.QueueInfo.CurrentMaxWaitTime) {
+                    //     var d = moment(event.Message.QueueInfo.CurrentMaxWaitTime).valueOf();
+                    //     event.Message.QueueInfo.MaxWaitingMS = d;
+                    // }
+
+                    var item = event.Message.QueueInfo;
+                    item.id = event.Message.QueueId;
+                    item.queuename = event.Message.QueueName;
+                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+
+                    if (event.Message.QueueInfo.TotalQueued > 0) {
+                        item.presentage = Math.round((event.Message.QueueInfo.TotalAnswered / event.Message.QueueInfo.TotalQueued) * 100);
+                    }
+
+                    if (item.CurrentMaxWaitTime) {
+                        var d = moment(item.CurrentMaxWaitTime).valueOf();
+                        item.MaxWaitingMS = d;
+                    }
+
+                    $scope.queues[item.queuename] = item;
+
+                    console.log("No Message found");
+                }
+                break;
+
+            case 'QUEUE:CurrentCount':
+                //Current waiting
+                if (event.Message) {
+                    $scope.total.waiting = event.Message.CurrentCountWindow;
+                }
+                break;
+            case 'CALLS:TotalCount':
+                //TOTAL CALL
+                //Inblound/Outbound
+                if (event.Message) {
+
+                    if (event.Message.param1 == "inbound") {
+                        $scope.total.callsInb = event.Message.TotalCountParam1;
+                    } else if (event.Message.param1 == "outbound") {
+                        $scope.total.callsOutb = event.Message.TotalCountParam1;
+                    }
+                }
+                break;
+            case 'QUEUEANSWERED:TotalCount':
+                //Total queued answered
+                if (event.Message) {
+                    $scope.total.queueAnswered = event.Message.TotalCountWindow;
+                }
+                break;
+            case 'QUEUE:TotalCount':
+                //Total queued
+                if (event.Message) {
+                    $scope.total.queued = event.Message.TotalCountWindow;
+                }
+                break;
+
+            case 'QUEUE:TotalCount':
+                //Total queued
+                if (event.Message) {
+                    $scope.total.queued = event.Message.TotalCountWindow;
+                }
+                break;
+
+            case 'QUEUEDROPPED:TotalCount':
+                //Total queued dropped
+                if (event.Message) {
+                    $scope.total.queueDropped = event.Message.TotalCountWindow;
+                }
+                break;
+            case 'BRIDGE:CurrentCount':
+                //ONGOING
+                //Inblound/Outbound
+                if (event.Message) {
+                    if (event.Message.param2 == "inbound") {
+                        $scope.total.onGoingInb = event.Message.CurrentCountParam2;
+                    } else if (event.Message.param2 == "outbound") {
+                        $scope.total.onGoingOutb = event.Message.CurrentCountParam2;
+                    }
+                }
+                break;
+
+            default:
+                console.log(event);
+                break;
+
+        }
+    });
 
 
     //#services call handler
@@ -474,14 +570,14 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     var getAllNumTotal = function () {
         ServerHandler.getAllNumTotal();
-        getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
+        // getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
     };
 
     var getAllRealTime = function () {
         ServerHandler.updateRelaTimeFuntion();
         $scope.getProfileDetails();
-        GetD1AllQueueStatistics();
-        getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+        // GetD1AllQueueStatistics();
+        //getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
     };
 
 
@@ -491,7 +587,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
 
     var countAllCallServicesTimer = $timeout(countAllCallServices, 2000);
-    var getAllNumTotalTimer = $timeout(getAllNumTotal, 2000);
+    // var getAllNumTotalTimer = $timeout(getAllNumTotal, 2000);
     var getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
 
 
@@ -626,7 +722,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     //update code damith
     //QUEUED
-    $scope.queues = [];
+    $scope.queues = {};
     $scope.val = "0";
 
     $scope.presentage = 50;
@@ -657,7 +753,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     var GetD1AllQueueStatistics = function () {
         queueMonitorService.GetAllQueueStats().then(function (response) {
             var updatedQueues = [];
-            updatedQueues = response.map(function (c, index) {
+            response.forEach(function (c) {
                 var item = c.QueueInfo;
                 item.id = c.QueueId;
                 item.queuename = c.QueueName;
@@ -667,20 +763,25 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
                 }
 
-                if (checkQueueAvailability(item.id)) {
-                    $scope.queues.push(item);
+                if (item.CurrentMaxWaitTime) {
+                    var d = moment(item.CurrentMaxWaitTime).valueOf();
+                    item.MaxWaitingMS = d;
                 }
-                return item;
+
+                $scope.queues[item.queuename] = item;
             });
-            if (response.length == updatedQueues.length) {
-                //$scope.queues=$scope.updatedQueues;
-                angular.forEach($scope.queues, function (item) {
-                    var value = $filter('filter')(updatedQueues, {id: item.id})[0];
-                    if (!value) {
-                        $scope.queues.splice($scope.queues.indexOf(item), 1);
-                    }
-                });
-            }
+
+            console.log($scope.queues);
+
+            // if (response.length == updatedQueues.length) {
+            //     //$scope.queues=$scope.updatedQueues;
+            //     angular.forEach($scope.queues, function (item) {
+            //         var value = $filter('filter')(updatedQueues, {id: item.id})[0];
+            //         if (!value) {
+            //             $scope.queues.splice($scope.queues.indexOf(item), 1);
+            //         }
+            //     });
+            // }
         });
     };
     GetD1AllQueueStatistics();
@@ -700,9 +801,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     //     }
     //});
     $scope.refreshTime = 1000;
-
-
-
 
 
     $scope.ReservedProfile = [];
@@ -890,7 +988,8 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             name: "@",
             queueoption: "=",
             pieoption: "=",
-            viewmode: "="
+            viewmode: "=",
+            que: "="
         },
         templateUrl: 'template/dashboard/d1-queued-temp.html',
         link: function (scope, element, attributes) {
@@ -913,7 +1012,6 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             scope.maxy = 10;
             scope.val = "0";
 
-            console.log(scope.que);
 
             scope.dataSet = [{
                 data: [],
@@ -1028,7 +1126,7 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
 
             };
 
-            var updatetimer = $timeout(updateRealtime, 2000);
+            //var updatetimer = $timeout(updateRealtime, 2000);
 
             //updateRealtime();
 
