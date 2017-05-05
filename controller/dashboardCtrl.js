@@ -574,10 +574,10 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     };
 
     var getAllRealTime = function () {
-        ServerHandler.updateRelaTimeFuntion();
+        //ServerHandler.updateRelaTimeFuntion();
         $scope.getProfileDetails();
         // GetD1AllQueueStatistics();
-        //getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+        getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
     };
 
 
