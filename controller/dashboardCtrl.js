@@ -297,13 +297,13 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 });
             },
             getTotalOnGoing: function () {
-                dashboardService.GetTotalOnGoing('inbound').then(function (response) {
+                dashboardService.getCurrentBridgedCalls('inbound').then(function (response) {
                     $scope.total.onGoingInb = response;
                 }, function (err) {
                     loginService.isCheckResponse(err);
                 });
 
-                dashboardService.GetTotalOnGoing('outbound').then(function (response) {
+                dashboardService.getCurrentBridgedCalls('outbound').then(function (response) {
                     $scope.total.onGoingOutb = response;
                 }, function (err) {
                     loginService.isCheckResponse(err);
