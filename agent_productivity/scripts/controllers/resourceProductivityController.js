@@ -100,15 +100,14 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                                     name: 'Break'
                                 }, {
                                     value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
-                                    name: 'In Call Time'
-                                },
-                                    {
-                                        value: ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,
-                                        name: 'Out Call Time'
-                                    }, {
-                                        value: ids[0].IdleTime ? ids[0].IdleTime : 0,
-                                        name: 'Idle'
-                                    }],
+                                    name: 'On Call'
+                                }, {
+                                    value: ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,
+                                    name: 'Out Call Time'
+                                }, {
+                                    value: ids[0].IdleTime ? ids[0].IdleTime : 0,
+                                    name: 'Idle'
+                                }],
                                 "ResourceId": agent.ResourceId,
                                 "ResourceName": agent.ResourceName,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
@@ -409,7 +408,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 legend: {
                     x: 'center',
                     y: 'bottom',
-                    data: ['After work', 'Break', 'In Call Time', 'Out Call Time', 'Idle']
+                    data: ['After work', 'Break', 'On Call','Out Call Time', 'Idle']
                 },
                 toolbox: {
                     show: true,

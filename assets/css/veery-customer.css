@@ -2983,7 +2983,7 @@ ul.social li {
 
 .pabxStatus {
     height: 25px;
-    width: 65px;
+    width: 75px;
     padding: 5px;
     opacity: 1;
     font-size: 8pt;
@@ -6019,6 +6019,7 @@ ul.row-option > li.delete:focus {
 /*update nav */
 .nav-sm {
     margin-left: -71px;
+
 }
 
 /* reset password token viwer */
