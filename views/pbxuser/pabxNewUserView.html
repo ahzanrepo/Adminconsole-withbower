@@ -15,11 +15,7 @@
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback ">
                     <input type="text" class="form-control" name="userName" ng-disabled="IsEdit"
                            placeholder="user name"
-                           ng-model="basicConfig.UserName" required>
-                    <div ng-messages="pabxBasicConfForm.userName.$error"
-                         ng-if="pabxBasicConfForm.userName.$dirty">
-                        <div class="alert" ng-message="required">This field is required</div>
-                    </div>
+                           ng-model="basicConfig.UserName">
                 </div>
                 <div class="col-md-7 col-sm-6 col-xs-12 ">
                     <div class="col-md-4 col-sm-4 col-xs-12">
@@ -58,12 +54,7 @@
             <div class="col-md-12">
                 <div class="col-md-3 col-sm-2 col-xs-12 form-group has-feedback">
                     <input class="form-control" name="pinNumber" ng-model="basicConfig.Pin"
-                           placeholder="PIN"
-                           ng-pattern="/^[0-9]*$/">
-                    <div ng-messages="pabxBasicConfForm.pinNumber.$error"
-                         ng-if="pabxBasicConfForm.pinNumber.$dirty">
-                        <div class="alert" ng-message="pattern">Pin number should be numeric</div>
-                    </div>
+                           placeholder="PIN">
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
@@ -79,12 +70,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <input class="form-control" name="ringTimeout"
                            ng-model="basicConfig.RingTimeout"
-                           placeholder="Ring Timeout"
-                           ng-pattern="/^[0-9]*$/">
-                    <div ng-messages="pabxBasicConfForm.ringTimeout.$error"
-                         ng-if="pabxBasicConfForm.ringTimeout.$dirty">
-                        <div class="alert" ng-message="pattern">Invalid ring timeout</div>
-                    </div>
+                           placeholder="Ring Timeout">
                 </div>
             </div>
 
@@ -135,7 +121,7 @@
             <div class="col-lg-12">
                 <div class="col-md-6 m-top20">
                     <button class="btn btn-primary" ng-click="SaveBasicConfig()"
-                            ng-disabled="sipUserConfForm.$invalid">Save
+                            ng-disabled="!basicConfig.UserName || !basicConfig.RingTimeout">Save
                     </button>
                 </div>
             </div>
