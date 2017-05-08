@@ -111,7 +111,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                                 profile.LastReservedTimeT = reservedDate;
                                 if (reservedDate == "") {
-                                    profile.LastReservedTime = null;
+                                    profile.LastReservedTime = new Date().toISOString();
                                 } else {
                                     profile.LastReservedTime = moment(reservedDate).format("h:mm a");
                                 }
