@@ -76,9 +76,57 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
         dashboardSubscriber = func;
     };
 
+    var unsubscribe = function (view) {
+        if (view == "dashoboard") {
+            SE.unsubscribe({room: 'QUEUE:QueueDetail'});
+            SE.unsubscribe({room: 'QUEUE:CurrentCount'});
+            SE.unsubscribe({room: 'QUEUE:TotalCount'});
+            SE.unsubscribe({room: 'QUEUE:TotalCount'});
+            SE.unsubscribe({room: 'CONNECTED:TotalTime'});
+            SE.unsubscribe({room: 'QUEUEANSWERED:TotalCount'});
+            SE.unsubscribe({room: 'BRIDGE:TotalCount'});
+
+            SE.unsubscribe({room: 'CALLS:TotalCount'});
+            SE.unsubscribe({room: 'CALLS:CurrentCount'});
+            SE.unsubscribe({room: 'QUEUEDROPPED:TotalCount'});
+            SE.unsubscribe({room: 'BRIDGE:CurrentCount'});
+            return;
+        }
+
+        if (view == "queuedetail") {
+            SE.unsubscribe({room: 'QUEUE:QueueDetail'});
+            return;
+        }
+    };
+
+    var subscribe = function (view) {
+        if (view == "dashoboard") {
+            SE.unsubscribe({room: 'QUEUE:QueueDetail'});
+            SE.unsubscribe({room: 'QUEUE:CurrentCount'});
+            SE.unsubscribe({room: 'QUEUE:TotalCount'});
+            SE.unsubscribe({room: 'QUEUE:TotalCount'});
+            SE.unsubscribe({room: 'CONNECTED:TotalTime'});
+            SE.unsubscribe({room: 'QUEUEANSWERED:TotalCount'});
+            SE.unsubscribe({room: 'BRIDGE:TotalCount'});
+
+            SE.unsubscribe({room: 'CALLS:TotalCount'});
+            SE.unsubscribe({room: 'CALLS:CurrentCount'});
+            SE.unsubscribe({room: 'QUEUEDROPPED:TotalCount'});
+            SE.unsubscribe({room: 'BRIDGE:CurrentCount'});
+            return;
+        }
+
+        if (view == "queuedetail") {
+            SE.unsubscribe({room: 'QUEUE:QueueDetail'});
+            return;
+        }
+    };
+
     return {
         connectSubscribeServer: connect,
-        subscribeDashboard: subscribeDashboard
+        subscribeDashboard: subscribeDashboard,
+        unsubscribe: unsubscribe,
+        subscribe: subscribe
     }
 
 

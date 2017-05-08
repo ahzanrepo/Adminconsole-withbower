@@ -5886,7 +5886,7 @@ ul.row-option > li.delete:focus {
 .q-chart-text-wrp > .header-text > .current-w-text {
     /* Current Waiting: */
     font-family: 'Ubuntu-Light', sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     color: #383b3b;
     letter-spacing: -0.12px;
     text-align: right;
@@ -5903,7 +5903,7 @@ ul.row-option > li.delete:focus {
 .q-chart-text-wrp > .header-text > .current-w-num {
     /* Current Waiting: */
     font-family: 'Ubuntu-Light', sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     color: #383b3b;
     letter-spacing: -0.12px;
     text-align: right;
