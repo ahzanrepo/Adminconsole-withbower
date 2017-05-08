@@ -209,9 +209,6 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
 
         return timeStr;
 
-
-
-
     };
 
     $scope.getAgents();
