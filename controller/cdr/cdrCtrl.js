@@ -122,7 +122,7 @@
                 var decodedToken = loginService.getTokenDecode();
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant) {
-                    var fileToPlay = baseUrls.fileServiceUrl + 'File/Download/' + uuid +'?Authorization='+$auth.getToken();
+                    var fileToPlay = baseUrls.fileServiceUrl + 'File/Download/' + uuid +'/'+uuid+'.mp3?Authorization='+$auth.getToken();
 
                     var arr = [
                         {
