@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var qaSubmissionCtrl = function ($scope, $filter, $q, $sce, $uibModal, userProfileApiAccess, cdrApiHandler, qaModuleService, loginService, $anchorScroll) {
+    var qaSubmissionCtrl = function ($scope, $filter, $q, $sce, $uibModal, userProfileApiAccess, cdrApiHandler, qaModuleService, loginService, $anchorScroll,$auth) {
         $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
 
@@ -80,7 +80,7 @@
                 var decodedToken = loginService.getTokenDecode();
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant) {
-                    var fileToPlay = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
+                    var fileToPlay = baseUrls.fileServiceUrl + 'File/DownloadLatest/' + uuid + '.mp3?Authorization='+$auth.getToken();
 
                     var arr = [
                         {

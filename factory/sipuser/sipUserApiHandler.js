@@ -324,6 +324,18 @@
       })
     };
 
+    var deleteSipUser = function(usrObj)
+    {
+
+      return $http({
+        method: 'DELETE',
+        url: baseUrls.sipUserendpoint + 'User/' + usrObj.SipUsername
+      }).then(function(resp)
+      {
+        return resp.data;
+      })
+    };
+
     var getDomains = function()
     {
 
@@ -363,7 +375,8 @@
       assignExtensionToGroup: assignExtensionToGroup,
       deleteExtension: deleteExtension,
       validateUsername: validateUsername,
-      validateExtension: validateExtension
+      validateExtension: validateExtension,
+      deleteSipUser: deleteSipUser
 
     };
   };
