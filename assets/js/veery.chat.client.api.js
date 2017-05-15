@@ -393,6 +393,20 @@ window.SE = function (e) {
         }
     }
 
+    function usb(e) {
+        if (!e)throw g;
+
+        var r = v(e, "room");
+        if (connected) {
+            socket.emit('unsubscribe', {room: r});
+        }
+        else {
+            if (callBack.OnError) {
+                callBack.OnError({method: "connection", message: "Connection Lost."});
+            }
+        }
+    }
+
     function t(e) {
         if (!e)throw g;
 
@@ -539,6 +553,7 @@ window.SE = function (e) {
         "status": o,
         "typingstoped": a,
         "reconnect": rc,
-        "subscribe": sb
+        "subscribe": sb,
+        "unsubscribe": usb
     }
 }();
