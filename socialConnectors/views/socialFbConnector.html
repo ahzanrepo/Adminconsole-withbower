@@ -11,7 +11,7 @@
                 <div id="fb-root"></div>
 
                 <div id="status">
-                     <img src="asset/images/LoginWithFacebook.png" style="cursor:pointer;" ng-click="Login()"/>
+                     <img src="assets/images/LoginWithFacebook.png" style="cursor:pointer;" ng-click="Login()"/>
                 </div>
                 <br/>
                 <div class="row">
@@ -21,7 +21,7 @@
                     <div  class="col-md-55" ng-repeat="page in fbPageList">
                         <div id="{{page.id}}" class="thumbnail">
                             <div class="image view view-first">
-                                <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.picture.data.url}}" alt="image" />
+                                <img style="width: 100%; display: block;" src="assets/images/noimage.jpg" ng-src="{{page.picture.data.url}}" alt="image" />
                                 <div class="mask no-caption">
                                     <div class="tools tools-bottom">
                                         <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="addPageToSystem(page);" title="Add To System"></i></a>
@@ -78,7 +78,7 @@
                     <div ng-hide="isLoading"   class="col-md-55" ng-repeat="page in exssitingPageList" ng-if='page.fb.status == true'>
                         <div class="thumbnail">
                             <div class="image view view-first">
-                                <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.fb.pagePicture}}" alt="image" />
+                                <img style="width: 100%; display: block;" src="assets/images/noimage.jpg" ng-src="{{page.fb.pagePicture}}" alt="image" />
                                 <div class="mask no-caption">
                                     <div class="tools tools-bottom">
                                         <a href="javascript:void(0);"><i class="fa fa-image" ng-click="updatePicture(page)" title="Update Picture"></i></a>
@@ -114,7 +114,7 @@
                 <div ng-hide="isLoading"   class="col-md-55" ng-repeat="page in exssitingPageList" ng-if='page.fb.status == false'>
                     <div class="thumbnail">
                         <div class="image view view-first">
-                            <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.fb.pagePicture}}" alt="image" />
+                            <img style="width: 100%; display: block;" src="assets/images/noimage.jpg" ng-src="{{page.fb.pagePicture}}" alt="image" />
                             <div class="mask no-caption">
                                 <div class="tools tools-bottom">
                                     <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateFacebookAccount(page)" title="Update Account"></i></a>
