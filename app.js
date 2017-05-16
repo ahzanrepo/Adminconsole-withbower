@@ -44,7 +44,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ds.objectDiff', 'htmlToPdfSave',
     'ui.grid.selection',
     'ngFileSaver',
-    'timer'
+    'timer',
+    'as.sortable'
 ]);
 
 

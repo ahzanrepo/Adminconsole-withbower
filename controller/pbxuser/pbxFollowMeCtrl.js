@@ -14,6 +14,8 @@
 
         $scope.list = [];
 
+        $scope.sortedFmList = [];
+
         $scope.deleteFm = function (index, item) {
             console.log(JSON.stringify($scope.list));
             $scope.list.splice(index, 1);

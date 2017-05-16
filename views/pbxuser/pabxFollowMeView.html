@@ -75,6 +75,33 @@
         <br>
 
         <div class="col-md-12 col-sm-12 col-xs-12">
+            <div >
+                <ul data-as-sortable="fmSortableGroup" data-ng-model="sortedFmList" style="position: relative; left: -40px; min-height: 40px;">
+                    <li class="drag-item-wrp" ng-repeat="item in list" data-as-sortable-item >
+                        <div data-as-sortable-item-handle>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label>{{item.DestinationNumber}}</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label>{{item.ObjCategory}}</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <label>{{item.RingTimeout}}</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2">
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1">
+                                <button class="btn fa fa-close" ng-click="deleteFm($index, item)"></button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <!--<div class="col-md-12 col-sm-12 col-xs-12">
             <div class="sandbox-wrapper">
                 <ul dnd-list="list" style="list-style-type: none">
                     <li ng-repeat="item in list"
@@ -106,7 +133,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div>-->
 
         <div class="clearfix"></div>
 
