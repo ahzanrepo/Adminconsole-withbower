@@ -7,6 +7,9 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices) {
 
 
+    subscribeServices.subscribe('dashoboard');
+
+
     //subscribeServices
     subscribeServices.subscribeDashboard(function (event) {
         switch (event.roomName) {
@@ -592,19 +595,20 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
 
     $scope.$on("$destroy", function () {
-        if (countAllCallServicesTimer) {
-            $timeout.cancel(countAllCallServicesTimer);
-        }
-
-        if (getAllNumTotalTimer) {
-            $timeout.cancel(getAllNumTotalTimer);
-        }
+        // if (countAllCallServicesTimer) {
+        //     $timeout.cancel(countAllCallServicesTimer);
+        // }
+        //
+        // if (getAllNumTotalTimer) {
+        //     $timeout.cancel(getAllNumTotalTimer);
+        // }
 
 
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
 
+        subscribeServices.unsubscribe('dashoboard');
 
     });
 
@@ -1131,11 +1135,11 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             //updateRealtime();
 
 
-            scope.$on("$destroy", function () {
-                if (updatetimer) {
-                    $timeout.cancel(updatetimer);
-                }
-            });
+            // scope.$on("$destroy", function () {
+            //     if (updatetimer) {
+            //         $timeout.cancel(updatetimer);
+            //     }
+            // });
 
 
             /*

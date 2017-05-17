@@ -28,8 +28,8 @@
         </div>
     </div>
     <div class="row" ng-if="cardViewMode!='table'">
-        <div ng-repeat="que in queues">
-            <queued name="{{que.id}}" viewmode="cardViewMode"
+        <div ng-repeat="(qkey, que) in queues">
+            <queued que="que" name="{{que.id}}" viewmode="cardViewMode"
                     queueoption="queueoption" pieoption="pieoption"></queued>
         </div>
     </div>
