@@ -17,16 +17,16 @@ mainApp.factory('callMonitorSrv', function ($http, authService,baseUrls) {
             });
         },
 
-        bargeCalls: function (bargeID,protocol) {
+        bargeCalls: function (bargeID,protocol,destinationKey,legID) {
             var authToken = authService.GetToken();
 
             return $http({
                 method: 'POST',
-                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/barge",
+                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/barge/"+legID,
                 data:
                 {
                     protocol:protocol,
-                    destination:"2003"
+                    destination:destinationKey
                 }
             }).then(function(response)
             {
@@ -51,15 +51,47 @@ mainApp.factory('callMonitorSrv', function ($http, authService,baseUrls) {
                 return response;
             });
         },
-        threeWayCall: function (bargeID,protocol) {
+        threeWayCall: function (bargeID,protocol,destinationKey,legID) {
             var authToken = authService.GetToken();
             return $http({
                 method: 'POST',
-                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/threeway",
+                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/threeway/"+legID,
                 data:
                 {
                     protocol:protocol,
-                    destination:"2003"
+                    destination:destinationKey
+                }
+            }).then(function(response)
+            {
+                console.log(JSON.stringify(response));
+                return response;
+            });
+        },
+        returnToListen: function (bargeID,protocol,destinationKey,legID) {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'POST',
+                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/returnlisten/"+legID,
+                data:
+                {
+                    protocol:protocol,
+                    destination:destinationKey
+                }
+            }).then(function(response)
+            {
+                console.log(JSON.stringify(response));
+                return response;
+            });
+        },
+        swapUser: function (bargeID,protocol,destinationKey,legID) {
+            var authToken = authService.GetToken();
+            return $http({
+                method: 'POST',
+                url: baseUrls.monitorrestapi+"Dispatch/"+bargeID+"/swap/"+legID,
+                data:
+                {
+                    protocol:protocol,
+                    destination:destinationKey
                 }
             }).then(function(response)
             {

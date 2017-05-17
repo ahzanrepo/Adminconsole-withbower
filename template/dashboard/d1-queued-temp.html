@@ -27,7 +27,7 @@
                 Max Wait Time
             </div>
             <div class="current-w-num">
-                {{que.CurrentMaxWaitTime}}
+                <timer start-time="que.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} : {{sseconds}}</timer>
             </div>
         </div>
 

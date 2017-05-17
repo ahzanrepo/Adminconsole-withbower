@@ -256,6 +256,31 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     };
 
+    var getCurrentBridgedCalls = function (param) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/CurrentCount/BRIDGE/" + param + "/*"
+        }).then(function (response) {
+            if (response.data) {
+
+
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+
+
+            } else {
+
+                return 0;
+            }
+
+        });
+
+
+    };
+
     var getTotalOnGoing = function (callDirection) {
 
         var url = baseUrls.monitorrestapi+"Calls/Count";
@@ -678,6 +703,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         GetAverageInboundCallsPerAgent:getAverageInboundCallsPerAgent,
         GetAverageOutboundCallsPerAgent:getAverageOutboundCallsPerAgent,
         GetCallCenterPerformanceHistory:getCallCenterPerformanceHistory,
-        GetTotalLoginAgentCount:getTotalLoginAgentCount
+        GetTotalLoginAgentCount:getTotalLoginAgentCount,
+        getCurrentBridgedCalls: getCurrentBridgedCalls
     }
 });
