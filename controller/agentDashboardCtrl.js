@@ -2,6 +2,11 @@
  * Created by team veery on 9/22/2016.
  */
 
+mainApp.filter('secondsToDateTime', [function () {
+    return function (seconds) {
+        return new Date(1970, 0, 1).setSeconds(seconds);
+    };
+}]);
 
 mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardService, loginService, $anchorScroll) {
 
@@ -28,9 +33,10 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             show: true
         },
         yaxis: {
-            min: 0,
+            min:0,
             color: '#F7F7F7'
-        }, xaxis: {
+        },
+        xaxis: {
             color: '#F7F7F7',
             tickFormatter: function (val, axis) {
                 return moment.unix(val).format("DD-MMM"); //moment.unix(val).date();
@@ -38,11 +44,13 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
         }
     };
 
+
     var createVsResolvedChartOptions = {
         grid: {
             borderWidth: 1,
             borderColor: '#F7F7F7',
-            show: true
+            show: true,
+            hoverable: true,  autoHighlight: true
         },
         series: {
             lines: {show: true, fill: true, color: "#114858"},
@@ -62,6 +70,19 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
             /*title: 'Day',  titleTextStyle: {color: '#333'},*/
             tickFormatter: function (val, axis) {
                 return moment.unix(val).format("DD-MMM");// moment.unix(val).date();
+            }
+        },
+        hover: {
+            mode: 'label'
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: function(label, xval, yval, flotItem){
+                return "Orders <b>"+yval+"</b> for <span>"+chartData.axis[xval][1]+"</span>"
+            },
+            shifts: {
+                x: -30,
+                y: -50
             }
         }
     };
@@ -132,6 +153,8 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
                     var item = [];
                     item[0] = c[1];
                     item[1] = c[0] ? c[0] : 0;
+                    if (item[1] < 0 && item[1] < $scope.difCreateVsResolvedChartOptions.yaxis.min)
+                        $scope.difCreateVsResolvedChartOptions.yaxis.min = item[1];
                     return item;
                 });
 
@@ -693,11 +716,11 @@ mainApp.controller('agentDashboardCtrl', function ($scope, $timeout, dashboardSe
         legend: {
             display: true,
             position: 'bottom',
-            padding: 5,
+            padding: 2,
             labels: {
                 fontColor: 'rgb(130, 152, 174)',
-                fontSize: 10,
-                boxWidth: 10
+                fontSize: 8,
+                boxWidth: 5
             }
         },
         title: {
