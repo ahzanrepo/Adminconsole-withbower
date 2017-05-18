@@ -140,6 +140,19 @@
                                                     </option>
                                                 </select>
                                             </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-group"
+                                                           ng-model="leftAddValue"
+                                                           placeholder="Left Add">
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn-primary"
+                                                                                ng-click="numberLeftAdd()">
+                                                                            Add
+                                                                        </button>
+                                                                    </span>
+                                                </div>
+                                            </div>
                                             <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" ng-if="enablePreviewData">
                                                 <select class="form-control has-feedback-left"
                                                         ng-change="loadNumbers()"
