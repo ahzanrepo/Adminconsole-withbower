@@ -7,7 +7,7 @@
             <i class="fa fa-close" ng-click="onClickPBXclose()"></i>
         </div>
     </div>
-    <div class="pbx-edit-wrap">
+    <div class="pbx-edit-wrap" style="overflow: visible !important;">
         <form name="pabxBasicConfForm"
               class="form-horizontal form-label-left input_mask ng-pristine ng-valid">
             <!-- 1 row -->
@@ -23,7 +23,7 @@
                             <label>
                                 <input type="checkbox" class="js-switch"
                                        ng-model="basicConfig.BypassMedia"
-                                       ng-init="basicConfig.AllowOutbound=false">
+                                       ng-init="basicConfig.BypassMedia=false">
                                 Bypass Media
                             </label>
                         </div>
@@ -52,22 +52,15 @@
             </div>
             <!-- 2 row -->
             <div class="col-md-12">
-                <div class="col-md-3 col-sm-2 col-xs-12 form-group has-feedback">
+                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                     <input class="form-control" name="pinNumber" ng-model="basicConfig.Pin"
                            placeholder="PIN">
                 </div>
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                    <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
-                            name="timeZone" ng-model="basicConfig.TimeZone"
-                            ng-model-options="{trackBy: '$value'}">
-                        <option value="" disabled="" selected="">Time Zone
-                        </option>
-                        <option ng-repeat="tz in timeZones" ng-value="tz.Offset">{{tz.TZName}}
-                        </option>
-                    </select>
+                <div class="col-md-4 col-sm-4 col-xs-12" style="position: relative; top: 5px; z-index: 100">
+                    <timezone-selector ng-model="basicConfig.TimeZone"></timezone-selector>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="col-md-4 col-sm-4 col-xs-12">
                     <input class="form-control" name="ringTimeout"
                            ng-model="basicConfig.RingTimeout"
                            placeholder="Ring Timeout">
