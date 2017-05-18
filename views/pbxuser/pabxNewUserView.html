@@ -53,17 +53,31 @@
             <!-- 2 row -->
             <div class="col-md-12">
                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                    <input class="form-control" name="pinNumber" ng-model="basicConfig.Pin"
-                           placeholder="PIN">
+                    <!--<input class="form-control" name="pinNumber" ng-model="basicConfig.Pin" placeholder="PIN">-->
+                    <label>PIN  <span class="inline-block validation-on text-validaion  "
+                                      ng-show="pabxBasicConfForm.pinNumber.$invalid && !pabxBasicConfForm.pinNumber.$pristine">
+                            pin number should be numeric
+                  </span></label>
+                    <input class="form-control" name="pinNumber" ng-model="basicConfig.Pin" ng-pattern="/^[0-9]*$/"
+                           required>
                 </div>
                 <div class="col-md-4 col-sm-4 col-xs-12" style="position: relative; top: 5px; z-index: 100">
+                    <label>Time Zone</label>
                     <timezone-selector ng-model="basicConfig.TimeZone"></timezone-selector>
                 </div>
 
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                    <input class="form-control" name="ringTimeout"
+                    <!--<input class="form-control" name="ringTimeout"
                            ng-model="basicConfig.RingTimeout"
-                           placeholder="Ring Timeout">
+                           placeholder="Ring Timeout">-->
+
+                    <label>Ring Timeout <span class="inline-block validation-on text-validaion"
+                                              ng-show="pabxBasicConfForm.ringTimeout.$invalid &&
+                                           !pabxBasicConfForm.ringTimeout.$pristine">
+                            Invalid ring timeout
+                  </span> </label>
+                    <input class="form-control" name="ringTimeout" ng-model="basicConfig.RingTimeout"
+                           ng-pattern="/^[0-9]*$/">
                 </div>
             </div>
 
