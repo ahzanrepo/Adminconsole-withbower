@@ -38,6 +38,8 @@
         $scope.isTableLoading = 2;
         $scope.selectedCustomerTags = [];
 
+        $scope.leftAddValue = undefined;
+
         $scope.showAlert = function (title,content,type) {
             new PNotify({
                 title: title,
@@ -66,6 +68,7 @@
                 $scope.gridOptions.columnDefs = [];
                 $scope.numberProgress = 0;
                 $scope.uploadButtonValue = "Upload";
+                $scope.leftAddValue = undefined;
             });
 
         };
@@ -152,6 +155,17 @@
             promise.then(function(numbers) {
                 $scope.campaignNumberObj.Contacts = numbers;
             });
+        };
+
+        $scope.numberLeftAdd = function () {
+            if($scope.selectObj && $scope.selectObj.name && $scope.leftAddValue) {
+                var newNumberSet = $scope.data.map(function (obj) {
+                    obj[$scope.selectObj.name] = $scope.leftAddValue + obj[$scope.selectObj.name];
+                    return obj;
+                });
+
+                $scope.data = newNumberSet;
+            }
         };
 
         $scope.gridOptions = {
