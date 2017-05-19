@@ -92,7 +92,8 @@ var baseUrls = {
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
     'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/',
     'zohoAPIUrl': 'http://crmintegrations.app.veery.cloud/DVP/API/1.0.0.0/',//crmintegrations.app.veery.cloud,
-    'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/'
+    'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
+    'agentDialerURL': 'http://localhost:8832/DVP/API/1.0.0.0/AgentDialer/' //agentdialerservice.app.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -261,6 +262,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "AGENTSTATUSEVENT"
+            }
+        }).state('console.AgentDialer', {
+            url: "/AgentDialer",
+            templateUrl: "agent_dialer/views/agentDialer.html",
+            controller: "agentDialerController",
+            data: {
+                requireLogin: true,
+                navigation: "FILE_GALLERY"
             }
         }).state('console.FormDesign', {
             url: "/FormDesign",

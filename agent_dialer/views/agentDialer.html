@@ -2,108 +2,206 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Form validation <small>sub title</small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Settings 1</a>
-                            </li>
-                            <li><a href="#">Settings 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
+                <h2>Agent Dialer
+                    <small>Number Upload</small>
+                </h2>
+
                 <div class="clearfix"></div>
             </div>
+
             <div class="x_content">
 
-                <form class="form-horizontal form-label-left" novalidate>
 
-                    <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
-                    </p>
-                    <span class="section">Personal Info</span>
+                <div class="x_panel">
+                    <form class="form-horizontal form-label-left" name="campaingForm" novalidate>
+                        <div class="row">
 
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
+                                 ng-class="{ 'has-error' : campaingForm.agentList.$invalid && !campaingForm.agentList.$pristine }">
+                                <tags-input id="agentList" ng-model="agentList" display-property="displayName"
+                                            placeholder="Add Agent" replace-spaces-with-dashes="false" required>
+                                    <auto-complete source="loadCountries($query)"
+                                                   min-length="0"
+                                                   load-on-focus="true"
+                                                   load-on-empty="true"></auto-complete>
+                                </tags-input>
+                                <p ng-show="campaingForm.agentList.$invalid && !campaingForm.agentList.$pristine"
+                                   class="help-block">Agent List is required.</p>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
+                                 ng-class="{ 'has-error' : campaingForm.batchname.$invalid && !campaingForm.batchname.$pristine }">
+
+                                <input type="text" class="form-control has-feedback-left"
+                                       ng-model="agentDial.BatchName"
+                                       placeholder="Batch Name" required>
+                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+
+                                <p ng-show="campaingForm.batchname.$invalid && !campaingForm.batchname.$pristine"
+                                   class="help-block">Batch Name is required.</p>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <input accept=".csv" type="file" class="file-chooser" id="files123"
+                                       name="files[]"/>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+
+                                <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
+
+                                <div>
+                                    <label>rows: {{gridApi.grid.getVisibleRows().length}}</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback"
+                                 ng-class="{ 'has-error' : campaingForm.columnName.$invalid && !campaingForm.columnName.$pristine }">
+                                <select id="columnName" class="form-control has-feedback-left"
+                                        ng-change="loadNumbers()"
+                                        ng-model="agentDial.columnName"
+                                        ng-model-options="{trackBy: '$value'}" required>
+                                    <option value="" disabled selected>Select Number Column
+                                    </option>
+                                    <option ng-repeat="hData in headerData"
+                                            value="{{hData.name}}">
+                                        {{hData.name}}
+                                    </option>
+                                </select>
+                                <p ng-show="campaingForm.columnName.$invalid && !campaingForm.columnName.$pristine"
+                                   class="help-block">Column Name is required.</p>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback"
+                                 ng-class="{ 'has-error' : campaingForm.dataColumnName.$invalid && !campaingForm.dataColumnName.$pristine }">
+                                <select id="dataColumnName" class="form-control has-feedback-left"
+                                        ng-change="loadNumbers()"
+                                        ng-model="agentDial.dataColumnName"
+                                        ng-model-options="{trackBy: '$value'}" required>
+                                    <option value="" disabled selected>Select Data Column
+                                    </option>
+                                    <option ng-repeat="hData in headerData"
+                                            value="{{hData.name}}">
+                                        {{hData.name}}
+                                    </option>
+                                </select>
+                                <p ng-show="campaingForm.dataColumnName.$invalid && !campaingForm.dataColumnName.$pristine"
+                                   class="help-block">Column Name is required.</p>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback"
+                                 ng-class="{ 'has-error' : campaingForm.Mechanism.$invalid && !campaingForm.Mechanism.$pristine }">
+                                <select id="Mechanism" class="form-control has-feedback-left"
+                                        ng-change="loadNumbers()"
+                                        ng-model="agentDial.Mechanism" required
+                                >
+                                    <option value="" disabled selected>Selection Mechanism</option>
+                                    <option value="Random">Random</option>
+                                    <option value="Sequential">Sequential</option>
+                                </select>
+                                <p ng-show="campaingForm.Mechanism.$invalid && !campaingForm.Mechanism.$pristine"
+                                   class="help-block">Mechanism is required.</p>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback"
+                                 ng-class="{ 'has-error' : campaingForm.StartDate.$invalid && !campaingForm.StartDate.$pristine }">
+                                <input id="StartDate" type="text" class="form-control"
+                                       ng-model="agentDial.StartDate"
+                                       name="startDate"
+                                       ng-required="newSchedule.StartDate" placeholder="Start Date"
+                                       datepicker required>
+                                <p ng-show="campaingForm.StartDate.$invalid && !campaingForm.StartDate.$pristine"
+                                   class="help-block">Start Date is required.</p>
+                            </div>
+
+                            <!--<div class="col-md-10 col-sm-10 col-xs-10 form-group has-feedback"
+                                 ng-class="{ 'has-error' : campaingForm.CampaignName.$invalid && !campaingForm.CampaignName.$pristine }">
+
+                                <uib-progressbar animate="false" value="numberProgress"
+                                                 type="success"><b>{{numberProgress}}%</b>
+                                </uib-progressbar>
+                            </div>-->
+
+
+                            <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
+                                <button type="button" class="btn btn-success right"
+                                        ng-disabled="campaingForm.$invalid" ng-click="assignNumbers()"
+                                        ng-disabled="uploadButtonValue == 'Uploading...'">{{uploadButtonValue}}
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+
+                <div class="x_title">
+                    <h2>
+                        <small>Pending Jobs</small>
+                    </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li ng-click="loadPendingJobs();"><a class="close-link" ng-click="loadPendingJobs();"><i
+                                class="fa fa-refresh"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_panel">
+
+
+                    <div ng-show="isLoading">
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    Please Wait...
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
+
+                    <div class="row" ng-hide="isLoading">
+                        <div ng-hide="pendingJobs.length">
+                            <div class="row ">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="data-state-wrap">
+                                        No Pending Jobs.
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Confirm Email <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="email" id="email2" name="confirm_email" data-validate-linked="email" required="required" class="form-control col-md-7 col-xs-12">
+
+                        <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback" ng-repeat="p in pendingJobs">
+                            <label ng-click="CheckJobStatus(p);" style="cursor: pointer">{{p}}</label>
                         </div>
+
                     </div>
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Number <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="number" id="number" name="number" required="required" data-validate-minmax="10,100" class="form-control col-md-7 col-xs-12">
+                    <!--<div class="row">
+
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <input accept=".csv" type="file" class="file-chooser" id="files123"
+                                   name="files[]"/>
                         </div>
-                    </div>
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Website URL <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="url" id="website" name="website" required="required" placeholder="www.website.com" class="form-control col-md-7 col-xs-12">
+
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+
+                            <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
+
+                            <div>
+                                <label>rows: {{gridApi.grid.getVisibleRows().length}}</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation">Occupation <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="occupation" type="text" name="occupation" data-validate-length-range="5,20" class="optional form-control col-md-7 col-xs-12">
-                        </div>
-                    </div>
-                    <div class="item form-group">
-                        <label for="password" class="control-label col-md-3">Password</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="password" type="password" name="password" data-validate-length="6,8" class="form-control col-md-7 col-xs-12" required="required">
-                        </div>
-                    </div>
-                    <div class="item form-group">
-                        <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">Repeat Password</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="password2" type="password" name="password2" data-validate-linked="password" class="form-control col-md-7 col-xs-12" required="required">
-                        </div>
-                    </div>
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telephone <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="tel" id="telephone" name="phone" required="required" data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12">
-                        </div>
-                    </div>
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Textarea <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <textarea id="textarea" required="required" name="textarea" class="form-control col-md-7 col-xs-12"></textarea>
-                        </div>
-                    </div>
-                    <div class="ln_solid"></div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-3">
-                            <button type="submit" class="btn btn-primary">Cancel</button>
-                            <button id="send" type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                    </div>
-                </form>
+                    </div>-->
+
+                </div>
+
+                <!--<div class="ln_solid"></div>-->
+
+
             </div>
         </div>
     </div>

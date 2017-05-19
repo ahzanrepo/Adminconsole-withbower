@@ -2,14 +2,68 @@
  * Created by Rajinda on 05/17/2017.
  */
 
-mainApp.factory("agentStatusService", function ($http, $log, authService, baseUrls) {
+mainApp.factory("agentDialService", function ($http, $log, authService, baseUrls) {
+
+    var assignNumber = function (postData) {
+        return $http({
+            method: 'POST',
+            url: baseUrls.agentDialerURL + "AssignNumbers",
+            data: postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return undefined;
+            }
+        });
+    };
+
+    var saveDialInfo = function (resourceId,postData) {
+        return $http({
+            method: 'POST',
+            url: baseUrls.agentDialerURL + "Resource/"+resourceId+"/Dial",
+            data: postData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return undefined;
+            }
+        });
+    };
+
+    var checkJobStatus = function (jobId) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.agentDialerURL + "/Job/"+jobId
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.IsSuccess;
+            } else {
+                return false;
+            }
+        });
+    };
+
+    var pendingJob = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.agentDialerURL + "Job"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
 
     var getProfileDetails = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.ardsmonitoringBaseUrl + "MONITORING/resources",
-
-        }).then(function (response) {
+            url:  baseUrls.UserServiceBaseUrl+"Users"
+        }).then(function(response)
+        {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
             } else {
@@ -19,10 +73,12 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
     };
 
 
-
     return {
-        GetProfileDetails: getProfileDetails,
-
+        GetProfileDetails:getProfileDetails,
+        AssignNumber: assignNumber,
+        SaveDialInfo: saveDialInfo,
+        CheckJobStatus:checkJobStatus,
+        PendingJob:pendingJob
     }
 
 });

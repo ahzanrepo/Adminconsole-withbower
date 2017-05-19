@@ -164,6 +164,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goFilegallery: function () {
             $state.go('console.filegallery');
         },
+        goAgentDial: function () {
+            $state.go('console.AgentDialer');
+        },
         goFileupload: function () {
             $state.go('console.fileupload');
         },
