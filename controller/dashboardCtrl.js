@@ -1012,7 +1012,6 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
         templateUrl: 'template/dashboard/d1-queued-temp.html',
         link: function (scope, element, attributes) {
 
-            console.log(scope.mque)
 
             //console.log(scope.queueoption)
             // console.log(scope.pieoption)
