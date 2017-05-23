@@ -91,7 +91,8 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     $scope.onClickLogin = function () {
         para.userName = $scope.userName;
         para.password = $scope.password;
-        para.scope = ["all_all", "profile_veeryaccount"]
+        para.scope = ["all_all", "profile_veeryaccount"];
+        para.console = "SUPERVISOR_CONSOLE";
         //parameter option
         //username
         //password

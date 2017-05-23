@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess,turnServers) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices) {
 
 
     //added by pawan
@@ -12,7 +12,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.CallStatus = null;
     $scope.loginData = {};
     $scope.callListStatus = false;
-    $scope.isRegistered = false;
+    $scope.isRegistered = true;
     $scope.inCall = false;
 
     $scope.newNotifications = [];
@@ -91,12 +91,17 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         $('#regNotificationLoading').addClass('display-none').removeClass('display-block');
         $('#regNotification').addClass('display-block').removeClass('display-none');
     }
+    $scope.callMonitorRegistered = function () {
+        $scope.isSocketRegistered = true;
+
+    }
 
 
     var notificationEvent = {
         OnMessageReceived: $scope.OnMessage,
         onAgentDisconnected: $scope.agentDisconnected,
-        onAgentAuthenticated: $scope.agentAuthenticated
+        onAgentAuthenticated: $scope.agentAuthenticated,
+        onCallMonitorRegistered: $scope.callMonitorRegistered
     };
 
     $scope.veeryNotification = function () {
@@ -497,6 +502,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
     var authToken = authService.GetToken();
+    var displayName = "";
+    if (jwtHelper.decodeToken(authToken).context.veeryaccount) {
+        displayName = jwtHelper.decodeToken(authToken).context.veeryaccount.display;
+    }
+
     /*$scope.showAlert = function (tittle, type, msg) {
      new PNotify({
      title: tittle,
@@ -506,6 +516,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
      icon: false
      });
      };*/
+
+    $scope.monitorProtocol = "user";
+    $scope.legID = "";
 
     var getRegistrationData = function (authToken, password) {
 
@@ -624,38 +637,67 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     $scope.ThreeWayCall = function () {
         //alert("barged: "+bargeID);
-        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
 
-        sendDTMF('3');
-        $scope.CallStatus = 'THREEWAY';
-        $scope.clickBtnStateName = "Conference ";
+        callMonitorSrv.threeWayCall($scope.currentSessionID, $scope.monitorProtocol, displayName, $scope.legID).then(function (resThreeWay) {
+            if (resThreeWay.data.IsSuccess) {
+                $scope.CallStatus = 'THREEWAY';
+                $scope.clickBtnStateName = "Conference ";
+            }
+            else {
+                $scope.showAlert("Call Monitor", "error", "Fail to stablish conference call");
+            }
+        });
+
+
     };
 
     $scope.BargeCall = function () {
         //alert("barged: "+bargeID);
 
-        //callMonitorSrv.bargeCalls($scope.currentSessionID,protocol).then(onBargeComplete,onError);
-        sendDTMF('2');
-        $scope.CallStatus = "BARGED";
-        $scope.clickBtnStateName = "Barged";
+        callMonitorSrv.bargeCalls($scope.currentSessionID, $scope.monitorProtocol, displayName, $scope.legID).then(function (resBarge) {
+
+            if (resBarge.data.IsSuccess) {
+
+                $scope.CallStatus = "BARGED";
+                $scope.clickBtnStateName = "Barged";
+            }
+            else {
+                $scope.showAlert("Call Monitor", "error", "Fail to stablish call barge");
+            }
+        });
+
     };
 
     $scope.ReturnToListen = function () {
         //alert("barged: "+bargeID);
-        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
+        //
+        callMonitorSrv.returnToListen($scope.currentSessionID, $scope.monitorProtocol, displayName, $scope.legID).then(function (resRetToListen) {
+            if (resRetToListen.data.IsSuccess) {
 
-        sendDTMF('0');
-        $scope.CallStatus = 'LISTEN';
-        $scope.clickBtnStateName = "Listen";
+                $scope.CallStatus = 'LISTEN';
+                $scope.clickBtnStateName = "Listen";
+            }
+            else {
+                $scope.showAlert("Call Monitor", "error", "Fail return to listen");
+            }
+        });
+
+
     };
 
     $scope.SwapUser = function () {
         //alert("barged: "+bargeID);
-        //callMonitorSrv.threeWayCall(bargeID,protocol).then(onThreeWayComplete,onError);
+        callMonitorSrv.swapUser($scope.currentSessionID, $scope.monitorProtocol, displayName, $scope.legID).then(function (resSwap) {
+            if (resSwap.data.IsSuccess) {
 
-        sendDTMF('1');
-        $scope.CallStatus = "SWAPED";
-        $scope.clickBtnStateName = "Client";
+                $scope.CallStatus = "SWAPED";
+                $scope.clickBtnStateName = "Client";
+            }
+            else {
+                $scope.showAlert("Call Monitor", "error", "Fail to swap between users");
+            }
+        });
+
 
     };
 
@@ -668,6 +710,19 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $rootScope.$on("check_register", function (event, args) {
 
         $rootScope.$emit("is_registered", $scope.isRegistered);
+    });
+    $rootScope.$on("call_listning", function (event, args) {
+        $scope.currentSessionID = args.sessionID;
+        $scope.monitorProtocol = args.protocol;
+        $scope.legID = args.legID;
+        $scope.inCall = true;
+        $scope.CallStatus = args.CallStatus;
+
+    });
+    $rootScope.$on("monitor_panel", function (event, args) {
+
+        $scope.inCall = args;
+
     });
 
     //main toggle panle option
@@ -773,6 +828,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.userGroups = [];
 
 
+    //subscribe user
+
+    subscribeServices.connectSubscribeServer();
+
+    //todo
     $scope.loadUserGroups = function () {
         notifiSenderService.getUserGroupList().then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -781,12 +841,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             }
         }, function (err) {
             loginService.isCheckResponse(err);
-            $scope.showAlert("Load User Groups", "error", "Fail To Get User Groups.")
+            $scope.showAlert("Load User Groups", "error", "Fail To Get User Groups.");
         });
     };
 
     //$scope.loadUserGroups();
 
+    //todo
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
             $scope.users = response;

@@ -4,7 +4,7 @@
 
 var fileModule = angular.module("fileServiceModule", ["download"]);
 
-fileModule.factory("fileService", function ($http, download,authService,baseUrls) {
+fileModule.factory("fileService", function ($http, download,authService,baseUrls,FileSaver) {
 
 
 
@@ -38,28 +38,131 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
 
   };
 
+  var downloadInternalFile = function (file) {
+    $http({
+
+      url: baseUrls.fileServiceInternalUrl+ "File/Download/" +file.TenantId + "/" +file.CompanyId+"/"+file.UniqueId+"/"+file.Filename,
+      method: "get",
+      //data: json, //this is your json data string
+      headers: {
+        'Content-type': 'application/json'
+      },
+      responseType: 'arraybuffer'
+    }).success(function (data, status, headers, config) {
+
+      /*
+       var blob = new Blob([data], {type: "application/image/png"});
+       var objectUrl = URL.createObjectURL(blob);
+       window.open(objectUrl);
+       */
+
+      var myBlob = new Blob([data]);
+      var blobURL = (window.URL || window.webkitURL).createObjectURL(myBlob);
+      var anchor = document.createElement("a");
+      anchor.download = file.Filename;
+      anchor.href = blobURL;
+      anchor.click();
+
+    }).error(function (data, status, headers, config) {
+      //upload failed
+    });
+
+  };
+
+  var downloadLatestFile = function (fileName) {
+    $http({
+      url: baseUrls.fileServiceUrl+ "File/DownloadLatest/" + fileName,
+      method: "get",
+      //data: json, //this is your json data string
+      headers: {
+        'Content-type': 'application/json'
+      },
+      responseType: 'arraybuffer'
+    }).success(function (data, status, headers, config) {
+
+      /*
+       var blob = new Blob([data], {type: "application/image/png"});
+       var objectUrl = URL.createObjectURL(blob);
+       window.open(objectUrl);
+       */
+
+      var myBlob = new Blob([data]);
+      var blobURL = (window.URL || window.webkitURL).createObjectURL(myBlob);
+      var anchor = document.createElement("a");
+      anchor.download = fileName;
+      anchor.href = blobURL;
+      anchor.click();
+
+    }).error(function (data, status, headers, config) {
+      //upload failed
+    });
+
+  };
+
+  var playEncryptedFile = function ( file) {
+    $http({
+      url: baseUrls.fileServiceInternalUrl + "File/Download/" + file.TenantId + "/" + file.CompanyId + "/" + file.UniqueId + "/" + file.Filename,
+      method: "get",
+      //data: json, //this is your json data string
+      headers: {
+        'Content-type': 'application/json'
+      },
+      responseType: 'arraybuffer'
+    }).success(function (data, status, headers, config) {
+
+      /*
+       var blob = new Blob([data], {type: "application/image/png"});
+       var objectUrl = URL.createObjectURL(blob);
+       window.open(objectUrl);
+       */
+      console.log(data);
+      var myBlob = new Blob([data]);
+      var blobURL = (window.URL || window.webkitURL).createObjectURL(myBlob);
+      FileSaver.saveAs(myBlob, 'a_enc_2.mp3');
+
+
+
+      /*var newFile = new File(data,"./dec.mp3","audio/mp3");
+       saveAs(newFile);
+       var anchor = document.createElement("a");
+       //anchor.download = file.Filename;
+       anchor.src = blobURL;
+       anchor.click();*/
+
+
+
+      return blobURL;
+      //anchor.click();
+
+    }).error(function (data, status, headers, config) {
+      //upload failed
+      return null;
+    });
+
+  };
+
   var getFiles = function (pageSize,pageNo) {
     return $http({
       method: 'get',
-      url: baseUrls.fileServiceUrl+ 'Files/50/'+pageNo
+      url: baseUrls.fileServiceUrl+ 'Files/50/'+pageNo+"?visibleSt=true"
     }).then(function (response) {
       return response.data.Result;
     });
   };
 
   /*
-  var searchFiles = function (categoryId,startTime,endTime) {
-    return $http({
-      method: 'get',
-      url: baseUrls.fileServiceUrl+ 'Files/infoByCategoryID/'+categoryId+'?startDateTime='+startTime+'&endDateTime='+endTime,
-      headers: {
-        'authorization': authService.GetToken()
-      }
-    }).then(function (response) {
-      return response.data.Result;
-    });
-  };
-  */
+   var searchFiles = function (categoryId,startTime,endTime) {
+   return $http({
+   method: 'get',
+   url: baseUrls.fileServiceUrl+ 'Files/infoByCategoryID/'+categoryId+'?startDateTime='+startTime+'&endDateTime='+endTime,
+   headers: {
+   'authorization': authService.GetToken()
+   }
+   }).then(function (response) {
+   return response.data.Result;
+   });
+   };
+   */
   var searchFiles = function (categoryId,startTime,endTime) {
     return $http({
       method: 'get',
@@ -110,8 +213,8 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     return $http.get(baseUrls.fileServiceUrl+'FileCategories'
     ).then(function (response) {
 
-        return response.data.Result;
-      });
+          return response.data.Result;
+        });
 
   };
 
@@ -125,6 +228,9 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     GetFilesCategoryID:getFilesCategoryID,
     GetFileCountCategoryID:getFileCountCategoryID,
     GetFilesByCategoryName:getFilesByCategoryName,
+    playEncryptedFile:playEncryptedFile,
+    downloadLatestFile:downloadLatestFile,
+    downloadInternalFile:downloadInternalFile,
     UploadUrl: baseUrls.fileServiceUrl+ "File/Upload",
     File: {},
     Headers: {'Authorization':  authService.GetToken()}

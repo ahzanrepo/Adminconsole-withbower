@@ -320,7 +320,7 @@
                                     ng-repeat="cdr in satisfactionRequest">
                                     <td>{{cdr.satisfaction}}</td>
                                     <td>{{cdr.method}}</td>
-                                    <td>{{cdr.submitter?cdr.submitter.name:"Unknown"}}</td>
+                                    <td>{{cdr.submitter?(cdr.submitter.firstname+" "+cdr.submitter.lastname):"Unknown"}}</td>
                                     <td>{{cdr.requester?cdr.requester.username:"Unknown"}}</td>
                                     <td>{{cdr.contact?cdr.contact:"Unknown"}}</td>
                                     <td>{{cdr.ticket?cdr.ticket.reference:""}}</td>
