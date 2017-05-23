@@ -32,6 +32,8 @@
         $scope.headerData = [];
         $scope.selectObj = {};
 
+        $scope.leftAddValue = undefined;
+
 
         $scope.showAlert = function (title,content,type) {
             new PNotify({
@@ -52,6 +54,7 @@
                 $scope.gridOptions2.data = [];
                 $scope.gridOptions2.columnDefs = [];
                 $scope.uploadButtonValue = true;
+                $scope.leftAddValue = undefined;
             });
 
         };
@@ -80,6 +83,16 @@
             });
         };
 
+        $scope.numberLeftAdd = function () {
+            if($scope.selectObj && $scope.selectObj.name && $scope.leftAddValue) {
+                var newNumberSet = $scope.data.map(function (obj) {
+                    obj[$scope.selectObj.name] = $scope.leftAddValue + obj[$scope.selectObj.name];
+                    return obj;
+                });
+
+                $scope.data = newNumberSet;
+            }
+        };
 
 
         $scope.gridOptions2 = {
