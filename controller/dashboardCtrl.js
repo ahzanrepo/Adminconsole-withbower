@@ -450,8 +450,10 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                                 resonseStatus = "Suspended";
                                             }
 
-
-                                            var reservedDate = response[i].ConcurrencyInfo[j].SlotInfo[k].StateChangeTime;
+                                            var reservedDate ="";
+                                            if(response[i].ConcurrencyInfo[j].SlotInfo[k]) {
+                                                reservedDate = response[i].ConcurrencyInfo[j].SlotInfo[k].StateChangeTime;
+                                            }
 
                                             var slotInfo = {
                                                 slotState: null,
@@ -468,14 +470,17 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                                 slotInfo.other = "Break";
                                                 reservedDate = response[i].Status.StateChangeTime;
                                             } else {
-                                                slotInfo.slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
+                                                if(response[i].ConcurrencyInfo[j].SlotInfo[k]) {
+                                                    slotInfo.slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
 
-                                                if (response[i].ConcurrencyInfo[j].SlotInfo[k].State == "Available") {
 
-                                                    var slotStateTime = moment(reservedDate);
-                                                    var resourceStateTime = moment(response[i].Status.StateChangeTime);
-                                                    if (slotStateTime.isBefore(resourceStateTime)) {
-                                                        reservedDate = response[i].Status.StateChangeTime;
+                                                    if (response[i].ConcurrencyInfo[j].SlotInfo[k].State == "Available") {
+
+                                                        var slotStateTime = moment(reservedDate);
+                                                        var resourceStateTime = moment(response[i].Status.StateChangeTime);
+                                                        if (slotStateTime.isBefore(resourceStateTime)) {
+                                                            reservedDate = response[i].Status.StateChangeTime;
+                                                        }
                                                     }
                                                 }
                                             }
