@@ -88,7 +88,8 @@ var baseUrls = {
     'campaignmanagerUrl': 'http://localhost:8827/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
     'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
     'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/',
-    'zohoAPIUrl': 'http://crmintegrations.app.veery.cloud/DVP/API/1.0.0.0/'//crmintegrations.app.veery.cloud
+    'zohoAPIUrl': 'http://crmintegrations.app.veery.cloud/DVP/API/1.0.0.0/',//crmintegrations.app.veery.cloud,
+    'ipMessageURL': 'http://192.168.5.186:8889/'//'http://ipmessagingservice.app.veery.cloud',
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -554,57 +555,57 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
          navigation: "CONFERENCE"
          }
          })*/.state('console.queuesummary', {
-                url: "/queuesummary",
-                templateUrl: "views/queue-summary/queue-summary.html",
-                controller: "queueSummaryController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CDR"
-                }
-            }).state('console.agentsummary', {
-                url: "/agentsummary",
-                templateUrl: "views/agent-productivity-summary/agentSummary.html",
-                controller: "agentSummaryController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CDR"
-                }
-            }).state('console.AgentTblList', {
-                url: "/AgentTblList",
-                templateUrl: "agent_status/view/agentStatusTblList.html",
-                controller: "agentStatusController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CDR"
-                }
-            }).state('console.extension', {
-                url: "/extensions",
-                templateUrl: "views/extension/extension.html",
-                controller: "extensionController",
-                data: {
-                    requireLogin: true,
-                    navigation: "EXTENSION"
-                }
-            }).state('console.ardsconfig', {
-                url: "/ardsconfig",
-                templateUrl: "views/ards-config/ardsconfig.html",
-                controller: "ardsController",
+            url: "/queuesummary",
+            templateUrl: "views/queue-summary/queue-summary.html",
+            controller: "queueSummaryController",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
+        }).state('console.agentsummary', {
+            url: "/agentsummary",
+            templateUrl: "views/agent-productivity-summary/agentSummary.html",
+            controller: "agentSummaryController",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
+        }).state('console.AgentTblList', {
+            url: "/AgentTblList",
+            templateUrl: "agent_status/view/agentStatusTblList.html",
+            controller: "agentStatusController",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
+        }).state('console.extension', {
+            url: "/extensions",
+            templateUrl: "views/extension/extension.html",
+            controller: "extensionController",
+            data: {
+                requireLogin: true,
+                navigation: "EXTENSION"
+            }
+        }).state('console.ardsconfig', {
+            url: "/ardsconfig",
+            templateUrl: "views/ards-config/ardsconfig.html",
+            controller: "ardsController",
 
-                data: {
-                    requireLogin: true,
-                    navigation: "ARDS_CONFIGURATION"
-                }
+            data: {
+                requireLogin: true,
+                navigation: "ARDS_CONFIGURATION"
+            }
 
-            }).state('console.myprofile', {
-                url: "/myprofile",
-                templateUrl: "views/myUserprofile/myUserprofile.html",
+        }).state('console.myprofile', {
+            url: "/myprofile",
+            templateUrl: "views/myUserprofile/myUserprofile.html",
 
-                data: {
-                    requireLogin: true,
-                    navigation: "MYPROFILE"
-                }
+            data: {
+                requireLogin: true,
+                navigation: "MYPROFILE"
+            }
 
-            })
+        })
             .state('console.did', {
                 url: "/didnumbers",
                 templateUrl: "views/did/did.html",
@@ -623,347 +624,347 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                     navigation: "SCHEDULER"
                 }
             }).state('console.companyconfig', {
-                url: "/companyconfiguration",
-                templateUrl: "views/companyConfig/companyConfigMain.html",
-                controller: "companyConfigController",
-                data: {
-                    requireLogin: true,
-                    navigation: "COMPANY_CONFIGURATION"
-                }
-            }).state('console.translations', {
-                url: "/translation",
-                templateUrl: "views/translation/translations.html",
-                controller: "translationController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TRANSLATIONS"
-                }
-            }).state('console.trigger', {
-                url: "/trigger",
-                templateUrl: "views/ticket-trigger/trigger.html",
-                controller: "triggerController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_TRIGGER"
-                }
-            }).state("console.triggerConfiguration", {
-                url: "/triggerConfiguration/:triggerId/:title",
-                templateUrl: "views/ticket-trigger/configTrigger.html",
-                controller: "triggerConfigController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_TRIGGER"
-                }
-            }).state('console.templatecreater', {
-                url: "/templatecreater",
-                templateUrl: "views/template-generator/templateview.html",
-                controller: "templateController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TEMPLATEMAKER"
-                }
-            }).state('console.tagmanager', {
-                url: "/tagmanager",
-                templateUrl: "views/tag-manager/tagView.html",
-                controller: "tagcontroller",
-                data: {
-                    requireLogin: true,
-                    navigation: "TAGMANAGER"
-                }
-            }).state('console.callsummary', {
-                url: "/callsummary",
-                templateUrl: "views/cdr/callSummaryReport.html",
-                controller: "callSummaryCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "CDR"
-                }
+            url: "/companyconfiguration",
+            templateUrl: "views/companyConfig/companyConfigMain.html",
+            controller: "companyConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
+        }).state('console.translations', {
+            url: "/translation",
+            templateUrl: "views/translation/translations.html",
+            controller: "translationController",
+            data: {
+                requireLogin: true,
+                navigation: "TRANSLATIONS"
+            }
+        }).state('console.trigger', {
+            url: "/trigger",
+            templateUrl: "views/ticket-trigger/trigger.html",
+            controller: "triggerController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_TRIGGER"
+            }
+        }).state("console.triggerConfiguration", {
+            url: "/triggerConfiguration/:triggerId/:title",
+            templateUrl: "views/ticket-trigger/configTrigger.html",
+            controller: "triggerConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_TRIGGER"
+            }
+        }).state('console.templatecreater', {
+            url: "/templatecreater",
+            templateUrl: "views/template-generator/templateview.html",
+            controller: "templateController",
+            data: {
+                requireLogin: true,
+                navigation: "TEMPLATEMAKER"
+            }
+        }).state('console.tagmanager', {
+            url: "/tagmanager",
+            templateUrl: "views/tag-manager/tagView.html",
+            controller: "tagcontroller",
+            data: {
+                requireLogin: true,
+                navigation: "TAGMANAGER"
+            }
+        }).state('console.callsummary', {
+            url: "/callsummary",
+            templateUrl: "views/cdr/callSummaryReport.html",
+            controller: "callSummaryCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
 
-            }).state('console.queueHourlySummary', {
-                url: "/queueHourlySummary",
-                templateUrl: "views/cdr/queueSummaryHourly.html",
-                controller: "queueSummaryHourlyCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "CDR"
-                }
-            }).state('console.sla', {
-                url: "/sla",
-                templateUrl: "views/ticket-sla/sla.html",
-                controller: "slaController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SLA"
-                }
-            }).state("console.slaConfiguration", {
-                url: "/slaConfiguration/:slaId/:title",
-                templateUrl: "views/ticket-sla/configSla.html",
-                controller: "slaConfigController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SLA"
-                }
-            }).state("console.agentstatusevents", {
-                url: "/agent_status_list",
-                templateUrl: "views/cdr/agentStatusEventList.html",
-                controller: "agentStatusListCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "CDR"
-                }
-            }).state("console.agentTicketDashboard", {
-                url: "/agentTicketDashboard",
-                templateUrl: "views/dashboard/dashboardTicket.html",
-                controller: "agentStatusListCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "CDR"
-                }
-            }).state("console.ticketSummary", {
-                url: "/ticketSummary",
-                templateUrl: "views/ticket-reports/ticketSummary.html",
-                controller: "ticketSummaryCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "CDR"
-                }
-            }).state("console.ticketDetailReport", {
-                url: "/ticketDetailReport",
-                templateUrl: "views/ticket-reports/ticketDetailReport.html",
-                controller: "ticketDetailReportCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "CDR"
-                }
-            }).state("console.timeSheet", {
-                url: "/timeSheet",
-                templateUrl: "views/timeSheet/time-sheet.html",
-                controller: "timeSheetCtrl",
-                data: {
-                    requireLogin: true
-                }
-            }).state("console.createFilter", {
-                url: "/createFilter",
-                templateUrl: "views/ticket-trigger/create-filter.html",
-                data: {
-                    requireLogin: true
-                }
-            }).state("console.caseConfiguration", {
-                url: "/caseConfiguration",
-                templateUrl: "views/ticket-case/caseConfig.html",
-                controller: "caseConfigController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SLA"
-                }
-            }).state("console.case", {
-                url: "/case",
-                templateUrl: "views/ticket-case/case.html",
-                controller: "caseController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SLA"
-                }
-            }).state("console.configCase", {
-                url: "/configCase/:caseInfo/:title",
-                templateUrl: "views/ticket-case/configCase.html",
-                controller: "configCaseController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SLA"
-                }
-            }).state('console.queueSlaBreakDown', {
-                url: "/slabreakdown",
-                templateUrl: "views/queue-slabreakdown/queue-slabreakdown.html",
-                data: {
-                    requireLogin: true,
-                    navigation: "SLA_BREAKDOWN"
-                }
-            }).state('console.fileslotmaker', {
-                url: "/fileslot",
-                templateUrl: "views/fileSlotMaker/fileSlotMaker.html",
-                controller: "fileSlotController",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET"
-                }
-            }).state('console.billingHistory', {
-                url: "/billingHistory",
-                templateUrl: "views/billing-history/billingHistory.html",
-                controller: "billingHistoryController",
+        }).state('console.queueHourlySummary', {
+            url: "/queueHourlySummary",
+            templateUrl: "views/cdr/queueSummaryHourly.html",
+            controller: "queueSummaryHourlyCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
+        }).state('console.sla', {
+            url: "/sla",
+            templateUrl: "views/ticket-sla/sla.html",
+            controller: "slaController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SLA"
+            }
+        }).state("console.slaConfiguration", {
+            url: "/slaConfiguration/:slaId/:title",
+            templateUrl: "views/ticket-sla/configSla.html",
+            controller: "slaConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SLA"
+            }
+        }).state("console.agentstatusevents", {
+            url: "/agent_status_list",
+            templateUrl: "views/cdr/agentStatusEventList.html",
+            controller: "agentStatusListCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
+        }).state("console.agentTicketDashboard", {
+            url: "/agentTicketDashboard",
+            templateUrl: "views/dashboard/dashboardTicket.html",
+            controller: "agentStatusListCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
+        }).state("console.ticketSummary", {
+            url: "/ticketSummary",
+            templateUrl: "views/ticket-reports/ticketSummary.html",
+            controller: "ticketSummaryCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
+        }).state("console.ticketDetailReport", {
+            url: "/ticketDetailReport",
+            templateUrl: "views/ticket-reports/ticketDetailReport.html",
+            controller: "ticketDetailReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CDR"
+            }
+        }).state("console.timeSheet", {
+            url: "/timeSheet",
+            templateUrl: "views/timeSheet/time-sheet.html",
+            controller: "timeSheetCtrl",
+            data: {
+                requireLogin: true
+            }
+        }).state("console.createFilter", {
+            url: "/createFilter",
+            templateUrl: "views/ticket-trigger/create-filter.html",
+            data: {
+                requireLogin: true
+            }
+        }).state("console.caseConfiguration", {
+            url: "/caseConfiguration",
+            templateUrl: "views/ticket-case/caseConfig.html",
+            controller: "caseConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SLA"
+            }
+        }).state("console.case", {
+            url: "/case",
+            templateUrl: "views/ticket-case/case.html",
+            controller: "caseController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SLA"
+            }
+        }).state("console.configCase", {
+            url: "/configCase/:caseInfo/:title",
+            templateUrl: "views/ticket-case/configCase.html",
+            controller: "configCaseController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SLA"
+            }
+        }).state('console.queueSlaBreakDown', {
+            url: "/slabreakdown",
+            templateUrl: "views/queue-slabreakdown/queue-slabreakdown.html",
+            data: {
+                requireLogin: true,
+                navigation: "SLA_BREAKDOWN"
+            }
+        }).state('console.fileslotmaker', {
+            url: "/fileslot",
+            templateUrl: "views/fileSlotMaker/fileSlotMaker.html",
+            controller: "fileSlotController",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET"
+            }
+        }).state('console.billingHistory', {
+            url: "/billingHistory",
+            templateUrl: "views/billing-history/billingHistory.html",
+            controller: "billingHistoryController",
 
-                data: {
-                    requireLogin: true,
-                    navigation: "PACKAGE_MANAGER"
-                }
-            }).state('console.ticketFlow', {
-                url: "/ticketFlow",
-                templateUrl: "views/flow/flowTest.html",
-                data: {
-                    requireLogin: true,
-                    navigation: "SLA_BREAKDOWN"
-                }
-            }).state('console.ivrnodecount', {
-                url: "/ivrNode",
-                templateUrl: "ivr_node_count/view/ivrNodeCount.html",
-                controller: "ivrNodeCountController",
-                data: {
-                    requireLogin: true,
-                    navigation: "SLA_BREAKDOWN"
-                }
-            }).state('console.customersatisfaction', {
-                url: "/customersatisfaction",
-                templateUrl: "customerSatisfactions/view/cSat.html",
-                controller: "cSatController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CSATREPORT"
-                }
-            }).state('console.acwdetails', {
-                url: "/acwdetails",
-                templateUrl: "views/acw-details/acwDetails.html",
-                controller: "acwDetailController",
-                data: {
-                    requireLogin: true,
-                    navigation: "ACWREPORT"
-                }
-            }).state('console.qaratingreporting', {
-                url: "/qaratingreport",
-                templateUrl: "views/qaRatingReport/qaRatingReport.html",
-                controller: "qaRatingReportCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "QUALITYASSUARANCE"
-                }
-            }).state('console.missedcallreport', {
-                url: "/missedcallreport",
-                templateUrl: "views/agent-missedcall-details/missedCallDetails.html",
-                controller: "agentMissedCallDetailController",
-                data: {
-                    requireLogin: true,
-                    navigation: "MISSEDCALLREPORT"
-                }
-            }).state('console.campaign', {
-                url: "/campaign",
-                templateUrl: "campaignManager/campaignList.html",
-                controller: "campaignController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
-                }
-            }).state('console.campaignmonitor', {
-                url: "/campaign/monitor",
-                templateUrl: "campaignManager/campaignMonitor.html",
-                controller: "campaignMonitorController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
-                }
-            }).state('console.campaignsummeryreport', {
-                url: "/campaign/report/summery",
-                templateUrl: "campaignManager/campaignSummeryReport.html",
-                controller: "campaignReportController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
-                }
-            }).state('console.campaigndispositionreport', {
-                url: "/campaign/report/disposition",
-                templateUrl: "campaignManager/campaignDispositionReport.html",
-                controller: "campaignDispositionReportController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
-                }
-            }).state('console.campaigncallbackreport', {
-                url: "/campaign/report/callback",
-                templateUrl: "campaignManager/campaignCallbackReport.html",
-                controller: "campaignCallbackReportController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
-                }
-            }).state('console.campaignattemptreport', {
-                url: "/campaign/report/attempt",
-                templateUrl: "campaignManager/campaignAttemptReport.html",
-                controller: "campaignAttemptReportController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
-                }
-            }).state('console.zoho', {
-                url: "/zoho",
-                templateUrl: "zoho/views/zohoConnector.html",
-                controller: "zohoController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
-                }
-            }).state('console.zohousers', {
-                url: "/zoho/users",
-                templateUrl: "zoho/views/zohoUsers.html",
-                controller: "zohoUsersController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNMANAGER"
-                }
-            }).state('console.campaignnumberupload', {
-                url: "/campaign/numberupload",
-                templateUrl: "views/campaign-number-upload/numberUpload.html",
-                controller: "numberUploadController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNNUMBERS"
-                }
-            }).state('console.dncnumbermanage', {
-                url: "/campaign/dncnumbermanage",
-                templateUrl: "views/campaign-number-upload/dncList.html",
-                controller: "numberDncController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNNUMBERS"
-                }
-            }).state('console.contact-book', {
-                url: "/contact-book",
-                templateUrl: "views/softPhone/soft-phone-option.html",
-                controller: "softPhoneCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGNNUMBERS"
-                }
-            }).state('console.callcenterperformance', {
-                url: "/callcenterperformance",
-                templateUrl: "views/callcenter-performance-summery/callcenterPerformance.html",
-                controller: "callcenterPerformanceController",
-                data: {
-                    requireLogin: true,
-                    navigation: "CALLCENTER_PERFORMANCE"
-                }
+            data: {
+                requireLogin: true,
+                navigation: "PACKAGE_MANAGER"
+            }
+        }).state('console.ticketFlow', {
+            url: "/ticketFlow",
+            templateUrl: "views/flow/flowTest.html",
+            data: {
+                requireLogin: true,
+                navigation: "SLA_BREAKDOWN"
+            }
+        }).state('console.ivrnodecount', {
+            url: "/ivrNode",
+            templateUrl: "ivr_node_count/view/ivrNodeCount.html",
+            controller: "ivrNodeCountController",
+            data: {
+                requireLogin: true,
+                navigation: "SLA_BREAKDOWN"
+            }
+        }).state('console.customersatisfaction', {
+            url: "/customersatisfaction",
+            templateUrl: "customerSatisfactions/view/cSat.html",
+            controller: "cSatController",
+            data: {
+                requireLogin: true,
+                navigation: "CSATREPORT"
+            }
+        }).state('console.acwdetails', {
+            url: "/acwdetails",
+            templateUrl: "views/acw-details/acwDetails.html",
+            controller: "acwDetailController",
+            data: {
+                requireLogin: true,
+                navigation: "ACWREPORT"
+            }
+        }).state('console.qaratingreporting', {
+            url: "/qaratingreport",
+            templateUrl: "views/qaRatingReport/qaRatingReport.html",
+            controller: "qaRatingReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "QUALITYASSUARANCE"
+            }
+        }).state('console.missedcallreport', {
+            url: "/missedcallreport",
+            templateUrl: "views/agent-missedcall-details/missedCallDetails.html",
+            controller: "agentMissedCallDetailController",
+            data: {
+                requireLogin: true,
+                navigation: "MISSEDCALLREPORT"
+            }
+        }).state('console.campaign', {
+            url: "/campaign",
+            templateUrl: "campaignManager/campaignList.html",
+            controller: "campaignController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaignmonitor', {
+            url: "/campaign/monitor",
+            templateUrl: "campaignManager/campaignMonitor.html",
+            controller: "campaignMonitorController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaignsummeryreport', {
+            url: "/campaign/report/summery",
+            templateUrl: "campaignManager/campaignSummeryReport.html",
+            controller: "campaignReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaigndispositionreport', {
+            url: "/campaign/report/disposition",
+            templateUrl: "campaignManager/campaignDispositionReport.html",
+            controller: "campaignDispositionReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaigncallbackreport', {
+            url: "/campaign/report/callback",
+            templateUrl: "campaignManager/campaignCallbackReport.html",
+            controller: "campaignCallbackReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaignattemptreport', {
+            url: "/campaign/report/attempt",
+            templateUrl: "campaignManager/campaignAttemptReport.html",
+            controller: "campaignAttemptReportController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.zoho', {
+            url: "/zoho",
+            templateUrl: "zoho/views/zohoConnector.html",
+            controller: "zohoController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.zohousers', {
+            url: "/zoho/users",
+            templateUrl: "zoho/views/zohoUsers.html",
+            controller: "zohoUsersController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaignnumberupload', {
+            url: "/campaign/numberupload",
+            templateUrl: "views/campaign-number-upload/numberUpload.html",
+            controller: "numberUploadController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNNUMBERS"
+            }
+        }).state('console.dncnumbermanage', {
+            url: "/campaign/dncnumbermanage",
+            templateUrl: "views/campaign-number-upload/dncList.html",
+            controller: "numberDncController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNNUMBERS"
+            }
+        }).state('console.contact-book', {
+            url: "/contact-book",
+            templateUrl: "views/softPhone/soft-phone-option.html",
+            controller: "softPhoneCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNNUMBERS"
+            }
+        }).state('console.callcenterperformance', {
+            url: "/callcenterperformance",
+            templateUrl: "views/callcenter-performance-summery/callcenterPerformance.html",
+            controller: "callcenterPerformanceController",
+            data: {
+                requireLogin: true,
+                navigation: "CALLCENTER_PERFORMANCE"
+            }
 
-            }).state('console.seclevels', {
-                url: "/SecutityLevels",
-                templateUrl: "user_security_level_management/views/securityLevelManagement.html",
-                controller: "securityLevelManagementController",
-                data: {
-                    requireLogin: true,
-                    navigation: "USERS"
-                }
-            }).state('console.agentDashboard', {
-                url: "/agentDashboard",
-                templateUrl: "views/dashboard/dashboardContactCenter.html",
-                data: {
-                    requireLogin: true
-                }
+        }).state('console.seclevels', {
+            url: "/SecutityLevels",
+            templateUrl: "user_security_level_management/views/securityLevelManagement.html",
+            controller: "securityLevelManagementController",
+            data: {
+                requireLogin: true,
+                navigation: "USERS"
+            }
+        }).state('console.agentDashboard', {
+            url: "/agentDashboard",
+            templateUrl: "views/dashboard/dashboardContactCenter.html",
+            data: {
+                requireLogin: true
+            }
 
-            }).state('console.notices', {
-                url: "/Notices",
-                templateUrl: "views/notice-config/notices.html",
-                controller: "noticeConfigController",
-                data: {
-                    requireLogin: true,
-                    navigation: "NOTICE"
-                }
-            });
+        }).state('console.notices', {
+            url: "/Notices",
+            templateUrl: "views/notice-config/notices.html",
+            controller: "noticeConfigController",
+            data: {
+                requireLogin: true,
+                navigation: "NOTICE"
+            }
+        });
         //Todo shoud be change navigation
     }]);
 

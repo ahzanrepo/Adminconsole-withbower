@@ -4,7 +4,13 @@
 
 mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
                                                  loginService, $filter,
-                                                 dashboardService, moment, userImageList, $interval, queueMonitorService) {
+                                                 dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices) {
+
+
+    //subscribeServices
+    subscribeServices.subscribeDashboard(function(event){
+        console.log(event);
+    });
 
 
     //#services call handler
@@ -700,9 +706,6 @@ mainApp.controller('dashboardCtrl1_1', function ($scope, $state, $timeout,
     //     }
     //});
     $scope.refreshTime = 1000;
-
-
-
 
 
     $scope.ReservedProfile = [];
