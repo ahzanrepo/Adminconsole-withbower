@@ -62,7 +62,7 @@ var baseUrls = {
     'authProviderUrl': 'http://userservice.app.veery.cloud/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
-    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',
+    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app.veery.cloud
     'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
     'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
@@ -970,6 +970,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "NOTICE"
             }
+        }).state('console.callCenterPerformanceReport', {
+                url: "/callCenterPerformanceReport",
+                templateUrl: "views/callcenter-performance-summery/callCenterPerformanceReport.html",
+                controller: "callcenterPerformanceReportController",
+                data: {
+                    requireLogin: true,
+                    navigation: "QUEUE_SUMMARY_REPORT"
+                }
         });
         //Todo shoud be change navigation
     }]);

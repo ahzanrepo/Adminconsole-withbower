@@ -408,6 +408,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goToAgentDashboard: function () {
             $state.go('console.agentDashboard');
 
+        },
+        goToCallCenterPerformanceReport: function () {
+            $state.go('console.callCenterPerformanceReport');
+
         }
     };
     $scope.showDisplayName = false;

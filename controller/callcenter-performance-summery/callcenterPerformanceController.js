@@ -28,18 +28,23 @@
             totalQueued: 0,
             totalQueueAnswered: 0,
             totalQueueDropped: 0,
-            totalTalkTime: 0,
             totalStaffTime: 0,
             totalAcwTime: 0,
             AverageStaffTime: 0,
             AverageAcwTime: 0,
             AverageInboundCallsPerAgent: 0,
             AverageOutboundCallsPerAgent: 0,
-            TotalLoginAgents: 0
+            TotalLoginAgents: 0,
+            totalTalkTimeInbound: 0,
+            totalTalkTimeOutbound: 0,
+            totalBreakTime: 0,
+            totalHoldTime: 0,
+            totalIdleTime: 0,
+            AverageTalkTimeInbound: 0,
+            AverageTalkTimeOutbound: 0
         };
 
-        $scope.onDateChange = function()
-        {
+        $scope.onDateChange = function() {
             if(moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid())
             {
                 $scope.dateValid = true;
@@ -85,7 +90,7 @@
                         stacked: true,
                         ticks: {
                             min: 0,
-                            stepSize: 1
+                            stepSize: 10
                         }
 
                     }]
@@ -98,7 +103,7 @@
 
         var TimeFormatter = function (seconds) {
 
-            var timeStr = '0h:0m';
+            var timeStr = '0:0:0';
             if(seconds > 0) {
                 var durationObj = moment.duration(seconds * 1000);
 
@@ -115,11 +120,12 @@
                     }
 
                     tempHrs = tempHrs + durationObj._data.hours;
-                    timeStr = tempHrs + 'h:' + durationObj._data.minutes + 'm';
+                    timeStr = tempHrs + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
                 }
             }
             return timeStr;
         };
+
 
         var getTotalInboundCalls = function () {
             var deferred = $q.defer();
@@ -213,12 +219,48 @@
             return deferred.promise;
         };
 
-        var getTotalTalkTime = function () {
-            dashboardService.GetTotalTalkTime().then(function (response) {
+        var getTotalTalkTimeInbound = function () {
+            dashboardService.GetTotalTalkTimeInbound().then(function (response) {
                 if (response && response > 0) {
-                    $scope.callCenterPerformance.totalTalkTime = TimeFormatter(response);
+                    $scope.callCenterPerformance.totalTalkTimeInbound = TimeFormatter(response);
                 }else{
-                    $scope.callCenterPerformance.totalTalkTime = 0;
+                    $scope.callCenterPerformance.totalTalkTimeInbound = TimeFormatter(0);
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getTotalTalkTimeOutbound = function () {
+            dashboardService.GetTotalTalkTimeOutbound().then(function (response) {
+                if (response && response > 0) {
+                    $scope.callCenterPerformance.totalTalkTimeOutbound = TimeFormatter(response);
+                }else{
+                    $scope.callCenterPerformance.totalTalkTimeOutbound = TimeFormatter(0);
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getTotalBreakTime = function () {
+            dashboardService.GetTotalBreakTime().then(function (response) {
+                if (response && response > 0) {
+                    $scope.callCenterPerformance.totalBreakTime = TimeFormatter(response);
+                }else{
+                    $scope.callCenterPerformance.totalBreakTime = TimeFormatter(0);
+                }
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        var getTotalHoldTime = function () {
+            dashboardService.GetTotalHoldTime().then(function (response) {
+                if (response && response > 0) {
+                    $scope.callCenterPerformance.totalHoldTime = TimeFormatter(response);
+                }else{
+                    $scope.callCenterPerformance.totalHoldTime = TimeFormatter(0);
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -230,7 +272,7 @@
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalStaffTime = TimeFormatter(response);
                 }else{
-                    $scope.callCenterPerformance.totalStaffTime = 0;
+                    $scope.callCenterPerformance.totalStaffTime = TimeFormatter(0);
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -242,7 +284,7 @@
                 if (response && response > 0) {
                     $scope.callCenterPerformance.totalAcwTime = TimeFormatter(response);
                 }else{
-                    $scope.callCenterPerformance.totalAcwTime = 0;
+                    $scope.callCenterPerformance.totalAcwTime = TimeFormatter(0);
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -254,7 +296,7 @@
                 if (response && response > 0) {
                     $scope.callCenterPerformance.AverageStaffTime = TimeFormatter(response);
                 }else{
-                    $scope.callCenterPerformance.AverageStaffTime = 0;
+                    $scope.callCenterPerformance.AverageStaffTime = TimeFormatter(0);
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -266,7 +308,7 @@
                 if (response && response > 0) {
                     $scope.callCenterPerformance.AverageAcwTime = TimeFormatter(response);
                 }else{
-                    $scope.callCenterPerformance.AverageAcwTime = 0;
+                    $scope.callCenterPerformance.AverageAcwTime = TimeFormatter(0);
                 }
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -383,11 +425,28 @@
         };
 
         var getTimes = function () {
-            getTotalTalkTime();
-            getTotalStaffTime();
-            getTotalAcwTime();
-            getAverageStaffTime();
-            getAverageAcwTime();
+            $q.all([
+                getTotalInboundCalls(),
+                getTotalOutboundCalls(),
+                getTotalTalkTimeInbound(),
+                getTotalTalkTimeOutbound(),
+                getTotalStaffTime(),
+                getTotalAcwTime(),
+                getAverageStaffTime(),
+                getAverageAcwTime(),
+                getTotalBreakTime(),
+                getTotalHoldTime()
+            ]).then(function (response) {
+                var totalIdleTime = $scope.callCenterPerformance.totalStaffTime - ($scope.callCenterPerformance.totalAcwTime + $scope.callCenterPerformance.totalTalkTimeInbound + $scope.callCenterPerformance.totalTalkTimeOutbound + $scope.callCenterPerformance.totalBreakTime + $scope.callCenterPerformance.totalHoldTime);
+                var averageTalkTimeInbound = $scope.callCenterPerformance.totalInbound?($scope.callCenterPerformance.totalTalkTimeInbound/$scope.callCenterPerformance.totalInbound).toFixed(2):0;
+                var averageTalkTimeOutbound = $scope.callCenterPerformance.totalOutbound?($scope.callCenterPerformance.totalTalkTimeOutbound/$scope.callCenterPerformance.totalOutbound).toFixed(2):0;
+
+                $scope.callCenterPerformance.totalIdleTime = TimeFormatter(totalIdleTime);
+                $scope.callCenterPerformance.AverageTalkTimeInbound = TimeFormatter(averageTalkTimeInbound);
+                $scope.callCenterPerformance.AverageTalkTimeOutbound = TimeFormatter(averageTalkTimeOutbound);
+
+            });
+
             getTimesTimer = $timeout(getTimes, 900000);
         };
 
