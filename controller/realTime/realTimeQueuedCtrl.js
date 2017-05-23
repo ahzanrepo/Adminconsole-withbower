@@ -123,36 +123,30 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
         queueMonitorService.GetAllQueueStats().then(function (response) {
 
-            var updatedQueues = [];
-            updatedQueues = response.map(function (c, index) {
 
 
-                var item = c.QueueInfo;
-                item.id = c.QueueId;
-                item.queuename = c.QueueName;
-                item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
 
-                if (c.QueueInfo.TotalQueued > 0) {
-                    item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
-                }
-
-                // if ($scope.checkQueueAvailability(item.id)) {
-                $scope.queues[item.queuename] = item;
-                //}
+                angular.forEach(response, function (c) {
+                    // var value = $filter('filter')(updatedQueues, {id: item.id})[0];
+                    // if (!value) {
+                    //     $scope.queues.splice($scope.queues.indexOf(item), 1);
+                    // }
 
 
-                return item;
-            });
+                    var item = c.QueueInfo;
+                    item.id = c.QueueId;
+                    item.QueueName = c.QueueName;
+                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
 
-            if (response.length == updatedQueues.length) {
-                //$scope.queues=$scope.updatedQueues;
-                angular.forEach($scope.queues, function (item) {
-                    var value = $filter('filter')(updatedQueues, {id: item.id})[0];
-                    if (!value) {
-                        $scope.queues.splice($scope.queues.indexOf(item), 1);
+                    if (item.TotalQueued > 0) {
+                        item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                     }
+
+                    // if ($scope.checkQueueAvailability(item.id)) {
+                    $scope.queues[item.QueueName] = item;
+                    //}
                 });
-            }
+
 
 
         });
@@ -258,9 +252,9 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
 
             //scope.que = {};
             scope.options = {};
-            scope.que.CurrentWaiting = 0;
-            scope.que.CurrentMaxWaitTime = 0;
-            scope.que.presentage = 0;
+            // scope.que.CurrentWaiting = 0;
+            // scope.que.CurrentMaxWaitTime = 0;
+            // scope.que.presentage = 0;
             scope.maxy = 10;
             scope.val = "0";
 
@@ -312,6 +306,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
                     loginService.isCheckResponse(err);
                 });
             };
+
             var skilledResources = function () {
 
                 var skillObj = {
@@ -455,7 +450,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, $timeout, loginSe
             };
 
 
-            qData();
+            //sqData();
 
 
             var updateRealtime = function () {

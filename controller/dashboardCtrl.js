@@ -758,13 +758,24 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         queueMonitorService.GetAllQueueStats().then(function (response) {
             var updatedQueues = [];
             response.forEach(function (c) {
-                var item = c.QueueInfo;
+                var item =  {};
+
+                for (var key in c.QueueInfo) {
+
+                    if (!c.QueueInfo.hasOwnProperty(key)) continue;
+
+                    item[key] = c.QueueInfo[key];
+
+
+                }
+
+                //item.MaxWaitingMS = 0;
                 item.id = c.QueueId;
                 item.queuename = c.QueueName;
                 item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
 
-                if (c.QueueInfo.TotalQueued > 0) {
-                    item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
+                if (item.TotalQueued > 0) {
+                    item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                 }
 
                 if (item.CurrentMaxWaitTime) {
@@ -773,6 +784,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 }
 
                 $scope.queues[item.queuename] = item;
+
+                console.log( item.MaxWaitingMS);
             });
 
             console.log($scope.queues);
@@ -993,11 +1006,13 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             queueoption: "=",
             pieoption: "=",
             viewmode: "=",
-            que: "="
+            que: "=",
+            mque: "="
         },
         templateUrl: 'template/dashboard/d1-queued-temp.html',
         link: function (scope, element, attributes) {
 
+            console.log(scope.mque)
 
             //console.log(scope.queueoption)
             // console.log(scope.pieoption)
@@ -1008,13 +1023,13 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
                 return item.split('_')[1].toString();
             });
 
-            scope.que = {};
+            /*scope.que = {};
             scope.options = {};
             scope.que.CurrentWaiting = 0;
             scope.que.CurrentMaxWaitTime = 0;
             scope.que.presentage = 0;
             scope.maxy = 10;
-            scope.val = "0";
+            scope.val = "0";*/
 
 
             scope.dataSet = [{
@@ -1115,9 +1130,9 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             }
 
 
-            qData();
-            qStats();
-            skilledResources();
+            //qData();
+            //qStats();
+            //skilledResources();
 
 
             var updateRealtime = function () {
