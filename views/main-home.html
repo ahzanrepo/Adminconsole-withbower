@@ -39,7 +39,7 @@
                                     class="font-robot font-300">
                                 <i class="fa fa-home"></i> Home </a>
                             </li>
-                            <li ng-show="accessNavigation.AGENT_PRODUCTIVITY || accessNavigation.CALL_MONITOR||accessNavigation.AGENTSTATUSEVENT||accessNavigation.CALLCENTER_PERFORMANCE">
+                            <li ng-show="accessNavigation.AGENT_PRODUCTIVITY || accessNavigation.CALL_MONITOR||accessNavigation.QUEUE_SUMMARY||accessNavigation.AGENT_SUMMARY || accessNavigation.TICKET_DASHBOARD || accessNavigation.AGENTSTATUSEVENT  || accessNavigation.CALLCENTER_PERFORMANCE  || accessNavigation.AGENT_DASHBOARD">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-plug"></i> Real Time
                                     <span class="fa fa-chevron-down"></span></a>
@@ -50,12 +50,12 @@
                                     <li ng-show="accessNavigation.CALL_MONITOR"><a href="javascript:void(0)"
                                                                                    ng-click="clickDirective.goCallMonitor()">Call
                                         Monitor</a></li>
-                                    <li ng-show="accessNavigation.DASHBOARD"><a
+                                    <li ng-show="accessNavigation.QUEUE_SUMMARY"><a
                                             ng-click="clickDirective.goRealTimeQueued()">Queued</a></li>
-                                    <li ng-show="accessNavigation.RESOURCES"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.AGENT_SUMMARY"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goAgentProfileSummary()">Agent
                                         Summary</a></li>
-                                    <li ng-show="accessNavigation.DASHBOARD"><a
+                                    <li ng-show="accessNavigation.TICKET_DASHBOARD"><a
                                             ng-click="clickDirective.goTickerAgentDashboard()">Ticket Dashboard</a>
                                     </li>
                                     <li ng-show="accessNavigation.AGENTSTATUSEVENT"><a href="javascript:void(0);"
@@ -67,14 +67,15 @@
                                         Center Performance</a>
                                     </li>
 
-                                    <li ng-show="accessNavigation.CALLCENTER_PERFORMANCE"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.AGENT_DASHBOARD"><a href="javascript:void(0);"
                                                                                              ng-click="clickDirective.goToAgentDashboard()">
                                         Agent Dashboard
                                     </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER|| accessNavigation.NOTICE">
+
+                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.REPORT_EMAIL_CONFIG || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER|| accessNavigation.DYNAMICFORM || accessNavigation.PHONE_BOOK || accessNavigation.NOTICE">
                                 <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -84,51 +85,37 @@
                                     <li ng-show="accessNavigation.FILE_UPLOAD"><a href="javascript:void(0);"
                                                                                   ng-click="clickDirective.goFileupload()">File
                                         Upload</a></li>
-
-
                                     <li ng-show="accessNavigation.HOLD_MUSIC"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goHoldMusic()">Hold
                                         Music</a></li>
                                     <li ng-show="accessNavigation.LimitHandler"><a href="javascript:void(0);"
-                                                                                   ng-click="clickDirective.goLimits()">Limits</a>
-                                    </li>
+                                                                                   ng-click="clickDirective.goLimits()">Limits</a></li>
                                     <li ng-show="accessNavigation.CONFERENCE"><a href="javascript:void(0);"
-                                                                                 ng-click="clickDirective.goConference()">Conference</a>
-                                    </li>
+                                                                                 ng-click="clickDirective.goConference()">Conference</a></li>
                                     <li ng-show="accessNavigation.SCHEDULER"><a href="javascript:void(0);"
-                                                                                ng-click="clickDirective.goSchedule()">Scheduler</a>
-                                    </li>
-
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                                ng-click="clickDirective.goSchedule()">Scheduler</a></li>
+                                    <li ng-show="accessNavigation.REPORT_EMAIL_CONFIG"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goReportMail()">Report
                                         Email Config</a></li>
                                     <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a
                                             href="javascript:void(0);"
                                             ng-click="clickDirective.goCompanyConfig()">Company
-                                        configuration</a>
-
-                                    </li>
-
+                                        configuration</a></li>
                                     <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goTemplateCreater()">Template
                                         Maker
-                                        Configuration</a>
-                                    </li>
-
-
+                                        Configuration</a></li>
                                     <li ng-show="accessNavigation.DYNAMICFORM"><a href="javascript:void(0);"
                                                                                   ng-click="clickDirective.goDynamicForm()">
-                                        Dynamic Form</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.DYNAMICFORM"><a href="javascript:void(0);"
+                                        Dynamic Form</a></li>
+                                    <li ng-show="accessNavigation.PHONE_BOOK"><a href="javascript:void(0);"
                                                                                   ng-click="clickDirective.newContact()">
-                                        Phone Book</a>
-                                    </li>
+                                        Phone Book</a></li>
                                     <li ng-show="accessNavigation.NOTICE"><a href="javascript:void(0);"
-                                                                             ng-click="clickDirective.goNotices()">
-                                        Notices</a>
-                                    </li>
-
+                                                                                  ng-click="clickDirective.goNotices()">
+                                        Notices</a></li>
+                                    <li ng-show="accessNavigation.FILE_GALLERY"><a href="javascript:void(0);"
+                                                                                   ng-click="clickDirective.goAgentDial()">Agent Dial </a></li>
                                     <!-- <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
                                                                                    ng-click="clickDirective.goPackages()">
                                          Packages</a>
@@ -145,7 +132,7 @@
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.PACKAGE_MANAGER">
+                            <li ng-show="accessNavigation.PACKAGE_MANAGER || accessNavigation.CREDIT_MANAGER || accessNavigation.BILLING_HISTORY">
                                 <a class="font-robot font-300 "><i class="fa fa-dollar"></i>Account <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -153,12 +140,12 @@
                                                                                       ng-click="clickDirective.goPackages()">
                                         Packages</a>
                                     </li>
-                                    <li ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.CREDIT_MANAGER"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goCredit()">
                                         Credit</a>
                                     </li>
 
-                                    <li ng-show="accessNavigation.PACKAGE_MANAGER"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.BILLING_HISTORY"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goBillingHistory()">
                                         Billing Histoty</a>
                                     </li>
@@ -169,47 +156,41 @@
                                     </li>-->
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.CDR || accessNavigation.EXTENSION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN || accessNavigation.AUTOATTENDANCE">
+
+                            <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION || accessNavigation.SIPUSER_CONFIGURATION || accessNavigation.EXTENSION || accessNavigation.USERS || accessNavigation.PABX_USER || accessNavigation.PABX_ADMIN || accessNavigation.AUTOATTENDANCE">
                                 <a class="font-robot font-300 "><i class="fa fa-child"></i> User <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
 
                                     <li ng-show="accessNavigation.USERS"><a href="javascript:void(0);"
-                                                                            ng-click="clickDirective.goUsers()">Users</a>
-                                    </li>
+                                                                            ng-click="clickDirective.goUsers()">Users</a></li>
                                     <li ng-show="accessNavigation.PABX_USER"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goPbxUsers()">PABX
-                                        Users</a>
-                                    </li>
+                                        Users</a></li>
                                     <li ng-show="accessNavigation.AUTOATTENDANCE"><a href="javascript:void(0);"
                                                                                      ng-click="clickDirective.goAutoAttendance()">Auto
                                         Attendance
-                                    </a>
-                                    </li>
-
+                                    </a></li>
                                     <li ng-show="accessNavigation.PABX_ADMIN"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goPbxAdmin()">PABX
-                                        Admin</a>
-                                    </li>
+                                        Admin</a></li>
                                     <li ng-show="accessNavigation.SIPUSER_CONFIGURATION"><a
                                             href="javascript:void(0);"
                                             ng-click="clickDirective.goSipUser()">SIP
-                                        User</a>
-                                    </li>
+                                        User</a></li>
                                     <li ng-show="accessNavigation.RING_GROUP_CONFIGURATION"><a
                                             href="javascript:void(0);" ng-click="clickDirective.goRingGroup()">Ring
                                         Group</a></li>
-
                                     <li ng-show="accessNavigation.EXTENSION"><a href="javascript:void(0);"
-                                                                                ng-click="clickDirective.goExtension()">Extension</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.USERS"><a href="javascript:void(0);"
-                                                                            ng-click="clickDirective.goSecLevels()">Security
-                                        Levels</a>
-                                    </li>
+                                                                                ng-click="clickDirective.goExtension()">Extension</a></li>
+                                    <!--<li ng-show="accessNavigation.USERS"><a href="javascript:void(0);"-->
+                                                                            <!--ng-click="clickDirective.goSecLevels()">Security-->
+                                        <!--Levels</a>-->
+                                    <!--</li>-->
 
                                 </ul>
                             </li>
+
                             <li ng-show="accessNavigation.MY_NUMBERS || accessNavigation.APPLICATIONS || accessNavigation.RULES || accessNavigation.TRANSLATIONS || accessNavigation.DID">
                                 <a class="font-robot font-300 "><i class="fa fa-volume-control-phone"></i> Call
                                     Rules <span
@@ -219,21 +200,18 @@
                                                                                  ng-click="clickDirective.goMyNumbers()">My
                                         Numbers</a></li>
                                     <li ng-show="accessNavigation.APPLICATIONS"><a href="javascript:void(0);"
-                                                                                   ng-click="clickDirective.goApplications()">Applications</a>
-                                    </li>
+                                                                                   ng-click="clickDirective.goApplications()">Applications</a></li>
                                     <li ng-show="accessNavigation.RULES"><a href="javascript:void(0);"
-                                                                            ng-click="clickDirective.goRule()">Rules</a>
-                                    </li>
+                                                                            ng-click="clickDirective.goRule()">Rules</a></li>
                                     <li ng-show="accessNavigation.TRANSLATIONS"><a href="javascript:void(0);"
-                                                                                   ng-click="clickDirective.goTranslations()">Translations</a>
-                                    </li>
+                                                                                   ng-click="clickDirective.goTranslations()">Translations</a></li>
                                     <li ng-show="accessNavigation.DID"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goDID()">DID
-                                        Configuration</a>
-                                    </li>
+                                        Configuration</a></li>
 
                                 </ul>
                             </li>
+
                             <li ng-show="accessNavigation.ATTRIBUTES || accessNavigation.RESOURCES || accessNavigation.ARDS_CONFIGURATION ">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-code-fork"></i> Request
@@ -254,7 +232,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.FACEBOOK || accessNavigation.TWITTER ">
+
+                            <li ng-show="accessNavigation.FACEBOOK || accessNavigation.TWITTER || accessNavigation.EMAIL ">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-facebook-official"></i> Social
                                     Media <span
@@ -266,53 +245,51 @@
                                     <li ng-show="accessNavigation.TWITTER"><a href="javascript:void(0);"
                                                                               ng-click="clickDirective.goTwitterApp()">Twitter</a>
                                     </li>
-                                    <li ng-show="accessNavigation.TWITTER"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.EMAIL"><a href="javascript:void(0);"
                                                                               ng-click="clickDirective.goEmailApp()">Email</a>
                                     </li>
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.TICKET_SLA || accessNavigation.TICKET_TRIGGER || accessNavigation.TICKET">
+
+                            <li ng-show="accessNavigation.TICKET_SLA || accessNavigation.TICKET_TRIGGER || accessNavigation.TICKET_FILTER || accessNavigation.TICKET_FLOW || accessNavigation.TICKET_ATTACHMENT_SLOT">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-tasks"></i> Ticket <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.TICKET_FILTER"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goFilter()">
-                                        Create Filter</a>
-                                    </li>
+                                        Create Filter</a></li>
                                     <li ng-show="accessNavigation.TICKET_TRIGGER"><a href="javascript:void(0);"
                                                                                      ng-click="clickDirective.goTicketTrigger()">Ticket
-                                        Trigger</a>
-                                    </li>
+                                        Trigger</a></li>
                                     <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goTicketSla()">Ticket
-                                        SLA</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                        SLA</a></li>
+                                    <li ng-show="accessNavigation.TICKET_FLOW"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goTicketFlow()">
-                                        Ticket Flow</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.TICKET"><a href="javascript:void(0);"
-                                                                             ng-click="clickDirective.goFileSlot()">Slots</a>
-                                    </li>
+                                        Ticket Flow</a></li>
+                                    <li ng-show="accessNavigation.TICKET_ATTACHMENT_SLOT"><a href="javascript:void(0);"
+                                                                             ng-click="clickDirective.goFileSlot()">Slots</a></li>
 
                                 </ul>
                             </li>
-                            <li ng-show="accessNavigation.TICKET_SLA">
+
+                            <li ng-show="accessNavigation.CASES || accessNavigation.CASE_CONFIGURATION">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-lightbulb-o"></i> Case <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.CASES"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goCase()">
                                         Cases</a>
                                     </li>
-                                    <li ng-show="accessNavigation.TICKET_SLA"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.CASE_CONFIGURATION"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goCaseConfiguration()">
                                         Case Configuration</a>
                                     </li>
                                 </ul>
                             </li>
+
                             <li ng-show="accessNavigation.TAGMANAGER">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-tags"></i> Tag <span
@@ -325,46 +302,42 @@
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.QUALITYASSUARANCE">
+                            <li ng-show="accessNavigation.QA_FORM_DESIGNER || accessNavigation.QA_FORM_SUBMISSION">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-wrench"></i> QA <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.QA_FORM_DESIGNER"><a href="javascript:void(0);"
                                                                                         ng-click="clickDirective.goQABuilder()">QA
                                         Form Designer</a>
                                     </li>
-                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.QA_FORM_SUBMISSION"><a href="javascript:void(0);"
                                                                                         ng-click="clickDirective.goQASubmission()">QA
                                         Form Submission</a>
                                     </li>
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.CAMPAIGNMANAGER">
+                            <li ng-show="accessNavigation.CAMPAIGNMANAGER || accessNavigation.CAMPAIGN_MONITOR || accessNavigation.CAMPAIGN_NUMBER_BASE || accessNavigation.CAMPAIGN_DNCLIST">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-bullhorn"></i> Campaign
                                     <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                      ng-click="clickDirective.goCreateCampaign()">Campaigns</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                      ng-click="clickDirective.goCampaignMonitor()">Monitor</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goCreateCampaign()">Campaigns</a></li>
+                                    <li ng-show="accessNavigation.CAMPAIGN_MONITOR"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goCampaignMonitor()">Monitor</a></li>
+                                    <li ng-show="accessNavigation.CAMPAIGN_NUMBER_BASE"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goCampaignNumberUpload()">Number
-                                        Base</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                        Base</a></li>
+                                    <li ng-show="accessNavigation.CAMPAIGN_DNCLIST"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goDncNumberManage()">DNC
-                                        List</a>
-                                    </li>
+                                        List</a></li>
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.CAMPAIGNMANAGER">
+                            <li ng-show="accessNavigation.ZOHO_CRM || accessNavigation.ZOHO_CRM_USERS">
                                 <a
                                         class="font-robot font-300 "><i class="fa fa-bullhorn"></i> CRM
                                     <span
@@ -372,11 +345,9 @@
                                 <ul class="nav child_menu">
                                     <li><a>Zoho<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                              ng-click="clickDirective.goZoho();">Zoho</a>
+                                            <li ng-show="accessNavigation.ZOHO_CRM"><a href="javascript:void(0);" ng-click="clickDirective.goZoho();">Zoho</a>
                                             </li>
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                              ng-click="clickDirective.goZohoUser();">Users</a>
+                                            <li ng-show="accessNavigation.ZOHO_CRM_USERS"><a href="javascript:void(0);" ng-click="clickDirective.goZohoUser();">Users</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -388,7 +359,10 @@
                     <div class="menu_section">
                         <h3 class="font-gry-200">Other</h3>
                         <ul class="nav side-menu">
-                            <li ng-show="accessNavigation.CDR || accessNavigation.SLA_BREAKDOWN || accessNavigation.AUDITTRAIL || accessNavigation.ACWREPORT || accessNavigation.MISSEDCALLREPORT || accessNavigation.AGENTSTATUSEVENT">
+                            <li ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT || accessNavigation.CAMPAIGN_DISPOSITION_REPORT || accessNavigation.CAMPAIGN_CALLBACK_REPORT || accessNavigation.CAMPAIGN_ATTEMPT_REPORT || accessNavigation.CDR || accessNavigation.ABANDONED_CALL_REPORT
+                             || accessNavigation.CALL_SUMMARY_REPORT || accessNavigation.QUEUE_SUMMARY_REPORT || accessNavigation.QUEUE_HOURLY_BREAKDOWN_REPORT || accessNavigation.AGENT_PRODUCTIVITY_SUMMARY_REPORT || accessNavigation.AGENTSTATUSEVENT
+                              || accessNavigation.TICKET_SUMMARY_REPORT || accessNavigation.TICKET_DETAIL_REPORT || accessNavigation.AUDITTRAIL || accessNavigation.TIME_SHEET_REPORT || accessNavigation.SLA_BREAKDOWN
+                               || accessNavigation.IVR_NODE_COUNT_REPORT || accessNavigation.CSATREPORT || accessNavigation.ACWREPORT || accessNavigation.QUALITYASSUARANCE_REPORT || accessNavigation.MISSEDCALLREPORT">
                                 <a
                                         class="font-robot font-300 "><i
                                         class="fa fa-line-chart"></i>
@@ -397,89 +371,67 @@
                                 <ul class="nav child_menu">
                                     <li><a>Campaign<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                              ng-click="clickDirective.goCampaignSummery();">Summery</a>
+                                            <li ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT"><a href="javascript:void(0);" ng-click="clickDirective.goCampaignSummery();">Summery</a>
                                             </li>
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                              ng-click="clickDirective.goCampaignDisposition();">Disposition</a>
+                                            <li ng-show="accessNavigation.CAMPAIGN_DISPOSITION_REPORT"><a href="javascript:void(0);" ng-click="clickDirective.goCampaignDisposition();">Disposition</a>
                                             </li>
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                              ng-click="clickDirective.goCampaignCallback();">Callback</a>
+                                            <li ng-show="accessNavigation.CAMPAIGN_CALLBACK_REPORT"><a href="javascript:void(0);" ng-click="clickDirective.goCampaignCallback();">Callback</a>
                                             </li>
-                                            <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                              ng-click="clickDirective.goCampaignAttempt();">Attempt</a>
+                                            <li ng-show="accessNavigation.CAMPAIGN_ATTEMPT_REPORT"><a href="javascript:void(0);" ng-click="clickDirective.goCampaignAttempt();">Attempt</a>
                                             </li>
 
                                         </ul>
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
-                                                                          ng-click="clickDirective.goCdrReport()">CDR</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                                                          ng-click="clickDirective.goCdrReport()">CDR</a></li>
+                                    <li ng-show="accessNavigation.ABANDONED_CALL_REPORT"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goAbandonCallList()">Abandoned
-                                        Call </a>
-                                    </li>
-
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                        Call </a></li>
+                                    <li ng-show="accessNavigation.CALL_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goCallSummary()">Call
-                                        Summary </a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                        Summary </a></li>
+                                    <li ng-show="accessNavigation.QUEUE_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goQueueSummary()">Queue
-                                        Summary</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                        Summary</a></li>
+                                    <li ng-show="accessNavigation.QUEUE_HOURLY_BREAKDOWN_REPORT"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goQueueHourlySummary()">Queue
-                                        Hourly Breakdown</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                        Hourly Breakdown</a></li>
+                                    <li ng-show="accessNavigation.AGENT_PRODUCTIVITY_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goAgentSummary()">Agent
-                                        productivity Summary</a>
-                                    </li>
+                                        productivity Summary</a></li>
                                     <li ng-show="accessNavigation.AGENTSTATUSEVENT"><a href="javascript:void(0);"
                                                                                        ng-click="clickDirective.goAgentStatusEvt()">Agent
-                                        Status Events</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                        Status Events</a></li>
+                                    <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goTicketSummary()">Ticket
-                                        Summary</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
+                                        Summary</a></li>
+                                    <li ng-show="accessNavigation.TICKET_DETAIL_REPORT"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goTicketDetailReport()">Ticket
-                                        Detail </a>
-                                    </li>
+                                        Detail </a></li>
                                     <li ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goAuditTrailReport()">Audit
-                                        Trail </a>
-                                    </li>
+                                        Trail </a></li>
                                     <!-- ng-show="accessNavigation.TIMESHEET"-->
-                                    <li><a href="javascript:void(0);"
-                                           ng-click="clickDirective.goTimeSheet()">Time Sheet </a>
-                                    </li>
+                                    <li ng-show="accessNavigation.TIME_SHEET_REPORT"><a href="javascript:void(0);"
+                                           ng-click="clickDirective.goTimeSheet()">Time Sheet </a></li>
                                     <li ng-show="accessNavigation.SLA_BREAKDOWN"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goQueueSlaBreakDown()">SLA
-                                        Break Down</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.SLA_BREAKDOWN"><a href="javascript:void(0);"
+                                        Break Down</a></li>
+                                    <li ng-show="accessNavigation.IVR_NODE_COUNT_REPORT"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goIvrNodeCountReport()">
-                                        IVR Node Count</a>
-                                    </li>
+                                        IVR Node Count</a></li>
                                     <li ng-show="accessNavigation.CSATREPORT"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.gocSatReport()">
-                                        cSat</a>
-                                    </li>
+                                        cSat</a></li>
                                     <li ng-show="accessNavigation.ACWREPORT"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goAcwReport()">
-                                        ACW Detail </a>
-                                    </li>
-                                    <li ng-show="accessNavigation.QUALITYASSUARANCE"><a href="javascript:void(0);"
+                                        ACW Detail </a></li>
+                                    <li ng-show="accessNavigation.QUALITYASSUARANCE_REPORT"><a href="javascript:void(0);"
                                                                                         ng-click="clickDirective.goQAReport()">
-                                        QA </a>
-                                    </li>
+                                        QA </a></li>
                                     <li ng-show="accessNavigation.MISSEDCALLREPORT"><a href="javascript:void(0);"
                                                                                        ng-click="clickDirective.goMissedCallReport()">
-                                        Missed Call </a>
-                                    </li>
+                                        Missed Call </a></li>
                                 </ul>
                             </li>
 
@@ -514,7 +466,7 @@
             <div class="nav_menu">
                 <nav class="" role="navigation">
                     <div class="nav toggle ">
-                        <a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
+                    <a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
                     </div>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -615,7 +567,7 @@
         <!--ng-show="isRegistered" style="min-height: 1647px;"-->
         <div class="right_col " role="main" style="min-height: 1647px;">
             <div>
-                <div ng-show="isRegistered" id="callWidget" class="call-monitor-widget" onunload="onClosePage()">
+                <div id="callWidget" class="call-monitor-widget" onunload="onClosePage()">
                     <div ng-click="toggleWidget();" class="call-widget-toggle">
                         <i ng-hide="isToggleMenu" class="fa fa-angle-left"></i>
                         <i ng-show="isToggleMenu" class="fa fa-angle-right"></i>
@@ -625,33 +577,27 @@
                         <div class="call-moitor-btn-wrap">
                             <!--ng-if="inCall"-->
                             <div ng-if="inCall">
-                                <button tooltip-placement="left" uib-tooltip="mute"
-                                        class="btn bg-blue700 hvr-pop" ng-click=""><span
+                                <button class="btn bg-blue700 hvr-pop" ng-click=""><span
                                         class="fa fa-microphone-slash "
                                         aria-hidden="true"></span>
                                 </button>
-                                <button tooltip-placement="left" uib-tooltip="Hang up call"
-                                        class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span
+                                <button class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span
                                         class="fa fa-phone"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button tooltip-placement="left" uib-tooltip="Three way call"
-                                        class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span
+                                <button class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span
                                         class="fa fa-group"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button tooltip-placement="left" uib-tooltip="Barge call"
-                                        class="btn bg-blue700 hvr-pop" ng-click="BargeCall()"
+                                <button class="btn bg-blue700 hvr-pop" ng-click="BargeCall()"
                                         ng-disabled="(CallStatus=='BARGED' || CallStatus=='THREEWAY' || CallStatus==null)"><span
                                         class="fa fa-bullhorn" aria-hidden="true"></span></button>
-                                <button tooltip-placement="left" uib-tooltip="Return to listen"
-                                        class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
+                                <button class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
                                         ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)"><span
                                         class="fa fa-mail-reply"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button tooltip-placement="left" uib-tooltip="Swap user"
-                                        class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
+                                <button class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
                                         ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )">
                                     <span class="fa fa-user" aria-hidden="true"></span></button>
                                 <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->

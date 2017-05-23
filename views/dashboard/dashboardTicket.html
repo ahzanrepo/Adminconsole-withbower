@@ -1,4 +1,4 @@
-<div ng-controller="agentDashboardCtrl">
+<div>
 
     <div class="row">
         <div class="col-md-8 col-xs-12">
@@ -11,6 +11,7 @@
                 <div class="x_content">
                     <div id="createVsResolved" style="height:300px;width: 100%">
                     </div>
+
                     </br>
                     <div class="x_title">
                         <h2>Created vs Resolved - Difference </h2>
@@ -27,7 +28,7 @@
                         <div class="product_price ">
                             <h1 class="price  text-center">{{totalTicket}}</h1>
 
-                            <div class="price-tax  text-center">Open</div>
+                            <div class="price-tax  text-center">Created</div>
                             <br>
                         </div>
                     </div>
@@ -35,7 +36,7 @@
                         <div class="product_price">
                             <h1 class="price text-center">{{totalCloseTicket}}</h1>
 
-                            <div class="price-tax text-center">Closed</div>
+                            <div class="price-tax text-center">Resolved</div>
                             <br>
                         </div>
                     </div>
@@ -55,6 +56,7 @@
                     </div>
                     <div class="x_content">
                         <div class="col-lg-4 col-xs-12" id="ticketView">
+                            <br>
                             <table class="countries_list">
                                 <tbody>
                                 <tr>
@@ -69,26 +71,29 @@
                                     <td>Progress</td>
                                     <td class="fs15 fw700 text-right">{{progressTicket}}</td>
                                 </tr>
-                                <tr>
-                                    <td>Closed</td>
-                                    <td class="fs15 fw700 text-right">{{closedTicket}}</td>
-                                </tr>
+
                                 <tr>
                                     <td>Resolved</td>
                                     <td class="fs15 fw700 text-right">{{solvedTicket}}</td>
                                 </tr>
-                                <tr>
-                                    <td>Reopen</td>
-                                    <td class="fs15 fw700 text-right">{{reopenTicket}}</td>
-                                </tr>
+
                                 <tr>
                                     <td>Parked</td>
                                     <td class="fs15 fw700 text-right">{{parkedTicket}}</td>
                                 </tr>
                                 <tr>
+                                    <td>Closed</td>
+                                    <td class="fs15 fw700 text-right">{{closedTicket}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Reopen</td>
+                                    <td class="fs15 fw700 text-right">{{reopenTicket}}</td>
+                                </tr>
+                                <tr>
                                     <td>Total</td>
                                     <td class="fs15 fw700 text-right">{{totalTicket}}</td>
                                 </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -97,7 +102,7 @@
                             <canvas id="doughnut" class="chart chart-doughnut"
                                     width="250" height="250"
                                     chart-data="data" chart-labels="labels"
-                                    chart-legend="true"
+                                    chart-legend="false"
                                     chart-options="options">
                             </canvas>
                         </div>
@@ -115,11 +120,11 @@
                                 </tr>
                                 <tr>
                                     <td>Average Response Time</td>
-                                    <td class="fs15 fw700 text-right">{{averageResponseTime| date:'HH:mm:ss'}}</td>
+                                    <td class="fs15 fw700 text-right">{{averageResponseTime| secondsToDateTime | date:'HH:mm:ss'}} </td>
                                 </tr>
                                 <tr>
                                     <td>Average Resolution Time</td>
-                                    <td class="fs15 fw700 text-right">{{ticketResolutionTime| date:'HH:mm:ss'}}</td>
+                                    <td class="fs15 fw700 text-right">{{ticketResolutionTime |secondsToDateTime | date:'HH:mm:ss'}}   </td>
                                 </tr>
                                 <tr>
                                     <td>SLA Percentage</td>

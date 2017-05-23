@@ -3,7 +3,7 @@
  */
 
 
-mainApp.factory('subscribeServices', function (baseUrls) {
+mainApp.factory('subscribeServices', function (baseUrls, loginService) {
 
 
     //local  variable
@@ -22,8 +22,20 @@ mainApp.factory('subscribeServices', function (baseUrls) {
                     connectionSubscribers(true);
                 }
 
+                //subscribe room
                 SE.subscribe({room: 'QUEUE:QueueDetail'});
-                
+                SE.subscribe({room: 'QUEUE:CurrentCount'});
+                SE.subscribe({room: 'QUEUE:TotalCount'});
+                SE.subscribe({room: 'QUEUE:TotalCount'});
+                SE.subscribe({room: 'CONNECTED:TotalTime'});
+                SE.subscribe({room: 'QUEUEANSWERED:TotalCount'});
+                SE.subscribe({room: 'BRIDGE:TotalCount'});
+
+                SE.subscribe({room: 'CALLS:TotalCount'});
+                SE.subscribe({room: 'CALLS:CurrentCount'});
+                SE.subscribe({room: 'QUEUEDROPPED:TotalCount'});
+                SE.subscribe({room: 'BRIDGE:CurrentCount'});
+
             },
             error: function (data) {
                 console.log("authenticate error..............");
@@ -64,9 +76,57 @@ mainApp.factory('subscribeServices', function (baseUrls) {
         dashboardSubscriber = func;
     };
 
+    var unsubscribe = function (view) {
+        //if (view == "dashoboard") {
+        //    SE.unsubscribe({room: 'QUEUE:QueueDetail'});
+        //    SE.unsubscribe({room: 'QUEUE:CurrentCount'});
+        //    SE.unsubscribe({room: 'QUEUE:TotalCount'});
+        //    SE.unsubscribe({room: 'QUEUE:TotalCount'});
+        //    SE.unsubscribe({room: 'CONNECTED:TotalTime'});
+        //    SE.unsubscribe({room: 'QUEUEANSWERED:TotalCount'});
+        //    SE.unsubscribe({room: 'BRIDGE:TotalCount'});
+        //
+        //    SE.unsubscribe({room: 'CALLS:TotalCount'});
+        //    SE.unsubscribe({room: 'CALLS:CurrentCount'});
+        //    SE.unsubscribe({room: 'QUEUEDROPPED:TotalCount'});
+        //    SE.unsubscribe({room: 'BRIDGE:CurrentCount'});
+        //    return;
+        //}
+        //
+        //if (view == "queuedetail") {
+        //    SE.unsubscribe({room: 'QUEUE:QueueDetail'});
+        //    return;
+        //}
+    };
+
+    var subscribe = function (view) {
+        //if (view == "dashoboard") {
+        //    SE.unsubscribe({room: 'QUEUE:QueueDetail'});
+        //    SE.unsubscribe({room: 'QUEUE:CurrentCount'});
+        //    SE.unsubscribe({room: 'QUEUE:TotalCount'});
+        //    SE.unsubscribe({room: 'QUEUE:TotalCount'});
+        //    SE.unsubscribe({room: 'CONNECTED:TotalTime'});
+        //    SE.unsubscribe({room: 'QUEUEANSWERED:TotalCount'});
+        //    SE.unsubscribe({room: 'BRIDGE:TotalCount'});
+        //
+        //    SE.unsubscribe({room: 'CALLS:TotalCount'});
+        //    SE.unsubscribe({room: 'CALLS:CurrentCount'});
+        //    SE.unsubscribe({room: 'QUEUEDROPPED:TotalCount'});
+        //    SE.unsubscribe({room: 'BRIDGE:CurrentCount'});
+        //    return;
+        //}
+        //
+        //if (view == "queuedetail") {
+        //    SE.unsubscribe({room: 'QUEUE:QueueDetail'});
+        //    return;
+        //}
+    };
+
     return {
         connectSubscribeServer: connect,
-        subscribeDashboard: subscribeDashboard
+        subscribeDashboard: subscribeDashboard,
+        unsubscribe: unsubscribe,
+        subscribe: subscribe
     }
 
 

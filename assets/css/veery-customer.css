@@ -1722,6 +1722,7 @@ small > i {
     color: #f8b01d;
 }
 
+
 .embed-wrap {
     background: #114858;
     padding: 2px 7px 3px 7px;
@@ -2983,7 +2984,7 @@ ul.social li {
 
 .pabxStatus {
     height: 25px;
-    width: 65px;
+    width: 75px;
     padding: 5px;
     opacity: 1;
     font-size: 8pt;
@@ -5886,7 +5887,7 @@ ul.row-option > li.delete:focus {
 .q-chart-text-wrp > .header-text > .current-w-text {
     /* Current Waiting: */
     font-family: 'Ubuntu-Light', sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     color: #383b3b;
     letter-spacing: -0.12px;
     text-align: right;
@@ -5903,7 +5904,7 @@ ul.row-option > li.delete:focus {
 .q-chart-text-wrp > .header-text > .current-w-num {
     /* Current Waiting: */
     font-family: 'Ubuntu-Light', sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     color: #383b3b;
     letter-spacing: -0.12px;
     text-align: right;
@@ -6062,4 +6063,21 @@ ul.row-option > li.delete:focus {
 ul.newsticker {
     margin: 0 !important;
     padding: 0 !important;
+}
+
+/*pbx follow view*/
+.drag-item-wrp{
+    background-color: #fff !important;
+    color: black;
+    font-weight: bold;
+    padding: 4px;
+    min-height: 56px !important;
+    overflow: hidden;
+    border: 1px solid #f7f7f7 !important;
+    height: auto;
+    position: relative;
+    -webkit-box-shadow: 0px 0px -5px -5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px -5px -5px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 9px -5px rgba(0,0,0,0.75);
+    padding-top: 16px;
 }

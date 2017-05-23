@@ -1,7 +1,7 @@
 /**
  * Created by Rajinda on 5/30/2016.
  */
-mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService,uuid) {
+mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService, uuid) {
 
     return {
         restrict: "EAA",
@@ -42,17 +42,19 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
 
                 change: function (value) {
                     /*console.log("change : " + value);*/
+                    knobLoading = false;
                 },
                 release: function (value) {
                     //console.log(this.$.attr('value'));
-                    scope.selectedAttribute.savedObj.Percentage = value;
-                    if(!knobLoading){
+                    if (scope.selectedAttribute && scope.selectedAttribute.savedObj)
+                        scope.selectedAttribute.savedObj.Percentage = value;
+                    if (!knobLoading) {
                         resourceService.UpdateAttributesAttachToResource(scope.selectedAttribute).then(function (response) {
 
                             if (response.IsSuccess) {
                                 console.log("UpdateAttributesAttachToResource : " + value);
 
-                                if(value >= 0) {
+                                if (value >= 0) {
                                     var updateRealTimeObj = {
                                         ResourceId: scope.resourceId,
                                         ResourceAttributeInfo: {
@@ -64,13 +66,13 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
                                     };
 
                                     resourceService.AssignAttributeToResource(updateRealTimeObj).then(function (response) {
-                                        if(response.IsSuccess){
+                                        if (response.IsSuccess) {
                                             console.info("AssignAttributeToResource real time success");
-                                        }else{
+                                        } else {
                                             console.info("AssignAttributeToResource real time failed");
                                         }
 
-                                    },function (error) {
+                                    }, function (error) {
                                         console.info("AssignAttributeToResource real time err" + error);
                                     });
                                 }
@@ -137,17 +139,18 @@ mainApp.directive("resourceskill", function ($filter, $uibModal, resourceService
 });
 
 
-mainApp.factory('uuid', function() {
+mainApp.factory('uuid', function () {
     var svc = {
-        new: function() {
+        new: function () {
             function _p8(s) {
-                var p = (Math.random().toString(16)+"000000000").substr(2,8);
-                return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
+                var p = (Math.random().toString(16) + "000000000").substr(2, 8);
+                return s ? "-" + p.substr(0, 4) + "-" + p.substr(4, 4) : p;
             }
+
             return _p8() + _p8(true) + _p8(true) + _p8();
         },
 
-        empty: function() {
+        empty: function () {
             return '00000000-0000-0000-0000-000000000000';
         }
     };

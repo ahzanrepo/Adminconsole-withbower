@@ -73,7 +73,7 @@
         $scope.onDeleteUser = function (username) {
             var usrObj = {SipUsername: username, Enabled: false};
 
-            sipUserApiHandler.updateUser(usrObj)
+            sipUserApiHandler.deleteSipUser(usrObj)
                 .then(function (data) {
                         if (data.IsSuccess) {
                             $scope.reloadUserList();
@@ -168,7 +168,7 @@
             if ($scope.IsEdit) {
                 sipUserApiHandler.updateUser($scope.basicConfig).then(function (data1) {
                     if (data1.IsSuccess) {
-                        $scope.showAlert('Success', 'info', 'User updated successfully');
+                        $scope.showAlert('Success', 'success', 'User updated successfully');
                         $scope.reloadUserList();
 
                         if ($scope.basicConfig.UsePublic) {
@@ -230,7 +230,7 @@
                                                             if (data3.IsSuccess) {
                                                                 $scope.clearFormOnSave();
                                                                 $scope.reloadUserList();
-                                                                $scope.showAlert('Success', 'info', 'Sip User Saved Successfully');
+                                                                $scope.showAlert('Success', 'success', 'Sip User Saved Successfully');
                                                             }
                                                             else {
                                                                 var errMsg = data3.CustomMessage;

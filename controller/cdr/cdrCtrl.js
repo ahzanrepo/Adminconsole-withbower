@@ -7,7 +7,7 @@
 
 
     var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
-                            loginService, baseUrls,$anchorScroll) {
+                            loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
         $anchorScroll();
         $scope.dtOptions = {paging: false, searching: false, info: false, order: [6, 'desc']};
@@ -104,7 +104,9 @@
             var decodedToken = loginService.getTokenDecode();
 
             if (decodedToken && decodedToken.company && decodedToken.tenant) {
-                $scope.DownloadFileUrl = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
+                //$scope.DownloadFileUrl = baseUrls.fileServiceUrl + 'File/DownloadLatest/' + uuid + '.mp3?Authorization='+$auth.getToken();
+
+                fileService.downloadLatestFile(uuid+".mp3")
 
             }
 
@@ -120,7 +122,7 @@
                 var decodedToken = loginService.getTokenDecode();
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant) {
-                    var fileToPlay = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + uuid + '.mp3';
+                    var fileToPlay = baseUrls.fileServiceUrl + 'File/DownloadLatest/'+uuid+'.mp3?Authorization='+$auth.getToken();
 
                     var arr = [
                         {
