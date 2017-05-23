@@ -1,4 +1,4 @@
-<div ng-controller="dashboardCtrl">
+<div >
 
     <div class="d1-main-wrp">
         <!-- dashboard top header wrapper -->
@@ -11,7 +11,7 @@
                         {{total.callsInb}}/{{total.callsOutb}}
                     </div>
                     <div class="d1-h-w-header d1-h-tile">
-                        TOTAL CALL
+                        TOTAL CALLS
                     </div>
                     <div class="d1-h-w-sub-title d1-sub-tile-sm color-blue-300">
                         Inblound/Outbound
@@ -157,12 +157,9 @@
                                     <!--<ul class="newsticker">-->
                                     <!--<li>-->
                                     <div class="col-lg-6 col-xs-12 col-md-6"
-                                         ng-repeat="(qkey, queue) in queues">
+                                         ng-repeat="que in queues track by $index">
                                         <div class="q-widget-wrp">
-                                            <d1queued name="{{queue.id}}"
-                                                      que="queue"
-                                                      mque="queue"
-                                                      viewmode="cardViewMode"
+                                            <d1queued name="{{que.id}}" viewmode="cardViewMode"
                                                       queueoption="queueoption"
                                                       pieoption="pieoption"></d1queued>
                                         </div>
