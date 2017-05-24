@@ -171,7 +171,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
         while (tempData.length) {
             var agent = $scope.agentList[i];
             $scope.agentNumberList[agent.displayName] = {
-                'ResourceId': agent._id,
+                'ResourceId': agent.username,
                 'ResourceName': agent.displayName,
                 'Data': tempData.splice(0, chunk).map(function (item) {
                     return {Number: item[$scope.agentDial.columnName], OtherData: item[$scope.agentDial.dataColumnName]}
