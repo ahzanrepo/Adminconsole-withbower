@@ -349,9 +349,9 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                         if(splitList.indexOf({name:splitList[i].match(/([a-zA-Z])\w+/g)})==-1)
                         {
                             var paramData =
-                            {
-                                name:splitList[i].match(/([a-zA-Z])\w+/g)[0]
-                            }
+                                {
+                                    name:splitList[i].match(/([a-zA-Z])\w+/g)[0]
+                                }
                         }
 
                         scope.paramList[i]=paramData;
@@ -379,9 +379,9 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
                 }
 
                 var ParamBody =
-                {
-                    Parameters: paramDataList
-                }
+                    {
+                        Parameters: paramDataList
+                    }
 
                 console.log(typeof (ParamBody));
                 templateMakerBackendService.renderTemplate(scope.template.name,ParamBody).then(function (response) {
@@ -702,6 +702,64 @@ mainApp.directive("newtemplatestyledir", function ($filter,$uibModal) {
                 scope.removeNewStyle();
             };
 
+
+
+        }
+
+    }
+});
+
+mainApp.directive("chattemplatemakerdir", function ($filter,$uibModal,templateMakerBackendService) {
+
+    return {
+        restrict: "EAA",
+        scope: {
+            chattemplate: "=",
+            chattemplateList:"=",
+            'addNewStyle': '&',
+            'removeAssignedStyle':'&',
+            'reloadpage':'&'
+
+        },
+
+        templateUrl: 'views/template-generator/partials/editChatTemplates.html',
+
+        link: function (scope) {
+
+            scope.editMode=false;
+
+
+
+            scope.showAlert = function (title,content,msgtype) {
+
+                new PNotify({
+                    title: title,
+                    text: content,
+                    type: msgtype,
+                    styling: 'bootstrap3'
+                });
+            };
+
+
+
+
+            scope.deleteChatTemplate = function (tempID) {
+
+
+                templateMakerBackendService.removeChatTemplate(tempID).then(function (response) {
+
+                    var index = scope.chattemplateList.map(function(el) {
+                        return el._id;
+                    }).indexOf(tempID);
+                    scope.chattemplateList.splice(index,1);
+
+                }), function (error) {
+                    scope.showAlert("Error","Error in deleting chat template","error");
+                    console.log("Error in deleting chat template",error);
+                }
+
+
+            };
 
 
         }

@@ -492,11 +492,71 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     //-----Call Center Performance------------
 
-    var getTotalTalkTime = function () {
+    var getTotalTalkTimeInbound = function () {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTime/CONNECTED/*/*"
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTime/CONNECTED/*/CALLinbound"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getTotalTalkTimeOutbound = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTime/CONNECTED/*/CALLoutbound"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getTotalBreakTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTime/BREAK/*/*"
+        }).then(function (response) {
+            if (response.data) {
+                if(response.data.IsSuccess && response.data.Result){
+                    return response.data.Result;
+                }else{
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+
+    };
+
+    var getTotalHoldTime = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl+"DashboardEvent/TotalTime/AGENTHOLD/*/*"
         }).then(function (response) {
             if (response.data) {
                 if(response.data.IsSuccess && response.data.Result){
@@ -632,11 +692,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     };
 
-    var getCallCenterPerformanceHistory = function (startDate, endDate) {
+    var getCallCenterPerformanceHistory = function (startDate, endDate, requestType) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/callCenter/from/"+startDate+"/to/"+endDate
+            url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/callCenter/from/"+startDate+"/to/"+endDate+"?reqType="+requestType
         }).then(function (response) {
             if (response.data) {
                 if(response.data.IsSuccess && response.data.Result){
@@ -695,7 +755,8 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         GetTotalTicketCount:getTotalTicketCount,
         GetTotalTicketAvg:getTotalTicketAvg,
         GetNewTicketCountViaChannel:getNewTicketCountViaChenal,
-        GetTotalTalkTime:getTotalTalkTime,
+        GetTotalTalkTimeInbound:getTotalTalkTimeInbound,
+        GetTotalTalkTimeOutbound:getTotalTalkTimeOutbound,
         GetTotalStaffTime:getTotalStaffTime,
         GetTotalAcwTime:getTotalAcwTime,
         GetAverageStaffTime:getAverageStaffTime,
@@ -704,6 +765,8 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         GetAverageOutboundCallsPerAgent:getAverageOutboundCallsPerAgent,
         GetCallCenterPerformanceHistory:getCallCenterPerformanceHistory,
         GetTotalLoginAgentCount:getTotalLoginAgentCount,
-        getCurrentBridgedCalls: getCurrentBridgedCalls
+        getCurrentBridgedCalls: getCurrentBridgedCalls,
+        GetTotalBreakTime: getTotalBreakTime,
+        GetTotalHoldTime: getTotalHoldTime
     }
 });
