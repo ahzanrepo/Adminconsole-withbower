@@ -64,8 +64,16 @@
             var deferred = $q.defer();
             setTimeout(function () {
                 var numbers = [];
+                var numberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
                 data.forEach(function (data) {
-                    numbers.push(data[filter])
+                    var tempNumber = data[filter];
+                    if(tempNumber.toString().match(numberRegex)) {
+                        numbers.push(data[filter])
+                        console.log('Valid Number - '+tempNumber);
+                    }
+                    else {
+                        console.log('Invalid Number - '+tempNumber);
+                    }
                 });
                 deferred.resolve(numbers);
             },1000);
@@ -85,12 +93,20 @@
 
         $scope.numberLeftAdd = function () {
             if($scope.selectObj && $scope.selectObj.name && $scope.leftAddValue) {
+                $scope.numbersToUpdate.ContactIds = [];
+
                 var newNumberSet = $scope.data.map(function (obj) {
                     obj[$scope.selectObj.name] = $scope.leftAddValue + obj[$scope.selectObj.name];
                     return obj;
                 });
 
+
                 $scope.data = newNumberSet;
+
+                var promise = validateNumbers($scope.data, $scope.selectObj.name);
+                promise.then(function(numbers) {
+                    $scope.numbersToUpdate.ContactIds = numbers;
+                });
             }
         };
 
