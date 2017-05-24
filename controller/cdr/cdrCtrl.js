@@ -916,9 +916,14 @@
 
                                     if (curProcessingLeg.ObjType === 'HTTAPI') {
                                         isInboundHTTAPI = true;
-                                    }
 
-                                    if (len === 1) {
+                                        if (len === 1) {
+                                            cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                            cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                        }
+                                    }
+                                    else
+                                    {
                                         cdrAppendObj.ObjType = curProcessingLeg.ObjType;
                                         cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
                                     }
