@@ -114,6 +114,68 @@ mainApp.controller("templateController", function ($scope, $state, templateMaker
     };
     $scope.pickAllTemplates();
 
+    $scope.ChatTemplates=[];
+    $scope.newChatTemplate={};
+
+    $scope.pickAllChatTemplates = function () {
+
+        templateMakerBackendService.getAllChatTemplates().then(function (response) {
+
+            $scope.ChatTemplates=response;
+        }, function (error) {
+
+            console.info("Error in picking Chat Template " + error);
+            $scope.showAlert("Error", "There is an Exception in picking Chat Template " + error, "error");
+        });
+    };
+    $scope.pickAllChatTemplates();
+
+    $scope.addNewChatTemplate = function () {
+
+        var chatTempObj =
+            {
+                content:$scope.newChatTemplate.content,
+                isCommon:true
+            }
+
+
+        templateMakerBackendService.saveNewChatTemplate(chatTempObj).then(function (response) {
+
+            $scope.ChatTemplates.push(response);
+            $scope.newChatTemplate={};
+            $scope.showAlert("Success", "New chat template added successfully", "success");
+
+
+        }, function (error) {
+
+            console.info("Error in adding new Chat Template " + error);
+            $scope.showAlert("Error", "There is an Exception in saving new Chat Template " + error, "error");
+            $state.reload();
+
+        });
+    };
+    $scope.removeChatTemplate = function (tempID) {
+
+        templateMakerBackendService.removeChatTemplate(tempID).then(function (response) {
+
+            var index = $scope.ChatTemplates.map(function(el) {
+                return el._id;
+            }).indexOf(tempID);
+            $scope.ChatTemplates.splice(index,1);
+
+            $scope.showAlert("Success", "Chat Template successfully removed", "success");
+
+
+        }, function (error) {
+
+            console.info("Error in deleting  Chat Template " + error);
+            $scope.showAlert("Error", "There is an Exception in deleting Chat Template " + error, "error");
+
+
+        });
+    };
+
+
     /* $scope.AppList=[];
      $scope.newApplication={};
      $scope.addNew = false;

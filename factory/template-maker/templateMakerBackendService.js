@@ -100,6 +100,49 @@ mainApp.factory('templateMakerBackendService', function ($http, baseUrls)
             {
                 return response;
             });
+        },
+        getAllChatTemplates: function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.templatesUrl+'TemplateService/MyChatTemplates'
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        },
+        saveNewChatTemplate: function (resource) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.templatesUrl+'TemplateService/ChatTemplate',
+                data:resource
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        },
+        removeChatTemplate: function (tempID) {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.templatesUrl+'TemplateService/ChatTemplate/'+tempID
+
+            }).then(function(response)
+            {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
         }
 
     }
