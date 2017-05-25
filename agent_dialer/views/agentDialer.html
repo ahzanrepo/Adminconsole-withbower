@@ -20,7 +20,8 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"
                                  ng-class="{ 'has-error' : campaingForm.agentList.$invalid && !campaingForm.agentList.$pristine }">
                                 <tags-input id="agentList" ng-model="agentList" display-property="displayName"
-                                            placeholder="Add Agent" replace-spaces-with-dashes="false" required>
+                                            add-from-autocomplete-only="true" placeholder="Add Agent"
+                                            replace-spaces-with-dashes="false" required>
                                     <auto-complete source="loadCountries($query)"
                                                    min-length="0"
                                                    load-on-focus="true"
@@ -59,7 +60,7 @@
                             <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback"
                                  ng-class="{ 'has-error' : campaingForm.columnName.$invalid && !campaingForm.columnName.$pristine }">
                                 <select id="columnName" class="form-control has-feedback-left"
-                                        ng-change="loadNumbers()"
+
                                         ng-model="agentDial.columnName"
                                         ng-model-options="{trackBy: '$value'}" required>
                                     <option value="" disabled selected>Select Number Column
@@ -123,11 +124,38 @@
                                 </uib-progressbar>
                             </div>-->
 
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <div class="input-group">
+                                    <input type="text" class="form-control input-group"
+                                           ng-model="leftAddValue"
+                                           placeholder="Left Add">
+                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn-primary"
+                                                                                ng-click="numberLeftAdd()">
+                                                                            Add
+                                                                        </button>
+                                                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
+                                <button ng-if="!isUploading" type="button" class="btn btn-success right"
+                                        ng-disabled="campaingForm.$invalid" ng-click="ValidateNumberSet()"
+                                        ng-disabled="uploadButtonValue == 'Uploading...'">Validate Numbers
+                                </button>
+                                <button ng-if="isUploading" disabled type="button" class="btn btn-green btn-block"
+                                >
+                                    PLEASE WAIT...
+                                </button>
+                            </div>
 
                             <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
-                                <button type="button" class="btn btn-success right"
+                                <button ng-if="!isUploading" type="button" class="btn btn-success right"
                                         ng-disabled="campaingForm.$invalid" ng-click="assignNumbers()"
                                         ng-disabled="uploadButtonValue == 'Uploading...'">{{uploadButtonValue}}
+                                </button>
+                                <button ng-if="isUploading" disabled type="button" class="btn btn-green btn-block"
+                                >
+                                    PLEASE WAIT...
                                 </button>
                             </div>
 
@@ -175,7 +203,9 @@
                         </div>
 
                         <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback" ng-repeat="p in pendingJobs">
-                            <label ng-click="CheckJobStatus(p);" style="cursor: pointer">{{p}}</label>
+                            <label ng-click="CheckJobStatus(p);" style="cursor: pointer">BatchName :
+                                {{p.BatchName}}</label>
+                            <label ng-click="CheckJobStatus(p);" style="cursor: pointer">ID : {{p.id}}</label>
                         </div>
 
                     </div>
