@@ -109,14 +109,57 @@
 
             //$scope.currentPaper = paper;
 
-            if ($scope.showPaper === null || $scope.showPaper === undefined) {
-                $scope.showPaper = false;
-            }
-            $scope.showPaper = !$scope.showPaper;
+            var active = (paper.active == 'true');
 
-            if ($scope.showPaper) {
-                reloadCurrentPaper(paper._id);
+            if(!active)
+            {
+                $scope.showAlert('QA Question', 'warn', 'Please activate question paper to edit');
             }
+            else
+            {
+                if ($scope.showPaper === null || $scope.showPaper === undefined) {
+                    $scope.showPaper = false;
+                }
+                $scope.showPaper = !$scope.showPaper;
+
+                if ($scope.showPaper) {
+                    reloadCurrentPaper(paper._id);
+                }
+            }
+
+
+        };
+
+        $scope.setPaperStatus = function (paper) {
+            var respMsg = 'deactivated';
+
+            if(status)
+            {
+                respMsg = 'activated';
+            }
+
+            var active = (paper.active == 'true');
+
+            qaModuleService.setPaperStatus(paper._id, !active).then(function (data) {
+                if (data.IsSuccess) {
+                    $scope.showAlert('QA Question', 'success', 'Question Paper ' + respMsg + ' Successfully');
+                    $scope.getPapers();
+                }
+                else {
+                    if (data.Exception) {
+                        $scope.showAlert('QA Question', 'error', data.Exception.Message);
+                    }
+                    else {
+                        $scope.showAlert('QA Question', 'error', 'Error occurred while setting question paper status');
+                    }
+                }
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+                $scope.showAlert('QA Question', 'error', err.Message);
+            });
+
+
         };
 
         $scope.backToListView = function () {
@@ -331,7 +374,7 @@
                 if (data.IsSuccess) {
                     $scope.showAlert('QA Paper', 'success', 'Question paper added successfully');
                     $scope.currentPaper = {};
-                    $scope.getPapers();
+                    $scope.getPapersAll();
                 }
                 else {
                     if (data.Exception) {
@@ -444,7 +487,7 @@
         $scope.getPapers = function () {
             $scope.papers = [];
             $scope.isPapersLoading = true;
-            qaModuleService.getPapers().then(function (data) {
+            qaModuleService.getPapersAll().then(function (data) {
                 if (data.IsSuccess) {
                     $scope.papers = data.Result;
                 }
