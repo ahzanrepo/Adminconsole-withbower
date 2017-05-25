@@ -36,6 +36,8 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
                 SE.subscribe({room: 'QUEUEDROPPED:TotalCount'});
                 SE.subscribe({room: 'BRIDGE:CurrentCount'});
 
+                SE.subscribe({room: 'ARDS:ResourceStatus'});
+
             },
             error: function (data) {
                 console.log("authenticate error..............");
