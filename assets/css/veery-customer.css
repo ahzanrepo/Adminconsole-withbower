@@ -6081,3 +6081,11 @@ ul.newsticker {
     box-shadow: 0px 0px 9px -5px rgba(0,0,0,0.75);
     padding-top: 16px;
 }
+
+.qa-deactivate:hover {
+    color: red;
+}
+
+.qa-edit-text:hover {
+    color: darkcyan;
+}
