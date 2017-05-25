@@ -115,7 +115,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
         return deferred.promise;
     }
 
-    $scope.leftAddValue = 0;
+    $scope.leftAddValue = '0';
     $scope.ValidateNumberSet = function () {
         if($scope.agentDial && $scope.agentDial.columnName) {
             $scope.isUploading = true;
