@@ -408,7 +408,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     loginService.isCheckResponse(err);
                 });
             },
-            getProfileDetails: function () {
+            /*getProfileDetails: function () {
                 dashboardService.GetProfileDetails().then(function (response) {
                     //$scope.profile = [];
                     $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE: []};
@@ -529,7 +529,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 }, function (err) {
                     loginService.isCheckResponse(err);
                 });
-            },
+            },*/
             callAllServices: function () {
                 ServerHandler.getDataAll();
                 ServerHandler.getAllQueued();
@@ -581,12 +581,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         // getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
     };
 
-    var getAllRealTime = function () {
-        //ServerHandler.updateRelaTimeFuntion();
-        $scope.getProfileDetails();
-        // GetD1AllQueueStatistics();
-        getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
-    };
+    //var getAllRealTime = function () {
+    //    //ServerHandler.updateRelaTimeFuntion();
+    //    $scope.getProfileDetails();
+    //    // GetD1AllQueueStatistics();
+    //    getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+    //};
 
 
     ServerHandler.callAllServices();
@@ -596,7 +596,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     var countAllCallServicesTimer = $timeout(countAllCallServices, 2000);
     // var getAllNumTotalTimer = $timeout(getAllNumTotal, 2000);
-    var getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+    //var getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
 
 
     $scope.$on("$destroy", function () {
@@ -854,57 +854,80 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                         other: null
                     };
 
-                    profile.name = response[i].ResourceName;
+                    profile.resourceName = response[i].ResourceName;
                     //get current user profile image
-                    userImageList.getAvatarByUserName(profile.name, function (res) {
+                    userImageList.getAvatarByUserName(profile.resourceName, function (res) {
                         profile.avatar = res;
                     });
 
 
-                    if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0 &&
-                        response[i].ConcurrencyInfo[0].SlotInfo.length > 0) {
-
-                        // is user state Reason
-                        var resonseStatus = null, resonseAvailability = null, resourceMode = null;
-                        if (response[i].Status.Reason && response[i].Status.State) {
-                            resonseAvailability = response[i].Status.State;
-                            resonseStatus = response[i].Status.Reason;
-                            resourceMode = response[i].Status.Mode;
-                        }
 
 
-                        if (response[i].ConcurrencyInfo[0].IsRejectCountExceeded) {
-                            resonseAvailability = "NotAvailable";
-                            resonseStatus = "Suspended";
-                        }
-
-                        profile.slotMode = resourceMode;
-
-                        var reservedDate = response[i].ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
 
 
-                        if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Reject";
-                        } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Break";
-                            reservedDate = response[i].Status.StateChangeTime;
-                        } else {
-                            profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
 
-                            if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
 
-                                reservedDate = response[i].Status.StateChangeTime;
+
+
+                    if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0) {
+
+                        response[i].ConcurrencyInfo.forEach(function (concurrency) {
+                            if(concurrency && concurrency.HandlingType === 'CALL' && concurrency.SlotInfo && concurrency.SlotInfo.length >0){
+
+                                // is user state Reason
+                                var resonseStatus = null, resonseAvailability = null, resourceMode = null;
+                                if (response[i].Status.Reason && response[i].Status.State) {
+                                    resonseAvailability = response[i].Status.State;
+                                    resonseStatus = response[i].Status.Reason;
+                                    resourceMode = response[i].Status.Mode;
+                                }
+
+
+                                if (concurrency.IsRejectCountExceeded) {
+                                    resonseAvailability = "NotAvailable";
+                                    resonseStatus = "Suspended";
+                                }
+
+                                profile.slotMode = resourceMode;
+
+                                var reservedDate ="";
+                                if(concurrency.SlotInfo[0]) {
+
+                                    reservedDate = concurrency.SlotInfo[0].StateChangeTime;
+                                }
+
+
+                                if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
+                                    profile.slotState = resonseStatus;
+                                    profile.other = "Reject";
+                                } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+                                    profile.slotState = resonseStatus;
+                                    profile.other = "Break";
+                                    reservedDate = response[i].Status.StateChangeTime;
+                                } else {
+
+                                    if (concurrency.SlotInfo[0]) {
+                                        profile.slotState = concurrency.SlotInfo[0].State;
+                                    }
+
+                                    /*if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
+
+                                     reservedDate = response[i].Status.StateChangeTime;
+                                     }*/
+                                }
+
+                                profile.LastReservedTimeT = reservedDate;
+                                if (reservedDate == "") {
+                                    profile.LastReservedTime = null;
+                                } else {
+                                    profile.LastReservedTime = moment(reservedDate).format("h:mm a");
+                                }
+
+
+
+
                             }
-                        }
-
-                        profile.LastReservedTimeT = reservedDate;
-                        if (reservedDate == "") {
-                            profile.LastReservedTime = null;
-                        } else {
-                            profile.LastReservedTime = moment(reservedDate).format("h:mm a");
-                        }
+                        });
 
 
                         // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
@@ -915,7 +938,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                         //         $scope.BreakProfile.push(profile);
                         //     }
 
-                    } else {
+                    }else{
                         resourceMode = response[i].Status.Mode;
                         resonseAvailability = response[i].Status.State;
                         resonseStatus = response[i].Status.Reason;
@@ -949,7 +972,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     } else if (profile.slotState == 'Available') {
                         $scope.AvailableProfile.push(profile);
                     } else {
-                        $scope.profile = [];
                         $scope.profile.push(profile);
                         //$scope.BreakProfile.push(profile);
                     }
@@ -958,6 +980,146 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         });
     };
     $scope.getProfileDetails();
+
+
+
+    var setResourceData = function (profile) {
+        if (profile.slotState == 'Reserved') {
+            $scope.ReservedProfile.push(profile);
+        } else if (profile.other == 'Break') {
+            $scope.BreakProfile.push(profile);
+        }
+        else if (profile.slotState == 'Connected') {
+            $scope.ConnectedProfile.push(profile);
+        } else if (profile.slotState == 'AfterWork') {
+            $scope.AfterWorkProfile.push(profile);
+        } else if (profile.slotMode == 'Outbound' && profile.other == null) {
+            $scope.OutboundProfile.push(profile);
+        } else if (profile.slotState == 'Suspended') {
+            $scope.SuspendedProfile.push(profile);
+        } else if (profile.slotState == 'Available') {
+            $scope.AvailableProfile.push(profile);
+        } else {
+            $scope.profile.push(profile);
+        }
+    };
+
+    var removeExistingResourceData = function (profile) {
+        var stopSearch = false;
+        $scope.ReservedProfile.forEach(function (data, i) {
+            if(data.resourceName === profile.resourceName){
+                $scope.ReservedProfile.splice(i, 1);
+                stopSearch = true;
+            }
+        });
+
+        if(!stopSearch) {
+            $scope.AvailableProfile.forEach(function (data, i) {
+                if (data.resourceName === profile.resourceName) {
+                    $scope.AvailableProfile.splice(i, 1);
+                    stopSearch = true;
+                }
+            });
+        }
+        if(!stopSearch) {
+            $scope.ConnectedProfile.forEach(function (data, i) {
+                if (data.resourceName === profile.resourceName) {
+                    $scope.ConnectedProfile.splice(i, 1);
+                    stopSearch = true;
+                }
+            });
+        }
+        if(!stopSearch) {
+            $scope.AfterWorkProfile.forEach(function (data, i) {
+                if(data.resourceName === profile.resourceName){
+                    $scope.AfterWorkProfile.splice(i, 1);
+                    stopSearch = true;
+                }
+            });
+        }
+        if(!stopSearch) {
+            $scope.OutboundProfile.forEach(function (data, i) {
+                if(data.resourceName === profile.resourceName){
+                    $scope.OutboundProfile.splice(i, 1);
+                    stopSearch = true;
+                }
+            });
+        }
+        if(!stopSearch) {
+            $scope.SuspendedProfile.forEach(function (data, i) {
+                if(data.resourceName === profile.resourceName){
+                    $scope.SuspendedProfile.splice(i, 1);
+                    stopSearch = true;
+                }
+            });
+        }
+        if(!stopSearch) {
+            $scope.BreakProfile.forEach(function (data, i) {
+                if(data.resourceName === profile.resourceName){
+                    $scope.BreakProfile.splice(i, 1);
+                    stopSearch = true;
+                }
+            });
+        }
+        if(!stopSearch) {
+            $scope.profile.forEach(function (data, i) {
+                if(data.resourceName === profile.resourceName){
+                    $scope.profile.splice(i, 1);
+                    stopSearch = true;
+                }
+            });
+        }
+    };
+
+    subscribeServices.subscribeDashboard(function (event) {
+        switch (event.roomName) {
+            case 'ARDS:ResourceStatus':
+                if (event.Message) {
+
+                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                        event.Message.avatar = res;
+                    });
+
+                    if(event.Message.task === 'CALL' || !event.Message.task) {
+                        removeExistingResourceData(event.Message);
+                        setResourceData(event.Message);
+                    }
+
+                }
+                break;
+
+            case 'ARDS:RemoveResourceTask':
+                if (event.Message) {
+
+                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                        event.Message.avatar = res;
+                    });
+
+                    if(event.Message.task && event.Message.task === 'CALL') {
+                        removeExistingResourceData(event.Message);
+                        setResourceData(event.Message);
+                    }
+
+                }
+                break;
+
+            case 'ARDS:RemoveResource':
+                if (event.Message) {
+
+                    removeExistingResourceData(event.Message);
+
+                }
+                break;
+
+            default:
+                //console.log(event);
+                break;
+
+        }
+    });
+
+
+
     $scope.agentCurrentState = 'available';
 
     var owl = $('.owl-carousel');

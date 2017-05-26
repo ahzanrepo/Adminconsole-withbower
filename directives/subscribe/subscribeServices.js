@@ -37,6 +37,8 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
                 SE.subscribe({room: 'BRIDGE:CurrentCount'});
 
                 SE.subscribe({room: 'ARDS:ResourceStatus'});
+                SE.subscribe({room: 'ARDS:RemoveResourceTask'});
+                SE.subscribe({room: 'ARDS:RemoveResource'});
 
             },
             error: function (data) {

@@ -283,6 +283,29 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                 }
                 break;
 
+            case 'ARDS:RemoveResourceTask':
+                if (event.Message) {
+
+                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                        event.Message.avatar = res;
+                    });
+
+                    if(event.Message.task && event.Message.task === 'CALL') {
+                        removeExistingResourceData(event.Message);
+                        setResourceData(event.Message);
+                    }
+
+                }
+                break;
+
+            case 'ARDS:RemoveResource':
+                if (event.Message) {
+
+                    removeExistingResourceData(event.Message);
+
+                }
+                break;
+
             default:
                 //console.log(event);
                 break;
