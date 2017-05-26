@@ -132,7 +132,6 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
                 }
             });
 
-
             $scope.data = newNumberSet;
             $scope.campaignNumberObj.Contacts = newNumberSet;
             $scope.isUploading = false;

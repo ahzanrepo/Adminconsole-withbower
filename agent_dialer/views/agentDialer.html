@@ -161,12 +161,11 @@
                             </div>-->
 
                             <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
-                                <button ng-if="!isUploading" type="button" class="btn btn-success right"
+                                <button ng-hide="isUploading" type="button" class="btn btn-success right"
                                         ng-disabled="campaingForm.$invalid" ng-click="assignNumbers()"
                                         ng-disabled="uploadButtonValue == 'Uploading...'">{{uploadButtonValue}}
                                 </button>
-                                <button ng-if="isUploading" disabled type="button" class="btn btn-green btn-block"
-                                >
+                                <button ng-show="isUploading" disabled type="button" class="btn btn-green btn-block">
                                     PLEASE WAIT...
                                 </button>
                             </div>
