@@ -271,6 +271,22 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "FILE_GALLERY"
             }
+        }).state('console.AgentDialerDisposition', {
+            url: "/AgentDialerDisposition",
+            templateUrl: "agent_dialer/views/agentDialerDisposition.html",
+            controller: "agentDialerSummaryDisposition",
+            data: {
+                requireLogin: true,
+                navigation: "FILE_GALLERY"
+            }
+        }).state('console.AgentDialerSummary', {
+            url: "/AgentDialerSummary",
+            templateUrl: "agent_dialer/views/agentDialerSummary.html",
+            controller: "agentDialerSummaryController",
+            data: {
+                requireLogin: true,
+                navigation: "FILE_GALLERY"
+            }
         }).state('console.FormDesign', {
             url: "/FormDesign",
             templateUrl: "dynamicForm/view/formDesign.html",

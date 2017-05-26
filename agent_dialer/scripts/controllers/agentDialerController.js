@@ -78,6 +78,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
     };
 
     var handleFileSelect = function (event) {
+        resetUploader();
         var target = event.srcElement || event.target;
         $scope.target = target;
 
@@ -96,6 +97,50 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
         fileChooser[0].addEventListener('change', handleFileSelect, false);
     }
 
+    function validateNumbers(data, filter) {
+        var deferred = $q.defer();
+        setTimeout(function () {
+            var numbers = [];
+            var numberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
+            var i=0;
+            data.forEach(function (item) {
+                var tempNumber = item[filter];
+                if(!tempNumber.toString().match(numberRegex)) {
+                    data.splice(i, 1)
+                }
+                i++;
+            });
+            deferred.resolve(numbers);
+        },1000);
+        return deferred.promise;
+    }
+
+    $scope.leftAddValue = '0';
+    $scope.ValidateNumberSet = function () {
+        if($scope.agentDial && $scope.agentDial.columnName) {
+            $scope.isUploading = true;
+            $scope.campaignNumberObj.Contacts = [];
+
+            var newNumberSet = $scope.data.map(function (obj) {
+                obj[$scope.agentDial.columnName] = $scope.leftAddValue + obj[$scope.agentDial.columnName];
+                return obj;
+            });
+
+
+            $scope.data = newNumberSet;
+
+            var promise = validateNumbers($scope.data, $scope.agentDial.columnName);
+            promise.then(function(numbers) {
+                $scope.campaignNumberObj.Contacts = numbers;
+                $scope.isUploading = false;
+            });
+        }
+    };
+    $scope.numberLeftAdd = function () {
+        if($scope.leftAddValue) {
+            $scope.ValidateNumberSet();
+        }
+    };
 
     /*------------------ Excel File Read End ----------------------------------*/
 
@@ -126,10 +171,27 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
     /*------------------ Agent List ----------------------------------*/
 
+    var resetUploader = function () {
+        $scope.safeApply(function () {
+            $scope.agentDial = {
+                StartDate: $filter('date')(new Date(), "yyyy-MM-dd")
+            };
+            $scope.data = [];
+            $scope.agentList = [];
+            $scope.agentNumberList = {};
+
+
+            $scope.headerData = [];
+            $scope.gridOptions.data = [];
+            $scope.gridOptions.columnDefs = [];
+        });
+
+    };
+
     $scope.agentNumberList = {};
-
+    $scope.isUploading = false;
     $scope.assignNumbers = function () {
-
+        $scope.isUploading = true;
 
         /*var postData = {
          AgentList:$scope.agentList,
@@ -182,7 +244,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
         var promiseSet = [];
         angular.forEach($scope.agentNumberList, function (item) {
-            if(item.Data){
+            if (item.Data) {
                 var postData = {
                     ResourceName: item.ResourceName,
                     StartDate: $scope.agentDial.StartDate,
@@ -204,22 +266,10 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
                 $scope.loadPendingJobs();
             }
 
-            $scope.safeApply(function () {
-                $scope.agentDial = {
-                    StartDate: $filter('date')(new Date(), "yyyy-MM-dd")
-                };
-                $scope.data = [];
-                $scope.agentList = [];
-                $scope.agentNumberList = {};
-
-
-                $scope.headerData = [];
-                $scope.gridOptions.data = [];
-                $scope.gridOptions.columnDefs = [];
-            });
-
+            resetUploader();
             angular.element("input[type='file']").val(null);
             $scope.showAlert("Agent Dialer", 'success', "Number Upload Process Start. Please Check Pending Job List.");
+            $scope.isUploading = false;
         }).catch(function (e) {
             $scope.showAlert("Agent Dialer", 'error', "Fail To Upload Numbers.");
         });
@@ -228,12 +278,19 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
         console.log("-------------------");
     };
 
+
+
     $scope.pendingJobs = [];
     $scope.isLoading = false;
     $scope.loadPendingJobs = function () {
         $scope.isLoading = true;
         agentDialService.PendingJob().then(function (response) {
-            $scope.pendingJobs = response;
+            if (response) {
+                $scope.pendingJobs = response.map(function (item) {
+                    var data = item.split("_-_");
+                    return {BatchName: data[0], id: data[1]}
+                })
+            }
             $scope.isLoading = false;
         }, function (error) {
             $scope.isLoading = false;
