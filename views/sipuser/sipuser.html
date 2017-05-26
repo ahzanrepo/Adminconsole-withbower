@@ -356,13 +356,24 @@
                             <option>NONE</option>
                         </select></p>
                     </div>
+
+                    <div class="col-md-6 col-lg-6 col-xs-6 animated fadeIn">
+                        <h3><label>User Type</label></h3>
+                        <p><select class="select2_single form-control" tabindex="-1"
+                                   aria-hidden="true"
+                                   name="userType" ng-model="basicConfig.ObjCategory"
+                                   ng-model-options="{trackBy: '$value'}">
+                            <option value="CALL_CENTER">CALL CENTER</option>
+                            <option value="PABX">PABX</option>
+                        </select></p>
+                    </div>
                 </div>
 
 
 
                 <div class="col-lg-12">
                     <div class="sip-user-btn-wrap text-left" style="padding-left: 11px;">
-                        <button class="btn btn-primary" ng-click="onSavePressed()">
+                        <button ng-disabled="!basicConfig.SipUsername" class="btn btn-primary" ng-click="onSavePressed()">
                             Save
                         </button>
                     </div>
