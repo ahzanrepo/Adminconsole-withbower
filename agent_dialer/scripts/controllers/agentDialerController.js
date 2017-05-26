@@ -115,25 +115,27 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
         return deferred.promise;
     }
 
-    $scope.leftAddValue = '0';
+    $scope.leftAddValue = undefined;
     $scope.ValidateNumberSet = function () {
-        if($scope.agentDial && $scope.agentDial.columnName) {
+        if($scope.agentDial && $scope.agentDial.columnName && $scope.agentDial.validateNo) {
             $scope.isUploading = true;
             $scope.campaignNumberObj.Contacts = [];
 
-            var newNumberSet = $scope.data.map(function (obj) {
-                obj[$scope.agentDial.columnName] = $scope.leftAddValue + obj[$scope.agentDial.columnName];
-                return obj;
+            var numberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
+            var newNumberSet = [];
+            $scope.data.map(function (obj) {
+                if($scope.leftAddValue){
+                    obj[$scope.agentDial.columnName] = $scope.leftAddValue + obj[$scope.agentDial.columnName];
+                }
+                if(obj[$scope.agentDial.columnName].toString().match(numberRegex)) {
+                    newNumberSet.push(obj);
+                }
             });
-
 
             $scope.data = newNumberSet;
+            $scope.campaignNumberObj.Contacts = newNumberSet;
+            $scope.isUploading = false;
 
-            var promise = validateNumbers($scope.data, $scope.agentDial.columnName);
-            promise.then(function(numbers) {
-                $scope.campaignNumberObj.Contacts = numbers;
-                $scope.isUploading = false;
-            });
         }
     };
     $scope.numberLeftAdd = function () {
@@ -173,9 +175,6 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
     var resetUploader = function () {
         $scope.safeApply(function () {
-            $scope.agentDial = {
-                StartDate: $filter('date')(new Date(), "yyyy-MM-dd")
-            };
             $scope.data = [];
             $scope.agentNumberList = {};
 
@@ -266,7 +265,14 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             }
 
             resetUploader();
-            $scope.agentList = [];
+
+            $scope.safeApply(function () {
+                $scope.agentDial = {
+                    StartDate: $filter('date')(new Date(), "yyyy-MM-dd")
+                };
+                $scope.agentList = [];
+            });
+
             angular.element("input[type='file']").val(null);
             $scope.showAlert("Agent Dialer", 'success', "Number Upload Process Start. Please Check Pending Job List.");
             $scope.isUploading = false;
