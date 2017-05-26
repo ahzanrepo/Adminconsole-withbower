@@ -374,7 +374,7 @@
                 if (data.IsSuccess) {
                     $scope.showAlert('QA Paper', 'success', 'Question paper added successfully');
                     $scope.currentPaper = {};
-                    $scope.getPapersAll();
+                    $scope.getPapers();
                 }
                 else {
                     if (data.Exception) {
