@@ -57,12 +57,22 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback"
+                            <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
+                                <label class="control-label col-md-6 col-sm-6 col-xs-6" >Validate</label>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <checkbox class="btn-success" ng-model="agentDial.validateNo"
+                                              ng-change="ValidateNumberSet();" ></checkbox>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-5 col-sm-5 col-xs-5 form-group has-feedback"
                                  ng-class="{ 'has-error' : campaingForm.columnName.$invalid && !campaingForm.columnName.$pristine }">
                                 <select id="columnName" class="form-control has-feedback-left"
 
                                         ng-model="agentDial.columnName"
-                                        ng-model-options="{trackBy: '$value'}" required>
+                                        ng-model-options="{trackBy: '$value'}" ng-change="ValidateNumberSet();" required>
                                     <option value="" disabled selected>Select Number Column
                                     </option>
                                     <option ng-repeat="hData in headerData"
@@ -74,7 +84,7 @@
                                    class="help-block">Column Name is required.</p>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback"
+                            <div class="col-md-5 col-sm-5 col-xs-5 form-group has-feedback"
                                  ng-class="{ 'has-error' : campaingForm.dataColumnName.$invalid && !campaingForm.dataColumnName.$pristine }">
                                 <select id="dataColumnName" class="form-control has-feedback-left"
                                         ng-change="loadNumbers()"
@@ -91,7 +101,21 @@
                                    class="help-block">Column Name is required.</p>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback"
+                            <div class="col-md-2 col-sm2 col-xs-2 form-group has-feedback">
+                                <div class="input-group">
+                                    <input type="text" class="form-control input-group"
+                                           ng-model="leftAddValue"
+                                           placeholder="Left Add">
+                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn-primary"
+                                                                                ng-click="numberLeftAdd()">
+                                                                            Add
+                                                                        </button>
+                                                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-sm-5 col-xs-5 form-group has-feedback"
                                  ng-class="{ 'has-error' : campaingForm.Mechanism.$invalid && !campaingForm.Mechanism.$pristine }">
                                 <select id="Mechanism" class="form-control has-feedback-left"
                                         ng-change="loadNumbers()"
@@ -105,7 +129,7 @@
                                    class="help-block">Mechanism is required.</p>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback"
+                            <div class="col-md-3 col-sm-3  col-xs-3 form-group has-feedback"
                                  ng-class="{ 'has-error' : campaingForm.StartDate.$invalid && !campaingForm.StartDate.$pristine }">
                                 <input id="StartDate" type="text" class="form-control"
                                        ng-model="agentDial.StartDate"
@@ -124,20 +148,8 @@
                                 </uib-progressbar>
                             </div>-->
 
-                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                <div class="input-group">
-                                    <input type="text" class="form-control input-group"
-                                           ng-model="leftAddValue"
-                                           placeholder="Left Add">
-                                    <span class="input-group-btn">
-                                                                        <button type="button" class="btn btn-primary"
-                                                                                ng-click="numberLeftAdd()">
-                                                                            Add
-                                                                        </button>
-                                                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
+
+                            <!--<div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
                                 <button ng-if="!isUploading" type="button" class="btn btn-success right"
                                         ng-disabled="campaingForm.$invalid" ng-click="ValidateNumberSet()"
                                         ng-disabled="uploadButtonValue == 'Uploading...'">Validate Numbers
@@ -146,7 +158,7 @@
                                 >
                                     PLEASE WAIT...
                                 </button>
-                            </div>
+                            </div>-->
 
                             <div class="col-md-2 col-sm-2 col-xs-2 form-group has-feedback">
                                 <button ng-if="!isUploading" type="button" class="btn btn-success right"
