@@ -358,14 +358,11 @@
                     </div>
 
                     <div class="col-md-6 col-lg-6 col-xs-6 animated fadeIn">
-                        <h3><label>User Type</label></h3>
-                        <p><select class="select2_single form-control" tabindex="-1"
-                                   aria-hidden="true"
-                                   name="userType" ng-model="basicConfig.ObjCategory"
-                                   ng-model-options="{trackBy: '$value'}">
-                            <option value="CALL_CENTER">CALL CENTER</option>
-                            <option value="PABX">PABX</option>
-                        </select></p>
+                        <checkbox style="position: relative; top: 50px" class="btn-success" ng-model="basicConfig.RecordingEnabled"
+                                  ng-init="basicConfig.RecordingEnabled=false"></checkbox>
+                        <label style="position: relative; top: 50px">
+                            <small>Recording Enabled</small>
+                        </label>
                     </div>
                 </div>
 
