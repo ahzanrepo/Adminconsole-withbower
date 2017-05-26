@@ -145,6 +145,18 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 return response;
             });
         },
+        updateContext: function (resource) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.sipUserendpoint + "Context/" + resource.Context,
+                data:resource
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
         deleteContext: function (resource) {
             
 
