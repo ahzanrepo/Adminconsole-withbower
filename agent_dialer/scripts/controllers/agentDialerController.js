@@ -177,7 +177,6 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
                 StartDate: $filter('date')(new Date(), "yyyy-MM-dd")
             };
             $scope.data = [];
-            $scope.agentList = [];
             $scope.agentNumberList = {};
 
 
@@ -267,6 +266,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             }
 
             resetUploader();
+            $scope.agentList = [];
             angular.element("input[type='file']").val(null);
             $scope.showAlert("Agent Dialer", 'success', "Number Upload Process Start. Please Check Pending Job List.");
             $scope.isUploading = false;
