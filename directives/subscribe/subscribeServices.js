@@ -40,6 +40,15 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
                 SE.subscribe({room: 'ARDS:RemoveResourceTask'});
                 SE.subscribe({room: 'ARDS:RemoveResource'});
 
+                SE.subscribe({room: 'AFTERWORK:TotalTime'});
+                SE.subscribe({room: 'LOGIN:TotalTime'});
+                SE.subscribe({room: 'LOGIN:TotalKeyCount'});
+                SE.subscribe({room: 'CONNECTED:TotalKeyCount'});
+                SE.subscribe({room: 'CONNECTED:TotalCount'});
+                SE.subscribe({room: 'CONNECTED:TotalTime'});
+                SE.subscribe({room: 'BREAK:TotalTime'});
+                SE.subscribe({room: 'AGENTHOLD:TotalTime'});
+
             },
             error: function (data) {
                 console.log("authenticate error..............");
