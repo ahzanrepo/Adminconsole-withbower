@@ -2,7 +2,7 @@
  * Created by Rajinda on 05/17/2017.
  */
 
-mainApp.controller("agentDialerSummaryController", function ($http, $scope, $filter, $location, $log, $q, $anchorScroll, notifiSenderService, agentDialService) {
+mainApp.controller("agentDialerDetailsController", function ($http, $scope, $filter, $location, $log, $q, $anchorScroll, notifiSenderService, agentDialService) {
 
     $anchorScroll();
 
@@ -72,11 +72,12 @@ mainApp.controller("agentDialerSummaryController", function ($http, $scope, $fil
         }
         data.rowCount = pageSize;
         data.pageNo = page;
-        agentDialService.DispositionSummeryReport(data).then(function (response) {
+
+        agentDialService.DispositionDetailsReport(data).then(function (response) {
             $scope.campaignSummery = response;
             $scope.isLoading = false;
         }, function (error) {
-            $scope.showAlert("Campaign Report", 'error', "Fail To Load Summery Report.");
+            $scope.showAlert("Campaign Report", 'error', "Fail To Load Details Report.");
             $scope.isLoading = false;
         });
     };
@@ -92,7 +93,7 @@ mainApp.controller("agentDialerSummaryController", function ($http, $scope, $fil
         if ($scope.dispositionInfo && $scope.dispositionInfo.DialerState) {
             data.DialerState = $scope.dispositionInfo.DialerState;
         }
-        agentDialService.DispositionSummeryReportCount(data).then(function (response) {
+        agentDialService.DispositionDetailsReportCount(data).then(function (response) {
             $scope.pageTotal = response;
         }, function (error) {
             $scope.showAlert("Campaign Report", 'error', "Fail To Get Page Count.");

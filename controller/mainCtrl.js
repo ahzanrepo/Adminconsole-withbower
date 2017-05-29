@@ -337,6 +337,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goAgentDialerSummery: function () {
             $state.go('console.AgentDialerSummary')
         },
+        goAgentDialerDetails: function () {
+            $state.go('console.AgentDialerDetails')
+        },
         goZoho: function () {
             $state.go('console.zoho')
         },
