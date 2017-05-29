@@ -187,15 +187,22 @@
                                         rowspan="1"
                                         colspan="1" aria-label="Total Duration">Percentage
                                     </th>
-                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                    <!--<th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
                                         colspan="1" aria-label="Total Duration">Durations
-                                    </th>
+                                    </th>-->
                                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                         rowspan="1"
                                         colspan="1" aria-label="Answer Duration">Status
                                     </th>
-
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="Total Duration">Start Date
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                        rowspan="1"
+                                        colspan="1" aria-label="Total Duration">End Date
+                                    </th>
 
                                 </thead>
                                 <tbody>
@@ -208,9 +215,10 @@
                                     <td>{{c.dial_success}}</td>
                                     <td>{{c.dial_failed}}</td>
                                     <td>{{c.percentage| number:2}}</td>
-                                    <td>{{c.durations}}</td>
+                                    <!--<td>{{c.durations}}</td>-->
                                     <td>{{c.status}}</td>
-                                    <!--<td>{{c.createdAt| date : 'dd-MM-yyyy, HH:mm'}}</td>-->
+                                    <td>{{c.startEndDate.StartDate? (c.startEndDate.StartDate| date : 'dd-MM-yyyy'):'N/A'}}</td>
+                                    <td>{{c.startEndDate.EndDate? (c.startEndDate.EndDate| date : 'dd-MM-yyyy'):'N/A'}}</td>
                                 </tbody>
                             </table>
                         </div>
