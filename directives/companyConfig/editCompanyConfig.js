@@ -39,6 +39,28 @@ mainApp.directive("editcontext", function ($filter,$uibModal,companyConfigBacken
 
             };
 
+            scope.setRecordStatus = function (currentStatus) {
+
+                var tempObj = angular.copy(scope.context);
+
+                if(currentStatus)
+                {
+                    tempObj.RecordingEnabled = false;
+                }
+                else
+                {
+                    tempObj.RecordingEnabled = true;
+                }
+
+                companyConfigBackendService.updateContext(tempObj).then(function (response)
+                {
+                    scope.showAlert("Success",scope.context.Context+" updated successfully","success");
+                }), function (error) {
+                    scope.showAlert("Error",scope.context.Context+" update failed","error");
+                }
+
+            };
+
         }
 
     }
