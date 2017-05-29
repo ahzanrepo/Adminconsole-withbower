@@ -415,6 +415,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goToCallCenterPerformanceReport: function () {
             $state.go('console.callCenterPerformanceReport');
 
+        },
+        goFileCatRestrict: function () {
+            $state.go('console.fileCatRestrict');
+
         }
     };
     $scope.showDisplayName = false;

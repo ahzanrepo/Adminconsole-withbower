@@ -150,6 +150,17 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     });
   };
 
+    var getAvailableCategoryFiles = function (pageSize,pageNo,resource) {
+        return $http({
+            method: 'post',
+            url: baseUrls.fileServiceUrl+ 'Files/50/'+pageNo,
+            data:resource
+
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
   /*
    var searchFiles = function (categoryId,startTime,endTime) {
    return $http({
@@ -231,6 +242,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     playEncryptedFile:playEncryptedFile,
     downloadLatestFile:downloadLatestFile,
     downloadInternalFile:downloadInternalFile,
+      getAvailableCategoryFiles:getAvailableCategoryFiles,
     UploadUrl: baseUrls.fileServiceUrl+ "File/Upload",
     File: {},
     Headers: {'Authorization':  authService.GetToken()}

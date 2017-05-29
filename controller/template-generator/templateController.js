@@ -1,7 +1,7 @@
 /**
  * Created by Pawan on 8/10/2016.
  */
-mainApp.controller("templateController", function ($scope, $state, templateMakerBackendService, loginService) {
+mainApp.controller("templateController", function ($scope, $state, templateMakerBackendService, loginService,$ngConfirm) {
 
     $scope.StyleList = [];
     $scope.StyleContentList = [];
@@ -11,7 +11,29 @@ mainApp.controller("templateController", function ($scope, $state, templateMaker
     $scope.Templates = [];
     $scope.searchCriteria = "";
 
+    $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
+        $ngConfirm({
+            title: title,
+            content: contentData, // if contentUrl is provided, 'content' is ignored.
+            scope: $scope,
+            buttons: {
+                // long hand button definition
+                ok: {
+                    text: okText,
+                    btnClass: 'btn-primary',
+                    keys: ['enter'], // will trigger when enter is pressed
+                    action: function (scope) {
+                        okFunc();
+                    }
+                },
+                // short hand button definition
+                close: function (scope) {
+                    closeFunc();
+                }
+            }
+        });
+    };
     $scope.showAlert = function (title, content, msgtype) {
 
         new PNotify({
@@ -156,23 +178,30 @@ mainApp.controller("templateController", function ($scope, $state, templateMaker
     };
     $scope.removeChatTemplate = function (tempID) {
 
-        templateMakerBackendService.removeChatTemplate(tempID).then(function (response) {
 
-            var index = $scope.ChatTemplates.map(function(el) {
-                return el._id;
-            }).indexOf(tempID);
-            $scope.ChatTemplates.splice(index,1);
+        $scope.showConfirmation("Delete Chat Template","Do you want to delete this template","OK",function () {
+            templateMakerBackendService.removeChatTemplate(tempID).then(function (response) {
 
-            $scope.showAlert("Success", "Chat Template successfully removed", "success");
+                var index = $scope.ChatTemplates.map(function(el) {
+                    return el._id;
+                }).indexOf(tempID);
+                $scope.ChatTemplates.splice(index,1);
 
-
-        }, function (error) {
-
-            console.info("Error in deleting  Chat Template " + error);
-            $scope.showAlert("Error", "There is an Exception in deleting Chat Template " + error, "error");
+                $scope.showAlert("Success", "Chat Template successfully removed", "success");
 
 
-        });
+            }, function (error) {
+
+                console.info("Error in deleting  Chat Template " + error);
+                $scope.showAlert("Error", "There is an Exception in deleting Chat Template " + error, "error");
+
+
+            });
+        },function () {
+
+        })
+
+
     };
 
 

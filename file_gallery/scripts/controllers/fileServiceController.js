@@ -93,7 +93,7 @@ app.controller('FileEditController', function ($scope, $filter, FileUploader, fi
 
 });
 
-app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state, $uibModal, $anchorScroll, fileService, jwtHelper, authService, baseUrls) {
+app.controller("FileListController", function ($scope, $location, $log, $filter, $http, $state, $uibModal, $anchorScroll, fileService, jwtHelper, authService, baseUrls,userProfileApiAccess) {
 
     $anchorScroll();
     $scope.countByCategory = [];
@@ -150,24 +150,58 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     }
 
     $scope.Catagories = [];
+    $scope.allowedCatagories=[];
     $scope.loadCatagories = function () {
         $scope.Catagories = [];
-        fileService.GetCatagories().then(function (response) {
-            $scope.Catagories = $filter('filter')(response, {Owner: "user"});
 
-            /*angular.forEach($scope.Catagories, function (item) {
-             fileService.GetFileCountCategoryID(item.id).then(function (counts) {
-             if (counts) {
-             $scope.countByCategory.push(counts);
-             }
-             }, function (error) {
-             console.info("GetFileCountCategoryID err" + error);
-             });
-             });*/
+        userProfileApiAccess.getMyProfile().then(function (resProf) {
+            if(resProf)
+            {
+                $scope.allowedCatagories=resProf.Result.allowed_file_categories;
+                $scope.loadFileList($scope.pageSize, 1);
+                fileService.GetCatagories().then(function (response) {
 
-        }, function (error) {
-            console.info("GetCatagories err" + error);
+                    angular.forEach(response,function (item) {
+
+                        angular.forEach($scope.allowedCatagories,function (allowItem) {
+                            if(item.Category === allowItem)
+                            {
+                                $scope.Catagories.push(item);
+                            }
+                        });
+
+
+                    });
+
+
+
+                }, function (error) {
+                    console.info("GetCatagories err" + error);
+                });
+
+
+
+            }
+        },function (errProf) {
+
         });
+
+        /* fileService.GetCatagories().then(function (response) {
+         $scope.Catagories = $filter('filter')(response, {Owner: "user"});
+
+         /!*angular.forEach($scope.Catagories, function (item) {
+         fileService.GetFileCountCategoryID(item.id).then(function (counts) {
+         if (counts) {
+         $scope.countByCategory.push(counts);
+         }
+         }, function (error) {
+         console.info("GetFileCountCategoryID err" + error);
+         });
+         });*!/
+
+         }, function (error) {
+         console.info("GetCatagories err" + error);
+         });*/
     };
     $scope.loadCatagories();
 
@@ -176,13 +210,33 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
     $scope.loadFileList = function (pageSize, currentPage) {
         $scope.files = [];
         $scope.noDataToshow = false;
-        fileService.GetFiles(pageSize, currentPage).then(function (response) {
+
+        var categoryObj = {
+            categoryList:[]
+        };
+
+        $scope.allowedCatagories.forEach(function (item) {
+            categoryObj.categoryList.push(item);
+        });
+
+
+        fileService.getAvailableCategoryFiles(pageSize, currentPage,categoryObj).then(function (response) {
+         $scope.files = response;
+         $scope.noDataToshow = response ? (response.length == 0) : true;
+         $scope.isLoading = false;
+         }, function (err) {
+         $scope.isLoading = false;
+         });
+
+        /*fileService.GetFiles(pageSize, currentPage).then(function (response) {
             $scope.files = response;
             $scope.noDataToshow = response ? (response.length == 0) : true;
             $scope.isLoading = false;
         }, function (err) {
             $scope.isLoading = false;
-        });
+        });*/
+
+
     };
 
     $scope.loadFileList($scope.pageSize, 1);
@@ -244,10 +298,10 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
                 history: false
             }
         })).get().on('pnotify.confirm', function () {
-                OkCallback("confirm");
-            }).on('pnotify.cancel', function () {
+            OkCallback("confirm");
+        }).on('pnotify.cancel', function () {
 
-            });
+        });
 
     };
 

@@ -709,7 +709,7 @@ mainApp.directive("newtemplatestyledir", function ($filter,$uibModal) {
     }
 });
 
-mainApp.directive("chattemplatemakerdir", function ($filter,$uibModal,templateMakerBackendService) {
+mainApp.directive("chattemplatemakerdir", function ($filter,$uibModal,templateMakerBackendService,$ngConfirm) {
 
     return {
         restrict: "EAA",
@@ -739,24 +739,53 @@ mainApp.directive("chattemplatemakerdir", function ($filter,$uibModal,templateMa
                     styling: 'bootstrap3'
                 });
             };
+            scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
+                $ngConfirm({
+                    title: title,
+                    content: contentData, // if contentUrl is provided, 'content' is ignored.
+                    scope: scope,
+                    buttons: {
+                        // long hand button definition
+                        ok: {
+                            text: okText,
+                            btnClass: 'btn-primary',
+                            keys: ['enter'], // will trigger when enter is pressed
+                            action: function (scope) {
+                                okFunc();
+                            }
+                        },
+                        // short hand button definition
+                        close: function (scope) {
+                            closeFunc();
+                        }
+                    }
+                });
+            };
 
 
 
             scope.deleteChatTemplate = function (tempID) {
 
+                scope.showConfirmation("Delete Chat Template","Do you want to delete chat template","OK",function () {
+                    templateMakerBackendService.removeChatTemplate(tempID).then(function (response) {
 
-                templateMakerBackendService.removeChatTemplate(tempID).then(function (response) {
+                        var index = scope.chattemplateList.map(function(el) {
+                            return el._id;
+                        }).indexOf(tempID);
+                        scope.chattemplateList.splice(index,1);
+                        scope.showAlert("Success","Chat template removed successfully","success");
 
-                    var index = scope.chattemplateList.map(function(el) {
-                        return el._id;
-                    }).indexOf(tempID);
-                    scope.chattemplateList.splice(index,1);
 
-                }), function (error) {
-                    scope.showAlert("Error","Error in deleting chat template","error");
-                    console.log("Error in deleting chat template",error);
-                }
+                    }), function (error) {
+                        scope.showAlert("Error","Error in deleting chat template","error");
+                        console.log("Error in deleting chat template",error);
+                    }
+                },function () {
+
+                })
+
+
 
 
             };

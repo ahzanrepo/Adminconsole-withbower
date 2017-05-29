@@ -45,7 +45,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.grid.selection',
     'ngFileSaver',
     'timer',
-    'as.sortable'
+    'as.sortable',
+    'cp.ngConfirm'
 ]);
 
 
@@ -987,6 +988,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                     requireLogin: true,
                     navigation: "QUEUE_SUMMARY_REPORT"
                 }
+        }).state('console.fileCatRestrict', {
+            url: "/FileCategoryRestrictions",
+            templateUrl: "views/file-category-restriction/fileCategoryRestrictions.html",
+            controller: "fileCatRestrictController",
+            data: {
+                requireLogin: true,
+                navigation: "USERS"
+            }
         });
         //Todo shoud be change navigation
     }]);
