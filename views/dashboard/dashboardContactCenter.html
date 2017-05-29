@@ -187,7 +187,7 @@
                                                 <div class="color-status-dot available-dot"></div>
                                             </div>
                                             <div class="d1-header available-text">
-                                                {{AvailableProfile.length}}
+                                                {{StatusList.AvailableProfile.length}}
                                             </div>
                                             <div class="d1-a-status available-text">
                                                 Available
@@ -206,7 +206,7 @@
                                                 <div class="color-status-dot connected-dot"></div>
                                             </div>
                                             <div class="d1-header connected-text">
-                                                {{ConnectedProfile.length}}
+                                                {{StatusList.ConnectedProfile.length}}
                                             </div>
                                             <div class="d1-a-status connected-text">
                                                 Connected
@@ -225,7 +225,7 @@
                                                 <div class="color-status-dot after-work-dot"></div>
                                             </div>
                                             <div class="d1-header after-work-text">
-                                                {{AfterWorkProfile.length}}
+                                                {{StatusList.AfterWorkProfile.length}}
                                             </div>
                                             <div class="d1-a-status after-work-text">
                                                 After Work
@@ -244,7 +244,7 @@
                                                 <div class="color-status-dot reserved-dot"></div>
                                             </div>
                                             <div class="d1-header reserved-text">
-                                                {{ReservedProfile.length}}
+                                                {{StatusList.ReservedProfile.length}}
                                             </div>
                                             <div class="d1-a-status reserved-text">
                                                 Reserved
@@ -264,7 +264,7 @@
                                                 <div class="color-status-dot break-dot"></div>
                                             </div>
                                             <div class="d1-header break-text">
-                                                {{BreakProfile.length}}
+                                                {{StatusList.BreakProfile.length}}
                                             </div>
                                             <div class="d1-a-status break-text">
                                                 Break
@@ -284,7 +284,7 @@
                                                 <div class="color-status-dot outbound-dot"></div>
                                             </div>
                                             <div class="d1-header outbound-text">
-                                                {{OutboundProfile.length}}
+                                                {{StatusList.OutboundProfile.length}}
                                             </div>
                                             <div class="d1-a-status outbound-text">
                                                 Outbound
@@ -304,7 +304,7 @@
                                                 <div class="color-status-dot suspended-dot"></div>
                                             </div>
                                             <div class="d1-header suspended-text">
-                                                {{SuspendedProfile.length}}
+                                                {{StatusList.SuspendedProfile.length}}
                                             </div>
                                             <div class="d1-a-status suspended-text">
                                                 Suspended
@@ -324,7 +324,7 @@
                                                 <div class="color-status-dot other-dot"></div>
                                             </div>
                                             <div class="d1-header other-text">
-                                                {{profile.length}}
+                                                {{StatusList.profile.length}}
                                             </div>
                                             <div class="d1-a-status other-text">
                                                 Other
@@ -361,10 +361,10 @@
                                 <!-- available profile -->
                                 <div class="item" data-status="Available"
                                      data-merge="1">
-                                    <div class="d1-sumary-not-f" ng-if="AvailableProfile.length==0">
+                                    <div class="d1-sumary-not-f" ng-if="StatusList.AvailableProfile.length==0">
                                         Profile not found
                                     </div>
-                                    <div ng-repeat="resource in AvailableProfile track by $index"
+                                    <div ng-repeat="resource in StatusList.AvailableProfile track by $index"
                                          class="d1-summary-card">
                                         <div class="col-lg-12 col-xs-12">
                                             <div class="d1-summary-c-img">
@@ -401,10 +401,10 @@
                                 <!-- connected profile -->
                                 <div class="item" data-status="Connected"
                                      data-merge="1">
-                                    <div class="d1-sumary-not-f" ng-if="ConnectedProfile.length==0">
+                                    <div class="d1-sumary-not-f" ng-if="StatusList.ConnectedProfile.length==0">
                                         Profile not found
                                     </div>
-                                    <div ng-repeat="resource in ConnectedProfile track by $index"
+                                    <div ng-repeat="resource in StatusList.ConnectedProfile track by $index"
                                          class="d1-summary-card">
                                         <div class="d1-summary-c-img">
                                             <img src="asset/images/defaultProfile.png"
@@ -438,10 +438,10 @@
                                 <!-- AfterWork Profile -->
                                 <div class="item" data-status="AfterWork"
                                      data-merge="1">
-                                    <div class="d1-sumary-not-f" ng-if="AfterWorkProfile.length==0">
+                                    <div class="d1-sumary-not-f" ng-if="StatusList.AfterWorkProfile.length==0">
                                         Profile not found
                                     </div>
-                                    <div ng-repeat="resource in AfterWorkProfile track by $index"
+                                    <div ng-repeat="resource in StatusList.AfterWorkProfile track by $index"
                                          class="d1-summary-card">
                                         <div class="d1-summary-c-img">
                                             <img src="asset/images/defaultProfile.png"
@@ -475,10 +475,10 @@
                                 <!-- Reserved Profile -->
                                 <div class="item" data-status="Reserved"
                                      data-merge="1">
-                                    <div class="d1-sumary-not-f" ng-if="ReservedProfile.length==0">
+                                    <div class="d1-sumary-not-f" ng-if="StatusList.ReservedProfile.length==0">
                                         Profile not found
                                     </div>
-                                    <div ng-repeat="resource in ReservedProfile track by $index"
+                                    <div ng-repeat="resource in StatusList.ReservedProfile track by $index"
                                          class="d1-summary-card">
                                         <div class="d1-summary-c-img">
                                             <img src="asset/images/defaultProfile.png"
@@ -514,11 +514,11 @@
 
                                 <div class="item" data-status="Break"
                                      data-merge="1">
-                                    <div class="d1-sumary-not-f" ng-if="BreakProfile.length==0">
+                                    <div class="d1-sumary-not-f" ng-if="StatusList.BreakProfile.length==0">
                                         Profile not found
                                     </div>
 
-                                    <div ng-repeat="resource in BreakProfile track by $index"
+                                    <div ng-repeat="resource in StatusList.BreakProfile track by $index"
                                          class="d1-summary-card">
                                         <div class="col-lg-12 col-xs-12">
                                             <div class="d1-summary-c-img">
@@ -554,10 +554,10 @@
                                 <!-- Outbound Profile -->
                                 <div class="item" data-status="Outbound"
                                      data-merge="1">
-                                    <div class="d1-sumary-not-f" ng-if="OutboundProfile.length==0">
+                                    <div class="d1-sumary-not-f" ng-if="StatusList.OutboundProfile.length==0">
                                         Profile not found
                                     </div>
-                                    <div ng-repeat="resource in OutboundProfile track by $index"
+                                    <div ng-repeat="resource in StatusList.OutboundProfile track by $index"
                                          class="d1-summary-card">
                                         <div class="d1-summary-c-img">
                                             <img src="asset/images/defaultProfile.png"
@@ -591,10 +591,10 @@
                                 <!-- Suspended Profile -->
                                 <div class="item" data-status="Suspended"
                                      data-merge="1">
-                                    <div class="d1-sumary-not-f" ng-if="SuspendedProfile.length==0">
+                                    <div class="d1-sumary-not-f" ng-if="StatusList.SuspendedProfile.length==0">
                                         Profile not found
                                     </div>
-                                    <div ng-repeat="resource in SuspendedProfile track by $index"
+                                    <div ng-repeat="resource in StatusList.SuspendedProfile track by $index"
                                          class="d1-summary-card">
                                         <div class="d1-summary-c-img">
                                             <img src="asset/images/defaultProfile.png"
@@ -628,10 +628,10 @@
                                 <!-- other profile -->
                                 <div class="item" data-status="Other"
                                      data-merge="1">
-                                    <div class="d1-sumary-not-f" ng-if="profile.length==0">
+                                    <div class="d1-sumary-not-f" ng-if="StatusList.profile.length==0">
                                         Profile not found
                                     </div>
-                                    <div ng-repeat="resource in profile track by $index"
+                                    <div ng-repeat="resource in StatusList.profile track by $index"
                                          class="d1-summary-card">
                                         <div class="d1-summary-c-img">
                                             <img src="asset/images/defaultProfile.png"
