@@ -207,13 +207,14 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
 
     //get all file - page load
     $scope.files = [];
+    var categoryObj = {
+        categoryList:[]
+    };
     $scope.loadFileList = function (pageSize, currentPage) {
         $scope.files = [];
         $scope.noDataToshow = false;
 
-        var categoryObj = {
-            categoryList:[]
-        };
+
 
         $scope.allowedCatagories.forEach(function (item) {
             categoryObj.categoryList.push(item);
@@ -470,7 +471,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
             return
         }
 
-        fileService.SearchFiles($scope.categoryId, $scope.fileSerach.StartTime, $scope.fileSerach.EndTime).then(function (response) {
+        fileService.searchFilesWithCategories( $scope.fileSerach.StartTime, $scope.fileSerach.EndTime,categoryObj).then(function (response) {
             $scope.files = response;
             $scope.noDataToshow = response ? (response.length == 0) : true;
             $scope.isLoading = false;
