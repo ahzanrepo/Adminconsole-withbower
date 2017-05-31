@@ -865,6 +865,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             profile.avatar = res;
                         });
 
+                        var resonseStatus = null, resonseAvailability = null, resourceMode = null;
+                        var reservedDate = "";
 
                         if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0) {
 
@@ -872,7 +874,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                 if (concurrency && concurrency.HandlingType === 'CALL' && concurrency.SlotInfo && concurrency.SlotInfo.length > 0) {
 
                                     // is user state Reason
-                                    var resonseStatus = null, resonseAvailability = null, resourceMode = null;
+
                                     if (response[i].Status.Reason && response[i].Status.State) {
                                         resonseAvailability = response[i].Status.State;
                                         resonseStatus = response[i].Status.Reason;
@@ -887,7 +889,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                                     profile.slotMode = resourceMode;
 
-                                    var reservedDate = "";
+
                                     if (concurrency.SlotInfo[0]) {
 
                                         reservedDate = concurrency.SlotInfo[0].StateChangeTime;
