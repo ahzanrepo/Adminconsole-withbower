@@ -16,8 +16,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.inCall = false;
 
     $scope.newNotifications = [];
-    // Notification sender
-    $scope.agentList = [];
+
 
 
 // Register for notifications
@@ -77,6 +76,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
      return filterFilter($scope.notifications, {read: false}).length;
      };*/
 
+    //---------------------- Notification Service  ------------------------------ //
 
     $scope.isSocketRegistered = false;
     $scope.isLoadingNotifiReg = false;
@@ -85,16 +85,16 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.agentDisconnected = function () {
         $scope.isSocketRegistered = false;
         $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register")
-    }
+    };
     $scope.agentAuthenticated = function () {
         $scope.isSocketRegistered = true;
         $('#regNotificationLoading').addClass('display-none').removeClass('display-block');
         $('#regNotification').addClass('display-block').removeClass('display-none');
-    }
+    };
     $scope.callMonitorRegistered = function () {
         $scope.isSocketRegistered = true;
 
-    }
+    };
 
 
     var notificationEvent = {
@@ -105,14 +105,31 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     };
 
     $scope.veeryNotification = function () {
-        veeryNotification.connectToServer(authService.TokenWithoutBearer(), baseUrls.notification, notificationEvent);
+        /*veeryNotification.connectToServer(authService.TokenWithoutBearer(), baseUrls.notification, notificationEvent);*/
+
+        subscribeServices.connectSubscribeServer(function (isConnected) {
+
+            if (isConnected) {
+                $scope.agentAuthenticated();
+            } else {
+                $scope.agentDisconnected();
+            }
+        });
     };
 
     $scope.veeryNotification();
 
     $scope.socketReconnect = function () {
-        veeryNotification.reconnectToServer();
-    }
+        subscribeServices.connectSubscribeServer(function (isConnected) {
+
+            if (isConnected) {
+                $scope.agentAuthenticated();
+            } else {
+                $scope.agentDisconnected();
+            }
+        });
+    };
+
 
     $scope.checkAndRegister = function () {
 
@@ -124,8 +141,130 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.socketReconnect();
         }
 
-    }
+    };
 
+
+
+    subscribeServices.SubscribeEvents(function (event, data) {
+        switch (event) {
+
+            /*case 'agent_connected':
+
+             $scope.agentConnected(data);
+
+             break;
+
+             case 'agent_disconnected':
+
+             $scope.agentDisconnected(data);
+
+             break;
+
+             case 'agent_found':
+
+             $scope.agentFound(data);
+
+             break;
+
+             case 'agent_rejected':
+             $scope.agentRejected(data);
+             break;
+
+             case 'todo_reminder':
+
+             $scope.todoRemind(data);
+
+             break;
+
+            case 'notice':
+
+                $scope.OnMessage(data);
+
+                break;
+             */
+            case 'notice_message':
+
+                $scope.OnMessage(data);
+
+                break;
+
+
+        }
+    });
+
+    subscribeServices.SubscribeStatus(function (status) {
+        if (status) {
+            Object.keys(status).forEach(function (key, index) {
+
+                $scope.users.map(function (item) {
+                    if(item.username===key){
+                        item.status = status[key];
+                        item.statusTime = Date.now();
+                    }
+                });
+
+                /*var userObj = $scope.users.filter(function (item) {
+                    return key === item.username;
+                });
+                if (Array.isArray(userObj)) {
+                    userObj.forEach(function (obj, index) {
+                        obj.status = status[key];
+                        obj.statusTime = Date.now();
+                    });
+                }*/
+
+            });
+
+            $scope.users.sort(function (a, b) {
+
+                var i = 0;
+                var j = 0;
+
+
+                if (a.status == 'offline') {
+
+                    i = 1;
+                } else {
+
+                    i = 2;
+                }
+
+                if (b.status == 'offline') {
+
+                    j = 1;
+                } else {
+
+                    j = 2;
+                }
+
+
+                return j - i;
+
+            });
+        }
+    });
+
+
+    subscribeServices.SubscribeCallStatus(function (status) {
+        if (status) {
+            Object.keys(status).forEach(function (key, index) {
+                var userObj = $scope.users.filter(function (item) {
+                    return key == item.username;
+                });
+                if (Array.isArray(userObj)) {
+                    userObj.forEach(function (obj, index) {
+
+                        obj.callstatus = status[key];
+                        obj.callstatusstyle = 'call-status-' + obj.callstatus;
+                        obj.callstatusTime = Date.now();
+                    });
+                }
+
+            });
+        }
+    });
+
+    //---------------------- Notification Service End ------------------------------ //
 
     //check my navigation
     //is can access
@@ -146,7 +285,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                     $state.go('login');
                     veeryNotification.disconnectFromServer();
 
-                    $timeout.cancel(getAllRealTimeTimer);
+                    /*$timeout.cancel(getAllRealTimeTimer);*/
                 } else {
 
                 }
@@ -833,23 +972,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     });
 
-    //get screen height
-
-
-    var getAllRealTimeTimer = {};
-
 
     $scope.users = [];
     $scope.notificationMsg = {};
     $scope.naviSelectedUser = {};
     $scope.userGroups = [];
 
-
     //subscribe user
-
-    subscribeServices.connectSubscribeServer();
-
-    //todo
     $scope.loadUserGroups = function () {
         notifiSenderService.getUserGroupList().then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -867,20 +996,54 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     //todo
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
-            $scope.users = response;
+
+            if(response){
+                $scope.users = response.map(function (item) {
+                    item.status = 'offline';
+                    item.callstatus = 'offline';
+                    item.callstatusstyle = 'call-status-offline';
+                    return item;
+                });
+            }
+            /*for (var i = 0; i < response.length; i++) {
+
+                response[i].status = 'offline';
+                response[i].callstatus = 'offline';
+                response[i].callstatusstyle = 'call-status-offline';
+
+            }
+            $scope.users = response;*/
+
+
+            $scope.userShowDropDown = 0;
+
+            subscribeServices.Request('pendingall');
+            subscribeServices.Request('allstatus');
+            subscribeServices.Request('allcallstatus');
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
         });
     };
+    $scope.loadUsers();
 
-    //$scope.loadUsers();
-
-    /* if($scope.accessNavigation.indexOf("BASIC INFO")!=-1)
-     {
-     $scope.loadUserGroups();
-     $scope.loadUsers();
-     }*/
+    //load userGroup list
+    $scope.userGroups = [];
+    $scope.loadUserGroups = function () {
+        notifiSenderService.getUserGroupList().then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                for (var j = 0; j < response.data.Result.length; j++) {
+                    var userGroup = response.data.Result[j];
+                    userGroup.listType = "Group";
+                }
+                $scope.userGroups = response.data.Result;
+            }
+        }, function (err) {
+            loginService.IsCheckResponse(err);
+            $scope.showAlert("Load User Groups", "error", "Fail To Get User Groups.")
+        });
+    };
+    $scope.loadUserGroups();
 
     var FilterByID = function (array, field, value) {
         if (array) {
@@ -897,7 +1060,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         }
     };
 
-    var loadOnlineAgents = function () {
+    // Notification sender
+   // $scope.agentList = [];
+    /*var loadOnlineAgents = function () {
         notifiSenderService.getProfileDetails().then(function (response) {
             if (response) {
                 var onlineAgentList = [];
@@ -944,8 +1109,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                     });
 
                     $scope.agentList = onlineAgentList.concat(offlineAgentList);
-                    agentDetailsFactory.agentList = $scope.agentList;
-                    console.log(agentDetailsFactory.agentList);
+                    /!*agentDetailsFactory.agentList = $scope.agentList;
+                    console.log(agentDetailsFactory.agentList);*!/
 
                 }
 
@@ -971,11 +1136,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
             }
             else {
-                /*var errMsg = response.CustomMessage;
+                /!*var errMsg = response.CustomMessage;
 
                  if (response.Exception) {
                  errMsg = response.Exception.Message;
-                 }*/
+                 }*!/
                 $scope.showAlert('Error', 'error', "Error");
             }
         }, function (err) {
@@ -991,7 +1156,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     var getAllRealTime = function () {
         loadOnlineAgents();
         getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
-    };
+    };*/
 
     $scope.showMessageBlock = function (selectedUser) {
         $scope.naviSelectedUser = selectedUser;
@@ -1008,15 +1173,15 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             document.getElementById("mySidenav").style.width = "300px";
             //  document.getElementById("main").style.marginRight = "285px";
             $scope.showRightSideNav = true;
-            getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+            /*getAllRealTimeTimer = $timeout(getAllRealTime, 1000);*/
 
         }
         else {
             document.getElementById("mySidenav").style.width = "0";
             //document.getElementById("main").style.marginRight = "0";
-            if (getAllRealTimeTimer) {
+            /*if (getAllRealTimeTimer) {
                 $timeout.cancel(getAllRealTimeTimer);
-            }
+            }*/
             $scope.showRightSideNav = false;
         }
         $scope.isUserListOpen = !$scope.isUserListOpen;
@@ -1033,23 +1198,21 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
     $scope.sendNotification = function () {
-
-        $scope.loginName = $scope.userName;
         if ($scope.naviSelectedUser) {
-
-            $scope.notificationMsg.From = $scope.loginName;
+            $scope.notificationMsg.From = $scope.userName;
             $scope.notificationMsg.Direction = "STATELESS";
+            $scope.isSendingNotifi = true;
             if ($scope.naviSelectedUser.listType === "Group") {
-                userProfileApiAccess.getGroupMembers($scope.naviSelectedUser._id).then(function (response) {
-                    if (response.IsSuccess) {
 
+                subscribeServices.getGroupMembers($scope.naviSelectedUser._id).then(function (response) {
+                    if (response.IsSuccess) {
                         if (response.Result) {
                             var clients = [];
                             for (var i = 0; i < response.Result.length; i++) {
                                 var gUser = response.Result[i];
-                                if (gUser && gUser.username && gUser.username != $scope.loginName) {
-                                    clients.push(gUser.username);
-                                }
+                                //if (gUser && gUser.username && gUser.username != $scope.loginName) {
+                                clients.push(gUser.username);
+                                //}
                             }
                             $scope.notificationMsg.clients = clients;
 
@@ -1071,19 +1234,18 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                         console.log("Error in loading Group member list");
                         $scope.showAlert('Error', 'error', "Send Notification Failed");
                     }
+                    $scope.isSendingNotifi = false;
                 }, function (err) {
                     console.log("Error in loading Group member list ", err);
                     $scope.showAlert('Error', 'error', "Send Notification Failed");
                 });
-
             } else {
-
                 $scope.notificationMsg.To = $scope.naviSelectedUser.username;
-
                 notifiSenderService.sendNotification($scope.notificationMsg, "message", "").then(function (response) {
                     console.log("send notification success :: " + $scope.notificationMsg.To);
                     $scope.notificationMsg = {};
                 }, function (err) {
+                    authService.IsCheckResponse(err);
                     var errMsg = "Send Notification Failed";
                     if (err.statusText) {
                         errMsg = err.statusText;
@@ -1091,6 +1253,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                     $scope.showAlert('Error', 'error', errMsg);
                 });
             }
+            $scope.isSendingNotifi = false;
 
         } else {
             $scope.showAlert('Error', 'error', "Send Notification Failed");
@@ -1126,13 +1289,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
         //$scope.showAlert("Message","success",notifyMessage.Message);
-    }
+    };
 
 
     $scope.discardNotifications = function (notifyMessage) {
         $scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage), 1);
         $scope.unredNotifications = $scope.newNotifications.length;
-    }
+    };
 
     $scope.showModal = function (MessageObj) {
         //modal show

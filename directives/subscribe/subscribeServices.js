@@ -9,7 +9,9 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
     //local  variable
     var connectionSubscribers;
     var dashboardSubscriber;
-
+    var eventSubscriber;
+    var callSubscribers = [];
+    var statusSubcribers = [];
     //********  subscribe event ********//
     var OnConnected = function () {
         console.log("OnConnected..............");
@@ -70,10 +72,34 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
         }
     };
 
+    var OnStatus = function (o) {
+        console.log("OnStatus..............");
+        statusSubcribers.forEach(function (func) {
+            func(o);
+        });
+    };
+
+    var OnEvent = function (event, o) {
+        console.log("OnEvent..............");
+        if (eventSubscriber) {
+            eventSubscriber(event, o);
+        }
+    };
+
+    var OnCallStatus = function (o) {
+        console.log("OnStatus..............");
+        callSubscribers.forEach(function (func) {
+            func(o);
+        });
+    };
+
     var callBackEvents = {
         OnConnected: OnConnected,
         OnDisconnect: OnDisconnect,
-        OnDashBoardEvent: OnDashBoardEvent
+        OnDashBoardEvent: OnDashBoardEvent,
+        OnEvent: OnEvent,
+        OnStatus: OnStatus,
+        OnCallStatus: OnCallStatus,
     };
 
 
@@ -134,11 +160,29 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
         //}
     };
 
+    var request = function (status, from) {
+        SE.request({type: status, from: from});
+    };
+
+    var SubscribeEvents = function (func) {
+        eventSubscriber = func;
+    };
+    var SubscribeStatus = function (func) {
+        statusSubcribers.push(func);
+    };
+    var SubscribeCallStatus = function (func) {
+        callSubscribers.push(func);
+    };
+
     return {
+        Request: request,
         connectSubscribeServer: connect,
         subscribeDashboard: subscribeDashboard,
         unsubscribe: unsubscribe,
-        subscribe: subscribe
+        subscribe: subscribe,
+        SubscribeEvents: SubscribeEvents,
+        SubscribeStatus: SubscribeStatus,
+        SubscribeCallStatus: SubscribeCallStatus,
     }
 
 
