@@ -36,6 +36,18 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
                 SE.subscribe({room: 'QUEUEDROPPED:TotalCount'});
                 SE.subscribe({room: 'BRIDGE:CurrentCount'});
 
+                SE.subscribe({room: 'ARDS:ResourceStatus'});
+                SE.subscribe({room: 'ARDS:RemoveResourceTask'});
+                SE.subscribe({room: 'ARDS:RemoveResource'});
+
+                SE.subscribe({room: 'AFTERWORK:TotalTime'});
+                SE.subscribe({room: 'LOGIN:TotalTimeWithCurrentSession'});
+                SE.subscribe({room: 'LOGIN:TotalKeyCount'});
+                SE.subscribe({room: 'CONNECTED:TotalKeyCount'});
+                SE.subscribe({room: 'CONNECTED:TotalCount'});
+                SE.subscribe({room: 'BREAK:TotalTime'});
+                SE.subscribe({room: 'AGENTHOLD:TotalTime'});
+
             },
             error: function (data) {
                 console.log("authenticate error..............");
