@@ -772,4 +772,69 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.getBreakTypes();
 
+
+    //----------------------------Company Details------------------------------------------------------
+    $scope.companyDetail = {};
+
+    var getOrganizationDetail = function () {
+        companyConfigBackendService.getOrganizationDetail().then(function (response) {
+            if(response.IsSuccess)
+            {
+                if(response.Result.timeZone) {
+                    $scope.companyDetail = response.Result;
+                }else{
+                    response.Result.timeZone = {tz:"", utcOffset:""};
+                    $scope.companyDetail = response.Result;
+                }
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Company Details', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while receiving Company Details";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Company Details', errMsg, 'error');
+        });
+
+    };
+
+    $scope.updateOrganizationDetail = function () {
+        companyConfigBackendService.updateOrganizationDetail($scope.companyDetail).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.showAlert('Company Details', 'Update Company Detail Success', 'success');
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Company Details', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error occurred while receiving Company Details";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Company Details', errMsg, 'error');
+        });
+
+    };
+
+
+    getOrganizationDetail();
 });

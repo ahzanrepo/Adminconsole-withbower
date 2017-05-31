@@ -511,17 +511,17 @@
 
             });
 
-            getTimesTimer = $timeout(getTimes, 30000);
+            //getTimesTimer = $timeout(getTimes, 30000);
         };
 
         var getStaffTime = function () {
             getTotalStaffTime().then(function (response) {
-
-                $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
-
+                $scope.safeApply(function() {
+                    $scope.callCenterPerformance.totalIdleTime = TimeFormatter($scope.callCenterPerformance.totalStaffTimeValue - ($scope.callCenterPerformance.totalTalkTimeOutboundValue + $scope.callCenterPerformance.totalTalkTimeInboundValue + $scope.callCenterPerformance.totalBreakTimeValue + $scope.callCenterPerformance.totalHoldTimeValue + $scope.callCenterPerformance.totalAcwTimeValue));
+                });
             });
 
-            getTimesTimer = $timeout(getStaffTime, 30000);
+            getTimesTimer = $timeout(getStaffTime, 300000);
         };
 
         getCounts();
