@@ -756,7 +756,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "TICKET_SUMMARY_REPORT"
             }
-        }).state("console.ticketDetailReport", {
+        }).state("console.ticketTagSummary", {
+                url: "/ticketTagSummary",
+                templateUrl: "views/ticket-reports/tagWiseTicketSummary.html",
+                controller: "tagWiseTicketSummaryCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SUMMARY_REPORT"
+                }
+            }).state("console.ticketDetailReport", {
             url: "/ticketDetailReport",
             templateUrl: "views/ticket-reports/ticketDetailReport.html",
             controller: "ticketDetailReportCtrl",
