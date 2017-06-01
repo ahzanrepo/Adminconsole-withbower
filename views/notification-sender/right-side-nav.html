@@ -18,7 +18,7 @@
                 </div>
                 <div ng-mouseover="chatOption = true"
                      ng-mouseleave="chatOption = false"
-                     class="notification-user" ng-repeat="agent in agentList | filterBy: ['username']: searchCriteria">
+                     class="notification-user" ng-repeat="agent in users | filterBy: ['username']: searchCriteria">
 
                     <div ng-if="agent.name" class="user-img">
                         <img src="asset/images/defaultProfile.png"
@@ -41,7 +41,7 @@
                             <i class="main-icon-2-speech-bubble"></i>
                         </div>
                         <div class="user-state" style="margin-right: 18px;margin-left: 10px;"
-                             ng-class="agent.status=='NotAvailable'?'offline':'online'"
+                             ng-class="agent.status"
                         ></div>
                     </div>
                 </div>
