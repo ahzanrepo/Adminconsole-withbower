@@ -982,6 +982,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.agentDashboard', {
             url: "/agentDashboard",
+            controller: "dashboardCtrl",
             templateUrl: "views/dashboard/dashboardContactCenter.html",
             data: {
                 requireLogin: true,

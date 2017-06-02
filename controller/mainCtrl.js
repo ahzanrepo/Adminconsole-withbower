@@ -187,8 +187,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 $scope.OnMessage(data);
 
                 break;
-
-
         }
     });
 
