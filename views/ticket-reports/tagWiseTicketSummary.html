@@ -17,12 +17,12 @@
 
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <label>Start Date</label>
-                    <input type="text" class="form-control" ng-model="obj.startDay" name="startDate" datepicker>
+                    <input type="text" class="form-control" ng-model="searchParams.startDay" name="startDate" datepicker>
                 </div>
 
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <label>End Date</label>
-                    <input type="text" class="form-control" ng-model="obj.endDay" name="endDate" datepicker>
+                    <input type="text" class="form-control" ng-model="searchParams.endDay" name="endDate" datepicker>
                 </div>
 
                 <div class="col-md-1 col-sm-1 col-xs-12">
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="search-main-wrap" ng-if="obj.isTableLoading==0">
+    <div class="search-main-wrap" ng-if="searchParams.isTableLoading">
         <div class="row ">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="data-state-wrap">

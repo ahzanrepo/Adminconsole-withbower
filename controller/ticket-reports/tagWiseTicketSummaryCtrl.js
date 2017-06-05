@@ -19,7 +19,7 @@
         $scope.moment = moment;
 
 
-        $scope.obj = {
+        $scope.searchParams = {
             startDay: moment().format("YYYY-MM-DD"),
             endDay: moment().format("YYYY-MM-DD")
         };
@@ -69,24 +69,33 @@
         var getTagList = function () {
             $scope.tagList = [];
             ticketReportsService.getTagList().then(function (tagList) {
-                if (tagList && tagList.Result)
-                {
-                    $scope.tagList.push.apply($scope.tagList, tagList.Result);
 
-                }
-
-                ticketReportsService.getCategoryList().then(function (categoryList)
+                if(tagList.IsSuccess)
                 {
-                    if (categoryList && categoryList.Result)
+                    if (tagList && tagList.Result)
                     {
-                        $scope.tagList.push.apply($scope.tagList, categoryList.Result);
+                        $scope.tagList.push.apply($scope.tagList, tagList.Result);
+
                     }
 
+                    ticketReportsService.getCategoryList().then(function (categoryList)
+                    {
+                        if (categoryList && categoryList.Result)
+                        {
+                            $scope.tagList.push.apply($scope.tagList, categoryList.Result);
+                        }
 
-                }).catch(function (err) {
-                    loginService.isCheckResponse(err);
 
-                });
+                    }).catch(function (err) {
+                        loginService.isCheckResponse(err);
+
+                    });
+                }
+                else
+                {
+                    $scope.showAlert('Tag Wise Ticket Summary', 'error', 'Error loading tags');
+                }
+
 
 
             }).catch(function (err) {
@@ -100,12 +109,12 @@
         $scope.getTicketTagSummary = function ()
         {
             $scope.tagSummaryDetails = [];
-            $scope.obj.isTableLoading = 0;
+            $scope.searchParams.isTableLoading = true;
             var momentTz = moment.parseZone(new Date()).format('Z');
             momentTz = momentTz.replace("+", "%2B");
 
-            var startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
-            var tempEndDate = $scope.obj.endDay;
+            var startDate = $scope.searchParams.startDay + ' 00:00:00' + momentTz;
+            var tempEndDate = $scope.searchParams.endDay;
 
             var endDate = moment(tempEndDate).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00' + momentTz;
 
@@ -113,39 +122,47 @@
             {
                 ticketReportsService.getTicketSummaryTagWise(startDate, endDate).then(function (ticketSummaryResp)
                 {
-                    if (ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0)
+                    if(ticketSummaryResp && ticketSummaryResp.IsSuccess)
                     {
-                        if($scope.filteredTags && $scope.filteredTags.length > 0)
+                        if (ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0)
                         {
-                            for (var key in $scope.filteredTags)
+                            if($scope.filteredTags && $scope.filteredTags.length > 0)
                             {
-                                var filterObj = _.find(ticketSummaryResp.Result, {'tag': $scope.filteredTags[key].name});
-
-                                if(filterObj)
+                                for (var key in $scope.filteredTags)
                                 {
-                                    $scope.tagSummaryDetails.push(filterObj);
-                                }
+                                    var filterObj = _.find(ticketSummaryResp.Result, {'tag': $scope.filteredTags[key].name});
 
+                                    if(filterObj)
+                                    {
+                                        $scope.tagSummaryDetails.push(filterObj);
+                                    }
+
+                                }
                             }
+                            else
+                            {
+                                $scope.tagSummaryDetails = ticketSummaryResp.Result;
+                            }
+
                         }
                         else
                         {
-                            $scope.tagSummaryDetails = ticketSummaryResp.Result;
+                            $scope.showAlert('Tag Wise Ticket Summary', 'warn', 'No data to load for given date range');
+                            $scope.tagSummaryDetails = [];
                         }
-
                     }
                     else
                     {
-                        $scope.showAlert('Tag Wise Ticket Summary', 'warn', 'No data to load for given date range');
-                        $scope.tagSummaryDetails = [];
+                        $scope.showAlert('Tag Wise Ticket Summary', 'error', 'Error occurred while loading ticket summary');
                     }
 
-                    $scope.obj.isTableLoading = 1;
+
+                    $scope.searchParams.isTableLoading = false;
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
                     $scope.showAlert('Tag Wise Ticket Summary', 'error', 'Error occurred while loading ticket summary');
-                    $scope.obj.isTableLoading = -1;
+                    $scope.searchParams.isTableLoading = false;
                     $scope.tagSummaryDetails = [];
                 });
 
@@ -153,7 +170,7 @@
             }
             catch (ex) {
                 $scope.showAlert('Tag Wise Ticket Summary', 'error', 'Error occurred while loading ticket summary');
-                $scope.obj.isTableLoading = -1;
+                $scope.searchParams.isTableLoading = false;
                 $scope.tagSummaryDetails = [];
             }
 
@@ -166,46 +183,55 @@
             var momentTz = moment.parseZone(new Date()).format('Z');
             momentTz = momentTz.replace("+", "%2B");
 
-            var startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
-            var tempEndDate = $scope.obj.endDay;
+            var startDate = $scope.searchParams.startDay + ' 00:00:00' + momentTz;
+            var tempEndDate = $scope.searchParams.endDay;
 
             var endDate = moment(tempEndDate).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00' + momentTz;
 
-            $scope.DownloadFileName = 'TAG_WISE_TICKET_SUMMARY_' + $scope.obj.startDay + '_' + $scope.obj.endDay;
+            $scope.DownloadFileName = 'TAG_WISE_TICKET_SUMMARY_' + $scope.searchParams.startDay + '_' + $scope.searchParams.endDay;
 
             try
             {
                 ticketReportsService.getTicketSummaryTagWise(startDate, endDate).then(function (ticketSummaryResp)
                 {
-                    if (ticketSummaryResp && ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0)
+                    if(ticketSummaryResp && ticketSummaryResp.IsSuccess)
                     {
-                        if($scope.filteredTags && $scope.filteredTags.length > 0)
+                        if (ticketSummaryResp.Result && ticketSummaryResp.Result.length > 0)
                         {
-                            for (var key in $scope.filteredTags)
+                            if($scope.filteredTags && $scope.filteredTags.length > 0)
                             {
-                                var filterObj = _.find(ticketSummaryResp.Result, {'tag': $scope.filteredTags[key].name});
-
-                                if(filterObj)
+                                for (var key in $scope.filteredTags)
                                 {
-                                    tagSumCsvDetails.push(filterObj);
-                                }
+                                    var filterObj = _.find(ticketSummaryResp.Result, {'tag': $scope.filteredTags[key].name});
 
+                                    if(filterObj)
+                                    {
+                                        tagSumCsvDetails.push(filterObj);
+                                    }
+
+                                }
                             }
+                            else
+                            {
+                                tagSumCsvDetails = ticketSummaryResp.Result;
+                            }
+
+
+                            deferred.resolve(tagSumCsvDetails);
                         }
                         else
                         {
-                            tagSumCsvDetails = ticketSummaryResp.Result;
+                            $scope.showAlert('Tag Wise Ticket Summary', 'warn', 'No data to load for given date range');
+                            deferred.reject(tagSumCsvDetails);
+
                         }
-
-
-                        deferred.resolve(tagSumCsvDetails);
                     }
                     else
                     {
-                        $scope.showAlert('Tag Wise Ticket Summary', 'warn', 'No data to load for given date range');
+                        $scope.showAlert('Tag Wise Ticket Summary', 'error', 'Error occurred while loading ticket summary');
                         deferred.reject(tagSumCsvDetails);
-
                     }
+
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
