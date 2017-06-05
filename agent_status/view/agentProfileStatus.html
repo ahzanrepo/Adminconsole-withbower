@@ -207,6 +207,9 @@
                         <img src="asset/images/defaultProfile.png"
                              ng-src="{{resource.avatar}}"/>
                     </div>
+                    <a ng-show="resource.freezeExceeded" class="title" href="javascript:void(0)">
+                        After Work Exceeded.....
+                    </a>
                     <div class="media-body">
                         <a class="title" href="javascript:void(0)">
                             {{ resource.resourceName | limitTo: 10 }}{{resource.resourceName.length > 10 ? '...' : ''}}
