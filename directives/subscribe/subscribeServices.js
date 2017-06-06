@@ -105,7 +105,8 @@ mainApp.factory('subscribeServices', function ($http,baseUrls, loginService) {
 
 
     //********  subscribe function ********//
-    var connect = function () {
+    var connect = function (callbck) {
+        connectionSubscribers = callbck;
         SE.init({
             serverUrl: baseUrls.ipMessageURL,
             callBackEvents: callBackEvents
