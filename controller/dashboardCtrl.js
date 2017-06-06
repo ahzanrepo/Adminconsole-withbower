@@ -7,12 +7,45 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices) {
 
 
-    subscribeServices.subscribe('dashoboard');
-
-
-    //subscribeServices
     subscribeServices.subscribeDashboard(function (event) {
         switch (event.roomName) {
+            case 'ARDS:ResourceStatus':
+                if (event.Message) {
+
+                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                        event.Message.avatar = res;
+                    });
+
+                    if(event.Message.task === 'CALL' || !event.Message.task) {
+                        removeExistingResourceData(event.Message);
+                        setResourceData(event.Message);
+                    }
+
+                }
+                break;
+
+            case 'ARDS:RemoveResourceTask':
+                if (event.Message) {
+
+                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                        event.Message.avatar = res;
+                    });
+
+                    if(event.Message.task && event.Message.task === 'CALL') {
+                        removeExistingResourceData(event.Message);
+                        setResourceData(event.Message);
+                    }
+
+                }
+                break;
+
+            case 'ARDS:RemoveResource':
+                if (event.Message) {
+
+                    removeExistingResourceData(event.Message);
+
+                }
+                break;
             case 'QUEUE:QueueDetail':
                 //Queue Detail
                 if (event.Message) {
@@ -97,13 +130,13 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     }
                 }
                 break;
-
             default:
-                console.log(event);
+                //console.log(event);
                 break;
 
         }
     });
+
 
 
     //#services call handler
@@ -1054,52 +1087,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     };
 
-    subscribeServices.subscribeDashboard(function (event) {
-        switch (event.roomName) {
-            case 'ARDS:ResourceStatus':
-                if (event.Message) {
 
-                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
-                        event.Message.avatar = res;
-                    });
-
-                    if(event.Message.task === 'CALL' || !event.Message.task) {
-                        removeExistingResourceData(event.Message);
-                        setResourceData(event.Message);
-                    }
-
-                }
-                break;
-
-            case 'ARDS:RemoveResourceTask':
-                if (event.Message) {
-
-                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
-                        event.Message.avatar = res;
-                    });
-
-                    if(event.Message.task && event.Message.task === 'CALL') {
-                        removeExistingResourceData(event.Message);
-                        setResourceData(event.Message);
-                    }
-
-                }
-                break;
-
-            case 'ARDS:RemoveResource':
-                if (event.Message) {
-
-                    removeExistingResourceData(event.Message);
-
-                }
-                break;
-
-            default:
-                //console.log(event);
-                break;
-
-        }
-    });
 
 
 

@@ -45,6 +45,21 @@
             })
         };
 
+        var getTicketSummaryTagWise = function(sdate, edate)
+        {
+            var url = baseUrls.ticketUrl + 'TicketReportTagBased?from=' + sdate + '&to=' + edate;
+
+            var httpHeaders = {
+                method: 'GET',
+                url: url
+            };
+
+            return $http(httpHeaders).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getTicketDetailsNoPaging = function(filterData)
         {
 
@@ -344,7 +359,8 @@
             getUsers: getUsers,
             getTicketDetailsNoPaging: getTicketDetailsNoPaging,
             getTicketTypeList: getTicketTypeList,
-            getTicketStatusList: getTicketStatusList
+            getTicketStatusList: getTicketStatusList,
+            getTicketSummaryTagWise: getTicketSummaryTagWise
         };
     };
 

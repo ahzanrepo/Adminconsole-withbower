@@ -6089,3 +6089,34 @@ ul.newsticker {
 .qa-edit-text:hover {
     color: darkcyan;
 }
+
+
+.tag-ticket-summary-wrp{
+    width: 100%;
+    height: 110px;
+    background: #fbfbfb;
+    padding-top: 20px;
+    margin-bottom: 5px;
+}
+
+.tag-ticket-summary-wrp > .tag-name{
+    font-family: 'Ubuntu-Bold', sans-serif;
+    width: 100%;
+    text-align: center;
+    height: 20px;
+    overflow: hidden;
+    position: relative;
+    font-size: 17px;
+    padding-bottom: 5px;
+}
+
+.tag-ticket-summary-wrp > .count{
+    font-family: 'Ubuntu-Light', sans-serif;
+    width: 100%;
+    text-align: center;
+    min-height: 20px;
+    overflow: hidden;
+    position: relative;
+    font-size: 24px;
+    padding-bottom: 2px;
+}

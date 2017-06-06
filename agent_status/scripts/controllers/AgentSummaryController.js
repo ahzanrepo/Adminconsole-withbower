@@ -1,7 +1,7 @@
 /**
  * Created by Rajinda on 9/1/2016.
  */
-mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
+mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,$filter,
                                                        dashboardService, moment, userImageList, $anchorScroll, subscribeServices) {
     $anchorScroll();
     //var getAllRealTime = function () {
@@ -17,8 +17,6 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     //    }
     //});
     //$scope.refreshTime = 1000;
-
-
 
 
     $scope.StatusList = {
@@ -46,17 +44,21 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             };
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
-                    if(response[i]) {
+                    if (response[i]) {
                         var profile = {
                             name: '',
+                            resourceId: '',
                             slotState: null,
                             slotMode: null,
                             LastReservedTime: 0,
                             LastReservedTimeT: 0,
-                            other: null
+                            other: null,
+                            breakExceeded: false,
+                            freezeExceeded: false
                         };
 
                         profile.resourceName = response[i].ResourceName;
+                        profile.resourceId = response[i].ResourceId;
                         //get current user profile image
                         userImageList.getAvatarByUserName(profile.resourceName, function (res) {
                             profile.avatar = res;
@@ -176,6 +178,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     $scope.getProfileDetails();
 
     var setResourceData = function (profile) {
+        profile.breakExceeded = false;
+        profile.freezeExceeded = false;
         if (profile.slotState == 'Reserved') {
             $scope.StatusList.ReservedProfile.push(profile);
         } else if (profile.other == 'Break') {
@@ -199,7 +203,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     var removeExistingResourceData = function (profile) {
 
         $scope.StatusList.ReservedProfile.forEach(function (data, i) {
-            if(data.resourceName === profile.resourceName){
+            if (data.resourceName === profile.resourceName) {
                 $scope.StatusList.ReservedProfile.splice(i, 1);
             }
         });
@@ -217,31 +221,31 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         });
 
         $scope.StatusList.AfterWorkProfile.forEach(function (data, i) {
-            if(data.resourceName === profile.resourceName){
+            if (data.resourceName === profile.resourceName) {
                 $scope.StatusList.AfterWorkProfile.splice(i, 1);
             }
         });
 
         $scope.StatusList.OutboundProfile.forEach(function (data, i) {
-            if(data.resourceName === profile.resourceName){
+            if (data.resourceName === profile.resourceName) {
                 $scope.StatusList.OutboundProfile.splice(i, 1);
             }
         });
 
         $scope.StatusList.SuspendedProfile.forEach(function (data, i) {
-            if(data.resourceName === profile.resourceName){
+            if (data.resourceName === profile.resourceName) {
                 $scope.StatusList.SuspendedProfile.splice(i, 1);
             }
         });
 
         $scope.StatusList.BreakProfile.forEach(function (data, i) {
-            if(data.resourceName === profile.resourceName){
+            if (data.resourceName === profile.resourceName) {
                 $scope.StatusList.BreakProfile.splice(i, 1);
             }
         });
 
         $scope.StatusList.profile.forEach(function (data, i) {
-            if(data.resourceName === profile.resourceName){
+            if (data.resourceName === profile.resourceName) {
                 $scope.StatusList.profile.splice(i, 1);
             }
         });
@@ -257,7 +261,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         event.Message.avatar = res;
                     });
 
-                    if(event.Message.task === 'CALL' || !event.Message.task) {
+                    if (event.Message.task === 'CALL' || !event.Message.task) {
                         removeExistingResourceData(event.Message);
                         setResourceData(event.Message);
                     }
@@ -272,7 +276,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         event.Message.avatar = res;
                     });
 
-                    if(event.Message.task && event.Message.task === 'CALL') {
+                    if (event.Message.task && event.Message.task === 'CALL') {
                         removeExistingResourceData(event.Message);
                         setResourceData(event.Message);
                     }
@@ -287,7 +291,23 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                 }
                 break;
+            case 'ARDS:break_exceeded':
+                if (event.Message) {
+                    var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
+                    if (agent&&agent.length>0) {
+                        agent[0].breakExceeded = true;
+                    }
+                }
 
+                break;
+            case 'ARDS:freeze_exceeded':
+                if (event.Message) {
+                    var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
+                    if (agent&&agent.length>0) {
+                        agent[0].freezeExceeded = true;
+                    }
+                }
+                break;
             default:
                 //console.log(event);
                 break;
@@ -296,5 +316,17 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     });
 
 
+    /*subscribeServices.SubscribeEvents(function (event, data) {
+     switch (event) {
+     case 'break_exceeded':
+     var agent = $filter('filter')($scope.StatusList.BreakProfile, {'name': data.UserName});
+     if (agent) {
+     agent.breakExceeded = true;
+     }
+     break;
+
+
+     }
+     });*/
 
 });

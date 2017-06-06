@@ -187,8 +187,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 $scope.OnMessage(data);
 
                 break;
-
-
         }
     });
 
@@ -499,6 +497,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         },
         goTicketSummary: function () {
             $state.go('console.ticketSummary');
+        },
+        goTicketTagSummary: function () {
+            $state.go('console.ticketTagSummary');
         },
         goAuditTrailReport: function () {
             $state.go('console.auditTrailRep');

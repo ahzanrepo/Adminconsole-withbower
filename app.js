@@ -187,6 +187,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.dashboard', {
             url: "/dashboard",
+            controller: "dashboardCtrl",
             templateUrl: "views/dashboard/dashboardContactCenter.html",
             data: {
                 requireLogin: true,
@@ -757,7 +758,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "TICKET_SUMMARY_REPORT"
             }
-        }).state("console.ticketDetailReport", {
+        }).state("console.ticketTagSummary", {
+                url: "/ticketTagSummary",
+                templateUrl: "views/ticket-reports/tagWiseTicketSummary.html",
+                controller: "tagWiseTicketSummaryCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "TICKET_SUMMARY_REPORT"
+                }
+            }).state("console.ticketDetailReport", {
             url: "/ticketDetailReport",
             templateUrl: "views/ticket-reports/ticketDetailReport.html",
             controller: "ticketDetailReportCtrl",
@@ -982,6 +991,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.agentDashboard', {
             url: "/agentDashboard",
+            controller: "dashboardCtrl",
             templateUrl: "views/dashboard/dashboardContactCenter.html",
             data: {
                 requireLogin: true,

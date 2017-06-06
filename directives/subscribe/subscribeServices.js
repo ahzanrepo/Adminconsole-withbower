@@ -8,7 +8,7 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
 
     //local  variable
     var connectionSubscribers;
-    var dashboardSubscriber;
+    var dashboardSubscriber = [];
     var eventSubscriber;
     var callSubscribers = [];
     var statusSubcribers = [];
@@ -41,6 +41,8 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
                 SE.subscribe({room: 'ARDS:ResourceStatus'});
                 SE.subscribe({room: 'ARDS:RemoveResourceTask'});
                 SE.subscribe({room: 'ARDS:RemoveResource'});
+                SE.subscribe({room: 'ARDS:break_exceeded'});
+                SE.subscribe({room: 'ARDS:freeze_exceeded'});
 
                 SE.subscribe({room: 'AFTERWORK:TotalTime'});
                 SE.subscribe({room: 'LOGIN:TotalTimeWithCurrentSession'});
@@ -66,10 +68,9 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
 
     var OnDashBoardEvent = function (event) {
         console.log("OnDshboardEvent..............");
-        if (dashboardSubscriber) {
-            dashboardSubscriber(event);
-
-        }
+        dashboardSubscriber.forEach(function (func) {
+            func(event);
+        });
     };
 
     var OnStatus = function (o) {
@@ -111,7 +112,7 @@ mainApp.factory('subscribeServices', function (baseUrls, loginService) {
         });
     };
     var subscribeDashboard = function (func) {
-        dashboardSubscriber = func;
+        dashboardSubscriber.push(func);
     };
 
     var unsubscribe = function (view) {
