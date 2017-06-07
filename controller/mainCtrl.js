@@ -18,7 +18,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.newNotifications = [];
 
 
-
 // Register for notifications
 
     $scope.showAlert = function (tittle, type, msg) {
@@ -37,7 +36,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
             var sender = $filter('filter')($scope.users, {username: data.From});
             console.log("Sender ", sender);
-            data.avatar = (sender && sender.length)?sender.avatar:"assets/images/defaultProfile.png";
+            data.avatar = (sender && sender.length) ? sender[0].avatar : "assets/images/defaultProfile.png";
             data.resv_time = new Date();
             data.read = false;
             $scope.newNotifications.push(data);
@@ -124,7 +123,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     };
 
 
-
     subscribeServices.SubscribeEvents(function (event, data) {
         switch (event) {
 
@@ -156,11 +154,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
              break;
 
-            case 'notice':
+             case 'notice':
 
-                $scope.OnMessage(data);
+             $scope.OnMessage(data);
 
-                break;
+             break;
              */
             case 'notice_message':
 
@@ -175,21 +173,21 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             Object.keys(status).forEach(function (key, index) {
 
                 $scope.users.map(function (item) {
-                    if(item.username===key){
+                    if (item.username === key) {
                         item.status = status[key];
                         item.statusTime = Date.now();
                     }
                 });
 
                 /*var userObj = $scope.users.filter(function (item) {
-                    return key === item.username;
-                });
-                if (Array.isArray(userObj)) {
-                    userObj.forEach(function (obj, index) {
-                        obj.status = status[key];
-                        obj.statusTime = Date.now();
-                    });
-                }*/
+                 return key === item.username;
+                 });
+                 if (Array.isArray(userObj)) {
+                 userObj.forEach(function (obj, index) {
+                 obj.status = status[key];
+                 obj.statusTime = Date.now();
+                 });
+                 }*/
 
             });
 
@@ -975,7 +973,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
 
-            if(response){
+            if (response) {
                 $scope.users = response.map(function (item) {
                     item.status = 'offline';
                     item.callstatus = 'offline';
@@ -985,12 +983,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             }
             /*for (var i = 0; i < response.length; i++) {
 
-                response[i].status = 'offline';
-                response[i].callstatus = 'offline';
-                response[i].callstatusstyle = 'call-status-offline';
+             response[i].status = 'offline';
+             response[i].callstatus = 'offline';
+             response[i].callstatusstyle = 'call-status-offline';
 
-            }
-            $scope.users = response;*/
+             }
+             $scope.users = response;*/
 
 
             $scope.userShowDropDown = 0;
@@ -1076,8 +1074,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             document.getElementById("mySidenav").style.width = "0";
             //document.getElementById("main").style.marginRight = "0";
             /*if (getAllRealTimeTimer) {
-                $timeout.cancel(getAllRealTimeTimer);
-            }*/
+             $timeout.cancel(getAllRealTimeTimer);
+             }*/
             $scope.showRightSideNav = false;
         }
         $scope.isUserListOpen = !$scope.isUserListOpen;

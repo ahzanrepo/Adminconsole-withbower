@@ -8,24 +8,20 @@
             <div class="row">
                 <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
                     <div class="tile-stats text-center bg-green100" ng-class="{'small-card':viewmode!='large'}">
-                        <div class="count" style=" padding-top: 10px;font-size: 22px;">{{que.CurrentWaiting}}</div>
+                        <div class="count" style=" padding-top: 10px;font-size: 27px;">{{que.CurrentWaiting}}</div>
                         <h3 class="font-700 font-yellow800" style="padding-bottom: 10px ; padding-top: 10px">Current
                             Waiting</h3>
-
-
                     </div>
                 </div>
                 <div class="col-lg-6 col-lg-6 col-sm-6 col-xs-12">
                     <div class="tile-stats text-center bg-blue700" ng-class="{'small-card':viewmode!='large'}">
-                        <div class="count" style=" padding-top: 10px;font-size: 22px;">
+                        <div class="count" style=" padding-top: 10px;font-size: 27px;">
                             <timer start-time="que.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} :
                                 {{sseconds}}
                             </timer>
                         </div>
                         <h3 class="font-700 font-orange800" style="padding-bottom: 10px ; padding-top: 10px">Max Wait
                             Time</h3>
-
-
                     </div>
                 </div>
             </div>

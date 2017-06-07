@@ -666,7 +666,7 @@ a {
 }
 
 .small-card span {
-    font-size: 11px !important;
+    /*font-size: 11px !important;*/
 }
 
 .small-card .count {
