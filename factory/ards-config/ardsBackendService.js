@@ -11,7 +11,7 @@ mainApp.factory('ardsBackendService', function ($http, authService,baseUrls) {
 
         getArdsRecords: function () {
 
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
                 url: baseUrls.ardsLiteServiceUrl+"ARDS/requestmeta"
@@ -22,7 +22,7 @@ mainApp.factory('ardsBackendService', function ($http, authService,baseUrls) {
         },
 
         getTasks: function () {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
                 url: baseUrls.resourceServiceBaseUrl+"Tasks"
@@ -34,7 +34,7 @@ mainApp.factory('ardsBackendService', function ($http, authService,baseUrls) {
         },
 
         getGroups: function () {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
                 url: baseUrls.resourceServiceBaseUrl+"Groups"
@@ -46,7 +46,7 @@ mainApp.factory('ardsBackendService', function ($http, authService,baseUrls) {
         },
 
         saveArds: function (resource) {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'post',
                 url: baseUrls.ardsLiteServiceUrl+"ARDS/requestmeta",
@@ -59,7 +59,7 @@ mainApp.factory('ardsBackendService', function ($http, authService,baseUrls) {
         },
 
         updateArds: function (resource) {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'PUT',
                 url: baseUrls.ardsLiteServiceUrl+"ARDS/requestmeta",
@@ -71,7 +71,7 @@ mainApp.factory('ardsBackendService', function ($http, authService,baseUrls) {
             });
         },
         deleteArds: function (serverType,requestType) {
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'DELETE',
                 url: baseUrls.ardsLiteServiceUrl+'ARDS/requestmeta/'+serverType+'/'+requestType
@@ -84,7 +84,7 @@ mainApp.factory('ardsBackendService', function ($http, authService,baseUrls) {
 
         getRequestServers: function () {
 
-            var authToken = authService.GetToken();
+
             return $http({
                 method: 'GET',
                 url: baseUrls.ardsLiteServiceUrl+"ARDS/requestservers/*/*"

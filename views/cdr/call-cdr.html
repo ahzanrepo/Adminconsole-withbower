@@ -61,7 +61,7 @@
                                 CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                 <i ng-class="buttonClass"></i>
                             </button>
-                            <!--<button type="button" style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;" ng-click="prepareDownloadCSV()"></button>-->
+                            <!--<button type="button" style="width:60px; height:30px; background-image: url(assets/images/csv.png); background-size: 100% 100%;" ng-click="prepareDownloadCSV()"></button>-->
                         </div>
 
                     </div>
@@ -337,7 +337,7 @@
 
 
                                 <a class="fa fa-download" target="_self"
-                                   ng-click="SetDownloadPath(cdr.Uuid)"></a>
+                                   ng-click="SetDownloadPath(cdr.Uuid, cdr.ObjType)"></a>
 
                             </span>
 

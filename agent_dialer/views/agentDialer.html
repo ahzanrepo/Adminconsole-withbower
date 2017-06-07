@@ -47,7 +47,14 @@
                                 <input accept=".csv" type="file" class="file-chooser" id="files123"
                                        name="files[]"/>
                             </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li ng-click="resetUploader();" title="Reset" ><a class="close-link" ng-click="resetUploader();"><i
+                                            class="fa fa-refresh"></i></a>
+                                    </li>
 
+                                </ul>
+                            </div>
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
 
                                 <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
@@ -111,6 +118,7 @@
                                                                                 ng-click="numberLeftAdd()">
                                                                             Add
                                                                         </button>
+
                                                                     </span>
                                 </div>
                             </div>
@@ -180,7 +188,7 @@
                         <small>Pending Jobs</small>
                     </h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li ng-click="loadPendingJobs();"><a class="close-link" ng-click="loadPendingJobs();"><i
+                        <li ng-click="loadPendingJobs();" title="Reload" ><a class="close-link" ng-click="loadPendingJobs();"><i
                                 class="fa fa-refresh"></i></a>
                         </li>
                     </ul>

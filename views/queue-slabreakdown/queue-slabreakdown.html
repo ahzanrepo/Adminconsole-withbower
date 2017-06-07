@@ -39,7 +39,7 @@
                             Search
                         </button>
                         <button type="button"
-                                style="width:60px; height:30px; background-image: url(asset/images/csv.png); background-size: 100% 100%;"
+                                style="width:60px; height:30px; background-image: url(assets/images/csv.png); background-size: 100% 100%;"
                                 csv-header="['Hour', 'Queue', 'Duration(sec)', 'Count', 'SLA Violated', 'Average((Count/TotalQueueCount) *100)']"
                                 csv-column-order="['Hour', 'Queue', 'BreakDown', 'ThresholdCount', 'SlaViolated', 'Average']"
                                 ng-csv="getProcessedSlaCSVDownload()" filename="SLA_BreakDown_{{qDate}}.csv"></button>

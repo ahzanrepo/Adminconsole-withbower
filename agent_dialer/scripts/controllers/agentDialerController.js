@@ -78,7 +78,6 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
     };
 
     var handleFileSelect = function (event) {
-        resetUploader();
         var target = event.srcElement || event.target;
         $scope.target = target;
 
@@ -97,7 +96,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
         fileChooser[0].addEventListener('change', handleFileSelect, false);
     }
 
-    function validateNumbers(data, filter) {
+    /*function validateNumbers(data, filter) {
         var deferred = $q.defer();
         setTimeout(function () {
             var numbers = [];
@@ -113,7 +112,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             deferred.resolve(numbers);
         },1000);
         return deferred.promise;
-    }
+    }*/
 
     $scope.leftAddValue = undefined;
     $scope.ValidateNumberSet = function () {
@@ -124,9 +123,6 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             var numberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
             var newNumberSet = [];
             $scope.data.map(function (obj) {
-                if($scope.leftAddValue){
-                    obj[$scope.agentDial.columnName] = $scope.leftAddValue + obj[$scope.agentDial.columnName];
-                }
                 if(obj[$scope.agentDial.columnName].toString().match(numberRegex)) {
                     newNumberSet.push(obj);
                 }
@@ -139,8 +135,16 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
         }
     };
     $scope.numberLeftAdd = function () {
-        if($scope.leftAddValue) {
-            $scope.ValidateNumberSet();
+        if($scope.agentDial && $scope.agentDial.columnName&&$scope.leftAddValue ) {
+            $scope.isUploading = true;
+            $scope.campaignNumberObj.Contacts = [];
+            var newNumberSet = [];
+            $scope.data.map(function (obj) {
+                newNumberSet.push($scope.leftAddValue + obj[$scope.agentDial.columnName]);
+            });
+            $scope.data = newNumberSet;
+            $scope.campaignNumberObj.Contacts = newNumberSet;
+            $scope.isUploading = false;
         }
     };
 
@@ -173,7 +177,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
     /*------------------ Agent List ----------------------------------*/
 
-    var resetUploader = function () {
+    $scope.resetUploader = function () {
         $scope.safeApply(function () {
             $scope.data = [];
             $scope.agentNumberList = {};
@@ -182,6 +186,8 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             $scope.headerData = [];
             $scope.gridOptions.data = [];
             $scope.gridOptions.columnDefs = [];
+
+            $scope.target.form.reset();
         });
 
     };
@@ -264,7 +270,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
                 $scope.loadPendingJobs();
             }
 
-            resetUploader();
+            $scope.resetUploader();
 
             $scope.safeApply(function () {
                 $scope.agentDial = {
