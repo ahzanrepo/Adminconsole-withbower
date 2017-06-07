@@ -21,12 +21,12 @@
                      class="notification-user" ng-repeat="agent in users | filterBy: ['username']: searchCriteria">
 
                     <div ng-if="agent.name" class="user-img">
-                        <img src="asset/images/defaultProfile.png"
+                        <img src="assets/images/defaultProfile.png"
                              ng-src="{{agent.avatar}}">
                         {{agent.name}}
                     </div>
                     <div ng-if="!agent.name" class="user-img">
-                        <img src="asset/images/defaultProfile.png"
+                        <img src="assets/images/defaultProfile.png"
                              ng-src="{{agent.avatar}}">
                         {{agent.username}}
                     </div>
@@ -56,7 +56,7 @@
                      class="notification-user" ng-repeat="group in userGroups ">
 
                     <div ng-if="group.name" class="user-img">
-                        <img src="asset/images/defaultProfile.png"
+                        <img src="assets/images/defaultProfile.png"
                              ng-src="{{group.avatar}}">
                         {{group.name}}
                     </div>
@@ -103,7 +103,7 @@
 
                     <div class="online-user-wrapper notification-user notify-img-large ">
 
-                        <img src="asset/images/defaultProfile.png"
+                        <img src="assets/images/defaultProfile.png"
                              ng-src="{{naviSelectedUser.avatar}}">
 
                     </div>
