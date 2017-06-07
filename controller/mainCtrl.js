@@ -240,9 +240,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             case 'ARDS:break_exceeded':
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
+                    if(event.Message.SessionId){
+                        event.Message.Message = event.Message.Message +" Session : "+event.Message.SessionId;
+                    }
                     var data = {};
                     angular.copy(event, data);
                     var mObject = data.Message;
+
                     //var items = $filter('filter')($scope.users, {resourceid: parseInt(mObject.ResourceId)}, true);
                     var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()});
                     mObject.From = (items&&items.length)?items[0].username : mObject.UserName;
