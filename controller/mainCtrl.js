@@ -39,8 +39,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             data.avatar = (sender && sender.length) ? sender[0].avatar : "assets/images/defaultProfile.png";
             data.resv_time = new Date();
             data.read = false;
-            $scope.newNotifications.push(data);
+            $scope.newNotifications.unshift(data);
             $scope.unredNotifications = $scope.newNotifications.length;
+            var audio = new Audio("assets/sounds/notification-1.mp3");
+            audio.play();
         }
 
 
@@ -75,13 +77,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     };
 
-
-    var notificationEvent = {
-        OnMessageReceived: $scope.OnMessage,
-        onAgentDisconnected: $scope.agentDisconnected,
-        onAgentAuthenticated: $scope.agentAuthenticated,
-        onCallMonitorRegistered: $scope.callMonitorRegistered
-    };
 
     $scope.veeryNotification = function () {
         /*veeryNotification.connectToServer(authService.TokenWithoutBearer(), baseUrls.notification, notificationEvent);*/
@@ -237,6 +232,36 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 }
 
             });
+        }
+    });
+
+    subscribeServices.subscribeDashboard(function (event) {
+        switch (event.roomName) {
+            case 'ARDS:break_exceeded':
+            case 'ARDS:freeze_exceeded':
+                if (event.Message) {
+                    if(event.Message.SessionId){
+                        event.Message.Message = event.Message.Message +" Session : "+event.Message.SessionId;
+                    }
+                    var data = {};
+                    angular.copy(event, data);
+                    var mObject = data.Message;
+
+                    //var items = $filter('filter')($scope.users, {resourceid: parseInt(mObject.ResourceId)}, true);
+                    var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()});
+                    mObject.From = (items&&items.length)?items[0].username : mObject.UserName;
+                    mObject.TopicKey = data.eventName;
+                    mObject.messageType = mObject.Message;
+                    mObject.header = mObject.Message;
+                    mObject.isPersistMessage = mObject.Direction !== "STATELESS";
+                    mObject.PersistMessageID = mObject.id;
+                    $scope.OnMessage(mObject);
+                }
+                break;
+            default:
+                //console.log(event);
+                break;
+
         }
     });
 

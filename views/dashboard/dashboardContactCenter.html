@@ -241,7 +241,9 @@
                                          ng-class={'reserved-bg':agentCurrentState=='reserved'}>
                                         <div class="d1-summary-body ">
                                             <div class="summary-dot-wrp reserved-border">
-                                                <div class="color-status-dot reserved-dot"></div>
+                                                <div class="color-status-dot reserved-dot">
+
+                                                </div>
                                             </div>
                                             <div class="d1-header reserved-text">
                                                 {{StatusList.ReservedProfile.length}}
@@ -453,6 +455,7 @@
                                                 > 10 ? '...' : ''}}
                                             </div>
                                             <div class="time">
+                                                <li ng-show="resource.freezeExceeded"> Freeze Exceeded</li>
                                                 <time-ago from-time='{{resource.LastReservedTimeT }}'
                                                           format='MM/dd/yyyy'></time-ago>
                                             </div>
@@ -531,6 +534,7 @@
                                                     > 10 ? '...' : ''}}
                                                 </div>
                                                 <div class="time">
+                                                    <li ng-show="resource.breakExceeded"> Break Exceeded</li>
                                                     <time-ago from-time='{{resource.LastReservedTimeT }}'
                                                               format='MM/dd/yyyy'></time-ago>
                                                 </div>
@@ -539,7 +543,9 @@
                                             <div class="summary-status">
                                                 <div class="color-wrp">
                                                     <div class="dot-wrp break-border">
-                                                        <div class="color-status-dot break-dot"></div>
+                                                        <div class="color-status-dot break-dot">
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="text-wrp">
