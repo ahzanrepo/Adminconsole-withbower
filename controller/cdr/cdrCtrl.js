@@ -100,13 +100,18 @@
         var videogularAPI = null;
 
 
-        $scope.SetDownloadPath = function (uuid) {
+        $scope.SetDownloadPath = function (uuid, objType) {
             var decodedToken = loginService.getTokenDecode();
 
             if (decodedToken && decodedToken.company && decodedToken.tenant) {
                 //$scope.DownloadFileUrl = baseUrls.fileServiceUrl + 'File/DownloadLatest/' + uuid + '.mp3?Authorization='+$auth.getToken();
 
-                fileService.downloadLatestFile(uuid+".mp3")
+                var fileType = '.mp3';
+                if(objType === 'FAX_INBOUND')
+                {
+                    fileType = '.tif';
+                }
+                fileService.downloadLatestFile(uuid + fileType)
 
             }
 
@@ -825,6 +830,7 @@
                                 var curCdr = cdrResp.Result[cdr];
                                 var isInboundHTTAPI = false;
                                 var outLegAnswered = false;
+                                var inLegAnswered = false;
 
                                 var callHangupDirectionA = '';
                                 var callHangupDirectionB = '';
@@ -886,6 +892,7 @@
                                     cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
                                     cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
                                     cdrAppendObj.IsAnswered = false;
+                                    inLegAnswered = curProcessingLeg.IsAnswered;
 
                                     cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;
 
@@ -1105,6 +1112,16 @@
                                 if (transferredParties) {
                                     transferredParties = transferredParties.slice(0, -1);
                                     cdrAppendObj.TransferredParties = transferredParties;
+                                }
+
+                                if(cdrAppendObj.ObjType === 'FAX_INBOUND')
+                                {
+                                    cdrAppendObj.IsAnswered = inLegAnswered;
+
+                                    if(inLegAnswered)
+                                    {
+                                        cdrAppendObj.ShowButton = true;
+                                    }
                                 }
 
 
