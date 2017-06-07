@@ -311,7 +311,7 @@ mainApp.controller("conferenceController", function ($scope, $rootScope, $compil
 
 app.controller('confModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, baseUrls, template) {
 
-    $scope.TemplateUrl = "asset/images/conference_template/" + template.TemplateName.trim() + ".png";
+    $scope.TemplateUrl = "assets/images/conference_template/" + template.TemplateName.trim() + ".png";
     $scope.TemplateName = template.TemplateName.trim();
     $scope.TemplateDecryption = template.Description.trim();
     $scope.ok = function () {
