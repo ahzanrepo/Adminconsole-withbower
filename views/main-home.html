@@ -11,7 +11,7 @@
                 <!-- menu profile quick info -->
                 <!--<div class="profile">-->
                 <!--<div class="profile_pic">-->
-                <!--<img src="asset/images/img.jpg" alt="..." class="img-circle profile_img">-->
+                <!--<img src="assets/images/img.jpg" alt="..." class="img-circle profile_img">-->
                 <!--</div>-->
                 <!--<div class="profile_info">-->
                 <!--<span>Welcome,</span>-->
@@ -490,7 +490,7 @@
                             <a href="javascript:void(0);" class="user-profile dropdown-toggle ubuntu-Light"
                                data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="asset/images/defaultProfile.png"
+                                <img src="assets/images/defaultProfile.png"
                                      ng-src="{{profileAvatat}}" alt="">Hi
                                 <span ng-show="showDisplayName">{{displayname}}</span>
                                 <span class=" fa fa-angle-down"></span>
@@ -546,6 +546,7 @@
                                             </div>
                                             <div class="col-lg-8">
                                                 <div class="row">
+                                                    <h5>{{notifi.From}}</h5>
                                                     <div class="notification-text">
                                                         {{notifi.Message | limitTo:20}}
                                                     </div>
@@ -558,9 +559,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
+
 
                                 </div>
                             </ul>

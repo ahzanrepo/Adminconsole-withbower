@@ -106,13 +106,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 }
                 break;
 
-            case 'QUEUE:TotalCount':
-                //Total queued
-                if (event.Message) {
-                    $scope.total.queued = event.Message.TotalCountWindow;
-                }
-                break;
-
             case 'QUEUEDROPPED:TotalCount':
                 //Total queued dropped
                 if (event.Message) {
@@ -127,6 +120,23 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                         $scope.total.onGoingInb = event.Message.CurrentCountParam2;
                     } else if (event.Message.param2 == "outbound") {
                         $scope.total.onGoingOutb = event.Message.CurrentCountParam2;
+                    }
+                }
+                break;
+            case 'ARDS:break_exceeded':
+                if (event.Message) {
+                    var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
+                    if (agent&&agent.length>0) {
+                        agent[0].breakExceeded = true;
+                    }
+                }
+
+                break;
+            case 'ARDS:freeze_exceeded':
+                if (event.Message) {
+                    var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
+                    if (agent&&agent.length>0) {
+                        agent[0].freezeExceeded = true;
                     }
                 }
                 break;
@@ -795,38 +805,41 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     var GetD1AllQueueStatistics = function () {
         queueMonitorService.GetAllQueueStats().then(function (response) {
             var updatedQueues = [];
-            response.forEach(function (c) {
-                var item =  {};
+            if(response){
+                response.forEach(function (c) {
+                    var item =  {};
 
-                for (var key in c.QueueInfo) {
+                    for (var key in c.QueueInfo) {
 
-                    if (!c.QueueInfo.hasOwnProperty(key)) continue;
+                        if (!c.QueueInfo.hasOwnProperty(key)) continue;
 
-                    item[key] = c.QueueInfo[key];
+                        item[key] = c.QueueInfo[key];
 
 
-                }
+                    }
 
-                //item.MaxWaitingMS = 0;
-                item.id = c.QueueId;
-                item.queuename = c.QueueName;
-                item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+                    //item.MaxWaitingMS = 0;
+                    item.id = c.QueueId;
+                    item.queuename = c.QueueName;
+                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
 
-                if (item.TotalQueued > 0) {
-                    item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
-                }
+                    if (item.TotalQueued > 0) {
+                        item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
+                    }
 
-                if (item.CurrentMaxWaitTime) {
-                    var d = moment(item.CurrentMaxWaitTime).valueOf();
-                    item.MaxWaitingMS = d;
-                }
+                    if (item.CurrentMaxWaitTime) {
+                        var d = moment(item.CurrentMaxWaitTime).valueOf();
+                        item.MaxWaitingMS = d;
+                    }
 
-                $scope.queues[item.queuename] = item;
+                    $scope.queues[item.queuename] = item;
 
-                console.log( item.MaxWaitingMS);
-            });
+                    console.log( item.MaxWaitingMS);
+                });
 
-            console.log($scope.queues);
+                console.log($scope.queues);
+            }
+
 
             // if (response.length == updatedQueues.length) {
             //     //$scope.queues=$scope.updatedQueues;

@@ -36,7 +36,7 @@
                     <div  class="col-md-55" ng-if="tweetProfile.name!=undefined">
                         <div id="{{tweetProfile.id}}" class="thumbnail">
                             <div class="image view view-first">
-                                <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{tweetProfile.avatar}}" alt="image" />
+                                <img style="width: 100%; display: block;" src="assets/images/noimage.jpg" ng-src="{{tweetProfile.avatar}}" alt="image" />
                                 <div class="mask no-caption">
                                     <div class="tools tools-bottom">
                                         <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="addPageToSystem(tweetProfile);" title="Add To System"></i></a>
@@ -92,7 +92,7 @@
                     <div ng-hide="isLoading"   class="col-md-55" ng-repeat="page in exssitingPageList" ng-if='page.status == true'>
                         <div class="thumbnail">
                             <div class="image view view-first">
-                                <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.avatar}}" alt="image" />
+                                <img style="width: 100%; display: block;" src="assets/images/noimage.jpg" ng-src="{{page.avatar}}" alt="image" />
                                 <div class="mask no-caption">
                                     <div class="tools tools-bottom">
                                         <!--<a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateFacebookAccount(page)" title="Update Account"></i></a>-->
@@ -128,7 +128,7 @@
                 <div ng-hide="isLoading"   class="col-md-55" ng-repeat="page in exssitingPageList" ng-if='page.status == false'>
                     <div class="thumbnail">
                         <div class="image view view-first">
-                            <img style="width: 100%; display: block;" src="asset/images/noimage.jpg" ng-src="{{page.avatar}}" alt="image" />
+                            <img style="width: 100%; display: block;" src="assets/images/noimage.jpg" ng-src="{{page.avatar}}" alt="image" />
                             <div class="mask no-caption">
                                 <div class="tools tools-bottom">
                                     <a href="javascript:void(0);"><i class="fa fa-plus" ng-click="ActivateTwitterAccount(page)" title="Activate Account"></i></a>
