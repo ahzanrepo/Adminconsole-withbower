@@ -651,7 +651,7 @@
                         }
 
                         if (!data.Result.avatar) {
-                            $scope.CurrentProfile.avatar = 'asset/images/noimage.jpg';
+                            $scope.CurrentProfile.avatar = 'assets/images/noimage.jpg';
                         }
 
 

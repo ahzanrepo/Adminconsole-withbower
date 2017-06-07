@@ -32,32 +32,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     };
     $scope.unredNotifications = 0;
     $scope.OnMessage = function (data) {
-        var objMessage = {
-            "id": data.TopicKey,
-            "header": data.Message,
-            "type": "menu",
-            "icon": "main-icon-2-speech-bubble",
-            "time": new Date(),
-            "read": false
-        };
-        /*if (data.TopicKey) {
-         var audio = new Audio('assets/sounds/notification-1.mp3');
-         audio.play();
-         $scope.newNotifications.unshift(objMessage);
-         $('#notificationAlarm').addClass('animated swing');
-         $scope.unredNotifications = $scope.getCountOfUnredNotifications()
-         setTimeout(function () {
-         $('#notificationAlarm').removeClass('animated swing');
-         }, 500);
-         }*/
 
-        if (data.From) {
-            var sender = $filter('filter')($scope.users, {username: data.From})[0];
+        if (data.From && $scope.users) {
+
+            var sender = $filter('filter')($scope.users, {username: data.From});
             console.log("Sender ", sender);
-
-            if (sender.avatar) {
-                data.avatar = sender.avatar;
-            }
+            data.avatar = (sender && sender.length)?sender.avatar:"assets/images/defaultProfile.png";
             data.resv_time = new Date();
             data.read = false;
             $scope.newNotifications.push(data);
@@ -974,10 +954,23 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     });
 
 
+    $scope.MakeNotificationObject = function (data) {
+        var callbackObj = JSON.parse(data.Callback);
+
+        callbackObj.From = data.From;
+        callbackObj.TopicKey = callbackObj.Topic;
+        callbackObj.messageType = callbackObj.MessageType;
+        callbackObj.isPersistMessage = true;
+        callbackObj.PersistMessageID = data.id;
+        return callbackObj;
+
+    };
+
     $scope.users = [];
     $scope.notificationMsg = {};
     $scope.naviSelectedUser = {};
     $scope.userGroups = [];
+    var isPersistanceLoaded = false;
 
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
@@ -1005,6 +998,36 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             subscribeServices.Request('pendingall');
             subscribeServices.Request('allstatus');
             subscribeServices.Request('allcallstatus');
+
+            // load notification message
+            if (!isPersistanceLoaded) {
+                subscribeServices.GetPersistenceMessages().then(function (response) {
+
+                    if (response.data.IsSuccess) {
+                        isPersistanceLoaded = true;
+
+                        angular.forEach(response.data.Result, function (value) {
+
+                            var valObj = JSON.parse(value.Callback);
+
+                            if (valObj.eventName == "todo_reminder") {
+                                //$scope.todoRemind($scope.MakeNotificationObject(value));
+                            }
+                            else {
+                                $scope.OnMessage($scope.MakeNotificationObject(value));
+                            }
+
+
+                        });
+
+                    }
+
+
+                }, function (err) {
+
+                });
+            }
+
         }, function (err) {
             loginService.isCheckResponse(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")

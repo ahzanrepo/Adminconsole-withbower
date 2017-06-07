@@ -302,7 +302,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                 break;
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
-                    var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
+                    var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
                     if (agent&&agent.length>0) {
                         agent[0].freezeExceeded = true;
                     }
