@@ -546,6 +546,12 @@ a {
     border-color: #36ba45 !important;
 }
 
+.afterWork > a.error-txt {
+    background: transparent;
+    border-color: transparent !important;
+    color: #cc1e2d !important;
+}
+
 .afterWork > .profile-status-dah {
     background: #36ba45;
 }
@@ -1721,7 +1727,6 @@ small > i {
     font-size: 20px;
     color: #f8b01d;
 }
-
 
 .embed-wrap {
     background: #114858;
@@ -6066,7 +6071,7 @@ ul.newsticker {
 }
 
 /*pbx follow view*/
-.drag-item-wrp{
+.drag-item-wrp {
     background-color: #fff !important;
     color: black;
     font-weight: bold;
@@ -6076,9 +6081,9 @@ ul.newsticker {
     border: 1px solid #f7f7f7 !important;
     height: auto;
     position: relative;
-    -webkit-box-shadow: 0px 0px -5px -5px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px -5px -5px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 9px -5px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 0px -5px -5px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px -5px -5px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 9px -5px rgba(0, 0, 0, 0.75);
     padding-top: 16px;
 }
 
@@ -6090,8 +6095,7 @@ ul.newsticker {
     color: darkcyan;
 }
 
-
-.tag-ticket-summary-wrp{
+.tag-ticket-summary-wrp {
     width: 100%;
     height: 110px;
     background: #fbfbfb;
@@ -6099,7 +6103,7 @@ ul.newsticker {
     margin-bottom: 5px;
 }
 
-.tag-ticket-summary-wrp > .tag-name{
+.tag-ticket-summary-wrp > .tag-name {
     font-family: 'Ubuntu-Bold', sans-serif;
     width: 100%;
     text-align: center;
@@ -6110,7 +6114,7 @@ ul.newsticker {
     padding-bottom: 5px;
 }
 
-.tag-ticket-summary-wrp > .count{
+.tag-ticket-summary-wrp > .count {
     font-family: 'Ubuntu-Light', sans-serif;
     width: 100%;
     text-align: center;

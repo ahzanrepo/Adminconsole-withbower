@@ -207,7 +207,9 @@
                         <img src="assets/images/defaultProfile.png"
                              ng-src="{{resource.avatar}}"/>
                     </div>
-                    <a ng-show="resource.freezeExceeded" class="title" href="javascript:void(0)">
+                    <a ng-show="resource.freezeExceeded"
+                       class="error-txt"
+                       href="javascript:void(0)">
                         After Work Exceeded.....
                     </a>
                     <div class="media-body">
@@ -301,7 +303,8 @@
                              ng-src="{{resource.avatar}}"/>
                     </div>
                     <div class="media-body">
-                        <a ng-show="resource.breakExceeded" class="title" href="javascript:void(0)">
+                        <a ng-show="resource.breakExceeded" style=" color: #cc1e2d;background: transparent;" class="error-txt"
+                           href="javascript:void(0)">
                             Break Exceeded.....
                         </a>
                         <a class="title" href="javascript:void(0)">

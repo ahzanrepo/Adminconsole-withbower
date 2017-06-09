@@ -534,7 +534,8 @@
                                                     > 10 ? '...' : ''}}
                                                 </div>
                                                 <div class="time">
-                                                    <li ng-show="resource.breakExceeded"> Break Exceeded</li>
+                                                    <li class="error-txt"
+                                                        ng-show="resource.breakExceeded"> Break Exceeded</li>
                                                     <time-ago from-time='{{resource.LastReservedTimeT }}'
                                                               format='MM/dd/yyyy'></time-ago>
                                                 </div>
