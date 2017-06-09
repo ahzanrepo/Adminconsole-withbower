@@ -27,11 +27,12 @@
             })
         };
 
-        var getUsersByRole = function (role) {
+        var getUsersByRole = function () {
 
             return $http({
-                method: 'GET',
-                url: baseUrls.UserServiceBaseUrl + 'UsersByRole/'+role
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl + 'UsersByRoles',
+                data:{roles:["admin","supervisor"]}
             }).then(function (resp) {
                 return resp.data;
             })

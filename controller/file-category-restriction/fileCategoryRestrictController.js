@@ -29,7 +29,7 @@ mainApp.controller("fileCatRestrictController", function ($scope, $state, userPr
 
     $scope.loadUsers = function () {
 
-        userProfileApiAccess.getUsersByRole("admin").then(function (response) {
+        userProfileApiAccess.getUsersByRole().then(function (response) {
 
             if(response.IsSuccess)
             {
