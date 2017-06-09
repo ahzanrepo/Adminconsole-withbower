@@ -36,7 +36,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
             var sender = $filter('filter')($scope.users, {username: data.From});
             console.log("Sender ", sender);
-            data.avatar = (sender && sender.length)?sender.avatar:"assets/images/defaultProfile.png";
+            data.avatar = (sender && sender.length) ? sender[0].avatar : "assets/images/defaultProfile.png";
             data.resv_time = new Date();
             data.read = false;
             $scope.newNotifications.unshift(data);
