@@ -177,7 +177,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
     /*------------------ Agent List ----------------------------------*/
 
-    $scope.resetUploader = function (form) {
+    $scope.resetUploader = function () {
         $scope.safeApply(function () {
             $scope.data = [];
             $scope.agentNumberList = {};
@@ -189,8 +189,8 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
             $scope.target.form.reset();
 
-            form.$setPristine();
-            form.$setUntouched();
+            /*form.$setPristine();
+            form.$setUntouched();*/
 
         });
         $scope.agentDial = {StartDate: $filter('date')(new Date(), "yyyy-MM-dd")};
@@ -274,7 +274,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
                 $scope.loadPendingJobs();
             }
 
-            $scope.resetUploader();
+
 
             $scope.safeApply(function () {
                 $scope.agentDial = {
@@ -286,6 +286,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             angular.element("input[type='file']").val(null);
             $scope.showAlert("Agent Dialer", 'success', "Number Upload Process Start. Please Check Pending Job List.");
             $scope.isUploading = false;
+            $scope.resetUploader();
         }).catch(function (e) {
             $scope.showAlert("Agent Dialer", 'error', "Fail To Upload Numbers.");
         });
