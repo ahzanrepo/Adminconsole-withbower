@@ -177,7 +177,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
     /*------------------ Agent List ----------------------------------*/
 
-    $scope.resetUploader = function () {
+    $scope.resetUploader = function (form) {
         $scope.safeApply(function () {
             $scope.data = [];
             $scope.agentNumberList = {};
@@ -188,8 +188,12 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             $scope.gridOptions.columnDefs = [];
 
             $scope.target.form.reset();
-        });
 
+            form.$setPristine();
+            form.$setUntouched();
+
+        });
+        $scope.agentDial = {StartDate: $filter('date')(new Date(), "yyyy-MM-dd")};
     };
 
     $scope.agentNumberList = {};
