@@ -255,7 +255,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             if (item.Data) {
                 var postData = {
                     ResourceName: item.ResourceName,
-                    StartDate: $scope.agentDial.StartDate,
+                    StartDate: $filter('date')($scope.agentDial.StartDate, "yyyy-MM-ddTHH:mm:ss.sssZ") ,
                     BatchName: $scope.agentDial.BatchName,
                     ContactList: item.Data
                 };
