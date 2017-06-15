@@ -100,13 +100,18 @@
         var videogularAPI = null;
 
 
-        $scope.SetDownloadPath = function (uuid) {
+        $scope.SetDownloadPath = function (uuid, objType) {
             var decodedToken = loginService.getTokenDecode();
 
             if (decodedToken && decodedToken.company && decodedToken.tenant) {
                 //$scope.DownloadFileUrl = baseUrls.fileServiceUrl + 'File/DownloadLatest/' + uuid + '.mp3?Authorization='+$auth.getToken();
 
-                fileService.downloadLatestFile(uuid+".mp3")
+                var fileType = '.mp3';
+                if(objType === 'FAX_INBOUND')
+                {
+                    fileType = '.tif';
+                }
+                fileService.downloadLatestFile(uuid + fileType)
 
             }
 
@@ -817,18 +822,22 @@
                             var count = 0;
                             var cdrLen = Object.keys(cdrResp.Result).length;
 
-                            for (cdr in cdrResp.Result) {
+                            for (cdr in cdrResp.Result)
+                            {
                                 count++;
                                 var cdrAppendObj = {};
                                 var outLegProcessed = false;
                                 var curCdr = cdrResp.Result[cdr];
                                 var isInboundHTTAPI = false;
                                 var outLegAnswered = false;
+                                var inLegAnswered = false;
 
                                 var callHangupDirectionA = '';
                                 var callHangupDirectionB = '';
 
                                 var len = curCdr.length;
+
+                                var callCategory = '';
 
 
                                 //Need to filter out inbound and outbound legs before processing
@@ -860,7 +869,10 @@
                                 for (i = 0; i < filteredInb.length; i++) {
                                     var curProcessingLeg = filteredInb[i];
 
-                                    if (curProcessingLeg.DVPCallDirection) {
+                                    callCategory = curProcessingLeg.ObjCategory;
+
+                                    if (curProcessingLeg.DVPCallDirection)
+                                    {
                                         callHangupDirectionA = curProcessingLeg.HangupDisposition;
                                     }
 
@@ -880,6 +892,7 @@
                                     cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
                                     cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
                                     cdrAppendObj.IsAnswered = false;
+                                    inLegAnswered = curProcessingLeg.IsAnswered;
 
                                     cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;
 
@@ -910,9 +923,14 @@
 
                                     if (curProcessingLeg.ObjType === 'HTTAPI') {
                                         isInboundHTTAPI = true;
-                                    }
 
-                                    if (len === 1) {
+                                        if (len === 1) {
+                                            cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                            cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                        }
+                                    }
+                                    else
+                                    {
                                         cdrAppendObj.ObjType = curProcessingLeg.ObjType;
                                         cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
                                     }
@@ -997,7 +1015,8 @@
                                         transferredParties = transferredParties + actualTransferLegs[k].SipToUser + ',';
                                     }
                                 }
-                                else {
+                                else
+                                {
                                     var connectedLegs = filteredOutb.filter(function (item) {
                                         if (item.IsAnswered) {
                                             return true;
@@ -1021,7 +1040,16 @@
 
                                     }
 
-                                    if (curProcessingLeg) {
+                                    if(callCategory === 'FOLLOW_ME' || callCategory === 'FORWARDING')
+                                    {
+                                        for (k = 0; k < filteredOutb.length; k++) {
+                                            transferredParties = transferredParties + filteredOutb[k].SipToUser + ',';
+                                        }
+
+                                    }
+
+                                    if (curProcessingLeg)
+                                    {
                                         callHangupDirectionB = curProcessingLeg.HangupDisposition;
 
                                         if (!bottomSet && count === cdrLen) {
@@ -1064,68 +1092,6 @@
                                 }
 
 
-                                /*for (j = 0; j < filteredOutb.length; j++)
-                                 {
-                                 var curProcessingLeg = filteredOutb[j];
-
-                                 if((curProcessingLeg.ObjType === 'ATT_XFER_USER' || curProcessingLeg.ObjType === 'ATT_XFER_GATEWAY') && !curProcessingLeg.IsTransferredParty)
-                                 {
-                                 cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
-                                 cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
-
-                                 }
-
-                                 if(curProcessingLeg.IsTransferredParty)
-                                 {
-                                 transferredParties = transferredParties + curProcessingLeg.SipToUser + ',';
-                                 }
-
-                                 callHangupDirectionB = curProcessingLeg.HangupDisposition;
-
-                                 if (!bottomSet && count === cdrLen)
-                                 {
-                                 $scope.bottom = curProcessingLeg.id;
-                                 bottomSet = true;
-                                 }
-
-                                 if(!cdrAppendObj.RecievedBy)
-                                 {
-                                 cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
-                                 }
-
-
-                                 cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
-
-
-                                 if (cdrAppendObj.DVPCallDirection === 'outbound')
-                                 {
-                                 var holdSecTemp = curProcessingLeg.HoldSec + curProcessingLeg.WaitSec;
-                                 cdrAppendObj.HoldSec = holdSecTemp;
-                                 }
-
-                                 cdrAppendObj.BillSec = curProcessingLeg.BillSec;
-
-                                 if (!cdrAppendObj.ObjType)
-                                 {
-                                 cdrAppendObj.ObjType = curProcessingLeg.ObjType;
-                                 }
-
-                                 if (!cdrAppendObj.ObjCategory)
-                                 {
-                                 cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
-                                 }
-
-                                 outLegProcessed = true;
-
-                                 if (!outLegAnswered)
-                                 {
-                                 if (curProcessingLeg.BillSec > 0)
-                                 {
-                                 outLegAnswered = true;
-                                 }
-                                 }
-                                 }*/
-
                                 if (callHangupDirectionA === 'recv_bye') {
                                     cdrAppendObj.HangupParty = 'CALLER';
                                 }
@@ -1146,6 +1112,16 @@
                                 if (transferredParties) {
                                     transferredParties = transferredParties.slice(0, -1);
                                     cdrAppendObj.TransferredParties = transferredParties;
+                                }
+
+                                if(cdrAppendObj.ObjType === 'FAX_INBOUND')
+                                {
+                                    cdrAppendObj.IsAnswered = inLegAnswered;
+
+                                    if(inLegAnswered)
+                                    {
+                                        cdrAppendObj.ShowButton = true;
+                                    }
                                 }
 
 

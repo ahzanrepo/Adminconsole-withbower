@@ -35,6 +35,17 @@
             })
         };
 
+        var setPaperStatus = function(id, status)
+        {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.qaModule + 'QuestionPaper/' + id + '/Activate/' + status
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var addQuestionToPaper = function(paperId, questionInfo)
         {
             var jsonStr = JSON.stringify(questionInfo);
@@ -89,6 +100,17 @@
             return $http({
                 method: 'GET',
                 url: baseUrls.qaModule + 'QuestionPapers'
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var getPapersAll = function()
+        {
+            return $http({
+                method: 'GET',
+                url: baseUrls.qaModule + 'QuestionPapersAll'
             }).then(function(resp)
             {
                 return resp.data;
@@ -200,7 +222,9 @@
             deleteSubmissionById: deleteSubmissionById,
             getAllSubmissionsByOwner: getAllSubmissionsByOwner,
             getAllSubmissionsByOwnerAndTimeRange: getAllSubmissionsByOwnerAndTimeRange,
-            validateBeforeDeleteQuestion: validateBeforeDeleteQuestion
+            validateBeforeDeleteQuestion: validateBeforeDeleteQuestion,
+            setPaperStatus: setPaperStatus,
+            getPapersAll: getPapersAll
         };
 
     };

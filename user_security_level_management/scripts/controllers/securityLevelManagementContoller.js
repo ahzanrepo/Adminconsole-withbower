@@ -9,13 +9,6 @@ mainApp.controller("securityLevelManagementController", function ($scope, $filte
 
 
 
-
-
-
-
-
-
-
     $scope.showAlert = function (title, type, content) {
 
         new PNotify({

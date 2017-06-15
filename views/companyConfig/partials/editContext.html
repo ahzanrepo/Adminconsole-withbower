@@ -35,6 +35,13 @@
                 <p>{{context.ContextCat}} </p>
             </div>
 
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                <checkbox class="btn-success" ng-model="context.RecordingEnabled" ng-click="setRecordStatus(context.RecordingEnabled)"></checkbox>
+                <label>
+                    <small>Recording Enabled</small>
+                </label>
+            </div>
+
 
 
             <!--<p class="excerpt col-md-3" ng-if="IsDeveloper"> Developer : {{application.AppDeveloper.Username}} </p>-->

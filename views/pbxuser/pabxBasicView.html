@@ -84,10 +84,12 @@
 
             <div class="form-group col-md-4 col-sm-4 col-xs-12">
                 <label>Time Zone </label>
-                <select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="timeZone"
+                <!--<select class="select2_single form-control" tabindex="-1" aria-hidden="true" name="timeZone"
                         ng-model="basicConfig.TimeZone" ng-model-options="{trackBy: '$value'}">
                     <option ng-repeat="tz in timeZones" ng-value="tz.Offset">{{tz.TZName}}</option>
-                </select>
+                </select>-->
+
+                <timezone-selector ng-model="basicConfig.TimeZone"></timezone-selector>
             </div>
 
             <div class="item form-group  col-md-4 col-sm-4 col-xs-12">

@@ -27,6 +27,17 @@
             })
         };
 
+        var getUsersByRole = function () {
+
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl + 'UsersByRoles',
+                data:{roles:["admin","supervisor"]}
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
 
         var addContactToProfile = function (user, contact, type) {
             return $http({
@@ -166,6 +177,29 @@
             })
         };
 
+        var allowFileCategoryToUser = function (user,category) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'User/'+user+'/FileCategory/'+category
+
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+        var restrictFileCategoryToUser = function (user,category) {
+
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.UserServiceBaseUrl + 'User/'+user+'/FileCategory/'+category
+
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
+
+
 
         return {
             getProfileByName: getProfileByName,
@@ -182,7 +216,10 @@
             getGroupMembers: getGroupMembers,
             addMemberToGroup: addMemberToGroup,
             getMyProfile: getMyProfile,
-            updateUserSecurityLevel: updateUserSecurityLevel
+            updateUserSecurityLevel: updateUserSecurityLevel,
+            getUsersByRole:getUsersByRole,
+            allowFileCategoryToUser:allowFileCategoryToUser,
+            restrictFileCategoryToUser:restrictFileCategoryToUser
         };
     };
 
