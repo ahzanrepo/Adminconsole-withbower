@@ -1,4 +1,4 @@
-<div >
+<div>
 
     <div class="d1-main-wrp">
         <!-- dashboard top header wrapper -->
@@ -183,9 +183,6 @@
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'available-bg':agentCurrentState=='available'}>
                                         <div class="d1-summary-body">
-                                            <div class="summary-dot-wrp available-border">
-                                                <div class="color-status-dot available-dot"></div>
-                                            </div>
                                             <div class="d1-header available-text">
                                                 {{StatusList.AvailableProfile.length}}
                                             </div>
@@ -202,9 +199,6 @@
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'connected-bg':agentCurrentState=='connected'}>
                                         <div class="d1-summary-body">
-                                            <div class="summary-dot-wrp connected-border">
-                                                <div class="color-status-dot connected-dot"></div>
-                                            </div>
                                             <div class="d1-header connected-text">
                                                 {{StatusList.ConnectedProfile.length}}
                                             </div>
@@ -221,9 +215,6 @@
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'after-work-bg':agentCurrentState=='afterwork'}>
                                         <div class="d1-summary-body">
-                                            <div class="summary-dot-wrp after-work-border">
-                                                <div class="color-status-dot after-work-dot"></div>
-                                            </div>
                                             <div class="d1-header after-work-text">
                                                 {{StatusList.AfterWorkProfile.length}}
                                             </div>
@@ -240,11 +231,7 @@
                                     <div class="d1-sumry-count-wrp  "
                                          ng-class={'reserved-bg':agentCurrentState=='reserved'}>
                                         <div class="d1-summary-body ">
-                                            <div class="summary-dot-wrp reserved-border">
-                                                <div class="color-status-dot reserved-dot">
 
-                                                </div>
-                                            </div>
                                             <div class="d1-header reserved-text">
                                                 {{StatusList.ReservedProfile.length}}
                                             </div>
@@ -262,9 +249,7 @@
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'break-bg':agentCurrentState=='break'}>
                                         <div class="d1-summary-body">
-                                            <div class="summary-dot-wrp break-border">
-                                                <div class="color-status-dot break-dot"></div>
-                                            </div>
+
                                             <div class="d1-header break-text">
                                                 {{StatusList.BreakProfile.length}}
                                             </div>
@@ -282,9 +267,7 @@
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'outbound-bg':agentCurrentState=='outbound'}>
                                         <div class="d1-summary-body">
-                                            <div class="summary-dot-wrp outbound-border">
-                                                <div class="color-status-dot outbound-dot"></div>
-                                            </div>
+
                                             <div class="d1-header outbound-text">
                                                 {{StatusList.OutboundProfile.length}}
                                             </div>
@@ -302,9 +285,7 @@
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'suspended-bg':agentCurrentState=='suspended'}>
                                         <div class="d1-summary-body">
-                                            <div class="summary-dot-wrp suspended-border">
-                                                <div class="color-status-dot suspended-dot"></div>
-                                            </div>
+
                                             <div class="d1-header suspended-text">
                                                 {{StatusList.SuspendedProfile.length}}
                                             </div>
@@ -322,9 +303,7 @@
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'other-bg':agentCurrentState=='other'}>
                                         <div class="d1-summary-body">
-                                            <div class="summary-dot-wrp other-border">
-                                                <div class="color-status-dot other-dot"></div>
-                                            </div>
+
                                             <div class="d1-header other-text">
                                                 {{StatusList.profile.length}}
                                             </div>
@@ -374,9 +353,9 @@
                                                      ng-src="{{resource.avatar}}" width="50"/>
                                             </div>
                                             <div class="d1-summary-c-left-t">
-                                                <div class="header">{{resource.name | limitTo: 10 }}
-                                                    {{resource.name.length
-                                                    > 10 ? '...' : ''}}
+                                                <div class="header">
+                                                    {{resource.resourceName | limitTo: 15 }}
+                                                    {{resource.resourceName.length > 15 ? '...' : ''}}
                                                 </div>
                                                 <div class="time">
                                                     <time-ago from-time='{{resource.LastReservedTimeT }}'
@@ -413,9 +392,8 @@
                                                  ng-src="{{resource.avatar}}" width="50"/>
                                         </div>
                                         <div class="d1-summary-c-left-t">
-                                            <div class="header">{{resource.name | limitTo: 10 }}
-                                                {{resource.name.length
-                                                > 10 ? '...' : ''}}
+                                            <div class="header">{{resource.resourceName | limitTo: 15 }}
+                                                {{resource.resourceName.length > 15 ? '...' : ''}}
                                             </div>
                                             <div class="time">
                                                 <time-ago from-time='{{resource.LastReservedTimeT }}'
@@ -450,9 +428,9 @@
                                                  ng-src="{{resource.avatar}}" width="50"/>
                                         </div>
                                         <div class="d1-summary-c-left-t">
-                                            <div class="header">{{resource.name | limitTo: 10 }}
-                                                {{resource.name.length
-                                                > 10 ? '...' : ''}}
+                                            <div class="header">{{resource.resourceName | limitTo: 15 }}
+                                                {{resource.resourceName.length
+                                                > 15 ? '...' : ''}}
                                             </div>
                                             <div class="time">
                                                 <li ng-show="resource.freezeExceeded"> Freeze Exceeded</li>
@@ -488,9 +466,9 @@
                                                  ng-src="{{resource.avatar}}" width="50"/>
                                         </div>
                                         <div class="d1-summary-c-left-t">
-                                            <div class="header">{{resource.name | limitTo: 10 }}
-                                                {{resource.name.length
-                                                > 10 ? '...' : ''}}
+                                            <div class="header">{{resource.resourceName | limitTo: 15 }}
+                                                {{resource.resourceName.length
+                                                > 15 ? '...' : ''}}
                                             </div>
                                             <div class="time">
                                                 <time-ago from-time='{{resource.LastReservedTimeT }}'
@@ -529,13 +507,14 @@
                                                      ng-src="{{resource.avatar}}" width="50"/>
                                             </div>
                                             <div class="d1-summary-c-left-t">
-                                                <div class="header">{{resource.name | limitTo: 10 }}
-                                                    {{resource.name.length
-                                                    > 10 ? '...' : ''}}
+                                                <div class="header">{{resource.resourceName | limitTo: 15 }}
+                                                    {{resource.resourceName.length
+                                                    > 15 ? '...' : ''}}
                                                 </div>
                                                 <div class="time">
                                                     <li class="error-txt"
-                                                        ng-show="resource.breakExceeded"> Break Exceeded</li>
+                                                        ng-show="resource.breakExceeded"> Break Exceeded
+                                                    </li>
                                                     <time-ago from-time='{{resource.LastReservedTimeT }}'
                                                               format='MM/dd/yyyy'></time-ago>
                                                 </div>
@@ -571,9 +550,9 @@
                                                  ng-src="{{resource.avatar}}" width="50"/>
                                         </div>
                                         <div class="d1-summary-c-left-t">
-                                            <div class="header">{{resource.name | limitTo: 10 }}
-                                                {{resource.name.length
-                                                > 10 ? '...' : ''}}
+                                            <div class="header">{{resource.resourceName | limitTo: 15 }}
+                                                {{resource.resourceName.length
+                                                > 15 ? '...' : ''}}
                                             </div>
                                             <div class="time">
                                                 <time-ago from-time='{{resource.LastReservedTimeT }}'
@@ -608,9 +587,9 @@
                                                  ng-src="{{resource.avatar}}" width="50"/>
                                         </div>
                                         <div class="d1-summary-c-left-t">
-                                            <div class="header">{{resource.name | limitTo: 10 }}
-                                                {{resource.name.length
-                                                > 10 ? '...' : ''}}
+                                            <div class="header">{{resource.resourceName | limitTo: 15 }}
+                                                {{resource.resourceName.length
+                                                > 15 ? '...' : ''}}
                                             </div>
                                             <div class="time">
                                                 <time-ago from-time='{{resource.LastReservedTimeT }}'
@@ -645,9 +624,9 @@
                                                  ng-src="{{resource.avatar}}" width="50"/>
                                         </div>
                                         <div class="d1-summary-c-left-t">
-                                            <div class="header">{{resource.name | limitTo: 10 }}
-                                                {{resource.name.length
-                                                > 10 ? '...' : ''}}
+                                            <div class="header">{{resource.resourceName | limitTo: 15 }}
+                                                {{resource.resourceName.length
+                                                > 15 ? '...' : ''}}
                                             </div>
                                             <div class="time">
                                                 <time-ago from-time='{{resource.LastReservedTimeT }}'
