@@ -2159,7 +2159,7 @@ h4.graph_title {
 .tile-stats .count, .tile-stats h3, .tile-stats p {
     position: relative;
     margin: 0;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     z-index: 5;
     padding: 0;
 }

@@ -123,30 +123,31 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
         queueMonitorService.GetAllQueueStats().then(function (response) {
 
+            angular.forEach(response, function (c) {
+                // var value = $filter('filter')(updatedQueues, {id: item.id})[0];
+                // if (!value) {
+                //     $scope.queues.splice($scope.queues.indexOf(item), 1);
+                // }
 
 
+                var item = c.QueueInfo;
+                item.id = c.QueueId;
+                item.QueueName = c.QueueName;
+                item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
 
-                angular.forEach(response, function (c) {
-                    // var value = $filter('filter')(updatedQueues, {id: item.id})[0];
-                    // if (!value) {
-                    //     $scope.queues.splice($scope.queues.indexOf(item), 1);
-                    // }
+                if (item.CurrentMaxWaitTime) {
+                    var d = moment(item.CurrentMaxWaitTime).valueOf();
+                    item.MaxWaitingMS = d;
+                }
 
+                if (item.TotalQueued > 0) {
+                    item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
+                }
 
-                    var item = c.QueueInfo;
-                    item.id = c.QueueId;
-                    item.QueueName = c.QueueName;
-                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
-
-                    if (item.TotalQueued > 0) {
-                        item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
-                    }
-
-                    // if ($scope.checkQueueAvailability(item.id)) {
-                    $scope.queues[item.QueueName] = item;
-                    //}
-                });
-
+                // if ($scope.checkQueueAvailability(item.id)) {
+                $scope.queues[item.QueueName] = item;
+                //}
+            });
 
 
         });
@@ -357,14 +358,14 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
             }
 
 
-            qData();
+            //qData();
             qStats();
             skilledResources();
 
 
             var updateRealtime = function () {
 
-                //qData();
+                // qData();
                 qStats();
                 skilledResources();
 

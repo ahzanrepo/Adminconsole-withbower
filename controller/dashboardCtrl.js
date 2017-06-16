@@ -652,9 +652,9 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         // }
 
 
-        if (getAllRealTimeTimer) {
-            $timeout.cancel(getAllRealTimeTimer);
-        }
+        // if (getAllRealTimeTimer) {
+        //     $timeout.cancel(getAllRealTimeTimer);
+        // }
 
         subscribeServices.unsubscribe('dashoboard');
 
@@ -834,10 +834,10 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                     $scope.queues[item.queuename] = item;
 
-                    console.log( item.MaxWaitingMS);
+                    //console.log( item.MaxWaitingMS);
                 });
 
-                console.log($scope.queues);
+                //console.log($scope.queues);
             }
 
 
