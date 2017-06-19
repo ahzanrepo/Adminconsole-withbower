@@ -1134,7 +1134,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                                 //}
                             }
                             $scope.notificationMsg.clients = clients;
-
+                            $scope.notificationMsg.isPersist=true;
                             notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
                                 $scope.notificationMsg = {};
                                 console.log("send notification success :: " + JSON.stringify(clients));
@@ -1160,6 +1160,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 });
             } else {
                 $scope.notificationMsg.To = $scope.naviSelectedUser.username;
+                $scope.notificationMsg.isPersist=true;
                 notifiSenderService.sendNotification($scope.notificationMsg, "message", "").then(function (response) {
                     console.log("send notification success :: " + $scope.notificationMsg.To);
                     $scope.notificationMsg = {};
