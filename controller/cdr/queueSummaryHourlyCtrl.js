@@ -171,7 +171,7 @@
 
             }).catch(function (err) {
                 loginService.isCheckResponse(err);
-                $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list');
+                $scope.showAlert('Queue wise summary', 'error', 'Failed to bind agent auto complete list');
 
             })
         };
@@ -315,13 +315,13 @@
 
                 $scope.obj.isTableLoadingHr = 0;
 
-                if($scope.skillFilter.length > 0)
+                if($scope.skillFilter && $scope.skillFilter.length > 0)
                 {
                     buildSummaryListByHr($scope.obj.day, 1, $scope.skillFilter[0].Attribute, momentTz, function (err, processDoneResp)
                     {
                         if(err)
                         {
-                            $scope.showAlert('Error', 'error', 'Queue wise summary', 'Error occurred');
+                            $scope.showAlert('Queue wise summary', 'error', 'Error occurred');
                         }
                         $scope.summaryArr = tempQueueArr;
                         $scope.obj.isTableLoadingHr = 1;
@@ -330,14 +330,14 @@
                 }
                 else
                 {
-                    $scope.showAlert('Error', 'error', 'Queue wise summary', 'No queues added');
+                    $scope.showAlert('Queue wise summary', 'error', 'No queues added');
                     $scope.obj.isTableLoadingHr = 1;
                 }
 
 
             }
             catch (ex) {
-                $scope.showAlert('Error', 'error', 'Queue wise summary', 'Error occurred while loading call summary');
+                $scope.showAlert('Queue wise summary', 'error', 'Error occurred while loading call summary');
                 $scope.obj.isTableLoadingHr = 1;
             }
 

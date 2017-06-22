@@ -129,11 +129,19 @@
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
-                                            colspan="1" aria-label="ReceivedBy">Queue Answered
+                                            colspan="1" aria-label="ReceivedBy">Queue Answered(Count)
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
-                                            colspan="1" aria-label="ReceivedBy">Queue Dropped
+                                            colspan="1" aria-label="ReceivedBy">Queue Answered(%)
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">Queue Dropped(Count)
+                                        </th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                            rowspan="1"
+                                            colspan="1" aria-label="ReceivedBy">Queue Dropped(%)
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                             rowspan="1"
@@ -152,7 +160,9 @@
                                         <td>{{queueSummary.MaxTime}}</td>
                                         <td>{{queueSummary.SLA}}</td>
                                         <td>{{queueSummary.QueueAnswered}}</td>
+                                        <td>{{queueSummary.QueueAnsweredPercentage}}</td>
                                         <td>{{queueSummary.QueueDropped}}</td>
+                                        <td>{{queueSummary.QueueDroppedPercentage}}</td>
                                         <td>{{queueSummary.AverageQueueTime}}</td>
                                         <!--<td>
                             <span ng-show="cdr.ShowButton">
