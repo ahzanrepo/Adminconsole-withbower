@@ -52,7 +52,7 @@
                             <label><h5>Download</h5></label>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2" style="position: relative; top: 20px;">
-                            <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" csv-header="['Queue', 'Date', 'Total Queued', 'Max Time', 'SLA', 'Queue Answered', 'Queue Dropped', 'Average QueueTime']" csv-column-order="[ 'Queue', 'Date', 'TotalQueued', 'MaxTime', 'SLA', 'QueueAnswered', 'QueueDropped', 'AverageQueueTime']" ng-csv="getQueueSummaryCSV()" filename="{{DownloadFileName}}.csv">
+                            <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" csv-header="['Queue', 'Date', 'Total Queued', 'Max Time', 'SLA', 'Queue Answered (Count)', 'Queue Answered (%)', 'Queue Dropped (Count)', 'Queue Dropped (%)', 'Average QueueTime']" csv-column-order="[ 'Queue', 'Date', 'TotalQueued', 'MaxTime', 'SLA', 'QueueAnswered', 'QueueAnsweredPercentage', 'QueueDropped', 'QueueDroppedPercentage', 'AverageQueueTime']" ng-csv="getQueueSummaryCSV()" filename="{{DownloadFileName}}.csv">
                                 CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="fa fa-download"></i>
                             </button>
