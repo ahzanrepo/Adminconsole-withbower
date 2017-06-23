@@ -759,14 +759,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "TICKET_SUMMARY_REPORT"
             }
         }).state("console.ticketTagSummary", {
-                url: "/ticketTagSummary",
-                templateUrl: "views/ticket-reports/tagWiseTicketSummary.html",
-                controller: "tagWiseTicketSummaryCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SUMMARY_REPORT"
-                }
-            }).state("console.ticketDetailReport", {
+            url: "/ticketTagSummary",
+            templateUrl: "views/ticket-reports/tagWiseTicketSummary.html",
+            controller: "tagWiseTicketSummaryCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SUMMARY_REPORT"
+            }
+        }).state("console.ticketDetailReport", {
             url: "/ticketDetailReport",
             templateUrl: "views/ticket-reports/ticketDetailReport.html",
             controller: "ticketDetailReportCtrl",
@@ -974,13 +974,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.callcenterperformance', {
             url: "/callcenterperformance",
-            templateUrl: "views/callcenter-performance-summery/callcenterPerformance.html",
+            templateUrl: "views/callcenter-performance-summery/call-center-performance.html",
             controller: "callcenterPerformanceController",
             data: {
                 requireLogin: true,
                 navigation: "CALLCENTER_PERFORMANCE"
             }
-
+//callcenterPerformance.html
         }).state('console.seclevels', {
             url: "/SecutityLevels",
             templateUrl: "user_security_level_management/views/securityLevelManagement.html",
@@ -1007,13 +1007,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "NOTICE"
             }
         }).state('console.callCenterPerformanceReport', {
-                url: "/callCenterPerformanceReport",
-                templateUrl: "views/callcenter-performance-summery/callCenterPerformanceReport.html",
-                controller: "callcenterPerformanceReportController",
-                data: {
-                    requireLogin: true,
-                    navigation: "QUEUE_SUMMARY_REPORT"
-                }
+            url: "/callCenterPerformanceReport",
+            templateUrl: "views/callcenter-performance-summery/callCenterPerformanceReport.html",
+            controller: "callcenterPerformanceReportController",
+            data: {
+                requireLogin: true,
+                navigation: "QUEUE_SUMMARY_REPORT"
+            }
         }).state('console.fileCatRestrict', {
             url: "/FileCategoryRestrictions",
             templateUrl: "views/file-category-restriction/fileCategoryRestrictions.html",
