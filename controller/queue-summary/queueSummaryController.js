@@ -29,13 +29,15 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
             }
             else {
                 $scope.isTableLoading = 1;
-                var summaryData = response.data.Result
+                var summaryData = response.data.Result;
                 for (var i = 0; i < summaryData.length; i++) {
                     // main objects
 
                     for (var j = 0; j < summaryData[i].Summary.length; j++) {
                         summaryData[i].Summary[j].SLA = Math.round(summaryData[i].Summary[j].SLA * 100) / 100;
                         summaryData[i].Summary[j].AverageQueueTime = Math.round(summaryData[i].Summary[j].AverageQueueTime * 100) / 100;
+                        summaryData[i].Summary[j].QueueAnsweredPercentage = Math.round((summaryData[i].Summary[j].QueueAnswered/summaryData[i].Summary[j].TotalQueued)*100, 2);
+                        summaryData[i].Summary[j].QueueDroppedPercentage = Math.round((summaryData[i].Summary[j].QueueDropped/summaryData[i].Summary[j].TotalQueued)*100, 2);
                         $scope.queueSummaryList.push(summaryData[i].Summary[j]);
                     }
                 }
@@ -71,6 +73,8 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
                     for (var j = 0; j < summaryData[i].Summary.length; j++) {
                         summaryData[i].Summary[j].SLA = Math.round(summaryData[i].Summary[j].SLA * 100) / 100;
                         summaryData[i].Summary[j].AverageQueueTime = Math.round(summaryData[i].Summary[j].AverageQueueTime * 100) / 100;
+                        summaryData[i].Summary[j].QueueAnsweredPercentage = Math.round((summaryData[i].Summary[j].QueueAnswered/summaryData[i].Summary[j].TotalQueued)*100, 2);
+                        summaryData[i].Summary[j].QueueDroppedPercentage = Math.round((summaryData[i].Summary[j].QueueDropped/summaryData[i].Summary[j].TotalQueued)*100, 2);
                         queueSummaryList.push(summaryData[i].Summary[j]);
                     }
                 }
