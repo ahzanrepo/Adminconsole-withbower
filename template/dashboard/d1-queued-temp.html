@@ -7,7 +7,7 @@
 
     <div class="q-chart-header-wrp">
         <div class="header">
-            {{val}}
+            {{que.queuename}}
         </div>
         <div class="chart-name">
             ANSWERED
@@ -28,6 +28,7 @@
             </div>
             <div class="current-w-num">
                 <timer start-time="que.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} : {{sseconds}}</timer>
+
             </div>
         </div>
 

@@ -4,8 +4,7 @@
 
 
 
-mainApp.factory('companyConfigBackendService', function ($http, authService,baseUrls)
-{
+mainApp.factory('companyConfigBackendService', function ($http, authService,baseUrls) {
     return {
 
         getCloudEndUser: function () {
@@ -138,6 +137,18 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             return $http({
                 method: 'POST',
                 url: baseUrls.sipUserendpoint +"Context",
+                data:resource
+
+            }).then(function(response)
+            {
+                return response;
+            });
+        },
+        updateContext: function (resource) {
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.sipUserendpoint + "Context/" + resource.Context,
                 data:resource
 
             }).then(function(response)
@@ -435,6 +446,28 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             return $http({
                 method: 'GET',
                 url: baseUrls.resourceServiceBaseUrl +"BreakTypes/Active"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+
+        getOrganizationDetail: function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl +"Organisation"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        updateOrganizationDetail: function(companyDetail){
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl +"Organisation",
+                data: companyDetail
 
             }).then(function(response)
             {

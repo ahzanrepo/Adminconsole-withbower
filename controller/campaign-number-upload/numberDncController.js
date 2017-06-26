@@ -95,18 +95,20 @@
             if($scope.selectObj && $scope.selectObj.name && $scope.leftAddValue) {
                 $scope.numbersToUpdate.ContactIds = [];
 
-                var newNumberSet = $scope.data.map(function (obj) {
-                    obj[$scope.selectObj.name] = $scope.leftAddValue + obj[$scope.selectObj.name];
-                    return obj;
-                });
+                var numberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
+                var newNumberSet = [];
+                $scope.data.map(function (obj) {
 
+                    if($scope.leftAddValue){
+                        obj[$scope.selectObj.name] = $scope.leftAddValue + obj[$scope.selectObj.name];
+                    }
+                    if(obj[$scope.selectObj.name].toString().match(numberRegex)) {
+                        newNumberSet.push(obj);
+                    }
+                });
 
                 $scope.data = newNumberSet;
-
-                var promise = validateNumbers($scope.data, $scope.selectObj.name);
-                promise.then(function(numbers) {
-                    $scope.numbersToUpdate.ContactIds = numbers;
-                });
+                $scope.numbersToUpdate.ContactIds = newNumberSet;
             }
         };
 

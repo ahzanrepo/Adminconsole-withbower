@@ -57,6 +57,7 @@ mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptc
         newUser.mail = $scope.email;
         newUser.companyname = $scope.companyName;
         newUser.password = $scope.password;
+        newUser.timeZone = {tz:moment.tz.guess(), utcOffset: ""};
         $scope.isSignUp = true;
         if (vcRecaptchaService.getResponse() === "") { //if string is empty
             alert("Please resolve the captcha and submit!")

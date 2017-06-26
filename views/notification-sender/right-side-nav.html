@@ -18,30 +18,30 @@
                 </div>
                 <div ng-mouseover="chatOption = true"
                      ng-mouseleave="chatOption = false"
-                     class="notification-user" ng-repeat="agent in agentList | filterBy: ['username']: searchCriteria">
+                     class="notification-user" ng-repeat="agent in users | filterBy: ['username']: searchCriteria">
 
                     <div ng-if="agent.name" class="user-img">
-                        <img src="asset/images/defaultProfile.png"
+                        <img src="assets/images/defaultProfile.png"
                              ng-src="{{agent.avatar}}">
                         {{agent.name}}
                     </div>
                     <div ng-if="!agent.name" class="user-img">
-                        <img src="asset/images/defaultProfile.png"
+                        <img src="assets/images/defaultProfile.png"
                              ng-src="{{agent.avatar}}">
                         {{agent.username}}
                     </div>
                     <div class="notification-details">
-                        <div class="chat-icon" ng-show="chatOption" ng-click="setExtention(agent)">
-                            <i class="main-icon-2-telephone-3"></i>
-                        </div>
-                        <div class="chat-icon" ng-show="chatOption">
-                            <i class="main-icon-2-transfer-8"></i>
-                        </div>
+                        <!--<div class="chat-icon" ng-show="chatOption" ng-click="setExtention(agent)">-->
+                        <!--<i class="main-icon-2-telephone-3"></i>-->
+                        <!--</div>-->
+                        <!--<div class="chat-icon" ng-show="chatOption">-->
+                        <!--<i class="main-icon-2-transfer-8"></i>-->
+                        <!--</div>-->
                         <div class="chat-icon" ng-show="chatOption" ng-click="showMessageBlock(agent)">
                             <i class="main-icon-2-speech-bubble"></i>
                         </div>
                         <div class="user-state" style="margin-right: 18px;margin-left: 10px;"
-                             ng-class="agent.status=='NotAvailable'?'offline':'online'"
+                             ng-class="agent.status"
                         ></div>
                     </div>
                 </div>
@@ -56,17 +56,17 @@
                      class="notification-user" ng-repeat="group in userGroups ">
 
                     <div ng-if="group.name" class="user-img">
-                        <img src="asset/images/defaultProfile.png"
+                        <img src="assets/images/defaultProfile.png"
                              ng-src="{{group.avatar}}">
                         {{group.name}}
                     </div>
                     <div class="notification-details">
-                        <div class="chat-icon" ng-show="groupOption" ng-click="setExtention(group)">
-                            <i class="main-icon-2-telephone-3"></i>
-                        </div>
-                        <div class="chat-icon" ng-show="groupOption">
-                            <i class="main-icon-2-transfer-8"></i>
-                        </div>
+                        <!--<div class="chat-icon" ng-show="groupOption" ng-click="setExtention(group)">-->
+                            <!--<i class="main-icon-2-telephone-3"></i>-->
+                        <!--</div>-->
+                        <!--<div class="chat-icon" ng-show="groupOption">-->
+                            <!--<i class="main-icon-2-transfer-8"></i>-->
+                        <!--</div>-->
                         <div class="chat-icon" ng-show="groupOption" ng-click="showMessageBlock(group)">
                             <i class="main-icon-2-speech-bubble"></i>
                         </div>
@@ -103,7 +103,7 @@
 
                     <div class="online-user-wrapper notification-user notify-img-large ">
 
-                        <img src="asset/images/defaultProfile.png"
+                        <img src="assets/images/defaultProfile.png"
                              ng-src="{{naviSelectedUser.avatar}}">
 
                     </div>

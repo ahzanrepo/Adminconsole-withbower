@@ -150,6 +150,17 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     });
   };
 
+    var getAvailableCategoryFiles = function (pageSize,pageNo,resource) {
+        return $http({
+            method: 'post',
+            url: baseUrls.fileServiceUrl+ 'Files/50/'+pageNo,
+            data:resource
+
+        }).then(function (response) {
+            return response.data.Result;
+        });
+    };
+
   /*
    var searchFiles = function (categoryId,startTime,endTime) {
    return $http({
@@ -168,6 +179,17 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
       method: 'get',
       url: baseUrls.fileServiceUrl+ 'Files/infoByCategoryID/'+categoryId,
       params: [{startDateTime: startTime},{endDateTime:endTime}]
+    }).then(function (response) {
+      return response.data.Result;
+    });
+  };
+
+  var searchFilesWithCategories = function (startTime,endTime,categories) {
+    return $http({
+      method: 'post',
+      url: baseUrls.fileServiceUrl+ 'FileInfo/ByCategoryList',
+      params: [{startDateTime: startTime},{endDateTime:endTime}],
+        data:categories
     }).then(function (response) {
       return response.data.Result;
     });
@@ -231,6 +253,8 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     playEncryptedFile:playEncryptedFile,
     downloadLatestFile:downloadLatestFile,
     downloadInternalFile:downloadInternalFile,
+      getAvailableCategoryFiles:getAvailableCategoryFiles,
+      searchFilesWithCategories:searchFilesWithCategories,
     UploadUrl: baseUrls.fileServiceUrl+ "File/Upload",
     File: {},
     Headers: {'Authorization':  authService.GetToken()}

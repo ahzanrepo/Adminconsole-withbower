@@ -162,6 +162,7 @@
             $scope.basicConfig.TransConferenceEnable = false;
             $scope.basicConfig.TransGroupEnable = false;
             $scope.basicConfig.DenyOutboundFor = 'NONE';
+            $scope.basicConfig.RecordingEnabled = false;
         };
 
         $scope.onSavePressed = function () {

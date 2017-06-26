@@ -259,7 +259,24 @@
 
         }
 
+        $scope.RatingResultResolve = function (item) {
+            var rateObj =
+                {
+                    starValue: Math.round(item.value / item.itemCount),
+                    displayValue: (item.value / item.itemCount).toFixed(2)
+                };
 
+            return rateObj;
+        };
+        $scope.titles =[];
+        $scope.SetTitiles = function (value) {
+            $scope.titles =[];
+            for (var i = 1; i <= 10; i++)
+            {
+                $scope.titles.push(value);
+            }
+
+        };
 
         $scope.loadRatingDetails = function () {
 

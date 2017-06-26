@@ -84,6 +84,12 @@
 <link rel="stylesheet" href="assets/css/main-icon-1/veery-font-1.css">
 <link rel="stylesheet" href="assets/css/number-ui-grid/number-ui.css">
 
+<!-- ng-sortable -->
+<link rel="stylesheet" type="text/css" href="bower_components/chosen/chosen.css">
+<link rel="stylesheet" type="text/css" href="bower_components/ng-sortable/dist/ng-sortable.css">
+<link rel="stylesheet" type="text/css" href="bower_components/ng-sortable/dist/ng-sortable.style.css">
+
+
 
 <!-- #Goolge font API -->
 <!--<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,greek' rel='stylesheet'-->
@@ -91,10 +97,10 @@
 
 <!-- Datatables -->
 <link href="assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-<!--<link href="asset/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">-->
+<!--<link href="assets/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">-->
 <link href="assets/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-<!--<link href="asset/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">-->
-<!--<link href="asset/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">-->
+<!--<link href="assets/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">-->
+<!--<link href="assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">-->
 
 <!-- angular UI-grid -->
 <link rel="stylesheet" type="text/css" href="bower_components/angular-ui-grid/ui-grid.min.css">
@@ -104,8 +110,7 @@
 
 <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
 
-<link rel="stylesheet" type="text/css"
-      href="bower_components/angular-timezone-selector/styling/angular-timezone-selector.css">
+<link rel="stylesheet" type="text/css" href="bower_components/angular-timezone-selector/styling/angular-timezone-selector.css">
 
 <link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
 
@@ -174,6 +179,7 @@
 <script type="text/javascript" src="bower_components/ngSlimscroll/src/js/ngSlimscroll.js"></script>
 
 
+
 <!-- bootstrap -->
 <script type="text/javascript" src="assets/bootstrap-tpls/ui-bootstrap-tpls-1.3.1.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-flot/angular-flot.js"></script>
@@ -191,7 +197,7 @@
 <script type="text/javascript" src="bower_components/lodash/dist/lodash.min.js"></script>
 <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
 <script type="text/javascript" src="bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
-<script type="text/javascript" src="bower_components/chosen/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="bower_components/chosen/chosen.jquery.js"></script>
 <script type="text/javascript" src="bower_components/angular-messages/angular-messages.js"></script>
 
 
@@ -251,6 +257,7 @@
 <script src="bower_components/videogular-buffering/vg-buffering.js"></script>
 <!--videogular-->
 
+<script type="text/javascript" src="bower_components/ng-sortable/dist/ng-sortable.min.js"></script>
 
 <!--angular strap -->
 <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
@@ -490,7 +497,7 @@
 <!-- NProgress -->
 <script src="assets/vendors/nprogress/nprogress.js"></script>
 <!--&lt;!&ndash; Chart.js &ndash;&gt;-->
-<!--<script src="asset/vendors/Chart.js/dist/Chart.min.js"></script>-->
+<!--<script src="assets/vendors/Chart.js/dist/Chart.min.js"></script>-->
 <!--<script src="bower_components/chart.js/dist/Chart.js"></script>-->
 <!-- gauge.js -->
 <script src="assets/vendors/bernii/gauge.js/dist/gauge.min.js"></script>
@@ -527,16 +534,16 @@
 <!-- Datatables -->
 <script src="assets/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<!--<script src="asset/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="asset/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-<script src="asset/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-<script src="asset/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="asset/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="asset/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-<script src="asset/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>-->
-<!--<script src="asset/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="asset/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>-->
-<!--<script src="asset/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>-->
+<!--<script src="assets/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="assets/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="assets/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="assets/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="assets/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="assets/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="assets/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>-->
+<!--<script src="assets/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>-->
+<!--<script src="assets/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>-->
 <script src="assets/vendors/jszip/dist/jszip.min.js"></script>
 <script src="assets/vendors/pdfmake/build/pdfmake.min.js"></script>
 <script src="assets/vendors/pdfmake/build/vfs_fonts.js"></script>
@@ -579,6 +586,7 @@
 
 <script type="text/javascript" src="factory/ticket-reports/ticketReportsService.js"></script>
 <script type="text/javascript" src="controller/ticket-reports/ticketSummaryCtrl.js"></script>
+<script type="text/javascript" src="controller/ticket-reports/tagWiseTicketSummaryCtrl.js"></script>
 
 <!-- ticket detail report -->
 <script type="text/javascript" src="controller/ticket-reports/ticketDetailReportCtrl.js"></script>
@@ -719,7 +727,7 @@
 <!--payment getway-->
 <script src="https://checkout.stripe.com/checkout.js"></script>
 
-<!--<script src="asset/js/stripe/checkout.js"></script>-->
+<!--<script src="assets/js/stripe/checkout.js"></script>-->
 <script src="assets/js/stripe/stripe.payment.tool.js"></script>
 
 <!--Case Configuration-->
@@ -826,13 +834,25 @@
 <script type="text/javascript" src="factory/attachment-config/attachmentBackendservice.js"></script>
 <script type="text/javascript" src="directives/notice-config/editNotice.js"></script>
 
-<script src="assets/js/crypto/angularjs-crypto.js"></script>
-<script src="assets/js/crypto/CryptoJSCipher.js"></script>
-<!-- cryptojs aes files -->
-<script type='text/javascript' src="assets/js/crypto/aes.js"></script>
-
 
 <script type='text/javascript' src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
 
+<!-- Agent Dial -->
+<script type="text/javascript" src="agent_dialer/scripts/controllers/agentDialerController.js"></script>
+<script type="text/javascript" src="agent_dialer/scripts/controllers/agentDialerSummaryController.js"></script>
+<script type="text/javascript" src="agent_dialer/scripts/controllers/agentDialerDetailsController.js"></script>
+<script type="text/javascript" src="agent_dialer/scripts/services/agentDialerService.js"></script>
+
+
+<!-- Call Center Performance Report-->
+<script type="text/javascript" src="controller/callcenter-performance-summery/callcenterPerformanceReportController.js"></script>
+
+
+<!-- File category restrictions-->
+<script type="text/javascript" src="directives/file-category-restriction/editFileCatRestrictions.js"></script>
+<script type="text/javascript" src="controller/file-category-restriction/fileCategoryRestrictController.js"></script>
+
+<link rel="stylesheet" href="bower_components/angular-confirm/css/angular-confirm.css"/>
++<script type="text/javascript" src="bower_components/angular-confirm/js/angular-confirm.js"></script>
 
 </html>

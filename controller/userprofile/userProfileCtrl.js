@@ -665,7 +665,7 @@
             $tempInput.val($scope.resetToken).select();
             document.execCommand("copy");
             $tempInput.remove();
-            $scope.showAlert('Success', 'info', 'Token copied successfully');
+            $scope.showAlert('Success', 'success', 'Token copied successfully');
         };
 
 
@@ -698,7 +698,7 @@
             }
             userProfileApiAccess.updateProfile($scope.CurrentProfile.username, $scope.CurrentProfile).then(function (data) {
                 if (data.IsSuccess) {
-                    $scope.showAlert('Success', 'info', 'User profile updated successfully');
+                    $scope.showAlert('Success', 'success', 'User profile updated successfully');
                     if (curUser) {
                         curUser.GuRefId = $scope.CurrentProfile._id;
                         sipUserApiHandler.updateUser(curUser);
@@ -741,6 +741,10 @@
             });
         };
 
+        $scope.CurrentProfile = {
+            allowoutbound : true
+        };
+
 
         var loadProfile = function (username) {
             userProfileApiAccess.getProfileByName(username).then(function (data) {
@@ -750,6 +754,11 @@
                     if (data.Result) {
                         if (data.Result.address) {
                             $scope.displayAddress = data.Result.address.city + ' , ' + data.Result.address.province + ' , ' + data.Result.address.country;
+                        }
+
+                        if(data.Result.allowoutbound === null || data.Result.allowoutbound === undefined)
+                        {
+                            $scope.CurrentProfile.allowoutbound = true;
                         }
 
                         if (data.Result.veeryaccount && data.Result.veeryaccount.contact) {
@@ -821,7 +830,7 @@
         $scope.addNewContact = function () {
             userProfileApiAccess.addContactToProfile($scope.CurrentProfile.username, $scope.newContact.Contact, $scope.newContact.Type).then(function (data) {
                 if (data.IsSuccess) {
-                    $scope.showAlert('Success', 'info', 'Contact added');
+                    $scope.showAlert('Success', 'success', 'Contact added');
 
                     userProfileApiAccess.getProfileByName($scope.CurrentProfile.username).then(function (data1) {
                         if (data1.IsSuccess) {
@@ -865,7 +874,7 @@
         $scope.removeContact = function (contact) {
             userProfileApiAccess.deleteContactFromProfile($scope.CurrentProfile.username, contact).then(function (data) {
                 if (data.IsSuccess) {
-                    $scope.showAlert('Success', 'info', 'Contact added');
+                    $scope.showAlert('Success', 'success', 'Contact added');
 
                     userProfileApiAccess.getProfileByName($scope.CurrentProfile.username).then(function (data1) {
                         if (data1.IsSuccess) {

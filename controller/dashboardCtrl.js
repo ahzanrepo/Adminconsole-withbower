@@ -7,12 +7,45 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices) {
 
 
-    subscribeServices.subscribe('dashoboard');
-
-
-    //subscribeServices
     subscribeServices.subscribeDashboard(function (event) {
         switch (event.roomName) {
+            case 'ARDS:ResourceStatus':
+                if (event.Message) {
+
+                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                        event.Message.avatar = res;
+                    });
+
+                    if(event.Message.task === 'CALL' || !event.Message.task) {
+                        removeExistingResourceData(event.Message);
+                        setResourceData(event.Message);
+                    }
+
+                }
+                break;
+
+            case 'ARDS:RemoveResourceTask':
+                if (event.Message) {
+
+                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                        event.Message.avatar = res;
+                    });
+
+                    if(event.Message.task && event.Message.task === 'CALL') {
+                        removeExistingResourceData(event.Message);
+                        setResourceData(event.Message);
+                    }
+
+                }
+                break;
+
+            case 'ARDS:RemoveResource':
+                if (event.Message) {
+
+                    removeExistingResourceData(event.Message);
+
+                }
+                break;
             case 'QUEUE:QueueDetail':
                 //Queue Detail
                 if (event.Message) {
@@ -73,13 +106,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 }
                 break;
 
-            case 'QUEUE:TotalCount':
-                //Total queued
-                if (event.Message) {
-                    $scope.total.queued = event.Message.TotalCountWindow;
-                }
-                break;
-
             case 'QUEUEDROPPED:TotalCount':
                 //Total queued dropped
                 if (event.Message) {
@@ -97,13 +123,30 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     }
                 }
                 break;
+            case 'ARDS:break_exceeded':
+                if (event.Message) {
+                    var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
+                    if (agent&&agent.length>0) {
+                        agent[0].breakExceeded = true;
+                    }
+                }
 
+                break;
+            case 'ARDS:freeze_exceeded':
+                if (event.Message) {
+                    var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
+                    if (agent&&agent.length>0) {
+                        agent[0].freezeExceeded = true;
+                    }
+                }
+                break;
             default:
-                console.log(event);
+                //console.log(event);
                 break;
 
         }
     });
+
 
 
     //#services call handler
@@ -408,7 +451,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     loginService.isCheckResponse(err);
                 });
             },
-            getProfileDetails: function () {
+            /*getProfileDetails: function () {
                 dashboardService.GetProfileDetails().then(function (response) {
                     //$scope.profile = [];
                     $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE: []};
@@ -529,7 +572,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 }, function (err) {
                     loginService.isCheckResponse(err);
                 });
-            },
+            },*/
             callAllServices: function () {
                 ServerHandler.getDataAll();
                 ServerHandler.getAllQueued();
@@ -581,12 +624,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         // getAllNumTotalTimer = $timeout(getAllNumTotal, 60000);
     };
 
-    var getAllRealTime = function () {
-        //ServerHandler.updateRelaTimeFuntion();
-        $scope.getProfileDetails();
-        // GetD1AllQueueStatistics();
-        getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
-    };
+    //var getAllRealTime = function () {
+    //    //ServerHandler.updateRelaTimeFuntion();
+    //    $scope.getProfileDetails();
+    //    // GetD1AllQueueStatistics();
+    //    getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+    //};
 
 
     ServerHandler.callAllServices();
@@ -596,7 +639,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     var countAllCallServicesTimer = $timeout(countAllCallServices, 2000);
     // var getAllNumTotalTimer = $timeout(getAllNumTotal, 2000);
-    var getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
+    //var getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
 
 
     $scope.$on("$destroy", function () {
@@ -609,9 +652,9 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         // }
 
 
-        if (getAllRealTimeTimer) {
-            $timeout.cancel(getAllRealTimeTimer);
-        }
+        // if (getAllRealTimeTimer) {
+        //     $timeout.cancel(getAllRealTimeTimer);
+        // }
 
         subscribeServices.unsubscribe('dashoboard');
 
@@ -762,25 +805,41 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     var GetD1AllQueueStatistics = function () {
         queueMonitorService.GetAllQueueStats().then(function (response) {
             var updatedQueues = [];
-            response.forEach(function (c) {
-                var item = c.QueueInfo;
-                item.id = c.QueueId;
-                item.queuename = c.QueueName;
-                item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+            if(response){
+                response.forEach(function (c) {
+                    var item =  {};
 
-                if (c.QueueInfo.TotalQueued > 0) {
-                    item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
-                }
+                    for (var key in c.QueueInfo) {
 
-                if (item.CurrentMaxWaitTime) {
-                    var d = moment(item.CurrentMaxWaitTime).valueOf();
-                    item.MaxWaitingMS = d;
-                }
+                        if (!c.QueueInfo.hasOwnProperty(key)) continue;
 
-                $scope.queues[item.queuename] = item;
-            });
+                        item[key] = c.QueueInfo[key];
 
-            console.log($scope.queues);
+
+                    }
+
+                    //item.MaxWaitingMS = 0;
+                    item.id = c.QueueId;
+                    item.queuename = c.QueueName;
+                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+
+                    if (item.TotalQueued > 0) {
+                        item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
+                    }
+
+                    if (item.CurrentMaxWaitTime) {
+                        var d = moment(item.CurrentMaxWaitTime).valueOf();
+                        item.MaxWaitingMS = d;
+                    }
+
+                    $scope.queues[item.queuename] = item;
+
+                    //console.log( item.MaxWaitingMS);
+                });
+
+                //console.log($scope.queues);
+            }
+
 
             // if (response.length == updatedQueues.length) {
             //     //$scope.queues=$scope.updatedQueues;
@@ -812,139 +871,239 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     $scope.refreshTime = 1000;
 
 
-    $scope.ReservedProfile = [];
-    $scope.AvailableProfile = [];
-    $scope.ConnectedProfile = [];
-    $scope.AfterWorkProfile = [];
-    $scope.OutboundProfile = [];
-    $scope.SuspendedProfile = [];
-    $scope.BreakProfile = [];
-    $scope.profile = [];
+    $scope.StatusList = {
+        ReservedProfile: [],
+        AvailableProfile: [],
+        ConnectedProfile: [],
+        AfterWorkProfile: [],
+        OutboundProfile: [],
+        SuspendedProfile: [],
+        BreakProfile: [],
+        profile: []
+    };
     $scope.getProfileDetails = function () {
         dashboardService.GetProfileDetails().then(function (response) {
-            $scope.ReservedProfile = [];
-            $scope.AvailableProfile = [];
-            $scope.ConnectedProfile = [];
-            $scope.AfterWorkProfile = [];
-            $scope.OutboundProfile = [];
-            $scope.SuspendedProfile = [];
-            $scope.BreakProfile = [];
-            $scope.profile = [];
+            $scope.StatusList = {
+                ReservedProfile: [],
+                AvailableProfile: [],
+                ConnectedProfile: [],
+                AfterWorkProfile: [],
+                OutboundProfile: [],
+                SuspendedProfile: [],
+                BreakProfile: [],
+                profile: []
+            };
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
-                    var profile = {
-                        name: '',
-                        slotState: null,
-                        slotMode: null,
-                        LastReservedTime: 0,
-                        LastReservedTimeT: 0,
-                        other: null
-                    };
+                    if (response[i]) {
+                        var profile = {
+                            name: '',
+                            slotState: null,
+                            slotMode: null,
+                            LastReservedTime: 0,
+                            LastReservedTimeT: 0,
+                            other: null
+                        };
 
-                    profile.name = response[i].ResourceName;
-                    //get current user profile image
-                    userImageList.getAvatarByUserName(profile.name, function (res) {
-                        profile.avatar = res;
-                    });
+                        profile.resourceName = response[i].ResourceName;
+                        //get current user profile image
+                        userImageList.getAvatarByUserName(profile.resourceName, function (res) {
+                            profile.avatar = res;
+                        });
 
-
-                    if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0 &&
-                        response[i].ConcurrencyInfo[0].SlotInfo.length > 0) {
-
-                        // is user state Reason
                         var resonseStatus = null, resonseAvailability = null, resourceMode = null;
-                        if (response[i].Status.Reason && response[i].Status.State) {
+                        var reservedDate = "";
+
+                        if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0) {
+
+                            response[i].ConcurrencyInfo.forEach(function (concurrency) {
+                                if (concurrency && concurrency.HandlingType === 'CALL' && concurrency.SlotInfo && concurrency.SlotInfo.length > 0) {
+
+                                    // is user state Reason
+
+                                    if (response[i].Status.Reason && response[i].Status.State) {
+                                        resonseAvailability = response[i].Status.State;
+                                        resonseStatus = response[i].Status.Reason;
+                                        resourceMode = response[i].Status.Mode;
+                                    }
+
+
+                                    if (concurrency.IsRejectCountExceeded) {
+                                        resonseAvailability = "NotAvailable";
+                                        resonseStatus = "Suspended";
+                                    }
+
+                                    profile.slotMode = resourceMode;
+
+
+                                    if (concurrency.SlotInfo[0]) {
+
+                                        reservedDate = concurrency.SlotInfo[0].StateChangeTime;
+                                    }
+
+
+                                    if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
+                                        profile.slotState = resonseStatus;
+                                        profile.other = "Reject";
+                                    } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+                                        profile.slotState = resonseStatus;
+                                        profile.other = "Break";
+                                        reservedDate = response[i].Status.StateChangeTime;
+                                    } else {
+
+                                        if (concurrency.SlotInfo[0]) {
+                                            profile.slotState = concurrency.SlotInfo[0].State;
+                                        }
+
+                                        /*if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
+
+                                         reservedDate = response[i].Status.StateChangeTime;
+                                         }*/
+                                    }
+
+                                    profile.LastReservedTimeT = reservedDate;
+                                    if (reservedDate == "") {
+                                        profile.LastReservedTime = null;
+                                    } else {
+                                        profile.LastReservedTime = moment(reservedDate).format("h:mm a");
+                                    }
+
+
+                                }
+                            });
+
+
+                            // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
+                            //         profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
+                            //         profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
+                            //         profile.slotState == 'AUXBreak' ||
+                            //         profile.slotState == 'ProcessRelatedBreak') {
+                            //         $scope.BreakProfile.push(profile);
+                            //     }
+
+                        } else {
+                            resourceMode = response[i].Status.Mode;
                             resonseAvailability = response[i].Status.State;
                             resonseStatus = response[i].Status.Reason;
-                            resourceMode = response[i].Status.Mode;
-                        }
-
-
-                        if (response[i].ConcurrencyInfo[0].IsRejectCountExceeded) {
-                            resonseAvailability = "NotAvailable";
-                            resonseStatus = "Suspended";
-                        }
-
-                        profile.slotMode = resourceMode;
-
-                        var reservedDate = response[i].ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
-
-
-                        if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Reject";
-                        } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Break";
+                            profile.slotState = "Other";
+                            profile.slotMode = resourceMode;
+                            profile.other = "Offline";
                             reservedDate = response[i].Status.StateChangeTime;
-                        } else {
-                            profile.slotState = response[i].ConcurrencyInfo[0].SlotInfo[0].State;
+                            profile.LastReservedTimeT = reservedDate;
 
-                            if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
-
-                                reservedDate = response[i].Status.StateChangeTime;
+                            if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+                                profile.slotState = resonseStatus;
+                                profile.other = "Break";
                             }
                         }
 
-                        profile.LastReservedTimeT = reservedDate;
-                        if (reservedDate == "") {
-                            profile.LastReservedTime = null;
+
+                        if (profile.slotState == 'Reserved') {
+                            $scope.StatusList.ReservedProfile.push(profile);
+                        }
+                        else if (profile.other == 'Break') {
+                            $scope.StatusList.BreakProfile.push(profile);
+                        }
+                        else if (profile.slotState == 'Connected') {
+                            $scope.StatusList.ConnectedProfile.push(profile);
+                        } else if (profile.slotState == 'AfterWork') {
+                            $scope.StatusList.AfterWorkProfile.push(profile);
+                        } else if (profile.slotMode == 'Outbound' && profile.other == null) {
+                            $scope.StatusList.OutboundProfile.push(profile);
+                        } else if (profile.slotState == 'Suspended') {
+                            $scope.StatusList.SuspendedProfile.push(profile);
+                        } else if (profile.slotState == 'Available') {
+                            $scope.StatusList.AvailableProfile.push(profile);
                         } else {
-                            profile.LastReservedTime = moment(reservedDate).format("h:mm a");
+                            $scope.StatusList.profile.push(profile);
+                            //$scope.BreakProfile.push(profile);
                         }
-
-
-                        // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
-                        //         profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
-                        //         profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
-                        //         profile.slotState == 'AUXBreak' ||
-                        //         profile.slotState == 'ProcessRelatedBreak') {
-                        //         $scope.BreakProfile.push(profile);
-                        //     }
-
-                    } else {
-                        resourceMode = response[i].Status.Mode;
-                        resonseAvailability = response[i].Status.State;
-                        resonseStatus = response[i].Status.Reason;
-                        profile.slotState = "Other";
-                        profile.slotMode = resourceMode;
-                        profile.other = "Offline";
-                        reservedDate = response[i].Status.StateChangeTime;
-                        profile.LastReservedTimeT = reservedDate;
-
-                        if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
-                            profile.slotState = resonseStatus;
-                            profile.other = "Break";
-                        }
-                    }
-
-
-                    if (profile.slotState == 'Reserved') {
-                        $scope.ReservedProfile.push(profile);
-                    }
-                    else if (profile.other == 'Break') {
-                        $scope.BreakProfile.push(profile);
-                    }
-                    else if (profile.slotState == 'Connected') {
-                        $scope.ConnectedProfile.push(profile);
-                    } else if (profile.slotState == 'AfterWork') {
-                        $scope.AfterWorkProfile.push(profile);
-                    } else if (profile.slotMode == 'Outbound' && profile.other == null) {
-                        $scope.OutboundProfile.push(profile);
-                    } else if (profile.slotState == 'Suspended') {
-                        $scope.SuspendedProfile.push(profile);
-                    } else if (profile.slotState == 'Available') {
-                        $scope.AvailableProfile.push(profile);
-                    } else {
-                        $scope.profile = [];
-                        $scope.profile.push(profile);
-                        //$scope.BreakProfile.push(profile);
                     }
                 }
             }
         });
     };
     $scope.getProfileDetails();
+
+
+
+    var setResourceData = function (profile) {
+        if (profile.slotState == 'Reserved') {
+            $scope.StatusList.ReservedProfile.push(profile);
+        } else if (profile.other == 'Break') {
+            $scope.StatusList.BreakProfile.push(profile);
+        }
+        else if (profile.slotState == 'Connected') {
+            $scope.StatusList.ConnectedProfile.push(profile);
+        } else if (profile.slotState == 'AfterWork') {
+            $scope.StatusList.AfterWorkProfile.push(profile);
+        } else if (profile.slotMode == 'Outbound' && profile.other == null) {
+            $scope.StatusList.OutboundProfile.push(profile);
+        } else if (profile.slotState == 'Suspended') {
+            $scope.StatusList.SuspendedProfile.push(profile);
+        } else if (profile.slotState == 'Available') {
+            $scope.StatusList.AvailableProfile.push(profile);
+        } else {
+            $scope.StatusList.profile.push(profile);
+        }
+    };
+
+    var removeExistingResourceData = function (profile) {
+
+        $scope.StatusList.ReservedProfile.forEach(function (data, i) {
+            if(data.resourceName === profile.resourceName){
+                $scope.StatusList.ReservedProfile.splice(i, 1);
+            }
+        });
+
+        $scope.StatusList.AvailableProfile.forEach(function (data, i) {
+            if (data.resourceName === profile.resourceName) {
+                $scope.StatusList.AvailableProfile.splice(i, 1);
+            }
+        });
+
+        $scope.StatusList.ConnectedProfile.forEach(function (data, i) {
+            if (data.resourceName === profile.resourceName) {
+                $scope.StatusList.ConnectedProfile.splice(i, 1);
+            }
+        });
+
+        $scope.StatusList.AfterWorkProfile.forEach(function (data, i) {
+            if(data.resourceName === profile.resourceName){
+                $scope.StatusList.AfterWorkProfile.splice(i, 1);
+            }
+        });
+
+        $scope.StatusList.OutboundProfile.forEach(function (data, i) {
+            if(data.resourceName === profile.resourceName){
+                $scope.StatusList.OutboundProfile.splice(i, 1);
+            }
+        });
+
+        $scope.StatusList.SuspendedProfile.forEach(function (data, i) {
+            if(data.resourceName === profile.resourceName){
+                $scope.StatusList.SuspendedProfile.splice(i, 1);
+            }
+        });
+
+        $scope.StatusList.BreakProfile.forEach(function (data, i) {
+            if(data.resourceName === profile.resourceName){
+                $scope.StatusList.BreakProfile.splice(i, 1);
+            }
+        });
+
+        $scope.StatusList.profile.forEach(function (data, i) {
+            if(data.resourceName === profile.resourceName){
+                $scope.StatusList.profile.splice(i, 1);
+            }
+        });
+
+    };
+
+
+
+
+
     $scope.agentCurrentState = 'available';
 
     var owl = $('.owl-carousel');
@@ -998,7 +1157,8 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             queueoption: "=",
             pieoption: "=",
             viewmode: "=",
-            que: "="
+            que: "=",
+            mque: "="
         },
         templateUrl: 'template/dashboard/d1-queued-temp.html',
         link: function (scope, element, attributes) {
@@ -1013,13 +1173,13 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
                 return item.split('_')[1].toString();
             });
 
-            scope.que = {};
+            /*scope.que = {};
             scope.options = {};
             scope.que.CurrentWaiting = 0;
             scope.que.CurrentMaxWaitTime = 0;
             scope.que.presentage = 0;
             scope.maxy = 10;
-            scope.val = "0";
+            scope.val = "0";*/
 
 
             scope.dataSet = [{
@@ -1120,9 +1280,9 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             }
 
 
-            qData();
-            qStats();
-            skilledResources();
+            //qData();
+            //qStats();
+            //skilledResources();
 
 
             var updateRealtime = function () {

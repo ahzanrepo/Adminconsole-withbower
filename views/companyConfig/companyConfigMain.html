@@ -3,7 +3,11 @@
     <div class="col-md-12 col-sm-6 col-xs-12">
 
         <uib-tabset active="0">
-            <uib-tab index="0" heading="Cloud Enduser">
+            <uib-tab index="0" heading="Company Details">
+                <div ng-include="'views/companyConfig/companyDetails.html'">
+                </div>
+            </uib-tab>
+            <uib-tab index="1" heading="Cloud Enduser">
 
                 <br>
 
@@ -15,14 +19,14 @@
                             <div class="tile-stats m-top15">
                                 <form class="form-horizontal form-label-left input_mask">
                                     <div class="row">
-                                        <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                             <span>Domain</span>
                                             <input type="text" class="form-control has-feedback-left"
                                                    ng-model="CloudEndUser.Domain"
                                                    placeholder="Domain">
                                         </div>
 
-                                        <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                             <span>Connectivity Provision</span>
                                             <select class="form-control has-feedback-left"
                                                     ng-model="CloudEndUser.ConnectivityProvision"
@@ -36,16 +40,7 @@
 
                                     <div class="row">
                                         <div class="col-md-3 col-sm-3 col-xs-12  ">
-
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 col-xs-12  ">
-
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 col-xs-12  ">
-
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 col-xs-12  ">
-                                            <button type="button" class="btn btn-success btn-block  btn- pull-right"
+                                            <button type="button" class="btn btn-success"
                                                     ng-click="saveEndUser()">
                                                 Add
                                             </button>
@@ -72,18 +67,26 @@
                             <div class="tile-stats m-top15">
                                 <form class="form-horizontal form-label-left input_mask">
                                     <div class="row">
-                                        <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                             <input type="text" class="form-control has-feedback-left"
                                                    ng-model="newContext.Context"
                                                    placeholder="Context Name">
                                             <span class="form-control-feedback left" aria-hidden="true"><h6 style="color: black">{{contextPrefix}}</h6></span>
                                         </div>
 
-                                        <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                             <input type="text" class="form-control has-feedback-left"
                                                    ng-model="newContext.Description"
                                                    placeholder="Description">
                                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                        </div>
+
+                                        <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+                                            <checkbox class="btn-success" ng-model="newContext.RecordingEnabled"
+                                                      ng-init="newContext.RecordingEnabled=false"></checkbox>
+                                            <label>
+                                                <small>Recording Enabled</small>
+                                            </label>
                                         </div>
 
 
@@ -94,17 +97,7 @@
 
 
                                         <div class="col-md-3 col-sm-3 col-xs-12  ">
-
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 col-xs-12  ">
-
-                                        </div>
-                                        <div class="col-md-3 col-sm-3 col-xs-12  ">
-
-                                        </div>
-
-                                        <div class="col-md-3 col-sm-3 col-xs-12  ">
-                                            <button type="button" class="btn btn-success btn-block  btn- pull-right"
+                                            <button type="button" class="btn btn-success"
                                                     ng-click="saveNewContext()">
                                                 Add
                                             </button>
@@ -151,17 +144,17 @@
 
             </uib-tab>
 
-            <uib-tab index="1" heading="Ticket Types">
+            <uib-tab index="2" heading="Ticket Types">
                 <div ng-include="'views/companyConfig/dynamicTicketTypes.html'">
                 </div>
             </uib-tab>
 
-            <uib-tab index="2" heading="Ticket Status">
+            <uib-tab index="3" heading="Ticket Status">
                 <div ng-include="'views/companyConfig/customTicketStatus.html'">
                 </div>
             </uib-tab>
 
-            <uib-tab index="3" heading="Ticket Prefixes">
+            <uib-tab index="4" heading="Ticket Prefixes">
 
                 <div class="x_panel bg-light-gray animated fadeIn">
                     <div class="x_title border-0">
@@ -252,7 +245,7 @@
 
 
             </uib-tab>
-            <uib-tab index="4" heading="User Tags">
+            <uib-tab index="5" heading="User Tags">
                 <div class="x_panel bg-light-gray animated fadeIn">
                     <div class="x_title border-0">
                         <h2 class="font-robot font-300 text-uppercase font-15">New User Tag</h2>
@@ -324,12 +317,12 @@
                 </div>
             </uib-tab>
 
-            <uib-tab index="5" heading="Phone Config">
+            <uib-tab index="6" heading="Phone Config">
                 <div ng-include="'views/companyConfig/phoneConfig.html'">
                 </div>
             </uib-tab>
 
-            <uib-tab index="6" heading="Break Types">
+            <uib-tab index="7" heading="Break Types">
                 <div ng-include="'views/companyConfig/customBreakTypes.html'">
                 </div>
             </uib-tab>
