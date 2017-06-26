@@ -37,6 +37,25 @@
             });
         };
 
+        var getAllAcwRecords = function(resourceId, startDate, endData, skill){
+
+            var url = baseUrls.ardsmonitoringBaseUrl+'MONITORING/acw/resource/'+resourceId+'/download?startDate='+startDate+'&endDate='+endData;
+
+            if(skill)
+            {
+                url = url + '&skill='+skill;
+            }
+            return $http({
+                method: 'GET',
+                url: url,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response){
+                return response.data;
+            });
+        };
+
         var getResourceDetails = function(){
             return $http({
                 method: 'GET',
@@ -111,7 +130,8 @@
             GetAcwSummeryDetails: getAcwSummeryDetails,
             GetRejectedSessionCount: getRejectedSessionCount,
             GetRejectedSessionDetails: getRejectedSessionDetails,
-            PrepareDownloadDetails: prepareDownloadDetails
+            PrepareDownloadDetails: prepareDownloadDetails,
+            getAllAcwRecords: getAllAcwRecords
         };
     };
 
