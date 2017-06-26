@@ -115,7 +115,7 @@
             acwDetailApiAccess.getAllAcwRecords($scope.obj.resourceId, startDate, endDate, $scope.skillFilter).then(function(response){
                 if(response.IsSuccess)
                 {
-                    var downloadFilename = cdrResp.Result;
+                    var downloadFilename = response.Result;
 
                     checkFileReady(downloadFilename);
                 }
