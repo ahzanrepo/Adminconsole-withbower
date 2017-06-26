@@ -122,6 +122,10 @@
         var callCenterPerformanceChart = document.getElementById("callCenterPerformanceCanvas").getContext("2d");
         window.callCenterPerformanceChart = new Chart(callCenterPerformanceChart, $scope.callCenterPerformanceChartConfig);
 
+        //update bar chart >> chart.js
+       // $scope.labels = ["inbound", "outbound", "queued", "Q-answered", "Q-dropped"];
+        //$scope.data = $scope.callCenterPerformanceChartConfig.data.datasets[0].data;
+
         var TimeFormatter = function (seconds) {
 
             var timeStr = '0:0:0';

@@ -6329,7 +6329,8 @@ ul.newsticker {
 }
 
 .ccp-chat-footer {
-
+    background: #fff;
+    padding-top: 10px;
 }
 
 .ccp-inline-footer {
@@ -6376,7 +6377,7 @@ ul.newsticker {
 
 .ccp-chart-wrp {
     width: auto;
-    min-height: 50px;
+    height: 229px;
     overflow: hidden;
     position: relative;
     margin-top: 50px;
