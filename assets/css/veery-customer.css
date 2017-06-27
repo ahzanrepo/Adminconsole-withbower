@@ -6182,6 +6182,7 @@ ul.newsticker {
 }
 
 .ccp-top-widget.white,
+.ccp-body-widget-md.white,
 .ccp-body-widget-sm.white {
     background: #ffffff;
 }
@@ -6242,6 +6243,7 @@ ul.newsticker {
 }
 
 .ccp-top-widget.white > .ccp-w-value,
+.ccp-body-widget-md.white > .ccp-w-value,
 .ccp-body-widget-sm.white > .ccp-w-value {
     /* AVG Dialed: */
     color: #223448;
@@ -6274,7 +6276,8 @@ ul.newsticker {
     letter-spacing: 0.63px;
 }
 
-.ccp-top-widget.white > .ccp-w-header-small {
+.ccp-top-widget.white > .ccp-w-header-small,
+.ccp-body-widget-md.white > .ccp-w-header-small {
     /* AVG Dialed: */
     margin-top: 18px;
     color: #74BEFB;
