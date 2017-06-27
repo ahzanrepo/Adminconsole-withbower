@@ -24,7 +24,7 @@
                                         <p class="input-group">
                                             <input required name="StartTime" type="text" class="form-control"
                                                    datetime-picker="MM/dd/yyyy HH:mm"
-                                                   ng-model="csatSerach.StartTime" is-open="StartTime.open"
+                                                   ng-model="csatSerach.StartTime" is-open="StartTime.open" ng-change="uiParamsChanged()"
                                                    ng-class="{ 'has-error' : csatForm.StartTime.$invalid && !csatForm.StartTime.$pristine }"/>
                                                     <span class="input-group-btn">
                                       <button type="button" class="btn btn-default"
@@ -45,7 +45,7 @@
                                     <div>
                                         <p class="input-group">
                                             <input name="EndTime" type="text" class="form-control"
-                                                   datetime-picker="MM/dd/yyyy HH:mm" min="csatSerach.StartTime"
+                                                   datetime-picker="MM/dd/yyyy HH:mm" min="csatSerach.StartTime" ng-change="uiParamsChanged()"
                                                    ng-model="csatSerach.EndTime" is-open="EndTime.open"
                                                    required/>
                                                     <span class="input-group-btn">
@@ -68,13 +68,13 @@
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group">
                                     <label>Page Size</label>
                                     <div>
-                                        <select class="form-control" id="Category" ng-model="pageSize"
+                                        <select class="form-control" ng-change="uiParamsChanged()" id="Category" ng-model="pageSize"
                                                 ng-options="opt as opt for opt in pageSizRange">
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                <div class="col-md-2 col-sm-2 col-xs-12">
                                     <button ng-disabled="csatForm.$invalid" type="button"
                                             ng-if="!isLoading"
                                             class="btn btn-green btn-block "
@@ -88,6 +88,29 @@
                                             style="margin-top: 24px;">
                                         Please Wait...
                                     </button>
+                                </div>
+
+                                <div class="col-md-1 col-sm-1 col-xs-12" style="position: relative; top: 25px">
+                                    <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-download"></i></a>
+                                    <button ng-if="fileDownloadState === 'RESET'" ng-disabled="!cancelDownload" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="processDownloadRequest()">
+                                        CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i ng-class="buttonClass"></i>
+                                    </button>
+
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Agents</label>
+                                        <tags-input ng-model="selectedUsers" display-property="username"
+                                                    add-from-autocomplete-only="true" placeholder="Select agent" on-tag-removed="uiParamsChanged()" on-tag-added="uiParamsChanged()">
+                                            <auto-complete max-results-to-show="1000" source="querySearch($query)"
+                                                           load-on-empty="true" load-on-focus="true"
+                                                           min-length="1"></auto-complete>
+                                        </tags-input>
+                                    </div>
+
                                 </div>
                             </form>
                         </div>
@@ -188,7 +211,7 @@
     </div>
 </div>
 
-<div ng-if="satisfactionRequest.length!=0" class="row">
+<fieldset ng-if="satisfactionRequest.length!=0" class="row" ng-disabled="true">
     <div class="widget-dyn">
         <!--ng-repeat="r in satisfactionReport"-->
         <div class="widget-dy-wrp " id="all"
@@ -233,7 +256,7 @@
             </div>
         </div>
     </div>
-</div>
+</fieldset>
 
 <div class="clearfix"></div>
 
