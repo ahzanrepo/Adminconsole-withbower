@@ -1303,6 +1303,7 @@ a.thumbnaildrag:hover {
     width: 240px;
     margin-top: 10px;
     margin-left: 12px;
+    z-index: 100 !important;
 }
 
 .ui-datepicker a,

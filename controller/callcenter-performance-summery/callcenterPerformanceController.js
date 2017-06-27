@@ -85,6 +85,9 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                tooltips: {
+                    enabled: true
+                },
                 scales: {
                     yAxes: [{
                         stacked: true,
