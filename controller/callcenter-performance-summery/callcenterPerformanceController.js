@@ -66,7 +66,7 @@
             type: 'bar',
 
             data: {
-                labels: ["inbound", "outbound", "queued", "Q-answered", "Q-dropped"],
+                labels: ["Inbound", "Outbound", "Queued", "Q-answered", "Q-dropped"],
                 datasets: [
                     {
                         label: "Total Count",
@@ -85,6 +85,9 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                tooltips: {
+                    enabled: true
+                },
                 scales: {
                     yAxes: [{
                         stacked: true,
@@ -123,7 +126,7 @@
         window.callCenterPerformanceChart = new Chart(callCenterPerformanceChart, $scope.callCenterPerformanceChartConfig);
 
         //update bar chart >> chart.js
-       // $scope.labels = ["inbound", "outbound", "queued", "Q-answered", "Q-dropped"];
+        // $scope.labels = ["inbound", "outbound", "queued", "Q-answered", "Q-dropped"];
         //$scope.data = $scope.callCenterPerformanceChartConfig.data.datasets[0].data;
 
         var TimeFormatter = function (seconds) {
