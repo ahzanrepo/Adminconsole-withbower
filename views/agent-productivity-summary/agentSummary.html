@@ -25,7 +25,14 @@
                     <input type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
                            datepicker>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <label>Agent</label>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="agentFilter" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="agt.ResourceId as agt.ResourceName for agt in Agents" placeholder="Assignee" bs-typeahead>
+                    </div>
+                </div>
+                <div class="col-sm-1">
                     <div class="x_content btn-wrap-header">
                         <button type="button" style="position: relative; top: 10px;" class="btn btn-success" ng-click="getAgentSummary()" ng-disabled="!dateValid">
                             Search
@@ -33,7 +40,7 @@
                         <!--<button type="button" class="btn btn-primary">Reset</button>-->
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-1">
                     <div style="position: relative; top: 20px;">
                         <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;" csv-header="['Agent ID', 'Staff Time', 'Date', 'Talk Time(inbound)', 'Talk Time(outbound)', 'Total Answered', 'Total Calls(inbound)', 'Total Calls(outbound)', 'Average Handling Time', 'Break Time', 'After Work Time', 'Idle Time']" csv-column-order="['AgentName', 'StaffTime', 'Date', 'TalkTime', 'TalkTimeOutbound', 'TotalAnswered', 'TotalCalls', 'TotalCallsOutbound', 'AverageHandlingTime', 'BreakTime', 'AfterWorkTime', 'IdleTime']" ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv">
                             CSV&nbsp;&nbsp;&nbsp;&nbsp;
@@ -71,6 +78,188 @@
                                 </span>
                         </div>
                     </div>-->
+
+                    <div class="col-sm-12">
+                        <div class="widget-dyn">
+                            <div class="widget-dy-wrp " id="idle">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            Idle Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.IdleTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="acw">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            After Work Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.AfterWorkTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="avghandletime">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            Average Handling Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.AverageHandlingTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="stafftime">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            Staff Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.StaffTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="talktime">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            Talk Time Inbound
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.TalkTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="talktimeout">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            Talk Time Outbound
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.TalkTimeOutbound}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="breaktime">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            Break Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.BreakTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="answered">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            Answered Calls
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.Answered}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="inbcalls">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            Inbound Calls
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.InboundCalls}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="outcalls">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-left ">
+                                            Outbound Calls
+                                        </div>
+                                        <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            {{total.OutboundCalls}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
 
                     <div id="datatable-responsive_wrapper"
                          class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -165,6 +354,8 @@
 
 
                     </div>
+
+
                 </div>
             </div>
         </div>
