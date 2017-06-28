@@ -30,6 +30,7 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
     $scope.isLoading = false;
     $scope.noDataToshow = false;
     $scope.disableTiles = true;
+    $scope.disableTileCSS = 'csatdisabled';
     $scope.showPaging = false;
     $scope.currentPage = "1";
     $scope.pageTotal = "1";
@@ -357,19 +358,26 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
         GetSatisfactionRequestReport();
 
         $scope.disableTiles = false;
+        $scope.disableTileCSS = 'csatenabled';
     };
 
     $scope.uiParamsChanged = function()
     {
         $scope.disableTiles = true;
+        $scope.disableTileCSS = 'csatdisabled';
     };
 
     $scope.satisfaction = "all";
     $scope.searchDataBySatisfaction = function (satisfaction) {
-        $('.widget-dy-wrp').removeClass('active');
-        $('#' + satisfaction).addClass('active');
-        $scope.satisfaction = satisfaction;
-        $scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);
+
+        if(!$scope.disableTiles)
+        {
+            $('.widget-dy-wrp').removeClass('active');
+            $('#' + satisfaction).addClass('active');
+            $scope.satisfaction = satisfaction;
+            $scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);
+        }
+
 
     };
 

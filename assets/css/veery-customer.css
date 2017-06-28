@@ -6400,3 +6400,11 @@ ul.newsticker {
     color: #8A8E86;
     letter-spacing: 0.97px;
 }
+
+.csatdisabled:hover{
+    cursor: not-allowed !important;
+}
+
+.csatenabled:hover{
+    cursor: hand !important;
+}

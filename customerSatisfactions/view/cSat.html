@@ -211,10 +211,10 @@
     </div>
 </div>
 
-<fieldset ng-if="satisfactionRequest.length!=0" class="row" ng-disabled="true">
+<div ng-if="satisfactionRequest.length!=0" class="row">
     <div class="widget-dyn">
         <!--ng-repeat="r in satisfactionReport"-->
-        <div class="widget-dy-wrp " id="all"
+        <div class="widget-dy-wrp " id="all" ng-class="disableTileCSS" ng-disabled="disableTiles"
              ng-click="searchDataBySatisfaction('all')">
             <div class="active-card">
                 <div class="selected-group">
@@ -232,7 +232,7 @@
                 </div>
             </div>
         </div>
-        <div class="widget-dy-wrp "
+        <div class="widget-dy-wrp " ng-class="disableTileCSS" ng-disabled="disableTiles"
              id="{{r._id}}"
              ng-repeat="r in satisfactionReport"
              ng-click="searchDataBySatisfaction(r._id)">
@@ -256,7 +256,7 @@
             </div>
         </div>
     </div>
-</fieldset>
+</div>
 
 <div class="clearfix"></div>
 
