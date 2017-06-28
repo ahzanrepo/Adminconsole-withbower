@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService,$anchorScroll) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService,$anchorScroll, companyConfigBackendService) {
 
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
@@ -362,8 +362,173 @@
         $scope.showPasswordHints = function () {
 
             $scope.pwdBox = !$scope.pwdBox ;
-        }
+        };
 
+
+
+
+        //-------------------------Active Directory-------------------------------------
+
+        $scope.activeDirectoryUsers = [];
+
+        $scope.getUsersFromActiveDirectory = function () {
+            companyConfigBackendService.getUsersFromActiveDirectory().then(function (response) {
+                if(response.IsSuccess)
+                {
+                    $scope.activeDirectoryUsers = response.Result;
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan1 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan1",
+                        mail: "heshan1.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan1",
+                        cn: "Heshan1 Indika",
+                        displayName: "Heshan1 Indika"
+                    });
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan2 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan2",
+                        mail: "heshan2.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan2",
+                        cn: "Heshan2 Indika",
+                        displayName: "Heshan2 Indika"
+                    });
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan3 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan3",
+                        mail: "heshan3.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan3",
+                        cn: "Heshan3 Indika",
+                        displayName: "Heshan3 Indika"
+                    });
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan4 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan4",
+                        mail: "heshan4.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan4",
+                        cn: "Heshan4 Indika",
+                        displayName: "Heshan4 Indika"
+                    });
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan5 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan5",
+                        mail: "heshan5.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan5",
+                        cn: "Heshan5 Indika",
+                        displayName: "Heshan5 Indika"
+                    });
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan6 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan6",
+                        mail: "heshan6.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan6",
+                        cn: "Heshan6 Indika",
+                        displayName: "Heshan6 Indika"
+                    });
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan7 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan7",
+                        mail: "heshan7.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan7",
+                        cn: "Heshan7 Indika",
+                        displayName: "Heshan7 Indika"
+                    });
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan8 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan8",
+                        mail: "heshan8.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan8",
+                        cn: "Heshan8 Indika",
+                        displayName: "Heshan8 Indika"
+                    });
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan9 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan9",
+                        mail: "heshan9.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan9",
+                        cn: "Heshan9 Indika",
+                        displayName: "Heshan9 Indika"
+                    });
+                    $scope.activeDirectoryUsers.push({
+                        dn: "CN=Heshan10 Indika,OU=Domain Controllers,DC=duo,DC=lk",
+                        userPrincipalName: "heshan@duo.lk",
+                        sAMAccountName: "heshan10",
+                        mail: "heshan10.i@duosoftware.com",
+                        whenCreated: "20170628053252.0Z",
+                        pwdLastSet: "131431015727394936",
+                        userAccountControl: "66048",
+                        sn: "Indika",
+                        givenName: "Heshan10",
+                        cn: "Heshan10 Indika",
+                        displayName: "Heshan10 Indika"
+                    });
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Active Directory', errMsg, 'error');
+                }
+            }, function(err){
+                var errMsg = "Error Occurred While Retrieving Active Directory Users";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Active Directory', errMsg, 'error');
+            });
+
+        };
+
+        $scope.getUsersFromActiveDirectory();
 
     };
 

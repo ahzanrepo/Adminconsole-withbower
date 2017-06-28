@@ -6401,10 +6401,54 @@ ul.newsticker {
     letter-spacing: 0.97px;
 }
 
-.csatdisabled:hover{
+.csatdisabled:hover {
     cursor: not-allowed !important;
 }
 
-.csatenabled:hover{
+.csatenabled:hover {
     cursor: hand !important;
+}
+
+.table-scroll-space-limit {
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.table-header-p-space {
+    font-family: 'Ubuntu-Bold', sans-serif;
+    font-size: 13px;
+    background: #e8e8e8;
+    min-height: 35px;
+    padding-top: 7px;
+}
+
+.table-row-p-wrap {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    position: relative;
+    overflow-y: auto;
+}
+
+.table-row-p-space {
+    height: 33px;
+    padding-top: 6px;
+}
+
+.table-row-p-space:nth-child(odd) {
+    background: #fff;
+}
+
+.table-row-p-space:nth-child(even) {
+    background: #f2f2f2;
+}
+
+.table-height-p-space {
+    width: 100%;
+    min-height: 50px;
+    overflow: hidden;
+    position: relative;
 }

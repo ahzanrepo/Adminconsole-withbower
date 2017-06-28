@@ -838,4 +838,151 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
 
     getOrganizationDetail();
+
+
+
+    //----------------------------ActiveDirectory-------------------------------------------
+
+
+    $scope.configActiveDirectory = function () {
+        companyConfigBackendService.configActiveDirectoryDetail($scope.activeDirectoryDetail).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.showAlert('Active Directory', 'Configure Active Directory Success', 'success');
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Active Directory', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error Occurred While Configuring Active Directory";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Active Directory', errMsg, 'error');
+        });
+
+    };
+
+    $scope.updateActiveDirectory = function () {
+        companyConfigBackendService.updateActiveDirectoryDetail($scope.activeDirectoryDetail).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.showAlert('Active Directory', 'Update Active Directory Success', 'success');
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Active Directory', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error Occurred While Updating Active Directory";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Active Directory', errMsg, 'error');
+        });
+
+    };
+
+    $scope.resetActiveDirectoryPassword = function (currentPassword, newPassword) {
+        companyConfigBackendService.resetActiveDirectoryPassword({currentPassword: currentPassword, newPassword: newPassword}).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.showAlert('Active Directory', 'Reset Active Directory Password Success', 'success');
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Active Directory', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error Occurred While Updating Active Directory";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Active Directory', errMsg, 'error');
+        });
+
+    };
+
+    $scope.removeActiveDirectory = function () {
+        companyConfigBackendService.removeActiveDirectory($scope.activeDirectoryDetail._id).then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.showAlert('Active Directory', 'Remove Active Directory Success', 'success');
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Active Directory', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error Occurred While Removing Active Directory";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Active Directory', errMsg, 'error');
+        });
+
+    };
+
+    $scope.getActiveDirectory = function () {
+        companyConfigBackendService.getActiveDirectoryDetail().then(function (response) {
+            if(response.IsSuccess)
+            {
+                $scope.activeDirectoryDetail = response.Result;
+                if(!$scope.activeDirectoryDetail){
+                    $scope.createNewConfig = true;
+                }else{
+                    $scope.createNewConfig = false;
+                }
+            }
+            else
+            {
+                var errMsg = response.CustomMessage;
+
+                if(response.Exception)
+                {
+                    errMsg = response.Exception.Message;
+                }
+                $scope.showAlert('Active Directory', errMsg, 'error');
+            }
+        }, function(err){
+            var errMsg = "Error Occurred While Retrieving Active Directory";
+            if(err.statusText)
+            {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Active Directory', errMsg, 'error');
+        });
+
+    };
+
+    $scope.getActiveDirectory();
 });
