@@ -598,6 +598,47 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         });
     };
 
+    var createCampaignAdditionalData = function (campaignId, additionalData) {
+        return $http({
+            method: 'POST',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditinalData",
+            data: additionalData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var updateCampaignAdditionalData = function (campaignId, additionalData) {
+        return $http({
+            method: 'PUT',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditinalData/"+additionalData.AdditionalDataId,
+            data: additionalData
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var getCampaignAdditionalData = function (campaignId) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditinalData"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
     return {
         mechanisms: ["BLAST", "FIFO", "PREVIEW", "AGENT"],
         modes: ["IVR", "AGENT"],
@@ -638,7 +679,10 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         CampaignCallbackReportCount:campaignCallbackReportCount,
         GetAllCallBackReasons:getAllCallBackReasons,
         CampaignAttemptReportCount:campaignAttemptReportCount,
-        CampaignAttemptReport:campaignAttemptReport
+        CampaignAttemptReport:campaignAttemptReport,
+        CreateCampaignAdditionalData: createCampaignAdditionalData,
+        UpdateCampaignAdditionalData: updateCampaignAdditionalData,
+        GetCampaignAdditionalData: getCampaignAdditionalData
     }
 
 });

@@ -27,6 +27,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.MasterAppList = [];
     $scope.IsDeveloper = false;
     $scope.Developers = [];
+    $scope.CloudEndUser = {};
 
     $scope.showAlert = function (tittle, content, type) {
 
