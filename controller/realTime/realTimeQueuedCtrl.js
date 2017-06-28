@@ -81,6 +81,43 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
     $scope.queues = {};
 
+    $scope.queueList = [];
+
+    var emptyArr = [];
+
+    $scope.querySearch = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.queueList) {
+                return $scope.queueList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.queueList) {
+                var filteredArr = $scope.queueList.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.QueueName) {
+                        return item.QueueName.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArr;
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
+    };
+
 
     /*$scope.GetAllQueueStatistics = function () {
 
@@ -118,6 +155,33 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
     };
 
+    $scope.checkQueueHidden = function(qid)
+    {
+        if($scope.selectedQueues && $scope.selectedQueues.length > 0)
+        {
+            var matchingQueues = $scope.selectedQueues.filter(function(queue){
+                if(queue.id === qid)
+                {
+                    return true;
+                }
+            });
+
+            if(matchingQueues && matchingQueues.length > 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
 
     $scope.GetAllQueueStatistics = function () {
 
@@ -146,6 +210,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
                 // if ($scope.checkQueueAvailability(item.id)) {
                 $scope.queues[item.QueueName] = item;
+                $scope.queueList.push(item);
                 //}
             });
 
@@ -435,6 +500,11 @@ mainApp.directive('queuedlist', function (queueMonitorService, $timeout, loginSe
             var qData = function () {
 
                 queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
+
+                    if(response.QueueInfo)
+                    {
+                        response.QueueInfo.QueueName = response.QueueName;
+                    }
                     scope.que = response.QueueInfo;
                     console.log("que  ", scope.que);
                     scope.que.id = response.QueueId;
