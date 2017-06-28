@@ -38,7 +38,7 @@
 
                             <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="fa fa-download"></i></a>
-                            <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" ng-if="fileDownloadState === 'RESET'" type="button" ng-click="getCallSummaryDownload()">
+                            <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" ng-if="fileDownloadState === 'RESET'" type="button" ng-disabled="!cancelDownload" ng-click="getCallSummaryDownload()">
                                 CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                 <i ng-class="buttonClass"></i>
                             </button>
@@ -107,7 +107,15 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                                     rowspan="1"
+                                                                    colspan="1" aria-label="AbandonCount">Abandon Calls (Count)
+                                                                </th>
+                                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                                    rowspan="1"
                                                                     colspan="1" aria-label="Abandon">Abandon Calls (%)
+                                                                </th>
+                                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                                    rowspan="1"
+                                                                    colspan="1" aria-label="DropCount">Dropped Calls (Count)
                                                                 </th>
                                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                                     rowspan="1"
@@ -131,6 +139,10 @@
                                                                 </th>
                                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                                     rowspan="1"
+                                                                    colspan="1" aria-label="AnswerCount">Answererd Calls (Count)
+                                                                </th>
+                                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                                    rowspan="1"
                                                                     colspan="1" aria-label="AnswerPercentage">Answer Percentage (%)
                                                                 </th>
                                                             </thead>
@@ -140,12 +152,15 @@
                                                                 <td>{{sumDay.Caption}}</td>
                                                                 <td>{{sumDay.IVRCallsCount}}</td>
                                                                 <td>{{sumDay.QueuedCallsCount}}</td>
+                                                                <td>{{sumDay.AbandonCallsCount}}</td>
                                                                 <td>{{sumDay.AbandonPercentage}}</td>
+                                                                <td>{{sumDay.DropCallsCount}}</td>
                                                                 <td>{{sumDay.DropPercentage}}</td>
                                                                 <td>{{sumDay.HoldAverage}}</td>
                                                                 <td>{{sumDay.IvrAverage}}</td>
                                                                 <td>{{sumDay.RingAverage}}</td>
                                                                 <td>{{sumDay.TalkAverage}}</td>
+                                                                <td>{{sumDay.AnswerCount}}</td>
                                                                 <td>{{sumDay.AnswerPercentage}}</td>
                                                             </tbody>
                                                         </table>

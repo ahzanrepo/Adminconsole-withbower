@@ -701,6 +701,7 @@
                     $scope.showAlert('Success', 'success', 'User profile updated successfully');
                     if (curUser) {
                         curUser.GuRefId = $scope.CurrentProfile._id;
+
                         sipUserApiHandler.updateUser(curUser);
                     }
                     $scope.isEditState = false;

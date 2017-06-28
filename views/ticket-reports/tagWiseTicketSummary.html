@@ -47,9 +47,9 @@
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label>Agents</label>
+                        <label>Tags</label>
                         <tags-input ng-model="filteredTags" display-property="name" min-length="1"
-                                    add-from-autocomplete-only="true">
+                                    add-from-autocomplete-only="false" replace-spaces-with-dashes="false">
                             <auto-complete max-results-to-show="1000" source="querySearch($query)"
                                            load-on-empty="true" load-on-focus="true"
                                            min-length="1"></auto-complete>

@@ -79,16 +79,18 @@
 
 
         var checkCSVGenerateAllowed = function () {
-            try {
-                var prevDay = moment().subtract(1, 'days');
 
-                var isAllowed = prevDay.isBefore($scope.obj.dayCust);
-
-                return !isAllowed;
-            }
-            catch (ex) {
-                return false;
-            }
+            return true;
+            //try {
+            //    var prevDay = moment().subtract(1, 'days');
+            //
+            //    var isAllowed = prevDay.isBefore($scope.obj.dayCust);
+            //
+            //    return !isAllowed;
+            //}
+            //catch (ex) {
+            //    return false;
+            //}
 
         };
 

@@ -1,4 +1,4 @@
-mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $q, cSatService) {
+mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $q, $timeout, cSatService, ticketReportsService, cdrApiHandler, loginService) {
     $anchorScroll();
 
     // search
@@ -29,15 +29,135 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
     $scope.pageSizRange = [100, 500, 1000, 5000, 10000];
     $scope.isLoading = false;
     $scope.noDataToshow = false;
+    $scope.disableTiles = true;
+    $scope.disableTileCSS = 'csatdisabled';
     $scope.showPaging = false;
     $scope.currentPage = "1";
     $scope.pageTotal = "1";
+    $scope.selectedUsers = [];
     $scope.pageSize = 100;
     $scope.noDataToshow = false;
     $scope.satisfactionRequest = [];
+
+    $scope.cancelDownload = true;
+    $scope.buttonClass = 'fa fa-file-text';
+    $scope.fileDownloadState = 'RESET';
+    $scope.currentCSVFilename = '';
+    $scope.DownloadButtonName = 'CSV';
+
+    $scope.downloadPress = function () {
+        $scope.fileDownloadState = 'RESET';
+        $scope.DownloadButtonName = 'CSV';
+        $scope.cancelDownload = true;
+        $scope.buttonClass = 'fa fa-file-text';
+    };
+
+    var checkFileReady = function (fileName) {
+        if ($scope.cancelDownload) {
+            $scope.fileDownloadState = 'RESET';
+            $scope.DownloadButtonName = 'CSV';
+            $scope.buttonClass = 'fa fa-file-text';
+        }
+        else {
+            cdrApiHandler.getFileMetaData(fileName).then(function (fileStatus) {
+                if (fileStatus && fileStatus.Result) {
+                    if (fileStatus.Result.Status === 'PROCESSING') {
+                        $timeout(checkFileReady(fileName), 10000);
+                    }
+                    else {
+
+
+                        var decodedToken = loginService.getTokenDecode();
+
+                        if (decodedToken && decodedToken.company && decodedToken.tenant) {
+                            $scope.currentCSVFilename = fileName;
+                            $scope.DownloadCSVFileUrl = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                            $scope.fileDownloadState = 'READY';
+                            $scope.DownloadButtonName = 'CSV';
+                            $scope.cancelDownload = true;
+                            $scope.buttonClass = 'fa fa-file-text';
+                        }
+                        else {
+                            $scope.fileDownloadState = 'RESET';
+                            $scope.DownloadButtonName = 'CSV';
+                            $scope.cancelDownload = true;
+                            $scope.buttonClass = 'fa fa-file-text';
+                        }
+
+
+                    }
+                }
+                else {
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
+                    $scope.showAlert('CDR Download', 'warn', 'No CDR Records found for downloading');
+                }
+
+            }).catch(function (err) {
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
+                $scope.cancelDownload = true;
+                $scope.buttonClass = 'fa fa-file-text';
+                $scope.showAlert('CDR Download', 'error', 'Error occurred while preparing file');
+            });
+        }
+
+    };
+
+    $scope.processDownloadRequest = function()
+    {
+        if ($scope.DownloadButtonName === 'CSV') {
+            $scope.cancelDownload = false;
+            $scope.buttonClass = 'fa fa-spinner fa-spin';
+        }
+        else {
+            $scope.cancelDownload = true;
+            $scope.buttonClass = 'fa fa-file-text';
+        }
+
+        $scope.DownloadButtonName = 'PROCESSING';
+
+        var selectedAgentList = $scope.selectedUsers.map(function(usrObj)
+        {
+            return usrObj._id;
+        });
+
+        cSatService.getSatisfactionRequestDownload($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction, selectedAgentList).then(function (response) {
+            if(response.IsSuccess)
+            {
+                var downloadFilename = response.Result;
+
+                checkFileReady(downloadFilename);
+            }
+            else
+            {
+                $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
+                $scope.cancelDownload = true;
+                $scope.buttonClass = 'fa fa-file-text';
+            }
+        }, function(err){
+            loginService.isCheckResponse(err);
+            $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
+            $scope.fileDownloadState = 'RESET';
+            $scope.DownloadButtonName = 'CSV';
+            $scope.cancelDownload = true;
+            $scope.buttonClass = 'fa fa-file-text';
+        });
+    };
+
+
     $scope.getPageData = function (Paging, page, pageSize, total) {
         $scope.isLoading = true;
-        cSatService.GetSatisfactionRequest(page, pageSize, $scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction).then(function (response) {
+
+        var selectedAgentList = $scope.selectedUsers.map(function(usrObj)
+        {
+            return usrObj._id;
+        });
+        cSatService.GetSatisfactionRequest(page, pageSize, $scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction, selectedAgentList).then(function (response) {
             if (response) {
                 $scope.satisfactionRequest = response;
                 $scope.showPaging = true;
@@ -48,6 +168,65 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
             $scope.satisfaction = "all";
             showAlert("IVR", "error", "Fail To Get Satisfaction Details.");
         });
+    };
+
+    var getUserList = function () {
+
+        ticketReportsService.getUsers().then(function (userList) {
+            if (userList && userList.Result && userList.Result.length > 0) {
+                $scope.userList = userList.Result;
+
+                /*$scope.userList = userList.Result.map(function (obj) {
+                    var rObj = {
+                        UniqueId: obj._id,
+                        Display: obj.name
+                    };
+
+                    return rObj;
+                });*/
+            }
+
+
+        }).catch(function (err) {
+            loginService.isCheckResponse(err);
+        });
+    };
+
+    getUserList();
+
+    var emptyArr = [];
+
+    $scope.querySearch = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.userList) {
+                return $scope.userList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.userList) {
+                var filteredArr = $scope.userList.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.username) {
+                        return item.username.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArr;
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
     };
 
     //$scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);
@@ -116,7 +295,12 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
         $scope.isLoading = true;
         $scope.offered = 0;
         $scope.good = 0;
-        cSatService.GetSatisfactionRequestReport($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString()).then(function (response) {
+        var selectedAgentList = $scope.selectedUsers.map(function(usrObj)
+        {
+            return usrObj._id;
+        });
+
+        cSatService.GetSatisfactionRequestReport($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), selectedAgentList).then(function (response) {
             if (response) {
                 $scope.satisfactionReport = response;
                 angular.forEach(response, function (item) {
@@ -145,7 +329,11 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
     $scope.pageTotal = 0;
     var GetSatisfactionRequestCount = function () {
         $scope.pageTotal = 0;
-        cSatService.GetSatisfactionRequestCount($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction).then(function (response) {
+        var selectedAgentList = $scope.selectedUsers.map(function(usrObj)
+        {
+            return usrObj._id;
+        });
+        cSatService.GetSatisfactionRequestCount($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction, selectedAgentList).then(function (response) {
             if (response) {
                 $scope.pageTotal = response;
             }
@@ -168,14 +356,28 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
         GetSatisfactionRequestCount();
         $scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);
         GetSatisfactionRequestReport();
+
+        $scope.disableTiles = false;
+        $scope.disableTileCSS = 'csatenabled';
+    };
+
+    $scope.uiParamsChanged = function()
+    {
+        $scope.disableTiles = true;
+        $scope.disableTileCSS = 'csatdisabled';
     };
 
     $scope.satisfaction = "all";
     $scope.searchDataBySatisfaction = function (satisfaction) {
-        $('.widget-dy-wrp').removeClass('active');
-        $('#' + satisfaction).addClass('active');
-        $scope.satisfaction = satisfaction;
-        $scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);
+
+        if(!$scope.disableTiles)
+        {
+            $('.widget-dy-wrp').removeClass('active');
+            $('#' + satisfaction).addClass('active');
+            $scope.satisfaction = satisfaction;
+            $scope.getPageData(0, $scope.currentPage, $scope.pageSize, $scope.pageTotal);
+        }
+
 
     };
 

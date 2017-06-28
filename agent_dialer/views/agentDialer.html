@@ -49,7 +49,7 @@
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                 <ul class="nav navbar-right panel_toolbox">
-                                    <li ng-click="resetUploader();" title="Reset" ><a class="close-link" ng-click="resetUploader();"><i
+                                    <li ng-click="resetUploader(campaingForm);" title="Reset" ><a class="close-link" ng-click="resetUploader(campaingForm);"><i
                                             class="fa fa-refresh"></i></a>
                                     </li>
 
@@ -142,7 +142,7 @@
                                 <input id="StartDate" type="text" class="form-control"
                                        ng-model="agentDial.StartDate"
                                        name="startDate"
-                                       ng-required="newSchedule.StartDate" placeholder="Start Date"
+                                       placeholder="Start Date"
                                        datepicker required>
                                 <p ng-show="campaingForm.StartDate.$invalid && !campaingForm.StartDate.$pristine"
                                    class="help-block">Start Date is required.</p>

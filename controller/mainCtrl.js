@@ -18,7 +18,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.newNotifications = [];
 
 
-
 // Register for notifications
 
     $scope.showAlert = function (tittle, type, msg) {
@@ -37,11 +36,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
             var sender = $filter('filter')($scope.users, {username: data.From});
             console.log("Sender ", sender);
-            data.avatar = (sender && sender.length)?sender.avatar:"assest/images/defaultProfile.png";
+            data.avatar = (sender && sender.length) ? sender[0].avatar : "assets/images/defaultProfile.png";
             data.resv_time = new Date();
             data.read = false;
-            $scope.newNotifications.push(data);
+            $scope.newNotifications.unshift(data);
             $scope.unredNotifications = $scope.newNotifications.length;
+            var audio = new Audio("assets/sounds/notification-1.mp3");
+            audio.play();
         }
 
 
@@ -76,13 +77,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     };
 
-
-    var notificationEvent = {
-        OnMessageReceived: $scope.OnMessage,
-        onAgentDisconnected: $scope.agentDisconnected,
-        onAgentAuthenticated: $scope.agentAuthenticated,
-        onCallMonitorRegistered: $scope.callMonitorRegistered
-    };
 
     $scope.veeryNotification = function () {
         /*veeryNotification.connectToServer(authService.TokenWithoutBearer(), baseUrls.notification, notificationEvent);*/
@@ -124,7 +118,6 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     };
 
 
-
     subscribeServices.SubscribeEvents(function (event, data) {
         switch (event) {
 
@@ -156,11 +149,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
              break;
 
-            case 'notice':
+             case 'notice':
 
-                $scope.OnMessage(data);
+             $scope.OnMessage(data);
 
-                break;
+             break;
              */
             case 'notice_message':
 
@@ -175,21 +168,21 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             Object.keys(status).forEach(function (key, index) {
 
                 $scope.users.map(function (item) {
-                    if(item.username===key){
+                    if (item.username === key) {
                         item.status = status[key];
                         item.statusTime = Date.now();
                     }
                 });
 
                 /*var userObj = $scope.users.filter(function (item) {
-                    return key === item.username;
-                });
-                if (Array.isArray(userObj)) {
-                    userObj.forEach(function (obj, index) {
-                        obj.status = status[key];
-                        obj.statusTime = Date.now();
-                    });
-                }*/
+                 return key === item.username;
+                 });
+                 if (Array.isArray(userObj)) {
+                 userObj.forEach(function (obj, index) {
+                 obj.status = status[key];
+                 obj.statusTime = Date.now();
+                 });
+                 }*/
 
             });
 
@@ -239,6 +232,36 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 }
 
             });
+        }
+    });
+
+    subscribeServices.subscribeDashboard(function (event) {
+        switch (event.roomName) {
+            case 'ARDS:break_exceeded':
+            case 'ARDS:freeze_exceeded':
+                if (event.Message) {
+                    if(event.Message.SessionId){
+                        event.Message.Message = event.Message.Message +" Session : "+event.Message.SessionId;
+                    }
+                    var data = {};
+                    angular.copy(event, data);
+                    var mObject = data.Message;
+
+                    //var items = $filter('filter')($scope.users, {resourceid: parseInt(mObject.ResourceId)}, true);
+                    var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()});
+                    mObject.From = (items&&items.length)?items[0].username : mObject.UserName;
+                    mObject.TopicKey = data.eventName;
+                    mObject.messageType = mObject.Message;
+                    mObject.header = mObject.Message;
+                    mObject.isPersistMessage = mObject.Direction !== "STATELESS";
+                    mObject.PersistMessageID = mObject.id;
+                    $scope.OnMessage(mObject);
+                }
+                break;
+            default:
+                //console.log(event);
+                break;
+
         }
     });
 
@@ -975,7 +998,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
 
-            if(response){
+            if (response) {
                 $scope.users = response.map(function (item) {
                     item.status = 'offline';
                     item.callstatus = 'offline';
@@ -985,12 +1008,12 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             }
             /*for (var i = 0; i < response.length; i++) {
 
-                response[i].status = 'offline';
-                response[i].callstatus = 'offline';
-                response[i].callstatusstyle = 'call-status-offline';
+             response[i].status = 'offline';
+             response[i].callstatus = 'offline';
+             response[i].callstatusstyle = 'call-status-offline';
 
-            }
-            $scope.users = response;*/
+             }
+             $scope.users = response;*/
 
 
             $scope.userShowDropDown = 0;
@@ -1076,8 +1099,8 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             document.getElementById("mySidenav").style.width = "0";
             //document.getElementById("main").style.marginRight = "0";
             /*if (getAllRealTimeTimer) {
-                $timeout.cancel(getAllRealTimeTimer);
-            }*/
+             $timeout.cancel(getAllRealTimeTimer);
+             }*/
             $scope.showRightSideNav = false;
         }
         $scope.isUserListOpen = !$scope.isUserListOpen;
@@ -1111,7 +1134,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                                 //}
                             }
                             $scope.notificationMsg.clients = clients;
-
+                            $scope.notificationMsg.isPersist=true;
                             notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
                                 $scope.notificationMsg = {};
                                 console.log("send notification success :: " + JSON.stringify(clients));
@@ -1137,6 +1160,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 });
             } else {
                 $scope.notificationMsg.To = $scope.naviSelectedUser.username;
+                $scope.notificationMsg.isPersist=true;
                 notifiSenderService.sendNotification($scope.notificationMsg, "message", "").then(function (response) {
                     console.log("send notification success :: " + $scope.notificationMsg.To);
                     $scope.notificationMsg = {};

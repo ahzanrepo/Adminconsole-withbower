@@ -220,7 +220,6 @@
     margin-bottom: 10px;
     position: relative;
 
-
 }
 
 @media (min-width: 480px) {
@@ -676,7 +675,7 @@ a:hover, a:focus {
 }
 
 .nav-md ul.nav.child_menu li.active:before {
-    background: #17bab8 ;
+    background: #17bab8;
 }
 
 .nav-md ul.nav.child_menu li:after {
@@ -1066,7 +1065,6 @@ h2 {
     border-radius: 0px;
 }
 
-
 .x_panel-2 {
     width: 100%;
     margin-bottom: 10px;
@@ -1086,6 +1084,12 @@ h2 {
     border-radius: 0px;
 }
 
+.min-h-750 {
+    min-height: 750px;
+    overflow: hidden;
+    position: relative;
+    height: auto;
+}
 
 .x_title {
     border-bottom: 2px solid #F7F7F7;
@@ -2159,13 +2163,13 @@ h4.graph_title {
 .tile-stats .count, .tile-stats h3, .tile-stats p {
     position: relative;
     margin: 0;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     z-index: 5;
     padding: 0;
 }
 
 .title-status-medium .count {
-    font-size: 15px !important;
+    font-size: 25px !important;
 }
 
 .title-status-medium h3 {

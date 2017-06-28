@@ -54,47 +54,47 @@ mainApp.constant('moment', moment);
 mainApp.run(['$anchorScroll', function ($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }]);
-//resourceservice.app.veery.cloud
+//resourceservice.app1.veery.cloud
 var baseUrls = {
-    'monitorrestapi': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app.veery.cloud/DVP
-    'UserServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
+    'UserServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
-    'authServiceBaseUrl': 'http://userservice.app.veery.cloud/oauth/',
-    'authProviderUrl': 'http://userservice.app.veery.cloud/',
-    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
-    'productivityServiceBaseUrl': 'http://productivityservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
-    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app.veery.cloud
-    'fileServiceUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/FileService/',
-    'fileServiceInternalUrl': 'http://fileservice.app.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
-    'clusterconfigUrl': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
-    'conferenceUrl': 'http://conference.app.veery.cloud/DVP/API/1.0.0.0/',
-    'sipUserendpoint': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
-    'pbxUrl': 'http://pbxservice.app.veery.cloud/DVP/API/1.0.0.0/PBXService/',
-    'ticketUrl': 'http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app.veery.cloud/DVP/API/1.0.0.0/',
-    'dashBordUrl': 'http://dashboardservice.app.veery.cloud/',
-    'autoattendantUrl': 'http://autoattendant.app.veery.cloud/DVP/API/1.0.0.0/',
-    'TrunkServiceURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
+    'authProviderUrl': 'http://userservice.app1.veery.cloud/',
+    'resourceServiceBaseUrl': 'http://resourceservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
+    'productivityServiceBaseUrl': 'http://productivityservice.app1.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
+    'ardsmonitoringBaseUrl': 'http://ardsmonitoring.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsmonitoring.app1.veery.cloud
+    'fileServiceUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/FileService/',
+    'fileServiceInternalUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
+    'clusterconfigUrl': 'http://clusterconfig.app1.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',
+    'conferenceUrl': 'http://conference.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'sipUserendpoint': 'http://sipuserendpointservice.app1.veery.cloud/DVP/API/1.0.0.0/SipUser/',
+    'pbxUrl': 'http://pbxservice.app1.veery.cloud/DVP/API/1.0.0.0/PBXService/',
+    'ticketUrl': 'http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'dashBordUrl': 'http://dashboardservice.app1.veery.cloud/',
+    'autoattendantUrl': 'http://autoattendant.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'TrunkServiceURL': 'http://phonenumbertrunkservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl': 'http://localhost:4647/DVP/API/1.0.0.0/Social/', //104.236.197.119
-    'notification': 'http://notificationservice.app.veery.cloud/',
-    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
-    'scheduleWorker': 'http://scheduleworker.app.veery.cloud/DVP/API/1.0.0.0/',
-    'qaModule': 'http://qamodule.app.veery.cloud/DVP/API/1.0.0.0/QAModule/',
-    'limitHandlerUrl': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
-    'templatesUrl': 'http://templates.app.veery.cloud/DVP/API/1.0.0.0/',
-    'ardsLiteServiceUrl': 'http://ardsliteservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'ruleServiceUrl': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'appregistryServiceUrl': 'http://appregistry.app.veery.cloud/DVP/API/1.0.0.0/',
-    'queuemusicServiceUrl': 'http://queuemusic.app.veery.cloud/DVP/API/1.0.0.0/',
+    'notification': 'http://notificationservice.app1.veery.cloud/',
+    'cdrProcessor': 'http://cdrprocessor.app1.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'scheduleWorker': 'http://scheduleworker.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'qaModule': 'http://qamodule.app1.veery.cloud/DVP/API/1.0.0.0/QAModule/',
+    'limitHandlerUrl': 'http://limithandler.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'templatesUrl': 'http://templates.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'ardsLiteServiceUrl': 'http://ardsliteservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'ruleServiceUrl': 'http://ruleservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'appregistryServiceUrl': 'http://appregistry.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'queuemusicServiceUrl': 'http://queuemusic.app1.veery.cloud/DVP/API/1.0.0.0/',
     'voxboneApiUrl': 'http://voxboneapi.app1.veery.cloud/DVP/API/1.0.0.0/voxbone/',//voxboneapi.app1.veery.cloud
-    'eventserviceUrl': 'http://eventservice.app.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app.veery.cloud
+    'eventserviceUrl': 'http://eventservice.app1.veery.cloud/DVP/API/1.0.0.0/',//eventservice.app1.veery.cloud
     'walletUrl': 'http://104.236.197.119:3333/DVP/API/1.0.0.0/PaymentManager/',//104.236.197.119
-    'cSatUrl': 'http://csatservice.app.veery.cloud/DVP/API/1.0/',  //csatservice.app.veery.cloud
-    'campaignmanagerUrl': 'http://campaignmanager.app.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app.veery.cloud
-    'softPhoneContactUrl': 'http://contacts.app.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
-    'dialerAPIUrl': 'http://dialerapi.app.veery.cloud/DVP/DialerAPI/',
-    'zohoAPIUrl': 'http://crmintegrations.app.veery.cloud/DVP/API/1.0.0.0/',//crmintegrations.app.veery.cloud,
+    'cSatUrl': 'http://csatservice.app1.veery.cloud/DVP/API/1.0/',  //csatservice.app1.veery.cloud
+    'campaignmanagerUrl': 'http://campaignmanager.app1.veery.cloud/DVP/API/1.0.0.0/CampaignManager/', //campaignmanager.app1.veery.cloud
+    'softPhoneContactUrl': 'http://contacts.app1.veery.cloud/DVP/API/1.0.0.0/ContactManager/',
+    'dialerAPIUrl': 'http://dialerapi.app1.veery.cloud/DVP/DialerAPI/',
+    'zohoAPIUrl': 'http://crmintegrations.app1.veery.cloud/DVP/API/1.0.0.0/',//crmintegrations.app1.veery.cloud,
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
-    'agentDialerURL': 'http://localhost:8832/DVP/API/1.0.0.0/AgentDialer/' //agentdialerservice.app.veery.cloud
+    'agentDialerURL': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/' //agentdialerservice.app1.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -109,11 +109,11 @@ mainApp.constant('applicationConfig', applicationConfig);
 mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider", "vcRecaptchaServiceProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider, vcRecaptchaServiceProvider) {
 
-        var authProviderUrl = 'http://userservice.app.veery.cloud/auth/';
+        var authProviderUrl = 'http://userservice.app1.veery.cloud/auth/';
         //var authProviderUrl = 'http://192.168.0.132:3637/auth/';
         vcRecaptchaServiceProvider.setSiteKey('6LezaAsUAAAAAMbVGpjJPNm86i__8a38YO1rtXEI');
 
-        //http://userservice.app.veery.cloud/
+        //http://userservice.app1.veery.cloud/
         //var authProviderUrl = 'http:192.168.1.16:3637/';
         $urlRouterProvider.otherwise('/login');
 
@@ -759,14 +759,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "TICKET_SUMMARY_REPORT"
             }
         }).state("console.ticketTagSummary", {
-                url: "/ticketTagSummary",
-                templateUrl: "views/ticket-reports/tagWiseTicketSummary.html",
-                controller: "tagWiseTicketSummaryCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "TICKET_SUMMARY_REPORT"
-                }
-            }).state("console.ticketDetailReport", {
+            url: "/ticketTagSummary",
+            templateUrl: "views/ticket-reports/tagWiseTicketSummary.html",
+            controller: "tagWiseTicketSummaryCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "TICKET_SUMMARY_REPORT"
+            }
+        }).state("console.ticketDetailReport", {
             url: "/ticketDetailReport",
             templateUrl: "views/ticket-reports/ticketDetailReport.html",
             controller: "ticketDetailReportCtrl",
@@ -974,13 +974,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
         }).state('console.callcenterperformance', {
             url: "/callcenterperformance",
-            templateUrl: "views/callcenter-performance-summery/callcenterPerformance.html",
+            templateUrl: "views/callcenter-performance-summery/call-center-performance.html",
             controller: "callcenterPerformanceController",
             data: {
                 requireLogin: true,
                 navigation: "CALLCENTER_PERFORMANCE"
             }
-
+//callcenterPerformance.html
         }).state('console.seclevels', {
             url: "/SecutityLevels",
             templateUrl: "user_security_level_management/views/securityLevelManagement.html",
@@ -1007,13 +1007,13 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "NOTICE"
             }
         }).state('console.callCenterPerformanceReport', {
-                url: "/callCenterPerformanceReport",
-                templateUrl: "views/callcenter-performance-summery/callCenterPerformanceReport.html",
-                controller: "callcenterPerformanceReportController",
-                data: {
-                    requireLogin: true,
-                    navigation: "QUEUE_SUMMARY_REPORT"
-                }
+            url: "/callCenterPerformanceReport",
+            templateUrl: "views/callcenter-performance-summery/callCenterPerformanceReport.html",
+            controller: "callcenterPerformanceReportController",
+            data: {
+                requireLogin: true,
+                navigation: "QUEUE_SUMMARY_REPORT"
+            }
         }).state('console.fileCatRestrict', {
             url: "/FileCategoryRestrictions",
             templateUrl: "views/file-category-restriction/fileCategoryRestrictions.html",

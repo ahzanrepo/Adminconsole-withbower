@@ -78,6 +78,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
     };
 
     var handleFileSelect = function (event) {
+        $scope.agentDial.validateNo = false;
         var target = event.srcElement || event.target;
         $scope.target = target;
 
@@ -120,7 +121,8 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             $scope.isUploading = true;
             $scope.campaignNumberObj.Contacts = [];
 
-            var numberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
+            /*var numberRegex =  /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;*/
+            var numberRegex =  /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
             var newNumberSet = [];
             $scope.data.map(function (obj) {
                 if(obj[$scope.agentDial.columnName].toString().match(numberRegex)) {
@@ -138,13 +140,15 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
         if($scope.agentDial && $scope.agentDial.columnName&&$scope.leftAddValue ) {
             $scope.isUploading = true;
             $scope.campaignNumberObj.Contacts = [];
-            var newNumberSet = [];
+            //var newNumberSet = [];
             $scope.data.map(function (obj) {
-                newNumberSet.push($scope.leftAddValue + obj[$scope.agentDial.columnName]);
+                obj[$scope.agentDial.columnName] = $scope.leftAddValue + obj[$scope.agentDial.columnName];
+                //newNumberSet.push(obj[$scope.agentDial.columnName]);
             });
-            $scope.data = newNumberSet;
-            $scope.campaignNumberObj.Contacts = newNumberSet;
+            //$scope.data = newNumberSet;
+            $scope.campaignNumberObj.Contacts = $scope.data;
             $scope.isUploading = false;
+            $scope.ValidateNumberSet();
         }
     };
 
@@ -188,8 +192,12 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             $scope.gridOptions.columnDefs = [];
 
             $scope.target.form.reset();
-        });
+            $scope.agentDial.validateNo = false;
+            /*form.$setPristine();
+            form.$setUntouched();*/
 
+        });
+        $scope.agentDial = {StartDate: $filter('date')(new Date(), "yyyy-MM-dd")};
     };
 
     $scope.agentNumberList = {};
@@ -251,7 +259,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             if (item.Data) {
                 var postData = {
                     ResourceName: item.ResourceName,
-                    StartDate: $scope.agentDial.StartDate,
+                    StartDate: $filter('date')($scope.agentDial.StartDate, "yyyy-MM-ddTHH:mm:ss.sssZ") ,
                     BatchName: $scope.agentDial.BatchName,
                     ContactList: item.Data
                 };
@@ -270,7 +278,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
                 $scope.loadPendingJobs();
             }
 
-            $scope.resetUploader();
+
 
             $scope.safeApply(function () {
                 $scope.agentDial = {
@@ -282,6 +290,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
             angular.element("input[type='file']").val(null);
             $scope.showAlert("Agent Dialer", 'success', "Number Upload Process Start. Please Check Pending Job List.");
             $scope.isUploading = false;
+            $scope.resetUploader();
         }).catch(function (e) {
             $scope.showAlert("Agent Dialer", 'error', "Fail To Upload Numbers.");
         });
