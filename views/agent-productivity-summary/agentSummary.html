@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="col-sm-1">
-                    <div style="position: relative; top: 20px;">
+                    <div style="position: relative; top: 25px;">
                         <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;" csv-header="['Agent ID', 'Staff Time', 'Date', 'Talk Time(inbound)', 'Talk Time(outbound)', 'Total Answered', 'Total Calls(inbound)', 'Total Calls(outbound)', 'Average Handling Time', 'Break Time', 'After Work Time', 'Idle Time']" csv-column-order="['AgentName', 'StaffTime', 'Date', 'TalkTime', 'TalkTimeOutbound', 'TotalAnswered', 'TotalCalls', 'TotalCallsOutbound', 'AverageHandlingTime', 'BreakTime', 'AfterWorkTime', 'IdleTime']" ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv">
                             CSV&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="fa fa-download"></i>
@@ -78,6 +78,14 @@
                                 </span>
                         </div>
                     </div>-->
+
+                    <div class="col-sm-12">
+
+                        <h2>Agent Productivity Total</h2>
+
+                    </div>
+
+                    <br><br><br>
 
                     <div class="col-sm-12">
                         <div class="widget-dyn">
@@ -260,6 +268,8 @@
 
                         </div>
                     </div>
+
+                    <br><br><br>
 
                     <div id="datatable-responsive_wrapper"
                          class="dataTables_wrapper form-inline dt-bootstrap no-footer">
