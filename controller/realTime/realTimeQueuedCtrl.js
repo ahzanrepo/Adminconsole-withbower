@@ -28,6 +28,11 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                         item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                     }
 
+                    if(!$scope.queues[event.Message.QueueName])
+                    {
+                        $scope.queueList.push(item);
+                    }
+
                     $scope.queues[event.Message.QueueName] = item;
                 }
                 break;
