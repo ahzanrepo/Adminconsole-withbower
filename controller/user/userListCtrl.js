@@ -428,7 +428,7 @@
                         lastname: adUser.sn,
                         mail: adUser.mail,
                         name: adUser.sAMAccountName,
-                        username: adUser.sAMAccountName,
+                        username: adUser.userPrincipalName,
                         role: userRole
                     };
                     userProfileApiAccess.addUserFromAD(newUser).then(function (data) {
