@@ -23,167 +23,94 @@
                     <div class="x_content">
                         <div class="col-md-12 col-sm-12 col-xs-12">
 
-                            <uib-tabset active="0" style="min-height: 320px;">
-                                <uib-tab index="0" heading="Create User">
-                                    <br>
+                            <br>
 
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <!--<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">-->
-                                        <!--<input type="text" class="form-control has-feedback-left" placeholder="Username"-->
-                                        <!--ng-model="newUser.username">-->
-                                        <!--<span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
-                                        <!--</div>-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <!--<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">-->
+                                <!--<input type="text" class="form-control has-feedback-left" placeholder="Username"-->
+                                <!--ng-model="newUser.username">-->
+                                <!--<span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
+                                <!--</div>-->
 
-                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                            <input type="text" class="form-control has-feedback-left"
-                                                   placeholder="E-mail Address"
-                                                   ng-model="newUser.mail">
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="E-mail Address"
+                                           ng-model="newUser.mail">
                                             <span class="fa fa-envelope form-control-feedback left"
                                                   aria-hidden="true"></span>
-                                        </div>
+                                </div>
 
-                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                            <div ng-show="pwdBox">
-                                                <password-strength-box ng-model="newUser.password"
-                                                                       box="pwdBox"
-                                                                       confirm="confirmPwd">
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <div ng-show="pwdBox">
+                                        <password-strength-box ng-model="newUser.password"
+                                                               box="pwdBox"
+                                                               confirm="confirmPwd">
 
-                                                </password-strength-box>
-                                            </div>
+                                        </password-strength-box>
+                                    </div>
 
-                                            <input type="password" class="form-control has-feedback-left"
-                                                   placeholder="Password"
-                                                   ng-model="newUser.password" ng-focus="showPasswordHints()"
-                                                   ng-blur="showPasswordHints()">
+                                    <input type="password" class="form-control has-feedback-left"
+                                           placeholder="Password"
+                                           ng-model="newUser.password" ng-focus="showPasswordHints()"
+                                           ng-blur="showPasswordHints()">
                                             <span class="fa fa-key form-control-feedback left"
                                                   aria-hidden="true"></span>
-                                        </div>
+                                </div>
 
-                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
-                                                    placeholder="Role" name="role" ng-model="newUser.role">
-                                                <option value="admin">Admin</option>
-                                                <option value="agent">Agent</option>
-                                                <option value="supervisor">Supervisor</option>
-                                            </select>
-                                        </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                                            placeholder="Role" name="role" ng-model="newUser.role">
+                                        <option value="admin">Admin</option>
+                                        <option value="agent">Agent</option>
+                                        <option value="supervisor">Supervisor</option>
+                                    </select>
+                                </div>
 
-                                        <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
-                                                    placeholder="Title" name="title" ng-model="newUser.title">
-                                                <option value="mr">Mr</option>
-                                                <option value="mrs">Mrs</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
-                                            <input type="text" class="form-control has-feedback-left"
-                                                   placeholder="First Name"
-                                                   ng-model="newUser.firstname">
+                                <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+                                    <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                                            placeholder="Title" name="title" ng-model="newUser.title">
+                                        <option value="mr">Mr</option>
+                                        <option value="mrs">Mrs</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="First Name"
+                                           ng-model="newUser.firstname">
                                             <span class="fa fa-meh-o form-control-feedback left"
                                                   aria-hidden="true"></span>
-                                        </div>
-                                        <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
-                                            <input type="text" class="form-control has-feedback-left"
-                                                   placeholder="Last Name"
-                                                   ng-model="newUser.lastname">
+                                </div>
+                                <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="Last Name"
+                                           ng-model="newUser.lastname">
                                             <span class="fa fa-meh-o form-control-feedback left"
                                                   aria-hidden="true"></span>
-                                        </div>
+                                </div>
 
 
-                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                            <input type="text" class="form-control has-feedback-left"
-                                                   placeholder="Phone Number"
-                                                   ng-model="newUser.phone">
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="Phone Number"
+                                           ng-model="newUser.phone">
                                             <span class="fa fa-phone form-control-feedback left"
                                                   aria-hidden="true"></span>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                            <input type="text" class="form-control has-feedback-left"
-                                                   placeholder="Nick Name"
-                                                   ng-model="newUser.name">
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="Nick Name"
+                                           ng-model="newUser.name">
                                             <span class="fa fa-meh-o form-control-feedback left"
                                                   aria-hidden="true"></span>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                            <button class="btn btn-success" ng-click="addNewUser()"
-                                                    ng-disabled="!(newUser.password && newUser.name &&
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                    <button class="btn btn-success" ng-click="addNewUser()"
+                                            ng-disabled="!(newUser.password && newUser.name &&
                                          newUser.mail && newUser.phone && newUser.role)">
-                                                Add User
-                                            </button>
-                                        </div>
-                                    </div>
-                                </uib-tab>
-                                <uib-tab index="1" heading="Create From Active Directory">
-                                    <br>
-
-                                    <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
-                                        <div class="input-group">
-                                            <input type="search" ng-model="adSearchCriteria" class="form-control"
-                                                   placeholder="Search AD Users">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <div class="col-md-12 col-sm-12 col-xs-12 table-header-p-space">
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                                User ID
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                                Display Name
-                                            </div>
-                                            <div class="col-md-1 col-sm-2 col-xs-12">
-                                                <center>Supervisor</center>
-                                            </div>
-                                            <div class="col-md-1 col-sm-2 col-xs-12">
-                                                <center>Agent</center>
-                                            </div>
-                                            <div class="col-md-1 col-sm-2 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="table-row-p-wrap">
-                                            <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
-                                                 ng-show="activeDirectoryUsers.length >0"
-                                                 ng-repeat="adUser in activeDirectoryUsers| filterBy: ['sAMAccountName']: adSearchCriteria">
-                                                <div class="col-md-4 col-sm-4 col-xs-12">
-                                                    {{adUser.sAMAccountName}}
-                                                </div>
-                                                <div class="col-md-4 col-sm-4 col-xs-12">
-                                                    {{adUser.displayName}}
-                                                </div>
-                                                <div class="col-md-1 col-sm-2 col-xs-12">
-                                                    <center><input id="supervisor{{adUser.sAMAccountName}}" checklist-model="selectedADUsers.supervisors" type="checkbox" checklist-value="adUser" ng-disabled="selectedADUsers.agents.indexOf(adUser)> -1 || adUser.isProfileExists">
-                                                    </center>
-                                                </div>
-                                                <div class="col-md-1 col-sm-2 col-xs-12">
-                                                    <center><input id="agent{{adUser.sAMAccountName}}" checklist-model="selectedADUsers.agents" type="checkbox" checklist-value="adUser" ng-disabled="selectedADUsers.supervisors.indexOf(adUser)> -1 || adUser.isProfileExists">
-                                                    </center>
-                                                </div>
-                                                <div class="col-md-2 col-sm-2 col-xs-12">
-                                                    <center>
-                                                        <a href="" ng-show="!adUser.isProfileExists" ng-click="createUserFromAD(adUser)">Create</a>
-                                                        <i class="ti-check" ng-show="adUser.isProfileExists"></i>
-                                                    </center>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- /. end table wrapper -->
-
-                                        <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
-                                             ng-show="activeDirectoryUsers.length ===0">
-                                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                                No Data Records Found
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--./button -->
-                                    <!--<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                        <button class="btn btn-success" ng-click="createUsersFromAD()">
-                                            Create Users
-                                        </button>
-                                    </div>-->
-                                </uib-tab>
-                            </uib-tabset>
+                                        Add User
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -434,6 +361,76 @@
                         </div>
                     </div>
                 </div>
+            </uib-tab>
+
+            <uib-tab index="2" heading="Import Users From AD">
+                <br>
+
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="search" ng-model="adSearchCriteria" class="form-control"
+                               placeholder="Search AD Users">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12 table-header-p-space">
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            User ID
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            Display Name
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-xs-12">
+                            <center>Supervisor</center>
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-xs-12">
+                            <center>Agent</center>
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-xs-12">
+                        </div>
+                    </div>
+                    <div class="table-row-p-wrap">
+                        <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
+                             ng-show="activeDirectoryUsers.length >0"
+                             ng-repeat="adUser in activeDirectoryUsers| filterBy: ['sAMAccountName']: adSearchCriteria">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                {{adUser.sAMAccountName}}
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                {{adUser.displayName}}
+                            </div>
+                            <div class="col-md-1 col-sm-2 col-xs-12">
+                                <center><input id="supervisor{{adUser.sAMAccountName}}" checklist-model="selectedADUsers.supervisors" type="checkbox" checklist-value="adUser" ng-disabled="selectedADUsers.agents.indexOf(adUser)> -1 || adUser.isProfileExists">
+                                </center>
+                            </div>
+                            <div class="col-md-1 col-sm-2 col-xs-12">
+                                <center><input id="agent{{adUser.sAMAccountName}}" checklist-model="selectedADUsers.agents" type="checkbox" checklist-value="adUser" ng-disabled="selectedADUsers.supervisors.indexOf(adUser)> -1 || adUser.isProfileExists">
+                                </center>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <center>
+                                    <a href="" ng-show="!adUser.isProfileExists" ng-click="createUserFromAD(adUser)">Import</a>
+                                    <i class="ti-check" ng-show="adUser.isProfileExists"></i>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /. end table wrapper -->
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
+                         ng-show="activeDirectoryUsers.length ===0">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            No Data Records Found
+                        </div>
+                    </div>
+                </div>
+                <!--./button -->
+                <!--<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                    <button class="btn btn-success" ng-click="createUsersFromAD()">
+                        Create Users
+                    </button>
+                </div>-->
             </uib-tab>
         </uib-tabset>
     </div>
