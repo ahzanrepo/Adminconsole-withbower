@@ -121,7 +121,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
         $scope.DownloadFileName = 'AGENT_PRODUCTIVITY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();
         var agentSummaryList=[];
-        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate).then(function (response) {
+        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate, $scope.agentFilter).then(function (response) {
 
             if(!response.data.IsSuccess)
             {
