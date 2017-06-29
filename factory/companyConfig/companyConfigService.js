@@ -497,10 +497,10 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
                 return response.data;
             });
         },
-        resetActiveDirectoryPassword: function(passwordDetails){
+        resetActiveDirectoryPassword: function(activeDirectoryId, passwordDetails){
             return $http({
                 method: 'PUT',
-                url: baseUrls.UserServiceBaseUrl +"ActiveDirectory/"+activeDirectoryDetail._id+"/ResetPassword",
+                url: baseUrls.UserServiceBaseUrl +"ActiveDirectory/"+activeDirectoryId+"/ResetPassword",
                 data: passwordDetails
 
             }).then(function(response)

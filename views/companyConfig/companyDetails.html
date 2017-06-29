@@ -43,7 +43,7 @@
         <h2 class="font-robot font-300 text-uppercase font-15">Active Directory Configuration</h2>
 
         <div class="col-xs-12">
-            <div class="tile-stats m-top15">
+            <div class="tile-stats m-top15" ng-show="!resetPasswordStatus">
                 <form class="form-horizontal form-label-left input_mask">
                     <div class="row">
                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
@@ -71,7 +71,7 @@
 
                         <div style="padding-top: 26px;"
                              class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" ng-hide="createNewConfig">
-                            <a href="">Reset Password</a>
+                            <a href="" ng-click="ResetPasswordPressed()">Reset Password</a>
                         </div>
 
                         <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback" ng-hide="!createNewConfig">
@@ -95,6 +95,51 @@
                             <button type="button" class="btn btn-success" ng-show="!createNewConfig"
                                     ng-click="removeActiveDirectory()">
                                 Remove
+                            </button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tile-stats m-top15" ng-show="resetPasswordStatus">
+                <form class="form-horizontal form-label-left input_mask">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                            <span>Current Password</span>
+                            <input type="password" class="form-control has-feedback-left"
+                                   ng-model="passwordResetData.currentPassword"
+                                   placeholder="Current Password">
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                            <span>New Password</span>
+                            <input type="password" class="form-control has-feedback-left"
+                                   ng-model="passwordResetData.newPassword"
+                                   placeholder="New Password">
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                            <span>Confirm Password</span>
+                            <input type="password" class="form-control has-feedback-left"
+                                   ng-model="passwordResetData.confirmPassword"
+                                   placeholder="Confirm Password">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <button type="button" class="btn btn-success" ng-show="!createNewConfig"
+                                    ng-click="resetActiveDirectoryPassword()">
+                                Reset
+                            </button>
+                            <button type="button" class="btn btn-success" ng-show="!createNewConfig"
+                                    ng-click="cancelPasswordReset()">
+                                Cancel
                             </button>
 
                         </div>

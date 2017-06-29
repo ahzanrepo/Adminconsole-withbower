@@ -843,6 +843,15 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     //----------------------------ActiveDirectory-------------------------------------------
 
+    $scope.resetPasswordStatus = false;
+    $scope.passwordResetData = {};
+    $scope.ResetPasswordPressed = function () {
+        $scope.resetPasswordStatus = true;
+    };
+
+    $scope.cancelPasswordReset = function () {
+        $scope.resetPasswordStatus = false;
+    };
 
     $scope.configActiveDirectory = function () {
         companyConfigBackendService.configActiveDirectoryDetail($scope.activeDirectoryDetail).then(function (response) {
@@ -898,30 +907,34 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     };
 
-    $scope.resetActiveDirectoryPassword = function (currentPassword, newPassword) {
-        companyConfigBackendService.resetActiveDirectoryPassword({currentPassword: currentPassword, newPassword: newPassword}).then(function (response) {
-            if(response.IsSuccess)
-            {
-                $scope.showAlert('Active Directory', 'Reset Active Directory Password Success', 'success');
-            }
-            else
-            {
-                var errMsg = response.CustomMessage;
+    $scope.resetActiveDirectoryPassword = function () {
+        if($scope.passwordResetData && $scope.passwordResetData.currentPassword && $scope.passwordResetData.newPassword && ($scope.passwordResetData.newPassword === $scope.passwordResetData.confirmPassword)) {
+            companyConfigBackendService.resetActiveDirectoryPassword($scope.activeDirectoryDetail._id,{
+                currentPassword: $scope.passwordResetData.currentPassword,
+                newPassword: $scope.passwordResetData.newPassword
+            }).then(function (response) {
+                if (response.IsSuccess) {
+                    $scope.showAlert('Active Directory', 'Reset Active Directory Password Success', 'success');
+                    $scope.resetPasswordStatus = false;
+                }
+                else {
+                    var errMsg = response.CustomMessage;
 
-                if(response.Exception)
-                {
-                    errMsg = response.Exception.Message;
+                    if (response.Exception) {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Active Directory', errMsg, 'error');
+                }
+            }, function (err) {
+                var errMsg = "Error Occurred While Updating Active Directory";
+                if (err.statusText) {
+                    errMsg = err.statusText;
                 }
                 $scope.showAlert('Active Directory', errMsg, 'error');
-            }
-        }, function(err){
-            var errMsg = "Error Occurred While Updating Active Directory";
-            if(err.statusText)
-            {
-                errMsg = err.statusText;
-            }
-            $scope.showAlert('Active Directory', errMsg, 'error');
-        });
+            });
+        }else{
+            $scope.showAlert('Active Directory', 'Invalid Password Details', 'error');
+        }
 
     };
 
