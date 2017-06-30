@@ -28,6 +28,43 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
 
     };
 
+    $scope.querySearch = function (query)
+    {
+        var emptyArr = [];
+        if (query === "*" || query === "") {
+            if ($scope.Agents) {
+                return $scope.Agents;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.Agents)
+            {
+                return $scope.Agents.filter(function (item)
+                {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.ResourceName)
+                    {
+                        return item.ResourceName.match(regEx);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                });
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
+    };
+
     $scope.dtOptions = { paging: false, searching: false, info: false, order: [2, 'asc'] };
 
 
@@ -46,7 +83,12 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
     $scope.getAgentSummary = function () {
         $scope.isTableLoading=0;
         $scope.agentSummaryList=[];
-        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate,$scope.agentFilter).then(function (response) {
+        var resId = null;
+        if($scope.agentFilter)
+        {
+            resId = $scope.agentFilter.ResourceId;
+        }
+        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate,resId).then(function (response) {
 
 
             if(!response.data.IsSuccess)
@@ -86,6 +128,12 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                         totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
                         totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCalls;
                         totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+
+                        if(summaryData[i].Summary[j].AverageHandlingTime > 0)
+                        {
+                            count++;
+                        }
+
                         summaryData[i].Summary[j].IdleTime=TimeFromatter(summaryData[i].Summary[j].IdleTime,"HH:mm:ss");
                         summaryData[i].Summary[j].AfterWorkTime=TimeFromatter(summaryData[i].Summary[j].AfterWorkTime,"HH:mm:ss");
                         summaryData[i].Summary[j].AverageHandlingTime=TimeFromatter(summaryData[i].Summary[j].AverageHandlingTime,"HH:mm:ss");
@@ -94,7 +142,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                         summaryData[i].Summary[j].TalkTimeOutbound=TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound,"HH:mm:ss");
                         summaryData[i].Summary[j].BreakTime=TimeFromatter(summaryData[i].Summary[j].BreakTime,"HH:mm:ss");
 
-                        count++;
+
 
                         $scope.agentSummaryList.push(summaryData[i].Summary[j]);
                     }
@@ -102,7 +150,14 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
 
                 $scope.total.IdleTime = TimeFromatter(totalIdleTime,"HH:mm:ss");
                 $scope.total.AfterWorkTime = TimeFromatter(totalAfterWorkTime,"HH:mm:ss");
-                $scope.total.AverageHandlingTime = TimeFromatter(Math.round(totalAverageHandlingTime/count),"HH:mm:ss");
+                if(count > 0)
+                {
+                    $scope.total.AverageHandlingTime = TimeFromatter(Math.round(totalAverageHandlingTime/count),"HH:mm:ss");
+                }
+                else
+                {
+                    $scope.total.AverageHandlingTime = TimeFromatter(totalAverageHandlingTime,"HH:mm:ss");
+                }
                 $scope.total.StaffTime = TimeFromatter(totalStaffTime,"HH:mm:ss");
                 $scope.total.TalkTime = TimeFromatter(totalTalkTime,"HH:mm:ss");
                 $scope.total.TalkTimeOutbound = TimeFromatter(totalTalkTimeOutbound,"HH:mm:ss");
@@ -127,7 +182,13 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
         $scope.DownloadFileName = 'AGENT_PRODUCTIVITY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();
         var agentSummaryList=[];
-        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate, $scope.agentFilter).then(function (response) {
+        var resId = null;
+        if($scope.agentFilter)
+        {
+            resId = $scope.agentFilter.ResourceId;
+        }
+
+        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate, resId).then(function (response) {
 
             if(!response.data.IsSuccess)
             {
@@ -166,6 +227,12 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                         totalAnswered = totalAnswered + summaryData[i].Summary[j].TotalAnswered;
                         totalCallsInb = totalCallsInb + summaryData[i].Summary[j].TotalCalls;
                         totalCallsOut = totalCallsOut + summaryData[i].Summary[j].TotalCallsOutbound;
+
+                        if(summaryData[i].Summary[j].AverageHandlingTime > 0)
+                        {
+                            count++;
+                        }
+
                         summaryData[i].Summary[j].Date = moment(summaryData[i].Summary[j].Date).format("YYYY-MM-DD");
                         summaryData[i].Summary[j].IdleTime=TimeFromatter(summaryData[i].Summary[j].IdleTime,"HH:mm:ss");
                         summaryData[i].Summary[j].AfterWorkTime=TimeFromatter(summaryData[i].Summary[j].AfterWorkTime,"HH:mm:ss");
@@ -175,7 +242,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                         summaryData[i].Summary[j].TalkTimeOutbound=TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound,"HH:mm:ss");
                         summaryData[i].Summary[j].BreakTime=TimeFromatter(summaryData[i].Summary[j].BreakTime,"HH:mm:ss");
 
-                        count++;
+
 
                         agentSummaryList.push(summaryData[i].Summary[j]);
                     }
@@ -209,6 +276,15 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                     AfterWorkTime: TimeFromatter(totalAfterWorkTime,"HH:mm:ss"),
                     IdleTime: TimeFromatter(totalIdleTime,"HH:mm:ss")
                 };
+
+                if(count > 0)
+                {
+                    total.AverageHandlingTime = TimeFromatter(Math.round(totalAverageHandlingTime/count),"HH:mm:ss");
+                }
+                else
+                {
+                    total.AverageHandlingTime = TimeFromatter(totalAverageHandlingTime,"HH:mm:ss");
+                }
 
                 agentSummaryList.push(total);
                 //$scope.AgentDetailsAssignToSummery();

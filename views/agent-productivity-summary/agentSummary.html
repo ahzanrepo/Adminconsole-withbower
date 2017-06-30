@@ -29,7 +29,7 @@
                     <label>Agent</label>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" ng-model="agentFilter" data-min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="agt.ResourceId as agt.ResourceName for agt in Agents" placeholder="Assignee" bs-typeahead>
+                        <input type="text" class="form-control" ng-model="agentFilter" data-min-length="1" data-html="1" data-limit="1000" data-auto-select="true" data-animation="am-flip-x" bs-options="agt as agt.ResourceName for agt in querySearch($viewValue)" placeholder="Assignee" bs-typeahead>
                     </div>
                 </div>
                 <div class="col-sm-1">

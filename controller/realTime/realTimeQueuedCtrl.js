@@ -473,7 +473,7 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
     }
 });
 
-mainApp.directive('queuedlist', function (queueMonitorService, $timeout, loginService) {
+mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout, loginService) {
     return {
 
         restrict: 'EA',
@@ -496,7 +496,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, $timeout, loginSe
             scope.que = {};
             scope.options = {};
             scope.que.CurrentWaiting = 0;
-            scope.que.CurrentMaxWaitTime = 0;
+            scope.que.CurrentMaxWaitTime = '00:00:00';
             scope.que.presentage = 0;
             scope.maxy = 10;
             scope.val = "";
@@ -511,6 +511,10 @@ mainApp.directive('queuedlist', function (queueMonitorService, $timeout, loginSe
                         response.QueueInfo.QueueName = response.QueueName;
                     }
                     scope.que = response.QueueInfo;
+                    if(response.QueueInfo.CurrentMaxWaitTime)
+                    {
+                        scope.que.CurrentMaxWaitTime = moment().diff(moment(response.QueueInfo.CurrentMaxWaitTime), 'seconds');
+                    }
                     console.log("que  ", scope.que);
                     scope.que.id = response.QueueId;
 
