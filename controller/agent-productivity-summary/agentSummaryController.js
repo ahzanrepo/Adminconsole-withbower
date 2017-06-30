@@ -83,7 +83,12 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
     $scope.getAgentSummary = function () {
         $scope.isTableLoading=0;
         $scope.agentSummaryList=[];
-        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate,$scope.agentFilter.ResourceId).then(function (response) {
+        var resId = null;
+        if($scope.agentFilter)
+        {
+            resId = $scope.agentFilter.ResourceId;
+        }
+        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate,resId).then(function (response) {
 
 
             if(!response.data.IsSuccess)
@@ -177,7 +182,13 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
         $scope.DownloadFileName = 'AGENT_PRODUCTIVITY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();
         var agentSummaryList=[];
-        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate, $scope.agentFilter.ResourceId).then(function (response) {
+        var resId = null;
+        if($scope.agentFilter)
+        {
+            resId = $scope.agentFilter.ResourceId;
+        }
+
+        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate, resId).then(function (response) {
 
             if(!response.data.IsSuccess)
             {
