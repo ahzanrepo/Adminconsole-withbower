@@ -94,7 +94,10 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                         summaryData[i].Summary[j].TalkTimeOutbound=TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound,"HH:mm:ss");
                         summaryData[i].Summary[j].BreakTime=TimeFromatter(summaryData[i].Summary[j].BreakTime,"HH:mm:ss");
 
-                        count++;
+                        if(summaryData[i].Summary[j].AverageHandlingTime > 0)
+                        {
+                            count++;
+                        }
 
                         $scope.agentSummaryList.push(summaryData[i].Summary[j]);
                     }
@@ -102,7 +105,14 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
 
                 $scope.total.IdleTime = TimeFromatter(totalIdleTime,"HH:mm:ss");
                 $scope.total.AfterWorkTime = TimeFromatter(totalAfterWorkTime,"HH:mm:ss");
-                $scope.total.AverageHandlingTime = TimeFromatter(Math.round(totalAverageHandlingTime/count),"HH:mm:ss");
+                if(count > 0)
+                {
+                    $scope.total.AverageHandlingTime = TimeFromatter(Math.round(totalAverageHandlingTime/count),"HH:mm:ss");
+                }
+                else
+                {
+                    $scope.total.AverageHandlingTime = TimeFromatter(totalAverageHandlingTime,"HH:mm:ss");
+                }
                 $scope.total.StaffTime = TimeFromatter(totalStaffTime,"HH:mm:ss");
                 $scope.total.TalkTime = TimeFromatter(totalTalkTime,"HH:mm:ss");
                 $scope.total.TalkTimeOutbound = TimeFromatter(totalTalkTimeOutbound,"HH:mm:ss");
@@ -175,7 +185,10 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                         summaryData[i].Summary[j].TalkTimeOutbound=TimeFromatter(summaryData[i].Summary[j].TalkTimeOutbound,"HH:mm:ss");
                         summaryData[i].Summary[j].BreakTime=TimeFromatter(summaryData[i].Summary[j].BreakTime,"HH:mm:ss");
 
-                        count++;
+                        if(summaryData[i].Summary[j].AverageHandlingTime > 0)
+                        {
+                            count++;
+                        }
 
                         agentSummaryList.push(summaryData[i].Summary[j]);
                     }
@@ -209,6 +222,15 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                     AfterWorkTime: TimeFromatter(totalAfterWorkTime,"HH:mm:ss"),
                     IdleTime: TimeFromatter(totalIdleTime,"HH:mm:ss")
                 };
+
+                if(count > 0)
+                {
+                    total.AverageHandlingTime = TimeFromatter(Math.round(totalAverageHandlingTime/count),"HH:mm:ss");
+                }
+                else
+                {
+                    total.AverageHandlingTime = TimeFromatter(totalAverageHandlingTime,"HH:mm:ss");
+                }
 
                 agentSummaryList.push(total);
                 //$scope.AgentDetailsAssignToSummery();
