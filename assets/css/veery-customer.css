@@ -5233,11 +5233,11 @@ ul.row-option > li.delete:focus {
 }
 
 .w-bg-text-bg {
-    font-size: 40px;
+    font-size: 25px;
 }
 
 .w-bg-text {
-    font-size: 16px;
+    font-size: 13px;
     text-align: left;
     padding-left: 8px;
 }
@@ -6401,10 +6401,10 @@ ul.newsticker {
     letter-spacing: 0.97px;
 }
 
-.csatdisabled:hover{
+.csatdisabled:hover {
     cursor: not-allowed !important;
 }
 
-.csatenabled:hover{
+.csatenabled:hover {
     cursor: hand !important;
 }
