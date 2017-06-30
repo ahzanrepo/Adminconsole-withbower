@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService,$anchorScroll) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService,$anchorScroll, companyConfigBackendService) {
 
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
@@ -72,6 +72,9 @@
                     $scope.showAlert('Error', 'error', errMsg);
 
                 }
+
+
+                $scope.getUsersFromActiveDirectory();
 
             }, function (err) {
                 loginService.isCheckResponse(err);
@@ -362,7 +365,105 @@
         $scope.showPasswordHints = function () {
 
             $scope.pwdBox = !$scope.pwdBox ;
-        }
+        };
+
+
+
+
+        //-------------------------Active Directory-------------------------------------
+
+        $scope.activeDirectoryUsers = [];
+        $scope.selectedADUsers = {agents: [], supervisors: []};
+
+        $scope.adSearchCriteria = "";
+
+        $scope.getUsersFromActiveDirectory = function () {
+            companyConfigBackendService.getUsersFromActiveDirectory().then(function (response) {
+                if(response.IsSuccess)
+                {
+                    $scope.activeDirectoryUsers = response.Result;
+
+                    $scope.userList.forEach(function (system_user) {
+
+                        $scope.activeDirectoryUsers.forEach(function (ad_user) {
+
+                            (system_user.username === ad_user.sAMAccountName)? ad_user.isProfileExists = true : ad_user.isProfileExists = false;
+
+                        });
+
+                    });
+                }
+                else
+                {
+                    var errMsg = response.CustomMessage;
+
+                    if(response.Exception)
+                    {
+                        errMsg = response.Exception.Message;
+                    }
+                    $scope.showAlert('Active Directory', errMsg, 'error');
+                }
+            }, function(err){
+                var errMsg = "Error Occurred While Retrieving Active Directory Users";
+                if(err.statusText)
+                {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Active Directory', errMsg, 'error');
+            });
+
+        };
+        
+        $scope.createUserFromAD = function (adUser) {
+
+            var userRole =  ($scope.selectedADUsers.agents.indexOf(adUser) > -1)? "agent": undefined;
+            if(!userRole){
+                userRole =  ($scope.selectedADUsers.supervisors.indexOf(adUser) > -1)? "supervisor": undefined;
+            }
+
+            if(userRole) {
+                if(adUser.sAMAccountName && adUser.mail) {
+                    var newUser = {
+                        firstname: adUser.givenName,
+                        lastname: adUser.sn,
+                        mail: adUser.mail,
+                        name: adUser.sAMAccountName,
+                        username: adUser.userPrincipalName,
+                        role: userRole
+                    };
+                    userProfileApiAccess.addUserFromAD(newUser).then(function (data) {
+                        if (data.IsSuccess) {
+                            $scope.showAlert('Success', 'info', 'User added');
+                            loadUsers();
+                        }
+                        else {
+                            var errMsg = "";
+                            if (data.Exception && data.Exception.Message) {
+                                errMsg = data.Exception.Message;
+                            }
+
+                            if (data.CustomMessage) {
+                                errMsg = data.CustomMessage;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+                        }
+
+                    }, function (err) {
+                        loginService.isCheckResponse(err);
+                        var errMsg = "Error adding user";
+                        if (err.statusText) {
+                            errMsg = err.statusText;
+                        }
+                        $scope.showAlert('Error', 'error', errMsg);
+                    });
+                }else{
+                    $scope.showAlert('Error', 'error', "Insufficient Data To Create User");
+                }
+            }else{
+                $scope.showAlert('Error', 'error', "Select User Role");
+            }
+
+        };
 
 
     };
