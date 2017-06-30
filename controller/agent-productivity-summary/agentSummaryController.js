@@ -28,6 +28,43 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
 
     };
 
+    $scope.querySearch = function (query)
+    {
+        var emptyArr = [];
+        if (query === "*" || query === "") {
+            if ($scope.Agents) {
+                return $scope.Agents;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.Agents)
+            {
+                return $scope.Agents.filter(function (item)
+                {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.ResourceName)
+                    {
+                        return item.ResourceName.match(regEx);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                });
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
+    };
+
     $scope.dtOptions = { paging: false, searching: false, info: false, order: [2, 'asc'] };
 
 
@@ -46,7 +83,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
     $scope.getAgentSummary = function () {
         $scope.isTableLoading=0;
         $scope.agentSummaryList=[];
-        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate,$scope.agentFilter).then(function (response) {
+        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate,$scope.agentFilter.ResourceId).then(function (response) {
 
 
             if(!response.data.IsSuccess)
@@ -91,7 +128,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
                         {
                             count++;
                         }
-                        
+
                         summaryData[i].Summary[j].IdleTime=TimeFromatter(summaryData[i].Summary[j].IdleTime,"HH:mm:ss");
                         summaryData[i].Summary[j].AfterWorkTime=TimeFromatter(summaryData[i].Summary[j].AfterWorkTime,"HH:mm:ss");
                         summaryData[i].Summary[j].AverageHandlingTime=TimeFromatter(summaryData[i].Summary[j].AverageHandlingTime,"HH:mm:ss");
@@ -140,7 +177,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
         $scope.DownloadFileName = 'AGENT_PRODUCTIVITY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();
         var agentSummaryList=[];
-        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate, $scope.agentFilter).then(function (response) {
+        agentSummaryBackendService.getAgentSummary($scope.startDate,$scope.endDate, $scope.agentFilter.ResourceId).then(function (response) {
 
             if(!response.data.IsSuccess)
             {
