@@ -57,7 +57,7 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 //resourceservice.app1.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
-    'UserServiceBaseUrl': 'http://localhost:3638/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'UserServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     //'UserServiceBaseUrl': 'http://192.168.0.132:3637/DVP/API/1.0.0.0/',
     'authServiceBaseUrl': 'http://userservice.app1.veery.cloud/oauth/',
     'authProviderUrl': 'http://userservice.app1.veery.cloud/',
