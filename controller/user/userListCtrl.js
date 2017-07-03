@@ -379,9 +379,24 @@
 
         $scope.getUsersFromActiveDirectory = function () {
             $scope.activeDirectoryUsers = [];
+            $scope.selectedADUsers = {agents: [], supervisors: []};
 
-            function pushAdUser(ad_user, isProfileExists){
+            function pushAdUser(ad_user, isProfileExists, userRole){
+
+                switch (userRole){
+                    case 'supervisor':
+                        $scope.selectedADUsers.supervisors.push(ad_user);
+                        break;
+                    case 'agent':
+                        $scope.selectedADUsers.agents.push(ad_user);
+                        break;
+                    default :
+                        break;
+                }
+
+
                 ad_user.isProfileExists = isProfileExists;
+
                 $scope.activeDirectoryUsers.push(ad_user);
             }
 
@@ -395,13 +410,13 @@
                             var system_user = $scope.userList[i];
                             if (system_user.username && ad_user.userPrincipalName && system_user.username === ad_user.userPrincipalName) {
                                 isExist = true;
-                                pushAdUser(angular.copy(ad_user), true);
+                                pushAdUser(angular.copy(ad_user), true, system_user.user_meta.role);
                                 break;
                             }
                         }
 
                         if(!isExist)
-                            pushAdUser(angular.copy(ad_user), false);
+                            pushAdUser(angular.copy(ad_user), false, undefined);
                     });
 
 
