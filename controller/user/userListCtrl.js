@@ -387,7 +387,7 @@
 
                         $scope.activeDirectoryUsers.forEach(function (ad_user) {
 
-                            (system_user.username === ad_user.userPrincipalName)? ad_user.isProfileExists = true : ad_user.isProfileExists = false;
+                            (system_user.username && ad_user.userPrincipalName && system_user.username === ad_user.userPrincipalName)? ad_user.isProfileExists = true : ad_user.isProfileExists = false;
 
                         });
 
