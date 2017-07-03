@@ -124,7 +124,10 @@ mainApp.controller('cSatController', function ($scope, $filter, $anchorScroll, $
             return usrObj._id;
         });
 
-        cSatService.getSatisfactionRequestDownload($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction, selectedAgentList).then(function (response) {
+        var momentTz = moment.parseZone(new Date()).format('Z');
+        momentTz = momentTz.replace("+", "%2B");
+
+        cSatService.getSatisfactionRequestDownload($scope.csatSerach.StartTime.toUTCString(), $scope.csatSerach.EndTime.toUTCString(), $scope.satisfaction, selectedAgentList, momentTz).then(function (response) {
             if(response.IsSuccess)
             {
                 var downloadFilename = response.Result;

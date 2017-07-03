@@ -30,7 +30,7 @@ mainApp.factory("cSatService", function ($http, download,authService,baseUrls) {
         });
     };
 
-    var getSatisfactionRequestDownload = function (start,end,satisfaction,agentFilter) {
+    var getSatisfactionRequestDownload = function (start,end,satisfaction,agentFilter,zone) {
 
         var squr = "&satisfaction="+satisfaction;
         if(satisfaction===undefined ||satisfaction==="all"){
@@ -45,7 +45,7 @@ mainApp.factory("cSatService", function ($http, download,authService,baseUrls) {
         }
         return $http({
             method: 'POST',
-            url: baseUrls.cSatUrl+ "CustomerSatisfactions/Request/Download?start="+start+"&end="+end+squr,
+            url: baseUrls.cSatUrl+ "CustomerSatisfactions/Request/Download?start="+start+"&end="+end+squr+"&tz="+zone,
             data: JSON.stringify(body)
         }).then(function (response) {
             return response.data;
