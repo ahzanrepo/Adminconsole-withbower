@@ -378,20 +378,33 @@
         $scope.adSearchCriteria = "";
 
         $scope.getUsersFromActiveDirectory = function () {
+            $scope.activeDirectoryUsers = [];
+
+            function pushAdUser(ad_user, isProfileExists){
+                ad_user.isProfileExists = isProfileExists;
+                $scope.activeDirectoryUsers.push(ad_user);
+            }
+
             companyConfigBackendService.getUsersFromActiveDirectory().then(function (response) {
                 if(response.IsSuccess)
                 {
-                    $scope.activeDirectoryUsers = response.Result;
 
-                    $scope.userList.forEach(function (system_user) {
+                    response.Result.forEach(function (ad_user) {
+                        var isExist = false;
+                        for(var i =0; i < $scope.userList.length; i++) {
+                            var system_user = $scope.userList[i];
+                            if (system_user.username && ad_user.userPrincipalName && system_user.username === ad_user.userPrincipalName) {
+                                isExist = true;
+                                pushAdUser(angular.copy(ad_user), true);
+                                break;
+                            }
+                        }
 
-                        $scope.activeDirectoryUsers.forEach(function (ad_user) {
-
-                            (system_user.username && ad_user.userPrincipalName && system_user.username === ad_user.userPrincipalName)? ad_user.isProfileExists = true : ad_user.isProfileExists = false;
-
-                        });
-
+                        if(!isExist)
+                            pushAdUser(angular.copy(ad_user), false);
                     });
+
+
                 }
                 else
                 {
@@ -422,7 +435,7 @@
             }
 
             if(userRole) {
-                if(adUser.sAMAccountName && adUser.mail) {
+                if(adUser.sAMAccountName && adUser.mail && adUser.userPrincipalName) {
                     var newUser = {
                         firstname: adUser.givenName,
                         lastname: adUser.sn,
