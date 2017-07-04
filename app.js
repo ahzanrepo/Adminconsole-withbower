@@ -94,7 +94,8 @@ var baseUrls = {
     'dialerAPIUrl': 'http://dialerapi.app1.veery.cloud/DVP/DialerAPI/',
     'zohoAPIUrl': 'http://crmintegrations.app1.veery.cloud/DVP/API/1.0.0.0/',//crmintegrations.app1.veery.cloud,
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
-    'agentDialerURL': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/' //agentdialerservice.app1.veery.cloud
+    'agentDialerURL': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/', //agentdialerservice.app1.veery.cloud
+    'integrationapi': 'http://localhost:4334/DVP/API/1.0.0.0/IntegrationAPI/'
 };
 
 mainApp.constant('baseUrls', baseUrls);
