@@ -198,6 +198,17 @@
             })
         };
 
+        var addUserFromAD = function (userObj) {
+
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl + 'ActiveDirectory/FaceTone/User',
+                data: userObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
 
 
 
@@ -219,7 +230,8 @@
             updateUserSecurityLevel: updateUserSecurityLevel,
             getUsersByRole:getUsersByRole,
             allowFileCategoryToUser:allowFileCategoryToUser,
-            restrictFileCategoryToUser:restrictFileCategoryToUser
+            restrictFileCategoryToUser:restrictFileCategoryToUser,
+            addUserFromAD:addUserFromAD
         };
     };
 
