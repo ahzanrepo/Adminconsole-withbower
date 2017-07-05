@@ -27,12 +27,12 @@
                         </div>
 
                         <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"
-                             ng-class="{ 'has-error' : fOuter.referenceName.$invalid && !fOuter.referenceName.$pristine }">
+                             ng-class="{ 'has-error' : fOuter.referenceType.$invalid && !fOuter.referenceType.$pristine }">
 
-                            <input required type="text" class="form-control has-feedback-left" name="referenceName"
-                                   ng-model="integrationData.referenceName" placeholder="Reference Name" style="width: 100%;">
+                            <input required type="text" class="form-control has-feedback-left" name="referenceType"
+                                   ng-model="integrationData.referenceType" placeholder="Reference Type" style="width: 100%;">
                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                            <p ng-show="fOuter.referenceName.$invalid && !fOuter.referenceName.$pristine"
+                            <p ng-show="fOuter.referenceType.$invalid && !fOuter.referenceType.$pristine"
                                class="help-block">Name is required.</p>
                         </div>
                     </div>
@@ -179,7 +179,7 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                        <button ng-disabled="fOuter.name.$invalid||fOuter.referenceName.$invalid||fOuter.method.$invalid||fOuter.url.$invalid"
+                        <button ng-disabled="fOuter.name.$invalid||fOuter.referenceType.$invalid||fOuter.method.$invalid||fOuter.url.$invalid"
                                 class="btn btn-success pull-right" ng-click="saveConfig(integrationData)" title="Save Configurations">Save
                         </button>
                     </div>
@@ -221,7 +221,7 @@
                             </div>
                             <div class="block_content">
                                 <h2 class="title">
-                                    <a>Reference Name: {{data.referenceName}}</a>
+                                    <a>Reference Type: {{data.referenceType}}</a>
                                     <i class="fa fa-trash-o pull-right cursor-pointer"
                                        ng-click="deleteIntegrationAPIDetails(data)" title="Delete Configurations"></i>
                                 </h2>
