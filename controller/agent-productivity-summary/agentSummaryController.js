@@ -351,7 +351,7 @@ mainApp.controller("agentSummaryController", function ($scope,$filter,$state, $q
             {
                 temphrs = '0' + totalHrs;
             }
-            else if(durationObj._data.hours >= 10)
+            else if(totalHrs >= 10)
             {
                 temphrs = totalHrs;
             }
