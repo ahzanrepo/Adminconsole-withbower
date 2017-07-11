@@ -113,9 +113,10 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
                         if (agent.ConcurrencyInfo.length > 0 && agent.ConcurrencyInfo[0].SlotInfo.length > 0) {
 
-                            var callSlot = $filter('filter')(agent.ConcurrencyInfo, {HandlingType: "CALL"});
+                            var callSlotData = $filter('filter')(agent.ConcurrencyInfo, {HandlingType: "CALL"});
 
-                            if (callSlot && callSlot.length) {
+                            if (callSlotData && callSlotData.length) {
+                                var callSlot = callSlotData[0];
                                 var reservedDate = callSlot.SlotInfo[0].StateChangeTime;
 
                                 if (resonseAvailability == "NotAvailable") {
