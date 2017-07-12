@@ -17,9 +17,9 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                         var d = moment(item.CurrentMaxWaitTime).valueOf();
                         item.MaxWaitingMS = d;
 
-                        if (event.Message.EventTime) {
+                        if (item.EventTime) {
 
-                            var serverTime = moment(event.Message.EventTime).valueOf();
+                            var serverTime = moment(item.EventTime).valueOf();
                             tempMaxWaitingMS = serverTime - d;
                             item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
 
@@ -209,6 +209,15 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                 if (item.CurrentMaxWaitTime) {
                     var d = moment(item.CurrentMaxWaitTime).valueOf();
                     item.MaxWaitingMS = d;
+
+                    if (item.EventTime) {
+
+                        var serverTime = moment(item.EventTime).valueOf();
+                        tempMaxWaitingMS = serverTime - d;
+                        item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                    }
+
                 }
 
                 if (item.TotalQueued > 0) {
