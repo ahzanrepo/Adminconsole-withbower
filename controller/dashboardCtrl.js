@@ -799,7 +799,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         scaleColor: false,
         lineWidth: 5,
         lineCap: 'circle',
-        size: 55
+        size: 50
     };
 
     var checkQueueAvailability = function (itemID) {
