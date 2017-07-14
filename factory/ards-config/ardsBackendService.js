@@ -94,6 +94,16 @@ mainApp.factory('ardsBackendService', function ($http, authService,baseUrls) {
             });
         },
 
+        getRequestMetaByType: function (serverType, requestType) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.ardsLiteServiceUrl+"ARDS/requestmeta/"+serverType+"/"+requestType
+            }).then(function(response)
+            {
+                return response;
+            });
+        }
+
 
 
     }

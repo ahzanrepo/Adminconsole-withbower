@@ -4,15 +4,23 @@
 
 mainApp.factory("cSatService", function ($http, download,authService,baseUrls) {
 
-    var getSatisfactionRequest = function (page,size,start,end,  satisfaction ) {
+    var getSatisfactionRequest = function (page,size,start,end,satisfaction,agentFilter) {
 
         var squr = "&satisfaction="+satisfaction;
         if(satisfaction===undefined ||satisfaction==="all"){
             squr = "";
         }
+
+        var body = {};
+
+        if(agentFilter && agentFilter.length > 0)
+        {
+            body.agentFilter = agentFilter;
+        }
         return $http({
-            method: 'GET',
-            url: baseUrls.cSatUrl+ "CustomerSatisfactions/Request/"+page+"/"+size+"?start="+start+"&end="+end+squr
+            method: 'POST',
+            url: baseUrls.cSatUrl+ "CustomerSatisfactions/Request/"+page+"/"+size+"?start="+start+"&end="+end+squr,
+            data: JSON.stringify(body)
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -22,15 +30,44 @@ mainApp.factory("cSatService", function ($http, download,authService,baseUrls) {
         });
     };
 
-    var getSatisfactionRequestCount = function (start,end,  satisfaction ) {
+    var getSatisfactionRequestDownload = function (start,end,satisfaction,agentFilter,zone) {
 
         var squr = "&satisfaction="+satisfaction;
         if(satisfaction===undefined ||satisfaction==="all"){
             squr = "";
         }
+
+        var body = {};
+
+        if(agentFilter && agentFilter.length > 0)
+        {
+            body.agentFilter = agentFilter;
+        }
         return $http({
-            method: 'GET',
-            url: baseUrls.cSatUrl+ "CustomerSatisfactions/Count?start="+start+"&end="+end+squr
+            method: 'POST',
+            url: baseUrls.cSatUrl+ "CustomerSatisfactions/Request/Download?start="+start+"&end="+end+squr+"&tz="+zone,
+            data: JSON.stringify(body)
+        }).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var getSatisfactionRequestCount = function (start,end,satisfaction,agentFilter) {
+
+        var squr = "&satisfaction="+satisfaction;
+        if(satisfaction===undefined ||satisfaction==="all"){
+            squr = "";
+        }
+        var body = {};
+
+        if(agentFilter && agentFilter.length > 0)
+        {
+            body.agentFilter = agentFilter;
+        }
+        return $http({
+            method: 'POST',
+            url: baseUrls.cSatUrl+ "CustomerSatisfactions/Count?start="+start+"&end="+end+squr,
+            data: JSON.stringify(body)
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -40,10 +77,19 @@ mainApp.factory("cSatService", function ($http, download,authService,baseUrls) {
         });
     };
 
-    var getSatisfactionRequestReport = function (start,end) {
+    var getSatisfactionRequestReport = function (start,end,agentFilter) {
+
+        var body = {};
+
+        if(agentFilter && agentFilter.length > 0)
+        {
+            body.agentFilter = agentFilter;
+        }
+
         return $http({
-            method: 'GET',
-            url: baseUrls.cSatUrl+ "CustomerSatisfactions/Report?start="+start+"&end="+end
+            method: 'POST',
+            url: baseUrls.cSatUrl+ "CustomerSatisfactions/Report?start="+start+"&end="+end,
+            data: JSON.stringify(body)
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -56,7 +102,8 @@ mainApp.factory("cSatService", function ($http, download,authService,baseUrls) {
   return {
       GetSatisfactionRequest: getSatisfactionRequest,
       GetSatisfactionRequestCount:getSatisfactionRequestCount,
-      GetSatisfactionRequestReport:getSatisfactionRequestReport
+      GetSatisfactionRequestReport:getSatisfactionRequestReport,
+      getSatisfactionRequestDownload:getSatisfactionRequestDownload
   }
 
 });

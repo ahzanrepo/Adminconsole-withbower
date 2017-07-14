@@ -1,4 +1,4 @@
-mainApp.controller("campaignController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, campaignService) {
+mainApp.controller("campaignController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, campaignService, ardsBackendService) {
 
     $anchorScroll();
     $scope.mechanisms = campaignService.mechanisms;
@@ -83,7 +83,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
             $scope.showAlert("Campaign","error","There is an error, Error on loading campaigns");
         });
     };
-    $scope.loadCampaign();
+
 
     $scope.reasons = [];
     $scope.GetReasons = function() {
@@ -98,5 +98,29 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
         });
     };
     $scope.GetReasons();
+
+
+    //-----------------------------Load ARDS Request Meta Data----------------------------------//
+    $scope.ardsAttributes = [];
+    $scope.GetArdsAttributes = function() {
+        ardsBackendService.getRequestMetaByType('DIALER', 'CALL').then(function (response) {
+            $scope.loadCampaign();
+
+            if(response.data.IsSuccess) {
+                var result = JSON.parse(response.data.Result);
+                if(result && result.AttributeMeta && result.AttributeMeta.length > 0) {
+                    $scope.ardsAttributes = result.AttributeMeta[0].AttributeDetails;
+                }
+            }else{
+                $scope.showAlert("Campaign","error","Error on loading ARDS Data");
+            }
+        }, function (error) {
+            $scope.loadCampaign();
+            $scope.showAlert("Campaign","error","Error on loading ARDS Data");
+        });
+    };
+
+    $scope.GetArdsAttributes();
+
 
 });

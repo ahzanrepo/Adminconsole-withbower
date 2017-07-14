@@ -22,19 +22,22 @@
                     </div>
                     <div class="x_content">
                         <div class="col-md-12 col-sm-12 col-xs-12">
+
                             <br>
+
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <!--<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">-->
-                                    <!--<input type="text" class="form-control has-feedback-left" placeholder="Username"-->
-                                           <!--ng-model="newUser.username">-->
-                                    <!--<span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
+                                <!--<input type="text" class="form-control has-feedback-left" placeholder="Username"-->
+                                <!--ng-model="newUser.username">-->
+                                <!--<span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>-->
                                 <!--</div>-->
 
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                     <input type="text" class="form-control has-feedback-left"
                                            placeholder="E-mail Address"
                                            ng-model="newUser.mail">
-                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                    <span class="fa fa-envelope form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
 
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
@@ -46,9 +49,12 @@
                                         </password-strength-box>
                                     </div>
 
-                                    <input type="password" class="form-control has-feedback-left" placeholder="Password"
-                                           ng-model="newUser.password" ng-focus="showPasswordHints()" ng-blur="showPasswordHints()">
-                                    <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
+                                    <input type="password" class="form-control has-feedback-left"
+                                           placeholder="Password"
+                                           ng-model="newUser.password" ng-focus="showPasswordHints()"
+                                           ng-blur="showPasswordHints()">
+                                    <span class="fa fa-key form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
 
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
@@ -68,26 +74,34 @@
                                     </select>
                                 </div>
                                 <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left" placeholder="First Name"
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="First Name"
                                            ng-model="newUser.firstname">
-                                    <span class="fa fa-meh-o form-control-feedback left" aria-hidden="true"></span>
+                                    <span class="fa fa-meh-o form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left" placeholder="Last Name"
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="Last Name"
                                            ng-model="newUser.lastname">
-                                    <span class="fa fa-meh-o form-control-feedback left" aria-hidden="true"></span>
+                                    <span class="fa fa-meh-o form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
 
 
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left" placeholder="Phone Number"
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="Phone Number"
                                            ng-model="newUser.phone">
-                                    <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
+                                    <span class="fa fa-phone form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left" placeholder="Nick Name"
+                                    <input type="text" class="form-control has-feedback-left"
+                                           placeholder="Nick Name"
                                            ng-model="newUser.name">
-                                    <span class="fa fa-meh-o form-control-feedback left" aria-hidden="true"></span>
+                                    <span class="fa fa-meh-o form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <button class="btn btn-success" ng-click="addNewUser()"
@@ -106,12 +120,7 @@
                 <div class="x_panel">
                     <div class="x_content col-md-12 col-sm-12 col-xs-12">
                         <ul class="list-unstyled msg_list">
-                            <div class="mail_list_column sip-user-wrap"
-                                 ng-mouseover="viewScroll()"
-                                 ng-mouseleave="hideScroll()"
-                                 ng-slimscroll
-                                 height="670" width="100%" opacity="0.2" distance="0px"
-                                 enabled="{{ scrollEnabled }}">
+                            <div class="mail_list_column sip-user-wrap">
                                 <a href="javascript:void(0);" class="user-wrap hover-none"
                                    ng-repeat="item in userList | filterBy: ['username']: searchCriteria">
                                     <div class="mail_list user-list">
@@ -132,10 +141,12 @@
                                                 <i class="fa fa-envelope-square"
                                                    style="padding-right: 10px;"></i> {{item.email.contact}}
                                             </p>
+
                                             <p class="font-robot">
                                                 <i class="fa fa-phone"
                                                    style="padding-right: 10px;"></i>{{item.phoneNumber.contact}}
                                             </p>
+
                                             <p>
                                                 <small class="embed-wrap"> {{item.user_meta.role}}</small>
                                             </p>
@@ -163,6 +174,7 @@
                                     <!-- header -->
                                     <div class="header">
                                         <h5>User Group</h5>
+
                                         <div class="row">
                                             <div class="col-lg-8 col-xs-12"
                                                  style="padding-right: 0px">
@@ -256,6 +268,7 @@
                                     <!-- header -->
                                     <div class="header">
                                         <h5>Group member</h5>
+
                                         <div class="row">
                                             <div class="col-lg-8 col-xs-12"
                                                  style="padding-right: 0px">
@@ -343,6 +356,82 @@
                         </div>
                     </div>
                 </div>
+            </uib-tab>
+
+            <uib-tab index="2" heading="Import Users From AD">
+                <br>
+
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="search" ng-model="adSearchCriteria" class="form-control"
+                               placeholder="Search AD Users">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12 table-header-p-space">
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            User ID
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            Display Name
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-xs-12">
+                            <center>Supervisor</center>
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-xs-12">
+                            <center>Agent</center>
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-xs-12">
+                        </div>
+                    </div>
+                    <div class="table-row-p-wrap">
+                        <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
+                             ng-show="activeDirectoryUsers.length >0"
+                             ng-repeat="adUser in activeDirectoryUsers| filterBy: ['sAMAccountName']: adSearchCriteria">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                {{adUser.sAMAccountName}}
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                {{adUser.displayName}}
+                            </div>
+                            <div class="col-md-1 col-sm-2 col-xs-12">
+                                <center><input id="supervisor{{adUser.sAMAccountName}}"
+                                               checklist-model="selectedADUsers.supervisors" type="checkbox"
+                                               checklist-value="adUser"
+                                               ng-disabled="selectedADUsers.agents.indexOf(adUser)> -1 || adUser.isProfileExists">
+                                </center>
+                            </div>
+                            <div class="col-md-1 col-sm-2 col-xs-12">
+                                <center><input id="agent{{adUser.sAMAccountName}}"
+                                               checklist-model="selectedADUsers.agents" type="checkbox"
+                                               checklist-value="adUser"
+                                               ng-disabled="selectedADUsers.supervisors.indexOf(adUser)> -1 || adUser.isProfileExists">
+                                </center>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                                <center>
+                                    <a href="" ng-show="!adUser.isProfileExists" ng-click="createUserFromAD(adUser)">Import</a>
+                                    <i class="ti-check" ng-show="adUser.isProfileExists"></i>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /. end table wrapper -->
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
+                         ng-show="activeDirectoryUsers.length ===0">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            No Data Records Found
+                        </div>
+                    </div>
+                </div>
+                <!--./button -->
+                <!--<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                    <button class="btn btn-success" ng-click="createUsersFromAD()">
+                        Create Users
+                    </button>
+                </div>-->
             </uib-tab>
         </uib-tabset>
     </div>

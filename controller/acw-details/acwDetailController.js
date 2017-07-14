@@ -6,7 +6,7 @@
 
     var app =angular.module('veeryConsoleApp');
 
-    var acwDetailController = function($scope, $state, acwDetailApiAccess, resourceService, loginService) {
+    var acwDetailController = function($scope, $state, $timeout, acwDetailApiAccess, resourceService, cdrApiHandler, loginService) {
 
         $scope.pagination = {
             currentPage : 1
@@ -23,6 +23,119 @@
         $scope.attrList = [];
 
         $scope.showTable = false;
+
+        $scope.cancelDownload = true;
+        $scope.buttonClass = 'fa fa-file-text';
+        $scope.fileDownloadState = 'RESET';
+        $scope.currentCSVFilename = '';
+        $scope.DownloadButtonName = 'CSV';
+
+        $scope.downloadPress = function () {
+            $scope.fileDownloadState = 'RESET';
+            $scope.DownloadButtonName = 'CSV';
+            $scope.cancelDownload = true;
+            $scope.buttonClass = 'fa fa-file-text';
+        };
+
+        var checkFileReady = function (fileName) {
+            if ($scope.cancelDownload) {
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
+                $scope.buttonClass = 'fa fa-file-text';
+            }
+            else {
+                cdrApiHandler.getFileMetaData(fileName).then(function (fileStatus) {
+                    if (fileStatus && fileStatus.Result) {
+                        if (fileStatus.Result.Status === 'PROCESSING') {
+                            $timeout(checkFileReady(fileName), 10000);
+                        }
+                        else {
+
+
+                            var decodedToken = loginService.getTokenDecode();
+
+                            if (decodedToken && decodedToken.company && decodedToken.tenant) {
+                                $scope.currentCSVFilename = fileName;
+                                $scope.DownloadCSVFileUrl = baseUrls.fileServiceInternalUrl + 'File/DownloadLatest/' + decodedToken.tenant + '/' + decodedToken.company + '/' + fileName;
+                                $scope.fileDownloadState = 'READY';
+                                $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.buttonClass = 'fa fa-file-text';
+                            }
+                            else {
+                                $scope.fileDownloadState = 'RESET';
+                                $scope.DownloadButtonName = 'CSV';
+                                $scope.cancelDownload = true;
+                                $scope.buttonClass = 'fa fa-file-text';
+                            }
+
+
+                        }
+                    }
+                    else {
+                        $scope.fileDownloadState = 'RESET';
+                        $scope.DownloadButtonName = 'CSV';
+                        $scope.cancelDownload = true;
+                        $scope.buttonClass = 'fa fa-file-text';
+                        $scope.showAlert('CDR Download', 'warn', 'No CDR Records found for downloading');
+                    }
+
+                }).catch(function (err) {
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
+                    $scope.showAlert('CDR Download', 'error', 'Error occurred while preparing file');
+                });
+            }
+
+        };
+
+        $scope.processDownloadRequest = function()
+        {
+            if ($scope.DownloadButtonName === 'CSV') {
+                $scope.cancelDownload = false;
+                $scope.buttonClass = 'fa fa-spinner fa-spin';
+            }
+            else {
+                $scope.cancelDownload = true;
+                $scope.buttonClass = 'fa fa-file-text';
+            }
+
+            $scope.DownloadButtonName = 'PROCESSING';
+
+            var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
+            var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
+            var momentTz = moment.parseZone(new Date()).format('Z');
+            momentTz = momentTz.replace("+", "%2B");
+
+            var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
+            var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
+
+            acwDetailApiAccess.getAllAcwRecords($scope.obj.resourceId, startDate, endDate, $scope.skillFilter).then(function(response){
+                if(response.IsSuccess)
+                {
+                    var downloadFilename = response.Result;
+
+                    checkFileReady(downloadFilename);
+                }
+                else
+                {
+                    $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
+                    $scope.fileDownloadState = 'RESET';
+                    $scope.DownloadButtonName = 'CSV';
+                    $scope.cancelDownload = true;
+                    $scope.buttonClass = 'fa fa-file-text';
+                }
+            }, function(err){
+                loginService.isCheckResponse(err);
+                $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
+                $scope.fileDownloadState = 'RESET';
+                $scope.DownloadButtonName = 'CSV';
+                $scope.cancelDownload = true;
+                $scope.buttonClass = 'fa fa-file-text';
+            });
+        };
 
 
         var getSkillList = function () {

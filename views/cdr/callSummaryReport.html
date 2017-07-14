@@ -18,7 +18,7 @@
                             <input type="text" class="form-control" ng-model="obj.dateofmonth" ng-change="onDateChange()" name="dayofmonth" datepicker>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2" style="line-height: 7.3em;">
-                            <button type="button" class="btn btn-success" ng-click="getCallSummary()">
+                            <button type="button" class="btn btn-success" ng-disabled="obj.isTableLoadingHr==0" ng-click="getCallSummary()">
                                 Search
                             </button>
                         </div>
@@ -30,7 +30,7 @@
 
                                 <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                     <i class="fa fa-download"></i></a>
-                                <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getHourlySummaryCSVDownload()">
+                                <button ng-if="fileDownloadState === 'RESET'" ng-disabled="!cancelDownload" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getHourlySummaryCSVDownload()">
                                     CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                     <i ng-class="buttonClass"></i>
                                 </button>
@@ -87,7 +87,15 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                                 rowspan="1"
+                                                                colspan="1" aria-label="AbandonCount">Abandon Calls (Count)
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                                rowspan="1"
                                                                 colspan="1" aria-label="Abandon">Abandon Calls (%)
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                                rowspan="1"
+                                                                colspan="1" aria-label="DropCount">Dropped Calls (Count)
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                                 rowspan="1"
@@ -111,6 +119,10 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                                 rowspan="1"
+                                                                colspan="1" aria-label="AnswerCount">Answererd Calls (Count)
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                                rowspan="1"
                                                                 colspan="1" aria-label="AnswerPercentage">Answer Percentage (%)
                                                             </th>
                                                         </thead>
@@ -120,12 +132,15 @@
                                                             <td>{{sumHr.Caption}}</td>
                                                             <td>{{sumHr.IVRCallsCount}}</td>
                                                             <td>{{sumHr.QueuedCallsCount}}</td>
+                                                            <td>{{sumHr.AbandonCallsCount}}</td>
                                                             <td>{{sumHr.AbandonPercentage}}</td>
+                                                            <td>{{sumHr.DropCallsCount}}</td>
                                                             <td>{{sumHr.DropPercentage}}</td>
                                                             <td>{{sumHr.HoldAverage}}</td>
                                                             <td>{{sumHr.IvrAverage}}</td>
                                                             <td>{{sumHr.RingAverage}}</td>
                                                             <td>{{sumHr.TalkAverage}}</td>
+                                                            <td>{{sumHr.AnswerCount}}</td>
                                                             <td>{{sumHr.AnswerPercentage}}</td>
                                                         </tbody>
                                                     </table>
@@ -150,7 +165,7 @@
                             <input type="text" class="form-control" ng-model="obj2.endDay" name="endDay" datepicker>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2" style="line-height: 7.3em;">
-                            <button type="button" class="btn btn-success" ng-click="getCallSummaryDaily()">
+                            <button type="button" class="btn btn-success" ng-disabled="obj.isTableLoadingDay==0" ng-click="getCallSummaryDaily()">
                                 Search
                             </button>
                         </div>
@@ -162,7 +177,7 @@
 
                                 <a ng-if="fileDownloadStateDaily === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPressDaily()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                     <i class="fa fa-download"></i></a>
-                                <button ng-if="fileDownloadStateDaily === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getDailySummaryCSVDownload()">
+                                <button ng-if="fileDownloadStateDaily === 'RESET'" ng-disabled="!cancelDownloadDaily" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getDailySummaryCSVDownload()">
                                     CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                     <i ng-class="buttonClassDaily"></i>
                                 </button>
@@ -222,7 +237,15 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                                 rowspan="1"
+                                                                colspan="1" aria-label="AbandonCount">Abandon Calls (Count)
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                                rowspan="1"
                                                                 colspan="1" aria-label="Abandon">Abandon Calls (%)
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                                rowspan="1"
+                                                                colspan="1" aria-label="DropCount">Dropped Calls (Count)
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                                 rowspan="1"
@@ -246,6 +269,10 @@
                                                             </th>
                                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                                 rowspan="1"
+                                                                colspan="1" aria-label="AnswerCount">Answererd Calls (Count)
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                                rowspan="1"
                                                                 colspan="1" aria-label="AnswerPercentage">Answer Percentage (%)
                                                             </th>
                                                         </thead>
@@ -255,12 +282,15 @@
                                                             <td>{{sumDay.Caption}}</td>
                                                             <td>{{sumDay.IVRCallsCount}}</td>
                                                             <td>{{sumDay.QueuedCallsCount}}</td>
+                                                            <td>{{sumDay.AbandonCallsCount}}</td>
                                                             <td>{{sumDay.AbandonPercentage}}</td>
+                                                            <td>{{sumDay.DropCallsCount}}</td>
                                                             <td>{{sumDay.DropPercentage}}</td>
                                                             <td>{{sumDay.HoldAverage}}</td>
                                                             <td>{{sumDay.IvrAverage}}</td>
                                                             <td>{{sumDay.RingAverage}}</td>
                                                             <td>{{sumDay.TalkAverage}}</td>
+                                                            <td>{{sumDay.AnswerCount}}</td>
                                                             <td>{{sumDay.AnswerPercentage}}</td>
                                                         </tbody>
                                                     </table>
@@ -318,7 +348,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2 col-sm-2 col-xs-2" style="line-height: 7.3em;">
-                                <button type="button" class="btn btn-success" ng-click="getCallSummary()">
+                                <button type="button" class="btn btn-success" ng-disabled="isTableLoading==0" ng-click="getCallSummary()">
                                     Search
                                 </button>
                             </div>
@@ -330,7 +360,7 @@
 
                                     <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                         <i class="fa fa-download"></i></a>
-                                    <button ng-if="fileDownloadState === 'RESET'" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getCallSummaryCustCSVDownload()">
+                                    <button ng-if="fileDownloadState === 'RESET'" ng-disabled="!cancelDownload" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500" type="button" ng-click="getCallSummaryCustCSVDownload()">
                                         CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                         <i ng-class="buttonClass"></i>
                                     </button>

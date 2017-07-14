@@ -136,8 +136,8 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                 });
             })
             .catch(function (error) {
-                if (error.status == 449) {
-                    showAlert('Account Info', 'warning', 'Please ' + error.data.message);
+                if (error.status == 449 || error.status == 401) {
+                    showAlert('Account Info', 'warning', error.data.message);
                 } else {
                     showAlert('Error', 'error', 'Please check login details...');
 
