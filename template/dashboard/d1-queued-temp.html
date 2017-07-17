@@ -1,4 +1,5 @@
 <div class="q-chart-wrp">
+
     <div class="chart-wrp">
         <div easypiechart options="pieoption" percent="que.presentage">
             <div class="d1-pie-text">{{que.presentage}}%</div>
@@ -7,7 +8,8 @@
 
     <div class="q-chart-header-wrp">
         <div class="header">
-            {{que.queuename}}
+            {{ que.queuename | limitTo: 15 }}{{que.queuename.length > 15 ? '...' :
+            ''}}
         </div>
         <div class="chart-name">
             ANSWERED
