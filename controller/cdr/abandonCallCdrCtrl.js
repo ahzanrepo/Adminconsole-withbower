@@ -211,7 +211,7 @@
 
 
             }).catch(function (err) {
-                //loginService.isCheckResponse(err);
+                loginService.isCheckResponse(err);
             });
         };
 
@@ -224,7 +224,7 @@
 
 
             }).catch(function (err) {
-                //loginService.isCheckResponse(err);
+                loginService.isCheckResponse(err);
             });
         };
 
