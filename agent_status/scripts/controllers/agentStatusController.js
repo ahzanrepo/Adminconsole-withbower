@@ -79,7 +79,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                     value: ids[0].BreakTime ? ids[0].BreakTime : 0,
                                     name: 'Break'
                                 }, {
-                                    value: ((ids[0].OnCallTime ? ids[0].OnCallTime : 0)+(ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0)),//OutboundCallTime
+                                    value: ((ids[0].OnCallTime ? ids[0].OnCallTime : 0) + (ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0)),//OutboundCallTime
                                     name: 'On Call'
                                 }, {
                                     value: ids[0].IdleTime ? ids[0].IdleTime : 0,
@@ -88,14 +88,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                 "ResourceId": agent.ResourceId,
                                 "ResourceName": agent.ResourceName,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
-                                "OutgoingCallCount": ids[0].OutgoingCallCount? ids[0].OutgoingCallCount : 0,
+                                "OutgoingCallCount": ids[0].OutgoingCallCount ? ids[0].OutgoingCallCount : 0,
                                 "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
                                 "Chatid": agent.ResourceId,
                                 "AcwTime": ids[0].AcwTime,
                                 "BreakTime": ids[0].BreakTime,
                                 "HoldTime": ids[0].HoldTime,
                                 "TransferCallCount": ids[0].TransferCallCount,
-                                "OnCallTime": ((ids[0].OnCallTime ? ids[0].OnCallTime : 0)+(ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0)),
+                                "OnCallTime": ((ids[0].OnCallTime ? ids[0].OnCallTime : 0) + (ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0)),
                                 "IdleTime": ids[0].IdleTime,
                                 "StaffedTime": ids[0].StaffedTime,
                                 "slotState": {},
@@ -111,42 +111,68 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             resonseStatus = agent.Status.Reason;
                         }
 
-                        if (agent.ConcurrencyInfo.length > 0 &&
-                            agent.ConcurrencyInfo[0].SlotInfo.length > 0) {
+                        if (agent.ConcurrencyInfo.length > 0 && agent.ConcurrencyInfo[0].SlotInfo.length > 0) {
 
-                            // is user state Reason
+                            var callSlotData = $filter('filter')(agent.ConcurrencyInfo, {HandlingType: "CALL"});
 
+                            if (callSlotData && callSlotData.length) {
+                                var callSlot = callSlotData[0];
+                                var reservedDate = callSlot.SlotInfo[0].StateChangeTime;
 
-
-
-                            var reservedDate = agent.ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
-
-                            if (resonseAvailability == "NotAvailable") {
-                                agentProductivity.slotState = resonseStatus;
-                                agentProductivity.other = "Break";
-                                reservedDate = agent.Status.StateChangeTime;
-                            } else if (agent.ConcurrencyInfo[0].IsRejectCountExceeded) {
-                                agentProductivity.slotState = "Suspended";
-                                agentProductivity.other = "Reject";
-                            } else {
-                                agentProductivity.slotState = agent.ConcurrencyInfo[0].SlotInfo[0].State;
-
-                                if (agent.ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
-
+                                if (resonseAvailability == "NotAvailable") {
+                                    agentProductivity.slotState = resonseStatus;
+                                    agentProductivity.other = "Break";
                                     reservedDate = agent.Status.StateChangeTime;
+                                } else if (callSlot.IsRejectCountExceeded) {
+                                    agentProductivity.slotState = "Suspended";
+                                    agentProductivity.other = "Reject";
+                                } else {
+                                    agentProductivity.slotState = callSlot.SlotInfo[0].State;
+
+                                    if (callSlot.SlotInfo[0].State == "Available") {
+
+                                        reservedDate = agent.Status.StateChangeTime;
+                                    }
+                                }
+
+
+                                if (reservedDate == "") {
+                                    agentProductivity.LastReservedTime = null;
+                                } else {
+                                    agentProductivity.LastReservedTime = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
+                                    agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
                                 }
                             }
 
 
-                            if (reservedDate == "") {
-                                agentProductivity.LastReservedTime = null;
-                            } else {
-                                agentProductivity.LastReservedTime = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
-                                agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
-                            }
+                            /*var reservedDate = agent.ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
+
+                             if (resonseAvailability == "NotAvailable") {
+                             agentProductivity.slotState = resonseStatus;
+                             agentProductivity.other = "Break";
+                             reservedDate = agent.Status.StateChangeTime;
+                             } else if (agent.ConcurrencyInfo[0].IsRejectCountExceeded) {
+                             agentProductivity.slotState = "Suspended";
+                             agentProductivity.other = "Reject";
+                             } else {
+                             agentProductivity.slotState = agent.ConcurrencyInfo[0].SlotInfo[0].State;
+
+                             if (agent.ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
+
+                             reservedDate = agent.Status.StateChangeTime;
+                             }
+                             }
 
 
-                        }else{
+                             if (reservedDate == "") {
+                             agentProductivity.LastReservedTime = null;
+                             } else {
+                             agentProductivity.LastReservedTime = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
+                             agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
+                             }*/
+
+
+                        } else {
                             agentProductivity.slotState = "Offline";
                             agentProductivity.other = "Offline";
                             var offlineReservedDate = agent.Status.StateChangeTime;

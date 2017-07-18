@@ -64,9 +64,21 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                         item.presentage = Math.round((event.Message.QueueInfo.TotalAnswered / event.Message.QueueInfo.TotalQueued) * 100);
                     }
 
+
+
+
                     if (item.CurrentMaxWaitTime) {
                         var d = moment(item.CurrentMaxWaitTime).valueOf();
                         item.MaxWaitingMS = d;
+
+                        if (item.EventTime) {
+
+                            var serverTime = moment(item.EventTime).valueOf();
+                            tempMaxWaitingMS = serverTime - d;
+                            item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                        }
+
                     }
 
                     $scope.queues[item.queuename] = item;
@@ -787,7 +799,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         scaleColor: false,
         lineWidth: 5,
         lineCap: 'circle',
-        size: 55
+        size: 50
     };
 
     var checkQueueAvailability = function (itemID) {
@@ -830,6 +842,15 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     if (item.CurrentMaxWaitTime) {
                         var d = moment(item.CurrentMaxWaitTime).valueOf();
                         item.MaxWaitingMS = d;
+
+                        if (item.EventTime) {
+
+                            var serverTime = moment(item.EventTime).valueOf();
+                            tempMaxWaitingMS = serverTime - d;
+                            item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                        }
+
                     }
 
                     $scope.queues[item.queuename] = item;

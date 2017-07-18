@@ -16,6 +16,15 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                     if (item.CurrentMaxWaitTime) {
                         var d = moment(item.CurrentMaxWaitTime).valueOf();
                         item.MaxWaitingMS = d;
+
+                        if (item.EventTime) {
+
+                            var serverTime = moment(item.EventTime).valueOf();
+                            tempMaxWaitingMS = serverTime - d;
+                            item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                        }
+
                     }
 
                     //
@@ -28,8 +37,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                         item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                     }
 
-                    if(!$scope.queues[event.Message.QueueName])
-                    {
+                    if (!$scope.queues[event.Message.QueueName]) {
                         $scope.queueList.push(item);
                     }
 
@@ -160,28 +168,22 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
     };
 
-    $scope.checkQueueHidden = function(qid)
-    {
-        if($scope.selectedQueues && $scope.selectedQueues.length > 0)
-        {
-            var matchingQueues = $scope.selectedQueues.filter(function(queue){
-                if(queue.id === qid)
-                {
+    $scope.checkQueueHidden = function (qid) {
+        if ($scope.selectedQueues && $scope.selectedQueues.length > 0) {
+            var matchingQueues = $scope.selectedQueues.filter(function (queue) {
+                if (queue.id === qid) {
                     return true;
                 }
             });
 
-            if(matchingQueues && matchingQueues.length > 0)
-            {
+            if (matchingQueues && matchingQueues.length > 0) {
                 return false;
             }
-            else
-            {
+            else {
                 return true;
             }
         }
-        else
-        {
+        else {
             return false;
         }
 
@@ -207,6 +209,15 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                 if (item.CurrentMaxWaitTime) {
                     var d = moment(item.CurrentMaxWaitTime).valueOf();
                     item.MaxWaitingMS = d;
+
+                    if (item.EventTime) {
+
+                        var serverTime = moment(item.EventTime).valueOf();
+                        tempMaxWaitingMS = serverTime - d;
+                        item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                    }
+
                 }
 
                 if (item.TotalQueued > 0) {
@@ -506,13 +517,11 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
 
                 queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
 
-                    if(response.QueueInfo)
-                    {
+                    if (response.QueueInfo) {
                         response.QueueInfo.QueueName = response.QueueName;
                     }
                     scope.que = response.QueueInfo;
-                    if(response.QueueInfo.CurrentMaxWaitTime)
-                    {
+                    if (response.QueueInfo.CurrentMaxWaitTime) {
                         scope.que.CurrentMaxWaitTime = moment().diff(moment(response.QueueInfo.CurrentMaxWaitTime), 'seconds');
                     }
                     console.log("que  ", scope.que);

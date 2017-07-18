@@ -5,6 +5,7 @@ mainApp.controller("templateController", function ($scope, $state, templateMaker
 
     $scope.StyleList = [];
     $scope.StyleContentList = [];
+    $scope.newTemplate={};
     $scope.StyleList.push({
         isFirst: true
     });

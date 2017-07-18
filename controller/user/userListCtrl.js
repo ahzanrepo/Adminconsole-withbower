@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService,$anchorScroll, companyConfigBackendService) {
+    var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService) {
 
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
@@ -241,7 +241,7 @@
             $scope.groupMemberlist = [];
             $scope.isLoadingUsers = true;
             $scope.selectedGroup = group;
-            
+
             userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
                 if (response.IsSuccess) {
                     $scope.groupMemberlist = response.Result;
@@ -364,10 +364,8 @@
 
         $scope.showPasswordHints = function () {
 
-            $scope.pwdBox = !$scope.pwdBox ;
+            $scope.pwdBox = !$scope.pwdBox;
         };
-
-
 
 
         //-------------------------Active Directory-------------------------------------
@@ -381,9 +379,9 @@
             $scope.activeDirectoryUsers = [];
             $scope.selectedADUsers = {agents: [], supervisors: []};
 
-            function pushAdUser(ad_user, isProfileExists, userRole){
+            function pushAdUser(ad_user, isProfileExists, userRole) {
 
-                switch (userRole){
+                switch (userRole) {
                     case 'supervisor':
                         $scope.selectedADUsers.supervisors.push(ad_user);
                         break;
@@ -401,12 +399,11 @@
             }
 
             companyConfigBackendService.getUsersFromActiveDirectory().then(function (response) {
-                if(response.IsSuccess)
-                {
+                if (response.IsSuccess) {
 
                     response.Result.forEach(function (ad_user) {
                         var isExist = false;
-                        for(var i =0; i < $scope.userList.length; i++) {
+                        for (var i = 0; i < $scope.userList.length; i++) {
                             var system_user = $scope.userList[i];
                             if (system_user.username && ad_user.userPrincipalName && system_user.username === ad_user.userPrincipalName) {
                                 isExist = true;
@@ -415,42 +412,41 @@
                             }
                         }
 
-                        if(!isExist)
+                        if (!isExist)
                             pushAdUser(angular.copy(ad_user), false, undefined);
                     });
 
 
                 }
-                else
-                {
+                else {
                     var errMsg = response.CustomMessage;
 
-                    if(response.Exception)
-                    {
+                    if (response.Exception) {
                         errMsg = response.Exception.Message;
                     }
-                    $scope.showAlert('Active Directory', errMsg, 'error');
+                    //$scope.showAlert('Active Directory', errMsg, 'error');
+                    console.log('active directory error' + errMsg);
                 }
-            }, function(err){
+            }, function (err) {
                 var errMsg = "Error Occurred While Retrieving Active Directory Users";
-                if(err.statusText)
-                {
+                if (err.statusText) {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Active Directory', errMsg, 'error');
+                //$scope.showAlert('Active Directory', errMsg, 'error');
+                console.log('active directory error' + errMsg);
             });
 
         };
-        
+
         $scope.createUserFromAD = function (adUser) {
 
-            var userRole =  ($scope.selectedADUsers.agents.indexOf(adUser) > -1)? "agent": undefined;
-            if(!userRole){
-                userRole =  ($scope.selectedADUsers.supervisors.indexOf(adUser) > -1)? "supervisor": undefined;
+            var userRole = ($scope.selectedADUsers.agents.indexOf(adUser) > -1) ? "agent" : undefined;
+            if (!userRole) {
+                userRole = ($scope.selectedADUsers.supervisors.indexOf(adUser) > -1) ? "supervisor" : undefined;
             }
 
-            if(userRole) {
-                if(adUser.sAMAccountName && adUser.mail && adUser.userPrincipalName) {
+            if (userRole) {
+                if (adUser.sAMAccountName && adUser.mail && adUser.userPrincipalName) {
                     var newUser = {
                         firstname: adUser.givenName,
                         lastname: adUser.sn,
@@ -484,10 +480,10 @@
                         }
                         $scope.showAlert('Error', 'error', errMsg);
                     });
-                }else{
+                } else {
                     $scope.showAlert('Error', 'error', "Insufficient Data To Create User");
                 }
-            }else{
+            } else {
                 $scope.showAlert('Error', 'error', "Select User Role");
             }
 
