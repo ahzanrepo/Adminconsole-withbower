@@ -473,6 +473,70 @@ mainApp.factory('companyConfigBackendService', function ($http, authService,base
             {
                 return response.data;
             });
+        },
+
+        configActiveDirectoryDetail: function(activeDirectoryDetail){
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl +"ActiveDirectory",
+                data: activeDirectoryDetail
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        updateActiveDirectoryDetail: function(activeDirectoryDetail){
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl +"ActiveDirectory/"+activeDirectoryDetail._id,
+                data: activeDirectoryDetail
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        resetActiveDirectoryPassword: function(activeDirectoryId, passwordDetails){
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl +"ActiveDirectory/"+activeDirectoryId+"/ResetPassword",
+                data: passwordDetails
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        removeActiveDirectory: function(activeDirectoryId){
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.UserServiceBaseUrl +"ActiveDirectory/"+activeDirectoryId
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        getActiveDirectoryDetail: function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl +"ActiveDirectory"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        },
+        getUsersFromActiveDirectory: function(){
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl +"ActiveDirectory/Group/Users"
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
         }
 
     }

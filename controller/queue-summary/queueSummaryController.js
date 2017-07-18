@@ -21,21 +21,25 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
     };
 
     $scope.getQueueSummary = function () {
+        $scope.isTableLoading = 0;
         $scope.queueSummaryList = [];
         queueSummaryBackendService.getQueueSummary($scope.startDate, $scope.endDate).then(function (response) {
 
             if (!response.data.IsSuccess) {
                 console.log("Queue Summary loading failed ", response.data.Exception);
+                $scope.isTableLoading = 1;
             }
             else {
                 $scope.isTableLoading = 1;
-                var summaryData = response.data.Result
+                var summaryData = response.data.Result;
                 for (var i = 0; i < summaryData.length; i++) {
                     // main objects
 
                     for (var j = 0; j < summaryData[i].Summary.length; j++) {
                         summaryData[i].Summary[j].SLA = Math.round(summaryData[i].Summary[j].SLA * 100) / 100;
                         summaryData[i].Summary[j].AverageQueueTime = Math.round(summaryData[i].Summary[j].AverageQueueTime * 100) / 100;
+                        summaryData[i].Summary[j].QueueAnsweredPercentage = Math.round((summaryData[i].Summary[j].QueueAnswered/summaryData[i].Summary[j].TotalQueued)*100, 2);
+                        summaryData[i].Summary[j].QueueDroppedPercentage = Math.round((summaryData[i].Summary[j].QueueDropped/summaryData[i].Summary[j].TotalQueued)*100, 2);
                         $scope.queueSummaryList.push(summaryData[i].Summary[j]);
                     }
                 }
@@ -45,6 +49,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
             }
 
         }, function (error) {
+            $scope.isTableLoading = 1;
             loginService.isCheckResponse(error);
             console.log("Error in Queue Summary loading ", error);
         });
@@ -63,7 +68,6 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
                 deferred.reject(queueSummaryList);
             }
             else {
-                $scope.isTableLoading = 1;
                 var summaryData = response.data.Result
                 for (var i = 0; i < summaryData.length; i++) {
                     // main objects
@@ -71,6 +75,9 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
                     for (var j = 0; j < summaryData[i].Summary.length; j++) {
                         summaryData[i].Summary[j].SLA = Math.round(summaryData[i].Summary[j].SLA * 100) / 100;
                         summaryData[i].Summary[j].AverageQueueTime = Math.round(summaryData[i].Summary[j].AverageQueueTime * 100) / 100;
+                        summaryData[i].Summary[j].QueueAnsweredPercentage = Math.round((summaryData[i].Summary[j].QueueAnswered/summaryData[i].Summary[j].TotalQueued)*100, 2);
+                        summaryData[i].Summary[j].QueueDroppedPercentage = Math.round((summaryData[i].Summary[j].QueueDropped/summaryData[i].Summary[j].TotalQueued)*100, 2);
+                        summaryData[i].Summary[j].Date = moment(summaryData[i].Summary[j].Date).format('YYYY-MM-DD');
                         queueSummaryList.push(summaryData[i].Summary[j]);
                     }
                 }

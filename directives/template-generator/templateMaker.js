@@ -335,7 +335,13 @@ mainApp.directive("templatemakerdir", function ($filter,$uibModal,templateMakerB
 
             scope.checkParams = function () {
 
-                var templateContent=scope.template.content.content;
+                var templateContent="";
+
+                if(scope.template.content)
+                {
+                    templateContent=scope.template.content.content;
+                }
+
                 var splitList = templateContent.match(/({[a-zA-Z])\w+}/g);
                 //console.log(splitList);
                 //console.log(scope.template.name +" : "+splitList.length);

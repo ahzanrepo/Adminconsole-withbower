@@ -6,10 +6,17 @@ mainApp.factory('agentSummaryBackendService', function ($http, baseUrls) {
 
     return {
 
-        getAgentSummary: function (fromDate,toDate) {
+        getAgentSummary: function (fromDate,toDate,resourceId) {
+
+            var urlTemp = baseUrls.resourceServiceBaseUrl+ "Resources/Productivity/Summary/from/"+fromDate+"/to/"+toDate;
+
+            if(resourceId)
+            {
+                urlTemp = baseUrls.resourceServiceBaseUrl+ "Resources/Productivity/Summary/from/"+fromDate+"/to/"+toDate+"?resourceId=" + resourceId;
+            }
             return $http({
                 method: 'GET',
-                url: baseUrls.resourceServiceBaseUrl+ "Resources/Productivity/Summary/from/"+fromDate+"/to/"+toDate
+                url: urlTemp
             }).then(function(response)
             {
                 return response;

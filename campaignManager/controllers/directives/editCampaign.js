@@ -10,6 +10,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             campaign: "=",
             extensions: "=",
             reasons: "=",
+            ardsAttributes: "=",
             'reloadCampaign': '&'
         },
 
@@ -585,6 +586,98 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
 
             }
+
+
+            //------------------Campaign AdditionalData--------------------------------------------
+
+            scope.showAdditionalDataPanel = false;
+            scope.campaignAttributes = [];
+            scope.campaignAdditionalData = [];
+
+            function createFilterFor(query) {
+                var lowercaseQuery = angular.lowercase(query);
+                return function filterFn(attribute) {
+                    return (attribute.Name.toLowerCase().indexOf(lowercaseQuery) != -1);
+
+                };
+            }
+
+            scope.querySearch = function (query) {
+                if (query === "*" || query === "") {
+                    if (scope.ardsAttributes) {
+                        return scope.ardsAttributes;
+                    }
+                    else {
+                        return [];
+                    }
+
+                }
+                else {
+                    if(scope.ardsAttributes) {
+                        return query ? scope.ardsAttributes.filter(createFilterFor(query)) : [];
+
+                    }else{
+                        return [];
+                    }
+                }
+
+            };
+
+            scope.onChipAdd = function (chip) {
+
+                scope.campaignAttributes.push(chip.Id);
+
+            };
+            scope.onChipDelete = function (chip) {
+
+                var index = scope.campaignAttributes.indexOf(chip.Id);
+                if (index > -1) {
+                    scope.campaignAttributes.splice(index, 1);
+                }
+
+
+            };
+
+            scope.additionalData = {Class: "PREVIEW", Type: "ARDS", Category: "ATTRIBUTE", TenantId: scope.campaign.TenantId, CompanyId: scope.campaign.CompanyId, CampaignId: scope.campaign.CampaignId, AdditionalData: ""};
+            scope.loadCampaignAdditionalData = function () {
+                if(scope.campaign.DialoutMechanism && (scope.campaign.DialoutMechanism === "PREVIEW" || scope.campaign.DialoutMechanism === "AGENT")) {
+                    scope.showAdditionalDataPanel = true;
+                    campaignService.GetCampaignAdditionalData(scope.campaign.CampaignId).then(function (response) {
+                        if (response && response.AdditionalData) {
+                            scope.campaignAttributes = JSON.parse(response.AdditionalData);
+                            scope.campaignAdditionalData = response;
+                        }
+                    }, function (error) {
+                        scope.showAlert("Campaign", 'error', "Fail To Load Additional Data");
+                    });
+                }
+            };
+
+            scope.createCampaignAdditionalData = function () {
+                scope.additionalData.AdditionalData = JSON.stringify(scope.campaignAttributes);
+                campaignService.CreateCampaignAdditionalData(scope.campaign.CampaignId, scope.additionalData).then(function (response) {
+                    if (response) {
+
+                        scope.campaignAdditionalData.push(response);
+                    }
+                }, function (error) {
+                    scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
+                });
+            };
+
+            scope.updateCampaignAdditionalData = function () {
+                scope.additionalData.AdditionalData = JSON.stringify(scope.campaignAttributes);
+                campaignService.UpdateCampaignAdditionalData(scope.campaign.CampaignId, scope.additionalData).then(function (response) {
+                    if (response) {
+
+                        scope.campaignAdditionalData.push(response);
+                    }
+                }, function (error) {
+                    scope.showAlert("Campaign", 'error', "Fail To Update Additional Data");
+                });
+            };
+
+            scope.loadCampaignAdditionalData();
         }
     }
 });
