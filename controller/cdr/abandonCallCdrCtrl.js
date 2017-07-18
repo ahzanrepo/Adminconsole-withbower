@@ -50,7 +50,7 @@
         $scope.userList = [];
         $scope.attrList = [];
 
-        var pageStack = [];
+        $scope.pageStack = [];
 
         var pageInfo = {};
 
@@ -97,13 +97,13 @@
                 top: $scope.top,
                 bottom: $scope.bottom
             };
-            pageStack.push(pageInfo);
+            $scope.pageStack.push(pageInfo);
             $scope.getProcessedCDR(pageInfo.bottom, false);
 
         };
 
         $scope.loadPreviousPage = function () {
-            var prevPage = pageStack.pop();
+            var prevPage = $scope.pageStack.pop();
 
             $scope.getProcessedCDR(prevPage.bottom + 1, false);
 
@@ -548,7 +548,7 @@
 
             try {
                 if (reset) {
-                    pageStack = [];
+                    $scope.pageStack = [];
                     $scope.top = -1;
                     $scope.bottom = -1;
                     pageInfo.top = -1;
@@ -760,11 +760,11 @@
 
                             }
 
-                            if (pageStack.length === 0) {
+                            if ($scope.pageStack.length === 0) {
                                 $scope.isNextDisabled = false;
                                 $scope.isPreviousDisabled = true;
                             }
-                            else if (pageStack.length > 0) {
+                            else if ($scope.pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;
                                 $scope.isNextDisabled = false;
                             }
@@ -780,7 +780,7 @@
                                 $scope.cdrList = [];
                             }
 
-                            if (pageStack.length > 0) {
+                            if ($scope.pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;
                                 $scope.isNextDisabled = true;
                             }
