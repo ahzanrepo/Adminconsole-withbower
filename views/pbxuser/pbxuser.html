@@ -91,12 +91,7 @@
 
             <ul class="list-unstyled timeline" style="overflow-y: auto; min-height: 877px">
 
-                <div class="mail_list_column sip-user-wrap"
-                     ng-mouseover="viewScroll()"
-                     ng-mouseleave="hideScroll()"
-                     ng-slimscroll
-                     height="800" width="100%" opacity="0.2" distance="0px"
-                     enabled="{{ scrollEnabled }}">
+                <div class="mail_list_column sip-user-wrap">
                     <a href="javascript:void(0);" class="user-wrap hover-none"
                        ng-repeat="item in pabxUsrList | filterBy: ['UserName']: searchCriteria">
                         <div class="mail_list user-list">

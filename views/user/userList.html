@@ -36,8 +36,8 @@
                                     <input type="text" class="form-control has-feedback-left"
                                            placeholder="E-mail Address"
                                            ng-model="newUser.mail">
-                                            <span class="fa fa-envelope form-control-feedback left"
-                                                  aria-hidden="true"></span>
+                                    <span class="fa fa-envelope form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
 
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
@@ -53,8 +53,8 @@
                                            placeholder="Password"
                                            ng-model="newUser.password" ng-focus="showPasswordHints()"
                                            ng-blur="showPasswordHints()">
-                                            <span class="fa fa-key form-control-feedback left"
-                                                  aria-hidden="true"></span>
+                                    <span class="fa fa-key form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
 
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
@@ -77,15 +77,15 @@
                                     <input type="text" class="form-control has-feedback-left"
                                            placeholder="First Name"
                                            ng-model="newUser.firstname">
-                                            <span class="fa fa-meh-o form-control-feedback left"
-                                                  aria-hidden="true"></span>
+                                    <span class="fa fa-meh-o form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback">
                                     <input type="text" class="form-control has-feedback-left"
                                            placeholder="Last Name"
                                            ng-model="newUser.lastname">
-                                            <span class="fa fa-meh-o form-control-feedback left"
-                                                  aria-hidden="true"></span>
+                                    <span class="fa fa-meh-o form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
 
 
@@ -93,15 +93,15 @@
                                     <input type="text" class="form-control has-feedback-left"
                                            placeholder="Phone Number"
                                            ng-model="newUser.phone">
-                                            <span class="fa fa-phone form-control-feedback left"
-                                                  aria-hidden="true"></span>
+                                    <span class="fa fa-phone form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
                                     <input type="text" class="form-control has-feedback-left"
                                            placeholder="Nick Name"
                                            ng-model="newUser.name">
-                                            <span class="fa fa-meh-o form-control-feedback left"
-                                                  aria-hidden="true"></span>
+                                    <span class="fa fa-meh-o form-control-feedback left"
+                                          aria-hidden="true"></span>
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <button class="btn btn-success" ng-click="addNewUser()"
@@ -120,12 +120,7 @@
                 <div class="x_panel">
                     <div class="x_content col-md-12 col-sm-12 col-xs-12">
                         <ul class="list-unstyled msg_list">
-                            <div class="mail_list_column sip-user-wrap"
-                                 ng-mouseover="viewScroll()"
-                                 ng-mouseleave="hideScroll()"
-                                 ng-slimscroll
-                                 height="670" width="100%" opacity="0.2" distance="0px"
-                                 enabled="{{ scrollEnabled }}">
+                            <div class="mail_list_column sip-user-wrap">
                                 <a href="javascript:void(0);" class="user-wrap hover-none"
                                    ng-repeat="item in userList | filterBy: ['username']: searchCriteria">
                                     <div class="mail_list user-list">
@@ -401,11 +396,17 @@
                                 {{adUser.displayName}}
                             </div>
                             <div class="col-md-1 col-sm-2 col-xs-12">
-                                <center><input id="supervisor{{adUser.sAMAccountName}}" checklist-model="selectedADUsers.supervisors" type="checkbox" checklist-value="adUser" ng-disabled="selectedADUsers.agents.indexOf(adUser)> -1 || adUser.isProfileExists">
+                                <center><input id="supervisor{{adUser.sAMAccountName}}"
+                                               checklist-model="selectedADUsers.supervisors" type="checkbox"
+                                               checklist-value="adUser"
+                                               ng-disabled="selectedADUsers.agents.indexOf(adUser)> -1 || adUser.isProfileExists">
                                 </center>
                             </div>
                             <div class="col-md-1 col-sm-2 col-xs-12">
-                                <center><input id="agent{{adUser.sAMAccountName}}" checklist-model="selectedADUsers.agents" type="checkbox" checklist-value="adUser" ng-disabled="selectedADUsers.supervisors.indexOf(adUser)> -1 || adUser.isProfileExists">
+                                <center><input id="agent{{adUser.sAMAccountName}}"
+                                               checklist-model="selectedADUsers.agents" type="checkbox"
+                                               checklist-value="adUser"
+                                               ng-disabled="selectedADUsers.supervisors.indexOf(adUser)> -1 || adUser.isProfileExists">
                                 </center>
                             </div>
                             <div class="col-md-2 col-sm-2 col-xs-12">

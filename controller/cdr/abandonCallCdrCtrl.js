@@ -238,6 +238,11 @@
             $scope.buttonClass = 'fa fa-file-text';
         };
 
+        $scope.getPageWiseDownloadCSV = function()
+        {
+            return $scope.cdrList;
+        };
+
 
         $scope.getProcessedCDRCSVDownload = function () {
             /*if (checkCSVGenerateAllowed()) {
@@ -510,7 +515,7 @@
 
                         }
                         else {
-                            $scope.showAlert('Info', 'info', 'No records to load');
+                            $scope.showAlert('Abandon CDR', 'warn', 'No records to load');
 
                         }
 
@@ -767,7 +772,8 @@
                             $scope.isTableLoading = 1;
                         }
                         else {
-                            $scope.showAlert('Info', 'info', 'No records to load');
+                            $scope.showAlert('Abandon CDR', 'Warn', 'No records to load');
+                            $scope.cdrList = [];
 
                             if(offset === 0)
                             {
@@ -786,6 +792,7 @@
                     }
                     else {
                         $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                        $scope.cdrList = [];
                         $scope.isTableLoading = 1;
                     }
 
@@ -795,12 +802,14 @@
                 }, function (err) {
                     loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
+                    $scope.cdrList = [];
                     $scope.isTableLoading = 1;
                     $scope.enableSearchButton = true;
                 })
             }
             catch (ex) {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
+                $scope.cdrList = [];
                 $scope.isTableLoading = 1;
             }
         }

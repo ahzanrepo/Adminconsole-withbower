@@ -1596,8 +1596,10 @@ small > i {
 }
 
 .sip-user-wrap {
+    position: relative;
     height: 670px;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 .sec-level-wrap {
@@ -5861,8 +5863,8 @@ ul.row-option > li.delete:focus {
 }
 
 .chart-wrp {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     position: absolute;
     top: 8px;
     left: 8px;
@@ -5870,9 +5872,9 @@ ul.row-option > li.delete:focus {
 }
 
 .d1-pie-text {
-    width: 57px;
+    width: 53px;
     position: absolute;
-    top: 17px;
+    top: 15px;
     font-family: 'Ubuntu-Light', sans-serif;
     font-size: 14px;
     color: #2176B8;
@@ -5893,11 +5895,11 @@ ul.row-option > li.delete:focus {
 .q-chart-text-wrp > .header-text > .current-w-text {
     /* Current Waiting: */
     font-family: 'Ubuntu-Light', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     color: #383b3b;
     letter-spacing: -0.12px;
     text-align: right;
-    padding-left: 10px;
+    padding-left: 7px;
     display: inline-block;
     float: left;
 }
