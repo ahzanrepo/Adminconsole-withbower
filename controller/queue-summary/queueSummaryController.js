@@ -201,7 +201,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
 
     $scope.getQueueSummaryCSV2 = function () {
 
-        $scope.DownloadFileName2 = 'QUEUESUMMARY_' + $scope.params2.startDate + '_' + $scope.params2.endDate;
+        $scope.DownloadFileName2 = 'QUEUESUMMARY_TOTAL_' + $scope.params2.startDate + '_' + $scope.params2.endDate;
         var deferred = $q.defer();
         var queueSummaryList = [];
         queueSummaryBackendService.getQueueSummary($scope.params2.startDate, $scope.params2.endDate).then(function (response) {
