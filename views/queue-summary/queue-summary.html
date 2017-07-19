@@ -227,13 +227,13 @@
 
                         <div class="col-sm-3">
                             <label>Start Date</label>
-                            <input type="text" class="form-control" ng-model="params.startDate" ng-change="onDateChange()"
+                            <input type="text" class="form-control" ng-model="params2.startDate" ng-change="onDateChange2()"
                                    name="startDate"
                                    datepicker>
                         </div>
                         <div class="col-sm-3">
                             <label>End Date</label>
-                            <input type="text" class="form-control" ng-model="params.endDate" ng-change="onDateChange()" name="endDate"
+                            <input type="text" class="form-control" ng-model="params2.endDate" ng-change="onDateChange2()" name="endDate"
                                    datepicker>
                         </div>
                         <div class="col-sm-2">
@@ -251,8 +251,8 @@
                         <div class="col-sm-4">
                             <div class="col-md-4 col-sm-4 col-xs-4">
                                 <div class="x_content btn-wrap-header">
-                                    <button type="button" class="btn btn-success" ng-click="getQueueSummary()"
-                                            ng-disabled="!dateValid">
+                                    <button type="button" class="btn btn-success" ng-click="getQueueSummary2()"
+                                            ng-disabled="!dateValid2">
                                         Search
                                     </button>
                                     <!--<button type="button" class="btn btn-primary">Reset</button>-->
@@ -268,7 +268,7 @@
                                             style="background-color: #a3d100; color: #000000; font-weight: 500"
                                             csv-header="['Queue', 'Date', 'Total Queued', 'Max Time', 'SLA (%)', 'Queue Answered (Count)', 'Queue Answered (%)', 'Queue Dropped (Count)', 'Queue Dropped (%)', 'Average QueueTime']"
                                             csv-column-order="[ 'Queue', 'Date', 'TotalQueued', 'MaxTime', 'SLA', 'QueueAnswered', 'QueueAnsweredPercentage', 'QueueDropped', 'QueueDroppedPercentage', 'AverageQueueTime']"
-                                            ng-csv="getQueueSummaryCSV()" filename="{{DownloadFileName}}.csv">
+                                            ng-csv="getQueueSummaryCSV2()" filename="{{DownloadFileName2}}.csv">
                                         CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                         <i class="fa fa-download"></i>
                                     </button>

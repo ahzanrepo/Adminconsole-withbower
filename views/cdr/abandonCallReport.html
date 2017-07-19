@@ -228,7 +228,7 @@
                                         style="background-color: #aad154; color: #000000; font-weight: 500"
                                         csv-header="['Call Direction', 'From', 'To', 'Agent Skill', 'Call Time', 'Total Duration', 'Answer Duration', 'Queue Duration', 'Call Type', 'Call Category']"
                                         csv-column-order="['DVPCallDirection', 'SipFromUser', 'SipToUser', 'AgentSkill', 'CreatedTime', 'Duration', 'AnswerSec', 'QueueSec', 'ObjType', 'ObjCategory']" ng-csv="getPageWiseDownloadCSV()"
-                                        filename="AbandonCDR_PageWise_{{pageStack.length + 1}}.csv">
+                                        filename="AbandonCDR_PageWise_{{startDate}}_{{endDate}}_{{pageStack.length + 1}}.csv">
                                     Download Page&nbsp;&nbsp;&nbsp;&nbsp;
                                     <i class="fa fa-download"></i>
                                 </button>
