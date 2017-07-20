@@ -123,6 +123,17 @@
             });
         };
 
+
+        var getAgentBreakDetails = function (fromDate,toDate) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.ardsmonitoringBaseUrl+ 'MONITORING/resource/break/details?startDate='+fromDate+'&endDate='+toDate
+            }).then(function(response)
+            {
+                return response;
+            });
+        };
+
         return{
             GetAcwRecords: getAcwRecords,
             GetCdrBySessions: getCdrBySessions,
@@ -131,7 +142,8 @@
             GetRejectedSessionCount: getRejectedSessionCount,
             GetRejectedSessionDetails: getRejectedSessionDetails,
             PrepareDownloadDetails: prepareDownloadDetails,
-            getAllAcwRecords: getAllAcwRecords
+            getAllAcwRecords: getAllAcwRecords,
+            getAgentBreakDetails: getAgentBreakDetails
         };
     };
 

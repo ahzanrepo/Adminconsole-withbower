@@ -1023,7 +1023,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "USERS"
             }
-        });
+        }).state('console.agentBreakReport', {
+                url: "/agentBreakReport",
+                templateUrl: "views/agent-break-details/agentBreakDetails.html",
+                controller: "agentBreakDetailController",
+                data: {
+                    requireLogin: true,
+                    navigation: "USERS"
+                }
+            });
         //Todo shoud be change navigation
     }]);
 
