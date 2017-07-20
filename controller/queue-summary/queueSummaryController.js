@@ -25,35 +25,45 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
     $scope.getQueueSummary = function () {
         $scope.isTableLoading = 0;
         $scope.queueSummaryList = [];
-        queueSummaryBackendService.getQueueSummary($scope.params.startDate, $scope.params.endDate).then(function (response) {
+        if(moment($scope.params.startDate).isBefore($scope.params.endDate) || moment($scope.params.startDate).isSame($scope.params.endDate))
+        {
+            queueSummaryBackendService.getQueueSummary($scope.params.startDate, $scope.params.endDate).then(function (response) {
 
-            if (!response.data.IsSuccess) {
-                console.log("Queue Summary loading failed ", response.data.Exception);
-                $scope.isTableLoading = 1;
-            }
-            else {
-                $scope.isTableLoading = 1;
-                var summaryData = response.data.Result;
-                for (var i = 0; i < summaryData.length; i++) {
-                    // main objects
+                if (!response.data.IsSuccess) {
+                    console.log("Queue Summary loading failed ", response.data.Exception);
+                    $scope.isTableLoading = 1;
+                }
+                else {
+                    $scope.isTableLoading = 1;
+                    var summaryData = response.data.Result;
+                    for (var i = 0; i < summaryData.length; i++) {
+                        // main objects
 
-                    for (var j = 0; j < summaryData[i].Summary.length; j++) {
-                        summaryData[i].Summary[j].SLA = Math.round(summaryData[i].Summary[j].SLA * 100) / 100;
-                        summaryData[i].Summary[j].AverageQueueTime = Math.round(summaryData[i].Summary[j].AverageQueueTime * 100) / 100;
-                        summaryData[i].Summary[j].QueueAnsweredPercentage = Math.round((summaryData[i].Summary[j].QueueAnswered/summaryData[i].Summary[j].TotalQueued)*100, 2);
-                        summaryData[i].Summary[j].QueueDroppedPercentage = Math.round((summaryData[i].Summary[j].QueueDropped/summaryData[i].Summary[j].TotalQueued)*100, 2);
-                        $scope.queueSummaryList.push(summaryData[i].Summary[j]);
+                        for (var j = 0; j < summaryData[i].Summary.length; j++) {
+                            summaryData[i].Summary[j].SLA = Math.round(summaryData[i].Summary[j].SLA * 100) / 100;
+                            summaryData[i].Summary[j].AverageQueueTime = Math.round(summaryData[i].Summary[j].AverageQueueTime * 100) / 100;
+                            summaryData[i].Summary[j].QueueAnsweredPercentage = Math.round((summaryData[i].Summary[j].QueueAnswered/summaryData[i].Summary[j].TotalQueued)*100, 2);
+                            summaryData[i].Summary[j].QueueDroppedPercentage = Math.round((summaryData[i].Summary[j].QueueDropped/summaryData[i].Summary[j].TotalQueued)*100, 2);
+                            $scope.queueSummaryList.push(summaryData[i].Summary[j]);
+                        }
                     }
+
+
                 }
 
-                
-            }
-
-        }, function (error) {
+            }, function (error) {
+                $scope.isTableLoading = 1;
+                loginService.isCheckResponse(error);
+                console.log("Error in Queue Summary loading ", error);
+            });
+        }
+        else
+        {
+            $scope.showAlert('Queue Summary', 'warn', 'End date need to be same as start date or should occur after');
+            $scope.queueSummaryList = [];
             $scope.isTableLoading = 1;
-            loginService.isCheckResponse(error);
-            console.log("Error in Queue Summary loading ", error);
-        });
+        }
+
     }
 
 
@@ -62,39 +72,49 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
         $scope.DownloadFileName = 'QUEUESUMMARY_' + $scope.params.startDate + '_' + $scope.params.endDate;
         var deferred = $q.defer();
         var queueSummaryList = [];
-        queueSummaryBackendService.getQueueSummary($scope.params.startDate, $scope.params.endDate).then(function (response) {
 
-            if (!response.data.IsSuccess) {
-                console.log("Queue Summary loading failed ", response.data.Exception);
-                deferred.reject(queueSummaryList);
-            }
-            else {
-                var summaryData = response.data.Result
-                for (var i = 0; i < summaryData.length; i++) {
-                    // main objects
+        if(moment($scope.params.startDate).isBefore($scope.params.endDate) || moment($scope.params.startDate).isSame($scope.params.endDate))
+        {
+            queueSummaryBackendService.getQueueSummary($scope.params.startDate, $scope.params.endDate).then(function (response) {
 
-                    for (var j = 0; j < summaryData[i].Summary.length; j++) {
-                        summaryData[i].Summary[j].SLA = Math.round(summaryData[i].Summary[j].SLA * 100) / 100;
-                        summaryData[i].Summary[j].AverageQueueTime = Math.round(summaryData[i].Summary[j].AverageQueueTime * 100) / 100;
-                        summaryData[i].Summary[j].QueueAnsweredPercentage = Math.round((summaryData[i].Summary[j].QueueAnswered/summaryData[i].Summary[j].TotalQueued)*100, 2);
-                        summaryData[i].Summary[j].QueueDroppedPercentage = Math.round((summaryData[i].Summary[j].QueueDropped/summaryData[i].Summary[j].TotalQueued)*100, 2);
-                        summaryData[i].Summary[j].Date = moment(summaryData[i].Summary[j].Date).format('YYYY-MM-DD');
-                        queueSummaryList.push(summaryData[i].Summary[j]);
+                if (!response.data.IsSuccess) {
+                    console.log("Queue Summary loading failed ", response.data.Exception);
+                    deferred.reject(queueSummaryList);
+                }
+                else {
+                    var summaryData = response.data.Result
+                    for (var i = 0; i < summaryData.length; i++) {
+                        // main objects
+
+                        for (var j = 0; j < summaryData[i].Summary.length; j++) {
+                            summaryData[i].Summary[j].SLA = Math.round(summaryData[i].Summary[j].SLA * 100) / 100;
+                            summaryData[i].Summary[j].AverageQueueTime = Math.round(summaryData[i].Summary[j].AverageQueueTime * 100) / 100;
+                            summaryData[i].Summary[j].QueueAnsweredPercentage = Math.round((summaryData[i].Summary[j].QueueAnswered/summaryData[i].Summary[j].TotalQueued)*100, 2);
+                            summaryData[i].Summary[j].QueueDroppedPercentage = Math.round((summaryData[i].Summary[j].QueueDropped/summaryData[i].Summary[j].TotalQueued)*100, 2);
+                            summaryData[i].Summary[j].Date = moment(summaryData[i].Summary[j].Date).format('YYYY-MM-DD');
+                            queueSummaryList.push(summaryData[i].Summary[j]);
+                        }
                     }
+
+                    deferred.resolve(queueSummaryList);
+
                 }
 
-                deferred.resolve(queueSummaryList);
-
-            }
-
-        }, function (error) {
-            loginService.isCheckResponse(error);
-            console.log("Error in Queue Summary loading ", error);
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                console.log("Error in Queue Summary loading ", error);
+                deferred.reject(queueSummaryList);
+            });
+        }
+        else
+        {
+            $scope.showAlert('Queue Summary', 'warn', 'End date need to be same as start date or should occur after');
             deferred.reject(queueSummaryList);
-        });
+        }
+
 
         return deferred.promise;
-    }
+    };
 
 
     /*============================== Total Queue Summary Tab =============================*/
@@ -168,35 +188,47 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
     $scope.getQueueSummary2 = function () {
         $scope.isTableLoading2 = 0;
         var tempQueueSummaryList = [];
-        queueSummaryBackendService.getQueueSummary($scope.params2.startDate, $scope.params2.endDate).then(function (response) {
+        $scope.queueSummaryList2 = [];
 
-            if (!response.data.IsSuccess) {
-                console.log("Queue Summary loading failed ", response.data.Exception);
-                $scope.isTableLoading2 = 1;
-            }
-            else {
-                $scope.isTableLoading2 = 1;
-                var summaryData = response.data.Result;
-                for (var i = 0; i < summaryData.length; i++) {
-                    // main objects
+        if(moment($scope.params2.startDate).isBefore($scope.params2.endDate) || moment($scope.params2.startDate).isSame($scope.params2.endDate))
+        {
+            queueSummaryBackendService.getQueueSummary($scope.params2.startDate, $scope.params2.endDate).then(function (response) {
 
-                    for (var j = 0; j < summaryData[i].Summary.length; j++) {
-                        summaryData[i].Summary[j].Date = moment(summaryData[i].Summary[j].Date).format('YYYY-MM-DD');
-                        tempQueueSummaryList.push(summaryData[i].Summary[j]);
+                if (!response.data.IsSuccess) {
+                    console.log("Queue Summary loading failed ", response.data.Exception);
+                    $scope.isTableLoading2 = 1;
+                }
+                else {
+                    $scope.isTableLoading2 = 1;
+                    var summaryData = response.data.Result;
+                    for (var i = 0; i < summaryData.length; i++) {
+                        // main objects
+
+                        for (var j = 0; j < summaryData[i].Summary.length; j++) {
+                            summaryData[i].Summary[j].Date = moment(summaryData[i].Summary[j].Date).format('YYYY-MM-DD');
+                            tempQueueSummaryList.push(summaryData[i].Summary[j]);
+                        }
                     }
+
+                    $scope.queueSummaryList2 = createTotalSummary(tempQueueSummaryList);
+
+
                 }
 
-                $scope.queueSummaryList2 = createTotalSummary(tempQueueSummaryList);
-
-
-            }
-
-        }, function (error) {
+            }, function (error) {
+                $scope.isTableLoading2 = 1;
+                loginService.isCheckResponse(error);
+                console.log("Error in Queue Summary loading ", error);
+            });
+        }
+        else
+        {
+            $scope.showAlert('Queue Summary', 'warn', 'End date need to be same as start date or should occur after');
+            $scope.queueSummaryList2 = [];
             $scope.isTableLoading2 = 1;
-            loginService.isCheckResponse(error);
-            console.log("Error in Queue Summary loading ", error);
-        });
-    }
+        }
+
+    };
 
 
     $scope.getQueueSummaryCSV2 = function () {
@@ -204,34 +236,44 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
         $scope.DownloadFileName2 = 'QUEUESUMMARY_TOTAL_' + $scope.params2.startDate + '_' + $scope.params2.endDate;
         var deferred = $q.defer();
         var queueSummaryList = [];
-        queueSummaryBackendService.getQueueSummary($scope.params2.startDate, $scope.params2.endDate).then(function (response) {
 
-            if (!response.data.IsSuccess) {
-                console.log("Queue Summary loading failed ", response.data.Exception);
-                deferred.reject(queueSummaryList);
-            }
-            else {
-                var summaryData = response.data.Result;
-                for (var i = 0; i < summaryData.length; i++) {
-                    // main objects
+        if(moment($scope.params2.startDate).isBefore($scope.params2.endDate) || moment($scope.params2.startDate).isSame($scope.params2.endDate))
+        {
+            queueSummaryBackendService.getQueueSummary($scope.params2.startDate, $scope.params2.endDate).then(function (response) {
 
-                    for (var j = 0; j < summaryData[i].Summary.length; j++) {
-                        summaryData[i].Summary[j].Date = moment(summaryData[i].Summary[j].Date).format('YYYY-MM-DD');
-                        queueSummaryList.push(summaryData[i].Summary[j]);
+                if (!response.data.IsSuccess) {
+                    console.log("Queue Summary loading failed ", response.data.Exception);
+                    deferred.reject(queueSummaryList);
+                }
+                else {
+                    var summaryData = response.data.Result;
+                    for (var i = 0; i < summaryData.length; i++) {
+                        // main objects
+
+                        for (var j = 0; j < summaryData[i].Summary.length; j++) {
+                            summaryData[i].Summary[j].Date = moment(summaryData[i].Summary[j].Date).format('YYYY-MM-DD');
+                            queueSummaryList.push(summaryData[i].Summary[j]);
+                        }
                     }
+
+                    var queueSummaryListFinal = createTotalSummary(queueSummaryList);
+
+                    deferred.resolve(queueSummaryListFinal);
+
                 }
 
-                var queueSummaryListFinal = createTotalSummary(queueSummaryList);
-
-                deferred.resolve(queueSummaryListFinal);
-
-            }
-
-        }, function (error) {
-            loginService.isCheckResponse(error);
-            console.log("Error in Queue Summary loading ", error);
+            }, function (error) {
+                loginService.isCheckResponse(error);
+                console.log("Error in Queue Summary loading ", error);
+                deferred.reject(queueSummaryList);
+            });
+        }
+        else
+        {
+            $scope.showAlert('Queue Summary', 'warn', 'End date need to be same as start date or should occur after');
             deferred.reject(queueSummaryList);
-        });
+        }
+
 
         return deferred.promise;
     }
