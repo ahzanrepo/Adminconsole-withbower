@@ -211,7 +211,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
                 deferred.reject(queueSummaryList);
             }
             else {
-                var summaryData = response.data.Result
+                var summaryData = response.data.Result;
                 for (var i = 0; i < summaryData.length; i++) {
                     // main objects
 
