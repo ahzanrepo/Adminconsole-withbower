@@ -94,7 +94,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
         });
 
         return deferred.promise;
-    }
+    };
 
 
     /*============================== Total Queue Summary Tab =============================*/
