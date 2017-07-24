@@ -27,11 +27,13 @@
         $scope.headerData = [];
         $scope.selectObj = {};
         $scope.campaignNumberObj.Contacts = [];
+        $scope.campaignNumberObj.CampaignId = undefined;
         $scope.enablePreviewData = false;
         $scope.showUpload = false;
         $scope.uploadState = "Show Upload";
         $scope.numberProgress = 0;
         $scope.uploadButtonValue = "Upload";
+        $scope.previewDataColumns;
 
 
         $scope.searchObj = {};
@@ -61,14 +63,16 @@
         $scope.reset = function() {
             $scope.safeApply(function() {
                 $scope.target.form.reset();
-                $scope.selectObj = {};
+                $scope.selectObj = {previewData:[]};
                 $scope.headerData = [];
                 $scope.campaignNumberObj.Contacts = [];
+                $scope.campaignNumberObj.CampaignId = undefined;
                 $scope.gridOptions.data = [];
                 $scope.gridOptions.columnDefs = [];
                 $scope.numberProgress = 0;
                 $scope.uploadButtonValue = "Upload";
                 $scope.leftAddValue = undefined;
+                $scope.selectedCampaign = undefined;
             });
 
         };
@@ -142,18 +146,40 @@
                 data.forEach(function (data) {
                     var tempNumber = data[filter];
 
-                    if(tempNumber.toString().match(numberRegex)) {
-                        if(previewFilter){
-                            var numberWithPreviewData = data[filter]+":"+ data[previewFilter];
-                            numbers.push(numberWithPreviewData);
-                        }else{
+                    if($scope.selectedCampaign && $scope.selectedCampaign.CampaignChannel.toLowerCase() === 'call') {
+                        if (tempNumber.toString().match(numberRegex)) {
+                            if (previewFilter && previewFilter.length >0 ) {
+                                var previewObj = {};
+                                previewFilter.forEach(function (pFilter) {
+                                    previewObj[pFilter] = data[pFilter];
+                                });
+                                var numberWithPreviewData = data[filter] + ":" + JSON.stringify(previewObj);
+                                numbers.push(numberWithPreviewData);
+                            } else {
 
+                                numbers.push(data[filter]);
+                            }
+                            console.log('Valid Number - ' + tempNumber);
+                        }
+                        else {
+                            console.log('Invalid Number - ' + tempNumber);
+                        }
+                    }else{
+                        if($scope.selectedCampaign.CampaignChannel.toLowerCase() === 'sms' || $scope.selectedCampaign.CampaignChannel.toLowerCase() === 'email'){
+                            if (previewFilter && previewFilter.length >0 ) {
+                                var previewObj2 = {};
+                                previewFilter.forEach(function (pFilter) {
+                                    previewObj2[pFilter] = data[pFilter];
+                                });
+                                var numberWithPreviewData2 = data[filter] + ":" + JSON.stringify(previewObj2);
+                                numbers.push(numberWithPreviewData2);
+                            } else {
+
+                                numbers.push(data[filter]);
+                            }
+                        }else {
                             numbers.push(data[filter]);
                         }
-                        console.log('Valid Number - '+tempNumber);
-                    }
-                    else {
-                        console.log('Invalid Number - '+tempNumber);
                     }
                 });
                 deferred.resolve(numbers);
@@ -169,6 +195,7 @@
             var promise = validateNumbers($scope.data, $scope.selectObj.name, $scope.selectObj.previewData);
             promise.then(function(numbers) {
                 $scope.campaignNumberObj.Contacts = numbers;
+                console.log(JSON.stringify(numbers));
             });
         };
 
@@ -318,6 +345,7 @@
             });
         };
 
+        $scope.previewData;
         $scope.searchFromProfile = function(){
             if($scope.selectedCustomerTags && $scope.selectedCustomerTags.length > 0){
                 loadCustomersByTags();
@@ -326,6 +354,50 @@
             }
         };
 
+
+        function createFilterForColumn(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(header) {
+                return (header.toLowerCase().indexOf(lowercaseQuery) != -1);
+            };
+        }
+
+        $scope.querySearchForColumn = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.headerData) {
+                    return $scope.headerData;
+                }
+                else {
+                    return [];
+                }
+
+            }
+            else {
+                var results = query ? $scope.headerData.filter(createFilterForColumn(query)) : [];
+                return results;
+            }
+
+        };
+
+        $scope.onChipAddForColumn = function (chip) {
+
+            if (!$scope.selectObj.previewData)
+                $scope.selectObj.previewData = [];
+
+            $scope.selectObj.previewData.push(chip.name);
+            $scope.loadNumbers();
+
+        };
+        $scope.onChipDeleteForColumn = function (chip) {
+
+            var index = $scope.selectObj.previewData.indexOf(chip.name);
+            if (index > -1) {
+                $scope.selectObj.previewData.splice(index, 1);
+                $scope.loadNumbers();
+            }
+
+
+        };
 
         //--------------------------------Number Base Grid---------------------------------------------------
 
@@ -481,6 +553,7 @@
                         var newCamp = $scope.newlyCreatedCampaigns[i];
                         if (newCamp.CampaignId.toString() === campaignId) {
 
+                            $scope.selectedCampaign = newCamp;
                             newCamp.CampScheduleInfo.forEach(function (camSchedule) {
                                 promiseFnList.push(scheduleBackendService.getSchedule(camSchedule.ScheduleId));
                             });
@@ -498,6 +571,10 @@
 
 
                                 if (newCamp.CampaignChannel.toLowerCase() === 'call' && newCamp.DialoutMechanism.toLowerCase() === 'preview') {
+                                    $scope.enablePreviewData = true;
+                                }
+
+                                if (newCamp.CampaignChannel.toLowerCase() === 'sms' || newCamp.CampaignChannel.toLowerCase() === 'email') {
                                     $scope.enablePreviewData = true;
                                 }
                             });
