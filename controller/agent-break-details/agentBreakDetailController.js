@@ -63,7 +63,7 @@
             acwDetailApiAccess.getAgentBreakDetails($scope.startDate, $scope.endDate).then(function (response) {
                 if (!response.data.IsSuccess) {
 
-                    //$scope.showAlert('Break Details', response.data.Message, 'error');
+                    $scope.showAlert('Break Details', "No data to be loaded for the selected day", 'error');
                     $scope.isTableLoading = 3;
 
                 } else {
@@ -75,6 +75,7 @@
                         $scope.isTableLoading = 2;
                     } else {
                         $scope.isTableLoading = 3;
+                        $scope.showAlert('Break Details', "No data to be loaded for the selected day", 'error');
                     }
 
                 }
@@ -84,7 +85,7 @@
                 if (err.statusText) {
                     errMsg = err.statusText;
                 }
-                //$scope.showAlert('Break Details', errMsg, 'error');
+                $scope.showAlert('Break Details', "No data to be loaded for the selected day", 'error');
                 $scope.isTableLoading = 3;
             });
         };
@@ -98,7 +99,7 @@
 
                 if (!response.data.IsSuccess) {
 
-                    //$scope.showAlert('Break Details', response.data.Message, 'error');
+                    $scope.showAlert('Break Details', "No data to be downloaded for the selected date", 'error');
                     $scope.isTableLoading = 3;
                     deferred.reject($scope.agentBreakList);
                 }
@@ -110,6 +111,7 @@
                         deferred.resolve($scope.agentBreakList);
                     } else {
                         $scope.isTableLoading = 3;
+                        $scope.showAlert('Break Details', "No data to be downloaded for the selected date", 'error');
                     }
 
                 }
@@ -120,7 +122,7 @@
                 if (err.statusText) {
                     errMsg = err.statusText;
                 }
-                //$scope.showAlert('Break Details', errMsg, 'error');
+                $scope.showAlert('Break Details', "No data to be downloaded for the selected date", 'error');
                 $scope.isTableLoading = 3;
                 deferred.reject($scope.agentBreakList);
             });
