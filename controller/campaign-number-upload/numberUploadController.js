@@ -63,16 +63,18 @@
         $scope.reset = function() {
             $scope.safeApply(function() {
                 $scope.target.form.reset();
-                $scope.selectObj = {previewData:[]};
                 $scope.headerData = [];
+                $scope.selectObj = {};
                 $scope.campaignNumberObj.Contacts = [];
                 $scope.campaignNumberObj.CampaignId = undefined;
+                $scope.selectObj.previewData = [];
                 $scope.gridOptions.data = [];
                 $scope.gridOptions.columnDefs = [];
                 $scope.numberProgress = 0;
                 $scope.uploadButtonValue = "Upload";
                 $scope.leftAddValue = undefined;
                 $scope.selectedCampaign = undefined;
+                $scope.previewData;
             });
 
         };
