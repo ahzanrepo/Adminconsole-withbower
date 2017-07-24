@@ -63,7 +63,7 @@
             acwDetailApiAccess.getAgentBreakDetails($scope.startDate, $scope.endDate).then(function (response) {
                 if (!response.data.IsSuccess) {
 
-                    $scope.showAlert('Break Details', response.data.Message, 'error');
+                    //$scope.showAlert('Break Details', response.data.Message, 'error');
                     $scope.isTableLoading = 3;
 
                 } else {
@@ -84,7 +84,7 @@
                 if (err.statusText) {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Break Details', errMsg, 'error');
+                //$scope.showAlert('Break Details', errMsg, 'error');
                 $scope.isTableLoading = 3;
             });
         };
@@ -92,14 +92,14 @@
         $scope.getBreakDetailsCSV = function () {
 
             $scope.DownloadFileName = 'AGENT_BREAK_' + $scope.startDate;
-            $scope.isTableLoading = 0;
             $scope.agentBreakList = [];
             var deferred = $q.defer();
             acwDetailApiAccess.getAgentBreakDetails($scope.startDate, $scope.endDate).then(function (response) {
 
                 if (!response.data.IsSuccess) {
 
-                    $scope.showAlert('Break Details', response.data.Message, 'error');
+                    //$scope.showAlert('Break Details', response.data.Message, 'error');
+                    $scope.isTableLoading = 3;
                     deferred.reject($scope.agentBreakList);
                 }
                 else {
@@ -120,7 +120,8 @@
                 if (err.statusText) {
                     errMsg = err.statusText;
                 }
-                $scope.showAlert('Break Details', errMsg, 'error');
+                //$scope.showAlert('Break Details', errMsg, 'error');
+                $scope.isTableLoading = 3;
                 deferred.reject($scope.agentBreakList);
             });
 

@@ -69,6 +69,7 @@
                 $scope.numberProgress = 0;
                 $scope.uploadButtonValue = "Upload";
                 $scope.leftAddValue = undefined;
+                $scope.selectedCampaign = undefined;
             });
 
         };
@@ -142,18 +143,22 @@
                 data.forEach(function (data) {
                     var tempNumber = data[filter];
 
-                    if(tempNumber.toString().match(numberRegex)) {
-                        if(previewFilter){
-                            var numberWithPreviewData = data[filter]+":"+ data[previewFilter];
-                            numbers.push(numberWithPreviewData);
-                        }else{
+                    if($scope.selectedCampaign && $scope.selectedCampaign.CampaignChannel.toLowerCase() === 'call') {
+                        if (tempNumber.toString().match(numberRegex)) {
+                            if (previewFilter) {
+                                var numberWithPreviewData = data[filter] + ":" + data[previewFilter];
+                                numbers.push(numberWithPreviewData);
+                            } else {
 
-                            numbers.push(data[filter]);
+                                numbers.push(data[filter]);
+                            }
+                            console.log('Valid Number - ' + tempNumber);
                         }
-                        console.log('Valid Number - '+tempNumber);
-                    }
-                    else {
-                        console.log('Invalid Number - '+tempNumber);
+                        else {
+                            console.log('Invalid Number - ' + tempNumber);
+                        }
+                    }else{
+                        numbers.push(data[filter]);
                     }
                 });
                 deferred.resolve(numbers);
@@ -481,6 +486,7 @@
                         var newCamp = $scope.newlyCreatedCampaigns[i];
                         if (newCamp.CampaignId.toString() === campaignId) {
 
+                            $scope.selectedCampaign = newCamp;
                             newCamp.CampScheduleInfo.forEach(function (camSchedule) {
                                 promiseFnList.push(scheduleBackendService.getSchedule(camSchedule.ScheduleId));
                             });
@@ -498,6 +504,10 @@
 
 
                                 if (newCamp.CampaignChannel.toLowerCase() === 'call' && newCamp.DialoutMechanism.toLowerCase() === 'preview') {
+                                    $scope.enablePreviewData = true;
+                                }
+
+                                if (newCamp.CampaignChannel.toLowerCase() === 'sms') {
                                     $scope.enablePreviewData = true;
                                 }
                             });
