@@ -94,6 +94,66 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 }
             };
 
+            scope.additionalData = {
+                Class: "PREVIEW",
+                Type: "ARDS",
+                Category: "ATTRIBUTE",
+                TenantId: scope.campaign.TenantId,
+                CompanyId: scope.campaign.CompanyId,
+                CampaignId: scope.campaign.CampaignId,
+                AdditionalData: ""
+            };
+
+            scope.isLoadingData = false;
+            scope.GetCampaignAdditionalData = function () {
+                scope.isLoadingData = true;
+                scope.campaignAdditionalData = [];
+                campaignService.GetTemplateList().then(function (response) {
+                    if (response) {
+                        scope.Templates = response;
+                    }
+                }, function (error) {
+                    scope.showAlert("Campaign", 'error', "Fail To Load Template Data");
+                });
+
+                campaignService.GetCampaignAdditionalData(scope.campaign.CampaignId).then(function (response) {
+                    if (response) {
+                        response.map(function (item) {
+                            if (item.AdditionalData) {
+                                var t = angular.fromJson(item.AdditionalData);
+                                t.name = scope.getTemplateNameById(t.Template);
+                                t.AdditionalDataId = item.AdditionalDataId;
+                                scope.campaignAdditionalData.push(t);
+                            }
+                        });
+                    }
+                    scope.isLoadingData = false;
+                }, function (error) {
+                    scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
+                    scope.isLoadingData = false;
+                });
+            };
+
+            scope.DeleteAdditionalDataByID = function (id) {
+                campaignService.DeleteAdditionalDataByID(id).then(function (response) {
+                    if (response) {
+                        scope.GetCampaignAdditionalData();
+                        scope.showAlert("Campaign", 'success', "Successfully Deleted.");
+                    }
+                    else {
+                        scope.showAlert("Campaign", 'error', "Fail To Delete Additional Data");
+                    }
+                }, function (error) {
+                    scope.showAlert("Campaign", 'error', "Fail To Delete Additional Data");
+                });
+            };
+
+            scope.additionalDataCampaign = function () {
+                scope.editMode = scope.editMode === 'additionalData' ? 'view' : 'additionalData';
+                if (scope.editMode === 'additionalData') {
+                    scope.GetCampaignAdditionalData()
+                }
+            };
 
             scope.showCallback = false;
             scope.callback = {AllowCallBack: 'false'};
@@ -585,7 +645,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 }, schedule);
 
 
-            }
+            };
 
 
             //------------------Campaign AdditionalData--------------------------------------------
@@ -593,6 +653,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             scope.showAdditionalDataPanel = false;
             scope.campaignAttributes = [];
             scope.campaignAdditionalData = [];
+            scope.Templates = [];
 
             function createFilterFor(query) {
                 var lowercaseQuery = angular.lowercase(query);
@@ -613,10 +674,10 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
                 }
                 else {
-                    if(scope.ardsAttributes) {
+                    if (scope.ardsAttributes) {
                         return query ? scope.ardsAttributes.filter(createFilterFor(query)) : [];
 
-                    }else{
+                    } else {
                         return [];
                     }
                 }
@@ -638,30 +699,35 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             };
 
-            scope.additionalData = {Class: "PREVIEW", Type: "ARDS", Category: "ATTRIBUTE", TenantId: scope.campaign.TenantId, CompanyId: scope.campaign.CompanyId, CampaignId: scope.campaign.CampaignId, AdditionalData: ""};
-            scope.loadCampaignAdditionalData = function () {
-                if(scope.campaign.DialoutMechanism && (scope.campaign.DialoutMechanism === "PREVIEW" || scope.campaign.DialoutMechanism === "AGENT")) {
-                    scope.showAdditionalDataPanel = true;
-                    campaignService.GetCampaignAdditionalData(scope.campaign.CampaignId).then(function (response) {
-                        if (response && response.AdditionalData) {
-                            scope.campaignAttributes = JSON.parse(response.AdditionalData);
-                            scope.campaignAdditionalData = response;
-                        }
-                    }, function (error) {
-                        scope.showAlert("Campaign", 'error', "Fail To Load Additional Data");
-                    });
+
+            scope.getTemplateNameById = function (id) {
+                var items = $filter('filter')(scope.Templates, {_id: id});
+                if (items) {
+                    var index = scope.Templates.indexOf(items[0]);
+                    if (index > -1) {
+                        var temptask = scope.Templates[index];
+                        return temptask.name
+                    }
                 }
             };
 
-            scope.createCampaignAdditionalData = function () {
-                scope.additionalData.AdditionalData = JSON.stringify(scope.campaignAttributes);
-                campaignService.CreateCampaignAdditionalData(scope.campaign.CampaignId, scope.additionalData).then(function (response) {
-                    if (response) {
 
-                        scope.campaignAdditionalData.push(response);
+            scope.isLoading = false;
+
+            scope.createCampaignAdditionalData = function (data) {
+                scope.additionalData.AdditionalData = JSON.stringify(data);
+                scope.isLoading = true;
+                campaignService.CreateCampaignAdditionalData(scope.campaign.CampaignId, scope.additionalData).then(function (response) {
+                    if (response && response.AdditionalData) {
+                        var t = angular.fromJson(response.AdditionalData);
+                        t.name = scope.getTemplateNameById(t.Template);
+                        t.AdditionalDataId = response.AdditionalDataId;
+                        scope.campaignAdditionalData.push(t);
                     }
+                    scope.isLoading = false;
                 }, function (error) {
                     scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
+                    scope.isLoading = false;
                 });
             };
 
@@ -677,7 +743,12 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                 });
             };
 
-            scope.loadCampaignAdditionalData();
+            function load() {
+                if (scope.campaign.DialoutMechanism && (scope.campaign.DialoutMechanism === "PREVIEW" || scope.campaign.DialoutMechanism === "AGENT")) {
+                    scope.showAdditionalDataPanel = true;
+                }
+            }
+            load();
         }
     }
 });
