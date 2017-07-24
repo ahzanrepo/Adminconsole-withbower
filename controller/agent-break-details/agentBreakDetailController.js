@@ -72,6 +72,7 @@
                         $scope.agentBreakList = response.data.Result;
                         AgentDetailsAssignToSummery();
                         $scope.tableHeaders = Object.keys($scope.agentBreakList[0]);
+                        $scope.tableHeaders.splice(0, 1);
                         $scope.isTableLoading = 2;
                     } else {
                         $scope.isTableLoading = 3;
@@ -108,6 +109,7 @@
                         $scope.agentBreakList = response.data.Result;
                         AgentDetailsAssignToSummery();
                         $scope.tableHeaders = Object.keys($scope.agentBreakList[0]);
+                        $scope.tableHeaders.splice(0, 1);
                         deferred.resolve($scope.agentBreakList);
                     } else {
                         $scope.isTableLoading = 3;
