@@ -667,7 +667,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
 
     return {
         mechanisms: ["BLAST", "FIFO", "PREVIEW", "AGENT"],
-        modes: ["IVR", "AGENT"],
+        modes: ["IVR", "AGENT", "MESSAGE"],
         channels: ["SMS", "EMAIL", "CALL"],
         CreateCampaign: createCampaign,
         GetExtensions: getExtensions,

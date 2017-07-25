@@ -76,7 +76,7 @@
                              ng-class="{ 'has-error' : campaingForm.Templates.$invalid && !campaingForm.Templates.$pristine }">
                             <select class="form-control has-feedback-left" id="Templates"
                                     ng-model="campaign.AdditionalData.Template"
-                                    ng-options="opt._id as opt.name for opt in Templates track by opt._id" required>
+                                    ng-options="opt.name as opt.name for opt in Templates track by opt._id" required>
                                 <option disabled value=''>Templates</option>
                             </select>
                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
@@ -105,8 +105,8 @@
                             <table class="table table-striped jambo_table bulk_action">
                                 <thead>
                                 <tr class="headings">
-                                    <th class="column-title">File</th>
-                                    <th class="column-title">Templates</th>
+                                    <th class="column-title">File Name</th>
+                                    <th class="column-title">File Type</th>
                                     <th class="column-title no-link last"><span class="nobr">Action</span>
                                     </th>
                                 </tr>
@@ -115,8 +115,8 @@
                                 <tbody>
                                 <tr ng-class-odd="'even pointer'" ng-class-even="'odd pointer'"
                                     ng-repeat="tempData in campaignAdditionalData">
-                                    <td class=" ">{{tempData.FileName}}</td>
-                                    <td class=" " >{{tempData.name}}</td>
+                                    <td class=" ">{{tempData.AdditionalData}}</td>
+                                    <td class=" " >{{tempData.Category}}</td>
                                     <td class=" last cursor-pointer"><a ng-click="DeleteAdditionalDataByID(tempData.AdditionalDataId);">Delete</a>
                                     </td>
                                 </tr>

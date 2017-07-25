@@ -40,7 +40,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
     loadExtentions();
 
     $scope.onChannelChange = function (option) {
-        document.getElementById("CampaignMode").disabled = $scope.campaign.CampaignChannel !='CALL';
+        //document.getElementById("CampaignMode").disabled = $scope.campaign.CampaignChannel !='CALL';
     };
 
     $scope.createCampaign = function(campaignx) {
