@@ -227,7 +227,7 @@
 
 
         populateToTagList();
-        getExternalUserList();
+        //getExternalUserList();
         getUserList();
         getTicketStatusList();
         getTicketTypeList();
