@@ -845,6 +845,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.resetPasswordStatus = false;
     $scope.passwordResetData = {};
+    $scope.activeDirectoryDetail = {};
     $scope.ResetPasswordPressed = function () {
         $scope.resetPasswordStatus = true;
     };
@@ -972,6 +973,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 $scope.activeDirectoryDetail = response.Result;
                 if(!$scope.activeDirectoryDetail){
                     $scope.createNewConfig = true;
+                    $scope.activeDirectoryDetail = {};
                 }else{
                     $scope.createNewConfig = false;
                 }
