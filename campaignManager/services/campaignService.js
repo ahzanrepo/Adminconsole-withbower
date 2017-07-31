@@ -2,7 +2,7 @@
  * Created by Rajinda on 12/31/2015.
  */
 'use strict';
-mainApp.factory("campaignService", function ($http, $log, $filter, authService, baseUrls) {
+mainApp.factory("campaignService", function ($http, $log, $filter, authService,templateMakerBackendService, baseUrls) {
 
     var createCampaign = function (campaign) {
 
@@ -601,7 +601,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
     var createCampaignAdditionalData = function (campaignId, additionalData) {
         return $http({
             method: 'POST',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditinalData",
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditionalData",
             data: additionalData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -615,7 +615,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
     var updateCampaignAdditionalData = function (campaignId, additionalData) {
         return $http({
             method: 'PUT',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditinalData/"+additionalData.AdditionalDataId,
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditionalData/"+additionalData.AdditionalDataId,
             data: additionalData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -629,7 +629,33 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
     var getCampaignAdditionalData = function (campaignId) {
         return $http({
             method: 'GET',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditinalData"
+            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditionalData"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return [];
+            }
+        });
+    };
+
+    var deleteAdditionalDataByID = function (additionalDataId) {
+        return $http({
+            method: 'DELETE',
+            url: baseUrls.campaignmanagerUrl + "Campaign/AdditionalData/"+additionalDataId
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.IsSuccess;
+            } else {
+                return false;
+            }
+        });
+    };
+
+    var getTemplateList = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.templatesUrl+'RenderService/Templates'
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -641,7 +667,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
 
     return {
         mechanisms: ["BLAST", "FIFO", "PREVIEW", "AGENT"],
-        modes: ["IVR", "AGENT"],
+        modes: ["IVR", "AGENT", "MESSAGE"],
         channels: ["SMS", "EMAIL", "CALL"],
         CreateCampaign: createCampaign,
         GetExtensions: getExtensions,
@@ -682,7 +708,9 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService, 
         CampaignAttemptReport:campaignAttemptReport,
         CreateCampaignAdditionalData: createCampaignAdditionalData,
         UpdateCampaignAdditionalData: updateCampaignAdditionalData,
-        GetCampaignAdditionalData: getCampaignAdditionalData
+        GetCampaignAdditionalData: getCampaignAdditionalData,
+        DeleteAdditionalDataByID: deleteAdditionalDataByID,
+        GetTemplateList:getTemplateList
     }
 
 });
