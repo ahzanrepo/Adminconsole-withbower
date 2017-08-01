@@ -401,8 +401,15 @@
 
                     checkFileReady(downloadFilename);
                 }
-                else {
-                    $scope.showAlert('Error', 'error', 'Error occurred while loading cdr records');
+                else
+                {
+                    var errMsg = null;
+
+                    if(cdrResp.Exception && cdrResp.Exception.Message)
+                    {
+                        errMsg = cdrResp.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
                     $scope.fileDownloadState = 'RESET';
                     $scope.DownloadButtonName = 'CSV';
                     $scope.cancelDownload = true;
