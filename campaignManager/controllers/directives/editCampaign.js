@@ -118,14 +118,16 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
                 campaignService.GetCampaignAdditionalData(scope.campaign.CampaignId).then(function (response) {
                     if (response) {
-                        response.map(function (item) {
-                            if (item.AdditionalData) {
-                                var t = angular.fromJson(item.AdditionalData);
-                                t.name = scope.getTemplateNameById(t.Template);
-                                t.AdditionalDataId = item.AdditionalDataId;
-                                scope.campaignAdditionalData.push(t);
-                            }
-                        });
+
+                        scope.campaignAdditionalData = response;
+                        //response.map(function (item) {
+                            //if (item.AdditionalData) {
+                            //    var t = angular.fromJson(item.AdditionalData);
+                            //    t.name = scope.getTemplateNameById(t.Template);
+                            //    t.AdditionalDataId = item.AdditionalDataId;
+                            //    scope.campaignAdditionalData.push(t);
+                            //}
+                        //});
                     }
                     scope.isLoadingData = false;
                 }, function (error) {
@@ -715,20 +717,50 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             scope.isLoading = false;
 
             scope.createCampaignAdditionalData = function (data) {
-                scope.additionalData.AdditionalData = JSON.stringify(data);
+                var additionalDataSet = [];
+                if(data && data.Template){
+                    var additionalDataTemplate = {
+                        Class: "BLAST",
+                        Type: scope.campaign.CampaignChannel,
+                        Category: "TEMPLATE",
+                        TenantId: scope.campaign.TenantId,
+                        CompanyId: scope.campaign.CompanyId,
+                        CampaignId: scope.campaign.CampaignId,
+                        AdditionalData: data.Template
+                    };
+
+                    additionalDataSet.push(additionalDataTemplate);
+                }
+                if(data && data.FileName){
+                    var additionalDataAttachment = {
+                        Class: "BLAST",
+                        Type: scope.campaign.CampaignChannel,
+                        Category: "ATTACHMENT",
+                        TenantId: scope.campaign.TenantId,
+                        CompanyId: scope.campaign.CompanyId,
+                        CampaignId: scope.campaign.CampaignId,
+                        AdditionalData: data.FileName
+                    };
+                    additionalDataSet.push(additionalDataAttachment);
+                }
+
                 scope.isLoading = true;
-                campaignService.CreateCampaignAdditionalData(scope.campaign.CampaignId, scope.additionalData).then(function (response) {
-                    if (response && response.AdditionalData) {
-                        var t = angular.fromJson(response.AdditionalData);
-                        t.name = scope.getTemplateNameById(t.Template);
-                        t.AdditionalDataId = response.AdditionalDataId;
-                        scope.campaignAdditionalData.push(t);
-                    }
-                    scope.isLoading = false;
-                }, function (error) {
-                    scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
-                    scope.isLoading = false;
+
+                additionalDataSet.forEach(function (additional_data) {
+                    campaignService.CreateCampaignAdditionalData(scope.campaign.CampaignId, additional_data).then(function (response) {
+                        if (response && response.AdditionalData) {
+                            //var t = angular.fromJson(response.AdditionalData);
+                            //t.name = scope.getTemplateNameById(t.Template);
+                            //t.AdditionalDataId = response.AdditionalDataId;
+                            scope.campaignAdditionalData.push(response);
+                        }
+                        scope.isLoading = false;
+                    }, function (error) {
+                        scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
+                        scope.isLoading = false;
+                    });
                 });
+
             };
 
             scope.updateCampaignAdditionalData = function () {
@@ -744,7 +776,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
             };
 
             function load() {
-                if (scope.campaign.DialoutMechanism && (scope.campaign.DialoutMechanism === "PREVIEW" || scope.campaign.DialoutMechanism === "AGENT")) {
+                if ((scope.campaign.DialoutMechanism && (scope.campaign.DialoutMechanism === "PREVIEW" || scope.campaign.DialoutMechanism === "AGENT")) || (scope.campaign.CampaignChannel && (scope.campaign.CampaignChannel.toLowerCase() === "sms" || scope.campaign.CampaignChannel.toLowerCase() === "email"))) {
                     scope.showAdditionalDataPanel = true;
                 }
             }
