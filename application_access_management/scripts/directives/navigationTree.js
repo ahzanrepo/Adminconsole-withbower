@@ -30,20 +30,32 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
             angular.forEach(scope.navigation.resources, function (resource) {
                 var item1 = addChild(scope.vm.data, resource.scopeName, resource.feature);
 
-
-                id++;
-                var read = addChild(item1, id, "Read");
-                id++;
-                var write = addChild(item1, id, "Write");
-                id++;
-                var del = addChild(item1, id, "Delete");
+                var read ,write,del;
+                if (resource.actions.indexOf("read") > -1) {
+                    id++;
+                    read = addChild(item1, id, "Read");
+                }
+                if (resource.actions.indexOf("write") > -1) {
+                    id++;
+                    write = addChild(item1, id, "Write");
+                }
+                if (resource.actions.indexOf("delete") > -1) {
+                    id++;
+                    del = addChild(item1, id, "Delete");
+                }
                 if (items)
                     if (items.length != 0) {
                         var optionSelected = false;
                         angular.forEach(items[0].menuAction, function (action) {
-                            read.isSelected = action.read;
-                            write.isSelected = action.write;
-                            del.isSelected = action.delete;
+                            if(read){
+                                read.isSelected = action.read;
+                            }
+                            if(write){
+                                write.isSelected = action.write;
+                            }
+                            if(del){
+                                del.isSelected = action.delete;
+                            }
                             optionSelected = action.read ? true : (action.write ? true : action.delete)
                         });
                         if (optionSelected) {
