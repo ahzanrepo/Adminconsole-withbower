@@ -283,7 +283,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
     var getAllRealTime = function () {
         //$scope.GetAllQueueStatistics();
-        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+        //getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 
     // getAllRealTime();
@@ -393,10 +393,10 @@ mainApp.directive('queued', function (queueMonitorService, $timeout, loginServic
 
                 var skillObj = {
                     skills: scope.skillList
-                }
+                };
 
                 queueMonitorService.getAvailableResourcesToSkill(skillObj).then(function (response) {
-                    scope.agentCount = response.length;
+                    scope.agentCount = response;
                 }, function (err) {
                     loginService.isCheckResponse(err);
                 });
