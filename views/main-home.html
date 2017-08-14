@@ -550,7 +550,7 @@
                             </a>
 
                             <ul id="menu1"
-                                class="dropdown-menu list-unstyled msg_list console-drop-menu notification-menu-left"
+                                class="dropdown-menu list-unstyled msg_list console-drop-menu notification-menu-left console-notofication"
                                 role="menu">
                                 <div class="notification-header">
                                     <a class="drop-header ubuntu-Medium">Notification center
@@ -600,7 +600,15 @@
 
 
                                 </div>
+                                <div ng-show="newNotifications.length>0" id="delBtn" class="del-all-btn"><span
+                                        onmouseover="this.style.cursor='pointer'"
+                                        ng-click="RemoveAllNotifications()">Delete All</span>
+                                </div>
                             </ul>
+
+
+
+
                         </li>
 
 

@@ -70,8 +70,25 @@ mainApp.factory('notifiSenderService', function ($http, baseUrls)
             {
                 return response;
             });
-        }
+        },
+        RemovePersistenceMessage : function (mID) {
 
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.notification + "/DVP/API/1.0.0.0/NotificationService/PersistenceMessage/"+mID
+            }).then(function (response) {
+                return response;
+            });
+        },
+         RemoveAllPersistenceMessages : function () {
+
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.notification + "/DVP/API/1.0.0.0/NotificationService/PersistenceMessages"
+            }).then(function (response) {
+                return response;
+            });
+        }
 
 
     }

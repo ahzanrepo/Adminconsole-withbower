@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices,$ngConfirm) {
 
 
     //added by pawan
@@ -27,6 +27,29 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             type: type,
             styling: 'bootstrap3',
             icon: false
+        });
+    };
+    $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
+
+        $ngConfirm({
+            title: title,
+            content: contentData, // if contentUrl is provided, 'content' is ignored.
+            scope: $scope,
+            buttons: {
+                // long hand button definition
+                ok: {
+                    text: okText,
+                    btnClass: 'btn-primary',
+                    keys: ['enter'], // will trigger when enter is pressed
+                    action: function (scope) {
+                        okFunc();
+                    }
+                },
+                // short hand button definition
+                close: function (scope) {
+                    closeFunc();
+                }
+            }
         });
     };
     $scope.unredNotifications = 0;
@@ -253,7 +276,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                     mObject.TopicKey = data.eventName;
                     mObject.messageType = mObject.Message;
                     mObject.header = mObject.Message;
-                    mObject.isPersistMessage = mObject.Direction !== "STATELESS";
+                    mObject.isPersist = mObject.Direction !== "STATELESS";
                     mObject.PersistMessageID = mObject.id;
                     $scope.OnMessage(mObject);
                 }
@@ -264,6 +287,68 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
         }
     });
+
+
+    $scope.RemoveAllNotifications = function () {
+
+
+        $scope.showConfirmation("Remove all notifications", "Do you want to remove all Notifications ?", "Ok", function () {
+            notifiSenderService.RemoveAllPersistenceMessages().then(function (response) {
+
+                if (response.data.IsSuccess) {
+                    $scope.unredNotifications = 0;
+                    $scope.newNotifications = [];
+                    $scope.showAlert("Notifications Deleted","success","All notification deleted successfully");
+                }
+                else {
+                    console.log("Error in Removing notifications");
+                    $scope.showAlert("Error", "error", "Error in deleting notifications");
+                }
+
+                $scope.showMesssageModal = false;
+
+            }, function (error) {
+                $scope.showAlert("Error", "error", "Error in deleting notifications");
+                console.log("Error in Removing notifications");
+            });
+        }, function () {
+
+        });
+
+
+        /* notificationService.RemoveAllPersistenceMessages().then(function (response) {
+
+         if(response.data.IsSuccess)
+         {
+         $scope.unredNotifications = 0;
+         $scope.notifications =[];
+         }
+         else
+         {
+         console.log("Error in Removing notifications");
+         $scope.showAlert("Error", "error", "Error in deleting notifications");
+         }
+
+         $scope.showMesssageModal = false;
+
+         },function (error) {
+         $scope.showAlert("Error", "error", "Error in deleting notifications");
+         console.log("Error in Removing notifications");
+         });*/
+
+        /*$scope.showConfirm("Delete notifications","Delete","ok","cancel","Do you want to delete all notifications",function () {
+
+
+
+         },function () {
+
+         },null)*/
+
+
+    };
+
+
+
 
     //---------------------- Notification Service End ------------------------------ //
 
@@ -987,7 +1072,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         callbackObj.From = data.From;
         callbackObj.TopicKey = callbackObj.Topic;
         callbackObj.messageType = callbackObj.MessageType;
-        callbackObj.isPersistMessage = true;
+        callbackObj.isPersist=true;
         callbackObj.PersistMessageID = data.id;
         return callbackObj;
 
@@ -1164,7 +1249,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
                 });
             } else {
                 $scope.notificationMsg.To = $scope.naviSelectedUser.username;
-                $scope.notificationMsg.isPersist=true;
+                $scope.notificationMsg.isPersist = true;
                 notifiSenderService.sendNotification($scope.notificationMsg, "message", "").then(function (response) {
                     console.log("send notification success :: " + $scope.notificationMsg.To);
                     $scope.notificationMsg = {};
@@ -1217,8 +1302,35 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
 
     $scope.discardNotifications = function (notifyMessage) {
-        $scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage), 1);
-        $scope.unredNotifications = $scope.newNotifications.length;
+        /*$scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage), 1);
+        $scope.unredNotifications = $scope.newNotifications.length;*/
+
+        $scope.showConfirmation("Remove notifications", "Do you want to remove this Notifications ?", "Ok", function () {
+            if (notifyMessage.isPersist && notifyMessage.PersistMessageID) {
+                notifiSenderService.RemovePersistenceMessage(notifyMessage.PersistMessageID).then(function (response) {
+                    $scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage), 1);
+                    $scope.unredNotifications = $scope.newNotifications.length;
+                    $scope.showMesssageModal = false;
+                    $scope.showAlert("Notification Deleted","success","Notification deleted successfully");
+
+                }, function (error) {
+                    $scope.showAlert("Error", "error", "Error in deleting notification");
+                    $scope.showMesssageModal = false;
+                });
+            }
+            else {
+                $scope.showAlert("Notification Deleted","success","Notification deleted successfully");
+                $scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage), 1);
+                $scope.unredNotifications = $scope.newNotifications.length;
+                $scope.showMesssageModal = false;
+            }
+        }, function () {
+
+        });
+
+
+
+
     };
 
     $scope.showModal = function (MessageObj) {
