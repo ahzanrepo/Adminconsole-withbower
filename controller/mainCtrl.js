@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices,$ngConfirm) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices,$ngConfirm,filterFilter) {
 
 
     //added by pawan
@@ -52,6 +52,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             }
         });
     };
+    $scope.getCountOfUnredNotifications = function () {
+        console.log("getCountOfUnredNotifications");
+        return filterFilter($scope.newNotifications, {read: false}).length;
+    };
     $scope.unredNotifications = 0;
     $scope.OnMessage = function (data) {
 
@@ -63,9 +67,13 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             data.resv_time = new Date();
             data.read = false;
             $scope.newNotifications.unshift(data);
-            $scope.unredNotifications = $scope.newNotifications.length;
+
             var audio = new Audio("assets/sounds/notification-1.mp3");
             audio.play();
+            $scope.$apply(function () {
+                $scope.unredNotifications = $scope.getCountOfUnredNotifications();
+            });
+
         }
 
 
