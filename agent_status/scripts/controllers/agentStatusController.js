@@ -49,6 +49,38 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
     $scope.GetProductivity();
     $scope.showCallDetails = false;
+
+    var TimeFormatter = function (seconds) {
+
+        var timeStr = '0:0:0';
+        if (seconds > 0) {
+            var durationObj = moment.duration(seconds * 1000);
+
+            if (durationObj) {
+                var tempDays = 0;
+                if (durationObj._data.years > 0) {
+                    tempDays = tempDays + durationObj._data.years * 365;
+                }
+                if (durationObj._data.months > 0) {
+                    tempDays = tempDays + durationObj._data.months * 30;
+                }
+                if (durationObj._data.days > 0) {
+                    tempDays = tempDays + durationObj._data.days;
+                }
+
+                if(tempDays > 0){
+
+                    timeStr = tempDays+'d '+ durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                }else{
+
+                    timeStr = durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                }
+            }
+        }
+        return timeStr;
+    };
+
+
     var calculateProductivity = function () {
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
@@ -103,6 +135,9 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             };
 
                         }
+
+
+
                         var resonseStatus = null, resonseAvailability = null, resourceMode = null;
                         var reservedDate = "";
 
@@ -154,12 +189,12 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                     }
 
                                     agentProductivity.LastReservedTimeT = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
-                                    agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
+                                    agentProductivity.slotStateTime = TimeFormatter(moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate), 'seconds')));
                                     if (reservedDate == "") {
                                         agentProductivity.LastReservedTime = null;
                                     } else {
                                         agentProductivity.LastReservedTime = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss')
-                                        agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
+                                        agentProductivity.slotStateTime = TimeFormatter(moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate), 'seconds')));
                                     }
 
 
@@ -184,7 +219,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             agentProductivity.other = "Offline";
                             reservedDate = agent.Status.StateChangeTime;
                             agentProductivity.LastReservedTimeT = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
-                            agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
+                            agentProductivity.slotStateTime = TimeFormatter(moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate), 'seconds')));
 
                             if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
                                 agentProductivity.slotState = resonseStatus;
