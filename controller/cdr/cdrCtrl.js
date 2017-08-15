@@ -1066,8 +1066,6 @@
 
                                         cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
 
-                                        cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
-
                                         holdSecTemp = holdSecTemp + curProcessingLeg.HoldSec;
                                         cdrAppendObj.HoldSec = holdSecTemp;
 
@@ -1094,6 +1092,15 @@
                                                 outLegAnswered = true;
                                             }
                                         }
+
+                                        if(outLegAnswered)
+                                        {
+                                            cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                        }
+                                        else
+                                        {
+                                            cdrAppendObj.AnswerSec = curProcessingLeg.Duration;
+                                        }
                                     }
 
                                 }
@@ -1111,6 +1118,7 @@
 
 
                                 cdrAppendObj.IsAnswered = outLegAnswered;
+
 
                                 if (outLegProcessed && cdrAppendObj.BillSec) {
                                     cdrAppendObj.ShowButton = true;

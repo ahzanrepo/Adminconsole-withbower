@@ -728,6 +728,8 @@
                                             outLegAnswered = true;
                                         }
                                     }
+
+                                    cdrAppendObj.AnswerSec = curProcessingLeg.Duration;
                                 }
 
 
