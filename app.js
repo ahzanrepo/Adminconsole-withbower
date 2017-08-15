@@ -1021,7 +1021,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             controller: "fileCatRestrictController",
             data: {
                 requireLogin: true,
-                navigation: "USERS"
+                navigation: "FILE_CAT_RESTRICT"
             }
         }).state('console.agentBreakReport', {
                 url: "/agentBreakReport",

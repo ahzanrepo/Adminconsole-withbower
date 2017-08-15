@@ -75,7 +75,7 @@
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.REPORT_EMAIL_CONFIG || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER|| accessNavigation.DYNAMICFORM || accessNavigation.PHONE_BOOK || accessNavigation.NOTICE">
+                            <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.REPORT_EMAIL_CONFIG || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER|| accessNavigation.DYNAMICFORM || accessNavigation.PHONE_BOOK || accessNavigation.NOTICE || accessNavigation.FILE_CAT_RESTRICT">
                                 <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -120,7 +120,7 @@
                                     <li ng-show="accessNavigation.AGENT_DIALER"><a href="javascript:void(0);"
                                                                                    ng-click="clickDirective.goAgentDial()">Agent
                                         Dial </a></li>
-                                    <li ng-show="accessNavigation.USERS"><a href="javascript:void(0);"
+                                    <li ng-show="accessNavigation.FILE_CAT_RESTRICT"><a href="javascript:void(0);"
                                                                             ng-click="clickDirective.goFileCatRestrict()">File
                                         Category Restrictions </a></li>
                                     <!-- <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
@@ -600,9 +600,9 @@
 
 
                                 </div>
-                                <div ng-show="newNotifications.length>0" id="delBtn" class="del-all-btn"><span
-                                        onmouseover="this.style.cursor='pointer'"
-                                        ng-click="RemoveAllNotifications()">Delete All</span>
+                                <div ng-show="newNotifications.length>0" id="delBtn" class="del-all-btn" ng-click="RemoveAllNotifications()">
+                                    <span
+                                        onmouseover="this.style.cursor='pointer'">Delete All</span>
                                 </div>
                             </ul>
 
