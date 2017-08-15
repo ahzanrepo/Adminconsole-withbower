@@ -6511,3 +6511,7 @@ ul.newsticker {
     font-size: 20px;
     padding-left: 20px;
 }
+
+.ui-datepicker{
+    z-index: 2000 !important;
+}
