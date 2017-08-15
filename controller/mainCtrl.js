@@ -104,7 +104,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     $scope.agentDisconnected = function () {
         $scope.isSocketRegistered = false;
-        $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register")
+        if($scope.isLogged)
+        {
+            $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");
+        }
+
     };
     $scope.agentAuthenticated = function () {
         $scope.isSocketRegistered = true;
@@ -378,14 +382,17 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.loadUsers();
         }
     });
-
-
+    $scope.isLogged=true;
     $scope.clickDirective = {
         goLogout: function () {
             loginService.Logoff(undefined, function (issuccess) {
                 if (issuccess) {
-                    $state.go('login');
                     veeryNotification.disconnectFromServer();
+                    $scope.isLogged=false;
+                    $state.go('login');
+                    SE.disconnect();
+
+
 
                     /*$timeout.cancel(getAllRealTimeTimer);*/
                 } else {
