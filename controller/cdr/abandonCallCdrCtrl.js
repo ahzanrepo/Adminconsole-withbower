@@ -672,7 +672,7 @@
                                     cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
 
 
-                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                    cdrAppendObj.AnswerSec = 0;
 
 
                                     if (curProcessingLeg.ObjType === 'HTTAPI') {
@@ -727,6 +727,11 @@
                                         if (curProcessingLeg.BillSec > 0) {
                                             outLegAnswered = true;
                                         }
+                                    }
+
+                                    if(cdrAppendObj.RecievedBy)
+                                    {
+                                        cdrAppendObj.AnswerSec = curProcessingLeg.Duration;
                                     }
                                 }
 

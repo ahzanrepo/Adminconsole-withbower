@@ -52,10 +52,7 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             }
         });
     };
-    $scope.getCountOfUnredNotifications = function () {
-        console.log("getCountOfUnredNotifications");
-        return filterFilter($scope.newNotifications, {read: false}).length;
-    };
+
     $scope.unredNotifications = 0;
     $scope.OnMessage = function (data) {
 
@@ -68,11 +65,22 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             data.read = false;
             $scope.newNotifications.unshift(data);
 
+            if($scope.$$phase) {
+                $scope.unredNotifications = $scope.newNotifications.length;
+
+            }
+            else
+            {
+                $scope.$apply(function () {
+                    $scope.unredNotifications = $scope.newNotifications.length;
+                });
+            }
+
+
+
             var audio = new Audio("assets/sounds/notification-1.mp3");
             audio.play();
-            $scope.$apply(function () {
-                $scope.unredNotifications = $scope.getCountOfUnredNotifications();
-            });
+
 
         }
 
@@ -96,7 +104,11 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
 
     $scope.agentDisconnected = function () {
         $scope.isSocketRegistered = false;
-        $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register")
+        if($scope.isLogged)
+        {
+            $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");
+        }
+
     };
     $scope.agentAuthenticated = function () {
         $scope.isSocketRegistered = true;
@@ -370,14 +382,17 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
             $scope.loadUsers();
         }
     });
-
-
+    $scope.isLogged=true;
     $scope.clickDirective = {
         goLogout: function () {
             loginService.Logoff(undefined, function (issuccess) {
                 if (issuccess) {
-                    $state.go('login');
                     veeryNotification.disconnectFromServer();
+                    $scope.isLogged=false;
+                    $state.go('login');
+                    SE.disconnect();
+
+
 
                     /*$timeout.cancel(getAllRealTimeTimer);*/
                 } else {

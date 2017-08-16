@@ -925,7 +925,7 @@
                                     cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
 
 
-                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                    cdrAppendObj.AnswerSec = 0;
 
 
                                     if (curProcessingLeg.ObjType === 'HTTAPI') {
@@ -1066,8 +1066,6 @@
 
                                         cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
 
-                                        cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
-
                                         holdSecTemp = holdSecTemp + curProcessingLeg.HoldSec;
                                         cdrAppendObj.HoldSec = holdSecTemp;
 
@@ -1094,6 +1092,13 @@
                                                 outLegAnswered = true;
                                             }
                                         }
+
+                                        cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+
+                                        if(!outLegAnswered && cdrAppendObj.RecievedBy)
+                                        {
+                                            cdrAppendObj.AnswerSec = curProcessingLeg.Duration;
+                                        }
                                     }
 
                                 }
@@ -1111,6 +1116,7 @@
 
 
                                 cdrAppendObj.IsAnswered = outLegAnswered;
+
 
                                 if (outLegProcessed && cdrAppendObj.BillSec) {
                                     cdrAppendObj.ShowButton = true;
