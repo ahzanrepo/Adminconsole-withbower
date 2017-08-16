@@ -75,6 +75,19 @@
 
                         </div>
 
+                        <label class="control-label col-md-2 col-sm-6 col-xs-12">Language</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label>Locale</label>
+                            <select class="select2_single form-control"
+                                    tabindex="-1"
+                                    aria-hidden="true"
+                                    name="contactType" ng-model="holdmusic.Language">
+                                <option ng-repeat="locale in languages" value="{{locale.code}}">
+                                    {{locale.name}}
+                                </option>
+                            </select>
+                        </div>
+
 
                     </form>
                 </div>
