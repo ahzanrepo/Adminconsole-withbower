@@ -524,6 +524,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     //----------------------------Custom Ticket Status----------------------------------------------
     $scope.cusTicketStatus = {};
+    $scope.cusTicketStatus.category="INPROGRESS";
     $scope.customticketStatus = [];
     $scope.systemTicketStatus = [];
 
@@ -571,6 +572,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             {
                 $scope.showAlert('Custom Ticket Status', response.CustomMessage, 'success');
                 $scope.cusTicketStatus = {};
+                $scope.cusTicketStatus.category = "INPROGRESS";
                 $scope.getCustomTicketStatus();
             }
             else
@@ -659,10 +661,10 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 history: false
             }
         })).get().on('pnotify.confirm', function () {
-                OkCallback("confirm");
-            }).on('pnotify.cancel', function () {
+            OkCallback("confirm");
+        }).on('pnotify.cancel', function () {
 
-            });
+        });
 
     };
 
