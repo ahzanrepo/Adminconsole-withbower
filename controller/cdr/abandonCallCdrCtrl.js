@@ -13,7 +13,7 @@
         $anchorScroll();
         $scope.enableSearchButton = true;
 
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [4, 'desc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'desc']};
 
 
         $scope.showAlert = function (tittle, type, content) {
