@@ -37,34 +37,49 @@
                 <div class="col-md-12 col-sm-6 col-xs-12 col-xs-12">
                     <div class="tile-stats  m-top15">
                         <form class="form-horizontal form-label-left input_mask">
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                <label>Status</label>
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="customStatus.status_node"
-                                       placeholder="Custom Status">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-12  form-group has-feedback">
+                                    <label>Status</label>
+                                    <input type="text" class="form-control has-feedback-left"
+                                           ng-model="customStatus.status_node"
+                                           placeholder="Custom Status">
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                <label>Description</label>
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="customStatus.description"
-                                       placeholder="Description">
-                                <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                            </div>
-
-
-
-
-
-                            <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button type="button" class="btn btn-success btn-sm pull-right"
-                                            ng-click="updateCustomTicketStatus()">
-                                        Update
-                                    </button>
+                                <div class="col-md-4 col-sm-4 col-xs-12  form-group has-feedback">
+                                    <label>Description</label>
+                                    <input type="text" class="form-control has-feedback-left"
+                                           ng-model="customStatus.description"
+                                           placeholder="Description">
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12  form-group has-feedback">
+                                    <label>Category</label>
+                                    <select class="form-control has-feedback-left"
+                                            ng-model="customStatus.category"
+                                            placeholder="Choose Category">
+                                        <option>OPEN</option>
+                                        <option>INPROGRESS</option>
+                                        <option>DONE</option>
+                                    </select>
                                 </div>
                             </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12 m-top15">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <button type="button" class="btn btn-success btn-sm pull-right"
+                                                ng-click="updateCustomTicketStatus()">
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
 
 
                         </form>
@@ -80,11 +95,16 @@
                 <label class="form-control-static">Status</label>
                 <p>{{customStatus.status_node}} </p>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-            </div>
+
             <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
                 <label class="form-control-static">Description</label>
                 <p>{{customStatus.description}} </p>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                <label class="form-control-static">Category</label>
+                <p>{{customStatus.category}} </p>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
             </div>
 
         </div>

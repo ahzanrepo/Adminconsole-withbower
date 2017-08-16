@@ -46,7 +46,7 @@ mainApp.controller("fileCatRestrictController", function ($scope, $state, userPr
     };
 
     $scope.loadFileCategoryList = function () {
-        fileService.GetCatagories().then(function (response) {
+        userProfileApiAccess.GetFileCatagories().then(function (response) {
 
             if(response)
             {

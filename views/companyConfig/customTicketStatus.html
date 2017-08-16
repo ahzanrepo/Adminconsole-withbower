@@ -50,6 +50,16 @@
                                                placeholder="Description">
                                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                     </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                        <select class="form-control has-feedback-left"
+                                                ng-model="cusTicketStatus.category"
+                                                placeholder="Choose Protocol">
+                                            <option>OPEN</option>
+                                            <option>INPROGRESS</option>
+                                            <option>DONE</option>
+                                        </select>
+                                    </div>
+
                                 </div>
 
 
@@ -84,7 +94,7 @@
                 <div class="input-group">
                     <input type="text" ng-model="searchCriteria" class="form-control"
                            placeholder="Search for...">
-                                <span class="input-group-btn">
+                    <span class="input-group-btn">
                                   <button class="btn btn-default" type="button">Go!</button>
                                 </span>
                 </div>
@@ -94,7 +104,7 @@
                 <ul class="list-unstyled ">
                     <li ng-repeat="cusStatus in customticketStatus | filterBy: ['status_node']: searchCriteria">
                         <custom-ticket-status-directive custom-status="cusStatus" update-custom-status="removeDeleted(cusStatus)"
-                                        reloadpage="getCustomTicketStatus()"></custom-ticket-status-directive>
+                                                        reloadpage="getCustomTicketStatus()"></custom-ticket-status-directive>
                     </li>
 
                     <paging ng-show="showPaging"

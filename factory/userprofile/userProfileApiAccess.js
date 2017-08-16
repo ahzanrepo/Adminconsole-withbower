@@ -208,6 +208,15 @@
                 return resp.data;
             })
         };
+        var GetFileCatagories = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'FileCategories'
+            }).then(function (resp) {
+                return response.data.Result;
+            })
+        };
 
 
 
@@ -231,7 +240,8 @@
             getUsersByRole:getUsersByRole,
             allowFileCategoryToUser:allowFileCategoryToUser,
             restrictFileCategoryToUser:restrictFileCategoryToUser,
-            addUserFromAD:addUserFromAD
+            addUserFromAD:addUserFromAD,
+            GetFileCatagories:GetFileCatagories
         };
     };
 
