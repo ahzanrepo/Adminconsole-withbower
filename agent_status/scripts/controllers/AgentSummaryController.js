@@ -1,7 +1,7 @@
 /**
  * Created by Rajinda on 9/1/2016.
  */
-mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,$filter,
+mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout, $filter,
                                                        dashboardService, moment, userImageList, $anchorScroll, subscribeServices) {
     $anchorScroll();
     //var getAllRealTime = function () {
@@ -294,7 +294,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             case 'ARDS:break_exceeded':
                 if (event.Message) {
                     var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
-                    if (agent&&agent.length>0) {
+                    if (agent && agent.length > 0) {
                         agent[0].breakExceeded = true;
                     }
                 }
@@ -303,7 +303,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
                     var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
-                    if (agent&&agent.length>0) {
+                    if (agent && agent.length > 0) {
                         agent[0].freezeExceeded = true;
                     }
                 }
