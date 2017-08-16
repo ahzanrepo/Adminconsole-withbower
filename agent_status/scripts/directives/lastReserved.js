@@ -70,7 +70,6 @@ mainApp.directive("lastReserved", function ($filter, $interval) {
         var minutes = parseInt(restHours / MINUTE);
         var seconds = parseInt(restHours % MINUTE);
 
-        console.log(seconds, minutes, hours);
 
 
         if(hours > 0){
