@@ -106,9 +106,9 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                             var data = {};
                             data = {
                                 "scope": menu.id,//"scopeName": "requestmeta",
-                                "read": menu.children["0"].isSelected,
-                                "write": menu.children["1"].isSelected,
-                                "delete": menu.children["2"].isSelected,
+                                "read": (menu.children["0"])? menu.children["0"].isSelected: false,
+                                "write": (menu.children["1"])?menu.children["1"].isSelected: false,
+                                "delete": (menu.children["2"])?menu.children["2"].isSelected: false
                             };
                             editedMenus.menuAction.push(data);
                         });
