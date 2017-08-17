@@ -149,11 +149,11 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                                 scope.showAlert("Info", "Info", "ok", navigationData.name + " Successfully Updated.")
                             }
                             else {
-                                scope.showError("Error", "Error", "ok", navigationData.name + " Fail To Update.");
+                                scope.showError("Error",  navigationData.name + " Fail To Update.");
                             }
 
                         }, function (error) {
-                            scope.showError("Error", "Error", "ok", "There is an error. Fail to Add Permissions[" + navigationData.name + "]");
+                            scope.showError("Error", "Fail / Denied to Add Permissions[" + navigationData.name + "]");
                         });
                     }
                     else {
@@ -162,16 +162,16 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                                 scope.showAlert("Info", "Info", "ok", navigationData.name + " Permissions Successfully Remove.")
                             }
                             else {
-                                scope.showError("Error", "Error", "ok", navigationData.name + " Fail To Update.");
+                                scope.showError("Error", navigationData.name + " Fail To Update.");
                             }
 
                         }, function (error) {
-                            scope.showError("Error", "Error", "ok", "There is an error. Fail to Remove Permissions[" + navigationData.name + "]");
+                            scope.showError("Error"," Fail / Denied to Remove Permissions[" + navigationData.name + "]");
                         });
                     }
                 }
                 catch (ex) {
-                    scope.showError("Error", "Error", "ok", "There is an error. Fail to Add Permissions[" + navigationData.name + "]");
+                    scope.showError("Error", "Fail / Denied to Add Permissions[" + navigationData.name + "]");
                     console.error(ex);
                 }
             };
