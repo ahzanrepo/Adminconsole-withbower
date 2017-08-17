@@ -24,7 +24,7 @@
                     <label>Filter Type</label>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-2">
-                    <select name="filterType" ng-model="filter.filterType"
+                    <select name="filterType" ng-model="filter.filterType" ng-change="onSelectionChanged()"
                         aria-controls="datatable-responsive" class="form-control select-limit">
                         <option value="ALL">All Users</option>
                         <option value="USER">By User</option>
@@ -35,7 +35,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12" ng-show="filter.filterType === 'USER'">
                     <label>Users</label>
                     <tags-input ng-model="filter.agentFilter" display-property="username"
-                                add-from-autocomplete-only="true" placeholder="Add User" use-strings="true">
+                                add-from-autocomplete-only="true" placeholder="Add User">
                         <auto-complete max-results-to-show="1000" source="querySearchUser($query)"
                                        load-on-empty="true" load-on-focus="true"
                                        min-length="1"></auto-complete>

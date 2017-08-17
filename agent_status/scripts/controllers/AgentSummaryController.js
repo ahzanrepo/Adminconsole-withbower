@@ -18,6 +18,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     //});
     //$scope.refreshTime = 1000;
 
+    $scope.enableFilter = true;
+
 
     $scope.StatusList = {
         ReservedProfile: [],
@@ -125,6 +127,23 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         })
     };
 
+    $scope.onSelectionChanged = function()
+    {
+        if($scope.filter.filterType === 'ALL')
+        {
+            $scope.filter.agentFilter = [];
+            $scope.filter.groupFilter = [];
+        }
+        else if($scope.filter.filterType === 'USER')
+        {
+            $scope.filter.groupFilter = [];
+        }
+        else if($scope.filter.filterType === 'GROUP')
+        {
+            $scope.filter.agentFilter = [];
+        }
+    };
+
     $scope.loadUserList();
 
     $scope.loadUserGroupList = function () {
@@ -167,21 +186,29 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             }
 
         }
-        else if($scope.filterType === 'GROUP')
+        else if($scope.filter.filterType === 'GROUP')
         {
             if($scope.filter.groupFilter && $scope.filter.groupFilter.length > 0)
             {
                 var tempUserArr = [];
 
-
-                var matchingRecord = $scope.filter.groupFilter.find(function(groupName)
+                $scope.filter.groupFilter.forEach(function(grp)
                 {
-                    return agentName === res.username;
+                    if(grp && grp.users && grp.users.length > 0)
+                    {
+                        tempUserArr = tempUserArr.concat(grp.users);
+                    }
                 });
 
-                if(matchingRecord)
+
+                if(tempUserArr && tempUserArr.length > 0)
                 {
-                    return true;
+                    var matchingRecord = tempUserArr.find(function(agent)
+                    {
+                        return agent.username === res.resourceName;
+                    });
+
+                    return !!matchingRecord;
                 }
                 else
                 {
@@ -196,7 +223,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         else{
             return true;
         }
-    }
+    };
 
     $scope.getProfileDetails = function () {
         dashboardService.GetProfileDetails().then(function (response) {
