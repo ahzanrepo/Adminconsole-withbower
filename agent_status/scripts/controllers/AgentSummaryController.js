@@ -2,7 +2,7 @@
  * Created by Rajinda on 9/1/2016.
  */
 mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout, $filter,
-                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices) {
+                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices, userProfileApiAccess) {
     $anchorScroll();
     //var getAllRealTime = function () {
     //    $scope.getProfileDetails();
@@ -29,6 +29,174 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         BreakProfile: [],
         profile: []
     };
+
+    $scope.filter = {
+        filterType: 'ALL',
+        agentFilter: [],
+        groupFilter: []
+    };
+
+    $scope.usrList = [];
+    $scope.grpList = [];
+
+    var emptyArr = [];
+
+    $scope.querySearchUser = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.usrList) {
+                return $scope.usrList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.usrList) {
+                var filteredArrUsr = $scope.usrList.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.username) {
+                        return item.username.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArrUsr;
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
+    };
+
+    $scope.querySearchGroup = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.grpList) {
+                return $scope.grpList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.grpList) {
+                var filteredArrGrp = $scope.grpList.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.name) {
+                        return item.name.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArrGrp;
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
+    };
+
+    $scope.loadUserList = function () {
+        userProfileApiAccess.getUsers().then(function (usrList)
+        {
+            if(usrList && usrList.Result)
+            {
+                $scope.usrList = usrList.Result;
+            }
+            else
+            {
+                $scope.usrList = [];
+            }
+
+        }).catch(function (err) {
+            $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list');
+
+        })
+    };
+
+    $scope.loadUserList();
+
+    $scope.loadUserGroupList = function () {
+        userProfileApiAccess.getUserGroups().then(function (grpList)
+        {
+            if(grpList && grpList.Result)
+            {
+                $scope.grpList = grpList.Result;
+            }
+            else
+            {
+                $scope.grpList = [];
+            }
+
+
+        }).catch(function (err) {
+            $scope.showAlert('Group List', 'error', 'Failed to bind group auto complete list');
+
+        })
+    };
+
+    $scope.loadUserGroupList();
+
+    $scope.filterResList = function(res)
+    {
+        if($scope.filter.filterType === 'USER')
+        {
+            if($scope.filter.agentFilter && $scope.filter.agentFilter.length > 0)
+            {
+                var matchingRecord = $scope.filter.agentFilter.find(function(agent)
+                {
+                    return agent.username === res.resourceName;
+                });
+
+                return !!matchingRecord;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        else if($scope.filterType === 'GROUP')
+        {
+            if($scope.filter.groupFilter && $scope.filter.groupFilter.length > 0)
+            {
+                var tempUserArr = [];
+
+
+                var matchingRecord = $scope.filter.groupFilter.find(function(groupName)
+                {
+                    return agentName === res.username;
+                });
+
+                if(matchingRecord)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else{
+            return true;
+        }
+    }
 
     $scope.getProfileDetails = function () {
         dashboardService.GetProfileDetails().then(function (response) {
