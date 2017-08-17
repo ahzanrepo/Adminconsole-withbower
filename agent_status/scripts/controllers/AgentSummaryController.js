@@ -2,7 +2,7 @@
  * Created by Rajinda on 9/1/2016.
  */
 mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout, $filter,
-                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices, userProfileApiAccess) {
+                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices, userProfileApiAccess,reportQueryFilterService) {
     $anchorScroll();
     //var getAllRealTime = function () {
     //    $scope.getProfileDetails();
@@ -109,6 +109,25 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
     };
 
+    /*--------------------------- Filter ------------------------------------------*/
+    $scope.SaveReportQueryFilter = function () {
+        reportQueryFilterService.SaveReportQueryFilter("AgentProfileSummary", $scope.filter);
+    };
+
+    $scope.GetReportQueryFilter = function () {
+        reportQueryFilterService.GetReportQueryFilter("AgentProfileSummary").then(function (response) {
+            if (response) {
+                $scope.filter = response;
+            }
+        }, function (error) {
+            console.log(error);
+        });
+
+    };
+    $scope.GetReportQueryFilter();
+
+    /*--------------------------- Filter ------------------------------------------*/
+
     $scope.loadUserList = function () {
         userProfileApiAccess.getUsers().then(function (usrList)
         {
@@ -142,6 +161,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         {
             $scope.filter.agentFilter = [];
         }
+
+        $scope.SaveReportQueryFilter();
     };
 
     $scope.loadUserList();

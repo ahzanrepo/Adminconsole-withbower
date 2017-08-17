@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12" ng-show="filter.filterType === 'USER'">
                     <label>Users</label>
-                    <tags-input ng-model="filter.agentFilter" display-property="username"
+                    <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="filter.agentFilter" display-property="username"
                                 add-from-autocomplete-only="true" placeholder="Add User">
                         <auto-complete max-results-to-show="1000" source="querySearchUser($query)"
                                        load-on-empty="true" load-on-focus="true"
