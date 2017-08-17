@@ -1,6 +1,6 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll, resourceProductivityService) {
+app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll, resourceProductivityService,reportQueryFilterService) {
 
     $anchorScroll();
     $scope.reloadPage = function () {
@@ -8,6 +8,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         $scope.productivity = [];
         $scope.GetOnlineAgents();
     };
+    $scope.showFilter = true;
     $scope.isLoading = true;
     $scope.productivity = [];
     $scope.getProductivity = function () {
@@ -24,23 +25,51 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
             $scope.showError("Error", "Error", "ok", "There is an error ");
             $scope.isLoading = false;
         });
+        $scope.SaveReportQueryFilter();
 
+    };
+
+    $scope.SaveReportQueryFilter = function () {
+        reportQueryFilterService.SaveReportQueryFilter("AGENTPRODUCTIVITY",$scope.OnlineAgents);
     };
 
     $scope.AvailableAgents = [];
     $scope.OnlineAgents = [];
     $scope.GetOnlineAgents = function () {
         resourceProductivityService.GetOnlineAgents().then(function (response) {
-            $scope.AvailableAgents = response;
-            angular.copy(response, $scope.OnlineAgents);
-            $scope.getProductivity();
+            if(response){
+                $scope.AvailableAgents = response.map(function (item) {
+                    return {
+                        ResourceName:item.ResourceName,
+                        ResourceId:item.ResourceId
+                    }
+                });
+            }
+            //$scope.AvailableAgents = response;
+            /*angular.copy(response, $scope.OnlineAgents);
+            $scope.getProductivity();*/
+            $scope.isLoading = false;
+        }, function (error) {
+            $log.debug("GetOnlineAgents err");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
+            $scope.isLoading = false;
+        });
+
+    };
+    $scope.GetOnlineAgents();
+    $scope.GetReportQueryFilter = function () {
+        reportQueryFilterService.GetReportQueryFilter("AGENTPRODUCTIVITY").then(function (response) {
+            if(response){
+                $scope.OnlineAgents = response;
+                $scope.getProductivity();
+            }
         }, function (error) {
             $log.debug("GetOnlineAgents err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
         });
 
     };
-    $scope.GetOnlineAgents();
+    $scope.GetReportQueryFilter();
 
 
     $scope.querySearch = function (query) {
@@ -85,13 +114,27 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     var calculateProductivity = function () {
         if ($scope.OnlineAgents) {
+            $scope.Productivitys = [];
             angular.forEach($scope.OnlineAgents, function (agent) {
                 try {
-                    if (agent) {
-                        var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId});//"ResourceId":"1"
-                        if (ids[0]) {
 
-                            var agentProductivity = {
+                    if (agent) {
+                        agent.onlineStatus = true;
+                        var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId.toString()},true);//"ResourceId":"1"
+                        var agentProductivity = {
+                            "data": [{
+                                value: 0,
+                                name: 'Offline'
+                            }],
+                            "ResourceId": agent.ResourceId,
+                            "ResourceName": agent.ResourceName,
+                            "IncomingCallCount": 0,
+                            "MissCallCount":  0,
+                            "Chatid": agent.ResourceId
+                        };
+                        if (ids[0]) {
+                            agent.onlineStatus = false;
+                            agentProductivity = {
                                 "data": [{
                                     value: ids[0].AcwTime ? ids[0].AcwTime : 0,
                                     name: 'After work'
@@ -115,8 +158,10 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                                 "Chatid": agent.ResourceId
                             };
 
-                            $scope.Productivitys.push(agentProductivity);
+
                         }
+                        $scope.Productivitys.push(agentProductivity);
+                        $scope.echartDonutSetOption(agentProductivity);
                     }
                     $scope.isLoading = false;
                 } catch (ex) {
@@ -125,7 +170,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 }
             });
 
-            $scope.echartDonutSetOption();
+
         }
     };
 
@@ -378,8 +423,95 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         return hours + ":" + minutes + ":" + seconds;
     }
 
-    var myObject = {};
-    $scope.echartDonutSetOption = function () {
+    $scope.echartDonutSetOption = function (productivity) {
+        var myObject = {};
+        myObject[productivity.Chatid] = echarts.init(document.getElementById(productivity.ResourceId), theme);
+        myObject[productivity.Chatid].setOption({
+            title: {
+                show: true,
+                text: productivity.ResourceName,
+                textStyle: {
+                    fontSize: 18,
+                    fontWeight: 'bolder',
+                    color: '#333',
+                    fontFamily: 'Ubuntu-Regular'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                //formatter: "{a} <br/>{b} : {c} ({d}%)",
+                formatter: function (params, ticket, callback) {
+                    var res = params.seriesName + ' <br/>' + params.name + ' ' + secondsToTime(params.value) + ' ' + params.percent + '%';
+                    setTimeout(function () {
+                        callback(ticket, res);
+                    }, 100);
+                    return 'loading';
+                }
+            },
+            calculable: true,
+            legend: {
+                x: 'center',
+                y: 'bottom',
+                data: ['After work', 'Break', 'On Call','Out Call Time', 'Idle']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    //dataView : {show: true, readOnly: false},
+                    magicType: {
+                        show: true,
+                        type: ['pie', 'funnel'],
+                        option: {
+                            funnel: {
+                                x: '10%',
+                                width: '50%',
+                                funnelAlign: 'center',
+                                max: 1548
+                            }
+                        }
+                    },
+                    restore: {
+                        show: false,
+                        title: "Restore"
+                    },
+                    saveAsImage: {
+                        show: true,
+                        title: "Save As Image"
+                    }
+                }
+            },
+            series: [{
+                name: 'Productivity',
+                type: 'pie',
+                radius: ['35%', '55%'],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true
+                        },
+                        labelLine: {
+                            show: true
+                        }
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            position: 'center',
+                            textStyle: {
+                                fontSize: '14',
+                                fontWeight: 'normal'
+                            }
+                        }
+                    }
+                },
+                data: productivity.data
+            }]
+        });
+    };
+
+    /*$scope.echartDonutSetOption = function () {
+        var myObject = {};
         angular.forEach($scope.Productivitys, function (productivity) {
             myObject[productivity.Chatid] = echarts.init(document.getElementById(productivity.ResourceId), theme);
             myObject[productivity.Chatid].setOption({
@@ -468,7 +600,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         });
 
 
-    };
+    };*/
 
 });
 

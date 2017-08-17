@@ -43,7 +43,7 @@
                                     <div class="form-group">
                                         <label>Agent</label>
                                         <div class="input-group col-md-12">
-                                            <tags-input ng-model="profile" display-property="ResourceName" key-property="ResourceName"
+                                            <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="profile" display-property="ResourceName" key-property="ResourceName"
                                                         placeholder="Select Agent"
                                                         add-from-autocomplete-only="true" min-length="0" on-tag-removed="ResourceAdded()" on-tag-added="ResourceAdded()">
                                                 <auto-complete source="querySearch($query)" load-on-empty="true"
@@ -58,7 +58,7 @@
                                     <div class="form-group">
                                         <label>Agent Mode</label>
                                         <div class="input-group col-md-12">
-                                            <tags-input ng-model="agentMode" display-property="Name" key-property="Name"
+                                            <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="agentMode" display-property="Name" key-property="Name"
                                                         placeholder="Select Agent"
                                                         add-from-autocomplete-only="true" min-length="0" on-tag-removed="AgentModeAdded()" on-tag-added="AgentModeAdded()">
                                                 <auto-complete source="agentModeQuerySearch($query)" load-on-empty="true"
