@@ -68,7 +68,7 @@
                                 <div class="col-md-9 col-sm-9 col-xs-12 form-group has-feedback">
                                     <label class="animated fadeIn">{{collectionTitle}}</label>
                                     <tags-input ng-model="attributeGroup" display-property="username"
-                                                add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
+                                                add-from-autocomplete-only="true" replace-spaces-with-dashes="false" on-tag-added="onChipAdd($tag)"
                                                 on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1"
                                                 placeholder="">
                                         <auto-complete source="querySearch($query)"
