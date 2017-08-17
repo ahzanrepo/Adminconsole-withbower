@@ -25,7 +25,7 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
             },
             data: navigationData
         }).then(function (response) {
-            return response.data.IsSuccess;
+            return response.data;
         });
     };
 
@@ -62,7 +62,7 @@ mainApp.factory("appAccessManageService", function ($http, $log, authService, ba
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
-            return response.data.IsSuccess;
+            return response.data;
         });
     };
 
