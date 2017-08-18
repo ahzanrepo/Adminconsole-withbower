@@ -35,7 +35,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12" ng-show="filter.filterType === 'USER'">
                     <label>Users</label>
                     <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="filter.agentFilter" display-property="username"
-                                add-from-autocomplete-only="true" placeholder="Add User">
+                                add-from-autocomplete-only="true" replace-spaces-with-dashes="false" placeholder="Add User">
                         <auto-complete max-results-to-show="1000" source="querySearchUser($query)"
                                        load-on-empty="true" load-on-focus="true"
                                        min-length="1"></auto-complete>
@@ -44,7 +44,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12" ng-show="filter.filterType === 'GROUP'">
                     <label>Groups</label>
                     <tags-input ng-model="filter.groupFilter" display-property="name"
-                                add-from-autocomplete-only="true" placeholder="Add Group">
+                                add-from-autocomplete-only="true" replace-spaces-with-dashes="false" placeholder="Add Group">
                         <auto-complete max-results-to-show="1000" source="querySearchGroup($query)"
                                        load-on-empty="true" load-on-focus="true"
                                        min-length="1"></auto-complete>

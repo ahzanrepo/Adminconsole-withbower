@@ -133,7 +133,11 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         {
             if(usrList && usrList.Result)
             {
-                $scope.usrList = usrList.Result;
+                var usrMapList = usrList.Result.map(function(usr)
+                {
+                    return {username: usr.username};
+                });
+                $scope.usrList = usrMapList;
             }
             else
             {
@@ -172,7 +176,13 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         {
             if(grpList && grpList.Result)
             {
-                $scope.grpList = grpList.Result;
+                $scope.originalGrpList = grpList.Result;
+                var grpMapList = grpList.Result.map(function(grp)
+                {
+                    return {name: grp.name};
+                });
+
+                $scope.grpList = grpMapList;
             }
             else
             {
@@ -215,9 +225,13 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                 $scope.filter.groupFilter.forEach(function(grp)
                 {
-                    if(grp && grp.users && grp.users.length > 0)
+                    var tempGrp = $scope.originalGrpList.find(function(grpItem){
+                        return grpItem.name === grp.name;
+                    });
+
+                    if(tempGrp && tempGrp.users && tempGrp.users.length > 0)
                     {
-                        tempUserArr = tempUserArr.concat(grp.users);
+                        tempUserArr = tempUserArr.concat(tempGrp.users);
                     }
                 });
 
