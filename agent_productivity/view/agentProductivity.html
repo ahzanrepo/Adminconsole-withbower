@@ -21,7 +21,7 @@
                                     <div class="form-group">
                                         <label>Agent</label>
                                         <div class="input-group col-md-12">
-                                            <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="OnlineAgents" display-property="ResourceName" key-property="ResourceName"
+                                            <tags-input  ng-model="OnlineAgents" display-property="ResourceName" key-property="ResourceName"
                                                         placeholder="Select Agent"
                                                         add-from-autocomplete-only="true" min-length="0" on-tag-removed="AgentAdded()" on-tag-added="AgentAdded()">
                                                 <auto-complete source="querySearch($query)" load-on-empty="true"
