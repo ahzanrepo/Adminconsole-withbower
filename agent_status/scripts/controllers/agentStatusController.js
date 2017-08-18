@@ -412,10 +412,20 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.getProfileDetails = function () {
         agentStatusService.GetProfileDetails().then(function (response) {
 
-            $scope.availableProfile = response;
-            if ($scope.profile.length == 0) {
-                angular.copy($scope.availableProfile, $scope.profile);
+            if(response){
+                $scope.availableProfile = response.map(function (item) {
+                    return {
+                        ResourceName:item.ResourceName,
+                        ResourceId:item.ResourceId
+                    }
+                });
+
+                /*$scope.availableProfile = response;*/
+                if ($scope.profile.length == 0) {
+                    angular.copy($scope.availableProfile, $scope.profile);
+                }
             }
+
         });
     };
 
@@ -548,12 +558,34 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     };
 
-    $scope.ResourceAdded = function () {
+    $scope.ResourceAdded = function (tag) {
         $scope.isLoading = true;
         //getAllRealTime();
+
+        $scope.SaveReportQueryFilter();
     };
 
-    $scope.AgentModeAdded = function () {
+    $scope.ResourceRemoved = function (tag) {
+        $scope.isLoading = true;
+        //getAllRealTime();
+        var index = $scope.profile.indexOf(tag);
+        if (index > -1) {
+            $scope.profile.splice(index, 1);
+        }
+        $scope.SaveReportQueryFilter();
+    };
+
+    $scope.AgentModeRemoved = function (tag) {
+        $scope.isLoading = true;
+        var index = $scope.agentMode.indexOf(tag);
+        if (index > -1) {
+            $scope.agentMode.splice(index, 1);
+        }
+        $scope.SaveReportQueryFilter();
+    };
+
+
+    $scope.AgentModeAdded = function (tag) {
         $scope.isLoading = true;
         //getAllRealTime();
     };
