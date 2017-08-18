@@ -6,7 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
+    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
         $anchorScroll();
@@ -39,6 +39,35 @@
                 }
             }
         };
+
+        $scope.xx = function localFileVideoPlayer() {
+            'use strict'
+            var URL = window.URL || window.webkitURL
+            var displayMessage = function (message, isError) {
+                var element = document.querySelector('#message')
+                element.innerHTML = message
+                element.className = isError ? 'error' : 'info'
+            }
+            var playSelectedFile = function (event) {
+                var file = this.files[0]
+                var type = file.type
+                var videoNode = document.querySelector('video')
+                var canPlay = videoNode.canPlayType(type)
+                if (canPlay === '') canPlay = 'no'
+                var message = 'Can play type "' + type + '": ' + canPlay
+                var isError = canPlay === 'no'
+                displayMessage(message, isError)
+
+                if (isError) {
+                    return
+                }
+
+                var fileURL = URL.createObjectURL(file)
+                videoNode.src = fileURL
+            }
+            var inputNode = document.querySelector('input')
+            inputNode.addEventListener('change', playSelectedFile, false)
+        }
 
 
         $scope.enableSearchButton = true;
@@ -123,6 +152,55 @@
         };
 
         $scope.playStopFile = function (uuid) {
+            if (videogularAPI)
+            {
+                if(videogularAPI.currentState === 'play')
+                {
+                    videogularAPI.stop();
+                }
+                var decodedToken = loginService.getTokenDecode();
+
+                if (decodedToken && decodedToken.company && decodedToken.tenant) {
+                    var fileToPlay = baseUrls.fileServiceUrl + 'File/DownloadLatest/'+uuid+'.mp3?Authorization='+$auth.getToken();
+
+                    $http({
+                        method: 'GET',
+                        url: fileToPlay,
+                        responseType: 'blob'
+                    }).then(function successCallback(response)
+                    {
+                        if(response.data)
+                        {
+                            var url = URL.createObjectURL(response.data);
+                            var arr = [
+                                {
+                                    src: $sce.trustAsResourceUrl(url),
+                                    type: 'audio/mp3'
+                                }
+                            ];
+
+                            $scope.config.sources = arr;
+
+
+                            videogularAPI.play();
+                        }
+
+                        // this callback will be called asynchronously
+                        // when the response is available
+                    }, function errorCallback(response) {
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                    });
+
+
+                }
+            }
+
+
+        };
+
+
+        /*$scope.playStopFile = function (uuid) {
             if (videogularAPI) {
                 var decodedToken = loginService.getTokenDecode();
 
@@ -144,7 +222,7 @@
             }
 
 
-        };
+        };*/
 
         //set loagin option
         $scope.isTableLoading = 3;
