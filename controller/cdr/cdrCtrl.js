@@ -40,35 +40,6 @@
             }
         };
 
-        $scope.xx = function localFileVideoPlayer() {
-            'use strict'
-            var URL = window.URL || window.webkitURL
-            var displayMessage = function (message, isError) {
-                var element = document.querySelector('#message')
-                element.innerHTML = message
-                element.className = isError ? 'error' : 'info'
-            }
-            var playSelectedFile = function (event) {
-                var file = this.files[0]
-                var type = file.type
-                var videoNode = document.querySelector('video')
-                var canPlay = videoNode.canPlayType(type)
-                if (canPlay === '') canPlay = 'no'
-                var message = 'Can play type "' + type + '": ' + canPlay
-                var isError = canPlay === 'no'
-                displayMessage(message, isError)
-
-                if (isError) {
-                    return
-                }
-
-                var fileURL = URL.createObjectURL(file)
-                videoNode.src = fileURL
-            }
-            var inputNode = document.querySelector('input')
-            inputNode.addEventListener('change', playSelectedFile, false)
-        }
-
 
         $scope.enableSearchButton = true;
 
@@ -184,12 +155,10 @@
 
                             videogularAPI.play();
                         }
-
-                        // this callback will be called asynchronously
-                        // when the response is available
                     }, function errorCallback(response) {
-                        // called asynchronously if an error occurs
-                        // or server returns response with an error status.
+
+                        $scope.showAlert('CDR Player', 'error', 'Error occurred while playing file');
+
                     });
 
 
@@ -200,29 +169,6 @@
         };
 
 
-        /*$scope.playStopFile = function (uuid) {
-            if (videogularAPI) {
-                var decodedToken = loginService.getTokenDecode();
-
-                if (decodedToken && decodedToken.company && decodedToken.tenant) {
-                    var fileToPlay = baseUrls.fileServiceUrl + 'File/DownloadLatest/'+uuid+'.mp3?Authorization='+$auth.getToken();
-
-                    var arr = [
-                        {
-                            src: $sce.trustAsResourceUrl(fileToPlay),
-                            type: 'audio/mp3'
-                        }
-                    ];
-
-                    $scope.config.sources = arr;
-
-
-                    videogularAPI.play();
-                }
-            }
-
-
-        };*/
 
         //set loagin option
         $scope.isTableLoading = 3;
