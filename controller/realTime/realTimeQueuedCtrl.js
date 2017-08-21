@@ -2,7 +2,7 @@
  * Created by Damith on 5/29/2016.
  */
 
-mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService, $anchorScroll, subscribeServices) {
+mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService, $anchorScroll, subscribeServices,reportQueryFilterService ) {
 
 
     subscribeServices.subscribe('queuedetail');
@@ -167,6 +167,22 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
 
     };
+
+    $scope.SaveReportQueryFilter = function () {
+        reportQueryFilterService.SaveReportQueryFilter("realtime-queued",$scope.selectedQueues);
+    };
+
+    $scope.selectedQueues = [];
+    $scope.GetReportQueryFilter = function () {
+        reportQueryFilterService.GetReportQueryFilter("realtime-queued").then(function (response) {
+            if(response){
+                $scope.selectedQueues = response;
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    $scope.GetReportQueryFilter();
 
     $scope.checkQueueHidden = function (qid) {
         if ($scope.selectedQueues && $scope.selectedQueues.length > 0) {

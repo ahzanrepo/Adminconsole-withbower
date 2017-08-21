@@ -6,7 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
+    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
         $anchorScroll();
@@ -123,28 +123,52 @@
         };
 
         $scope.playStopFile = function (uuid) {
-            if (videogularAPI) {
+            if (videogularAPI)
+            {
+                if(videogularAPI.currentState === 'play')
+                {
+                    videogularAPI.stop();
+                }
                 var decodedToken = loginService.getTokenDecode();
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant) {
                     var fileToPlay = baseUrls.fileServiceUrl + 'File/DownloadLatest/'+uuid+'.mp3?Authorization='+$auth.getToken();
 
-                    var arr = [
+                    $http({
+                        method: 'GET',
+                        url: fileToPlay,
+                        responseType: 'blob'
+                    }).then(function successCallback(response)
+                    {
+                        if(response.data)
                         {
-                            src: $sce.trustAsResourceUrl(fileToPlay),
-                            type: 'audio/mp3'
+                            var url = URL.createObjectURL(response.data);
+                            var arr = [
+                                {
+                                    src: $sce.trustAsResourceUrl(url),
+                                    type: 'audio/mp3'
+                                }
+                            ];
+
+                            $scope.config.sources = arr;
+
+
+                            videogularAPI.play();
                         }
-                    ];
+                    }, function errorCallback(response) {
 
-                    $scope.config.sources = arr;
+                        $scope.showAlert('CDR Player', 'error', 'Error occurred while playing file');
+
+                    });
 
 
-                    videogularAPI.play();
                 }
             }
 
 
         };
+
+
 
         //set loagin option
         $scope.isTableLoading = 3;

@@ -42,10 +42,10 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12  form-group">
                                     <div class="form-group">
                                         <label>Agent</label>
-                                        <div class="input-group col-md-12">
-                                            <tags-input ng-model="profile" display-property="ResourceName" key-property="ResourceName"
+                                        <div class="input-group col-md-12"> <!--on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()"-->
+                                            <tags-input  ng-model="profile" display-property="ResourceName" key-property="ResourceName"
                                                         placeholder="Select Agent"
-                                                        add-from-autocomplete-only="true" min-length="0" on-tag-removed="ResourceAdded()" on-tag-added="ResourceAdded()">
+                                                        add-from-autocomplete-only="true" min-length="0" on-tag-removed="ResourceRemoved($tag)" on-tag-added="ResourceAdded($tag)">
                                                 <auto-complete source="querySearch($query)" load-on-empty="true"
                                                                max-results-to-show="10000" min-length="1"
                                                                load-on-focus="true"></auto-complete>
@@ -57,10 +57,10 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12  form-group">
                                     <div class="form-group">
                                         <label>Agent Mode</label>
-                                        <div class="input-group col-md-12">
-                                            <tags-input ng-model="agentMode" display-property="Name" key-property="Name"
+                                        <div class="input-group col-md-12"> <!--on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()"-->
+                                            <tags-input  ng-model="agentMode" display-property="Name" key-property="Name"
                                                         placeholder="Select Agent"
-                                                        add-from-autocomplete-only="true" min-length="0" on-tag-removed="AgentModeAdded()" on-tag-added="AgentModeAdded()">
+                                                        add-from-autocomplete-only="true" min-length="0" on-tag-removed="AgentModeRemoved($tag)" on-tag-added="AgentModeAdded($tag)">
                                                 <auto-complete source="agentModeQuerySearch($query)" load-on-empty="true"
                                                                max-results-to-show="10000" min-length="1"
                                                                load-on-focus="true"></auto-complete>

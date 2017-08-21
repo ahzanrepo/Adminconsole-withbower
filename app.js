@@ -78,7 +78,7 @@ var baseUrls = {
     'notification': 'http://notificationservice.app1.veery.cloud/',//notificationservice.app1.veery.cloud
     'cdrProcessor': 'http://cdrprocessor.app1.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app1.veery.cloud/DVP/API/1.0.0.0/',
-    'qaModule': 'http://qamodule.app1.veery.cloud/DVP/API/1.0.0.0/QAModule/',
+    'qaModule': 'http://localhost:3637/DVP/API/1.0.0.0/QAModule/',
     'limitHandlerUrl': 'http://limithandler.app1.veery.cloud/DVP/API/1.0.0.0/',
     'templatesUrl': 'http://templates.app1.veery.cloud/DVP/API/1.0.0.0/',
     'ardsLiteServiceUrl': 'http://ardsliteservice.app1.veery.cloud/DVP/API/1.0.0.0/',
@@ -95,7 +95,8 @@ var baseUrls = {
     'zohoAPIUrl': 'http://crmintegrations.app1.veery.cloud/DVP/API/1.0.0.0/',//crmintegrations.app1.veery.cloud,
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'agentDialerURL': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/', //agentdialerservice.app1.veery.cloud
-    'integrationapi': 'http://localhost:4334/DVP/API/1.0.0.0/IntegrationAPI/' //integrationapi.app1.veery.cloud
+    'integrationapi': 'http://localhost:4334/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
+    'reportQueryFilterUrl': 'http://localhost:8795/DVP/API/1.0.0.0/ReportQueryFilter/'
 };
 
 mainApp.constant('baseUrls', baseUrls);

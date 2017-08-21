@@ -145,33 +145,48 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                         });
 
                         appAccessManageService.AddSelectedNavigationToUser(scope.userName, scope.consoleName, editedMenus).then(function (response) {
-                            if (response) {
+                            if (response.IsSuccess) {
                                 scope.showAlert("Info", "Info", "ok", navigationData.name + " Successfully Updated.")
                             }
                             else {
-                                scope.showError("Error", "Error", "ok", navigationData.name + " Fail To Update.");
+                                if(response.CustomMessage)
+                                {
+                                    scope.showError("Error",  response.CustomMessage);
+                                }
+                                else {
+                                    scope.showError("Error",  navigationData.name + " Failed To Update.");
+                                }
+
                             }
 
                         }, function (error) {
-                            scope.showError("Error", "Error", "ok", "There is an error. Fail to Add Permissions[" + navigationData.name + "]");
+                            scope.showError("Error", "Failed to Add Permissions[" + navigationData.name + "]");
                         });
                     }
                     else {
                         appAccessManageService.DeleteSelectedNavigationFrmUser(scope.userName, scope.consoleName, navigationData.name).then(function (response) {
-                            if (response) {
+                            if (response.IsSuccess) {
                                 scope.showAlert("Info", "Info", "ok", navigationData.name + " Permissions Successfully Remove.")
                             }
                             else {
-                                scope.showError("Error", "Error", "ok", navigationData.name + " Fail To Update.");
+                                if(response.CustomMessage)
+                                {
+                                    scope.showError("Error", response.CustomMessage);
+                                }
+                                else
+                                {
+                                    scope.showError("Error", navigationData.name + " Fail To Update.");
+                                }
+
                             }
 
                         }, function (error) {
-                            scope.showError("Error", "Error", "ok", "There is an error. Fail to Remove Permissions[" + navigationData.name + "]");
+                            scope.showError("Error"," Failed to Remove Permissions[" + navigationData.name + "]");
                         });
                     }
                 }
                 catch (ex) {
-                    scope.showError("Error", "Error", "ok", "There is an error. Fail to Add Permissions[" + navigationData.name + "]");
+                    scope.showError("Error", "Failed to Add Permissions[" + navigationData.name + "]");
                     console.error(ex);
                 }
             };

@@ -213,7 +213,7 @@
             return $http({
                 method: 'GET',
                 url: baseUrls.UserServiceBaseUrl + 'FileCategories'
-            }).then(function (resp) {
+            }).then(function (response) {
                 return response.data.Result;
             })
         };
