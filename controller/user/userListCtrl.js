@@ -6,6 +6,17 @@
 
     var userListCtrl = function ($scope, $stateParams, $state, userProfileApiAccess, loginService, $anchorScroll, companyConfigBackendService) {
 
+        $scope.safeApply = function (fn) {
+            var phase = this.$root.$$phase;
+            if (phase == '$apply' || phase == '$digest') {
+                if (fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
+            }
+        };
+
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
@@ -59,7 +70,7 @@
 
 
         var loadUsers = function () {
-            userProfileApiAccess.getUsers().then(function (data) {
+            userProfileApiAccess.getUsers('all').then(function (data) {
                 if (data.IsSuccess) {
                     $scope.userList = data.Result;
                 }
@@ -151,53 +162,123 @@
         loadUserGroups();
 
 
-        $scope.removeUser = function (username) {
+        $scope.removeUser = function (user) {
+            console.log(user.Active);
+            if(user.Active) {
 
-            new PNotify({
-                title: 'Confirm Deletion',
-                text: 'Are You Sure You Want To Delete User ?',
-                hide: false,
-                confirm: {
-                    confirm: true
-                },
-                buttons: {
-                    closer: false,
-                    sticker: false
-                },
-                history: {
-                    history: false
-                }
-            }).get().on('pnotify.confirm', function () {
-                userProfileApiAccess.deleteUser(username).then(function (data) {
-                    if (data.IsSuccess) {
-                        $scope.showAlert('Success', 'info', 'User Deleted');
-                        loadUsers();
+                console.log("activate");
+
+                new PNotify({
+                    title: 'Confirm Reactivation',
+                    text: 'Are You Sure You Want To Reactivate User ?',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
                     }
-                    else {
-                        var errMsg = "";
+                }).get().on('pnotify.confirm', function () {
+                        userProfileApiAccess.ReactivateUser(user.username).then(function (data) {
+                            if (data.IsSuccess) {
+                                $scope.showAlert('Success', 'info', 'User Reactivated');
+                                //loadUsers();
+                            }
+                            else {
+                                var errMsg = "";
+                                $scope.safeApply(function () {
+                                    user.Active = false;
+                                });
 
-                        if (data.Exception) {
-                            errMsg = data.Exception.Message;
-                        }
 
-                        if (data.CustomMessage) {
-                            errMsg = data.CustomMessage;
-                        }
-                        $scope.showAlert('Error', 'error', errMsg);
+                                if (data.Exception) {
+                                    errMsg = data.Exception.Message;
+                                }
+
+                                if (data.CustomMessage) {
+                                    errMsg = data.CustomMessage;
+                                }
+                                $scope.showAlert('Error', 'error', errMsg);
+                            }
+
+                        }, function (err) {
+                            $scope.safeApply(function () {
+                                user.Active = false;
+                            });
+                            loginService.isCheckResponse(err);
+                            var errMsg = "Error occurred while deleting contact";
+                            if (err.statusText) {
+                                errMsg = err.statusText;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+                        });
+                    }).on('pnotify.cancel', function () {
+                        $scope.safeApply(function () {
+                            user.Active = false;
+                        });
+                    });
+
+
+            }else{
+                console.log("deactivate");
+
+                new PNotify({
+                    title: 'Confirm Deletion',
+                    text: 'Are You Sure You Want To Deactivate User ?',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
                     }
+                }).get().on('pnotify.confirm', function () {
+                        userProfileApiAccess.deleteUser(user.username).then(function (data) {
+                            if (data.IsSuccess) {
+                                $scope.showAlert('Success', 'info', 'User Deleted');
+                                //loadUsers();
+                            }
+                            else {
+                                var errMsg = "";
+                                $scope.safeApply(function () {
+                                    user.Active = true;
+                                });
 
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                    var errMsg = "Error occurred while deleting contact";
-                    if (err.statusText) {
-                        errMsg = err.statusText;
-                    }
-                    $scope.showAlert('Error', 'error', errMsg);
-                });
-            }).on('pnotify.cancel', function () {
+                                if (data.Exception) {
+                                    errMsg = data.Exception.Message;
+                                }
 
-            });
+                                if (data.CustomMessage) {
+                                    errMsg = data.CustomMessage;
+                                }
+                                $scope.showAlert('Error', 'error', errMsg);
+                            }
 
+                        }, function (err) {
+                            $scope.safeApply(function () {
+                                user.Active = true;
+                            });
+                            loginService.isCheckResponse(err);
+                            var errMsg = "Error occurred while deleting contact";
+                            if (err.statusText) {
+                                errMsg = err.statusText;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
+                        });
+                    }).on('pnotify.cancel', function () {
+                        $scope.safeApply(function () {
+                            user.Active = true;
+                        });
+                    });
+            }
 
         };
 
@@ -488,6 +569,9 @@
             }
 
         };
+
+        $scope.userActiveCheck = false;
+
 
 
     };

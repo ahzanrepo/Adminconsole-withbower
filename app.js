@@ -46,7 +46,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ngFileSaver',
     'timer',
     'as.sortable',
-    'cp.ngConfirm'
+    'cp.ngConfirm',
+    'uiSwitch'
 ]);
 
 
