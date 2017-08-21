@@ -241,7 +241,7 @@
 
 
         populateToTagList();
-        getExternalUserList();
+        //getExternalUserList();
         getUserList();
 
 

@@ -67,7 +67,7 @@
                 var numberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/im;
                 data.forEach(function (data) {
                     var tempNumber = data[filter];
-                    if(tempNumber.toString().match(numberRegex)) {
+                    if(tempNumber && tempNumber.toString().match(numberRegex)) {
                         numbers.push(data[filter])
                         console.log('Valid Number - '+tempNumber);
                     }

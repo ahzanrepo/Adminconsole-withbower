@@ -95,7 +95,7 @@ var baseUrls = {
     'zohoAPIUrl': 'http://crmintegrations.app1.veery.cloud/DVP/API/1.0.0.0/',//crmintegrations.app1.veery.cloud,
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'agentDialerURL': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/', //agentdialerservice.app1.veery.cloud
-    'integrationapi': 'http://integrationapi.app1.veery.cloud/DVP/API/1.0.0.0/IntegrationAPI/'
+    'integrationapi': 'http://localhost:4334/DVP/API/1.0.0.0/IntegrationAPI/' //integrationapi.app1.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -1023,7 +1023,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "USERS"
             }
-        });
+        }).state('console.agentBreakReport', {
+                url: "/agentBreakReport",
+                templateUrl: "views/agent-break-details/agentBreakDetails.html",
+                controller: "agentBreakDetailController",
+                data: {
+                    requireLogin: true,
+                    navigation: "USERS"
+                }
+            });
         //Todo shoud be change navigation
     }]);
 

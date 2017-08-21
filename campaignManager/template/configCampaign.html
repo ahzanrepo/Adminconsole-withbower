@@ -52,34 +52,7 @@
                             </div>
                         </div>
 
-                        <!--Additional Data-->
-                        <div class="col-md-12 col-sm-6 col-xs-12" ng-show="showAdditionalDataPanel" >
-                            <div class="x_panel">
-                                <div class="x_title">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <h2><i class="ti-package"><small>Additional Data</small></i>
 
-                                        </h2>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-
-                                <div class="x_content"  >
-                                    <div class="col-md-6 col-sm-6 col-xs-6 form-group">
-                                        <tags-input ng-model="campaignAttributes" display-property="Name"
-                                                    add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
-                                                    on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1"
-                                                    placeholder="Add a Campaign Attributes">
-                                            <auto-complete source="querySearch($query)"
-                                                           load-on-empty="true"
-                                                           load-on-focus="true"
-                                                           min-length="1"></auto-complete>
-                                        </tags-input>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
 
                         <!--callback reasons-->
                         <div class="col-md-12 col-sm-6 col-xs-12" ng-show="showCallback" >

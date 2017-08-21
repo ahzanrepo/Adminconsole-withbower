@@ -49,6 +49,38 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
     $scope.GetProductivity();
     $scope.showCallDetails = false;
+
+    var TimeFormatter = function (seconds) {
+
+        var timeStr = '0:0:0';
+        if (seconds > 0) {
+            var durationObj = moment.duration(seconds * 1000);
+
+            if (durationObj) {
+                var tempDays = 0;
+                if (durationObj._data.years > 0) {
+                    tempDays = tempDays + durationObj._data.years * 365;
+                }
+                if (durationObj._data.months > 0) {
+                    tempDays = tempDays + durationObj._data.months * 30;
+                }
+                if (durationObj._data.days > 0) {
+                    tempDays = tempDays + durationObj._data.days;
+                }
+
+                if(tempDays > 0){
+
+                    timeStr = tempDays+'d '+ durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                }else{
+
+                    timeStr = durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                }
+            }
+        }
+        return timeStr;
+    };
+
+
     var calculateProductivity = function () {
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
@@ -103,15 +135,99 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             };
 
                         }
-                        var resonseStatus = null,
-                            resonseAvailability = null;
 
-                        if (agent.Status.Reason && agent.Status.State) {
+
+
+                        var resonseStatus = null, resonseAvailability = null, resourceMode = null;
+                        var reservedDate = "";
+
+                        if (agent.ConcurrencyInfo && agent.ConcurrencyInfo.length > 0) {
+
+                            agent.ConcurrencyInfo.forEach(function (concurrency) {
+                                if (concurrency && concurrency.HandlingType === 'CALL' && concurrency.SlotInfo && concurrency.SlotInfo.length > 0) {
+
+                                    // is user state Reason
+
+                                    if (agent.Status.Reason && agent.Status.State) {
+                                        resonseAvailability = agent.Status.State;
+                                        resonseStatus = agent.Status.Reason;
+                                        resourceMode = agent.Status.Mode;
+                                    }
+
+
+                                    if (concurrency.IsRejectCountExceeded) {
+                                        resonseAvailability = "NotAvailable";
+                                        resonseStatus = "Suspended";
+                                    }
+
+                                    agentProductivity.slotMode = resourceMode;
+
+
+                                    if (concurrency.SlotInfo[0]) {
+
+                                        reservedDate = concurrency.SlotInfo[0].StateChangeTime;
+                                    }
+
+
+                                    if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
+                                        agentProductivity.slotState = resonseStatus;
+                                        agentProductivity.other = "Reject";
+                                    } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+                                        agentProductivity.slotState = resonseStatus;
+                                        agentProductivity.other = "Break";
+                                        reservedDate = agent.Status.StateChangeTime;
+                                    } else {
+
+                                        if (concurrency.SlotInfo[0]) {
+                                            agentProductivity.slotState = concurrency.SlotInfo[0].State;
+                                        }
+
+                                        /*if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
+
+                                         reservedDate = response[i].Status.StateChangeTime;
+                                         }*/
+                                    }
+
+                                    agentProductivity.LastReservedTimeT = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
+                                    agentProductivity.slotStateTime = TimeFormatter(moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate), 'seconds')));
+                                    if (reservedDate == "") {
+                                        agentProductivity.LastReservedTime = null;
+                                    } else {
+                                        agentProductivity.LastReservedTime = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss')
+                                        agentProductivity.slotStateTime = TimeFormatter(moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate), 'seconds')));
+                                    }
+
+
+                                }
+                            });
+
+
+                            // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
+                            //         profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
+                            //         profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
+                            //         profile.slotState == 'AUXBreak' ||
+                            //         profile.slotState == 'ProcessRelatedBreak') {
+                            //         $scope.BreakProfile.push(profile);
+                            //     }
+
+                        } else {
+                            resourceMode = agent.Status.Mode;
                             resonseAvailability = agent.Status.State;
                             resonseStatus = agent.Status.Reason;
+                            agentProductivity.slotState = resonseStatus;
+                            agentProductivity.slotMode = resourceMode;
+                            agentProductivity.other = "Offline";
+                            reservedDate = agent.Status.StateChangeTime;
+                            agentProductivity.LastReservedTimeT = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
+                            agentProductivity.slotStateTime = TimeFormatter(moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate), 'seconds')));
+
+                            if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+                                agentProductivity.slotState = resonseStatus;
+                                agentProductivity.other = "Break";
+                            }
                         }
 
-                        if (agent.ConcurrencyInfo.length > 0 && agent.ConcurrencyInfo[0].SlotInfo.length > 0) {
+                        /*if (agent.ConcurrencyInfo.length > 0 && agent.ConcurrencyInfo[0].SlotInfo.length > 0) {
 
                             var callSlotData = $filter('filter')(agent.ConcurrencyInfo, {HandlingType: "CALL"});
 
@@ -145,33 +261,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             }
 
 
-                            /*var reservedDate = agent.ConcurrencyInfo[0].SlotInfo[0].StateChangeTime;
-
-                             if (resonseAvailability == "NotAvailable") {
-                             agentProductivity.slotState = resonseStatus;
-                             agentProductivity.other = "Break";
-                             reservedDate = agent.Status.StateChangeTime;
-                             } else if (agent.ConcurrencyInfo[0].IsRejectCountExceeded) {
-                             agentProductivity.slotState = "Suspended";
-                             agentProductivity.other = "Reject";
-                             } else {
-                             agentProductivity.slotState = agent.ConcurrencyInfo[0].SlotInfo[0].State;
-
-                             if (agent.ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
-
-                             reservedDate = agent.Status.StateChangeTime;
-                             }
-                             }
-
-
-                             if (reservedDate == "") {
-                             agentProductivity.LastReservedTime = null;
-                             } else {
-                             agentProductivity.LastReservedTime = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
-                             agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(reservedDate))).format("HH:mm:ss");
-                             }*/
-
-
                         } else {
                             agentProductivity.slotState = "Offline";
                             agentProductivity.other = "Offline";
@@ -185,7 +274,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             agentProductivity.LastReservedTime = moment(offlineReservedDate).format('DD/MM/YYYY HH:mm:ss');
                             agentProductivity.slotStateTime = moment.utc(moment(moment(), "DD/MM/YYYY HH:mm:ss").diff(moment(offlineReservedDate))).format("HH:mm:ss");
 
-                        }
+                        }*/
 
 
                         /* Set Task Info*/
