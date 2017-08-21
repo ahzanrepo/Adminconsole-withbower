@@ -523,7 +523,7 @@ app.directive('onErrorSrc', function () {
 });
 
 
-app.controller('ModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, baseUrls, file,$auth) {
+app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInstance, baseUrls, file,$auth) {
 
     $scope.selectedFile = file;
 
@@ -535,40 +535,99 @@ app.controller('ModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, b
         $uibModalInstance.dismiss('cancel');
     };
 
+    var urlTemp = baseUrls.fileServiceUrl + "File/Download/"+ file.UniqueId + "/" + file.Filename+"?Authorization="+$auth.getToken();
 
-    $scope.config = {
-        preload: "auto",
-        sources: [
+    if(file.ObjCategory === 'CONVERSATION')
+    {
+        $http({
+            method: 'GET',
+            url: urlTemp,
+            responseType: 'blob'
+        }).then(function successCallback(response)
+        {
+            if(response.data)
             {
-                src: $sce.trustAsResourceUrl(baseUrls.fileServiceUrl + "File/Download/"+ file.UniqueId + "/" + file.Filename+"?Authorization="+$auth.getToken()),
-                type: file.FileStructure
+                var url = URL.createObjectURL(response.data);
+                $scope.config = {
+                    preload: "auto",
+                    sources: [
+                        {
+                            src: $sce.trustAsResourceUrl(url),
+                            type: file.FileStructure
+                        }
+                    ],
+                    tracks: [
+                        {
+                            src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
+                            kind: "subtitles",
+                            srclang: "en",
+                            label: "English",
+                            default: ""
+                        }
+                    ],
+                    theme: {
+                        url: "bower_components/videogular-themes-default/videogular.css"
+                    },
+                    "analytics": {
+                        "category": "Videogular",
+                        "label": "Main",
+                        "events": {
+                            "ready": true,
+                            "play": true,
+                            "pause": true,
+                            "stop": true,
+                            "complete": true,
+                            "progress": 10
+                        }
+                    }
+                };
             }
-        ],
-        tracks: [
-            {
-                src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
-                kind: "subtitles",
-                srclang: "en",
-                label: "English",
-                default: ""
+        }, function errorCallback(response) {
+
+            $scope.showAlert('CDR Player', 'error', 'Error occurred while playing file');
+
+        });
+
+    }
+    else
+    {
+        $scope.config = {
+            preload: "auto",
+            sources: [
+                {
+                    src: $sce.trustAsResourceUrl(urlTemp),
+                    type: file.FileStructure
+                }
+            ],
+            tracks: [
+                {
+                    src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
+                    kind: "subtitles",
+                    srclang: "en",
+                    label: "English",
+                    default: ""
+                }
+            ],
+            theme: {
+                url: "bower_components/videogular-themes-default/videogular.css"
+            },
+            "analytics": {
+                "category": "Videogular",
+                "label": "Main",
+                "events": {
+                    "ready": true,
+                    "play": true,
+                    "pause": true,
+                    "stop": true,
+                    "complete": true,
+                    "progress": 10
+                }
             }
-        ],
-        theme: {
-            url: "bower_components/videogular-themes-default/videogular.css"
-        },
-        "analytics": {
-            "category": "Videogular",
-            "label": "Main",
-            "events": {
-                "ready": true,
-                "play": true,
-                "pause": true,
-                "stop": true,
-                "complete": true,
-                "progress": 10
-            }
-        }
-    };
+        };
+    }
+
+
+
 
 
 });
