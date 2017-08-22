@@ -71,7 +71,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 m-top15">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <button type="button" class="btn btn-success btn-sm pull-right"
-                                                ng-click="updateCustomTicketStatus()">
+                                                ng-click="updateCustomTicketStatus()" ng-disabled="!customStatus.status_node">
                                             Update
                                         </button>
                                     </div>
