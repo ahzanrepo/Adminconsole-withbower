@@ -163,6 +163,10 @@
 
 
         $scope.removeUser = function (user) {
+            $scope.safeApply(function () {
+                $scope.disableSwitch = true;
+            });
+
             console.log(user.Active);
             if(user.Active) {
 
@@ -186,12 +190,15 @@
                         userProfileApiAccess.ReactivateUser(user.username).then(function (data) {
                             if (data.IsSuccess) {
                                 $scope.showAlert('Success', 'info', 'User Reactivated');
-                                //loadUsers();
+                                $scope.safeApply(function () {
+                                    $scope.disableSwitch = false;
+                                });
                             }
                             else {
                                 var errMsg = "";
                                 $scope.safeApply(function () {
                                     user.Active = false;
+                                    $scope.disableSwitch = false;
                                 });
 
 
@@ -208,6 +215,7 @@
                         }, function (err) {
                             $scope.safeApply(function () {
                                 user.Active = false;
+                                $scope.disableSwitch = false;
                             });
                             loginService.isCheckResponse(err);
                             var errMsg = "Error occurred while deleting contact";
@@ -219,6 +227,7 @@
                     }).on('pnotify.cancel', function () {
                         $scope.safeApply(function () {
                             user.Active = false;
+                            $scope.disableSwitch = false;
                         });
                     });
 
@@ -244,12 +253,15 @@
                         userProfileApiAccess.deleteUser(user.username).then(function (data) {
                             if (data.IsSuccess) {
                                 $scope.showAlert('Success', 'info', 'User Deleted');
-                                //loadUsers();
+                                $scope.safeApply(function () {
+                                    $scope.disableSwitch = false;
+                                });
                             }
                             else {
                                 var errMsg = "";
                                 $scope.safeApply(function () {
                                     user.Active = true;
+                                    $scope.disableSwitch = false;
                                 });
 
                                 if (data.Exception) {
@@ -265,6 +277,7 @@
                         }, function (err) {
                             $scope.safeApply(function () {
                                 user.Active = true;
+                                $scope.disableSwitch = false;
                             });
                             loginService.isCheckResponse(err);
                             var errMsg = "Error occurred while deleting contact";
@@ -276,6 +289,7 @@
                     }).on('pnotify.cancel', function () {
                         $scope.safeApply(function () {
                             user.Active = true;
+                            $scope.disableSwitch = false;
                         });
                     });
             }
