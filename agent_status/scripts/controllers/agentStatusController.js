@@ -57,7 +57,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                 angular.copy($scope.availableProfile, $scope.profile);
             }
 
-            angular.forEach($scope.profile, function (agent) {
+            angular.forEach($scope.availableProfile, function (agent) {
                 try {
                     if (agent) {
                         if ($scope.agentMode.length > 0) {
