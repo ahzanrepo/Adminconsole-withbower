@@ -128,7 +128,9 @@
                                                 {{item.username}}
                                                 <!--<small ng-if="item.user_meta.role !== 'admin'" class="fa fa-trash"
                                                        ng-click="removeUser(item.username)"></small>-->
-                                                <switch disabled="user_meta.role !== 'admin'" id="enabled" name="enabled" ng-model="item.Active" class="green" ng-change="removeUser(item)"></switch>
+                                                <div disabled="user_meta.role !== 'admin'">
+                                                <switch id="enabled" name="enabled" ng-model="item.Active" class="green" ng-change="removeUser(item)"></switch>
+                                                </div>
                                                 <small class="fa fa-cog" ng-click="viewPermissions(item)"></small>
                                                 <small class="fa fa-user" ng-click="viewProfile(item.username)"></small>
                                             </h3>
