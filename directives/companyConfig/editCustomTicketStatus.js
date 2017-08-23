@@ -75,18 +75,18 @@
                         {
                             var errMsg = response.CustomMessage;
 
-                            if(response.Exception)
+                            /*if(response.Exception)
                             {
                                 errMsg = response.Exception.Message;
-                            }
+                            }*/
                             scope.showAlert('Custom Ticket Status', errMsg, 'error');
                         }
                     }, function(err){
                         var errMsg = "Error occurred while updating ticket status";
-                        if(err.statusText)
+                        /*if(err.statusText)
                         {
                             errMsg = err.statusText;
-                        }
+                        }*/
                         scope.showAlert('Custom Ticket Status', errMsg, 'error');
                     });
                 };
@@ -102,16 +102,16 @@
                             else {
                                 var errMsg = response.CustomMessage;
 
-                                if (response.Exception) {
+                                /*if (response.Exception) {
                                     errMsg = response.Exception.Message;
-                                }
+                                }*/
                                 scope.showAlert('Custom Ticket Status', errMsg, 'error');
                             }
                         }, function (err) {
                             var errMsg = "Error occurred while deleting custom ticket status";
-                            if (err.statusText) {
+                            /*if (err.statusText) {
                                 errMsg = err.statusText;
-                            }
+                            }*/
                             scope.showAlert('Custom Ticket Status', errMsg, 'error');
                         });
                     }, function () {

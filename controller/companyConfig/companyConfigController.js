@@ -579,18 +579,18 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             {
                 var errMsg = response.CustomMessage;
 
-                if(response.Exception)
+                /*if(response.Exception)
                 {
                     errMsg = response.Exception.Message;
-                }
+                }*/
                 $scope.showAlert('Custom Ticket Status', errMsg, 'error');
             }
         }, function(err){
             var errMsg = "Error occurred while add new ticket status";
-            if(err.statusText)
+            /*if(err.statusText)
             {
                 errMsg = err.statusText;
-            }
+            }*/
             $scope.showAlert('Custom Ticket Status', errMsg, 'error');
         });
     };
