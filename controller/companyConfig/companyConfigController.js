@@ -579,18 +579,18 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             {
                 var errMsg = response.CustomMessage;
 
-                if(response.Exception)
+                /*if(response.Exception)
                 {
                     errMsg = response.Exception.Message;
-                }
+                }*/
                 $scope.showAlert('Custom Ticket Status', errMsg, 'error');
             }
         }, function(err){
             var errMsg = "Error occurred while add new ticket status";
-            if(err.statusText)
+            /*if(err.statusText)
             {
                 errMsg = err.statusText;
-            }
+            }*/
             $scope.showAlert('Custom Ticket Status', errMsg, 'error');
         });
     };
@@ -723,6 +723,12 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                     $scope.breakType.MaxDurationPerDay = 100;
                 }
             }
+
+            var patt = new RegExp("/^[a-zA-Z0-9-_\\s]+(Break|break)$/");
+            if(!patt.test($scope.breakType.BreakType)){
+                $scope.breakType.BreakType = $scope.breakType.BreakType+'Break';
+            }
+
             companyConfigBackendService.createBreakType($scope.breakType).then(function (response) {
                 if (response.IsSuccess) {
                     $scope.showAlert('Custom Break Type', 'Break Type Added Successfully.', 'success');
