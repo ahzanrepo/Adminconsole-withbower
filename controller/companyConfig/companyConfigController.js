@@ -843,6 +843,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     //----------------------------ActiveDirectory-------------------------------------------
 
+    $scope.activeDirectoryDetail = {};
     $scope.resetPasswordStatus = false;
     $scope.passwordResetData = {};
     $scope.activeDirectoryDetail = {};

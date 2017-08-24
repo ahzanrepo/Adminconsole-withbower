@@ -90,7 +90,7 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'POST',
-            url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/resources",
+            url: baseUrls.ardsmonitoringBaseUrl+"MONITORING/resources/count?task=call&mode=inbound",
             data: skillObj
         }).then(function (response) {
             if (response.data) {

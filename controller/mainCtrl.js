@@ -568,6 +568,10 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goFileCatRestrict: function () {
             $state.go('console.fileCatRestrict');
 
+        },
+        goAgentBreakReport: function () {
+            $state.go('console.agentBreakReport');
+
         }
     };
     $scope.showDisplayName = false;
