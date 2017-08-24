@@ -1181,6 +1181,11 @@
                                 $scope.isNextDisabled = false;
                             }
 
+                            if(cdrLen < lim)
+                            {
+                                $scope.isNextDisabled = true;
+                            }
+
                             $scope.isTableLoading = 1;
 
 
