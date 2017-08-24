@@ -997,7 +997,7 @@
 
                                 if (transferLegB && transferLegB.length > 0)
                                 {
-                                    var transferLegBAnswered = filteredOutb.filter(function (item) {
+                                    var transferLegBAnswered = transferLegB.filter(function (item) {
                                         return item.IsAnswered === true;
                                     });
 
