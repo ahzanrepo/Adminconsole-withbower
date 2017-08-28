@@ -588,6 +588,7 @@
                             var count = 0;
                             var cdrLen = Object.keys(cdrResp.Result).length;
 
+
                             for (cdr in cdrResp.Result) {
                                 count++;
                                 var cdrAppendObj = {};
@@ -772,6 +773,11 @@
                             else if ($scope.pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;
                                 $scope.isNextDisabled = false;
+                            }
+
+                            if(cdrLen < lim)
+                            {
+                                $scope.isNextDisabled = true;
                             }
 
                             $scope.isTableLoading = 1;
