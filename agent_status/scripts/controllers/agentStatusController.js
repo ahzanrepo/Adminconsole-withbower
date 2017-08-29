@@ -89,17 +89,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                 angular.copy($scope.availableProfile, $scope.profile);
             }
 
-            angular.forEach($scope.profile, function (agent) {
+            angular.forEach($scope.availableProfile, function (agent) {
                 try {
                     if (agent) {
-                        /*if ($scope.agentMode.length > 0) {
+                        if ($scope.agentMode.length > 0) {
                             var modeData = $filter('filter')($scope.agentMode, {Name: agent.Status.Mode});
                             if (modeData.length == 0) {
                                 return;
                             }
-                        }*/
-                        if ($scope.agentMode.length === 0) {
-                            return;
                         }
 
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId.toString()}, true);//"ResourceId":"1"
@@ -211,8 +208,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                 resourceMode = agent.Status.Mode;
                                 resonseAvailability = agent.Status.State;
                                 resonseStatus = agent.Status.Reason;
-                                agentProductivity.slotState = resonseStatus;
-                                agentProductivity.slotMode = resourceMode;
+                                agentProductivity.slotState = "Offline";
+                                agentProductivity.slotMode = "Offline";
                                 agentProductivity.other = "Offline";
                                 reservedDate = agent.Status.StateChangeTime;
                                 agentProductivity.LastReservedTimeT = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
