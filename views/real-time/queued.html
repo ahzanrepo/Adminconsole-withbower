@@ -71,7 +71,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr queuedlist ng-repeat="que in queues" ng-hide = "checkQueueHidden(que.id)" name="{{que.id}}">
+                            <tr queuedlist ng-repeat="(qkey, que) in queues" ng-hide = "checkQueueHidden(que.id)" name="{{que.id}}" que="que" name="{{que.id}}" viewmode="cardViewMode"
+                                queueoption="queueoption" pieoption="pieoption">
                                 <!--<th class="fs15 text-left">{{que.queuename}}</th>
                                 <th class="fs15 text-right">{{que.CurrentWaiting}}</th>
                                 <th class="fs15 text-right">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>

@@ -509,29 +509,28 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
          + "<th class=\"fs15 text-right\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.presentage}}</th>",
          */
         scope: {
-            name: "@"
+            name: "@",
+            queueoption: "=",
+            pieoption: "=",
+            viewmode: "=",
+            que: "="
         },
 
         template: "<th class=\"fs15 text-left\">{{que.QueueName}}</th>" + "<th class=\"fs15 text-right\">{{que.CurrentWaiting}}</th>"
-        + "<th class=\"fs15 text-right\">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th>"
+        + "<th class=\"fs15 text-right\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}} : {{mminutes}} :{{sseconds}}</timer></th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th>"
         + "<th class=\"fs15 text-right\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
         + "<th class=\"fs15 text-right\">{{que.presentage}}</th>",
 
         link: function (scope, element, attributes) {
 
 
-            scope.que = {};
-            scope.options = {};
-            scope.que.CurrentWaiting = 0;
-            scope.que.CurrentMaxWaitTime = '00:00:00';
-            scope.que.presentage = 0;
             scope.maxy = 10;
             scope.val = "";
 
 
             var qData = function () {
 
-                queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
+                /*queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
 
                     if (response.QueueInfo) {
                         response.QueueInfo.QueueName = response.QueueName;
@@ -551,7 +550,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
                     }
                 }, function (err) {
                     loginService.isCheckResponse(err);
-                });
+                });*/
             };
 
 
@@ -560,7 +559,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
 
             var updateRealtime = function () {
 
-                qData();
+                //qData();
 
 
                 updatetimer = $timeout(updateRealtime, 2000);
