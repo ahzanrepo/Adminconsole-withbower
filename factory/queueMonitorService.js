@@ -97,11 +97,11 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
                 if(response.data.IsSuccess && response.data.Result ){
                     return response.data.Result;
                 }else{
-                    return {};
+                    return 0;
                 }
             } else {
 
-                return {};
+                return 0;
             }
         });
 
