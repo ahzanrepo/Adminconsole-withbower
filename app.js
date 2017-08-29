@@ -71,7 +71,7 @@ var baseUrls = {
     'conferenceUrl': 'http://conference.app1.veery.cloud/DVP/API/1.0.0.0/',
     'sipUserendpoint': 'http://sipuserendpointservice.app1.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app1.veery.cloud/DVP/API/1.0.0.0/PBXService/',
-    'ticketUrl': 'http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'ticketUrl': 'http://localhost:3636/DVP/API/1.0.0.0/',//http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboardservice.app1.veery.cloud/',
     'autoattendantUrl': 'http://autoattendant.app1.veery.cloud/DVP/API/1.0.0.0/',
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app1.veery.cloud/DVP/API/1.0.0.0/',
@@ -323,6 +323,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "QA_FORM_DESIGNER"
+            }
+        }).state('console.smsdetailreport', {
+            url: "/SMSDetailReport",
+            templateUrl: "views/sms/smsDetailReport.html",
+            controller: "smsDetailReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "SMS_DETAIL_REPORT"
             }
         }).state('console.qaSubmission', {
             url: "/QAFormSubmission",
