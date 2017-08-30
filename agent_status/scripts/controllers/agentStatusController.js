@@ -183,10 +183,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                                 agentProductivity.slotState = concurrency.SlotInfo[0].State;
                                             }
 
-                                            /*if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
-
-                                             reservedDate = response[i].Status.StateChangeTime;
-                                             }*/
                                         }
 
                                         agentProductivity.LastReservedTimeT = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
@@ -202,14 +198,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                     }
                                 });
 
-
-                                // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
-                                //         profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
-                                //         profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
-                                //         profile.slotState == 'AUXBreak' ||
-                                //         profile.slotState == 'ProcessRelatedBreak') {
-                                //         $scope.BreakProfile.push(profile);
-                                //     }
 
                             } else {
                                 resourceMode = agent.Status.Mode;
@@ -559,11 +547,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.AgentModeAdded = function (tag) {
         $scope.isLoading = true;
         //getAllRealTime();
+        $scope.SaveReportQueryFilter();
     };
 
     $scope.LoadProductivity = function () {
         $scope.isLoading = true;
         $scope.GetProductivity();
+        $scope.SaveReportQueryFilter();
+
     };
 });
 
