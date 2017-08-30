@@ -324,6 +324,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "QA_FORM_DESIGNER"
             }
+        }).state('console.smsdetailreport', {
+            url: "/SMSDetailReport",
+            templateUrl: "views/sms/smsDetailReport.html",
+            controller: "smsDetailReportCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "SMS_DETAIL_REPORT"
+            }
         }).state('console.qaSubmission', {
             url: "/QAFormSubmission",
             templateUrl: "views/qaPaperSubmission/qaPaperSubmission.html",

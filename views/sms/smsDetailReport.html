@@ -149,7 +149,7 @@
                                 <td>{{sms.channel_to}}</td>
                                 <td>{{sms.direction}}</td>
                                 <td>{{moment(sms.created_at).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
-                                <td><button>Message</button></td>
+                                <td><button ng-click="showMessage(sms.message)">Message</button></td>
                             </tbody>
                         </table>
                     </div>

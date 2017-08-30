@@ -273,18 +273,17 @@
 
         };
 
-        $scope.showMessage = function (appid) {
+        $scope.showMessage= function (message) {
+
+            $scope.currentmsg = message;
             //modal show
-            var modalInstance = $uibModal.open({
+            $uibModal.open({
                 animation: true,
-                templateUrl: 'views/app-registry/partials/appConfigModal.html',
-                controller: 'modalController',
+                ariaLabelledBy: 'modal-title-top',
+                ariaDescribedBy: 'modal-body-top',
+                templateUrl: "views/sms/smsMessageTemplate.html",
                 size: 'sm',
-                resolve: {
-                    appID: function () {
-                        return appid;
-                    }
-                }
+                scope: $scope
             });
         };
 
