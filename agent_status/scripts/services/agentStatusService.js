@@ -5,7 +5,7 @@
 mainApp.factory("agentStatusService", function ($http, $log, authService, baseUrls) {
 
     var getProfileDetails = function () {
-        /*return $http({
+        return $http({
             method: 'GET',
             url: baseUrls.ardsmonitoringBaseUrl + "MONITORING/resources",
 
@@ -15,9 +15,9 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
             } else {
                 return 0;
             }
-        });*/
+        });
 
-        return $http({
+        /*return $http({
             method: 'GET',
             url: baseUrls.resourceServiceBaseUrl + "Resources"
 
@@ -27,7 +27,7 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
             } else {
                 return null;
             }
-        });
+        });*/
 
        /* return $http.get(baseUrls.resourceServiceBaseUrl + "Resources").then(function (response) {
             if (response.data && response.data.IsSuccess) {

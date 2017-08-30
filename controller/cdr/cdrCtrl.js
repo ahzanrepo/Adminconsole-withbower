@@ -997,7 +997,7 @@
 
                                 if (transferLegB && transferLegB.length > 0)
                                 {
-                                    var transferLegBAnswered = filteredOutb.filter(function (item) {
+                                    var transferLegBAnswered = transferLegB.filter(function (item) {
                                         return item.IsAnswered === true;
                                     });
 
@@ -1179,6 +1179,11 @@
                             else if (pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;
                                 $scope.isNextDisabled = false;
+                            }
+
+                            if(cdrLen < lim)
+                            {
+                                $scope.isNextDisabled = true;
                             }
 
                             $scope.isTableLoading = 1;

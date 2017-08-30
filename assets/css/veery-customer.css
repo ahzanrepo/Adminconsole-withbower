@@ -5265,8 +5265,8 @@ ul.row-option > li.delete:focus {
 }
 
 .widget-dy-wrp {
-    min-width: 196px;
-    min-height: 91px;
+    min-width: 242px;
+    min-height: 69px;
     background: rgb(255, 255, 255);
     overflow: hidden;
     position: relative;

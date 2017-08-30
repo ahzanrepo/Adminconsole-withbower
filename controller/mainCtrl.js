@@ -439,6 +439,9 @@ mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $
         goCdrReport: function () {
             $state.go('console.cdr');
         },
+        goSMSDetailReport: function () {
+            $state.go('console.smsdetailreport');
+        },
         goCallMonitor: function () {
             $state.go('console.callmonitor');
         },
