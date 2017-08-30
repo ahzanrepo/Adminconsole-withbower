@@ -85,12 +85,19 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
-            if ($scope.profile.length == 0) {
+            /*if ($scope.profile.length == 0) {
                 angular.copy($scope.availableProfile, $scope.profile);
-            }
+            }*/
 
-            angular.forEach($scope.availableProfile, function (agent) {
+            angular.forEach($scope.profile, function (agentProfile) {
                 try {
+                    var agent = null;
+                    var availableAgent = $filter('filter')($scope.onlineProfile, {ResourceId: agentProfile.ResourceId.toString()}, true);//"ResourceId":"1"
+
+                    if (availableAgent.length > 0){
+                        agent = availableAgent[0];
+                    }
+
                     if (agent) {
                         if ($scope.agentMode.length > 0) {
                             var modeData = $filter('filter')($scope.agentMode, {Name: agent.Status.Mode});
@@ -176,10 +183,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                                 agentProductivity.slotState = concurrency.SlotInfo[0].State;
                                             }
 
-                                            /*if (response[i].ConcurrencyInfo[0].SlotInfo[0].State == "Available") {
-
-                                             reservedDate = response[i].Status.StateChangeTime;
-                                             }*/
                                         }
 
                                         agentProductivity.LastReservedTimeT = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
@@ -196,20 +199,12 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                 });
 
 
-                                // else if (profile.slotState == 'Break' ||profile.slotState == 'MeetingBreak' ||
-                                //         profile.slotState == 'MealBreak' || profile.slotState == 'TrainingBreak' ||
-                                //         profile.slotState == 'TeaBreak' || profile.slotState == 'OfficialBreak' ||
-                                //         profile.slotState == 'AUXBreak' ||
-                                //         profile.slotState == 'ProcessRelatedBreak') {
-                                //         $scope.BreakProfile.push(profile);
-                                //     }
-
                             } else {
                                 resourceMode = agent.Status.Mode;
                                 resonseAvailability = agent.Status.State;
                                 resonseStatus = agent.Status.Reason;
                                 agentProductivity.slotState = "Offline";
-                                agentProductivity.slotMode = "Offline";
+                                agentProductivity.slotMode = resourceMode;
                                 agentProductivity.other = "Offline";
                                 reservedDate = agent.Status.StateChangeTime;
                                 agentProductivity.LastReservedTimeT = moment(reservedDate).format('DD/MM/YYYY HH:mm:ss');
@@ -355,28 +350,44 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.GetAllAttributes();
 
     $scope.profile = [];
+    $scope.onlineProfile = [];
     $scope.availableProfile = [];
 
     $scope.getProfileDetails = function () {
         agentStatusService.GetProfileDetails().then(function (response) {
 
             if(response){
-                /*$scope.availableProfile = response.map(function (item) {
+                /*$scope.onlineProfile = response.map(function (item) {
                     return {
                         ResourceName:item.ResourceName,
                         ResourceId:item.ResourceId
                     }
                 });*/
 
-                $scope.availableProfile = response;
-                if ($scope.profile.length == 0) {
+               $scope.onlineProfile = response;
+                /*if ($scope.profile.length == 0) {
                     angular.copy($scope.availableProfile, $scope.profile);
-                }
+                }*/
             }
 
         });
     };
 
+    $scope.GetAvailableProfile = function () {
+        agentStatusService.GetAvailableProfile().then(function (response) {
+
+            if(response){
+                $scope.availableProfile = response.map(function (item) {
+                    return {
+                        ResourceName:item.ResourceName,
+                        ResourceId:item.ResourceId
+                    }
+                });
+            }
+
+        });
+    };
+    $scope.GetAvailableProfile();
 
     var getAllRealTime = function () {
         $scope.getProfileDetails();
@@ -536,11 +547,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.AgentModeAdded = function (tag) {
         $scope.isLoading = true;
         //getAllRealTime();
+        $scope.SaveReportQueryFilter();
     };
 
     $scope.LoadProductivity = function () {
         $scope.isLoading = true;
         $scope.GetProductivity();
+        $scope.SaveReportQueryFilter();
+
     };
 });
 
