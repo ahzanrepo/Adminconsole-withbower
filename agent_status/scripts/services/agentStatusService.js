@@ -5,7 +5,7 @@
 mainApp.factory("agentStatusService", function ($http, $log, authService, baseUrls) {
 
     var getProfileDetails = function () {
-        /*return $http({
+        return $http({
             method: 'GET',
             url: baseUrls.ardsmonitoringBaseUrl + "MONITORING/resources",
 
@@ -15,7 +15,31 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
             } else {
                 return 0;
             }
-        });*/
+        });
+
+        /*return $http({
+         method: 'GET',
+         url: baseUrls.resourceServiceBaseUrl + "Resources"
+
+         }).then(function (response) {
+         if (response.data && response.data.IsSuccess) {
+         return response.data.Result;
+         } else {
+         return null;
+         }
+         });*/
+
+        /* return $http.get(baseUrls.resourceServiceBaseUrl + "Resources").then(function (response) {
+         if (response.data && response.data.IsSuccess) {
+         return response.data.Result;
+         } else {
+         return {};
+         }
+         });*/
+
+    };
+
+    var getAvailableProfile = function () {
 
         return $http({
             method: 'GET',
@@ -29,13 +53,13 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
             }
         });
 
-       /* return $http.get(baseUrls.resourceServiceBaseUrl + "Resources").then(function (response) {
-            if (response.data && response.data.IsSuccess) {
-                return response.data.Result;
-            } else {
-                return {};
-            }
-        });*/
+        /* return $http.get(baseUrls.resourceServiceBaseUrl + "Resources").then(function (response) {
+         if (response.data && response.data.IsSuccess) {
+         return response.data.Result;
+         } else {
+         return {};
+         }
+         });*/
 
     };
 
@@ -71,16 +95,17 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
     var getProductivity = function () {
 
         return $http.get(baseUrls.resourceServiceBaseUrl + "Resources/Productivity").then(function (response) {
-                if (response.data && response.data.IsSuccess) {
-                    return response.data.Result;
-                } else {
-                    return {};
-                }
-            });
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return {};
+            }
+        });
     };
 
 
     return {
+        GetAvailableProfile: getAvailableProfile,
         GetProfileDetails: getProfileDetails,
         GetAllAttributes: getAllAttributes,
         GetAllActiveCalls: getAllActiveCalls,

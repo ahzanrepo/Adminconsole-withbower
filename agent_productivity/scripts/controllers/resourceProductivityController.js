@@ -142,7 +142,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                                     value: ids[0].BreakTime ? ids[0].BreakTime : 0,
                                     name: 'Break'
                                 }, {
-                                    value: ids[0].OnCallTime ? ids[0].OnCallTime : 0,
+                                    value: ids[0].InboundCallTime ? ids[0].InboundCallTime : 0,
                                     name: 'Inbound'
                                 }, {
                                     value: ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,

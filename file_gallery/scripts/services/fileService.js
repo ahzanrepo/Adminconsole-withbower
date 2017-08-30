@@ -188,7 +188,8 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
     return $http({
       method: 'post',
       url: baseUrls.fileServiceUrl+ 'FileInfo/ByCategoryList',
-      params: [{startDateTime: startTime},{endDateTime:endTime}],
+      // params: [{startDateTime: startTime},{endDateTime:endTime}],
+        params: {startDateTime: startTime, endDateTime:endTime},
         data:categories
     }).then(function (response) {
       return response.data.Result;
