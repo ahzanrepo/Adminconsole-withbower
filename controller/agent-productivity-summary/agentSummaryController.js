@@ -357,35 +357,35 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                     AverageHandlingTimeOutbound: '00:00:00',
                     AvgTalkTimeInbound: '00:00:00',
                     AvgTalkTimeOutbound: '00:00:00',
-                    InboundTalkTime: TimeFromatter(totalInboundTalkTime, "HH:mm:ss"),
-                    OutboundTalkTime: TimeFromatter(totalOutboundTalkTime, "HH:mm:ss"),
-                    InboundHoldTime: TimeFromatter(totalInboundHoldTime, "HH:mm:ss"),
-                    OutboundHoldTime: TimeFromatter(totalOutboundHoldTime, "HH:mm:ss"),
+                    TalkTimeInbound: TimeFromatter(totalInboundTalkTime, "HH:mm:ss"),
+                    TalkTimeOutbound: TimeFromatter(totalOutboundTalkTime, "HH:mm:ss"),
+                    TotalHoldTimeInbound: TimeFromatter(totalInboundHoldTime, "HH:mm:ss"),
+                    TotalHoldTimeOutbound: TimeFromatter(totalOutboundHoldTime, "HH:mm:ss"),
                     BreakTime: TimeFromatter(totalBreakTime, "HH:mm:ss"),
-                    Answered: totalAnswered,
-                    InboundCalls: totalCallsInb,
-                    OutboundCalls: totalCallsOut,
-                    InboundHold: totalInboundHold,
-                    OutboundHold: totalOutboundHold,
-                    InboundAverageHoldTime: '00:00:00',
-                    OutboundAverageHoldTime: '00:00:00'
+                    TotalAnswered: totalAnswered,
+                    TotalCallsInbound: totalCallsInb,
+                    TotalCallsOutbound: totalCallsOut,
+                    TotalHoldInbound: totalInboundHold,
+                    TotalHoldOutbound: totalOutboundHold,
+                    AvgHoldTimeInbound: '00:00:00',
+                    AvgHoldTimeOutbound: '00:00:00'
                 };
 
                 if (count > 0) {
-                    total.InboundAverageHandlingTime = TimeFromatter(Math.round(totalInboundAverageHandlingTime / count), "HH:mm:ss");
-                    total.OutboundAverageHandlingTime = TimeFromatter(Math.round(totalOutboundAverageHandlingTime / count), "HH:mm:ss");
-                    total.InboundAverageTalkTime = TimeFromatter(Math.round(totalInboundAverageTalkTime / count), "HH:mm:ss");
-                    total.OutboundAverageTalkTime = TimeFromatter(Math.round(totalOutboundAverageTalkTime / count), "HH:mm:ss");
-                    total.InboundAverageHoldTime = TimeFromatter(Math.round(totalInboundAvgHoldTime / count), "HH:mm:ss");
-                    total.OutboundAverageHoldTime = TimeFromatter(Math.round(totalOutboundAvgHoldTime / count), "HH:mm:ss");
+                    total.AverageHandlingTimeInbound = TimeFromatter(Math.round(totalInboundAverageHandlingTime / count), "HH:mm:ss");
+                    total.AverageHandlingTimeOutbound = TimeFromatter(Math.round(totalOutboundAverageHandlingTime / count), "HH:mm:ss");
+                    total.AvgTalkTimeInbound = TimeFromatter(Math.round(totalInboundAverageTalkTime / count), "HH:mm:ss");
+                    total.AvgTalkTimeOutbound = TimeFromatter(Math.round(totalOutboundAverageTalkTime / count), "HH:mm:ss");
+                    total.AvgHoldTimeInbound = TimeFromatter(Math.round(totalInboundAvgHoldTime / count), "HH:mm:ss");
+                    total.AvgHoldTimeOutbound = TimeFromatter(Math.round(totalOutboundAvgHoldTime / count), "HH:mm:ss");
                 }
                 else {
-                    total.InboundAverageHandlingTime = TimeFromatter(totalInboundAverageHandlingTime, "HH:mm:ss");
-                    total.OutboundAverageHandlingTime = TimeFromatter(totalOutboundAverageHandlingTime, "HH:mm:ss");
-                    total.OutboundAverageTalkTime = TimeFromatter(totalInboundAverageTalkTime, "HH:mm:ss");
-                    total.OutboundAverageTalkTime = TimeFromatter(totalOutboundAverageTalkTime, "HH:mm:ss");
-                    total.InboundAverageHoldTime = TimeFromatter(totalInboundAvgHoldTime, "HH:mm:ss");
-                    total.OutboundAverageHoldTime = TimeFromatter(totalOutboundAvgHoldTime, "HH:mm:ss");
+                    total.AverageHandlingTimeInbound = TimeFromatter(totalInboundAverageHandlingTime, "HH:mm:ss");
+                    total.AverageHandlingTimeOutbound = TimeFromatter(totalOutboundAverageHandlingTime, "HH:mm:ss");
+                    total.AvgTalkTimeInbound = TimeFromatter(totalInboundAverageTalkTime, "HH:mm:ss");
+                    total.AvgTalkTimeOutbound = TimeFromatter(totalOutboundAverageTalkTime, "HH:mm:ss");
+                    total.AvgHoldTimeInbound = TimeFromatter(totalInboundAvgHoldTime, "HH:mm:ss");
+                    total.AvgHoldTimeOutbound = TimeFromatter(totalOutboundAvgHoldTime, "HH:mm:ss");
                 }
 
                 agentSummaryList.push(total);
