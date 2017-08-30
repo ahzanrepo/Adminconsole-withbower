@@ -19,6 +19,11 @@
                 postData.channel_to = filterData.channel_to;
             }
 
+            if(filterData.direction)
+            {
+                postData.direction = filterData.direction;
+            }
+
             if(filterData.tz)
             {
                 postData.tz = filterData.tz;
@@ -29,7 +34,7 @@
                 url: url
             };
 
-            if(filterData.tz || filterData.channel_from || filterData.channel_to)
+            if(filterData.tz || filterData.channel_from || filterData.channel_to || filterData.direction)
             {
                 httpHeaders.data = JSON.stringify(postData);
             }
@@ -55,12 +60,17 @@
                 postData.channel_to = filterData.channel_to;
             }
 
+            if(filterData.direction)
+            {
+                postData.direction = filterData.direction;
+            }
+
             var httpHeaders = {
                 method: 'POST',
                 url: url
             };
 
-            if(filterData.channel_from || filterData.channel_to)
+            if(filterData.channel_from || filterData.channel_to || filterData.direction)
             {
                 httpHeaders.data = JSON.stringify(postData);
             }
@@ -86,12 +96,17 @@
                 postData.channel_to = filterData.channel_to;
             }
 
+            if(filterData.direction)
+            {
+                postData.direction = filterData.direction;
+            }
+
             var httpHeaders = {
                 method: 'POST',
                 url: url
             };
 
-            if(filterData.channel_from || filterData.channel_to)
+            if(filterData.channel_from || filterData.channel_to || filterData.direction)
             {
                 httpHeaders.data = JSON.stringify(postData);
             }
