@@ -259,6 +259,10 @@
             return minutes + ':' + seconds;
         };
 
+        $scope.$on("$destroy", function(){
+            $scope.cancelDownload = true;
+        });
+
         var checkFileReady = function (fileName) {
             console.log('METHOD CALL');
             if ($scope.cancelDownload) {

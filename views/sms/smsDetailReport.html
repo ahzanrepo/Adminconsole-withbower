@@ -6,7 +6,7 @@
     </div>
 
 
-    <div class="col-md-12 col-sm-12 col-xs-12 animated fadeIn">
+    <fieldset ng-disabled="obj.isTableLoading==0" class="col-md-12 col-sm-12 col-xs-12 animated fadeIn">
         <div class="row">
             <div class="x_panel">
 
@@ -40,11 +40,19 @@
                     </div>
                 </div>
 
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                    <label>Direction</label>
+                        <select ng-model="direction" aria-controls="datatable-responsive" class="form-control">
+                            <option value="inbound">Inbound</option>
+                            <option value="outbound">Outbound</option>
+                        </select>
+                </div>
+
 
                 <div class="col-md-1 col-sm-1 col-xs-1">
                     <label>Show
                         <select name="datatable-responsive_length" ng-model="recLimit"
-                                aria-controls="datatable-responsive" class="form-control select-limit">
+                                aria-controls="datatable-responsive" class="form-control select-limit" style="position: relative; top: 5px">
                             <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
@@ -52,6 +60,8 @@
                         </select>
                     </label>
                 </div>
+
+                <div class="clearfix"></div>
 
 
                 <div class="col-md-1 col-sm-1 col-xs-12">
@@ -62,10 +72,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-2 col-sm-2 col-xs-12" style="position: relative; top: 20px;">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <label><h5>Download</h5></label>
-                    </div>
+                <div class="col-md-2 col-sm-2 col-xs-12" style="position: relative; top: 15px;">
                     <div class="col-md-2 col-sm-2 col-xs-2">
 
                         <a ng-if="fileDownloadState === 'READY'" class="btn btn-default" style="background-color: #a3d100; color: #000000; font-weight: 500" role="button" target="_self" href="{{DownloadCSVFileUrl}}" download="{{currentCSVFilename}}" ng-click="downloadPress()">CSV&nbsp;&nbsp;&nbsp;&nbsp;
@@ -78,18 +85,12 @@
                     </div>
 
                 </div>
-                <!--<div class="col-md-1 col-sm-1 col-xs-12">
-                    <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500; position: relative; top: 20px;" csv-header="tagHeaders" csv-column-order="tagOrder" ng-csv="getTicketSummaryCSV()" filename="{{DownloadFileName}}.csv">
-                        CSV&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i class="fa fa-download"></i>
-                    </button>
-                </div>-->
                 <div class="clearfix"></div>
 
 
             </div>
         </div>
-    </div>
+    </fieldset>
 
     <div class="search-main-wrap" ng-if="obj.isTableLoading==0">
         <div class="row ">
@@ -145,6 +146,7 @@
                                 <td>{{sms.channel_to}}</td>
                                 <td>{{sms.direction}}</td>
                                 <td>{{moment(sms.created_at).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
+                                <td><button ng-click="showMessage(sms)">Message</button></td>
                             </tbody>
                         </table>
                     </div>

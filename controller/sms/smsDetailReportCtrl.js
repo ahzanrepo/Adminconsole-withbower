@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var smsDetailReportCtrl = function ($scope, $filter, $q, $timeout, smsReportsService, cdrApiHandler, loginService) {
+    var smsDetailReportCtrl = function ($scope, $filter, $q, $uibModal, $timeout, smsReportsService, cdrApiHandler, loginService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -28,6 +28,8 @@
         };
 
         $scope.recLimit = '10';
+
+        $scope.direction = 'inbound';
 
 
         $scope.obj = {
@@ -62,20 +64,27 @@
             return true;
         };
 
+        $scope.$on("$destroy", function(){
+            $scope.cancelDownload = true;
+        });
+
         var checkFileReady = function (fileName) {
             if ($scope.cancelDownload) {
+                $scope.obj.isTableLoading = -1;
                 $scope.fileDownloadState = 'RESET';
                 $scope.DownloadButtonName = 'CSV';
                 $scope.buttonClass = 'fa fa-file-text';
             }
             else {
                 cdrApiHandler.getFileMetaData(fileName).then(function (fileStatus) {
-                    if (fileStatus && fileStatus.Result) {
+                    if (fileStatus && fileStatus.Result)
+                    {
                         if (fileStatus.Result.Status === 'PROCESSING') {
                             $timeout(checkFileReady(fileName), 10000);
                         }
                         else {
 
+                            $scope.obj.isTableLoading = -1;
 
                             var decodedToken = loginService.getTokenDecode();
 
@@ -97,14 +106,18 @@
 
                         }
                     }
-                    else {
+                    else
+                    {
+                        $scope.obj.isTableLoading = -1;
                         $scope.fileDownloadState = 'RESET';
                         $scope.DownloadButtonName = 'CSV';
                         $scope.cancelDownload = true;
                         $scope.buttonClass = 'fa fa-file-text';
                     }
 
-                }).catch(function (err) {
+                }).catch(function (err)
+                {
+                    $scope.obj.isTableLoading = -1;
                     $scope.fileDownloadState = 'RESET';
                     $scope.DownloadButtonName = 'CSV';
                     $scope.cancelDownload = true;
@@ -145,41 +158,61 @@
                     limitCount: limit,
                     skipCount: 0,
                     channel_from: $scope.fromNumber,
-                    channel_to: $scope.toNumber
+                    channel_to: $scope.toNumber,
+                    direction: $scope.direction
 
                 }
             }
-            else {
+            else
+            {
                 $scope.FilterData.skipCount = ($scope.pagination.currentPage - 1) * $scope.FilterData.limitCount;
             }
 
 
-            try {
+            try
+            {
 
                 smsReportsService.getSMSDetailsCount($scope.FilterData).then(function (smsCount) {
-                    if (smsCount && smsCount.IsSuccess) {
+                    if (smsCount && smsCount.IsSuccess)
+                    {
                         $scope.pagination.totalItems = smsCount.Result;
-                    }
 
-                    smsReportsService.getSMSDetails($scope.FilterData).then(function (smsDetailsResp) {
-                        if (smsDetailsResp && smsDetailsResp.Result && smsDetailsResp.Result.length > 0) {
+                        if(smsCount.Result > 0)
+                        {
+                            smsReportsService.getSMSDetails($scope.FilterData).then(function (smsDetailsResp)
+                            {
+                                if (smsDetailsResp && smsDetailsResp.Result && smsDetailsResp.Result.length > 0)
+                                {
+                                    $scope.smsList = smsDetailsResp.Result;
+                                    $scope.obj.isTableLoading = 1;
 
-                            $scope.smsList = smsDetailsResp.Result;
-                            $scope.obj.isTableLoading = 1;
+                                }
+                                else
+                                {
+                                    $scope.showAlert('SMS Detail Report', 'info', 'No data found for given filters');
+                                    $scope.obj.isTableLoading = -1;
+                                    $scope.smsList = [];
+                                }
 
+
+                            }).catch(function (err) {
+                                loginService.isCheckResponse(err);
+                                $scope.showAlert('Error', 'error', 'Error occurred while loading sms summary');
+                                $scope.obj.isTableLoading = -1;
+                                $scope.smsList = [];
+                            });
                         }
-                        else {
+                        else
+                        {
+                            $scope.showAlert('SMS Detail Report', 'info', 'No data found for given filters');
                             $scope.obj.isTableLoading = -1;
                             $scope.smsList = [];
                         }
 
 
-                    }).catch(function (err) {
-                        loginService.isCheckResponse(err);
-                        $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading sms summary');
-                        $scope.obj.isTableLoading = -1;
-                        $scope.smsList = [];
-                    });
+                    }
+
+
 
 
                 }).catch(function (err) {
@@ -201,6 +234,7 @@
 
         $scope.getSMSSummaryCSVPrepare = function ()
         {
+            $scope.obj.isTableLoading = 0;
             if ($scope.DownloadButtonName === 'CSV') {
                 $scope.cancelDownload = false;
                 $scope.buttonClass = 'fa fa-spinner fa-spin';
@@ -226,6 +260,7 @@
                 edate: endDate,
                 channel_from: $scope.fromNumber,
                 channel_to: $scope.toNumber,
+                direction: $scope.direction,
                 tz: momentTz
             };
 
@@ -242,6 +277,7 @@
                     }
                     else
                     {
+                        $scope.obj.isTableLoading = -1;
                         $scope.showAlert('Error', 'error', 'Error occurred while loading sms records');
                         $scope.fileDownloadState = 'RESET';
                         $scope.DownloadButtonName = 'CSV';
@@ -252,6 +288,7 @@
 
                 }).catch(function (err)
                 {
+                    $scope.obj.isTableLoading = -1;
                     loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'error', 'Error occurred while loading sms records');
                     $scope.fileDownloadState = 'RESET';
@@ -262,11 +299,26 @@
 
 
             }
-            catch (ex) {
-
+            catch (ex)
+            {
+                $scope.obj.isTableLoading = -1;
                 $scope.showAlert('Error', 'error', 'Error occurred');
             }
 
+        };
+
+        $scope.showMessage= function (sms) {
+
+            $scope.curSMS = sms;
+            //modal show
+            $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title-top',
+                ariaDescribedBy: 'modal-body-top',
+                templateUrl: "views/sms/smsMessageTemplate.html",
+                size: 'sm',
+                scope: $scope
+            });
         };
 
 
