@@ -273,9 +273,9 @@
 
         };
 
-        $scope.showMessage= function (message) {
+        $scope.showMessage= function (sms) {
 
-            $scope.currentmsg = message;
+            $scope.curSMS = sms;
             //modal show
             $uibModal.open({
                 animation: true,
