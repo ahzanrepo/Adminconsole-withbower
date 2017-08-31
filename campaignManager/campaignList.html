@@ -72,7 +72,7 @@
             </div>
 
             <div class="x_content" ng-hide="isLoading" >
-                <ul class="list-unstyled timeline">
+                <ul class="list-unstyled timeline-with-tag">
                     <li ng-repeat="cam in campaigns | filterBy: ['CampaignName']: searchCriteria | orderBy : '-updatedAt'">
                         <editcampaign reload-campaign="loadCampaign()" reasons="reasons" ards-attributes="ardsAttributes"  mechanisms="mechanisms" modes="modes" channels="channels" campaigns="campaigns" campaign="cam" extensions="extensions"></editcampaign>
                     </li>
@@ -98,3 +98,40 @@
     </div>
 
 </div>
+
+
+
+<!--<div class="row">
+    <div class="col-md-12 col-sm-6 col-xs-12">
+
+        <div class="x_panel ">
+            <div class="x_content">
+                <ul class="list-unstyled timeline-with-tag">
+                   &lt;!&ndash; <li ng-repeat="grp in groupsData | filterBy: ['GroupName']: searchCriteria">
+                        <editgroups task-list="Tasks" groupinfo="grp" attribinfo="attribData"
+                                    update-groups="relaodPageData(grp)"></editgroups>
+                    </li>&ndash;&gt;
+
+                    <li ng-repeat="cam in campaigns | filterBy: ['CampaignName']: searchCriteria | orderBy : '-updatedAt'">
+                        <editcampaign reload-campaign="loadCampaign()" reasons="reasons" ards-attributes="ardsAttributes"  mechanisms="mechanisms" modes="modes" channels="channels" campaigns="campaigns" campaign="cam" extensions="extensions"></editcampaign>
+                    </li>
+
+                    <paging ng-show="showPaging"
+                            class="small"
+                            page="currentGrpPage"
+                            page-size="pageSize"
+                            total="pageGrpTotal"
+                            show-prev-next="true"
+                            show-first-last="true"
+                            text-next-class="glyphicon glyphicon-chevron-right"
+                            text-prev-class="glyphicon glyphicon-chevron-left"
+                            text-first-class="glyphicon glyphicon-backward"
+                            text-last-class="glyphicon glyphicon-forward"
+                            paging-action="getPageData('groups', page, pageSize, total)">
+                    </paging>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>-->
