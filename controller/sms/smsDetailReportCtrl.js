@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var smsDetailReportCtrl = function ($scope, $filter, $q, $timeout, smsReportsService, cdrApiHandler, loginService) {
+    var smsDetailReportCtrl = function ($scope, $filter, $q, $uibModal, $timeout, smsReportsService, cdrApiHandler, loginService) {
 
         $scope.showAlert = function (tittle, type, content) {
 
@@ -28,6 +28,8 @@
         };
 
         $scope.recLimit = '10';
+
+        $scope.direction = 'inbound';
 
 
         $scope.obj = {
@@ -145,7 +147,8 @@
                     limitCount: limit,
                     skipCount: 0,
                     channel_from: $scope.fromNumber,
-                    channel_to: $scope.toNumber
+                    channel_to: $scope.toNumber,
+                    direction: $scope.direction
 
                 }
             }
@@ -226,6 +229,7 @@
                 edate: endDate,
                 channel_from: $scope.fromNumber,
                 channel_to: $scope.toNumber,
+                direction: $scope.direction,
                 tz: momentTz
             };
 
@@ -267,6 +271,20 @@
                 $scope.showAlert('Error', 'error', 'Error occurred');
             }
 
+        };
+
+        $scope.showMessage= function (message) {
+
+            $scope.currentmsg = message;
+            //modal show
+            $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title-top',
+                ariaDescribedBy: 'modal-body-top',
+                templateUrl: "views/sms/smsMessageTemplate.html",
+                size: 'sm',
+                scope: $scope
+            });
         };
 
 

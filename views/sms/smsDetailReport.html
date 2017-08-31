@@ -40,6 +40,14 @@
                     </div>
                 </div>
 
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                    <label>Direction</label>
+                        <select ng-model="direction" aria-controls="datatable-responsive" class="form-control">
+                            <option value="inbound">Inbound</option>
+                            <option value="outbound">Outbound</option>
+                        </select>
+                </div>
+
 
                 <div class="col-md-1 col-sm-1 col-xs-1">
                     <label>Show
@@ -52,6 +60,8 @@
                         </select>
                     </label>
                 </div>
+
+                <div class="clearfix"></div>
 
 
                 <div class="col-md-1 col-sm-1 col-xs-12">
@@ -78,12 +88,6 @@
                     </div>
 
                 </div>
-                <!--<div class="col-md-1 col-sm-1 col-xs-12">
-                    <button type="button" class="btn" style="background-color: #a3d100; color: #000000; font-weight: 500; position: relative; top: 20px;" csv-header="tagHeaders" csv-column-order="tagOrder" ng-csv="getTicketSummaryCSV()" filename="{{DownloadFileName}}.csv">
-                        CSV&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i class="fa fa-download"></i>
-                    </button>
-                </div>-->
                 <div class="clearfix"></div>
 
 
@@ -145,6 +149,7 @@
                                 <td>{{sms.channel_to}}</td>
                                 <td>{{sms.direction}}</td>
                                 <td>{{moment(sms.created_at).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
+                                <td><button ng-click="showMessage(sms.message)">Message</button></td>
                             </tbody>
                         </table>
                     </div>

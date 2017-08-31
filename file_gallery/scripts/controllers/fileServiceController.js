@@ -338,7 +338,7 @@ app.controller("FileListController", function ($scope, $location, $log, $filter,
                 else
                     $scope.showError("Error", "Error", "ok", "There is an error ");
             }, function (error) {
-                $scope.showError("Error", "Error", "ok", "There is an error ");
+                $scope.showError("Error", "Error occurred while deleting file ");
             });
 
         }, function () {
