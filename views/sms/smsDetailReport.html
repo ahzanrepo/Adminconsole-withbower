@@ -138,6 +138,10 @@
                                     rowspan="1"
                                     colspan="1" aria-label="created_at">Date
                                 </th>
+                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="delivery_status">Delivery Status
+                                </th>
 
                             </thead>
                             <tbody>
@@ -147,6 +151,7 @@
                                 <td>{{sms.channel_to}}</td>
                                 <td>{{sms.direction}}</td>
                                 <td>{{moment(sms.created_at).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
+                                <td>{{sms.delivery_status}}</td>
                                 <td><button ng-click="showMessage(sms)">Message</button></td>
                             </tbody>
                         </table>
