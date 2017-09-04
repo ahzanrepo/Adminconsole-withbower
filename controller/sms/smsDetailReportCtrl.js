@@ -16,7 +16,7 @@
             });
         };
 
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'asc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [3, 'desc']};
 
         $scope.moment = moment;
 
@@ -29,7 +29,7 @@
 
         $scope.recLimit = '10';
 
-        $scope.direction = 'inbound';
+        $scope.direction = '';
 
 
         $scope.obj = {
@@ -139,7 +139,8 @@
         {
             $scope.obj.isTableLoading = 0;
 
-            if (!$scope.FilterData) {
+            if (!$scope.FilterData)
+            {
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 momentTz = momentTz.replace("+", "%2B");
 
@@ -211,13 +212,25 @@
 
 
                     }
+                    else
+                    {
+                        var errMsg = 'Error occurred while loading sms details';
+
+                        if(smsCount.Exception && smsCount.Exception.Message)
+                        {
+                            errMsg = smsCount.Exception.Message;
+                        }
+                        $scope.showAlert('SMS Detail Report', 'error', errMsg);
+                        $scope.obj.isTableLoading = -1;
+                        $scope.smsList = [];
+                    }
 
 
 
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading sms summary');
+                    $scope.showAlert('SMS Detail Report', 'error', 'Error occurred while loading sms summary');
                     $scope.obj.isTableLoading = -1;
                     $scope.smsList = [];
                 });
@@ -225,7 +238,7 @@
 
             }
             catch (ex) {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading sms summary');
+                $scope.showAlert('SMS Detail Report', 'error', 'Error occurred while loading sms summary');
                 $scope.obj.isTableLoading = -1;
                 $scope.smsList = [];
             }

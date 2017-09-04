@@ -46,10 +46,10 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                         history: false
                     }
                 })).get().on('pnotify.confirm', function () {
-                    OkCallback("confirm");
-                }).on('pnotify.cancel', function () {
-                    CancelCallBack();
-                });
+                        OkCallback("confirm");
+                    }).on('pnotify.cancel', function () {
+                        CancelCallBack();
+                    });
 
             };
 
@@ -120,13 +120,32 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                     if (response) {
 
                         scope.campaignAdditionalData = response;
+                        if (scope.campaign.DialoutMechanism === "PREVIEW") {
+                            if(response.length > 0) {
+                                scope.campAttribute = [];
+                                scope.AdditionalDataRecordId = response[0].AdditionalDataId;
+                                scope.campaignAttributes = JSON.parse(response[0].AdditionalData);
+                                scope.campaignAttributes.forEach(function (item) {
+                                    for (var i = 0; i < scope.ardsAttributes.length; i++) {
+                                        var ardsAttribute = scope.ardsAttributes[i];
+                                        if (ardsAttribute && ardsAttribute.Id === item) {
+                                            scope.campAttribute.push(ardsAttribute);
+                                        }
+                                    }
+                                });
+                            }else{
+                                scope.campaignAttributes = [];
+                                scope.campAttribute = [];
+                                scope.AdditionalDataRecordId = undefined;
+                            }
+                        }
                         //response.map(function (item) {
-                            //if (item.AdditionalData) {
-                            //    var t = angular.fromJson(item.AdditionalData);
-                            //    t.name = scope.getTemplateNameById(t.Template);
-                            //    t.AdditionalDataId = item.AdditionalDataId;
-                            //    scope.campaignAdditionalData.push(t);
-                            //}
+                        //if (item.AdditionalData) {
+                        //    var t = angular.fromJson(item.AdditionalData);
+                        //    t.name = scope.getTemplateNameById(t.Template);
+                        //    t.AdditionalDataId = item.AdditionalDataId;
+                        //    scope.campaignAdditionalData.push(t);
+                        //}
                         //});
                     }
                     scope.isLoadingData = false;
@@ -686,6 +705,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             };
 
+            scope.campAttribute;
             scope.onChipAdd = function (chip) {
 
                 scope.campaignAttributes.push(chip.Id);
@@ -701,6 +721,32 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             };
 
+            scope.addCampaignAdditionalDataAttribute = function () {
+
+
+                if (scope.campaignAttributes && scope.campaignAttributes.length > 0) {
+
+                    var additionalData = {
+                        Class: "PREVIEW",
+                        Type: "ARDS",
+                        Category: "ATTRIBUTE",
+                        TenantId: scope.campaign.TenantId,
+                        CompanyId: scope.campaign.CompanyId,
+                        CampaignId: scope.campaign.CampaignId,
+                        AdditionalData: JSON.stringify(scope.campaignAttributes)
+                    };
+                    campaignService.CreateCampaignAdditionalData(scope.campaign.CampaignId, additionalData).then(function (response) {
+                        if (response) {
+                            scope.GetCampaignAdditionalData();
+                            scope.showAlert("Campaign", 'success', "Additional Data Added");
+                        }
+                        scope.isLoading = false;
+                    }, function (error) {
+                        scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
+                        scope.isLoading = false;
+                    });
+                }
+            };
 
             scope.getTemplateNameById = function (id) {
                 var items = $filter('filter')(scope.Templates, {_id: id});
@@ -718,7 +764,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
             scope.createCampaignAdditionalData = function (data) {
                 var additionalDataSet = [];
-                if(data && data.Template){
+                if (data && data.Template) {
                     var additionalDataTemplate = {
                         Class: "BLAST",
                         Type: scope.campaign.CampaignChannel,
@@ -731,7 +777,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
 
                     additionalDataSet.push(additionalDataTemplate);
                 }
-                if(data && data.FileName){
+                if (data && data.FileName) {
                     var additionalDataAttachment = {
                         Class: "BLAST",
                         Type: scope.campaign.CampaignChannel,
@@ -780,6 +826,7 @@ mainApp.directive("editcampaign", function ($filter, $uibModal, campaignService,
                     scope.showAdditionalDataPanel = true;
                 }
             }
+
             load();
         }
     }

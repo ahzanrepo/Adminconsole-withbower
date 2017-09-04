@@ -43,16 +43,17 @@
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <label>Direction</label>
                         <select ng-model="direction" aria-controls="datatable-responsive" class="form-control">
+                            <option value="">Any</option>
                             <option value="inbound">Inbound</option>
                             <option value="outbound">Outbound</option>
                         </select>
                 </div>
 
 
-                <div class="col-md-1 col-sm-1 col-xs-1">
+                <div class="col-md-2 col-sm-2 col-xs-2">
                     <label>Show
                         <select name="datatable-responsive_length" ng-model="recLimit"
-                                aria-controls="datatable-responsive" class="form-control select-limit" style="position: relative; top: 5px">
+                                aria-controls="datatable-responsive" class="form-control col-md-2 col-sm-2 col-xs-2" style="position: relative; top: 5px">
                             <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
@@ -137,6 +138,10 @@
                                     rowspan="1"
                                     colspan="1" aria-label="created_at">Date
                                 </th>
+                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="delivery_status">Delivery Status
+                                </th>
 
                             </thead>
                             <tbody>
@@ -146,6 +151,7 @@
                                 <td>{{sms.channel_to}}</td>
                                 <td>{{sms.direction}}</td>
                                 <td>{{moment(sms.created_at).local().format("YYYY-MM-DD HH:mm:ss")}}</td>
+                                <td>{{sms.delivery_status}}</td>
                                 <td><button ng-click="showMessage(sms)">Message</button></td>
                             </tbody>
                         </table>
