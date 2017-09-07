@@ -90,9 +90,15 @@
                         </option>
                     </select>
                 </div>
-                <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                <div class="col-md-2 col-sm-2 col-xs-12 form-group ">
                     <button type="button" class="btn btn-success btn-block  btn- pull-right"
                             ng-click="treeBuilder()">
+                        Show
+                    </button>
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-12 form-group ">
+                    <button type="button" class="fa fa-cog"
+                            ng-click="showTaggingConig()">
                         Show
                     </button>
                 </div>
@@ -174,7 +180,7 @@
                                                     <td class="col-sm-2">
                                                         <button type="submit" class="btn btn-primary"
                                                                 ng-click="deleteCategory(tagCat)"><span
-                                                                class="fa fa-trash-o" aria-hidden="true"></span>Delete
+                                                                class="fa fa-trash-o trash-icon-align" aria-hidden="true"></span>Delete
                                                         </button>
 
                                                     </td>
@@ -265,7 +271,7 @@
                                                 <td>{{tag.description}}</td>
                                                 <td class="col-md-2">
                                                     <button type="submit" class="btn btn-primary"
-                                                            ng-click="deleteTag(tag)"><span class="fa fa-trash-o"
+                                                            ng-click="deleteTag(tag)"><span class="fa fa-trash-o trash-icon-align"
                                                                                             aria-hidden="true"></span>Delete
                                                     </button>
                                                 </td>
