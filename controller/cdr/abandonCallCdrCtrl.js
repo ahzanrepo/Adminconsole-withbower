@@ -13,7 +13,7 @@
         $anchorScroll();
         $scope.enableSearchButton = true;
 
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [4, 'desc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'desc']};
 
 
         $scope.showAlert = function (tittle, type, content) {
@@ -147,6 +147,10 @@
 
             return minutes + ':' + seconds;
         };
+
+        $scope.$on("$destroy", function(){
+            $scope.cancelDownload = true;
+        });
 
         var checkFileReady = function (fileName) {
             console.log('METHOD CALL');
@@ -588,6 +592,7 @@
                             var count = 0;
                             var cdrLen = Object.keys(cdrResp.Result).length;
 
+
                             for (cdr in cdrResp.Result) {
                                 count++;
                                 var cdrAppendObj = {};
@@ -672,7 +677,7 @@
                                     cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
 
 
-                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                    cdrAppendObj.AnswerSec = 0;
 
 
                                     if (curProcessingLeg.ObjType === 'HTTAPI') {
@@ -728,6 +733,11 @@
                                             outLegAnswered = true;
                                         }
                                     }
+
+                                    if(cdrAppendObj.RecievedBy)
+                                    {
+                                        cdrAppendObj.AnswerSec = curProcessingLeg.Duration;
+                                    }
                                 }
 
 
@@ -767,6 +777,11 @@
                             else if ($scope.pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;
                                 $scope.isNextDisabled = false;
+                            }
+
+                            if(cdrLen < lim)
+                            {
+                                $scope.isNextDisabled = true;
                             }
 
                             $scope.isTableLoading = 1;

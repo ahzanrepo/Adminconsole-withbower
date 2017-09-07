@@ -17,11 +17,11 @@
             })
         };
 
-        var getUsers = function () {
+        var getUsers = function (activeState) {
 
             return $http({
                 method: 'GET',
-                url: baseUrls.UserServiceBaseUrl + 'Users'
+                url: baseUrls.UserServiceBaseUrl + 'Users?active='+activeState
             }).then(function (resp) {
                 return resp.data;
             })
@@ -109,6 +109,16 @@
                 return resp.data;
             })
         };
+
+        var reactivateUser = function (username) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'User/ReActivate/' + username
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
 
         var getUserGroups = function () {
 
@@ -208,6 +218,15 @@
                 return resp.data;
             })
         };
+        var GetFileCatagories = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'FileCategories'
+            }).then(function (response) {
+                return response.data.Result;
+            })
+        };
 
 
 
@@ -231,7 +250,9 @@
             getUsersByRole:getUsersByRole,
             allowFileCategoryToUser:allowFileCategoryToUser,
             restrictFileCategoryToUser:restrictFileCategoryToUser,
-            addUserFromAD:addUserFromAD
+            addUserFromAD:addUserFromAD,
+            GetFileCatagories:GetFileCatagories,
+            ReactivateUser:reactivateUser
         };
     };
 

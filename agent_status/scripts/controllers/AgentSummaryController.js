@@ -1,8 +1,8 @@
 /**
  * Created by Rajinda on 9/1/2016.
  */
-mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,$filter,
-                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices) {
+mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout, $filter,
+                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices, userProfileApiAccess,reportQueryFilterService) {
     $anchorScroll();
     //var getAllRealTime = function () {
     //    $scope.getProfileDetails();
@@ -18,6 +18,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     //});
     //$scope.refreshTime = 1000;
 
+    $scope.enableFilter = true;
+
 
     $scope.StatusList = {
         ReservedProfile: [],
@@ -28,6 +30,234 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         SuspendedProfile: [],
         BreakProfile: [],
         profile: []
+    };
+
+    $scope.filter = {
+        filterType: 'ALL',
+        agentFilter: [],
+        groupFilter: []
+    };
+
+    $scope.usrList = [];
+    $scope.grpList = [];
+
+    var emptyArr = [];
+
+    $scope.querySearchUser = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.usrList) {
+                return $scope.usrList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.usrList) {
+                var filteredArrUsr = $scope.usrList.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.username) {
+                        return item.username.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArrUsr;
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
+    };
+
+    $scope.querySearchGroup = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.grpList) {
+                return $scope.grpList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.grpList) {
+                var filteredArrGrp = $scope.grpList.filter(function (item) {
+                    var regEx = "^(" + query + ")";
+
+                    if (item.name) {
+                        return item.name.match(regEx);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArrGrp;
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
+    };
+
+    /*--------------------------- Filter ------------------------------------------*/
+    $scope.SaveReportQueryFilter = function () {
+        reportQueryFilterService.SaveReportQueryFilter("AgentProfileSummary", $scope.filter);
+    };
+
+    $scope.GetReportQueryFilter = function () {
+        reportQueryFilterService.GetReportQueryFilter("AgentProfileSummary").then(function (response) {
+            if (response) {
+                $scope.filter = response;
+            }
+        }, function (error) {
+            console.log(error);
+        });
+
+    };
+    $scope.GetReportQueryFilter();
+
+    /*--------------------------- Filter ------------------------------------------*/
+
+    $scope.loadUserList = function () {
+        userProfileApiAccess.getUsers().then(function (usrList)
+        {
+            if(usrList && usrList.Result)
+            {
+                var usrMapList = usrList.Result.map(function(usr)
+                {
+                    return {username: usr.username};
+                });
+                $scope.usrList = usrMapList;
+            }
+            else
+            {
+                $scope.usrList = [];
+            }
+
+        }).catch(function (err) {
+            $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list');
+
+        })
+    };
+
+    $scope.onSelectionChanged = function()
+    {
+        if($scope.filter.filterType === 'ALL')
+        {
+            $scope.filter.agentFilter = [];
+            $scope.filter.groupFilter = [];
+        }
+        else if($scope.filter.filterType === 'USER')
+        {
+            $scope.filter.groupFilter = [];
+        }
+        else if($scope.filter.filterType === 'GROUP')
+        {
+            $scope.filter.agentFilter = [];
+        }
+
+        $scope.SaveReportQueryFilter();
+    };
+
+    $scope.loadUserList();
+
+    $scope.loadUserGroupList = function () {
+        userProfileApiAccess.getUserGroups().then(function (grpList)
+        {
+            if(grpList && grpList.Result)
+            {
+                $scope.originalGrpList = grpList.Result;
+                var grpMapList = grpList.Result.map(function(grp)
+                {
+                    return {name: grp.name};
+                });
+
+                $scope.grpList = grpMapList;
+            }
+            else
+            {
+                $scope.grpList = [];
+            }
+
+
+        }).catch(function (err) {
+            $scope.showAlert('Group List', 'error', 'Failed to bind group auto complete list');
+
+        })
+    };
+
+    $scope.loadUserGroupList();
+
+    $scope.filterResList = function(res)
+    {
+        if($scope.filter.filterType === 'USER')
+        {
+            if($scope.filter.agentFilter && $scope.filter.agentFilter.length > 0)
+            {
+                var matchingRecord = $scope.filter.agentFilter.find(function(agent)
+                {
+                    return agent.username === res.resourceName;
+                });
+
+                return !!matchingRecord;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        else if($scope.filter.filterType === 'GROUP')
+        {
+            if($scope.filter.groupFilter && $scope.filter.groupFilter.length > 0)
+            {
+                var tempUserArr = [];
+
+                $scope.filter.groupFilter.forEach(function(grp)
+                {
+                    var tempGrp = $scope.originalGrpList.find(function(grpItem){
+                        return grpItem.name === grp.name;
+                    });
+
+                    if(tempGrp && tempGrp.users && tempGrp.users.length > 0)
+                    {
+                        tempUserArr = tempUserArr.concat(tempGrp.users);
+                    }
+                });
+
+
+                if(tempUserArr && tempUserArr.length > 0)
+                {
+                    var matchingRecord = tempUserArr.find(function(agent)
+                    {
+                        return agent.username === res.resourceName;
+                    });
+
+                    return !!matchingRecord;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else{
+            return true;
+        }
     };
 
     $scope.getProfileDetails = function () {
@@ -294,7 +524,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             case 'ARDS:break_exceeded':
                 if (event.Message) {
                     var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
-                    if (agent&&agent.length>0) {
+                    if (agent && agent.length > 0) {
                         agent[0].breakExceeded = true;
                     }
                 }
@@ -303,7 +533,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
                     var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
-                    if (agent&&agent.length>0) {
+                    if (agent && agent.length > 0) {
                         agent[0].freezeExceeded = true;
                     }
                 }

@@ -3,10 +3,15 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>Agent Productivity</h2>
-
+                <ul class="nav navbar-right panel_toolbox">
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i class="fa fa-chevron-down"></i></a>
+                    </li>
+                </ul>
                 <div class="clearfix"></div>
             </div>
-            <div class="x_content">
+            <div class="x_content" ng-show="showFilter">
                 <div class="col-md-12 col-sm-6 col-xs-12">
                     <div class="x_content">
                         <div class="row">
@@ -16,7 +21,7 @@
                                     <div class="form-group">
                                         <label>Agent</label>
                                         <div class="input-group col-md-12">
-                                            <tags-input ng-model="OnlineAgents" display-property="ResourceName" key-property="ResourceName"
+                                            <tags-input  ng-model="OnlineAgents" display-property="ResourceName" key-property="ResourceName"
                                                         placeholder="Select Agent"
                                                         add-from-autocomplete-only="true" min-length="0" on-tag-removed="AgentAdded()" on-tag-added="AgentAdded()">
                                                 <auto-complete source="querySearch($query)" load-on-empty="true"
@@ -55,6 +60,17 @@
 
     <div class="col-md-12 col-sm-6 col-xs-12" >
         <div class="x_panel">
+            <div ng-show="OnlineAgents.length==0" >
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="data-state-wrap">
+                            No Data....
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
             <div ng-show="isLoading" >
                 <div class="row ">
                     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -66,7 +82,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-sm-3 col-xs-12" ng-repeat="p in OnlineAgents">
+                <div class="col-md-3 col-sm-3 col-xs-12" ng-repeat="p in OnlineAgents | orderBy:'onlineStatus'" > <!--ng-if='p.onlinestatus == true'-->
                     <div class="x_panel x-panel-overflow ">
                         <div class="x_content productivity-panel">
                             <!--<div class="x_title ">-->

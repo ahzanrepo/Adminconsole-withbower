@@ -82,12 +82,20 @@ mainApp.directive("editfcatrestrict", function ($filter,$uibModal,userProfileApi
                         {
                             scope.allocatedCategories.splice(index,1);
                         }
-                        scope.showAlert("Allow File Categories","File Category "+chip.text+" failed assign to user "+scope.adminuser.username,"error");
+                        scope.showAlert("Allow File Categories","Write permission has not been granted for the user "+scope.adminuser.username,"error");
                         scope.isProcessing =false;
 
 
                     }
-                })
+                },function (error) {
+                    var index=scope.allocatedCategories.indexOf(chip);
+                    if(index>-1)
+                    {
+                        scope.allocatedCategories.splice(index,1);
+                    }
+                    scope.showAlert("Allow File Categories","Write permission has not been granted for the user "+scope.adminuser.username,"error");
+                    scope.isProcessing =false;
+                });
 
 
 
@@ -101,7 +109,7 @@ mainApp.directive("editfcatrestrict", function ($filter,$uibModal,userProfileApi
                         scope.isProcessing =false;
                     },function (error) {
                         scope.allocatedCategories.push(chip);
-                        scope.showAlert("Allow File Categories","File Category "+chip.text+" failed to restrict to user "+scope.adminuser.username,"success");
+                        scope.showAlert("Allow File Categories","Delete permission has not been granted for the user "+scope.adminuser.username,"error");
                         scope.isProcessing =false;
                     });
 

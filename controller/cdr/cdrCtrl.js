@@ -6,7 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
+    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
         $anchorScroll();
@@ -123,28 +123,52 @@
         };
 
         $scope.playStopFile = function (uuid) {
-            if (videogularAPI) {
+            if (videogularAPI)
+            {
+                if(videogularAPI.currentState === 'play')
+                {
+                    videogularAPI.stop();
+                }
                 var decodedToken = loginService.getTokenDecode();
 
                 if (decodedToken && decodedToken.company && decodedToken.tenant) {
                     var fileToPlay = baseUrls.fileServiceUrl + 'File/DownloadLatest/'+uuid+'.mp3?Authorization='+$auth.getToken();
 
-                    var arr = [
+                    $http({
+                        method: 'GET',
+                        url: fileToPlay,
+                        responseType: 'blob'
+                    }).then(function successCallback(response)
+                    {
+                        if(response.data)
                         {
-                            src: $sce.trustAsResourceUrl(fileToPlay),
-                            type: 'audio/mp3'
+                            var url = URL.createObjectURL(response.data);
+                            var arr = [
+                                {
+                                    src: $sce.trustAsResourceUrl(url),
+                                    type: 'audio/mp3'
+                                }
+                            ];
+
+                            $scope.config.sources = arr;
+
+
+                            videogularAPI.play();
                         }
-                    ];
+                    }, function errorCallback(response) {
 
-                    $scope.config.sources = arr;
+                        $scope.showAlert('CDR Player', 'error', 'Error occurred while playing file');
+
+                    });
 
 
-                    videogularAPI.play();
                 }
             }
 
 
         };
+
+
 
         //set loagin option
         $scope.isTableLoading = 3;
@@ -234,6 +258,10 @@
 
             return minutes + ':' + seconds;
         };
+
+        $scope.$on("$destroy", function(){
+            $scope.cancelDownload = true;
+        });
 
         var checkFileReady = function (fileName) {
             console.log('METHOD CALL');
@@ -925,7 +953,7 @@
                                     cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
 
 
-                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                    cdrAppendObj.AnswerSec = 0;
 
 
                                     if (curProcessingLeg.ObjType === 'HTTAPI') {
@@ -973,7 +1001,7 @@
 
                                 if (transferLegB && transferLegB.length > 0)
                                 {
-                                    var transferLegBAnswered = filteredOutb.filter(function (item) {
+                                    var transferLegBAnswered = transferLegB.filter(function (item) {
                                         return item.IsAnswered === true;
                                     });
 
@@ -1066,8 +1094,6 @@
 
                                         cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
 
-                                        cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
-
                                         holdSecTemp = holdSecTemp + curProcessingLeg.HoldSec;
                                         cdrAppendObj.HoldSec = holdSecTemp;
 
@@ -1094,6 +1120,13 @@
                                                 outLegAnswered = true;
                                             }
                                         }
+
+                                        cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+
+                                        if(!outLegAnswered && cdrAppendObj.RecievedBy)
+                                        {
+                                            cdrAppendObj.AnswerSec = curProcessingLeg.Duration;
+                                        }
                                     }
 
                                 }
@@ -1111,6 +1144,7 @@
 
 
                                 cdrAppendObj.IsAnswered = outLegAnswered;
+
 
                                 if (outLegProcessed && cdrAppendObj.BillSec) {
                                     cdrAppendObj.ShowButton = true;
@@ -1149,6 +1183,11 @@
                             else if (pageStack.length > 0) {
                                 $scope.isPreviousDisabled = false;
                                 $scope.isNextDisabled = false;
+                            }
+
+                            if(cdrLen < lim)
+                            {
+                                $scope.isNextDisabled = true;
                             }
 
                             $scope.isTableLoading = 1;

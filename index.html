@@ -123,6 +123,7 @@
 <link rel="stylesheet" href="assets/css/Js-plumb-UI-KIt/jsPlumbToolkit-demo.css">
 <link rel="stylesheet" href="assets/css/Js-plumb-UI-KIt/demo.css">
 
+<link rel="stylesheet" href="bower_components/angular-ui-switch/angular-ui-switch.min.css"/>
 
 <body class="nav-md">
 <!--style="display: none;"-->
@@ -427,6 +428,10 @@
 
 <script type="text/javascript" src="controller/qaPaperSubmission/qaPaperSubmissionCtrl.js"></script>
 
+<!-- sms detail -->
+<script type="text/javascript" src="factory/sms-reports/smsReportsService.js"></script>
+<script type="text/javascript" src="controller/sms/smsDetailReportCtrl.js"></script>
+
 
 <!-- attribute_application -->
 <script type="text/javascript" src="attribute_application/scripts/controllers/attributeListController.js"></script>
@@ -455,6 +460,7 @@
 <script type="text/javascript" src="agent_status/scripts/controllers/AgentSummaryController.js"></script>
 <script type="text/javascript" src="agent_status/scripts/services/agentStatusService.js"></script>
 <script type="text/javascript" src="agent_status/scripts/directives/agentStatus.js"></script>
+<script type="text/javascript" src="agent_status/scripts/directives/lastReserved.js"></script>
 <!--<script type="text/javascript" src="agent_status/scripts/controllers/agentStatusTblController.js"></script>-->
 
 <script type="text/javascript" src="directives/cdr/timePicker.js"></script>
@@ -860,5 +866,10 @@
 
 <!-- Agent Break Report -->
 <script type="text/javascript" src="controller/agent-break-details/agentBreakDetailController.js"></script>
+
+<!-- reportQueryFilter -->
+<script type="text/javascript" src="factory/reportQueryFilters/reportQueryFilterService.js"></script>
+
+<script src="bower_components/angular-ui-switch/angular-ui-switch.min.js"></script>
 
 </html>

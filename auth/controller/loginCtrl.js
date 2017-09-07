@@ -66,9 +66,16 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                             $state.go('pricing');
                         }
                     } else {
+
                         loginService.getUserNavigation(function (isnavigation) {
-                            $scope.isSocialMedia = false;
-                            $state.go('console');
+                            if(isnavigation) {
+                                $scope.isSocialMedia = false;
+                                $state.go('console');
+                            }else{
+                                showAlert('Error', 'error', "Get console navigation failed, please contact administrator");
+                                $scope.isLogin = false;
+                                $scope.loginFrm.$invalid = false;
+                            }
                         })
                     }
                 });
@@ -129,8 +136,14 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                     } else {
 
                         loginService.getUserNavigation(function (isnavigation) {
-                            if (isnavigation)
+                            if (isnavigation) {
                                 $state.go('console');
+                            }else{
+
+                                showAlert('Error', 'error', "Get console navigation failed, please contact administrator");
+                                $scope.isLogin = false;
+                                $scope.loginFrm.$invalid = false;
+                            }
                         })
                     }
                 });

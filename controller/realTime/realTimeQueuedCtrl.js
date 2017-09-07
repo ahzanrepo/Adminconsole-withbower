@@ -2,7 +2,7 @@
  * Created by Damith on 5/29/2016.
  */
 
-mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService, $anchorScroll, subscribeServices) {
+mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService, $anchorScroll, subscribeServices,reportQueryFilterService ) {
 
 
     subscribeServices.subscribe('queuedetail');
@@ -167,6 +167,22 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
 
     };
+
+    $scope.SaveReportQueryFilter = function () {
+        reportQueryFilterService.SaveReportQueryFilter("realtime-queued",$scope.selectedQueues);
+    };
+
+    $scope.selectedQueues = [];
+    $scope.GetReportQueryFilter = function () {
+        reportQueryFilterService.GetReportQueryFilter("realtime-queued").then(function (response) {
+            if(response){
+                $scope.selectedQueues = response;
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    $scope.GetReportQueryFilter();
 
     $scope.checkQueueHidden = function (qid) {
         if ($scope.selectedQueues && $scope.selectedQueues.length > 0) {
@@ -493,29 +509,28 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
          + "<th class=\"fs15 text-right\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.presentage}}</th>",
          */
         scope: {
-            name: "@"
+            name: "@",
+            queueoption: "=",
+            pieoption: "=",
+            viewmode: "=",
+            que: "="
         },
 
         template: "<th class=\"fs15 text-left\">{{que.QueueName}}</th>" + "<th class=\"fs15 text-right\">{{que.CurrentWaiting}}</th>"
-        + "<th class=\"fs15 text-right\">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th>"
+        + "<th class=\"fs15 text-right\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}} : {{mminutes}} :{{sseconds}}</timer></th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th>"
         + "<th class=\"fs15 text-right\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
         + "<th class=\"fs15 text-right\">{{que.presentage}}</th>",
 
         link: function (scope, element, attributes) {
 
 
-            scope.que = {};
-            scope.options = {};
-            scope.que.CurrentWaiting = 0;
-            scope.que.CurrentMaxWaitTime = '00:00:00';
-            scope.que.presentage = 0;
             scope.maxy = 10;
             scope.val = "";
 
 
             var qData = function () {
 
-                queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
+                /*queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
 
                     if (response.QueueInfo) {
                         response.QueueInfo.QueueName = response.QueueName;
@@ -535,7 +550,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
                     }
                 }, function (err) {
                     loginService.isCheckResponse(err);
-                });
+                });*/
             };
 
 
@@ -544,7 +559,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
 
             var updateRealtime = function () {
 
-                qData();
+                //qData();
 
 
                 updatetimer = $timeout(updateRealtime, 2000);
