@@ -4,7 +4,8 @@
 
 (function () {
 
-    var cdrApiHandler = function ($http, authService, baseUrls, loginService) {
+    var cdrApiHandler = function ($http, authService, baseUrls, loginService)
+    {
         var getCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber, didFilter) {
             var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
@@ -23,6 +24,42 @@
 
             if (offsetId) {
                 url = url + '&offset=' + offsetId;
+            }
+
+            if (custNumber) {
+                url = url + '&custnumber=' + custNumber;
+            }
+
+            if (didFilter) {
+                url = url + '&didnumber=' + didFilter;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
+        var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter)
+        {
+            var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+
+            if (agent) {
+                url = url + '&agent=' + agent;
+            }
+            if (skill) {
+                url = url + '&skill=' + skill;
+            }
+            if (direction) {
+                url = url + '&direction=' + direction;
+            }
+            if (record) {
+                url = url + '&recording=' + record;
             }
 
             if (custNumber) {
@@ -452,7 +489,8 @@
             getEmailRecipientsForReport: getEmailRecipientsForReport,
             saveRecipients: saveRecipients,
             getTimeZones: getTimeZones,
-            getCallSummaryForQueueByHr: getCallSummaryForQueueByHr
+            getCallSummaryForQueueByHr: getCallSummaryForQueueByHr,
+            getCDRForTimeRangeCount: getCDRForTimeRangeCount
         };
     };
 
