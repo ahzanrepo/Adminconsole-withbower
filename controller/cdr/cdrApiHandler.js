@@ -249,6 +249,31 @@
             });
         };
 
+        var getAbandonCDRForTimeRangeCount = function (startDate, endDate, agent, skill, custNumber) {
+            var url = baseUrls.cdrProcessor + 'GetAbandonCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+
+
+            if (agent) {
+                url = url + '&agent=' + agent;
+            }
+            if (skill) {
+                url = url + '&skill=' + skill;
+            }
+            if (custNumber) {
+                url = url + '&custnumber=' + custNumber;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
         var getCallSummaryForHr = function (date, tz) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Hourly?date=' + date + '&tz=' + tz;
 
@@ -490,7 +515,8 @@
             saveRecipients: saveRecipients,
             getTimeZones: getTimeZones,
             getCallSummaryForQueueByHr: getCallSummaryForQueueByHr,
-            getCDRForTimeRangeCount: getCDRForTimeRangeCount
+            getCDRForTimeRangeCount: getCDRForTimeRangeCount,
+            getAbandonCDRForTimeRangeCount: getAbandonCDRForTimeRangeCount
         };
     };
 

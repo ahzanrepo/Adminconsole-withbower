@@ -175,8 +175,6 @@
 
         };
 
-
-
         //set loagin option
         $scope.isTableLoading = 3;
         $scope.cdrList = [];
@@ -832,11 +830,8 @@
 
                                     $scope.cdrList = [];
 
-                                    var topSet = false;
-                                    var bottomSet = false;
 
                                     var count = 0;
-                                    var cdrLen = Object.keys(cdrResp.Result).length;
 
                                     for (cdr in cdrResp.Result)
                                     {
@@ -894,15 +889,7 @@
 
 
                                             //use the counts in inbound leg
-                                            if (!topSet) {
-                                                $scope.top = curProcessingLeg.id;
-                                                topSet = true;
-                                            }
 
-                                            if (!bottomSet && count === cdrLen) {
-                                                $scope.bottom = curProcessingLeg.id;
-                                                bottomSet = true;
-                                            }
 
                                             cdrAppendObj.Uuid = curProcessingLeg.Uuid;
                                             cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
@@ -998,10 +985,6 @@
                                             cdrAppendObj.RecievedBy = transferCallOriginalCallLeg.SipToUser;
                                             callHangupDirectionB = transferCallOriginalCallLeg.HangupDisposition;
 
-                                            if (!bottomSet && count === cdrLen) {
-                                                $scope.bottom = transferCallOriginalCallLeg.id;
-                                                bottomSet = true;
-                                            }
 
                                             cdrAppendObj.AnswerSec = transferCallOriginalCallLeg.AnswerSec;
 
@@ -1064,10 +1047,6 @@
                                             {
                                                 callHangupDirectionB = curProcessingLeg.HangupDisposition;
 
-                                                if (!bottomSet && count === cdrLen) {
-                                                    $scope.bottom = curProcessingLeg.id;
-                                                    bottomSet = true;
-                                                }
 
                                                 cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
 
@@ -1156,14 +1135,17 @@
 
 
                                 }
-                                else {
-
+                                else
+                                {
+                                    $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                                    $scope.cdrList = [];
                                     $scope.isTableLoading = 1;
                                 }
 
 
                             }
                             else {
+                                $scope.cdrList = [];
                                 $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
                                 $scope.isTableLoading = 1;
                             }
@@ -1176,12 +1158,14 @@
                             $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                             $scope.isTableLoading = 1;
                             $scope.enableSearchButton = true;
+                            $scope.cdrList = [];
                         })
                     }
                     else
                     {
                         $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                         $scope.isTableLoading = 1;
+                        $scope.cdrList = [];
                     }
 
 
@@ -1190,12 +1174,14 @@
                 {
                     $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                     $scope.isTableLoading = 1;
+                    $scope.cdrList = [];
                 });
 
             }
             catch (ex) {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                 $scope.isTableLoading = 1;
+                $scope.cdrList = [];
             }
         }
 
