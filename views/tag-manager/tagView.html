@@ -69,10 +69,10 @@
                     </div>
                     <div class="col-md-3 ">
                         <div class="pull-right user-option-wrap" ng-show="!editMode">
-                            <h3>
+                            <!--<h3>
                                 <small ng-click="showTaggingConig()" style="cursor: pointer"><i
                                         class="fa fa-cog"></i></small>
-                            </h3>
+                            </h3>-->
                         </div>
                     </div>
                 </div>
@@ -90,11 +90,17 @@
                         </option>
                     </select>
                 </div>
-                <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+                <div class="col-md-2 col-sm-2 col-xs-12 form-group ">
                     <button type="button" class="btn btn-success btn-block  btn- pull-right"
                             ng-click="treeBuilder()">
                         Show
                     </button>
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-12 form-group ">
+
+                        <span ng-click="showTaggingConig()" style="cursor: pointer"><i
+                                class="fa fa-cog fa-3x"></i></span>
+
                 </div>
 
                 <div class="col-md- col-sm-12 col-xs-12 edit-main-wrap" ng-show="my_data.length>0 && isTreeView">
@@ -113,11 +119,13 @@
 
         <div class="row">
             <h2 ng-show="isConfig" class="pull-left">Tag Categories
-                <small ng-click="showTagCatConig()" style="cursor: pointer"><i
-                        class="fa fa-plus 2x" ng-show="isConfig && !isTagCatConfig"></i></small>
+                <span ng-click="showTagCatConig()" style="cursor: pointer ; padding-left: 30px"><i
+                        class="fa fa-plus " ng-show="isConfig && !isTagCatConfig"></i></span>
+                <span ng-click="showTagCatConig()" style="cursor: pointer ; padding-left: 30px"><i
+                        class="fa fa-plus " ng-show="isConfig && !isTagCatConfig"></i></span>
             </h2>
 
-            <div class="row" ng-show="isTagCatConfig">
+            <div class="row" ng-show="isTagCatConfig && isConfig">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_content">
@@ -126,7 +134,7 @@
 
                                     <input type="text" ng-model="searchCriteria" class="form-control"
                                            placeholder="Search for...">
-                                <span class="input-group-btn">
+                                    <span class="input-group-btn">
                                   <button class="btn btn-default" type="button">Go!</button>
                                 </span>
                                 </div>
@@ -174,7 +182,7 @@
                                                     <td class="col-sm-2">
                                                         <button type="submit" class="btn btn-primary"
                                                                 ng-click="deleteCategory(tagCat)"><span
-                                                                class="fa fa-trash-o" aria-hidden="true"></span>Delete
+                                                                class="fa fa-trash-o trash-icon-align" aria-hidden="true"></span>Delete
                                                         </button>
 
                                                     </td>
@@ -202,14 +210,14 @@
 
         <div class="row">
             <h2 ng-show="isConfig">Tags
-                <small ng-click="showTagConig()" style="cursor: pointer"><i
-                        class="fa fa-plus" ng-show="isConfig && !isTagConfig"></i></small>
+                <span ng-click="showTagConig()" style="cursor: pointer ; padding-left: 30px"><i
+                        class="fa fa-plus " ng-show="isConfig && !isTagConfig"></i></span>
             </h2>
 
         </div>
 
 
-        <div class="row" ng-show="isTagConfig">
+        <div class="row" ng-show="isTagConfig && isConfig">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
@@ -265,7 +273,7 @@
                                                 <td>{{tag.description}}</td>
                                                 <td class="col-md-2">
                                                     <button type="submit" class="btn btn-primary"
-                                                            ng-click="deleteTag(tag)"><span class="fa fa-trash-o"
+                                                            ng-click="deleteTag(tag)"><span class="fa fa-trash-o trash-icon-align"
                                                                                             aria-hidden="true"></span>Delete
                                                     </button>
                                                 </td>
