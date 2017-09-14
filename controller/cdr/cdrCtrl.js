@@ -1173,7 +1173,7 @@
                                 }
                                 else
                                 {
-                                    $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                                    $scope.showAlert('Info', 'info', 'No CDR Records to load');
                                     $scope.cdrList = [];
                                     $scope.isTableLoading = 1;
                                 }
