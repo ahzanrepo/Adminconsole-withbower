@@ -36,7 +36,7 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 angular.forEach(resource.actions, function (action) {
                     id++;
                     var child = addChild(item1, id, action);
-                    if (items.length > 0 && items[0].menuAction) {
+                    if (items&&items.length > 0 && items[0].menuAction) {
                         var menuItems = $filter('filter')(items[0].menuAction, {scope: resource.scopeName},true);
                         child.isSelected = menuItems[0][action];
                     }
