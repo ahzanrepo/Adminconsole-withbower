@@ -127,7 +127,7 @@
                             <div class="col-md-11 col-sm-11 col-xs-11">
                                 <div class="x_content btn-wrap-header" style="position: relative; top: 10px;">
                                     <button type="button" class="btn btn-primary" ng-click="changeTimeAvailability()">{{timeEnabled}}</button>
-                                    <button type="button" class="btn btn-success" ng-click="getProcessedCDR(0, true)"
+                                    <button type="button" class="btn btn-success" ng-click="searchWithNewFilter()"
                                             ng-disabled="!dateValid || !enableSearchButton">
                                         Search
                                     </button>
@@ -356,7 +356,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <ul uib-pagination total-items="pagination.totalItems" items-per-page="pagination.itemsPerPage" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="pageChanged()"></ul>
+                        </div>
+                        <!--<div class="row">
                             <div class="col-sm-7">
                                 <button class="btn btn-primary" ng-click="loadPreviousPage()"
                                         ng-disabled="isPreviousDisabled">Previous
@@ -365,7 +368,7 @@
                                     Next
                                 </button>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
 
