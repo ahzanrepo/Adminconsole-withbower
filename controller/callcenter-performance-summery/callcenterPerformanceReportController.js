@@ -22,7 +22,7 @@
         $scope.DownloadButtonName = 'CSV';
 
 
-
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
         var showAlert = function (title,content,type) {
             new PNotify({
