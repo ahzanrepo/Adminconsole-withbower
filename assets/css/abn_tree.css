@@ -80,6 +80,8 @@ ul.abn-tree li.abn-tree-row a {
 
 ul.abn-tree i.indented {
   padding: 2px;
+  padding-right: 20px;
+
 }
 
 .abn-tree {

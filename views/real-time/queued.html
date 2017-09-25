@@ -28,7 +28,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Queue Filter</label>
-                    <tags-input ng-model="selectedQueues" display-property="QueueName" min-length="1"
+                    <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="selectedQueues" display-property="QueueName" min-length="1"
                                 add-from-autocomplete-only="true" placeholder="Select queues">
                         <auto-complete max-results-to-show="1000" source="querySearch($query)"
                                        load-on-empty="true" load-on-focus="true"
@@ -71,7 +71,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr queuedlist ng-repeat="que in queues" ng-hide = "checkQueueHidden(que.id)" name="{{que.id}}">
+                            <tr queuedlist ng-repeat="(qkey, que) in queues" ng-hide = "checkQueueHidden(que.id)" name="{{que.id}}" que="que" name="{{que.id}}" viewmode="cardViewMode"
+                                queueoption="queueoption" pieoption="pieoption">
                                 <!--<th class="fs15 text-left">{{que.queuename}}</th>
                                 <th class="fs15 text-right">{{que.CurrentWaiting}}</th>
                                 <th class="fs15 text-right">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>

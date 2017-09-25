@@ -49,8 +49,17 @@
                     <div style="position: relative; top: 25px;">
                         <button type="button" class="btn"
                                 style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;"
-                                csv-header="['Agent ID', 'Staff Time', 'Date', 'Talk Time(inbound)', 'Talk Time(outbound)', 'Total Answered', 'Total Calls(inbound)', 'Total Calls(outbound)', 'Average Handling Time', 'Break Time', 'After Work Time', 'Idle Time']"
-                                csv-column-order="['AgentName', 'StaffTime', 'Date', 'TalkTime', 'TalkTimeOutbound', 'TotalAnswered', 'TotalCalls', 'TotalCallsOutbound', 'AverageHandlingTime', 'BreakTime', 'AfterWorkTime', 'IdleTime']"
+                                csv-header="['Agent ID', 'Date', 'Total Calls(inbound)', 'Total Calls(outbound)'
+                                , 'Total Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Staff Time', 'Inbound Time', 'Outbound Time'
+                                , 'Idle Time(inbound)', 'Idle Time(outbound)', 'Idle Time(offline)', 'Talk Time(inbound)', 'Talk Time(outbound)'
+                                , 'Hold Time(inbound)', 'Hold Time(outbound)', 'After Work Time(inbound)', 'After Work Time(outbound)', 'Break Time'
+                                , 'Average Handling Time(inbound)', 'Average Handling Time(outbound)', 'Average Talk Time(inbound)', 'Average Talk Time(outbound)'
+                                , 'Average Hold Time(inbound)', 'Average Hold Time(outbound)']"
+                                csv-column-order="['AgentName', 'Date', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalHoldInbound'
+                                , 'TotalHoldOutbound', 'StaffTime', 'InboundTime', 'OutboundTime', 'IdleTimeInbound', 'IdleTimeOutbound', 'IdleTimeOffline'
+                                , 'TalkTimeInbound', 'TalkTimeOutbound', 'TotalHoldTimeInbound', 'TotalHoldTimeOutbound', 'AfterWorkTimeInbound', 'AfterWorkTimeOutbound'
+                                , 'BreakTime', 'AverageHandlingTimeInbound', 'AverageHandlingTimeOutbound', 'AvgTalkTimeInbound', 'AvgTalkTimeOutbound', 'AvgHoldTimeInbound'
+                                , 'AvgHoldTimeOutbound']"
                                 ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv">
                             CSV&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="fa fa-download"></i>
@@ -81,57 +90,6 @@
 
                         <div class="col-sm-12">
                             <div class="widget-dyn">
-                                <div class="widget-dy-wrp " id="idle">
-                                    <div class="active-card">
-                                        <div class="selected-group">
-                                            <i class="ti-check"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 ">
-                                        <div class="row">
-                                            <div class="w-bg-text text-left ">
-                                                Idle Time
-                                            </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
-                                                {{total.IdleTime}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="widget-dy-wrp " id="acw">
-                                    <div class="active-card">
-                                        <div class="selected-group">
-                                            <i class="ti-check"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 ">
-                                        <div class="row">
-                                            <div class="w-bg-text text-left ">
-                                                After Work Time
-                                            </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
-                                                {{total.AfterWorkTime}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="widget-dy-wrp " id="avghandletime">
-                                    <div class="active-card">
-                                        <div class="selected-group">
-                                            <i class="ti-check"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 ">
-                                        <div class="row">
-                                            <div class="w-bg-text text-left ">
-                                                Average Handling Time
-                                            </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
-                                                {{total.AverageHandlingTime}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="widget-dy-wrp " id="stafftime">
                                     <div class="active-card">
                                         <div class="selected-group">
@@ -149,8 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="widget-dy-wrp " id="talktime">
+                                <div class="widget-dy-wrp " id="idleInbound">
                                     <div class="active-card">
                                         <div class="selected-group">
                                             <i class="ti-check"></i>
@@ -159,16 +116,135 @@
                                     <div class="col-xs-12 ">
                                         <div class="row">
                                             <div class="w-bg-text text-left ">
-                                                Talk Time Inbound
+                                                Inbound Idle Time
                                             </div>
                                             <div class="w-bg-text-bg text-left txt-color-b-500 ">
-                                                {{total.TalkTime}}
+                                                {{total.InboundIdleTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-dy-wrp " id="idleOutbound">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Outbound Idle Time
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.OutboundIdleTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-dy-wrp " id="idleOffline">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Offline Time
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.OfflineIdleTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-dy-wrp " id="acwInbound">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Inbound ACW Time
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.InboundAfterWorkTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-dy-wrp " id="acwOutbound">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Outbound ACW Time
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.OutboundAfterWorkTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-dy-wrp " id="avghandletimeInbound">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Inbound Avg Handling Time
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.InboundAverageHandlingTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-dy-wrp " id="avghandletimeOutbound">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Outbound Avg Handling Time
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.OutboundAverageHandlingTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-dy-wrp " id="talktimeInbound">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Inbound Talk Time
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.InboundTalkTime}}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="widget-dy-wrp " id="talktimeout">
+                                <div class="widget-dy-wrp " id="talktimeOutbound">
                                     <div class="active-card">
                                         <div class="selected-group">
                                             <i class="ti-check"></i>
@@ -177,10 +253,44 @@
                                     <div class="col-xs-12 ">
                                         <div class="row">
                                             <div class="w-bg-text text-left ">
-                                                Talk Time Outbound
+                                                Outbound Talk Time
                                             </div>
                                             <div class="w-bg-text-bg text-left txt-color-b-500 ">
-                                                {{total.TalkTimeOutbound}}
+                                                {{total.OutboundTalkTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-dy-wrp " id="holdtimeInbound">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Inbound Hold Time
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.InboundHoldTime}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-dy-wrp " id="holdtimeOutbound">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Outbound Hold Time
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.OutboundHoldTime}}
                                             </div>
                                         </div>
                                     </div>
@@ -291,7 +401,47 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Total Calls(inbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Total Calls(outbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Total Answered
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Total Hold(inbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Total Hold(outbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
                                                     colspan="1" aria-label="From">Staff Time
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="From">Inbound Time
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="From">Outbound Time
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Idle Time(inbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Idle Time(outbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Idle Time(offline)
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
@@ -303,19 +453,19 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
-                                                    colspan="1" aria-label="ReceivedBy">Total Answered
+                                                    colspan="1" aria-label="ReceivedBy">Hold Time(inbound)
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
-                                                    colspan="1" aria-label="ReceivedBy">Total Calls(inbound)
+                                                    colspan="1" aria-label="ReceivedBy">Hold Time(outbound)
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
-                                                    colspan="1" aria-label="ReceivedBy">Total Calls(outbound)
+                                                    colspan="1" aria-label="ReceivedBy">After Work Time(inbound)
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
-                                                    colspan="1" aria-label="ReceivedBy">Average Handling Time
+                                                    colspan="1" aria-label="ReceivedBy">After Work Time(outbound)
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
@@ -323,11 +473,27 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
-                                                    colspan="1" aria-label="ReceivedBy">After Work Time
+                                                    colspan="1" aria-label="ReceivedBy">Average Handling Time(inbound)
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
-                                                    colspan="1" aria-label="ReceivedBy">Idle Time
+                                                    colspan="1" aria-label="ReceivedBy">Average Handling Time(outbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Average Talk Time(inbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Average Talk Time(outbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Average Hold Time(inbound)
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="ReceivedBy">Average Hold Time(outbound)
                                                 </th>
 
                                             </thead>
@@ -336,16 +502,30 @@
                                                 ng-repeat="agentSummary in agentSummaryList">
                                                 <td>{{agentSummary.AgentName}}</td>
                                                 <td>{{agentSummary.Date|date:"yyyy-MM-dd"}}</td>
-                                                <td>{{agentSummary.StaffTime}}</td>
-                                                <td>{{agentSummary.TalkTime}}</td>
-                                                <td>{{agentSummary.TalkTimeOutbound}}</td>
-                                                <td>{{agentSummary.TotalAnswered}}</td>
-                                                <td>{{agentSummary.TotalCalls}}</td>
+                                                <td>{{agentSummary.TotalCallsInbound}}</td>
                                                 <td>{{agentSummary.TotalCallsOutbound}}</td>
-                                                <td>{{agentSummary.AverageHandlingTime}}</td>
+                                                <td>{{agentSummary.TotalAnswered}}</td>
+                                                <td>{{agentSummary.TotalHoldInbound}}</td>
+                                                <td>{{agentSummary.TotalHoldOutbound}}</td>
+                                                <td>{{agentSummary.StaffTime}}</td>
+                                                <td>{{agentSummary.InboundTime}}</td>
+                                                <td>{{agentSummary.OutboundTime}}</td>
+                                                <td>{{agentSummary.IdleTimeInbound}}</td>
+                                                <td>{{agentSummary.IdleTimeOutbound}}</td>
+                                                <td>{{agentSummary.IdleTimeOffline}}</td>
+                                                <td>{{agentSummary.TalkTimeInbound}}</td>
+                                                <td>{{agentSummary.TalkTimeOutbound}}</td>
+                                                <td>{{agentSummary.TotalHoldTimeInbound}}</td>
+                                                <td>{{agentSummary.TotalHoldTimeOutbound}}</td>
+                                                <td>{{agentSummary.AfterWorkTimeInbound}}</td>
+                                                <td>{{agentSummary.AfterWorkTimeOutbound}}</td>
                                                 <td>{{agentSummary.BreakTime}}</td>
-                                                <td>{{agentSummary.AfterWorkTime}}</td>
-                                                <td>{{agentSummary.IdleTime}}</td>
+                                                <td>{{agentSummary.AverageHandlingTimeInbound}}</td>
+                                                <td>{{agentSummary.AverageHandlingTimeOutbound}}</td>
+                                                <td>{{agentSummary.AvgTalkTimeInbound}}</td>
+                                                <td>{{agentSummary.AvgTalkTimeOutbound}}</td>
+                                                <td>{{agentSummary.AvgHoldTimeInbound}}</td>
+                                                <td>{{agentSummary.AvgHoldTimeOutbound}}</td>
 
                                             </tr>
                                             </tbody>

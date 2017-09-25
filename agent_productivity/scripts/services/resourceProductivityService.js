@@ -19,7 +19,15 @@ clusterModule.factory("resourceProductivityService", function ($http, $log, auth
 
     var getOnlineAgents = function () {
 
-        return $http.get(baseUrls.ardsmonitoringBaseUrl + "MONITORING/resources").then(function (response) {
+        /*return $http.get(baseUrls.ardsmonitoringBaseUrl + "MONITORING/resources").then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return {};
+                }
+            });*/
+
+        return $http.get(baseUrls.resourceServiceBaseUrl + "Resources").then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
                 } else {

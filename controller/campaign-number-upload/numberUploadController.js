@@ -148,44 +148,48 @@
                 data.forEach(function (data) {
                     var tempNumber = data[filter];
 
-                    if ($scope.selectedCampaign && $scope.selectedCampaign.CampaignChannel.toLowerCase() === 'call') {
-                        if (tempNumber && tempNumber.toString().match(numberRegex)) {
-                            if (previewFilter && previewFilter.length > 0) {
-                                var previewObj = {};
-                                previewFilter.forEach(function (pFilter) {
-                                    previewObj[pFilter] = data[pFilter];
-                                });
-                                var numberWithPreviewData = data[filter] + ":" + JSON.stringify(previewObj);
-                                numbers.push(numberWithPreviewData);
-                            } else {
-
-                                numbers.push(data[filter]);
-                            }
-                            console.log('Valid Number - ' + tempNumber);
-                        }
-                        else {
-                            console.log('Invalid Number - ' + tempNumber);
-                        }
-                    } else {
-                        if ($scope.selectedCampaign.CampaignChannel.toLowerCase() === 'sms' || $scope.selectedCampaign.CampaignChannel.toLowerCase() === 'email') {
-                            if (tempNumber) {
+                    if($scope.campaignNumberObj.CategoryID && !$scope.selectedCampaign) {
+                        numbers.push(data[filter]);
+                    }else {
+                        if ($scope.selectedCampaign && $scope.selectedCampaign.CampaignChannel.toLowerCase() === 'call') {
+                            if (tempNumber && tempNumber.toString().match(numberRegex)) {
                                 if (previewFilter && previewFilter.length > 0) {
-                                    var previewObj2 = {};
+                                    var previewObj = {};
                                     previewFilter.forEach(function (pFilter) {
-                                        previewObj2[pFilter] = data[pFilter];
+                                        previewObj[pFilter] = data[pFilter];
                                     });
-                                    var numberWithPreviewData2 = data[filter] + ":" + JSON.stringify(previewObj2);
-                                    numbers.push(numberWithPreviewData2);
+                                    var numberWithPreviewData = data[filter] + ":" + JSON.stringify(previewObj);
+                                    numbers.push(numberWithPreviewData);
                                 } else {
 
                                     numbers.push(data[filter]);
                                 }
+                                console.log('Valid Number - ' + tempNumber);
                             }
                             else {
                                 console.log('Invalid Number - ' + tempNumber);
                             }
                         } else {
-                            numbers.push(data[filter]);
+                            if ($scope.selectedCampaign.CampaignChannel.toLowerCase() === 'sms' || $scope.selectedCampaign.CampaignChannel.toLowerCase() === 'email') {
+                                if (tempNumber) {
+                                    if (previewFilter && previewFilter.length > 0) {
+                                        var previewObj2 = {};
+                                        previewFilter.forEach(function (pFilter) {
+                                            previewObj2[pFilter] = data[pFilter];
+                                        });
+                                        var numberWithPreviewData2 = data[filter] + ":" + JSON.stringify(previewObj2);
+                                        numbers.push(numberWithPreviewData2);
+                                    } else {
+
+                                        numbers.push(data[filter]);
+                                    }
+                                }
+                                else {
+                                    console.log('Invalid Number - ' + tempNumber);
+                                }
+                            } else {
+                                numbers.push(data[filter]);
+                            }
                         }
                     }
                 });

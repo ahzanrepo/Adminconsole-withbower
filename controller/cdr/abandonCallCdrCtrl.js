@@ -1,9 +1,6 @@
 /**
  * Created by dinusha on 6/15/2016.
  */
-/**
- * Created by dinusha on 5/28/2016.
- */
 
 (function () {
     var app = angular.module("veeryConsoleApp");
@@ -13,7 +10,7 @@
         $anchorScroll();
         $scope.enableSearchButton = true;
 
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [4, 'desc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [5, 'desc']};
 
 
         $scope.showAlert = function (tittle, type, content) {
@@ -24,6 +21,13 @@
                 type: type,
                 styling: 'bootstrap3'
             });
+        };
+
+        $scope.pagination = {
+            currentPage: 1,
+            maxSize: 5,
+            totalItems: 0,
+            itemsPerPage: 10
         };
 
         $scope.onDateChange = function () {
@@ -92,6 +96,16 @@
         $scope.DownloadButtonName = 'CSV';
         $scope.buttonClass = 'fa fa-file-text';
 
+        $scope.pageChanged = function () {
+            var skipCount = ($scope.pagination.currentPage - 1) * parseInt($scope.recLimit);
+            $scope.getProcessedCDR(skipCount, false);
+        };
+
+        $scope.searchWithNewFilter = function () {
+            $scope.pagination.currentPage = 1;
+            $scope.getProcessedCDR(0, true);
+        };
+
         $scope.loadNextPage = function () {
             var pageInfo = {
                 top: $scope.top,
@@ -147,6 +161,10 @@
 
             return minutes + ':' + seconds;
         };
+
+        $scope.$on("$destroy", function(){
+            $scope.cancelDownload = true;
+        });
 
         var checkFileReady = function (fileName) {
             console.log('METHOD CALL');
@@ -547,18 +565,6 @@
             $scope.enableSearchButton = false;
 
             try {
-                if (reset) {
-                    $scope.pageStack = [];
-                    $scope.top = -1;
-                    $scope.bottom = -1;
-                    pageInfo.top = -1;
-                    pageInfo.bottom = -1;
-                }
-
-
-                $scope.isNextDisabled = true;
-                $scope.isPreviousDisabled = true;
-
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
                 //var encodedTz = encodeURI(momentTz);
@@ -576,236 +582,267 @@
                 }
 
                 var lim = parseInt($scope.recLimit);
+
+                $scope.pagination.itemsPerPage = lim;
+
                 $scope.isTableLoading = 0;
-                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp) {
-                    if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
-                        if (!isEmpty(cdrResp.Result)) {
 
-                            $scope.cdrList = [];
-                            var topSet = false;
-                            var bottomSet = false;
+                cdrApiHandler.getAbandonCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter).then(function(cdrCntRsp)
+                {
+                    if (cdrCntRsp && cdrCntRsp.IsSuccess)
+                    {
+                        $scope.pagination.totalItems = cdrCntRsp.Result;
+                        cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp) {
+                            if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
+                                if (!isEmpty(cdrResp.Result)) {
 
-                            var count = 0;
-                            var cdrLen = Object.keys(cdrResp.Result).length;
+                                    $scope.cdrList = [];
+                                    var topSet = false;
+                                    var bottomSet = false;
 
-                            for (cdr in cdrResp.Result) {
-                                count++;
-                                var cdrAppendObj = {};
-                                var outLegProcessed = false;
-                                var curCdr = cdrResp.Result[cdr];
-                                var isInboundHTTAPI = false;
-                                var outLegAnswered = false;
-
-                                var callHangupDirectionA = '';
-                                var callHangupDirectionB = '';
-
-                                var len = curCdr.length;
+                                    var count = 0;
+                                    var cdrLen = Object.keys(cdrResp.Result).length;
 
 
-                                //Need to filter out inbound and outbound legs before processing
+                                    for (cdr in cdrResp.Result) {
+                                        count++;
+                                        var cdrAppendObj = {};
+                                        var outLegProcessed = false;
+                                        var curCdr = cdrResp.Result[cdr];
+                                        var isInboundHTTAPI = false;
+                                        var outLegAnswered = false;
 
-                                var filteredInb = curCdr.filter(function (item) {
-                                    if (item.Direction === 'inbound') {
-                                        return true;
-                                    }
-                                    else {
-                                        return false;
-                                    }
+                                        var callHangupDirectionA = '';
+                                        var callHangupDirectionB = '';
 
-                                });
-
-                                var filteredOutb = curCdr.filter(function (item) {
-                                    if (item.Direction === 'outbound') {
-                                        return true;
-                                    }
-                                    else {
-                                        return false;
-                                    }
-
-                                });
+                                        var len = curCdr.length;
 
 
-                                //process inbound legs first
+                                        //Need to filter out inbound and outbound legs before processing
 
-                                for (i = 0; i < filteredInb.length; i++) {
-                                    var curProcessingLeg = filteredInb[i];
+                                        var filteredInb = curCdr.filter(function (item) {
+                                            if (item.Direction === 'inbound') {
+                                                return true;
+                                            }
+                                            else {
+                                                return false;
+                                            }
 
-                                    if (curProcessingLeg.DVPCallDirection) {
-                                        callHangupDirectionA = curProcessingLeg.HangupDisposition;
-                                    }
+                                        });
 
+                                        var filteredOutb = curCdr.filter(function (item) {
+                                            if (item.Direction === 'outbound') {
+                                                return true;
+                                            }
+                                            else {
+                                                return false;
+                                            }
 
-                                    //use the counts in inbound leg
-                                    if (!topSet) {
-                                        $scope.top = curProcessingLeg.id;
-                                        topSet = true;
-                                    }
-
-                                    if (!bottomSet && count === cdrLen) {
-                                        $scope.bottom = curProcessingLeg.id;
-                                        bottomSet = true;
-                                    }
-
-                                    cdrAppendObj.Uuid = curProcessingLeg.Uuid;
-                                    cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
-                                    cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
-                                    cdrAppendObj.IsAnswered = false;
-
-                                    cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;
-
-                                    var localTime = moment(curProcessingLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
-
-                                    cdrAppendObj.CreatedTime = localTime;
-                                    cdrAppendObj.Duration = curProcessingLeg.Duration;
-                                    cdrAppendObj.BillSec = 0;
-                                    cdrAppendObj.HoldSec = 0;
-
-                                    cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
-
-                                    if (cdrAppendObj.DVPCallDirection === 'inbound') {
-                                        var holdSecTemp = curProcessingLeg.HoldSec + curProcessingLeg.WaitSec;
-                                        cdrAppendObj.HoldSec = holdSecTemp;
-                                    }
+                                        });
 
 
-                                    cdrAppendObj.QueueSec = curProcessingLeg.QueueSec;
-                                    cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
+                                        //process inbound legs first
+
+                                        for (i = 0; i < filteredInb.length; i++) {
+                                            var curProcessingLeg = filteredInb[i];
+
+                                            if (curProcessingLeg.DVPCallDirection) {
+                                                callHangupDirectionA = curProcessingLeg.HangupDisposition;
+                                            }
 
 
-                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                            //use the counts in inbound leg
+                                            if (!topSet) {
+                                                $scope.top = curProcessingLeg.id;
+                                                topSet = true;
+                                            }
+
+                                            if (!bottomSet && count === cdrLen) {
+                                                $scope.bottom = curProcessingLeg.id;
+                                                bottomSet = true;
+                                            }
+
+                                            cdrAppendObj.Uuid = curProcessingLeg.Uuid;
+                                            cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
+                                            cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
+                                            cdrAppendObj.IsAnswered = false;
+
+                                            cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;
+
+                                            var localTime = moment(curProcessingLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
+
+                                            cdrAppendObj.CreatedTime = localTime;
+                                            cdrAppendObj.Duration = curProcessingLeg.Duration;
+                                            cdrAppendObj.BillSec = 0;
+                                            cdrAppendObj.HoldSec = 0;
+
+                                            cdrAppendObj.DVPCallDirection = curProcessingLeg.DVPCallDirection;
+
+                                            if (cdrAppendObj.DVPCallDirection === 'inbound') {
+                                                var holdSecTemp = curProcessingLeg.HoldSec + curProcessingLeg.WaitSec;
+                                                cdrAppendObj.HoldSec = holdSecTemp;
+                                            }
 
 
-                                    if (curProcessingLeg.ObjType === 'HTTAPI') {
-                                        isInboundHTTAPI = true;
-                                    }
-
-                                    cdrAppendObj.ObjType = curProcessingLeg.ObjType;
-                                    cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                            cdrAppendObj.QueueSec = curProcessingLeg.QueueSec;
+                                            cdrAppendObj.AgentSkill = curProcessingLeg.AgentSkill;
 
 
-                                }
-
-                                //process outbound legs next
-
-                                var curProcessingLeg = null;
-
-                                if (filteredOutb && filteredOutb.length > 0) {
-                                    curProcessingLeg = filteredOutb[0];
-                                }
-
-                                if (curProcessingLeg) {
-                                    callHangupDirectionB = curProcessingLeg.HangupDisposition;
-
-                                    if (!bottomSet && count === cdrLen) {
-                                        $scope.bottom = curProcessingLeg.id;
-                                        bottomSet = true;
-                                    }
-
-                                    cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
-
-                                    cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+                                            cdrAppendObj.AnswerSec = 0;
 
 
-                                    if (cdrAppendObj.DVPCallDirection === 'outbound') {
-                                        var holdSecTemp = curProcessingLeg.HoldSec;
-                                        cdrAppendObj.HoldSec = holdSecTemp;
-                                    }
+                                            if (curProcessingLeg.ObjType === 'HTTAPI') {
+                                                isInboundHTTAPI = true;
+                                            }
 
-                                    cdrAppendObj.BillSec = curProcessingLeg.BillSec;
+                                            cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                            cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
 
-                                    if (!cdrAppendObj.ObjType) {
-                                        cdrAppendObj.ObjType = curProcessingLeg.ObjType;
-                                    }
 
-                                    if (!cdrAppendObj.ObjCategory) {
-                                        cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
-                                    }
-
-                                    outLegProcessed = true;
-
-                                    if (!outLegAnswered) {
-                                        if (curProcessingLeg.BillSec > 0) {
-                                            outLegAnswered = true;
                                         }
+
+                                        //process outbound legs next
+
+                                        var curProcessingLeg = null;
+
+                                        if (filteredOutb && filteredOutb.length > 0) {
+                                            curProcessingLeg = filteredOutb[0];
+                                        }
+
+                                        if (curProcessingLeg) {
+                                            callHangupDirectionB = curProcessingLeg.HangupDisposition;
+
+                                            if (!bottomSet && count === cdrLen) {
+                                                $scope.bottom = curProcessingLeg.id;
+                                                bottomSet = true;
+                                            }
+
+                                            cdrAppendObj.RecievedBy = curProcessingLeg.SipToUser;
+
+                                            cdrAppendObj.AnswerSec = curProcessingLeg.AnswerSec;
+
+
+                                            if (cdrAppendObj.DVPCallDirection === 'outbound') {
+                                                var holdSecTemp = curProcessingLeg.HoldSec;
+                                                cdrAppendObj.HoldSec = holdSecTemp;
+                                            }
+
+                                            cdrAppendObj.BillSec = curProcessingLeg.BillSec;
+
+                                            if (!cdrAppendObj.ObjType) {
+                                                cdrAppendObj.ObjType = curProcessingLeg.ObjType;
+                                            }
+
+                                            if (!cdrAppendObj.ObjCategory) {
+                                                cdrAppendObj.ObjCategory = curProcessingLeg.ObjCategory;
+                                            }
+
+                                            outLegProcessed = true;
+
+                                            if (!outLegAnswered) {
+                                                if (curProcessingLeg.BillSec > 0) {
+                                                    outLegAnswered = true;
+                                                }
+                                            }
+
+                                            if(cdrAppendObj.RecievedBy)
+                                            {
+                                                cdrAppendObj.AnswerSec = curProcessingLeg.Duration;
+                                            }
+                                        }
+
+
+                                        if (callHangupDirectionA === 'recv_bye') {
+                                            cdrAppendObj.HangupParty = 'CALLER';
+                                        }
+                                        else if (callHangupDirectionB === 'recv_bye') {
+                                            cdrAppendObj.HangupParty = 'CALLEE';
+                                        }
+                                        else {
+                                            cdrAppendObj.HangupParty = 'SYSTEM';
+                                        }
+
+
+                                        cdrAppendObj.IsAnswered = outLegAnswered;
+
+                                        if (outLegProcessed && cdrAppendObj.BillSec) {
+                                            cdrAppendObj.ShowButton = true;
+                                        }
+
+                                        cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
+                                        cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
+                                        cdrAppendObj.AnswerSec = convertToMMSS(cdrAppendObj.AnswerSec);
+                                        cdrAppendObj.QueueSec = convertToMMSS(cdrAppendObj.QueueSec);
+                                        cdrAppendObj.HoldSec = convertToMMSS(cdrAppendObj.HoldSec);
+
+
+                                        $scope.cdrList.push(cdrAppendObj);
+
+
                                     }
-                                }
 
+                                    if ($scope.pageStack.length === 0) {
+                                        $scope.isNextDisabled = false;
+                                        $scope.isPreviousDisabled = true;
+                                    }
+                                    else if ($scope.pageStack.length > 0) {
+                                        $scope.isPreviousDisabled = false;
+                                        $scope.isNextDisabled = false;
+                                    }
 
-                                if (callHangupDirectionA === 'recv_bye') {
-                                    cdrAppendObj.HangupParty = 'CALLER';
-                                }
-                                else if (callHangupDirectionB === 'recv_bye') {
-                                    cdrAppendObj.HangupParty = 'CALLEE';
+                                    if(cdrLen < lim)
+                                    {
+                                        $scope.isNextDisabled = true;
+                                    }
+
+                                    $scope.isTableLoading = 1;
                                 }
                                 else {
-                                    cdrAppendObj.HangupParty = 'SYSTEM';
+                                    $scope.showAlert('Abandon CDR', 'Warn', 'No records to load');
+                                    $scope.cdrList = [];
+
+                                    if(offset === 0)
+                                    {
+                                        $scope.cdrList = [];
+                                    }
+
+                                    if ($scope.pageStack.length > 0) {
+                                        $scope.isPreviousDisabled = false;
+                                        $scope.isNextDisabled = true;
+                                    }
+                                    $scope.isNextDisabled = true;
+                                    $scope.isTableLoading = 1;
                                 }
 
 
-                                cdrAppendObj.IsAnswered = outLegAnswered;
-
-                                if (outLegProcessed && cdrAppendObj.BillSec) {
-                                    cdrAppendObj.ShowButton = true;
-                                }
-
-                                cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
-                                cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
-                                cdrAppendObj.AnswerSec = convertToMMSS(cdrAppendObj.AnswerSec);
-                                cdrAppendObj.QueueSec = convertToMMSS(cdrAppendObj.QueueSec);
-                                cdrAppendObj.HoldSec = convertToMMSS(cdrAppendObj.HoldSec);
-
-
-                                $scope.cdrList.push(cdrAppendObj);
-
-
                             }
-
-                            if ($scope.pageStack.length === 0) {
-                                $scope.isNextDisabled = false;
-                                $scope.isPreviousDisabled = true;
-                            }
-                            else if ($scope.pageStack.length > 0) {
-                                $scope.isPreviousDisabled = false;
-                                $scope.isNextDisabled = false;
-                            }
-
-                            $scope.isTableLoading = 1;
-                        }
-                        else {
-                            $scope.showAlert('Abandon CDR', 'Warn', 'No records to load');
-                            $scope.cdrList = [];
-
-                            if(offset === 0)
-                            {
+                            else {
+                                $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
                                 $scope.cdrList = [];
+                                $scope.isTableLoading = 1;
                             }
 
-                            if ($scope.pageStack.length > 0) {
-                                $scope.isPreviousDisabled = false;
-                                $scope.isNextDisabled = true;
-                            }
-                            $scope.isNextDisabled = true;
+                            $scope.enableSearchButton = true;
+
+
+                        }, function (err) {
+                            loginService.isCheckResponse(err);
+                            $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
+                            $scope.cdrList = [];
                             $scope.isTableLoading = 1;
-                        }
-
+                            $scope.enableSearchButton = true;
+                        })
 
                     }
-                    else {
-                        $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                    else
+                    {
+                        $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
                         $scope.cdrList = [];
                         $scope.isTableLoading = 1;
                     }
+                });
 
-                    $scope.enableSearchButton = true;
 
-
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');
-                    $scope.cdrList = [];
-                    $scope.isTableLoading = 1;
-                    $scope.enableSearchButton = true;
-                })
             }
             catch (ex) {
                 $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading cdr list');

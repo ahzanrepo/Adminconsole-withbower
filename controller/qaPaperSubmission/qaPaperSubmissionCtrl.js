@@ -4,7 +4,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var qaSubmissionCtrl = function ($scope, $filter, $q, $sce, $uibModal, userProfileApiAccess, cdrApiHandler, qaModuleService, loginService, $anchorScroll,$auth) {
+    var qaSubmissionCtrl = function ($scope, $filter, $q, $sce, $http, $uibModal, userProfileApiAccess, cdrApiHandler, qaModuleService, loginService, $anchorScroll,$auth) {
         $anchorScroll();
         $scope.showAlert = function (tittle, type, content) {
 
@@ -79,20 +79,42 @@
             if (videogularAPI) {
                 var decodedToken = loginService.getTokenDecode();
 
+                if(videogularAPI.currentState === 'play')
+                {
+                    videogularAPI.stop();
+                }
+
                 if (decodedToken && decodedToken.company && decodedToken.tenant) {
                     var fileToPlay = baseUrls.fileServiceUrl + 'File/DownloadLatest/' + uuid + '.mp3?Authorization='+$auth.getToken();
 
-                    var arr = [
+                    $http({
+                        method: 'GET',
+                        url: fileToPlay,
+                        responseType: 'blob'
+                    }).then(function successCallback(response)
+                    {
+                        if(response.data)
                         {
-                            src: $sce.trustAsResourceUrl(fileToPlay),
-                            type: 'audio/mp3'
+                            var url = URL.createObjectURL(response.data);
+                            var arr = [
+                                {
+                                    src: $sce.trustAsResourceUrl(url),
+                                    type: 'audio/mp3'
+                                }
+                            ];
+
+                            $scope.config.sources = arr;
+
+
+                            videogularAPI.play();
                         }
-                    ];
+                    }, function errorCallback(response) {
 
-                    $scope.config.sources = arr;
+                        $scope.showAlert('Recording Player', 'error', 'Error occurred while playing file');
+
+                    });
 
 
-                    videogularAPI.play();
                 }
             }
 

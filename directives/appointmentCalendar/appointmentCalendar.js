@@ -1135,7 +1135,9 @@ app.directive('appointmentCalendar', function(uiCalendarConfig, scheduleBackendS
 
                                             if (appointment.StartDate && appointment.EndDate)
                                             {
-                                                tempEvt.ranges = [{start: appointment.StartDate, end: appointment.EndDate}]
+                                                //display start date for recurring ranges comes exclusive - this will bypass that when displaying
+                                                var tempStart = moment(appointment.StartDate).subtract(1, 'days').format('YYYY-MM-DD');
+                                                tempEvt.ranges = [{start: tempStart, end: appointment.EndDate}]
                                             }
 
                                             events.push(tempEvt);

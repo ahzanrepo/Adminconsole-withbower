@@ -3528,7 +3528,7 @@ tags-input .tags.focused {
 
 .notification-text {
     color: #8298ae !important;
-    padding: 5px 2px 0px 4px;
+   /* padding: 5px 2px 0px 4px;*/
     font-size: 13px;
     z-index: 10;
 }
@@ -3847,12 +3847,12 @@ ul#strength {
     text-align: center;
     margin-top: 40px;
     font-size: 16px;
-    color: #f8b01d;
+    color: #e8eae8;
 }
 
 .console-notofication-wrapper > .notification-status > i {
     font-size: 50px;
-    color: #f8b01d;
+    color: #e8eae8;
 }
 
 .notification-list {
@@ -3864,10 +3864,12 @@ ul#strength {
     margin-right: 12px;
 }
 
+.notification-list:hover {
+    background: lavender;
+}
 .notification-time {
     text-align: left;
     font-size: 10px;
-    display: inline-block;
 }
 
 /* #Console notification */
@@ -3956,10 +3958,16 @@ ul#strength {
     display: inline-block;
     color: #d7d700;
 }
+.console-model-block{
+    width: 100%;
+    display: block;
+    min-height:150px;
+}
 
 .notify-modal-btn-wrap {
     z-index: 1;
     margin-right: 10px;
+
 }
 
 /*password-leg-wrapper*/
@@ -5257,8 +5265,8 @@ ul.row-option > li.delete:focus {
 }
 
 .widget-dy-wrp {
-    min-width: 196px;
-    min-height: 91px;
+    min-width: 242px;
+    min-height: 69px;
     background: rgb(255, 255, 255);
     overflow: hidden;
     position: relative;
@@ -6453,4 +6461,141 @@ ul.newsticker {
     min-height: 50px;
     overflow: hidden;
     position: relative;
+}
+.navbar-nav .open .dropdown-menu {
+
+    border: 1px solid;
+
+}
+.del-all-btn {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    text-align: center;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    color: #969cb2;
+    width: inherit;
+}
+
+#delBtn:hover {
+    color: #000000;
+}
+
+#delBtn:active {
+    color: #000000;
+    background-color: #898ea4;
+}
+
+.modal-panel-notify {
+    height: 300px;
+    border-left-width: 2pt;
+    border-color: lightgrey;
+}
+
+.u-body {
+    width: 100%;
+    min-height: 98px;
+    overflow: hidden;
+    padding: 10px 6px 7px 10px;
+
+}
+
+.u-body.notification-v {
+    min-height: 155px;
+    overflow: hidden;
+    overflow-x: auto;
+}
+.notifi-sender > span
+{
+    color: grey;
+    font-size: 20px;
+    padding-left: 20px;
+}
+
+.ui-datepicker{
+    z-index: 2000 !important;
+}
+
+ul.abn-tree li.abn-tree-row {
+    padding: 0px;
+    margin:0px;
+}
+
+ul.abn-tree li.abn-tree-row a {
+    padding: 3px 10px;
+}
+
+ul.abn-tree i.indented {
+    padding: 2px;
+    padding-right: 15px;
+
+}
+
+.abn-tree {
+    cursor: pointer;
+}
+ul.nav.abn-tree .level-1 .indented {
+    position: relative;
+    left: 0px;
+    font-size: 20px;
+}
+ul.nav.abn-tree .level-2 .indented {
+    position: relative;
+    left: 20px;
+    font-size: 15px;
+}
+ul.nav.abn-tree .level-3 .indented {
+    position: relative;
+    left: 40px;
+    font-size: 15px;
+}
+ul.nav.abn-tree .level-4 .indented {
+    position: relative;
+    left: 60px;
+    font-size: 15px;
+}
+ul.nav.abn-tree .level-5 .indented {
+    position: relative;
+    left: 80px;
+    font-size: 15px;
+}
+ul.nav.abn-tree .level-6 .indented {
+    position: relative;
+    left: 100px;
+    font-size: 15px;
+}
+ul.nav.nav-list.abn-tree .level-7 .indented {
+    position: relative;
+    left: 120px;
+    font-size: 15px;
+}
+ul.nav.nav-list.abn-tree .level-8 .indented {
+    position: relative;
+    left: 140px;
+    font-size: 15px;
+}
+ul.nav.nav-list.abn-tree .level-9 .indented {
+    position: relative;
+    left: 160px;
+    font-size: 15px;
+}
+ul.nav.nav-list.abn-tree .level-10 .indented {
+    position: relative;
+    left: 180px;
+    font-size: 15px;
+}
+ul.nav.nav-list.abn-tree .level-11 .indented {
+    position: relative;
+    left: 180px;
+    font-size: 15px;
+}
+ul.nav.nav-list.abn-tree .level-12 .indented {
+    position: relative;
+    left: 180px;
+    font-size: 15px;
+}
+
+trash-icon-align
+{
+    padding-left: 50px;
 }

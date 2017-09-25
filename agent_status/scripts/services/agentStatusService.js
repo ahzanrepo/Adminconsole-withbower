@@ -16,6 +16,51 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
                 return 0;
             }
         });
+
+        /*return $http({
+         method: 'GET',
+         url: baseUrls.resourceServiceBaseUrl + "Resources"
+
+         }).then(function (response) {
+         if (response.data && response.data.IsSuccess) {
+         return response.data.Result;
+         } else {
+         return null;
+         }
+         });*/
+
+        /* return $http.get(baseUrls.resourceServiceBaseUrl + "Resources").then(function (response) {
+         if (response.data && response.data.IsSuccess) {
+         return response.data.Result;
+         } else {
+         return {};
+         }
+         });*/
+
+    };
+
+    var getAvailableProfile = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.resourceServiceBaseUrl + "Resources"
+
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return null;
+            }
+        });
+
+        /* return $http.get(baseUrls.resourceServiceBaseUrl + "Resources").then(function (response) {
+         if (response.data && response.data.IsSuccess) {
+         return response.data.Result;
+         } else {
+         return {};
+         }
+         });*/
+
     };
 
     var getAllAttributes = function () {
@@ -50,16 +95,17 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
     var getProductivity = function () {
 
         return $http.get(baseUrls.resourceServiceBaseUrl + "Resources/Productivity").then(function (response) {
-                if (response.data && response.data.IsSuccess) {
-                    return response.data.Result;
-                } else {
-                    return {};
-                }
-            });
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return {};
+            }
+        });
     };
 
 
     return {
+        GetAvailableProfile: getAvailableProfile,
         GetProfileDetails: getProfileDetails,
         GetAllAttributes: getAllAttributes,
         GetAllActiveCalls: getAllActiveCalls,

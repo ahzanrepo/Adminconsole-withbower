@@ -11,9 +11,9 @@
             <div class="x_panel">
                 <div class="x_title bottom-gray-200 m-bottom20 col-md-12 col-sm-12 col-xs-12">
                     <div class="col-md-10 col-sm-10 col-xs-10">
-                        <div class="col-md-4 col-sm-4 col-xs-4">
+                        <!--<div class="col-md-4 col-sm-4 col-xs-4">
                             <input type="text" class="form-control" ng-model="agentFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="usr.SipUsername as usr.SipUsername for usr in userList" placeholder="Agent" bs-typeahead>
-                        </div>
+                        </div>-->
                         <div class="col-md-4 col-sm-4 col-xs-4">
 
                             <input type="text" class="form-control" ng-model="skillFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="attr.Attribute as attr.Attribute for attr in attrList" placeholder="Skill" bs-typeahead>
@@ -94,7 +94,7 @@
                             <div class="col-md-11 col-sm-11 col-xs-11">
                                 <div class="x_content btn-wrap-header" style="position: relative; top: 10px;">
                                     <button type="button" class="btn btn-primary" ng-click="changeTimeAvailability()">{{timeEnabled}}</button>
-                                    <button type="button" class="btn btn-success" ng-click="getProcessedCDR(0, true)" ng-disabled="!dateValid || !enableSearchButton">
+                                    <button type="button" class="btn btn-success" ng-click="searchWithNewFilter()" ng-disabled="!dateValid || !enableSearchButton">
                                         Search
                                     </button>
                                 </div>
@@ -171,6 +171,10 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
+                                                colspan="1" aria-label="ReceivedBy">ReceivedBy
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
                                                 colspan="1" aria-label="AgentSkill">AgentSkill
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -183,7 +187,7 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
-                                                colspan="1" aria-label="Answer Duration">Answer Duration
+                                                colspan="1" aria-label="Ring Duration">Ring Duration
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
@@ -204,6 +208,7 @@
                                             <td>{{cdr.DVPCallDirection}}</td>
                                             <td>{{cdr.SipFromUser}}</td>
                                             <td>{{cdr.SipToUser}}</td>
+                                            <td>{{cdr.RecievedBy}}</td>
                                             <td>{{cdr.AgentSkill}}</td>
                                             <td>{{cdr.CreatedTime}}</td>
                                             <td>{{cdr.Duration}}</td>
@@ -216,18 +221,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <ul uib-pagination total-items="pagination.totalItems" items-per-page="pagination.itemsPerPage" ng-model="pagination.currentPage" max-size="pagination.maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="pageChanged()"></ul>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="col-sm-7">
-                                <button class="btn btn-primary" ng-click="loadPreviousPage()"
-                                        ng-disabled="isPreviousDisabled">Previous
-                                </button>
-                                <button class="btn btn-success" ng-click="loadNextPage()" ng-disabled="isNextDisabled">
-                                    Next
-                                </button>
                                 <button type="button" class="btn" ng-disabled="!(cdrList && cdrList.length > 0)"
                                         style="background-color: #aad154; color: #000000; font-weight: 500"
-                                        csv-header="['Call Direction', 'From', 'To', 'Agent Skill', 'Call Time', 'Total Duration', 'Answer Duration', 'Queue Duration', 'Call Type', 'Call Category']"
-                                        csv-column-order="['DVPCallDirection', 'SipFromUser', 'SipToUser', 'AgentSkill', 'CreatedTime', 'Duration', 'AnswerSec', 'QueueSec', 'ObjType', 'ObjCategory']" ng-csv="getPageWiseDownloadCSV()"
+                                        csv-header="['Call Direction', 'From', 'To', 'Received By', 'Agent Skill', 'Call Time', 'Total Duration', 'Ring Duration', 'Queue Duration', 'Call Type', 'Call Category']"
+                                        csv-column-order="['DVPCallDirection', 'SipFromUser', 'SipToUser', 'RecievedBy', 'AgentSkill', 'CreatedTime', 'Duration', 'AnswerSec', 'QueueSec', 'ObjType', 'ObjCategory']" ng-csv="getPageWiseDownloadCSV()"
                                         filename="AbandonCDR_PageWise_{{startDate}}_{{endDate}}_{{pageStack.length + 1}}.csv">
                                     Download Page&nbsp;&nbsp;&nbsp;&nbsp;
                                     <i class="fa fa-download"></i>

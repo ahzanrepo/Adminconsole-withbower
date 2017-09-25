@@ -232,6 +232,10 @@
         getTicketStatusList();
         getTicketTypeList();
 
+        $scope.$on("$destroy", function(){
+            $scope.cancelDownload = true;
+        });
+
         var checkFileReady = function (fileName) {
             if ($scope.cancelDownload) {
                 $scope.fileDownloadState = 'RESET';

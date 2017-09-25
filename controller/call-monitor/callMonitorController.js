@@ -273,7 +273,9 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
     };
 
-    getRegistrationData(authToken);
+    //getRegistrationData(authToken);
+
+
     $rootScope.$on('load_calls', function (event, args) {
 
         $scope.LoadCurrentCalls();
