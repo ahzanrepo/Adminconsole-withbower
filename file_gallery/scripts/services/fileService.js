@@ -69,7 +69,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
 
   };
 
-  var downloadLatestFile = function (fileName) {
+  var downloadLatestFile = function (fileName, fileSaveAs) {
     $http({
       url: baseUrls.fileServiceUrl+ "File/DownloadLatest/" + fileName,
       method: "get",
@@ -89,7 +89,7 @@ fileModule.factory("fileService", function ($http, download,authService,baseUrls
       var myBlob = new Blob([data]);
       var blobURL = (window.URL || window.webkitURL).createObjectURL(myBlob);
       var anchor = document.createElement("a");
-      anchor.download = fileName;
+      anchor.download = fileSaveAs;
       anchor.href = blobURL;
       anchor.click();
 
