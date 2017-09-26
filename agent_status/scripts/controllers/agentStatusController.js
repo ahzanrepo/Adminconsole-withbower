@@ -2,6 +2,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                                       $anchorScroll, agentStatusService, notifiSenderService,reportQueryFilterService) {
 
     $anchorScroll();
+
+    $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     $scope.showCallInfos = false;
     $scope.summaryText = "Table";
     $scope.summary = false;

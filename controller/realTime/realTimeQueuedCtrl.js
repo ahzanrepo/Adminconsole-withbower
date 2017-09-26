@@ -5,6 +5,7 @@
 mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService, $anchorScroll, subscribeServices,reportQueryFilterService ) {
 
 
+    $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     subscribeServices.subscribe('queuedetail');
     //subscribe services
     subscribeServices.subscribeDashboard(function (event) {
@@ -316,8 +317,14 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     //update code 
     //damith
     $scope.cardViewMode = 'large';
+    $scope.largeCard = true;
     $scope.changeCardView = function (_viewType) {
         $scope.cardViewMode = _viewType;
+
+        $scope.summary = _viewType==='table';
+        $scope.largeCard = _viewType==='large';
+        $scope.smallCard = _viewType==='small';
+        $scope.showDetails = _viewType==='medium';
     };
 
 });

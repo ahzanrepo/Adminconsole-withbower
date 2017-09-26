@@ -107,18 +107,72 @@
         var videogularAPI = null;
 
 
-        $scope.SetDownloadPath = function (uuid, objType) {
+        $scope.SetDownloadPath = function (cdrInf) {
             var decodedToken = loginService.getTokenDecode();
 
             if (decodedToken && decodedToken.company && decodedToken.tenant) {
                 //$scope.DownloadFileUrl = baseUrls.fileServiceUrl + 'File/DownloadLatest/' + uuid + '.mp3?Authorization='+$auth.getToken();
 
                 var fileType = '.mp3';
-                if(objType === 'FAX_INBOUND')
+                if(cdrInf.ObjType === 'FAX_INBOUND')
                 {
                     fileType = '.tif';
                 }
-                fileService.downloadLatestFile(uuid + fileType)
+
+                var saveAs = null;
+
+
+                if(cdrInf.DVPCallDirection === 'inbound')
+                {
+                    if(cdrInf.SipFromUser)
+                    {
+                        saveAs = cdrInf.SipFromUser;
+                    }
+
+                    if(cdrInf.RecievedBy)
+                    {
+                        if(saveAs)
+                        {
+                            saveAs = saveAs + '-' + cdrInf.RecievedBy;
+                        }
+                        else
+                        {
+                            saveAs = cdrInf.RecievedBy;
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    if(cdrInf.RecievedBy)
+                    {
+                        saveAs = cdrInf.RecievedBy;
+                    }
+
+                    if(cdrInf.SipFromUser)
+                    {
+                        if(saveAs)
+                        {
+                            saveAs = saveAs + '-' + cdrInf.SipFromUser;
+                        }
+                        else
+                        {
+                            saveAs = cdrInf.SipFromUser;
+                        }
+                    }
+                }
+
+                if(saveAs)
+                {
+                    saveAs = saveAs + '-' + cdrInf.CreatedTime;
+                }
+                else
+                {
+                    saveAs = cdrInf.CreatedTime;
+                }
+
+                fileService.downloadLatestFile(cdrInf.Uuid + fileType, saveAs + fileType);
 
             }
 
