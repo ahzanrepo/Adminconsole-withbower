@@ -44,6 +44,8 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                         ResourceId:item.ResourceId
                     }
                 });
+
+                $scope.showFilter = !($scope.AvailableAgents.length>0);
             }
             //$scope.AvailableAgents = response;
             /*angular.copy(response, $scope.OnlineAgents);

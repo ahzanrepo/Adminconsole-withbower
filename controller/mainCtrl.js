@@ -3,11 +3,20 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
+mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
                                          authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices,$ngConfirm,filterFilter) {
 
 
+    // check adminconsole is focus or not.
+    angular.element($window).bind('focus', function() {
+        console.log('enter......................');
+    }).bind('blur', function() {
+        console.log('out................');
+    });
+
+
     //added by pawan
+
 
     $scope.CallStatus = null;
     $scope.loginData = {};

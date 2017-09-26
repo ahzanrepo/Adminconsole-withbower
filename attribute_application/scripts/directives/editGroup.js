@@ -7,7 +7,7 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
         restrict: "EA",
         scope: {
             groupinfo: "=",
-            attribinfo: "=",
+           /* attribinfo: "=",*/
             taskList: "=",
             'updateGroups': '&'
         },
@@ -16,6 +16,18 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
         /*template: '<span class="count_top"  ><i class="fa fa-user" ></i> {{fileCount.Category| uppercase}}</span><div class="count green">{{fileCount.Count}}</div><span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>Total Number of Files</i></span>',*/
 
         link: function (scope, element, attributes) {
+            scope.attribinfo =[];
+            scope.GetAttributes = function () {
+                attributeService.GetAttributes(1000, 1).then(function (response) {
+                    scope.attribinfo = response;
+                    scope.GetAttributeByGroupId();
+                }, function (error) {
+                    scope.showError("Error", "Error", "ok", "There is an error ");
+                });
+
+            };
+            scope.GetAttributes();
+
             scope.attachedAttributes = [];
 
             scope.GetAttributeByGroupId = function () {
@@ -24,7 +36,7 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
 
                     angular.forEach(response, function (a) {
                         if (a) {
-                            var items = $filter('filter')(scope.attribinfo, {AttributeId: a.AttributeId})
+                            var items = $filter('filter')(scope.attribinfo, {AttributeId: a.AttributeId},true);
                             if (items) {
                                 scope.attachedAttributes.push(items[0]);
                                 var index = scope.attribinfo.indexOf(items[0]);
@@ -41,7 +53,7 @@ mainApp.directive("editgroups", function ($filter, $rootScope, attributeService)
                 });
 
             };
-            scope.GetAttributeByGroupId();
+
 
             scope.editGroup = function () {
                 scope.editMode = !scope.editMode;
