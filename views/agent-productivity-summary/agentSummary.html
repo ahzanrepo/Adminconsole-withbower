@@ -17,13 +17,13 @@
 
                 <div class="col-sm-3">
                     <label>Start Date</label>
-                    <input type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()"
+                    <input id="startDate" type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()"
                            name="startDate"
                            datepicker>
                 </div>
                 <div class="col-sm-3">
                     <label>End Date</label>
-                    <input type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
+                    <input id="endDate" type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
                            datepicker>
                 </div>
                 <div class="col-md-3 col-sm-3 col-xs-12">
@@ -49,13 +49,13 @@
                     <div style="position: relative; top: 25px;">
                         <button type="button" class="btn"
                                 style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;"
-                                csv-header="['Agent ID', 'Date', 'Total Calls(inbound)', 'Total Calls(outbound)'
+                                csv-header="['Agent ID', 'Date', 'LoginTime', 'Total Calls(inbound)', 'Total Calls(outbound)'
                                 , 'Total Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Staff Time', 'Inbound Time', 'Outbound Time'
                                 , 'Idle Time(inbound)', 'Idle Time(outbound)', 'Idle Time(offline)', 'Talk Time(inbound)', 'Talk Time(outbound)'
                                 , 'Hold Time(inbound)', 'Hold Time(outbound)', 'After Work Time(inbound)', 'After Work Time(outbound)', 'Break Time'
                                 , 'Average Handling Time(inbound)', 'Average Handling Time(outbound)', 'Average Talk Time(inbound)', 'Average Talk Time(outbound)'
                                 , 'Average Hold Time(inbound)', 'Average Hold Time(outbound)']"
-                                csv-column-order="['AgentName', 'Date', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalHoldInbound'
+                                csv-column-order="['AgentName', 'Date', 'LoginTime', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalHoldInbound'
                                 , 'TotalHoldOutbound', 'StaffTime', 'InboundTime', 'OutboundTime', 'IdleTimeInbound', 'IdleTimeOutbound', 'IdleTimeOffline'
                                 , 'TalkTimeInbound', 'TalkTimeOutbound', 'TotalHoldTimeInbound', 'TotalHoldTimeOutbound', 'AfterWorkTimeInbound', 'AfterWorkTimeOutbound'
                                 , 'BreakTime', 'AverageHandlingTimeInbound', 'AverageHandlingTimeOutbound', 'AvgTalkTimeInbound', 'AvgTalkTimeOutbound', 'AvgHoldTimeInbound'
@@ -401,6 +401,10 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
+                                                    colspan="1" aria-label="To">LoginTime
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Total Calls(inbound)
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
@@ -502,6 +506,7 @@
                                                 ng-repeat="agentSummary in agentSummaryList">
                                                 <td>{{agentSummary.AgentName}}</td>
                                                 <td>{{agentSummary.Date|date:"yyyy-MM-dd"}}</td>
+                                                <td>{{agentSummary.LoginTime}}</td>
                                                 <td>{{agentSummary.TotalCallsInbound}}</td>
                                                 <td>{{agentSummary.TotalCallsOutbound}}</td>
                                                 <td>{{agentSummary.TotalAnswered}}</td>

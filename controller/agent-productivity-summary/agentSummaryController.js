@@ -8,11 +8,19 @@
 mainApp.controller("agentSummaryController", function ($scope, $filter, $state, $q, agentSummaryBackendService, loginService, $anchorScroll) {
 
     $anchorScroll();
-    $scope.startDate = moment().format("YYYY-MM-DD");
-    $scope.endDate = moment().format("YYYY-MM-DD");
+    $scope.startDate = moment().add(-1, 'd').format("YYYY-MM-DD");
+    $scope.endDate = moment().add(-1, 'd').format("YYYY-MM-DD");
     $scope.dateValid = true;
     $scope.agentSummaryList = [];
     $scope.Agents = [];
+
+    $(function () {
+        $("#startDate").datepicker({maxDate: "-1D" });
+    });
+
+    $(function () {
+        $("#endDate").datepicker({maxDate: "-1D" });
+    });
 
     $scope.total = {
         StaffTime: 0,
@@ -77,6 +85,9 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
 
 
     $scope.onDateChange = function () {
+        $scope.startDate = moment($scope.startDate).format("YYYY-MM-DD");
+        $scope.endDate = moment($scope.endDate).format("YYYY-MM-DD");
+
         if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
             $scope.dateValid = true;
         }
@@ -92,7 +103,14 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
         if ($scope.agentFilter) {
             resId = $scope.agentFilter.ResourceId;
         }
-        agentSummaryBackendService.getAgentSummary($scope.startDate, $scope.endDate, resId).then(function (response) {
+
+        var momentTz = moment.parseZone(new Date()).format('Z');
+        momentTz = momentTz.replace("+", "%2B");
+
+        var queryStartDate = $scope.startDate + ' 00:00:00' + momentTz;
+        var queryEndDate = $scope.endDate + ' 23:59:59' + momentTz;
+
+        agentSummaryBackendService.getAgentSummary(queryStartDate, queryEndDate, resId).then(function (response) {
 
 
             if (!response.data.IsSuccess) {
@@ -162,6 +180,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         count++;
 
                         summaryData[i].Summary[j].StaffTime = TimeFromatter(summaryData[i].Summary[j].StaffTime, "HH:mm:ss");
+                        summaryData[i].Summary[j].LoginTime = moment(summaryData[i].Summary[j].LoginTime).format("YYYY-MM-DD HH:mm:ss");
                         summaryData[i].Summary[j].InboundTime = TimeFromatter(summaryData[i].Summary[j].InboundTime, "HH:mm:ss");
                         summaryData[i].Summary[j].OutboundTime = TimeFromatter(summaryData[i].Summary[j].OutboundTime, "HH:mm:ss");
                         summaryData[i].Summary[j].IdleTimeInbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeInbound, "HH:mm:ss");
@@ -239,7 +258,13 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
             resId = $scope.agentFilter.ResourceId;
         }
 
-        agentSummaryBackendService.getAgentSummary($scope.startDate, $scope.endDate, resId).then(function (response) {
+        var momentTz = moment.parseZone(new Date()).format('Z');
+        momentTz = momentTz.replace("+", "%2B");
+
+        var queryStartDate = $scope.startDate + ' 00:00:00' + momentTz;
+        var queryEndDate = $scope.endDate + ' 23:59:59' + momentTz;
+
+        agentSummaryBackendService.getAgentSummary(queryStartDate, queryEndDate, resId).then(function (response) {
 
             if (!response.data.IsSuccess) {
                 console.log("Queue Summary loading failed ", response.data.Exception);
@@ -308,6 +333,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                         count++;
 
                         summaryData[i].Summary[j].StaffTime = TimeFromatter(summaryData[i].Summary[j].StaffTime, "HH:mm:ss");
+                        summaryData[i].Summary[j].LoginTime = moment(summaryData[i].Summary[j].LoginTime).format("YYYY-MM-DD HH:mm:ss");
                         summaryData[i].Summary[j].InboundTime = TimeFromatter(summaryData[i].Summary[j].InboundTime, "HH:mm:ss");
                         summaryData[i].Summary[j].OutboundTime = TimeFromatter(summaryData[i].Summary[j].OutboundTime, "HH:mm:ss");
                         summaryData[i].Summary[j].IdleTimeInbound = TimeFromatter(summaryData[i].Summary[j].IdleTimeInbound, "HH:mm:ss");
@@ -345,6 +371,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 {
                     AgentName: 'Total',
                     Date: 'N/A',
+                    LoginTime: 'N/A',
                     StaffTime: TimeFromatter(totalStaffTime, "HH:mm:ss"),
                     InboundTime: TimeFromatter(totalInboundTime, "HH:mm:ss"),
                     OutboundTime: TimeFromatter(totalOutboundTime, "HH:mm:ss"),
