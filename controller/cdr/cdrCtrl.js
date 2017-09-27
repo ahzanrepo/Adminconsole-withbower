@@ -1080,6 +1080,11 @@
 
                                             cdrAppendObj.BillSec = transferCallOriginalCallLeg.BillSec;
 
+                                            if (cdrAppendObj.DVPCallDirection === 'outbound') {
+
+                                                cdrAppendObj.Uuid = transferCallOriginalCallLeg.Uuid;
+                                            }
+
                                             if (!cdrAppendObj.ObjType) {
                                                 cdrAppendObj.ObjType = transferCallOriginalCallLeg.ObjType;
                                             }
