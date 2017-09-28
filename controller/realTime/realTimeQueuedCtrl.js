@@ -4,6 +4,16 @@
 
 mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService, $anchorScroll, subscribeServices,reportQueryFilterService ) {
 
+    $scope.safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     subscribeServices.subscribe('queuedetail');
@@ -42,7 +52,10 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                         $scope.queueList.push(item);
                     }
 
-                    $scope.queues[event.Message.QueueName] = item;
+                    $scope.safeApply(function () {
+
+                        $scope.queues[event.Message.QueueName] = item;
+                    });
                 }
                 break;
         }
@@ -52,7 +65,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     //$scope.percent = 65;
 
     //#
-    $anchorScroll();
+    //$anchorScroll();
     $scope.isGrid = false;
     $scope.summaryText = "Table";
     $scope.isLoaded = false;
@@ -524,7 +537,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
         },
 
         template: "<th class=\"fs15 text-left\">{{que.QueueName}}</th>" + "<th class=\"fs15 text-right\">{{que.CurrentWaiting}}</th>"
-        + "<th class=\"fs15 text-right\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}} : {{mminutes}} :{{sseconds}}</timer></th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th><th class=\"fs15 text-right\">{{que.TotalAnswered}}</th><th class=\"fs15 text-right\">{{que.QueueDropped}}</th><th class=\"fs15 text-right\">{{agentCount}}</th>"
+        + "<th class=\"fs15 text-right\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer></th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th><th class=\"fs15 text-right\">{{que.TotalAnswered}}</th><th class=\"fs15 text-right\">{{que.QueueDropped}}</th><th class=\"fs15 text-right\">{{agentCount}}</th>"
         + "<th class=\"fs15 text-right\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
         + "<th class=\"fs15 text-right\">{{que.presentage}}</th>",
 
