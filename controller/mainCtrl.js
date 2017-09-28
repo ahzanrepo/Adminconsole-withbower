@@ -680,6 +680,8 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
         goToAgentDashboard: function () {
             $state.go('console.agentDashboard');
 
+        },goToDetailsDashboard: function () {
+            $state.go('console.detailsdashboard');
         },
         goToCallCenterPerformanceReport: function () {
             $state.go('console.callCenterPerformanceReport');
