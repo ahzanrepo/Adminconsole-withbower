@@ -635,17 +635,18 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "EXTENSION"
             }
-        }).state('console.ardsconfig', {
-            url: "/ardsconfig",
-            templateUrl: "views/ards-config/ardsconfig.html",
-            controller: "ardsController",
+        })
+            .state('console.ardsconfig', {
+                url: "/ardsconfig",
+                templateUrl: "views/ards-config/ardsconfig.html",
+                controller: "ardsController",
 
-            data: {
-                requireLogin: true,
-                navigation: "ARDS_CONFIGURATION"
-            }
+                data: {
+                    requireLogin: true,
+                    navigation: "ARDS_CONFIGURATION"
+                }
 
-        }).state('console.myprofile', {
+            }).state('console.myprofile', {
             url: "/myprofile",
             templateUrl: "views/myUserprofile/myUserprofile.html",
 
@@ -1042,14 +1043,24 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "FILE_CAT_RESTRICT"
             }
         }).state('console.agentBreakReport', {
-                url: "/agentBreakReport",
-                templateUrl: "views/agent-break-details/agentBreakDetails.html",
-                controller: "agentBreakDetailController",
-                data: {
-                    requireLogin: true,
-                    navigation: "USERS"
-                }
-            });
+            url: "/agentBreakReport",
+            templateUrl: "views/agent-break-details/agentBreakDetails.html",
+            controller: "agentBreakDetailController",
+            data: {
+                requireLogin: true,
+                navigation: "USERS"
+            }
+        }) .state('console.queuesettings', {
+            url: "/queuesetting",
+            templateUrl: "views/queue-settings-config/queueSettingsConfig.html",
+            controller: "queueSettingsController",
+
+            data: {
+                requireLogin: true,
+                navigation: "QUEUE_SETTINGS"
+            }
+
+        });
         //Todo shoud be change navigation
     }]);
 

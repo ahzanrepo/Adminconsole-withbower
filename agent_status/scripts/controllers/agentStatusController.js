@@ -129,6 +129,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                 "ResourceName": agent.ResourceName,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
                                 "OutgoingCallCount": ids[0].OutgoingCallCount ? ids[0].OutgoingCallCount : 0,
+                                "OutboundAnswerCount": ids[0].OutboundAnswerCount ? ids[0].OutboundAnswerCount : 0,
                                 "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
                                 "Chatid": agent.ResourceId,
                                 "AcwTime": ids[0].AcwTime,

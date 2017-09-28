@@ -694,6 +694,9 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
         goAgentBreakReport: function () {
             $state.go('console.agentBreakReport');
 
+        },
+        goQueueSettings: function () {
+            $state.go('console.queuesettings');
         }
     };
     $scope.showDisplayName = false;
