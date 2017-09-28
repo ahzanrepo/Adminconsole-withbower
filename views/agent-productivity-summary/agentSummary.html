@@ -50,12 +50,12 @@
                         <button type="button" class="btn"
                                 style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;"
                                 csv-header="['Agent ID', 'Date', 'LoginTime', 'Total Calls(inbound)', 'Total Calls(outbound)'
-                                , 'Total Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Staff Time', 'Inbound Time', 'Outbound Time'
+                                , 'Total Answered', 'Total Outbound Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Staff Time', 'Inbound Time', 'Outbound Time'
                                 , 'Idle Time(inbound)', 'Idle Time(outbound)', 'Idle Time(offline)', 'Talk Time(inbound)', 'Talk Time(outbound)'
                                 , 'Hold Time(inbound)', 'Hold Time(outbound)', 'After Work Time(inbound)', 'After Work Time(outbound)', 'Break Time'
                                 , 'Average Handling Time(inbound)', 'Average Handling Time(outbound)', 'Average Talk Time(inbound)', 'Average Talk Time(outbound)'
                                 , 'Average Hold Time(inbound)', 'Average Hold Time(outbound)']"
-                                csv-column-order="['AgentName', 'Date', 'LoginTime', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalHoldInbound'
+                                csv-column-order="['AgentName', 'Date', 'LoginTime', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalAnsweredOutbound', 'TotalHoldInbound'
                                 , 'TotalHoldOutbound', 'StaffTime', 'InboundTime', 'OutboundTime', 'IdleTimeInbound', 'IdleTimeOutbound', 'IdleTimeOffline'
                                 , 'TalkTimeInbound', 'TalkTimeOutbound', 'TotalHoldTimeInbound', 'TotalHoldTimeOutbound', 'AfterWorkTimeInbound', 'AfterWorkTimeOutbound'
                                 , 'BreakTime', 'AverageHandlingTimeInbound', 'AverageHandlingTimeOutbound', 'AvgTalkTimeInbound', 'AvgTalkTimeOutbound', 'AvgHoldTimeInbound'
@@ -332,6 +332,24 @@
                                     </div>
                                 </div>
 
+                                <div class="widget-dy-wrp " id="outanswered">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Outbound Answered Calls
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.OutboundAnswered}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="widget-dy-wrp " id="inbcalls">
                                     <div class="active-card">
                                         <div class="selected-group">
@@ -414,6 +432,10 @@
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Total Answered
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="OutAnswered">Total Outbound Answered
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                     rowspan="1"
@@ -510,6 +532,7 @@
                                                 <td>{{agentSummary.TotalCallsInbound}}</td>
                                                 <td>{{agentSummary.TotalCallsOutbound}}</td>
                                                 <td>{{agentSummary.TotalAnswered}}</td>
+                                                <td>{{agentSummary.TotalAnsweredOutbound}}</td>
                                                 <td>{{agentSummary.TotalHoldInbound}}</td>
                                                 <td>{{agentSummary.TotalHoldOutbound}}</td>
                                                 <td>{{agentSummary.StaffTime}}</td>
