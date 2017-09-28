@@ -524,7 +524,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
         },
 
         template: "<th class=\"fs15 text-left\">{{que.QueueName}}</th>" + "<th class=\"fs15 text-right\">{{que.CurrentWaiting}}</th>"
-        + "<th class=\"fs15 text-right\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}} : {{mminutes}} :{{sseconds}}</timer></th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th>"
+        + "<th class=\"fs15 text-right\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}} : {{mminutes}} :{{sseconds}}</timer></th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th><th class=\"fs15 text-right\">{{que.TotalAnswered}}</th><th class=\"fs15 text-right\">{{que.QueueDropped}}</th><th class=\"fs15 text-right\">{{agentCount}}</th>"
         + "<th class=\"fs15 text-right\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
         + "<th class=\"fs15 text-right\">{{que.presentage}}</th>",
 
@@ -563,11 +563,31 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
 
             //sqData();
 
+            scope.tempSkills = scope.name.match(/attribute_([^\-]+)/g);
+
+            scope.skillList = scope.tempSkills.map(function (item) {
+                return item.split('_')[1].toString();
+            });
+
+            var skilledResources = function () {
+
+                var skillObj = {
+                    skills: scope.skillList
+                };
+
+                queueMonitorService.getAvailableResourcesToSkill(skillObj).then(function (response) {
+                    scope.agentCount = response;
+                }, function (err) {
+                    loginService.isCheckResponse(err);
+                });
+            };
+
+            skilledResources();
 
             var updateRealtime = function () {
 
                 //qData();
-
+                skilledResources();
 
                 updatetimer = $timeout(updateRealtime, 2000);
 
