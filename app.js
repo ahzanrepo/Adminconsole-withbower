@@ -228,6 +228,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "AGENT_PRODUCTIVITY"
             }
+        }).state('console.detailsdashboard', {
+            url: "/detailsdashboard",
+            templateUrl: "detailsDashBoard/view/detailsDashboard.html",
+            controller: "detailsDashboardController",
+            data: {
+                requireLogin: true,
+                navigation: "AGENT_DASHBOARD"
+            }
         }).state('console.filegallery', {
             url: "/filegallery",
             templateUrl: "file_gallery/view/fileList.html",

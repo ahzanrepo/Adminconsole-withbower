@@ -453,6 +453,15 @@ body {
     margin: 10px 0;
 }
 
+
+.fixed_height_200 {
+    height: 200px;
+}
+
+.fixed_height_210 {
+    height: 210px;
+}
+
 .fixed_height_320 {
     height: 320px;
 }
@@ -461,9 +470,10 @@ body {
     height: 390px;
 }
 
-.fixed_height_200 {
-    height: 200px;
+.fixed_height_425 {
+    height: 425px;
 }
+
 
 .overflow_hidden {
     overflow: hidden;
