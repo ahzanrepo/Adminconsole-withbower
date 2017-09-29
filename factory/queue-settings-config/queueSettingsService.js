@@ -39,7 +39,20 @@ mainApp.factory('queueSettingsBackendService', function ($http, authService,base
             {
                 return response;
             });
-        }
+        },
+
+    UpdateQueueSettings : function (recID,setting) {
+        return $http({
+            method: 'PUT',
+            url: baseUrls.resourceServiceBaseUrl+"QueueSetting/"+recID,
+            data:setting
+
+        }).then(function(response)
+        {
+            return response;
+        });
 
     }
+
+}
 });

@@ -7,7 +7,8 @@ mainApp.directive("editqsettings", function ($filter,$uibModal,queueSettingsBack
         restrict: "EAA",
         scope: {
             setting: "=",
-            'reloadpage':'&'
+            'reloadpage':'&',
+            'reloadrecords':'&'
         },
 
         templateUrl: 'views/queue-settings-config/partials/editQueueSettings.html',
@@ -17,7 +18,13 @@ mainApp.directive("editqsettings", function ($filter,$uibModal,queueSettingsBack
             console.log(scope.setting);
             scope.attributeGroups=[];
             scope.NewattributeGroups=[];
+            scope.editMode=false;
+
             scope.attributeGroup;
+            scope.editQueueSetting = function () {
+                scope.editMode = !scope.editMode;
+
+            }
 
             scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
 
@@ -52,7 +59,7 @@ mainApp.directive("editqsettings", function ($filter,$uibModal,queueSettingsBack
                     styling: 'bootstrap3'
                 });
             };
-            scope.editMode = false;
+
             scope.removeSettingRecord= function (recordID) {
 
 
@@ -84,6 +91,26 @@ mainApp.directive("editqsettings", function ($filter,$uibModal,queueSettingsBack
 
 
             };
+            
+            scope.UpdateQueueSettings = function () {
+
+                queueSettingsBackendService.UpdateQueueSettings(scope.setting.RecordID,scope.setting).then(function (response) {
+                    if(!response.data.IsSuccess)
+                    {
+                        scope.showAlert("Error","Error in updating Queue Setting : "+scope.setting.RecordID,"error");
+                    }
+                    else {
+                        scope.showAlert("Success","Successfully updated Queue Setting : "+scope.setting.RecordID,"success");
+                        scope.reloadrecords();
+                        scope.editQueueSetting();
+                    }
+                },function (error) {
+                    scope.showAlert("Error","Error in updating Queue Setting : "+scope.setting.RecordID,"error");
+                })
+                
+            };
+
+
 
 
 
