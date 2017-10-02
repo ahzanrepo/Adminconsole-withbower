@@ -20,7 +20,7 @@
         $scope.startTime = '12:00 AM';
         $scope.endTime = '11:59 PM';
 
-        $scope.attrList = [];
+        $scope.qList = [];
 
         $scope.showTable = false;
 
@@ -138,19 +138,24 @@
         };
 
 
-        var getSkillList = function () {
+        var getQueueList = function () {
 
-            resourceService.GetAttributes().then(function (attrList) {
-                if (attrList && attrList.length > 0) {
-                    $scope.attrList = attrList;
+            resourceService.getQueueSettings().then(function (qList) {
+                if (qList && qList.length > 0) {
+                    $scope.qList = qList;
+                }
+                else
+                {
+                    $scope.qList = [];
                 }
 
 
             }).catch(function (err) {
+                $scope.qList = [];
                 loginService.isCheckResponse(err);
             });
         };
-        getSkillList();
+        getQueueList();
 
         $scope.getResourceDetails = function(){
             acwDetailApiAccess.GetResourceDetails().then(function(response){

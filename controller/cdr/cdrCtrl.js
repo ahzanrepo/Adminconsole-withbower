@@ -233,7 +233,7 @@
         $scope.isTableLoading = 3;
         $scope.cdrList = [];
         $scope.userList = [];
-        $scope.attrList = [];
+        $scope.qList = [];
 
 
         $scope.searchCriteria = "";
@@ -398,21 +398,26 @@
             });
         };
 
-        var getSkillList = function () {
+        var getQueueList = function () {
 
-            resourceService.GetAttributes().then(function (attrList) {
-                if (attrList && attrList.length > 0) {
-                    $scope.attrList = attrList;
+            resourceService.getQueueSettings().then(function (qList) {
+                if (qList && qList.length > 0) {
+                    $scope.qList = qList;
+                }
+                else
+                {
+                    $scope.qList = [];
                 }
 
 
             }).catch(function (err) {
+                $scope.qList = [];
                 loginService.isCheckResponse(err);
             });
         };
 
         getUserList();
-        getSkillList();
+        getQueueList();
 
 
         $scope.getProcessedCDRCSVDownload = function () {
