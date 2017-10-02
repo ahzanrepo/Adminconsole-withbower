@@ -49,7 +49,9 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'cp.ngConfirm',
     'uiSwitch',
     'ui.grid.pinning',
-    'ui.grid.exporter'
+    'ui.grid.exporter',
+    'ui.grid.resizeColumns',
+    'ui.grid.moveColumns'
 ]);
 
 

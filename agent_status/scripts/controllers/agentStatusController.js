@@ -1,6 +1,6 @@
 mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log, $http,
                                                       $anchorScroll, agentStatusService, notifiSenderService,
-                                                      reportQueryFilterService,uiGridConstants) {
+                                                      reportQueryFilterService, uiGridConstants) {
 
     $anchorScroll();
 
@@ -85,6 +85,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
 
     $scope.gridOptions = {
+        enableColumnResizing: true,
+        enableGridMenu: true,
         columnDefs: [],
         data: 'Productivitys'
     };
@@ -93,23 +95,41 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         {
             name: 'taskList',
             displayName: 'Task',
-            width: Math.floor(Math.random() * (120 - 50 + 1)) + 50
+            width: 400,
+            pinnedLeft: true,
+            cellTemplate: '<div class="ui-grid-cell-contents" title="TOOLTIP">{{grid.appScope.cumulative(grid, row)}}</div>'
+
         },
-        {name: 'profileName', displayName: 'Name', width: 200},
+        {name: 'profileName', displayName: 'Name', width: 100, pinnedLeft: true},
         {name: 'slotState', displayName: 'State', width: 200},
-        {name: 'slotStateTime', displayName: 'Slot State.T',width: 200},
-        {name: 'AcwTime', displayName: 'Acw.T', width: 150},
-        {name: 'BreakTime', displayName: 'Break.T', width: 150},
-        {name: 'HoldTime', displayName: 'Hold.T', width: 150},
-        {name: 'OnCallTime', displayName: 'OnCallTime', width: 150},
-        {name: 'IdleTime', displayName: 'IdleTime', width: 150},
-        {name: 'IncomingCallCount', displayName: '1st friend', width: 150},
-        {name: 'OutgoingCallCount', displayName: '1st friend', width: 150},
-        {name: 'MissCallCount', displayName: '2nd friend', width: 150},
-        {name: 'TransferCallCount', displayName: '3rd friend', width: 150}
+        {name: 'slotStateTime', displayName: 'Slot State Time', width: 100},
+        {name: 'AcwTime', displayName: 'Acw Time', width: 100},
+        {name: 'BreakTime', displayName: 'Break Time', width: 100},
+        {name: 'HoldTime', displayName: 'Hold Time', width: 100},
+        {name: 'OnCallTime', displayName: 'OnCall Time', width: 100},
+        {name: 'IdleTime', displayName: 'Idle Time', width: 100},
+        {name: 'IncomingCallCount', displayName: 'Incoming Call Count', width: 100},
+        {name: 'OutgoingCallCount', displayName: 'Outgoing Call Count', width: 100},
+        {name: 'MissCallCount', displayName: 'Miss Call Count', width: 100},
+        {name: 'TransferCallCount', displayName: 'TransferCallCount', width: 100}
     ];
 
+    $scope.cumulative = function (grid, myRow) {
+        var skill = '';
+        grid.renderContainers.body.visibleRowCache.forEach(function (row, index) {
+            if (row.entity && row.entity.taskList && row.entity.taskList.length != 0) {
+                row.entity.taskList.forEach(function (value, i) {
+                    if (i == 0) {
+                        skill += row.entity.taskList[i].skill;
+                    } else {
+                        skill += " , " + row.entity.taskList[i].skill;
+                    }
+                });
+            }
 
+        });
+        return skill;
+    };
 
 
     var calculateProductivity = function () {
@@ -425,11 +445,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.getProfileDetails();
         $scope.GetAllActiveCalls();
         $scope.GetProductivity();
-        //getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 
     getAllRealTime();
-    //var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
 
     $scope.$on("$destroy", function () {
