@@ -23,7 +23,13 @@ mainApp.directive("editqsettings", function ($filter,$uibModal,queueSettingsBack
             scope.attributeGroup;
             scope.editQueueSetting = function () {
                 scope.editMode = !scope.editMode;
+                scope.tempsetting =scope.setting;
 
+
+            }
+            scope.closeQueueSetting = function () {
+                scope.editMode=false;
+                scope.setting=scope.tempsetting;
             }
 
             scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
