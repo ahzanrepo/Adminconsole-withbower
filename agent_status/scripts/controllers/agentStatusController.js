@@ -1,5 +1,6 @@
-mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log,
-                                                      $anchorScroll, agentStatusService, notifiSenderService,reportQueryFilterService) {
+mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log, $http,
+                                                      $anchorScroll, agentStatusService, notifiSenderService,
+                                                      reportQueryFilterService,uiGridConstants) {
 
     $anchorScroll();
 
@@ -83,20 +84,48 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
 
+    $scope.gridOptions = {
+        columnDefs: [],
+        data: 'Productivitys'
+    };
+
+    $scope.gridOptions.columnDefs = [
+        {
+            name: 'taskList',
+            displayName: 'Task',
+            width: Math.floor(Math.random() * (120 - 50 + 1)) + 50
+        },
+        {name: 'profileName', displayName: 'Name', width: 200},
+        {name: 'slotState', displayName: 'State', width: 200},
+        {name: 'slotStateTime', displayName: 'Slot State.T',width: 200},
+        {name: 'AcwTime', displayName: 'Acw.T', width: 150},
+        {name: 'BreakTime', displayName: 'Break.T', width: 150},
+        {name: 'HoldTime', displayName: 'Hold.T', width: 150},
+        {name: 'OnCallTime', displayName: 'OnCallTime', width: 150},
+        {name: 'IdleTime', displayName: 'IdleTime', width: 150},
+        {name: 'IncomingCallCount', displayName: '1st friend', width: 150},
+        {name: 'OutgoingCallCount', displayName: '1st friend', width: 150},
+        {name: 'MissCallCount', displayName: '2nd friend', width: 150},
+        {name: 'TransferCallCount', displayName: '3rd friend', width: 150}
+    ];
+
+
+
+
     var calculateProductivity = function () {
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
             /*if ($scope.profile.length == 0) {
-                angular.copy($scope.availableProfile, $scope.profile);
-            }*/
+             angular.copy($scope.availableProfile, $scope.profile);
+             }*/
 
             angular.forEach($scope.profile, function (agentProfile) {
                 try {
                     var agent = null;
                     var availableAgent = $filter('filter')($scope.onlineProfile, {ResourceId: agentProfile.ResourceId.toString()}, true);//"ResourceId":"1"
 
-                    if (availableAgent.length > 0){
+                    if (availableAgent.length > 0) {
                         agent = availableAgent[0];
                     }
 
@@ -220,8 +249,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             }
 
 
-
-
                             /* Set Task Info*/
                             agentProductivity.taskList = [];
                             angular.forEach(agent.ResourceAttributeInfo, function (item) {
@@ -285,6 +312,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
                             agentProductivity.profileName = agent.ResourceName;
                             $scope.Productivitys.push(agentProductivity);
+                            console.log($scope.Productivitys);
+
                         }
 
                     }
@@ -359,18 +388,18 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.getProfileDetails = function () {
         agentStatusService.GetProfileDetails().then(function (response) {
 
-            if(response){
+            if (response) {
                 /*$scope.onlineProfile = response.map(function (item) {
-                    return {
-                        ResourceName:item.ResourceName,
-                        ResourceId:item.ResourceId
-                    }
-                });*/
+                 return {
+                 ResourceName:item.ResourceName,
+                 ResourceId:item.ResourceId
+                 }
+                 });*/
 
-               $scope.onlineProfile = response;
+                $scope.onlineProfile = response;
                 /*if ($scope.profile.length == 0) {
-                    angular.copy($scope.availableProfile, $scope.profile);
-                }*/
+                 angular.copy($scope.availableProfile, $scope.profile);
+                 }*/
             }
 
         });
@@ -379,11 +408,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.GetAvailableProfile = function () {
         agentStatusService.GetAvailableProfile().then(function (response) {
 
-            if(response){
+            if (response) {
                 $scope.availableProfile = response.map(function (item) {
                     return {
-                        ResourceName:item.ResourceName,
-                        ResourceId:item.ResourceId
+                        ResourceName: item.ResourceName,
+                        ResourceId: item.ResourceId
                     }
                 });
             }
@@ -396,11 +425,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.getProfileDetails();
         $scope.GetAllActiveCalls();
         $scope.GetProductivity();
-        getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+        //getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 
-    // getAllRealTime();
-    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+    getAllRealTime();
+    //var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
 
     $scope.$on("$destroy", function () {
@@ -559,6 +588,27 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.SaveReportQueryFilter();
 
     };
+
+
+    // $(window).scroll(function (e) {
+    //
+    //     var windowPosition = this.pageYOffset;
+    //     if ($scope.showFilter) {
+    //         //filter is enable
+    //
+    //     } else {
+    //         if (windowPosition >= 208) {
+    //             console.log('fixed menu');
+    //             $('#agentStatusTblHeader').addClass('fixed-table-header');
+    //         } else {
+    //             console.log('remove fixed menu');
+    //             $('#agentStatusTblHeader').removeClass('fixed-table-header');
+    //         }
+    //     }
+    //
+    //     console.log($scope.showFilter);
+    // });
+
 });
 
 
