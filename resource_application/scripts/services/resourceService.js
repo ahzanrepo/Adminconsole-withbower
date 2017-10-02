@@ -197,6 +197,17 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
+    var getQueueSettings = function () {
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + "QueueSettings"
+        }).then(function (response) {
+            return response.data.Result;
+
+        });
+
+    };
+
     var getAttributesAttachToResource = function (resTaskId) {
         return $http({
             method: 'get',
@@ -287,7 +298,8 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         GetResourcesCount: getResourcesCount,
         SetResourceToProfile:setResourceToProfile,
         getResourcesWithoutPaging: getResourcesWithoutPaging,
-        AssignAttributeToResource: assignAttributeToResource
+        AssignAttributeToResource: assignAttributeToResource,
+        getQueueSettings: getQueueSettings
     }
 
 });

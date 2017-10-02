@@ -23,8 +23,8 @@
 
                     <div class="col-md-2 col-sm-2 col-xs-12">
 
-                        <label>Skill</label>
-                        <input type="text" class="form-control" ng-model="skillFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="attr.Attribute as attr.Attribute for attr in attrList" placeholder="Skill" bs-typeahead>
+                        <label>Queue</label>
+                        <input type="text" class="form-control" ng-model="skillFilter" min-length="0" data-html="1" data-auto-select="true" data-animation="am-flip-x" bs-options="queue.QueueName as queue.QueueName for queue in qList" placeholder="Skill" bs-typeahead>
 
                     </div>
 
