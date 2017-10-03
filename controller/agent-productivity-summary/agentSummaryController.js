@@ -253,7 +253,10 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
         });
     };
 
+    $scope.disableDownload = false;
+
     $scope.getAgentSummaryCSV = function () {
+        $scope.disableDownload = true;
         $scope.DownloadFileName = 'AGENT_PRODUCTIVITY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
         var deferred = $q.defer();
         var agentSummaryList = [];
@@ -269,6 +272,8 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
         var queryEndDate = $scope.endDate + ' 23:59:59' + momentTz;
 
         agentSummaryBackendService.getAgentSummary(queryStartDate, queryEndDate, resId).then(function (response) {
+
+            $scope.disableDownload = false;
 
             if (!response.data.IsSuccess) {
                 console.log("Queue Summary loading failed ", response.data.Exception);
@@ -428,6 +433,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
             }
 
         }, function (error) {
+            $scope.disableDownload = false;
             loginService.isCheckResponse(error);
             console.log("Error in Queue Summary loading ", error);
             deferred.reject(agentSummaryList);

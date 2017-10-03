@@ -1,5 +1,6 @@
-mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log,
-                                                      $anchorScroll, agentStatusService, notifiSenderService,reportQueryFilterService) {
+mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log, $http,
+                                                      $anchorScroll, agentStatusService, notifiSenderService,
+                                                      reportQueryFilterService, uiGridConstants) {
 
     $anchorScroll();
 
@@ -83,20 +84,68 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
 
+    $scope.gridOptions = {
+        enableColumnResizing: true,
+        enableGridMenu: true,
+        columnDefs: [],
+        data: 'Productivitys'
+    };
+
+    $scope.gridOptions.columnDefs = [
+        {
+            name: 'taskList',
+            displayName: 'Task',
+            width: 400,
+            pinnedLeft: true,
+            cellTemplate: '<div class="ui-grid-cell-contents" title="TOOLTIP">{{grid.appScope.cumulative(grid, row)}}</div>'
+
+        },
+        {name: 'profileName', displayName: 'Name', width: 100, pinnedLeft: true},
+        {name: 'slotState', displayName: 'State', width: 200},
+        {name: 'slotStateTime', displayName: 'Slot State Time', width: 100},
+        {name: 'AcwTime', displayName: 'Acw Time', width: 100},
+        {name: 'BreakTime', displayName: 'Break Time', width: 100},
+        {name: 'HoldTime', displayName: 'Hold Time', width: 100},
+        {name: 'OnCallTime', displayName: 'OnCall Time', width: 100},
+        {name: 'IdleTime', displayName: 'Idle Time', width: 100},
+        {name: 'IncomingCallCount', displayName: 'Incoming Call Count', width: 100},
+        {name: 'OutgoingCallCount', displayName: 'Outgoing Call Count', width: 100},
+        {name: 'MissCallCount', displayName: 'Miss Call Count', width: 100},
+        {name: 'TransferCallCount', displayName: 'TransferCallCount', width: 100}
+    ];
+
+    $scope.cumulative = function (grid, myRow) {
+        var skill = '';
+        grid.renderContainers.body.visibleRowCache.forEach(function (row, index) {
+            if (row.entity && row.entity.taskList && row.entity.taskList.length != 0) {
+                row.entity.taskList.forEach(function (value, i) {
+                    if (i == 0) {
+                        skill += row.entity.taskList[i].skill;
+                    } else {
+                        skill += " , " + row.entity.taskList[i].skill;
+                    }
+                });
+            }
+
+        });
+        return skill;
+    };
+
+
     var calculateProductivity = function () {
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
             /*if ($scope.profile.length == 0) {
-                angular.copy($scope.availableProfile, $scope.profile);
-            }*/
+             angular.copy($scope.availableProfile, $scope.profile);
+             }*/
 
             angular.forEach($scope.profile, function (agentProfile) {
                 try {
                     var agent = null;
                     var availableAgent = $filter('filter')($scope.onlineProfile, {ResourceId: agentProfile.ResourceId.toString()}, true);//"ResourceId":"1"
 
-                    if (availableAgent.length > 0){
+                    if (availableAgent.length > 0) {
                         agent = availableAgent[0];
                     }
 
@@ -220,8 +269,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             }
 
 
-
-
                             /* Set Task Info*/
                             agentProductivity.taskList = [];
                             angular.forEach(agent.ResourceAttributeInfo, function (item) {
@@ -285,6 +332,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
                             agentProductivity.profileName = agent.ResourceName;
                             $scope.Productivitys.push(agentProductivity);
+                            console.log($scope.Productivitys);
+
                         }
 
                     }
@@ -359,18 +408,18 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.getProfileDetails = function () {
         agentStatusService.GetProfileDetails().then(function (response) {
 
-            if(response){
+            if (response) {
                 /*$scope.onlineProfile = response.map(function (item) {
-                    return {
-                        ResourceName:item.ResourceName,
-                        ResourceId:item.ResourceId
-                    }
-                });*/
+                 return {
+                 ResourceName:item.ResourceName,
+                 ResourceId:item.ResourceId
+                 }
+                 });*/
 
-               $scope.onlineProfile = response;
+                $scope.onlineProfile = response;
                 /*if ($scope.profile.length == 0) {
-                    angular.copy($scope.availableProfile, $scope.profile);
-                }*/
+                 angular.copy($scope.availableProfile, $scope.profile);
+                 }*/
             }
 
         });
@@ -379,11 +428,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.GetAvailableProfile = function () {
         agentStatusService.GetAvailableProfile().then(function (response) {
 
-            if(response){
+            if (response) {
                 $scope.availableProfile = response.map(function (item) {
                     return {
-                        ResourceName:item.ResourceName,
-                        ResourceId:item.ResourceId
+                        ResourceName: item.ResourceName,
+                        ResourceId: item.ResourceId
                     }
                 });
             }
@@ -399,7 +448,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 
-    // getAllRealTime();
+    getAllRealTime();
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
 
@@ -559,6 +608,27 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.SaveReportQueryFilter();
 
     };
+
+
+    // $(window).scroll(function (e) {
+    //
+    //     var windowPosition = this.pageYOffset;
+    //     if ($scope.showFilter) {
+    //         //filter is enable
+    //
+    //     } else {
+    //         if (windowPosition >= 208) {
+    //             console.log('fixed menu');
+    //             $('#agentStatusTblHeader').addClass('fixed-table-header');
+    //         } else {
+    //             console.log('remove fixed menu');
+    //             $('#agentStatusTblHeader').removeClass('fixed-table-header');
+    //         }
+    //     }
+    //
+    //     console.log($scope.showFilter);
+    // });
+
 });
 
 
