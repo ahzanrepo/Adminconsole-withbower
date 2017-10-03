@@ -52,6 +52,18 @@ mainApp.factory('queueSettingsBackendService', function ($http, authService,base
             return response;
         });
 
+    },
+
+    getQueueAttributeDetails : function (recID) {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.resourceServiceBaseUrl+"Queue/"+recID+"/assignedAttributes"
+
+        }).then(function(response)
+        {
+            return response;
+        });
     }
 
 }
