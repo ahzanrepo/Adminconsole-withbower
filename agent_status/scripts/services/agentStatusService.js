@@ -103,13 +103,25 @@ mainApp.factory("agentStatusService", function ($http, $log, authService, baseUr
         });
     };
 
+    var getProductivityWithLoginTime = function (startDate, endDate) {
+
+        return $http.get(baseUrls.resourceServiceBaseUrl + "Resources/Productivity?productivityStartDate="+startDate+"&productivityEndDate="+endDate).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return {};
+            }
+        });
+    };
+
 
     return {
         GetAvailableProfile: getAvailableProfile,
         GetProfileDetails: getProfileDetails,
         GetAllAttributes: getAllAttributes,
         GetAllActiveCalls: getAllActiveCalls,
-        GetProductivity: getProductivity
+        GetProductivity: getProductivity,
+        GetProductivityWithLoginTime: getProductivityWithLoginTime
     }
 
 });
