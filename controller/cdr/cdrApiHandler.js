@@ -45,6 +45,36 @@
             })
         };
 
+        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, record, custNumber) {
+            var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+
+            if (agent) {
+                url = url + '&agent=' + agent;
+            }
+
+            if (record) {
+                url = url + '&recording=' + record;
+            }
+
+            if (offsetId) {
+                url = url + '&offset=' + offsetId;
+            }
+
+            if (custNumber) {
+                url = url + '&custnumber=' + custNumber;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
         var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter)
         {
             var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
@@ -68,6 +98,32 @@
 
             if (didFilter) {
                 url = url + '&didnumber=' + didFilter;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
+        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, record, custNumber)
+        {
+            var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+
+            if (agent) {
+                url = url + '&agent=' + agent;
+            }
+            if (record) {
+                url = url + '&recording=' + record;
+            }
+
+            if (custNumber) {
+                url = url + '&custnumber=' + custNumber;
             }
 
             return $http({
@@ -516,7 +572,9 @@
             getTimeZones: getTimeZones,
             getCallSummaryForQueueByHr: getCallSummaryForQueueByHr,
             getCDRForTimeRangeCount: getCDRForTimeRangeCount,
-            getAbandonCDRForTimeRangeCount: getAbandonCDRForTimeRangeCount
+            getAbandonCDRForTimeRangeCount: getAbandonCDRForTimeRangeCount,
+            getCampaignCDRForTimeRangeCount: getCampaignCDRForTimeRangeCount,
+            getCampaignCDRForTimeRange: getCampaignCDRForTimeRange
         };
     };
 
