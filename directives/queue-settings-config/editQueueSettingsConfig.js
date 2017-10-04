@@ -16,20 +16,18 @@ mainApp.directive("editqsettings", function ($filter,$uibModal,queueSettingsBack
         link: function (scope) {
 
             console.log(scope.setting);
-            scope.attributeGroups=[];
-            scope.NewattributeGroups=[];
             scope.editMode=false;
+            scope.assignedAttributes=[];
+
 
             scope.attributeGroup;
             scope.editQueueSetting = function () {
                 scope.editMode = !scope.editMode;
-                scope.tempsetting =scope.setting;
 
 
             }
             scope.closeQueueSetting = function () {
                 scope.editMode=false;
-                scope.setting=scope.tempsetting;
             }
 
             scope.showConfirm = function (tittle, label, okbutton, cancelbutton, content, OkCallback, CancelCallBack, okObj) {
@@ -115,6 +113,23 @@ mainApp.directive("editqsettings", function ($filter,$uibModal,queueSettingsBack
                 })
                 
             };
+
+            scope.loadAttributeDetails = function () {
+                queueSettingsBackendService.getQueueAttributeDetails(scope.setting.RecordID).then(function (resAttribs) {
+                    if(!resAttribs.data.IsSuccess)
+                    {
+                        console.log("Error in loading assigned attributes to Queue");
+                    }
+                    else
+                    {
+                        scope.assignedAttributes=resAttribs.data.Result;
+                    }
+                },function (errAttribs) {
+                    console.log("Error in loading assigned attributes to Queue",errAttribs);
+                });
+            }
+
+            scope.loadAttributeDetails();
 
 
 

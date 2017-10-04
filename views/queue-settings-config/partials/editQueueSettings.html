@@ -69,70 +69,84 @@
                                 </div>
 
                             </div>
-                            <div class="form-group">
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
 
+
+                                <tags-input ng-model="assignedAttributes" display-property="Attribute"
+                                            add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
+                                            on-tag-removed="onChipDelete($tag)" ng-disabled="true" min-length="1" required>
+                                    <auto-complete source="querySearch($query)"
+                                                   load-on-empty="true"
+                                                   load-on-focus="true"
+                                                   min-length="1"></auto-complete>
+                                </tags-input>
                             </div>
 
-                            <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
-                                <div class="col-md-12 col-sm-6 col-xs-12">
-                                    <button type="button" class="btn btn-success btn-sm pull-right"
-                                            ng-click="UpdateQueueSettings()"ng-disabled=" queueedit.$invalid">
-                                        Done
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!--<div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" ng-model="resource.OtherData"
-                                       placeholder="Other Data">
-                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
-                            </div>-->
-
-
-                        </form>
                     </div>
+
+
+
+
+                    <div class="col-md-12 col-sm-9 col-xs-12 m-top15">
+                        <div class="col-md-12 col-sm-6 col-xs-12">
+                            <button type="button" class="btn btn-success btn-sm pull-right"
+                                    ng-click="UpdateQueueSettings()"ng-disabled=" queueedit.$invalid">
+                                Done
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--<div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback">
+                        <input type="text" class="form-control has-feedback-left" ng-model="resource.OtherData"
+                               placeholder="Other Data">
+                        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                    </div>-->
+
+
+                    </form>
                 </div>
             </div>
         </div>
-
-
-        <div class="byline" ng-hide="editMode">
-            <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
-        </div>
-        <div ng-hide="editMode">
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Queue ID </label>
-                <p style="overflow:hidden">{{setting.RecordID}} </p>
-            </div>
-
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Max Wait Time</label>
-                <p>{{setting.MaxWaitTime}} </p>
-            </div>
-
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Call Abandoned Threshold</label>
-                <p>{{setting.CallAbandonedThreshold}} </p>
-            </div>
-
-
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Publish Position</label>
-                <p>{{setting.PublishPosition}} </p>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Server Type</label>
-                <p>{{setting.ServerType}} </p>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
-                <label class="form-control-static">Request Type</label>
-                <p>{{setting.RequestType}} </p>
-            </div>
-
-
-
-            <!--<p class="excerpt col-md-3" ng-if="IsDeveloper"> Developer : {{application.AppDeveloper.Username}} </p>-->
-        </div>
-        <div class="clearfix"></div>
     </div>
+
+
+    <div class="byline" ng-hide="editMode">
+        <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
+    </div>
+    <div ng-hide="editMode">
+        <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <label class="form-control-static">Queue ID </label>
+            <p style="overflow:hidden">{{setting.RecordID}} </p>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <label class="form-control-static">Max Wait Time</label>
+            <p>{{setting.MaxWaitTime}} </p>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <label class="form-control-static">Call Abandoned Threshold</label>
+            <p>{{setting.CallAbandonedThreshold}} </p>
+        </div>
+
+
+        <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <label class="form-control-static">Publish Position</label>
+            <p>{{setting.PublishPosition}} </p>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <label class="form-control-static">Server Type</label>
+            <p>{{setting.ServerType}} </p>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12 form-group ">
+            <label class="form-control-static">Request Type</label>
+            <p>{{setting.RequestType}} </p>
+        </div>
+
+
+
+        <!--<p class="excerpt col-md-3" ng-if="IsDeveloper"> Developer : {{application.AppDeveloper.Username}} </p>-->
+    </div>
+    <div class="clearfix"></div>
+</div>
 </div>

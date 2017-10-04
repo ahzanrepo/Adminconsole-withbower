@@ -40,7 +40,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.productivity = [];
     $scope.isLoading = true;
     $scope.GetProductivity = function () {
-        agentStatusService.GetProductivity().then(function (response) {
+        var momentTz = moment.parseZone(new Date()).format('Z');
+        momentTz = momentTz.replace("+", "%2B");
+
+        var currentDate = moment().format("YYYY-MM-DD");
+        var queryStartDate = currentDate + ' 00:00:00' + momentTz;
+        var queryEndDate = currentDate + ' 23:59:59' + momentTz;
+
+        agentStatusService.GetProductivityWithLoginTime(queryStartDate, queryEndDate).then(function (response) {
             $scope.productivity = response;
             $scope.isLoading = true;
             calculateProductivity();
@@ -101,6 +108,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
         },
         {name: 'profileName', displayName: 'Name', width: 100, pinnedLeft: true},
+        {name: 'LoginTime', displayName: 'LoginTime', width: 100},
         {name: 'slotState', displayName: 'State', width: 200},
         {name: 'slotStateTime', displayName: 'Slot State Time', width: 100},
         {name: 'AcwTime', displayName: 'Acw Time', width: 100},
@@ -175,6 +183,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                     name: 'Idle'
                                 }],
                                 "ResourceId": agent.ResourceId,
+                                "LoginTime": ids[0].LoginTime ? moment(ids[0].LoginTime).format("YYYY-MM-DD hh:mm:ss") : "N/A",
                                 "ResourceName": agent.ResourceName,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
                                 "OutgoingCallCount": ids[0].OutgoingCallCount ? ids[0].OutgoingCallCount : 0,

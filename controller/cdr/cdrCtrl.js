@@ -402,7 +402,12 @@
 
             resourceService.getQueueSettings().then(function (qList) {
                 if (qList && qList.length > 0) {
-                    $scope.qList = qList;
+                    var tempQList = qList.filter(function(q)
+                    {
+                        return !!(q.ServerType === 'CALLSERVER' && q.RequestType === 'CALL');
+                    });
+
+                    $scope.qList = tempQList;
                 }
                 else
                 {
