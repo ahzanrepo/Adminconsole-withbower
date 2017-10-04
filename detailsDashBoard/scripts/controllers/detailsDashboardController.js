@@ -22,11 +22,11 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
         }
     };
 
-    $scope.showAlert = function (tittle, label, button, content) {
+    $scope.showAlert = function (tittle, type, content) {
         new PNotify({
             title: tittle,
             text: content,
-            type: 'success',
+            type: type,
             styling: 'bootstrap3'
         });
     };
@@ -191,7 +191,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
             $scope.getProfileDetails();
         }, function (error) {
             $log.debug("GetAllAttributes err");
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get Attribute List.");
+            $scope.showAlert("Error", "error", "Fail To Get Attribute List.");
         });
     };
     $scope.GetAllAttributes();
@@ -442,7 +442,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
             $scope.productivity = response;
             deferred.resolve(true);
         }, function (error) {
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get productivity.");
+            $scope.showAlert("Error", "error","Fail To Get productivity.");
             deferred.resolve(false);
         });
         return deferred.promise;
@@ -798,12 +798,12 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
                     $scope.gridAgentLogsOptions.data = agentListResp.Result[key];
                 }
             }).catch(function (err) {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+                $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
             });
 
         }
         catch (ex) {
-            $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+            $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
         }
 
     };
