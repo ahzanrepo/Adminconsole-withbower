@@ -47,7 +47,11 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'timer',
     'as.sortable',
     'cp.ngConfirm',
-    'uiSwitch'
+    'uiSwitch',
+    'ui.grid.pinning',
+    'ui.grid.exporter',
+    'ui.grid.resizeColumns',
+    'ui.grid.moveColumns'
 ]);
 
 
@@ -1050,11 +1054,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "USERS"
             }
-        }) .state('console.queuesettings', {
+        }).state('console.testTable', {
+            url: "/testTable",
+            templateUrl: "views/test-new-table.html"
+
+        }).state('console.queuesettings', {
             url: "/queuesetting",
             templateUrl: "views/queue-settings-config/queueSettingsConfig.html",
             controller: "queueSettingsController",
-
             data: {
                 requireLogin: true,
                 navigation: "QUEUE_SETTINGS"
