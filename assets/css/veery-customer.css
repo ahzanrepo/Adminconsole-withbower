@@ -6599,3 +6599,22 @@ trash-icon-align
 {
     padding-left: 50px;
 }
+
+.agentSummarygrid{
+    width: 100%;
+    height: 180px;
+}
+.qgrid{
+    width: 100%;
+    height: 270px;
+}
+.table-number{
+    text-align:right;
+}
+.presentage{
+    text-align:right;
+}
+.presentage .ui-grid-cell-contents:before{
+    content: ' %';
+    float: right;
+}

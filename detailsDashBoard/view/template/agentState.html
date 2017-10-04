@@ -1,6 +1,6 @@
 <!--<div class="x_panel fixed_height_200" ng-controller="AgentSummaryController">-->
-<div class="x_panel" ng-controller="callmonitorcntrl" >
-    <div class="x_title">
+<div class="x_panel fixed_height_200" ng-controller="callmonitorcntrl" >
+    <!--<div class="x_title">
         <h2><i class="fa fa-align-left"></i> Agents
             <small>State Details</small>
         </h2>
@@ -9,7 +9,10 @@
             </li>
         </ul>
         <div class="clearfix"></div>
-    </div>
+    </div>-->
+    <h2 class="cursor-pointer" ng-click="reloadCallDetails();">Agents <small>State Details</small></h2>
+    <div style="border-bottom: 2px solid #F7F7F7;"></div>
+
     <div class="x_content">
 
         <div ng-hide="keys(CallObj).length>0">
@@ -22,6 +25,8 @@
                 </div>
             </div>
         </div>
+
+
 
         <table ng-show="keys(CallObj).length>0" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
             <thead>

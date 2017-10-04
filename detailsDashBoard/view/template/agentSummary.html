@@ -1,15 +1,19 @@
-<!--<div class="x_panel fixed_height_210">-->
-<div class="x_panel " ng-mouseenter="stopTimerFn(true)" ng-mouseleave="stopTimerFn(false);">
-    <div class="x_title">
-        <h2><i class="fa fa-align-left"></i> Agents <small>Summary</small></h2>
+<!--<div class="x_panel fixed_height_210" ng-mouseenter="stopTimerFn(true)" ng-mouseleave="stopTimerFn(false);">-->
+<div class="x_panel fixed_height_240" >
+    <!--<div class="x_title">
+        <h2><i class="fa fa-align-left"></i> Agents
+            <small>Summary</small>
+        </h2>
         <ul class="nav navbar-right panel_toolbox">
 
         </ul>
         <div class="clearfix"></div>
-    </div>
+    </div>-->
+    <h2 class="cursor-pointer" ng-click="GetProductivity();">Agents <small>Summary</small></h2>
+    <div style="border-bottom: 2px solid #F7F7F7;"></div>
     <div class="x_content">
 
-        <div ng-hide="keys(Productivitys).length>0">
+        <div ng-hide="gridOptions.data.length>0">
             <div class="row ">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="data-state-wrap">
@@ -20,7 +24,9 @@
             </div>
         </div>
 
-        <div ng-show="keys(Productivitys).length>0" class="table-wrapper"
+        <div ng-show="gridOptions.data.length>0" ui-grid="gridOptions" class="agentSummarygrid" ui-grid-selection></div>
+
+        <!--<div ng-show="keys(Productivitys).length>0" class="table-wrapper"
              ng-slimscroll horizontal-scroll="true"
              height="100%"
              width="100%"
@@ -33,7 +39,7 @@
                    aria-describedby="datatable-responsive_info">
                 <thead>
                 <tr role="row">
-                    <!--<th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                    &lt;!&ndash;<th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                         rowspan="1"
                         colspan="1" aria-label="Tasks">Tasks
                     </th>
@@ -41,7 +47,7 @@
                         aria-controls="datatable-responsive"
                         rowspan="1"
                         colspan="1" aria-label="Call Info">Call Info
-                    </th>-->
+                    </th>&ndash;&gt;
                     <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                         rowspan="1"
                         colspan="1" aria-label="Name">Name
@@ -107,7 +113,7 @@
                 <tbody>
                 <tr role="row" class="odd"
                     ng-repeat="(index, productivity) in Productivitys" ng-click="agentSelected(productivity);">
-                    <!--<th class="fs15 text-right">&lt;!&ndash; task &ndash;&gt;
+                    &lt;!&ndash;<th class="fs15 text-right">&lt;!&ndash; task &ndash;&gt;
                         <div ng-repeat="task in productivity.taskList| orderBy:'taskType'">
                             <small>{{task.taskType}}</small>
                             <small>{{task.skill}}</small>
@@ -119,7 +125,7 @@
                             <small>connect with : {{call["Caller-Caller-ID-Number"]}}</small>
                             <small>Direction : {{call["DVP-Call-Direction"]}}</small>
                         </div>
-                    </th>-->
+                    </th>&ndash;&gt;
                     <th class="fs15 text-left">{{productivity.ResourceName}}</th>
                     <th class="fs15 text-right">{{productivity.slotState}}</th>
                     <th class="fs15 text-right">{{productivity.slotMode}}</th>
@@ -150,7 +156,7 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
+        </div>-->
 
     </div>
 </div>

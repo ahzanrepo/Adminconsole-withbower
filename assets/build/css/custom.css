@@ -462,8 +462,15 @@ body {
     height: 210px;
 }
 
+.fixed_height_240 {
+    height: 240px;
+}
+
 .fixed_height_320 {
     height: 320px;
+}
+.fixed_height_330 {
+    height: 330px;
 }
 
 .fixed_height_390 {
