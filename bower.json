@@ -69,7 +69,7 @@
     "bootstrap-timepicker": "^0.5.2",
     "angular-timeago": "^0.4.3",
     "angular-file-upload": "^2.3.4",
-    "angular-ui-grid": "^3.2.9",
+    "angular-ui-grid": "^4.0.7",
     "angular-socket-io": "^0.7.0",
     "angular-datatables": "^0.5.5",
     "satellizer": "^0.15.5",

@@ -95,15 +95,22 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         enableColumnResizing: true,
         enableGridMenu: true,
         columnDefs: [],
-        data: 'Productivitys'
+        data: 'Productivitys',
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+
+            // call resize every 500 ms for 5 s after modal finishes opening - usually only necessary on a bootstrap modal
+            $interval( function() {
+                $scope.gridApi.core.handleWindowResize();
+            }, 500, 10);
+        }
     };
 
     $scope.gridOptions.columnDefs = [
         {
             name: 'taskList',
             displayName: 'Task',
-            width: 400,
-            pinnedLeft: true,
+            width: 100,
             cellTemplate: '<div class="ui-grid-cell-contents" title="TOOLTIP">{{grid.appScope.cumulative(grid, row)}}</div>'
 
         },

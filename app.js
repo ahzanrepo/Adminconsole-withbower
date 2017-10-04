@@ -49,8 +49,11 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'cp.ngConfirm',
     'uiSwitch',
     'ui.grid.pinning',
+    'ui.grid.autoResize',
     'ui.grid.exporter',
     'ui.grid.resizeColumns',
+    'ui.grid.resizeColumns',
+    'ui.grid.selection',
     'ui.grid.moveColumns'
 ]);
 
@@ -59,6 +62,10 @@ mainApp.constant('moment', moment);
 mainApp.run(['$anchorScroll', function ($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }]);
+
+app.run(function($rootScope) {
+    $rootScope.keys = Object.keys;
+});
 //resourceservice.app1.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
@@ -101,7 +108,8 @@ var baseUrls = {
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'agentDialerURL': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/', //agentdialerservice.app1.veery.cloud
     'integrationapi': 'http://localhost:4334/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
-    'reportQueryFilterUrl': 'http://reportqueryfilters.app.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/'
+    'reportQueryFilterUrl': 'http://reportqueryfilters.app.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/',
+    'contactUrl': 'http://contacts.app1.veery.cloud/DVP/API/1.0.0.0/ContactManager/', //contacts.app1.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
