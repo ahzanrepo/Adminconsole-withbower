@@ -56,11 +56,11 @@ mainApp.controller("detailsDashboardController", function ($scope, $filter, $sta
                         item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                     }
 
-                    if (!$scope.queues[event.Message.QueueName]) {
+                    if (!$scope.queues[event.Message.QueueId]) {
                         $scope.queueList.push(item);
                     }
                     $scope.safeApply(function () {
-                        $scope.queues[event.Message.QueueName] = item;
+                        $scope.queues[event.Message.QueueId] = item;
                     });
                 }
                 break;
@@ -102,7 +102,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $filter, $sta
                 }
 
                 // if ($scope.checkQueueAvailability(item.id)) {
-                $scope.queues[item.QueueName] = item;
+                $scope.queues[item.QueueId] = item;
                 /*$scope.queueList.push(item);*/
                 //}
             });
