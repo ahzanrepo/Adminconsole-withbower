@@ -118,8 +118,8 @@
 
         $scope.querySearch = function (query) {
             if (query === "*" || query === "") {
-                if ($scope.attrList) {
-                    return $scope.attrList;
+                if ($scope.qList) {
+                    return $scope.qList;
                 }
                 else {
                     return emptyArr;
@@ -127,8 +127,8 @@
 
             }
             else {
-                if ($scope.attrList) {
-                    var filteredArr = $scope.attrList.filter(function (item) {
+                if ($scope.qList) {
+                    var filteredArr = $scope.qList.filter(function (item) {
                         var regEx = "^(" + query + ")";
 
                         if (item.Attribute) {
@@ -159,7 +159,7 @@
         };
 
 
-        $scope.loadAttrList = function () {
+        /*$scope.loadAttrList = function () {
             cdrApiHandler.getAttributeList().then(function (attrList) {
                 if (attrList && attrList.Result) {
                     $scope.attrList = attrList.Result;
@@ -176,12 +176,37 @@
             })
         };
 
-        $scope.loadAttrList();
+        $scope.loadAttrList();*/
+
+        var getQueueList = function () {
+
+            resourceService.getQueueSettings().then(function (qList) {
+                if (qList && qList.length > 0) {
+
+                    var tempQList = qList.filter(function(q)
+                    {
+                        return !!(q.ServerType === 'CALLSERVER' && q.RequestType === 'CALL');
+                    });
+
+                    $scope.qList = tempQList;
+                }
+                else
+                {
+                    $scope.qList = [];
+                }
+
+
+            }).catch(function (err) {
+                $scope.qList = [];
+                loginService.isCheckResponse(err);
+            });
+        };
+        getQueueList();
 
         var tempQueueArr = {};
         var curCount = 0;
 
-        var buildSummaryListByHr = function (day, hr, attribute, momentTz, callback)
+        var buildSummaryListByHr = function (day, hr, attribute, recId, momentTz, callback)
         {
             cdrApiHandler.getCallSummaryForQueueByHr(day, attribute, hr, momentTz).then(function (sumResp)
             {
@@ -222,18 +247,18 @@
 
                     if(newHr < 25)
                     {
-                        buildSummaryListByHr(day, newHr, attribute, momentTz, function(err, resp)
+                        buildSummaryListByHr(day, newHr, attribute, recId, momentTz, function(err, resp)
                         {
                             callback(null, true);
                         });
                     }
                     else
                     {
-                        var curSkillIndex = _.findIndex($scope.skillFilter, {Attribute: attribute});
+                        var curSkillIndex = _.findIndex($scope.skillFilter, {RecordID: recId});
 
                         if($scope.skillFilter.length > curSkillIndex + 1)
                         {
-                            buildSummaryListByHr(day, 1, $scope.skillFilter[curSkillIndex+1].Attribute, momentTz, function(err, resp)
+                            buildSummaryListByHr(day, 1, $scope.skillFilter[curSkillIndex+1].QueueName, $scope.skillFilter[curSkillIndex+1].RecordID, momentTz, function(err, resp)
                             {
                                 callback(null, true);
                             });
@@ -317,7 +342,7 @@
 
                 if($scope.skillFilter && $scope.skillFilter.length > 0)
                 {
-                    buildSummaryListByHr($scope.obj.day, 1, $scope.skillFilter[0].Attribute, momentTz, function (err, processDoneResp)
+                    buildSummaryListByHr($scope.obj.day, 1, $scope.skillFilter[0].QueueName, $scope.skillFilter[0].RecordID, momentTz, function (err, processDoneResp)
                     {
                         if(err)
                         {

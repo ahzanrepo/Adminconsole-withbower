@@ -48,13 +48,13 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                         item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                     }
 
-                    if (!$scope.queues[event.Message.QueueName]) {
+                    if (!$scope.queues[event.Message.QueueId]) {
                         $scope.queueList.push(item);
                     }
 
                     $scope.safeApply(function () {
 
-                        $scope.queues[event.Message.QueueName] = item;
+                        $scope.queues[event.Message.QueueId] = item;
                     });
                 }
                 break;
@@ -255,7 +255,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                 }
 
                 // if ($scope.checkQueueAvailability(item.id)) {
-                $scope.queues[item.QueueName] = item;
+                $scope.queues[item.id] = item;
                 $scope.queueList.push(item);
                 //}
             });

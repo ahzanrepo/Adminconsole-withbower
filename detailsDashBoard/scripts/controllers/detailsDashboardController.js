@@ -107,7 +107,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
                         item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                     }
 
-                    if (!$scope.queues[event.Message.QueueName]) {
+                    if (!$scope.queues[event.Message.QueueId]) {
                         $scope.queueList.push(item);
                     }
                     $scope.safeApply(function () {

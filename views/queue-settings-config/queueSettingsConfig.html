@@ -34,15 +34,13 @@
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                     <input type="number" class="form-control has-feedback-left"
                                            placeholder="Max Wait Time"
-                                           ng-model="newSetting.MaxWaitTime" required
-                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/">
+                                           ng-model="newSetting.MaxWaitTime" required min="0">
                                     <span class="form-control-feedback left" aria-hidden="true">sec</span>
                                 </div>
                                 <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                                     <input type="number" class="form-control has-feedback-left"
                                            placeholder="Call Abandoned Threshold"
-                                           ng-model="newSetting.CallAbandonedThreshold" required
-                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/">
+                                           ng-model="newSetting.CallAbandonedThreshold" required min="0">
                                     <span class="form-control-feedback left" aria-hidden="true">sec</span>
                                 </div>
                                 <div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback">

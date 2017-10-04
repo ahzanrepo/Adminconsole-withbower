@@ -241,6 +241,7 @@ mainApp.controller("queueSettingsController", function ($scope, $state, loginSer
                 $scope.showAlert("Success","Queue Settings Added Successfully",'success');
                 resetObjects();
                 $scope.GetQueueSettingRecords();
+                $scope.showArds=true;
             }
 
         },function (error) {

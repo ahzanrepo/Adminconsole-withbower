@@ -3528,7 +3528,7 @@ tags-input .tags.focused {
 
 .notification-text {
     color: #8298ae !important;
-   /* padding: 5px 2px 0px 4px;*/
+    /* padding: 5px 2px 0px 4px;*/
     font-size: 13px;
     z-index: 10;
 }
@@ -3867,6 +3867,7 @@ ul#strength {
 .notification-list:hover {
     background: lavender;
 }
+
 .notification-time {
     text-align: left;
     font-size: 10px;
@@ -3958,10 +3959,11 @@ ul#strength {
     display: inline-block;
     color: #d7d700;
 }
-.console-model-block{
+
+.console-model-block {
     width: 100%;
     display: block;
-    min-height:150px;
+    min-height: 150px;
 }
 
 .notify-modal-btn-wrap {
@@ -6462,11 +6464,13 @@ ul.newsticker {
     overflow: hidden;
     position: relative;
 }
+
 .navbar-nav .open .dropdown-menu {
 
     border: 1px solid;
 
 }
+
 .del-all-btn {
     margin: auto;
     width: 60%;
@@ -6505,20 +6509,20 @@ ul.newsticker {
     overflow: hidden;
     overflow-x: auto;
 }
-.notifi-sender > span
-{
+
+.notifi-sender > span {
     color: grey;
     font-size: 20px;
     padding-left: 20px;
 }
 
-.ui-datepicker{
+.ui-datepicker {
     z-index: 2000 !important;
 }
 
 ul.abn-tree li.abn-tree-row {
     padding: 0px;
-    margin:0px;
+    margin: 0px;
 }
 
 ul.abn-tree li.abn-tree-row a {
@@ -6534,69 +6538,80 @@ ul.abn-tree i.indented {
 .abn-tree {
     cursor: pointer;
 }
+
 ul.nav.abn-tree .level-1 .indented {
     position: relative;
     left: 0px;
     font-size: 20px;
 }
+
 ul.nav.abn-tree .level-2 .indented {
     position: relative;
     left: 20px;
     font-size: 15px;
 }
+
 ul.nav.abn-tree .level-3 .indented {
     position: relative;
     left: 40px;
     font-size: 15px;
 }
+
 ul.nav.abn-tree .level-4 .indented {
     position: relative;
     left: 60px;
     font-size: 15px;
 }
+
 ul.nav.abn-tree .level-5 .indented {
     position: relative;
     left: 80px;
     font-size: 15px;
 }
+
 ul.nav.abn-tree .level-6 .indented {
     position: relative;
     left: 100px;
     font-size: 15px;
 }
+
 ul.nav.nav-list.abn-tree .level-7 .indented {
     position: relative;
     left: 120px;
     font-size: 15px;
 }
+
 ul.nav.nav-list.abn-tree .level-8 .indented {
     position: relative;
     left: 140px;
     font-size: 15px;
 }
+
 ul.nav.nav-list.abn-tree .level-9 .indented {
     position: relative;
     left: 160px;
     font-size: 15px;
 }
+
 ul.nav.nav-list.abn-tree .level-10 .indented {
     position: relative;
     left: 180px;
     font-size: 15px;
 }
+
 ul.nav.nav-list.abn-tree .level-11 .indented {
     position: relative;
     left: 180px;
     font-size: 15px;
 }
+
 ul.nav.nav-list.abn-tree .level-12 .indented {
     position: relative;
     left: 180px;
     font-size: 15px;
 }
 
-trash-icon-align
-{
+.trash-icon-align {
     padding-left: 50px;
 }
 
@@ -6618,3 +6633,14 @@ trash-icon-align
     content: ' %';
     float: right;
 }
+.fixed-table-header {
+    position: fixed;
+    top: 0;
+    background: #ffffff;
+}
+
+.grid-width-full {
+    width: 100%;
+    height: 600px !important;
+}
+
