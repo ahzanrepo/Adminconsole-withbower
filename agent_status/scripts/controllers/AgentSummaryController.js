@@ -2,7 +2,7 @@
  * Created by Rajinda on 9/1/2016.
  */
 mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout, $filter,
-                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices, userProfileApiAccess,reportQueryFilterService) {
+                                                       dashboardService, moment, userImageList, $anchorScroll, subscribeServices, userProfileApiAccess, reportQueryFilterService) {
     $anchorScroll();
     //var getAllRealTime = function () {
     //    $scope.getProfileDetails();
@@ -19,6 +19,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     //$scope.refreshTime = 1000;
 
     $scope.enableFilter = true;
+
+    $scope.StatusAllList = [];
 
 
     $scope.StatusList = {
@@ -129,18 +131,14 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     /*--------------------------- Filter ------------------------------------------*/
 
     $scope.loadUserList = function () {
-        userProfileApiAccess.getUsers().then(function (usrList)
-        {
-            if(usrList && usrList.Result)
-            {
-                var usrMapList = usrList.Result.map(function(usr)
-                {
+        userProfileApiAccess.getUsers().then(function (usrList) {
+            if (usrList && usrList.Result) {
+                var usrMapList = usrList.Result.map(function (usr) {
                     return {username: usr.username};
                 });
                 $scope.usrList = usrMapList;
             }
-            else
-            {
+            else {
                 $scope.usrList = [];
             }
 
@@ -150,19 +148,15 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         })
     };
 
-    $scope.onSelectionChanged = function()
-    {
-        if($scope.filter.filterType === 'ALL')
-        {
+    $scope.onSelectionChanged = function () {
+        if ($scope.filter.filterType === 'ALL') {
             $scope.filter.agentFilter = [];
             $scope.filter.groupFilter = [];
         }
-        else if($scope.filter.filterType === 'USER')
-        {
+        else if ($scope.filter.filterType === 'USER') {
             $scope.filter.groupFilter = [];
         }
-        else if($scope.filter.filterType === 'GROUP')
-        {
+        else if ($scope.filter.filterType === 'GROUP') {
             $scope.filter.agentFilter = [];
         }
 
@@ -172,20 +166,16 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     $scope.loadUserList();
 
     $scope.loadUserGroupList = function () {
-        userProfileApiAccess.getUserGroups().then(function (grpList)
-        {
-            if(grpList && grpList.Result)
-            {
+        userProfileApiAccess.getUserGroups().then(function (grpList) {
+            if (grpList && grpList.Result) {
                 $scope.originalGrpList = grpList.Result;
-                var grpMapList = grpList.Result.map(function(grp)
-                {
+                var grpMapList = grpList.Result.map(function (grp) {
                     return {name: grp.name};
                 });
 
                 $scope.grpList = grpMapList;
             }
-            else
-            {
+            else {
                 $scope.grpList = [];
             }
 
@@ -198,64 +188,51 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
     $scope.loadUserGroupList();
 
-    $scope.filterResList = function(res)
-    {
-        if($scope.filter.filterType === 'USER')
-        {
-            if($scope.filter.agentFilter && $scope.filter.agentFilter.length > 0)
-            {
-                var matchingRecord = $scope.filter.agentFilter.find(function(agent)
-                {
+    $scope.filterResList = function (res) {
+        if ($scope.filter.filterType === 'USER') {
+            if ($scope.filter.agentFilter && $scope.filter.agentFilter.length > 0) {
+                var matchingRecord = $scope.filter.agentFilter.find(function (agent) {
                     return agent.username === res.resourceName;
                 });
 
                 return !!matchingRecord;
             }
-            else
-            {
+            else {
                 return false;
             }
 
         }
-        else if($scope.filter.filterType === 'GROUP')
-        {
-            if($scope.filter.groupFilter && $scope.filter.groupFilter.length > 0)
-            {
+        else if ($scope.filter.filterType === 'GROUP') {
+            if ($scope.filter.groupFilter && $scope.filter.groupFilter.length > 0) {
                 var tempUserArr = [];
 
-                $scope.filter.groupFilter.forEach(function(grp)
-                {
-                    var tempGrp = $scope.originalGrpList.find(function(grpItem){
+                $scope.filter.groupFilter.forEach(function (grp) {
+                    var tempGrp = $scope.originalGrpList.find(function (grpItem) {
                         return grpItem.name === grp.name;
                     });
 
-                    if(tempGrp && tempGrp.users && tempGrp.users.length > 0)
-                    {
+                    if (tempGrp && tempGrp.users && tempGrp.users.length > 0) {
                         tempUserArr = tempUserArr.concat(tempGrp.users);
                     }
                 });
 
 
-                if(tempUserArr && tempUserArr.length > 0)
-                {
-                    var matchingRecord = tempUserArr.find(function(agent)
-                    {
+                if (tempUserArr && tempUserArr.length > 0) {
+                    var matchingRecord = tempUserArr.find(function (agent) {
                         return agent.username === res.resourceName;
                     });
 
                     return !!matchingRecord;
                 }
-                else
-                {
+                else {
                     return false;
                 }
             }
-            else
-            {
+            else {
                 return false;
             }
         }
-        else{
+        else {
             return true;
         }
     };
@@ -400,9 +377,14 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                             $scope.StatusList.profile.push(profile);
                             //$scope.BreakProfile.push(profile);
                         }
+
+
                     }
                 }
             }
+
+            angular.merge($scope.StatusAllList, $scope.StatusList.ReservedProfile, $scope.StatusList.AvailableProfile, $scope.StatusList.ConnectedProfile, $scope.StatusList.AfterWorkProfile, $scope.StatusList.OutboundProfile, $scope.StatusList.SuspendedProfile, $scope.StatusList.BreakProfile,$scope.StatusList.profile);
+            console.log($scope.StatusAllList);
         });
     };
     $scope.getProfileDetails();
@@ -428,6 +410,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         } else {
             $scope.StatusList.profile.push(profile);
         }
+        angular.merge($scope.StatusAllList, $scope.StatusList.ReservedProfile, $scope.StatusList.AvailableProfile, $scope.StatusList.ConnectedProfile, $scope.StatusList.AfterWorkProfile, $scope.StatusList.OutboundProfile, $scope.StatusList.SuspendedProfile, $scope.StatusList.BreakProfile,$scope.StatusList.profile);
+        console.log($scope.StatusAllList);
     };
 
     var removeExistingResourceData = function (profile) {
@@ -480,6 +464,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             }
         });
 
+        angular.merge($scope.StatusAllList, $scope.StatusList.ReservedProfile, $scope.StatusList.AvailableProfile, $scope.StatusList.ConnectedProfile, $scope.StatusList.AfterWorkProfile, $scope.StatusList.OutboundProfile, $scope.StatusList.SuspendedProfile, $scope.StatusList.BreakProfile,$scope.StatusList.profile);
+        console.log($scope.StatusAllList);
     };
 
     subscribeServices.subscribeDashboard(function (event) {

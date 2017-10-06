@@ -448,6 +448,9 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
         goCdrReport: function () {
             $state.go('console.cdr');
         },
+        goCampaignCdrReport: function(){
+            $state.go('console.campaigncdr');
+        },
         goSMSDetailReport: function () {
             $state.go('console.smsdetailreport');
         },

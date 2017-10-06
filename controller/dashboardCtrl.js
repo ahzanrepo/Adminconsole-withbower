@@ -81,9 +81,18 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                     }
 
-                    $scope.queues[item.queuename] = item;
+                    if (!$scope.queues[item.id]) {
+                        $scope.queueList.push(item);
+                    }
 
-                    console.log("No Message found");
+                    $scope.safeApply(function () {
+
+                        $scope.queues[item.id] = item;
+                    });
+
+                    //$scope.queues[item.id] = item;
+
+                    //console.log("No Message found");
                 }
                 break;
 
@@ -853,7 +862,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                     }
 
-                    $scope.queues[item.queuename] = item;
+                    $scope.queues[item.id] = item;
 
                     //console.log( item.MaxWaitingMS);
                 });

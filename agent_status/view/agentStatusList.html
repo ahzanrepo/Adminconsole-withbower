@@ -259,7 +259,7 @@
                                      ng-repeat="res in Productivitys| orderBy:'slotState'">
                     </div>
 
-                    <div ng-show="summary">
+                    <div ng-show="summary" class="agent-list-tbl-view">
 
                         <div id="grid1"
                              ui-grid="gridOptions"
@@ -269,8 +269,9 @@
                              ui-grid-exporter
                              ui-grid-selection
                              ui-grid-move-columns
-                             class="grid" style="width:100%;"
-                             ></div>
+                             class="grid grid-width-full"
+                             style="width:100%;"
+                        ></div>
                     </div>
 
 
