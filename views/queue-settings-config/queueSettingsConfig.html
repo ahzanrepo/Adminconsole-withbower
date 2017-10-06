@@ -140,7 +140,7 @@
         <div class="x_panel ">
             <div class="x_content">
                 <ul class="list-unstyled ">
-                    <li ng-repeat="setting in  settingList | filterBy: ['RecordID']: searchCriteria">
+                    <li ng-repeat="setting in  settingList | filterBy: ['QueueName']: searchCriteria">
                         <editqsettings setting="setting" reloadpage="reloadPage()" reloadrecords="LoadARDSRecords()"></editqsettings>
                     </li>
 
