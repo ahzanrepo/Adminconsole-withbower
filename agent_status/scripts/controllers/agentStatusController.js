@@ -53,7 +53,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             calculateProductivity();
         }, function (error) {
             $log.debug("productivity err");
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get productivity.");
+            $scope.showAlert("Error", "error", "Fail To Get productivity.");
             $scope.isLoading = false;
         });
     };
@@ -400,7 +400,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
         }, function (error) {
             $log.debug("getAllActiveCalls err");
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get Active Call List.");
+            $scope.showAlert("Error", "error",  "Fail To Get Active Call List.");
         });
     };
     $scope.GetAllActiveCalls();
@@ -412,7 +412,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $scope.getProfileDetails();
         }, function (error) {
             $log.debug("GetAllAttributes err");
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get Attribute List.");
+            $scope.showAlert("Error", "error",  "Fail To Get Attribute List.");
         });
     };
     $scope.GetAllAttributes();
@@ -476,11 +476,20 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     $scope.refreshTime = 10000;
 
-    $scope.showAlert = function (tittle, label, button, content) {
+    /*$scope.showAlert = function (tittle, label, button, content) {
         new PNotify({
             title: tittle,
             text: content,
             type: 'success',
+            styling: 'bootstrap3'
+        });
+    };*/
+
+    $scope.showAlert = function (tittle, type, content) {
+        new PNotify({
+            title: tittle,
+            text: content,
+            type: type,
             styling: 'bootstrap3'
         });
     };
