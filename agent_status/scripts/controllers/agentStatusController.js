@@ -1,6 +1,6 @@
 mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log, $http,
                                                       $anchorScroll, agentStatusService, notifiSenderService,
-                                                      reportQueryFilterService, uiGridConstants,$interval) {
+                                                      reportQueryFilterService, uiGridConstants, $interval) {
 
     $anchorScroll();
 
@@ -100,7 +100,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $scope.gridApi = gridApi;
 
             // call resize every 500 ms for 5 s after modal finishes opening - usually only necessary on a bootstrap modal
-            $interval( function() {
+            $interval(function () {
                 $scope.gridApi.core.handleWindowResize();
             }, 500, 10);
         }
@@ -135,9 +135,9 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             if (row.entity && row.entity.taskList && row.entity.taskList.length != 0) {
                 row.entity.taskList.forEach(function (value, i) {
                     if (i == 0) {
-                        skill += row.entity.taskList[i].skill;
+                        skill += row.entity.taskList[i].skill + " " + row.entity.taskList[i].percentage + "%";
                     } else {
-                        skill += " , " + row.entity.taskList[i].skill;
+                        skill += " , " + row.entity.taskList[i].skill + " " + row.entity.taskList[i].percentage + "%";
                     }
                 });
             }
@@ -400,7 +400,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
         }, function (error) {
             $log.debug("getAllActiveCalls err");
-            $scope.showAlert("Error", "error",  "Fail To Get Active Call List.");
+            $scope.showAlert("Error", "error", "Fail To Get Active Call List.");
         });
     };
     $scope.GetAllActiveCalls();
@@ -412,7 +412,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $scope.getProfileDetails();
         }, function (error) {
             $log.debug("GetAllAttributes err");
-            $scope.showAlert("Error", "error",  "Fail To Get Attribute List.");
+            $scope.showAlert("Error", "error", "Fail To Get Attribute List.");
         });
     };
     $scope.GetAllAttributes();
@@ -477,13 +477,13 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.refreshTime = 10000;
 
     /*$scope.showAlert = function (tittle, label, button, content) {
-        new PNotify({
-            title: tittle,
-            text: content,
-            type: 'success',
-            styling: 'bootstrap3'
-        });
-    };*/
+     new PNotify({
+     title: tittle,
+     text: content,
+     type: 'success',
+     styling: 'bootstrap3'
+     });
+     };*/
 
     $scope.showAlert = function (tittle, type, content) {
         new PNotify({
