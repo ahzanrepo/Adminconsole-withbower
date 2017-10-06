@@ -54,7 +54,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.grid.resizeColumns',
     'ui.grid.resizeColumns',
     'ui.grid.selection',
-    'ui.grid.moveColumns'
+    'ui.grid.moveColumns',
+    'ui.grid.infiniteScroll'
 ]);
 
 
