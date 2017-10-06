@@ -63,7 +63,7 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }]);
 
-app.run(function($rootScope) {
+app.run(function ($rootScope) {
     $rootScope.keys = Object.keys;
 });
 //resourceservice.app1.veery.cloud
@@ -1062,10 +1062,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "USERS"
             }
-        }).state('console.testTable', {
-            url: "/testTable",
-            templateUrl: "views/test-new-table.html"
-
         }).state('console.queuesettings', {
             url: "/queuesetting",
             templateUrl: "views/queue-settings-config/queueSettingsConfig.html",
@@ -1076,15 +1072,15 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             }
 
         }).state('console.campaigncdr', {
-                url: "/campaigncdr",
-                templateUrl: "views/cdr/campaign-cdr.html",
-                controller: "cdrCampaignCtrl",
-                data: {
-                    requireLogin: true,
-                    navigation: "CAMPAIGN_CDR"
-                }
+            url: "/campaigncdr",
+            templateUrl: "views/cdr/campaign-cdr.html",
+            controller: "cdrCampaignCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGN_CDR"
+            }
 
-            });
+        });
         //Todo shoud be change navigation
     }]);
 
