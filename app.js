@@ -1075,7 +1075,16 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "QUEUE_SETTINGS"
             }
 
-        });
+        }).state('console.campaigncdr', {
+                url: "/campaigncdr",
+                templateUrl: "views/cdr/campaign-cdr.html",
+                controller: "cdrCampaignCtrl",
+                data: {
+                    requireLogin: true,
+                    navigation: "CAMPAIGN_CDR"
+                }
+
+            });
         //Todo shoud be change navigation
     }]);
 
