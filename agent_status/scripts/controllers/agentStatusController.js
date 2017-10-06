@@ -1,6 +1,6 @@
 mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log, $http,
                                                       $anchorScroll, agentStatusService, notifiSenderService,
-                                                      reportQueryFilterService, uiGridConstants) {
+                                                      reportQueryFilterService, uiGridConstants,$interval) {
 
     $anchorScroll();
 
@@ -115,18 +115,18 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
         },
         {name: 'profileName', displayName: 'Name', width: 100, pinnedLeft: true},
-        {name: 'LoginTime', displayName: 'LoginTime', width: 100},
+        {name: 'LoginTime', displayName: 'Login Time', width: 100},
         {name: 'slotState', displayName: 'State', width: 200},
         {name: 'slotStateTime', displayName: 'Slot State Time', width: 100},
-        {name: 'AcwTime', displayName: 'Acw Time', width: 100},
+        {name: 'AcwTime', displayName: 'ACW Time', width: 100},
         {name: 'BreakTime', displayName: 'Break Time', width: 100},
         {name: 'HoldTime', displayName: 'Hold Time', width: 100},
         {name: 'OnCallTime', displayName: 'OnCall Time', width: 100},
         {name: 'IdleTime', displayName: 'Idle Time', width: 100},
         {name: 'IncomingCallCount', displayName: 'Incoming Call Count', width: 100},
         {name: 'OutgoingCallCount', displayName: 'Outgoing Call Count', width: 100},
-        {name: 'MissCallCount', displayName: 'Miss Call Count', width: 100},
-        {name: 'TransferCallCount', displayName: 'TransferCallCount', width: 100}
+        {name: 'MissCallCount', displayName: 'Missed Call Count', width: 100},
+        {name: 'TransferCallCount', displayName: 'Transfer Call Count', width: 100}
     ];
 
     $scope.cumulative = function (grid, myRow) {
