@@ -48,7 +48,7 @@ mainApp.factory('contactService', function ($http, baseUrls) {
     };
 
     var getCallLogs = function (page, date,resourceName) {
-        var url = baseUrls.contactUrl + "Resource/"+resourceName+"/CallLog/500/"+page;
+        var url = baseUrls.contactUrl + "Resource/"+resourceName+"/CallLog/10/"+page;
         if (date) {
             url = url + "?date=" + date;
         }
