@@ -81,14 +81,73 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                     }
 
-                    if (!$scope.queues[item.id]) {
+
+                    var queueIDData = item.id.split('-');
+
+                    var queueID="";
+                    queueIDData.forEach(function (qItem,i) {
+
+                        if(i!=queueIDData.length-1)
+                        {
+                            if(i==queueIDData.length-2)
+                            {
+                                queueID=queueID+qItem;
+                            }
+                            else {
+                                queueID=queueID.concat(qItem,":") ;
+                            }
+
+                        }
+
+                    });
+
+                    if(!$scope.queues[item.id])
+                    {
+                       // $scope.queueList.push(item);
+                        dashboardService.getQueueRecordDetails(queueID).then(function (resQueue) {
+
+                            if(resQueue.data && resQueue.data.IsSuccess && resQueue.data.Result)
+                            {
+                                item.queueDetails=resQueue.data.Result;
+                                $scope.safeApply(function () {
+
+                                    $scope.queues[item.id] = item;
+                                });
+                            }
+                            else
+                            {
+                                item.queueDetails=undefined;
+                                $scope.safeApply(function () {
+
+                                    $scope.queues[item.id] = item;
+                                });
+                            }
+                        },function (errQueue) {
+                            console.log(errQueue);
+                            item.queueDetails=undefined;
+                            $scope.safeApply(function () {
+
+                                $scope.queues[item.id] = item;
+                            });
+                        });
+                    }
+                    else {
+
+                        item.queueDetails=$scope.queues[item.id].queueDetails;
+                        $scope.safeApply(function () {
+
+                            $scope.queues[item.id] = item;
+                        });
+                    }
+
+                   /* if (!$scope.queues[item.id]) {
                         $scope.queueList.push(item);
                     }
 
                     $scope.safeApply(function () {
 
                         $scope.queues[item.id] = item;
-                    });
+                    });*/
 
                     //$scope.queues[item.id] = item;
 
@@ -473,127 +532,127 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 });
             },
             /*getProfileDetails: function () {
-                dashboardService.GetProfileDetails().then(function (response) {
-                    //$scope.profile = [];
-                    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE: []};
-                    if (response.length > 0) {
-                        for (var i = 0; i < response.length; i++) {
+             dashboardService.GetProfileDetails().then(function (response) {
+             //$scope.profile = [];
+             $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE: []};
+             if (response.length > 0) {
+             for (var i = 0; i < response.length; i++) {
 
 
-                            var profile = {
-                                name: '',
-                                avatar: '',
-                                slotInfo: []
-                            };
-                            profile.name = response[i].ResourceName;
+             var profile = {
+             name: '',
+             avatar: '',
+             slotInfo: []
+             };
+             profile.name = response[i].ResourceName;
 
-                            //get current user profile image
-                            userImageList.getAvatarByUserName(profile.name, function (res) {
-                                profile.avatar = res;
-                            });
+             //get current user profile image
+             userImageList.getAvatarByUserName(profile.name, function (res) {
+             profile.avatar = res;
+             });
 
-                            if (response[i].Status.Reason && response[i].Status.State) {
-                                resonseAvailability = response[i].Status.State;
-                                resonseStatus = response[i].Status.Reason;
-                                resourceMode = response[i].Status.Mode;
-                            }
-
-
-                            if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0) {
-
-                                for (var j = 0; j < response[i].ConcurrencyInfo.length; j++) {
-                                    var resourceTask = response[i].ConcurrencyInfo[j].HandlingType;
+             if (response[i].Status.Reason && response[i].Status.State) {
+             resonseAvailability = response[i].Status.State;
+             resonseStatus = response[i].Status.Reason;
+             resourceMode = response[i].Status.Mode;
+             }
 
 
-                                    if (response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
-                                        for (var k = 0; k < response[i].ConcurrencyInfo[j].SlotInfo.length; k++) {
-                                            var resonseStatus = null, resonseAvailability = null;
+             if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0) {
 
-                                            if (response[i].ConcurrencyInfo[j].IsRejectCountExceeded) {
-                                                resonseAvailability = "NotAvailable";
-                                                resonseStatus = "Suspended";
-                                            }
-
-                                            var reservedDate ="";
-                                            if(response[i].ConcurrencyInfo[j].SlotInfo[k]) {
-                                                reservedDate = response[i].ConcurrencyInfo[j].SlotInfo[k].StateChangeTime;
-                                            }
-
-                                            var slotInfo = {
-                                                slotState: null,
-                                                LastReservedTime: 0,
-                                                other: null,
-                                                slotMode: resourceMode
-                                            };
-
-                                            if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
-                                                slotInfo.slotState = resonseStatus;
-                                                slotInfo.other = "Reject";
-                                            } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
-                                                slotInfo.slotState = resonseStatus;
-                                                slotInfo.other = "Break";
-                                                reservedDate = response[i].Status.StateChangeTime;
-                                            } else {
-                                                if(response[i].ConcurrencyInfo[j].SlotInfo[k]) {
-                                                    slotInfo.slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
+             for (var j = 0; j < response[i].ConcurrencyInfo.length; j++) {
+             var resourceTask = response[i].ConcurrencyInfo[j].HandlingType;
 
 
-                                                    if (response[i].ConcurrencyInfo[j].SlotInfo[k].State == "Available") {
+             if (response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
+             for (var k = 0; k < response[i].ConcurrencyInfo[j].SlotInfo.length; k++) {
+             var resonseStatus = null, resonseAvailability = null;
 
-                                                        var slotStateTime = moment(reservedDate);
-                                                        var resourceStateTime = moment(response[i].Status.StateChangeTime);
-                                                        if (slotStateTime.isBefore(resourceStateTime)) {
-                                                            reservedDate = response[i].Status.StateChangeTime;
-                                                        }
-                                                    }
-                                                }
-                                            }
+             if (response[i].ConcurrencyInfo[j].IsRejectCountExceeded) {
+             resonseAvailability = "NotAvailable";
+             resonseStatus = "Suspended";
+             }
 
+             var reservedDate ="";
+             if(response[i].ConcurrencyInfo[j].SlotInfo[k]) {
+             reservedDate = response[i].ConcurrencyInfo[j].SlotInfo[k].StateChangeTime;
+             }
 
-                                            if (reservedDate == "") {
-                                                slotInfo.LastReservedTime = null;
-                                                //slotInfo.unixTime = 0;
-                                            } else {
-                                                slotInfo.LastReservedTime = moment(reservedDate).format("h:mm a");
-                                                //slotInfo.unixTime = moment(reservedDate).unix();
-                                            }
+             var slotInfo = {
+             slotState: null,
+             LastReservedTime: 0,
+             other: null,
+             slotMode: resourceMode
+             };
 
-                                            profile.slotInfo.push(slotInfo);
-                                            $scope.ResourceTask[resourceTask].push(profile);
-                                            //$scope.profile.push(profile);
-                                        }
-                                    }
-                                }
-
-                                // is user state Reason
-
-                            } else {
-
-                                reservedDate = response[i].Status.StateChangeTime;
-                                var slotInfoOffline = {
-                                    slotState: "Other",
-                                    LastReservedTime: moment(reservedDate).format("h:mm a"),
-                                    other: "Offline",
-                                    slotMode: resourceMode
-                                };
-
-                                if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+             if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
+             slotInfo.slotState = resonseStatus;
+             slotInfo.other = "Reject";
+             } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+             slotInfo.slotState = resonseStatus;
+             slotInfo.other = "Break";
+             reservedDate = response[i].Status.StateChangeTime;
+             } else {
+             if(response[i].ConcurrencyInfo[j].SlotInfo[k]) {
+             slotInfo.slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
 
 
-                                    slotInfoOffline.slotState = resonseStatus;
-                                    slotInfoOffline.other = "Break";
+             if (response[i].ConcurrencyInfo[j].SlotInfo[k].State == "Available") {
 
-                                }
+             var slotStateTime = moment(reservedDate);
+             var resourceStateTime = moment(response[i].Status.StateChangeTime);
+             if (slotStateTime.isBefore(resourceStateTime)) {
+             reservedDate = response[i].Status.StateChangeTime;
+             }
+             }
+             }
+             }
 
-                                profile.slotInfo.push(slotInfoOffline);
-                                $scope.ResourceTask['OFFLINE'].push(profile);
-                            }
-                        }
-                    }
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                });
-            },*/
+
+             if (reservedDate == "") {
+             slotInfo.LastReservedTime = null;
+             //slotInfo.unixTime = 0;
+             } else {
+             slotInfo.LastReservedTime = moment(reservedDate).format("h:mm a");
+             //slotInfo.unixTime = moment(reservedDate).unix();
+             }
+
+             profile.slotInfo.push(slotInfo);
+             $scope.ResourceTask[resourceTask].push(profile);
+             //$scope.profile.push(profile);
+             }
+             }
+             }
+
+             // is user state Reason
+
+             } else {
+
+             reservedDate = response[i].Status.StateChangeTime;
+             var slotInfoOffline = {
+             slotState: "Other",
+             LastReservedTime: moment(reservedDate).format("h:mm a"),
+             other: "Offline",
+             slotMode: resourceMode
+             };
+
+             if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
+
+
+             slotInfoOffline.slotState = resonseStatus;
+             slotInfoOffline.other = "Break";
+
+             }
+
+             profile.slotInfo.push(slotInfoOffline);
+             $scope.ResourceTask['OFFLINE'].push(profile);
+             }
+             }
+             }
+             }, function (err) {
+             loginService.isCheckResponse(err);
+             });
+             },*/
             callAllServices: function () {
                 ServerHandler.getDataAll();
                 ServerHandler.getAllQueued();
@@ -862,7 +921,67 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
                     }
 
-                    $scope.queues[item.id] = item;
+                    var queueIDData = item.id.split('-');
+
+                    var queueID="";
+                    queueIDData.forEach(function (qItem,i) {
+
+                        if(i!=queueIDData.length-1)
+                        {
+                            if(i==queueIDData.length-2)
+                            {
+                                queueID=queueID+qItem;
+                            }
+                            else {
+                                queueID=queueID.concat(qItem,":") ;
+                            }
+
+                        }
+
+                    });
+
+                    if(!$scope.queues[item.id])
+                    {
+                  //      $scope.queueList.push(item);
+                        dashboardService.getQueueRecordDetails(queueID).then(function (resQueue) {
+
+                            if(resQueue.data && resQueue.data.IsSuccess && resQueue.data.Result)
+                            {
+                                item.queueDetails=resQueue.data.Result;
+                                $scope.safeApply(function () {
+
+                                    $scope.queues[item.id] = item;
+                                });
+                            }
+                            else
+                            {
+                                item.queueDetails=undefined;
+                                $scope.safeApply(function () {
+
+                                    $scope.queues[item.id] = item;
+                                });
+                            }
+                        },function (errQueue) {
+                            console.log(errQueue);
+                            item.queueDetails=undefined;
+                            $scope.safeApply(function () {
+
+                                $scope.queues[item.id] = item;
+                            });
+                        });
+                    }
+                    else {
+
+                        item.queueDetails=$scope.queues[item.id].queueDetails;
+                        $scope.safeApply(function () {
+
+                            $scope.queues[item.id] = item;
+                        });
+                    }
+
+
+
+                    /*$scope.queues[item.id] = item;*/
 
                     //console.log( item.MaxWaitingMS);
                 });
@@ -1194,6 +1313,115 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
         link: function (scope, element, attributes) {
 
 
+
+            scope.que.isExceeded=false;
+            scope.checkTimeExceed = function () {
+
+
+                if(scope.que.CurrentMaxWaitTime !=0 && scope.que.queueDetails && scope.que.queueDetails.MaxWaitTime)
+                {
+                    var diffTime= moment().diff(moment(scope.que.CurrentMaxWaitTime),'seconds',true);
+                    if(diffTime>scope.que.queueDetails.MaxWaitTime)
+                    {
+
+                        scope.que.isExceeded=true;
+
+                    }
+                    else
+                    {
+                        scope.que.isExceeded=false;
+
+                    }
+                }
+                else
+                {
+                    scope.que.isExceeded=false;
+                    scope.que.isNotified = false;
+                }
+
+
+
+
+
+                /*  if(scope.queue.QueueInfo.CurrentMaxWaitTime !=0  && scope.queue.QueueInfo.EventTime && scope.queue.queueDetails.MaxWaitTime)
+                 {
+
+
+
+
+                 if (scope.queue.QueueInfo.CurrentMaxWaitTime) {
+
+                 var currWait =0;
+                 var d = moment(scope.queue.QueueInfo.CurrentMaxWaitTime).valueOf();
+
+                 if (scope.queue.QueueInfo.EventTime) {
+
+                 var serverTime = moment(scope.queue.QueueInfo.EventTime).valueOf();
+                 tempMaxWaitingMS = serverTime - d;
+
+                 var myTime = moment().valueOf();
+
+                 var timeDiff= myTime-tempMaxWaitingMS;
+
+
+
+                 if(tempMaxWaitingMS==0)
+                 {
+                 currWait=myTime-d;
+                 }
+                 else
+                 {
+                 currWait=timeDiff;
+                 }
+
+                 if(currWait>(scope.queue.queueDetails.MaxWaitTime*1000))
+                 {
+                 scope.isExceeded=true;
+                 scope.isNotified = true;
+                 }
+                 else
+                 {
+                 scope.isExceeded=false;
+                 scope.isNotified = false;
+                 }
+
+                 }
+                 }
+
+
+                 /!* var curMaxTime =  moment(scope.queue.QueueInfo.CurrentMaxWaitTime);
+                 var curTime =moment(moment.now());
+                 var diffTime = curTime.diff(curMaxTime);
+                 if(diffTime>(scope.queue.queueDetails.MaxWaitTime*1000))
+                 {
+                 scope.isExceeded=true;
+                 scope.isNotified = true;
+                 }
+                 else
+                 {
+                 scope.isExceeded=false;
+                 scope.isNotified = false;
+                 }*!/
+
+
+
+                 }
+                 else
+                 {
+                 scope.isExceeded=false;
+                 scope.isNotified = false;
+                 }*/
+            }
+            scope.checkTimeExceed();
+
+            scope.$on('timer-tick',function (e) {
+
+                scope.checkTimeExceed();
+
+            });
+
+
+
             //console.log(scope.queueoption)
             // console.log(scope.pieoption)
             // scope.skillList=scope.name.match(/attribute_[0-9]*/g);
@@ -1204,12 +1432,12 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             });
 
             /*scope.que = {};
-            scope.options = {};
-            scope.que.CurrentWaiting = 0;
-            scope.que.CurrentMaxWaitTime = 0;
-            scope.que.presentage = 0;
-            scope.maxy = 10;
-            scope.val = "0";*/
+             scope.options = {};
+             scope.que.CurrentWaiting = 0;
+             scope.que.CurrentMaxWaitTime = 0;
+             scope.que.presentage = 0;
+             scope.maxy = 10;
+             scope.val = "0";*/
 
 
             scope.dataSet = [{

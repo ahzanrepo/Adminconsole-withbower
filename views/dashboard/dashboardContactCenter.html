@@ -157,8 +157,8 @@
                                     <!--<ul class="newsticker">-->
                                     <!--<li>-->
                                     <div class="col-lg-6 col-xs-12 col-md-6"
-                                         ng-repeat="(qkey, queue) in queues">
-                                        <div class="q-widget-wrp">
+                                         ng-repeat="queue in queues">
+                                        <div class="q-widget-wrp" ng-class="{gored:queue.isExceeded}">
                                             <d1queued name="{{queue.id}}"
                                                       que="queue"
                                                       mque="queue"
