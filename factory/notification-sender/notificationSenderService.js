@@ -54,7 +54,7 @@ mainApp.factory('notifiSenderService', function ($http, baseUrls)
                 return response;
             });
         },
-        sendNotification: function (notificationData, eventName, eventUuid) {
+        sendNotification: function (notificationData, eventName, eventUuid, level) {
             return $http({
                 method: 'POST',
                 url: baseUrls.notification + "DVP/API/1.0.0.0/NotificationService/Notification/initiate",
@@ -62,7 +62,9 @@ mainApp.factory('notifiSenderService', function ($http, baseUrls)
                 headers: {
                     'Content-Type': 'application/json',
                     'eventname': eventName,
-                    'eventuuid': eventUuid
+                    'eventuuid': eventUuid,
+                    'eventlevel': level
+
                 },
                 data: notificationData
 
