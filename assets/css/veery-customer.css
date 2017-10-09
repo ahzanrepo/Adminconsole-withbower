@@ -6648,6 +6648,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     width: 100%;
     height: 500px;
 }
+
 .gored {
     background-color: #e7855e;
 }
@@ -6659,16 +6660,52 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     position: relative;
 }
 
-.ui-grid-viewport .ui-grid-cell-contents {
-    word-wrap: break-word;
-    white-space: normal !important;
+/*.ui-grid-viewport .ui-grid-cell-contents {*/
+/*word-wrap: break-word;*/
+/*white-space: normal !important;*/
+/*}*/
+
+/*.ui-grid-row, .ui-grid-cell {*/
+/*height: auto !important;*/
+/*}*/
+
+/*.ui-grid-row div[role=row] {*/
+/*display: flex;*/
+/*align-content: stretch;*/
+/*}*/
+
+.tool-tiptask-list {
+    background: #c2c2c2;
+    padding: 15px;
 }
 
-.ui-grid-row, .ui-grid-cell {
-    height: auto !important;
+.grid-tooltip {
+    overflow: visible;
+    z-index: 9999999;
+    float: left;
 }
 
-.ui-grid-row div[role=row] {
-    display: flex ;
-    align-content: stretch;
+/* new campaign UI */
+.camp-m-wrapper {
+    width: 100%;
+    background-color: #ffffff;
 }
+
+.camp-m-wrapper > .camp-m-header {
+    width: 100%;
+    height: 74px;
+    overflow: hidden;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.camp-header-left {
+
+}
+
+
+
+
+
+
+

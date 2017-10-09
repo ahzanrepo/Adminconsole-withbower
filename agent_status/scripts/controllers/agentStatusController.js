@@ -86,8 +86,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             displayName: 'Task',
             $$treeLevel: 1,
             width: 100,
-            cellTemplate: "<div  ng-repeat='task in row.entity.taskList'>{{task.taskType}} - {{task.skill}} {{task.percentage}}%  </div>"
-
+            // cellTemplate: 'template/taskListTemplate.html'
+            cellTemplate: 'agent_status/view/template/taskListTemplate.html'
         },
         {
             name: 'profileName',

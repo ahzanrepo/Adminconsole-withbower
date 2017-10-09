@@ -1081,6 +1081,9 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "CAMPAIGN_CDR"
             }
 
+        }).state('console.campaign-console', {
+            url: "/campaign-console",
+            templateUrl: "campaignManager/template/temp/campaign-console.html"
         });
         //Todo shoud be change navigation
     }]);
