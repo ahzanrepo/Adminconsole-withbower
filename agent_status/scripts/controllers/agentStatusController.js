@@ -66,6 +66,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         enableGridMenu: true,
         columnDefs: [],
         data: 'Productivitys',
+
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
 
@@ -73,15 +74,19 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $interval(function () {
                 $scope.gridApi.core.handleWindowResize();
             }, 500, 10);
+
+
         }
     };
+
 
     $scope.gridOptions.columnDefs = [
         {
             name: 'taskList',
             displayName: 'Task',
+            $$treeLevel: 1,
             width: 100,
-            cellTemplate: "<span ng-repeat='task in row.entity.taskList'><span>{{task.skill}} {{task.percentage}}% | </span>"
+            cellTemplate: "<div  ng-repeat='task in row.entity.taskList'>{{task.taskType}} - {{task.skill}} {{task.percentage}}%  </div>"
 
         },
         {
