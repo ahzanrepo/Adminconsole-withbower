@@ -64,6 +64,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.gridOptions = {
         enableColumnResizing: true,
         enableGridMenu: true,
+        enableSorting: true,
         columnDefs: [],
         data: 'Productivitys',
 
@@ -94,7 +95,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             displayName: 'Name',
             width: 100,
             pinnedLeft: true,
-            enableSorting: true
+            sort: {direction: 'asc', priority: 0}
         },
         {
             name: 'LoginTime',
