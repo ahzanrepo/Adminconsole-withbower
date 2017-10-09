@@ -6700,7 +6700,120 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .camp-header-left {
+    width: 150px;
+    padding-top: 9px;
+    padding-left: 15px;
 
+}
+
+.camp-hleft-text {
+
+}
+
+.camp-hleft-text.hleft-lg {
+    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-size: 23px;
+    font-weight: bold;
+    letter-spacing: 2.7px;
+    text-shadow: 0 2px 8px rgba(34, 52, 72, 0.27);
+
+}
+
+.camp-hleft-text.h-left-sm {
+    font-family: 'Ubuntu-Light', sans-serif !important;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 1.3px;
+    color: #b3b6b3;
+}
+
+.left-line {
+    position: absolute;
+    width: 3px;
+    height: 41px;
+    box-shadow: 0 2px 8px 0 rgba(43, 201, 226, 0.34);
+    border: solid 2px #2bc9e2;
+    top: 16px;
+    left: 11px;
+}
+
+.create-btn-wrap {
+    float: right;
+    padding-top: 19px;
+    padding-right: 15px;
+}
+
+.rectangle-create-new-c {
+    width: 150px;
+    height: 32px;
+    border-radius: 5px;
+    background-color: #2bc9e2;
+    box-shadow: 0 2px 20px 0 rgba(43, 201, 226, 0.34);
+    letter-spacing: 1.4px;
+    color: #fafbfd;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.rectangle-create-new-c:hover,
+.rectangle-create-new-c:active,
+.rectangle-create-new-c:focus {
+    background-color: #1eacb7;
+}
+
+.campaign-search {
+    padding-top: 16px;
+}
+
+.camp-tbl-header {
+    width: 100%;
+    height: 40px;
+    background-color: #393b3b;
+    overflow: hidden;
+    position: relative;
+    padding-top: 11px;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.tbl-header {
+    font-family: 'Ubuntu-Medium', sans-serif !important;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    color: #ffffff;
+}
+
+.camp-tbl-row {
+    height: 41px;
+    padding-top: 11px;
+    padding-left: 20px;
+    padding-right: 10px;
+    cursor: pointer;
+
+}
+
+.tbl-body-text {
+    font-family: 'Ubuntu-Medium', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 1.3px;
+    color: #223448 !important;
+
+}
+
+.camp-tbl-row:hover,
+.camp-tbl-row:active,
+.camp-tbl-row:focus {
+    background-color: #f6f5f0 !important;
+}
+
+.camp-tbl-row:nth-child(odd) {
+    background-color: #fafbfd;
+}
+
+.camp-tbl-row:nth-child(even) {
+    background-color: #ffffff;
 }
 
 

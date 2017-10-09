@@ -1083,7 +1083,12 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
 
         }).state('console.campaign-console', {
             url: "/campaign-console",
-            templateUrl: "campaignManager/template/temp/campaign-console.html"
+            templateUrl: "campaignManager/template/temp/campaign-console.html",
+            controller: "campaignController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
         });
         //Todo shoud be change navigation
     }]);

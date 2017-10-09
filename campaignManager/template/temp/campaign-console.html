@@ -12,12 +12,57 @@
                     Campaign Manager
                 </div>
             </div>
-
-
+            <span class="left-line"></span>
         </div>
         <!-- search -->
-        <div class="col-lg-5"></div>
+        <div class="col-lg-5">
+            <div class="campaign-search">
+                <input class="form-control" ng-model="searchCriteria"
+                       placeholder="Campaign Search Here...">
+            </div>
+        </div>
         <!-- create new campaign  -->
-        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <div class="create-btn-wrap">
+                <div class="rectangle-create-new-c">
+                    <i class="ti-plus"></i>
+                    New Campaign
+                    </data>
+                </div>
+            </div>
+        </div>
     </header>
+    <!-- table header -->
+    <div class="camp-tbl-header">
+        <div class="col-lg-4">
+            <div class="tbl-header">Name</div>
+        </div>
+        <div class="col-lg-2">
+            <div class="tbl-header">Mode</div>
+        </div>
+        <div class="col-lg-2">
+            <div class="tbl-header">Channel</div>
+        </div>
+        <div class="col-lg-4">
+            <div class="tbl-header">Create Date</div>
+        </div>
+    </div>
+
+    <div class="camp-tbl-body">
+        <div class="camp-tbl-row"
+             ng-repeat="cam in campaigns | filterBy: ['CampaignName']: searchCriteria | orderBy : '-updatedAt'">
+            <div class="col-lg-4">
+                <div class="tbl-body-text">{{cam.CampaignName}}</div>
+            </div>
+            <div class="col-lg-2">
+                <div class="tbl-body-text">{{cam.CampaignMode}}</div>
+            </div>
+            <div class="col-lg-2">
+                <div class="tbl-body-text">{{cam.CampaignChannel}}</div>
+            </div>
+            <div class="col-lg-4">
+                <div class="tbl-body-text">{{cam.updatedAt}}</div>
+            </div>
+        </div>
+    </div>
 </section>

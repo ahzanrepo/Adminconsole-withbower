@@ -93,7 +93,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             name: 'profileName',
             displayName: 'Name',
             width: 100,
-            pinnedLeft: true
+            pinnedLeft: true,
+            enableSorting: true
         },
         {
             name: 'LoginTime',
@@ -143,7 +144,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         },
         {
             name: 'IncomingCallCount',
-            displayName: 'Incoming Call Count',
+            displayName: 'Answered Call Count',
             width: 100
         },
         {
