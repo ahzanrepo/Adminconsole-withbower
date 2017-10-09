@@ -1315,108 +1315,18 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
 
 
             scope.que.isExceeded=false;
-            scope.checkTimeExceed = function () {
 
 
-                if(scope.que.CurrentMaxWaitTime !=0 && scope.que.queueDetails && scope.que.queueDetails.MaxWaitTime)
+            scope.$on('timer-tick',function (e,data) {
+
+                if(data.millis && scope.que.queueDetails && scope.que.queueDetails.MaxWaitTime && data.millis >=(scope.que.queueDetails.MaxWaitTime*1000))
                 {
-                    var diffTime= moment().diff(moment(scope.que.CurrentMaxWaitTime),'seconds',true);
-                    if(diffTime>scope.que.queueDetails.MaxWaitTime)
-                    {
-
-                        scope.que.isExceeded=true;
-
-                    }
-                    else
-                    {
-                        scope.que.isExceeded=false;
-
-                    }
+                    scope.que.isExceeded=true;
                 }
                 else
                 {
                     scope.que.isExceeded=false;
-                    scope.que.isNotified = false;
                 }
-
-
-
-
-
-                /*  if(scope.queue.QueueInfo.CurrentMaxWaitTime !=0  && scope.queue.QueueInfo.EventTime && scope.queue.queueDetails.MaxWaitTime)
-                 {
-
-
-
-
-                 if (scope.queue.QueueInfo.CurrentMaxWaitTime) {
-
-                 var currWait =0;
-                 var d = moment(scope.queue.QueueInfo.CurrentMaxWaitTime).valueOf();
-
-                 if (scope.queue.QueueInfo.EventTime) {
-
-                 var serverTime = moment(scope.queue.QueueInfo.EventTime).valueOf();
-                 tempMaxWaitingMS = serverTime - d;
-
-                 var myTime = moment().valueOf();
-
-                 var timeDiff= myTime-tempMaxWaitingMS;
-
-
-
-                 if(tempMaxWaitingMS==0)
-                 {
-                 currWait=myTime-d;
-                 }
-                 else
-                 {
-                 currWait=timeDiff;
-                 }
-
-                 if(currWait>(scope.queue.queueDetails.MaxWaitTime*1000))
-                 {
-                 scope.isExceeded=true;
-                 scope.isNotified = true;
-                 }
-                 else
-                 {
-                 scope.isExceeded=false;
-                 scope.isNotified = false;
-                 }
-
-                 }
-                 }
-
-
-                 /!* var curMaxTime =  moment(scope.queue.QueueInfo.CurrentMaxWaitTime);
-                 var curTime =moment(moment.now());
-                 var diffTime = curTime.diff(curMaxTime);
-                 if(diffTime>(scope.queue.queueDetails.MaxWaitTime*1000))
-                 {
-                 scope.isExceeded=true;
-                 scope.isNotified = true;
-                 }
-                 else
-                 {
-                 scope.isExceeded=false;
-                 scope.isNotified = false;
-                 }*!/
-
-
-
-                 }
-                 else
-                 {
-                 scope.isExceeded=false;
-                 scope.isNotified = false;
-                 }*/
-            }
-            scope.checkTimeExceed();
-
-            scope.$on('timer-tick',function (e) {
-
-                scope.checkTimeExceed();
 
             });
 
