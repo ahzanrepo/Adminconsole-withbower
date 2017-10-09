@@ -158,10 +158,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             width: 100
         },
         {
-            name: 'TransferCallCount',
-            displayName: 'Transfer Call Count',
+            name: 'OutboundAnswerCount',
+            displayName: 'Outbound Answer Count',
             width: 100
         }
+
     ];
 
     $scope.cumulative = function (grid, myRow) {
