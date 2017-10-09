@@ -1247,6 +1247,8 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
         document.getElementById("main").style.marginRight = "0";
     };
 
+    $scope.notification_levels = ["low", "normal", "urgent"];
+    $scope.notificationMsg.level = "low";
 
     $scope.sendNotification = function () {
         if ($scope.naviSelectedUser) {
@@ -1269,6 +1271,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
                             $scope.notificationMsg.isPersist=true;
                             notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
                                 $scope.notificationMsg = {};
+                                $scope.notificationMsg.level = "low";
                                 console.log("send notification success :: " + JSON.stringify(clients));
                             }, function (err) {
                                 var errMsg = "Send Notification Failed";
@@ -1293,9 +1296,12 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
             } else {
                 $scope.notificationMsg.To = $scope.naviSelectedUser.username;
                 $scope.notificationMsg.isPersist = true;
-                notifiSenderService.sendNotification($scope.notificationMsg, "message", "").then(function (response) {
+                $scope.notificationMsg.eventlevel = $scope.notification_level;
+                notifiSenderService.sendNotification($scope.notificationMsg, "message", "", $scope.notificationMsg.level).then(function (response) {
                     console.log("send notification success :: " + $scope.notificationMsg.To);
                     $scope.notificationMsg = {};
+                    $scope.notificationMsg.level = "low";
+                    //$scope.notification_level = "low";
                 }, function (err) {
                     authService.IsCheckResponse(err);
                     var errMsg = "Send Notification Failed";
@@ -1308,7 +1314,26 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
             $scope.isSendingNotifi = false;
 
         } else {
-            $scope.showAlert('Error', 'error', "Send Notification Failed");
+            //$scope.showAlert('Error', 'error', "Send Notification Failed");
+            $scope.notificationMsg.eventlevel = $scope.notification_level;
+            $scope.notificationMsg.From = $scope.userName;
+            $scope.notificationMsg.Direction = "STATELESS";
+            $scope.notificationMsg.isPersist = false;
+            $scope.isSendingNotifi = true;
+
+            notifiSenderService.sendNotification($scope.notificationMsg, "message", "", $scope.notificationMsg.level).then(function (response) {
+                //console.log("send notification success :: " + $scope.notificationMsg.To);
+                $scope.notificationMsg = {};
+                $scope.notificationMsg.level = "low";
+                //$scope.notification_level = "low";
+            }, function (err) {
+                authService.IsCheckResponse(err);
+                var errMsg = "Send Notification Failed";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            });
         }
     };
 

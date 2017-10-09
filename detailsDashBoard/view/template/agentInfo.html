@@ -32,7 +32,7 @@
                             </div>
                         </div>
 
-                        <div ng-show="gridTaskOptions.data.length>0" ui-grid="gridTaskOptions" class="qgrid" ui-grid-auto-resize></div>
+                        <div ng-show="gridTaskOptions.data.length>0" ui-grid="gridTaskOptions" class="qgrid" ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                             No Data...
                         </div>
 
-                        <div ng-show="gridAgentLogsOptions.data.length>0" ui-grid="gridAgentLogsOptions" class="qgrid" ui-grid-auto-resize></div>
+                        <div ng-show="gridAgentLogsOptions.data.length>0" ui-grid="gridAgentLogsOptions" class="qgrid" ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                         <div class="data-state-wrap" ng-hide="gridCalllogsOptions.data.length>0">
                             No Data...
                         </div>
-                        <div ng-show="gridCalllogsOptions.data.length>0" ui-grid="gridCalllogsOptions" class="qgrid" ></div>
+                        <div ng-show="gridCalllogsOptions.data.length>0" ui-grid="gridCalllogsOptions" class="qgrid" ui-grid-move-columns ui-grid-resize-columns></div>
 
                     </div>
                 </div>

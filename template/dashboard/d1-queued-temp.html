@@ -1,39 +1,42 @@
-<div class="q-chart-wrp">
+<div ng-class="{gored:isExceeded}">
+    <div class="q-chart-wrp gored" >
 
-    <div class="chart-wrp">
-        <div easypiechart options="pieoption" percent="que.presentage">
-            <div class="d1-pie-text">{{que.presentage}}%</div>
-        </div>
-    </div>
-
-    <div class="q-chart-header-wrp">
-        <div class="header">
-            {{ que.queuename | limitTo: 15 }}{{que.queuename.length > 15 ? '...' :
-            ''}}
-        </div>
-        <div class="chart-name">
-            ANSWERED
-        </div>
-    </div>
-    <div class="q-chart-text-wrp">
-        <div class="header-text">
-            <div class="current-w-text">
-                Current Waiting
-            </div>
-            <div class="current-w-num">
-                {{que.CurrentWaiting}}
-            </div>
-        </div>
-        <div class="header-text bottom-t">
-            <div class="current-w-text">
-                Max Wait Time
-            </div>
-            <div class="current-w-num">
-                <timer start-time="que.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} : {{sseconds}}</timer>
-
+        <div class="chart-wrp">
+            <div easypiechart options="pieoption" percent="que.presentage">
+                <div class="d1-pie-text">{{que.presentage}}%</div>
             </div>
         </div>
 
+        <div class="q-chart-header-wrp">
+            <div class="header">
+                {{ que.queuename | limitTo: 15 }}{{que.queuename.length > 15 ? '...' :
+                ''}}
+            </div>
+            <div class="chart-name">
+                ANSWERED
+            </div>
+        </div>
+        <div class="q-chart-text-wrp">
+            <div class="header-text">
+                <div class="current-w-text">
+                    Current Waiting
+                </div>
+                <div class="current-w-num">
+                    {{que.CurrentWaiting}}
+                </div>
+            </div>
+            <div class="header-text bottom-t">
+                <div class="current-w-text">
+                    Max Wait Time
+                </div>
+                <div class="current-w-num">
+                    <timer start-time="que.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} : {{sseconds}}</timer>
 
+                </div>
+                <div ng-class="{gored:isExceeded}"></div>
+            </div>
+
+
+        </div>
     </div>
 </div>
