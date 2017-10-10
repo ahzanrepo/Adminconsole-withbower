@@ -14,7 +14,8 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
             this.$apply(fn);
         }
     };
-
+    $anchorScroll();
+    
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     subscribeServices.subscribe('queuedetail');
     //subscribe services
@@ -65,7 +66,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     //$scope.percent = 65;
 
     //#
-    //$anchorScroll();
+
     $scope.isGrid = false;
     $scope.summaryText = "Table";
     $scope.isLoaded = false;
@@ -536,10 +537,10 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
             que: "="
         },
 
-        template: "<th class=\"fs15 text-left\">{{que.QueueName}}</th>" + "<th class=\"fs15 text-right\">{{que.CurrentWaiting}}</th>"
-        + "<th class=\"fs15 text-right\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer></th> <th class=\"fs15 text-right\">{{que.TotalQueued}}</th><th class=\"fs15 text-right\">{{que.TotalAnswered}}</th><th class=\"fs15 text-right\">{{que.QueueDropped}}</th><th class=\"fs15 text-right\">{{agentCount}}</th>"
-        + "<th class=\"fs15 text-right\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15 text-right\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
-        + "<th class=\"fs15 text-right\">{{que.presentage}}</th>",
+        template: "<th class=\"fs15 text-left\">{{que.QueueName}}</th>" + "<th class=\"fs15\">{{que.CurrentWaiting}}</th>"
+        + "<th class=\"fs15\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer></th> <th class=\"fs15\">{{que.TotalQueued}}</th><th class=\"fs15\">{{que.TotalAnswered}}</th><th class=\"fs15\">{{que.QueueDropped}}</th><th class=\"fs15\">{{agentCount}}</th>"
+        + "<th class=\"fs15\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
+        + "<th class=\"fs15\">{{que.presentage}}</th>",
 
         link: function (scope, element, attributes) {
 
