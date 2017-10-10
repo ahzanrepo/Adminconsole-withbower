@@ -49,7 +49,11 @@
     </div>
 
     <div class="camp-tbl-body">
-        <div class="camp-tbl-row"
+        <!-- campaign details view -->
+        <div ng-include="'campaignManager/template/temp/campign-details-view-temp.html'"></div>
+
+        <div id="{{cam.CampaignId}}" class="camp-tbl-row"
+             ng-click="viewCurrentCampaignDetails(cam)"
              ng-repeat="cam in campaigns | filterBy: ['CampaignName']: searchCriteria | orderBy : '-updatedAt'">
             <div class="col-lg-4">
                 <div class="tbl-body-text">{{cam.CampaignName}}</div>
@@ -64,5 +68,8 @@
                 <div class="tbl-body-text">{{cam.updatedAt}}</div>
             </div>
         </div>
+
     </div>
+
+
 </section>

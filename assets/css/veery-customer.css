@@ -6784,6 +6784,13 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     color: #ffffff;
 }
 
+.camp-tbl-body {
+    min-height: 400px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
 .camp-tbl-row {
     height: 41px;
     padding-top: 11px;
@@ -6794,7 +6801,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .tbl-body-text {
-    font-family: 'Ubuntu-Medium', sans-serif !important;
+    font-family: 'Ubuntu-Light', sans-serif !important;
     font-size: 12px;
     font-weight: 300;
     letter-spacing: 1.3px;
@@ -6808,6 +6815,10 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     background-color: #f6f5f0 !important;
 }
 
+.camp-tbl-row.active {
+    background-color: #f6f5f0 !important;
+}
+
 .camp-tbl-row:nth-child(odd) {
     background-color: #fafbfd;
 }
@@ -6816,9 +6827,229 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     background-color: #ffffff;
 }
 
+/* campaign details view */
 
+.cam-details-wrapper {
+    position: absolute;
+    width: 0;
+    height: 100%;
+    background-color: #f6f5f0;
+    overflow: hidden;
+    z-index: 100;
+    right: 0;
 
+   
+}
 
+.camp-header-left-icon > ul > li {
+    display: inline-block;
+    padding-left: 10px;
+}
 
+.camp-l-round-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #fafbfd;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 100%;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+    padding-top: 6px;
+}
 
+.camp-l-round-icon.load {
+    background-color: #f36b5b;
+}
 
+.cam-header-name {
+    display: block;
+    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-size: 8px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    color: #393b3b;
+    padding-top: 8px;
+}
+
+.cam-select-name {
+    font-family: 'Ubuntu-Light', sans-serif !important;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 1.3px;
+    color: #393b3b;
+}
+
+.camp-header-left-icon {
+    display: block;
+    width: 100%;
+    height: 45px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 7px;
+}
+
+.cam-details-header {
+    height: 45px;
+    overflow: hidden;
+    position: relative;
+    background-color: rgba(150, 150, 150, 0.26);
+}
+
+.camp-l-round-icon > i {
+    font-size: 15px;
+
+}
+
+.trash-simple-line-icons {
+    color: #f36b5b;
+}
+
+.refresh-simple-line-icons {
+    color: #223448;
+}
+
+.cam-status-play {
+    width: 100%;
+    height: auto;
+    margin-top: 9px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.cam-status-wrapper {
+    width: 100%;
+    height: 118px;
+    overflow: hidden;
+    position: relative;
+    background-image: linear-gradient(to top, #f7f5f0, #f7f5f0);
+    text-align: center;
+}
+
+.cam-status-play > ul > li {
+    display: inline-block;
+}
+
+.cam-staus-btn-wrapper {
+    overflow: hidden;
+    position: relative;
+    border-radius: 100%;
+    text-align: center;
+    background-color: #fafcfe;
+    cursor: pointer;
+}
+
+.cam-staus-btn-wrapper.sm {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    padding-top: 6px;
+}
+
+.cam-staus-btn-wrapper.lg {
+    width: 51px;
+    height: 51px;
+    font-size: 29px;
+    box-shadow: 0 2px 25px 0 rgba(57, 59, 59, 0.18);
+    padding-left: 9px;
+    padding-top: 3px;
+    top: 7px;
+}
+
+.customer-inline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.customer-inline > li {
+    display: inline-block;
+}
+
+.campaign-status-text {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding-top: 10px;
+}
+
+.campaign-status-text > ul > li {
+    display: inline-block;
+    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.current-details-wrp {
+    width: 100%;
+    min-height: 25px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: solid 1px #dddcd8;
+    display: block;
+    padding: 10px 10px 10px 10px;
+}
+
+.current-details-wrp > ul > li:first-child {
+    float: left;
+    font-family: 'Ubuntu-Light', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    color: #8a8e86;
+}
+
+.current-details-wrp > ul > li:last-child {
+    float: right;
+    font-family: 'Ubuntu-Medium', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    color: #8a8e86;
+}
+
+.cam-staus-btn-wrapper.done {
+    color: #c3c3c3;
+}
+
+.cam-staus-btn-wrapper.lg.pause,
+.cam-staus-btn-wrapper.lg.create {
+    color: #81E9A0;
+}
+
+.loading-stop-bg,
+.loading-stop-bg > i {
+    background: #f36b5b;
+    color: #f36b5b;
+    cursor: wait !important;
+}
+
+.loading-play-bg,
+.loading-play-bg > i {
+    background: #81E9A0;
+    color: #81E9A0;
+    cursor: wait !important;
+}
+
+.loading-pause-bg,
+.loading-pause-bg > i {
+    background: #16C2E0;
+    color: #16C2E0;
+    cursor: wait !important;
+}
+
+.cam-staus-btn-wrapper.sm.start > i.cam-pause {
+    color: #16C2E0;
+}
+
+.cam-staus-btn-wrapper.sm.pause > i.cam-stop,
+.cam-staus-btn-wrapper.sm.stop > i.cam-eject {
+    color: #f36b5b;
+}
+
+.disable-icon {
+    color: #c3c3c3;
+}
