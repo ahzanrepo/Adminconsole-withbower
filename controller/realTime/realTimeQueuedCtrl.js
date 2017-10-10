@@ -14,7 +14,8 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
             this.$apply(fn);
         }
     };
-
+    $anchorScroll();
+    
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     subscribeServices.subscribe('queuedetail');
     //subscribe services
@@ -65,7 +66,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     //$scope.percent = 65;
 
     //#
-    //$anchorScroll();
+
     $scope.isGrid = false;
     $scope.summaryText = "Table";
     $scope.isLoaded = false;
