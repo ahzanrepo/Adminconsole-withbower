@@ -144,6 +144,12 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             cellTemplate: "<div>{{row.entity.IdleTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
+            name: 'StaffedTime',
+            displayName: 'Staffed Time',
+            width: 100,
+            cellTemplate: "<div>{{row.entity.StaffedTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
             name: 'IncomingCallCount',
             displayName: 'Answered Call Count',
             width: 100
@@ -160,7 +166,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         },
         {
             name: 'OutboundAnswerCount',
-            displayName: 'Outbound Answer Count',
+            displayName: 'Outgoing Answered Count',
             width: 100
         }
 
