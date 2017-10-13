@@ -722,12 +722,12 @@ mainApp.directive('statusgantt', function ($timeout) {
                     endEventName="Un"+stEventName;
                     statusColour='#0CFF00';
                 }
-                if(event.Reason !="EndBreak" && event.Reason.indexOf("Break")>=0)
+                else if(event.Reason !="EndBreak" && event.Reason.indexOf("Break")>=0)
                 {
                     endEventName="EndBreak";
                     statusColour='#CACACA';
                 }
-                if(event.Reason == "AfterWork" )
+                else if(event.Reason == "AfterWork" )
                 {
                     if( event.Status="Completed")
                     {
@@ -753,15 +753,22 @@ mainApp.directive('statusgantt', function ($timeout) {
                 }
 
 
+                var index =-1;
+
                 if(isACW)
                 {
-                    var index = scope.events.map(function(el) {
+                    isACW=false;
+
+                     index = scope.events.map(function(el) {
                         return el.Status ;
                     }).indexOf("Available");
+
+
+
                 }
                 else
                 {
-                    var index = scope.events.map(function(el) {
+                    index = scope.events.map(function(el) {
                         return el.Reason;
                     }).indexOf(endEventName);
                 }
