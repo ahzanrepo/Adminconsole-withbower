@@ -16,12 +16,20 @@
                 </select>
 
             </div>
+            <div class="col-md-3 col-sm-3 col-xs-12 ">
+                <h5>Search </h5>
+                <input type="text" class="form-control" style="width: 20em; text-align: left" ng-model="options.filterRow">
+            </div>
+
+
         </div>
     </div>
 </div>
 <div class="row">
     <div gantt data="statusData" headers="['month', 'day','hour','minute']" view-scale="options.scale" sort-mode="model.name"
-         max-height="600">
+         max-height="600"
+         filter-task="{'name': options.filterTask}"
+         filter-row="{'name': options.filterRow}">
         <!--<gantt-tree enabled="true" ></gantt-tree>-->
         <!-- <gantt-table enabled="true" columns="['model.name','from','to']" headers="">
          </gantt-table>-->

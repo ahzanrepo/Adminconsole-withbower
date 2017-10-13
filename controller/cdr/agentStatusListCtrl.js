@@ -187,17 +187,7 @@
         $scope.loadAgentList();
 
 
-        /*  $scope.data = [
-         {"id": "2f85dbeb-0845-404e-934e-218bf39750c0", "description": "Milestones", "order": 0, "tasks": [
-         // Dates can be specified as string, timestamp or javascript date object. The data attribute can be used to attach a custom object
-         {"id": "f55549b5-e449-4b0c-9f4b-8b33381f7d76", "subject": "Kickoff", "color": "#93C47D", "from": "2014-07-07T09:00:00", "to": "2014-08-07T10:00:00", "data": "Can contain any custom data or object"},
-         {"id": "5e997eb3-4311-46b1-a1b4-7e8663ea8b0b", "subject": "Concept approval", "color": "#93C47D", "from": new Date(2014,9,18,18,0,0), "to": new Date(2014,9,18,18,0,0), "est": new Date(2014,9,16,7,0,0), "lct": new Date(2014,9,19,0,0,0)},
-         {"id": "b6a1c25c-85ae-4991-8502-b2b5127bc47c", "subject": "Development finished", "color": "#93C47D", "from": new Date(2014,8,15,18,0,0), "to": new Date(2014,8,15,18,0,0)},
-         {"id": "6fdfd775-7b22-42ec-a12c-21a64c9e7a9e", "subject": "Shop is running", "color": "#93C47D", "from": new Date(2014,8,22,12,0,0), "to": new Date(2014,8,22,12,0,0)},
-         {"id": "c112ee80-82fc-49ba-b8de-f8efba41b5b4", "subject": "Go-live", "color": "#93C47D", "from": new Date(2014,8,29,16,0,0), "to": new Date(2014,8,29,16,0,0)}
-         ], "data": "Can contain any custom data or object"}
-         ]
-         */
+
 
         $scope.getAgentStatusList = function () {
             var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
@@ -229,11 +219,11 @@
                         {
                             statusList.push({DisplayName: "UnRegister", Status: "UnRegister"});
                         }
-                        if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
+                        else if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
                         {
                             statusList.push({DisplayName: "Register", Status: "Register"});
                         }
-                        if(item.DisplayName.indexOf("Break")>=0 && item.Status.indexOf("Break")>=0)
+                        else if(item.DisplayName.indexOf("Break")>=0 && item.Status.indexOf("Break")>=0)
                         {
                             statusList.push({DisplayName: "EndBreak", Status: "EndBreak"});
 
@@ -281,8 +271,62 @@
 
         };
 
+        /*$scope.getAgentStatusListCSV = function () {
+         var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
+         var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
+         var momentTz = moment.parseZone(new Date()).format('Z');
+         momentTz = momentTz.replace("+", "%2B");
+
+         var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
+         var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
+
+         if (!$scope.timeEnabledStatus) {
+         startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
+         endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
+         }
+
+         $scope.DownloadFileName = 'AGENT_STATUS_LIST' + $scope.obj.startDay + '_' + $scope.obj.endDay;
+         var deferred = $q.defer();
+         var agentStatusList = [];
+
+         try {
+         cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp) {
+         if (agentListResp && agentListResp.Result) {
+         for (var resource in agentListResp.Result) {
+         if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
+         var caption = agentListResp.Result[resource][0].ResResource.ResourceName;
+         agentListResp.Result[resource].forEach(function (evtItem) {
+         evtItem.Agent = caption;
+         evtItem.Date = moment(evtItem.createdAt).local().format("YYYY-MM-DD HH:mm:ss");
+         agentStatusList.push(evtItem);
+         });
+         }
+
+         }
+
+         }
+
+         deferred.resolve(agentStatusList);
+
+         }).catch(function (err) {
+         loginService.isCheckResponse(err);
+         $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+         deferred.reject(agentStatusList);
+         });
 
 
+         }
+         catch (ex) {
+         $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+         deferred.reject(agentStatusList);
+         }
+
+         return deferred.promise;
+
+         };*/
+
+        $scope.agentStatusListCSV ={};
+        $scope.statusData=[];
         $scope.getAgentStatusListCSV = function () {
             var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
             var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
@@ -299,9 +343,10 @@
 
             $scope.DownloadFileName = 'AGENT_STATUS_LIST' + $scope.obj.startDay + '_' + $scope.obj.endDay;
             var deferred = $q.defer();
-            $scope.agentStatusListCSV = [];
+
 
             try {
+
                 var statusList = [];
 
                 if($scope.statusFilter)
@@ -314,15 +359,16 @@
                         {
                             statusList.push({DisplayName: "UnRegister", Status: "UnRegister"});
                         }
-                        if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
+                        else if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
                         {
                             statusList.push({DisplayName: "Register", Status: "Register"});
                         }
-                        if(item.DisplayName.indexOf("Break")>=0 && item.Status.indexOf("Break")>=0)
+                        else if(item.DisplayName.indexOf("Break")>=0 && item.Status.indexOf("Break")>=0)
                         {
                             statusList.push({DisplayName: "EndBreak", Status: "EndBreak"});
 
                         }
+
                         else
                         {
 
@@ -332,35 +378,65 @@
 
                     });
                 }
-                cdrApiHandler.getAgentStatusRecords(startDate, endDate, statusList, $scope.agentFilter).then(function (agentListResp) {
+
+                cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp) {
                     if (agentListResp && agentListResp.Result) {
                         for (var resource in agentListResp.Result) {
                             if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
                                 var caption = agentListResp.Result[resource][0].ResResource.ResourceName;
-                                agentListResp.Result[resource].forEach(function (evtItem) {
+                                $scope.agentStatusListCSV [caption] = agentListResp.Result[resource];
+
+
+
+                                /*agentListResp.Result[resource].forEach(function (evtItem) {
                                     evtItem.Agent = caption;
                                     evtItem.Date = moment(evtItem.createdAt).local().format("YYYY-MM-DD HH:mm:ss");
-                                    agentStatusListCSV.push(evtItem);
-                                });
+                                    agentStatusList.push(evtItem);
+                                });*/
                             }
 
                         }
 
-                    }
+                        if($scope.agentStatusListCSV)
+                        {
+                            for (var key in $scope.agentStatusListCSV)
+                            {
+                                $scope.recordMaker($scope.agentStatusListCSV[key]);
+                            }
+                            deferred.resolve($scope.statusData);
+                        }
 
-                    deferred.resolve(agentStatusListCSV);
+                    }
+                   /* if ($scope.agentStatusListCSV) {
+                        var eventLength = Object.keys($scope.agentStatusListCSV).length;
+
+                        while (eventLength > 0) {
+                            $scope.recordMaker($scope.agentStatusListCSV[Object.keys($scope.agentStatusListCSV)[0]]);
+                            eventLength = Object.keys($scope.agentStatusListCSV).length;
+                            if(eventLength==0)
+                            {
+                                deferred.resolve($scope.statusData);
+                            }
+
+                        }
+
+                    }*/
+
+
+
+
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
                     $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
-                    deferred.reject(agentStatusListCSV);
+                    deferred.reject($scope.statusData);
                 });
 
 
             }
             catch (ex) {
                 $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
-                deferred.reject(agentStatusListCSV);
+                deferred.reject($scope.statusData);
             }
 
             return deferred.promise;
@@ -368,72 +444,97 @@
         };
 
 
-        $scope.recordFormatter = function (event) {
-
-            var stEventName = event.Reason;
-            var endEventName="";
-            var isACW = false;
-            $scope.statusData=[];
-
-            if(event.Reason=="Register")
-            {
-                endEventName="Un"+stEventName;
-
-            }
-            if(event.Reason !="EndBreak" && event.Reason.indexOf("Break")>=0)
-            {
-                endEventName="EndBreak";
-            }
-            if(event.Reason == "AfterWork" )
-            {
-                if( event.Status="Completed")
-                {
-                    isACW=true;
-                }
-            }
-            else
-            {
-                endEventName="end"+stEventName;
-            }
 
 
-            if(isACW)
-            {
-                var index = $scope.events.map(function(el) {
-                    return el.Status ;
-                }).indexOf("Available");
-            }
-            else
-            {
-                var index = $scope.events.map(function(el) {
-                    return el.Reason;
-                }).indexOf(endEventName);
-            }
 
 
-            if(index>=0)
-            {
 
-                var eventObj = {name: stEventName, tasks: [
-                    {
-                        name: stEventName,
-                        from: moment(event.createdAt),
-                        to:  moment($scope.agentStatusListCSV[index].createdAt)
+
+        $scope.recordMaker = function (events) {
+
+
+            try {
+                var eventLength = events.length;
+
+                while (eventLength > 0) {
+                    var event = events[0];
+                    var stEventName = event.Reason;
+                    var endEventName = "";
+
+                    var isACW = false;
+
+                    if (event.Reason == "Register") {
+                        endEventName = "Un" + stEventName;
+
                     }
-                ]};
+                    else if (event.Reason != "EndBreak" && event.Reason.indexOf("Break") >= 0) {
+                        endEventName = "EndBreak";
+
+                    }
+                    else if (event.Reason == "AfterWork") {
+                        if (event.Status = "Completed") {
+                            isACW = true;
+                        }
+                    }
+                    else {
+                        endEventName = "end" + stEventName;
+                    }
 
 
+                    var index = -1;
 
-                $scope.agentStatusListCSV.splice(index,1);
-                $scope.agentStatusListCSV.splice(scope.events.indexOf(event),1);
+                    if (isACW) {
+                        isACW = false;
 
-                $scope.statusData.push(eventObj);
+                        index = events.map(function (el) {
+                            return el.Status;
+                        }).indexOf("Available");
 
+
+                    }
+                    else {
+                        index = events.map(function (el) {
+                            return el.Reason;
+                        }).indexOf(endEventName);
+                    }
+
+
+                    if (index >= 0) {
+
+                        var eventObj = {
+
+                            Agent: event.ResResource.ResourceName,
+                            Event: stEventName,
+                            From: moment(event.createdAt).local().format("YYYY-MM-DD HH:mm:ss"),
+                            To: moment(events[index].createdAt).local().format("YYYY-MM-DD HH:mm:ss")
+
+                        };
+
+
+                        events.splice(index, 1);
+                        events.splice(events.indexOf(event), 1);
+                        $scope.statusData.push(eventObj);
+
+                    }
+                    else {
+                        events.splice(events.indexOf(event), 1);
+                    }
+                    eventLength = events.length;
+
+                    if (eventLength == 0) {
+                        $scope.statusData;
+                    }
+
+                }
+            } catch (e) {
+                console.log("Error in Making CSV")
             }
-            else
-            {
-                $scope.agentStatusListCSV.splice(scope.events.indexOf(event),1);
-            }
+
+
+
+
+
+
         }
 
 
@@ -467,12 +568,14 @@ mainApp.directive('statusgantt', function ($timeout) {
                 sideMode: 'Table',
                 daily: false,
                 maxHeight: false,
-                width: false,
+                width: true,
                 zoom: 1,
                 columns: ['model.name', 'from', 'to'],
                 treeTableColumns: ['from', 'to'],
                 columnsHeaders: {'model.name': 'Name', 'from': 'From', 'to': 'To'},
                 columnsClasses: {'model.name': 'gantt-column-name', 'from': 'gantt-column-from', 'to': 'gantt-column-to'},
+                filterTask: '',
+                filterRow: '',
                 columnsFormatters: {
                     'from': function (from) {
                         return from !== undefined ? from.format('lll') : undefined
@@ -806,58 +909,6 @@ mainApp.directive('statusgantt', function ($timeout) {
 
 
 
-                /* scope.events.forEach(function (item) {
-
-                 var stEventName = item.Reason;
-                 var endEventName="";
-
-                 if(item.Reason=="Register")
-                 {
-                 endEventName="Un"+stEventName;
-                 }
-                 else
-                 {
-                 endEventName="end"+stEventName;
-                 }
-
-
-                 var index = scope.events.map(function(el) {
-                 return el.Reason;
-                 }).indexOf(endEventName);
-
-
-                 if(index>=0)
-                 {
-
-                 var eventObj = {name: item.Reason, tasks: [
-                 {
-                 name: item.Reason,
-                 color: '#F1C232',
-                 /!*from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
-                 to:  moment(scope.events[index].createdAt).format("YYYY-MM-DD HH:mm:ss")*!/
-                 from: item.createdAt,
-                 to:  scope.events[index].createdAt
-                 }
-                 ]};
-
-
-                 console.log(eventObj.tasks[0].from);
-                 console.log(eventObj.tasks[0].to);
-
-                 scope.events.splice(index,1);
-                 scope.events.splice(scope.events.indexOf(item),1);
-
-                 scope.statusData.push(eventObj);
-
-                 }
-                 else
-                 {
-                 scope.events.splice(scope.events.indexOf(item),1);
-                 }
-
-
-
-                 });*/
 
 
 
