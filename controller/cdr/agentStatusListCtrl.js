@@ -22,7 +22,6 @@
 
         $scope.agentStatuses = [
             {DisplayName: 'Register', Status: 'Register'},
-            {DisplayName: 'Un-Register', Status: 'UnRegister'},
             {DisplayName: 'Inbound', Status: 'Inbound'},
             {DisplayName: 'Outbound', Status: 'Outbound'},
             {DisplayName: 'ACW', Status: 'AfterWork'}
@@ -226,11 +225,11 @@
                     $scope.statusFilter.forEach(function (item) {
 
                         statusList.push(item);
-                        if(item.DisplayName=="Register" && Status=="Register")
+                        if(item.DisplayName=="Register" && item.Status=="Register")
                         {
                             statusList.push({DisplayName: "UnRegister", Status: "UnRegister"});
                         }
-                        if(item.DisplayName=="Un-Register" && Status=="UnRegister")
+                        if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
                         {
                             statusList.push({DisplayName: "Register", Status: "Register"});
                         }
@@ -269,14 +268,14 @@
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+                    $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
                     $scope.obj.isTableLoading = 1;
                 });
 
 
             }
             catch (ex) {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+                $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
                 $scope.obj.isTableLoading = 1;
             }
 
@@ -311,11 +310,11 @@
                     $scope.statusFilter.forEach(function (item) {
 
                         statusList.push(item);
-                        if(item.DisplayName=="Register" && Status=="Register")
+                        if(item.DisplayName=="Register" && item.Status=="Register")
                         {
                             statusList.push({DisplayName: "UnRegister", Status: "UnRegister"});
                         }
-                        if(item.DisplayName=="Un-Register" && Status=="UnRegister")
+                        if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
                         {
                             statusList.push({DisplayName: "Register", Status: "Register"});
                         }
@@ -353,20 +352,23 @@
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+                    $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
                     deferred.reject(agentStatusList);
                 });
 
 
             }
             catch (ex) {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+                $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
                 deferred.reject(agentStatusList);
             }
 
             return deferred.promise;
 
         };
+
+
+
 
 
     };
