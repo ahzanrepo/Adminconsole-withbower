@@ -238,6 +238,7 @@
                             statusList.push({DisplayName: "EndBreak", Status: "EndBreak"});
 
                         }
+
                         else
                         {
 
@@ -249,7 +250,7 @@
                 }
 
 
-                cdrApiHandler.getAgentStatusList(startDate, endDate, statusList, $scope.agentFilter).then(function (agentListResp) {
+                cdrApiHandler.getAgentStatusRecords(startDate, endDate, statusList, $scope.agentFilter).then(function (agentListResp) {
                     $scope.agentStatusList = {};
                     if (agentListResp && agentListResp.Result) {
                         for (var resource in agentListResp.Result) {
@@ -301,7 +302,37 @@
             var agentStatusList = [];
 
             try {
-                cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp) {
+                var statusList = [];
+
+                if($scope.statusFilter)
+                {
+
+                    $scope.statusFilter.forEach(function (item) {
+
+                        statusList.push(item);
+                        if(item.DisplayName=="Register" && Status=="Register")
+                        {
+                            statusList.push({DisplayName: "UnRegister", Status: "UnRegister"});
+                        }
+                        if(item.DisplayName=="Un-Register" && Status=="UnRegister")
+                        {
+                            statusList.push({DisplayName: "Register", Status: "Register"});
+                        }
+                        if(item.DisplayName.indexOf("Break")>=0 && item.Status.indexOf("Break")>=0)
+                        {
+                            statusList.push({DisplayName: "EndBreak", Status: "EndBreak"});
+
+                        }
+                        else
+                        {
+
+                            statusList.push({DisplayName: "end"+item.DisplayName, Status: "end"+item.Status});
+                        }
+
+
+                    });
+                }
+                cdrApiHandler.getAgentStatusRecords(startDate, endDate, statusList, $scope.agentFilter).then(function (agentListResp) {
                     if (agentListResp && agentListResp.Result) {
                         for (var resource in agentListResp.Result) {
                             if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
@@ -632,6 +663,7 @@ mainApp.directive('statusgantt', function ($timeout) {
                 var stEventName = event.Reason;
                 var endEventName="";
                 var statusColour='#F1C232';
+                var isACW = false;
 
                 if(event.Reason=="Register")
                 {
@@ -642,6 +674,13 @@ mainApp.directive('statusgantt', function ($timeout) {
                 {
                     endEventName="EndBreak";
                     statusColour='#CACACA';
+                }
+                if(event.Reason == "AfterWork" )
+                {
+                    if( event.Status="Completed")
+                    {
+                        isACW=true;
+                    }
                 }
                 else
                 {
@@ -661,9 +700,19 @@ mainApp.directive('statusgantt', function ($timeout) {
                     statusColour='#F90422';
                 }
 
-                var index = scope.events.map(function(el) {
-                    return el.Reason;
-                }).indexOf(endEventName);
+
+                if(isACW)
+                {
+                    var index = scope.events.map(function(el) {
+                        return el.Status ;
+                    }).indexOf("Available");
+                }
+                else
+                {
+                    var index = scope.events.map(function(el) {
+                        return el.Reason;
+                    }).indexOf(endEventName);
+                }
 
 
                 if(index>=0)
@@ -681,8 +730,6 @@ mainApp.directive('statusgantt', function ($timeout) {
                     ]};
 
 
-                    console.log(eventObj.tasks[0].from);
-                    console.log(eventObj.tasks[0].to);
 
                     scope.events.splice(index,1);
                     scope.events.splice(scope.events.indexOf(event),1);
