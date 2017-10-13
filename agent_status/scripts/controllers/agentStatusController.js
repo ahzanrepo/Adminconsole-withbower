@@ -64,8 +64,10 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.gridOptions = {
         enableColumnResizing: true,
         enableGridMenu: true,
+        enableSorting: true,
         columnDefs: [],
         data: 'Productivitys',
+
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
 
@@ -73,22 +75,27 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $interval(function () {
                 $scope.gridApi.core.handleWindowResize();
             }, 500, 10);
+
+
         }
     };
+
 
     $scope.gridOptions.columnDefs = [
         {
             name: 'taskList',
             displayName: 'Task',
+            $$treeLevel: 1,
             width: 100,
-            cellTemplate: "<span ng-repeat='task in row.entity.taskList'><span>{{task.skill}} {{task.percentage}}% | </span>"
-
+            // cellTemplate: 'template/taskListTemplate.html'
+            cellTemplate: 'agent_status/view/template/taskListTemplate.html'
         },
         {
             name: 'profileName',
             displayName: 'Name',
             width: 100,
-            pinnedLeft: true
+            pinnedLeft: true,
+            sort: {direction: 'asc', priority: 0}
         },
         {
             name: 'LoginTime',
@@ -137,8 +144,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             cellTemplate: "<div>{{row.entity.IdleTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
+            name: 'StaffedTime',
+            displayName: 'Staffed Time',
+            width: 100,
+            cellTemplate: "<div>{{row.entity.StaffedTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
             name: 'IncomingCallCount',
-            displayName: 'Incoming Call Count',
+            displayName: 'Answered Call Count',
             width: 100
         },
         {
@@ -152,10 +165,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             width: 100
         },
         {
-            name: 'TransferCallCount',
-            displayName: 'Transfer Call Count',
+            name: 'OutboundAnswerCount',
+            displayName: 'Outgoing Answered Count',
             width: 100
         }
+
     ];
 
     $scope.cumulative = function (grid, myRow) {

@@ -16,7 +16,7 @@
             });
         };
 
-        $scope.dtOptions = {paging: false, searching: false, info: false, order: [3, 'desc']};
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
         $scope.moment = moment;
 

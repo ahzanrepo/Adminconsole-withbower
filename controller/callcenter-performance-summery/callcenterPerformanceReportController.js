@@ -35,6 +35,37 @@
 
         var TimeFormatter = function (seconds) {
 
+            var timeStr = '00:00:00';
+            if (seconds > 0) {
+                var durationObj = moment.duration(seconds * 1000);
+
+                if (durationObj) {
+                    var tempDays = 0;
+                    if (durationObj._data.years > 0) {
+                        tempDays = tempDays + durationObj._data.years * 365;
+                    }
+                    if (durationObj._data.months > 0) {
+                        tempDays = tempDays + durationObj._data.months * 30;
+                    }
+                    if (durationObj._data.days > 0) {
+                        tempDays = tempDays + durationObj._data.days;
+                    }
+
+                    if (tempDays > 0) {
+
+                        timeStr = tempDays + 'd ' + ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
+                    } else {
+
+                        timeStr = ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
+                        //(durationObj._data.hours<=9)?('0'+durationObj._data.hours):durationObj._data.hours + ':' + (durationObj._data.minutes<=9)?('0'+durationObj._data.minutes):durationObj._data.minutes  + ':' + (durationObj._data.seconds<=9)?('0'+durationObj._data.seconds):durationObj._data.seconds;
+                    }
+                }
+            }
+            return timeStr;
+        };
+
+       /* var TimeFormatter = function (seconds) {
+
             var timeStr = '0:0:0';
             if(seconds > 0) {
                 var durationObj = moment.duration(seconds * 1000);
@@ -56,7 +87,7 @@
                 }
             }
             return timeStr;
-        };
+        };*/
 
         var checkFileReady = function (fileName) {
 
