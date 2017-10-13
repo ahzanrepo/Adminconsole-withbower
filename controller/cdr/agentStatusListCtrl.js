@@ -24,7 +24,8 @@
             {DisplayName: 'Register', Status: 'Register'},
             {DisplayName: 'Un-Register', Status: 'UnRegister'},
             {DisplayName: 'Inbound', Status: 'Inbound'},
-            {DisplayName: 'Outbound', Status: 'Outbound'}
+            {DisplayName: 'Outbound', Status: 'Outbound'},
+            {DisplayName: 'ACW', Status: 'AfterWork'}
             /*{DisplayName: 'Training Break', Status: 'TrainingBreak'},
              {DisplayName: 'Meal Break', Status: 'MealBreak'},
              {DisplayName: 'Tea Break', Status: 'TeaBreak'},
