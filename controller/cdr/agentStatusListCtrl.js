@@ -22,9 +22,9 @@
 
         $scope.agentStatuses = [
             {DisplayName: 'Register', Status: 'Register'},
-            {DisplayName: 'Un-Register', Status: 'UnRegister'},
             {DisplayName: 'Inbound', Status: 'Inbound'},
-            {DisplayName: 'Outbound', Status: 'Outbound'}
+            {DisplayName: 'Outbound', Status: 'Outbound'},
+            {DisplayName: 'ACW', Status: 'AfterWork'}
             /*{DisplayName: 'Training Break', Status: 'TrainingBreak'},
              {DisplayName: 'Meal Break', Status: 'MealBreak'},
              {DisplayName: 'Tea Break', Status: 'TeaBreak'},
@@ -187,6 +187,8 @@
         $scope.loadAgentList();
 
 
+
+
         $scope.getAgentStatusList = function () {
             var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
             var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
@@ -202,8 +204,43 @@
                 endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
             }
 
+
             try {
-                cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp) {
+
+                var statusList = [];
+
+                if($scope.statusFilter)
+                {
+
+                    $scope.statusFilter.forEach(function (item) {
+
+                        statusList.push(item);
+                        if(item.DisplayName=="Register" && item.Status=="Register")
+                        {
+                            statusList.push({DisplayName: "UnRegister", Status: "UnRegister"});
+                        }
+                        else if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
+                        {
+                            statusList.push({DisplayName: "Register", Status: "Register"});
+                        }
+                        else if(item.DisplayName.indexOf("Break")>=0 && item.Status.indexOf("Break")>=0)
+                        {
+                            statusList.push({DisplayName: "EndBreak", Status: "EndBreak"});
+
+                        }
+
+                        else
+                        {
+
+                            statusList.push({DisplayName: "end"+item.DisplayName, Status: "end"+item.Status});
+                        }
+
+
+                    });
+                }
+
+
+                cdrApiHandler.getAgentStatusRecords(startDate, endDate, statusList, $scope.agentFilter).then(function (agentListResp) {
                     $scope.agentStatusList = {};
                     if (agentListResp && agentListResp.Result) {
                         for (var resource in agentListResp.Result) {
@@ -214,25 +251,82 @@
 
                         }
 
+
                     }
 
                     $scope.obj.isTableLoading = 1;
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+                    $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
                     $scope.obj.isTableLoading = 1;
                 });
 
 
             }
             catch (ex) {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+                $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
                 $scope.obj.isTableLoading = 1;
             }
 
         };
 
+        /*$scope.getAgentStatusListCSV = function () {
+         var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
+         var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
+         var momentTz = moment.parseZone(new Date()).format('Z');
+         momentTz = momentTz.replace("+", "%2B");
+
+         var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
+         var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
+
+         if (!$scope.timeEnabledStatus) {
+         startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
+         endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
+         }
+
+         $scope.DownloadFileName = 'AGENT_STATUS_LIST' + $scope.obj.startDay + '_' + $scope.obj.endDay;
+         var deferred = $q.defer();
+         var agentStatusList = [];
+
+         try {
+         cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp) {
+         if (agentListResp && agentListResp.Result) {
+         for (var resource in agentListResp.Result) {
+         if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
+         var caption = agentListResp.Result[resource][0].ResResource.ResourceName;
+         agentListResp.Result[resource].forEach(function (evtItem) {
+         evtItem.Agent = caption;
+         evtItem.Date = moment(evtItem.createdAt).local().format("YYYY-MM-DD HH:mm:ss");
+         agentStatusList.push(evtItem);
+         });
+         }
+
+         }
+
+         }
+
+         deferred.resolve(agentStatusList);
+
+         }).catch(function (err) {
+         loginService.isCheckResponse(err);
+         $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+         deferred.reject(agentStatusList);
+         });
+
+
+         }
+         catch (ex) {
+         $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
+         deferred.reject(agentStatusList);
+         }
+
+         return deferred.promise;
+
+         };*/
+
+        $scope.agentStatusListCSV ={};
+        $scope.statusData=[];
         $scope.getAgentStatusListCSV = function () {
             var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
             var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
@@ -249,38 +343,100 @@
 
             $scope.DownloadFileName = 'AGENT_STATUS_LIST' + $scope.obj.startDay + '_' + $scope.obj.endDay;
             var deferred = $q.defer();
-            var agentStatusList = [];
+
 
             try {
+
+                var statusList = [];
+
+                if($scope.statusFilter)
+                {
+
+                    $scope.statusFilter.forEach(function (item) {
+
+                        statusList.push(item);
+                        if(item.DisplayName=="Register" && item.Status=="Register")
+                        {
+                            statusList.push({DisplayName: "UnRegister", Status: "UnRegister"});
+                        }
+                        else if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
+                        {
+                            statusList.push({DisplayName: "Register", Status: "Register"});
+                        }
+                        else if(item.DisplayName.indexOf("Break")>=0 && item.Status.indexOf("Break")>=0)
+                        {
+                            statusList.push({DisplayName: "EndBreak", Status: "EndBreak"});
+
+                        }
+
+                        else
+                        {
+
+                            statusList.push({DisplayName: "end"+item.DisplayName, Status: "end"+item.Status});
+                        }
+
+
+                    });
+                }
+
                 cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp) {
                     if (agentListResp && agentListResp.Result) {
                         for (var resource in agentListResp.Result) {
                             if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
                                 var caption = agentListResp.Result[resource][0].ResResource.ResourceName;
-                                agentListResp.Result[resource].forEach(function (evtItem) {
+                                $scope.agentStatusListCSV [caption] = agentListResp.Result[resource];
+
+
+
+                                /*agentListResp.Result[resource].forEach(function (evtItem) {
                                     evtItem.Agent = caption;
                                     evtItem.Date = moment(evtItem.createdAt).local().format("YYYY-MM-DD HH:mm:ss");
                                     agentStatusList.push(evtItem);
-                                });
+                                });*/
                             }
 
                         }
 
-                    }
+                        if($scope.agentStatusListCSV)
+                        {
+                            for (var key in $scope.agentStatusListCSV)
+                            {
+                                $scope.recordMaker($scope.agentStatusListCSV[key]);
+                            }
+                            deferred.resolve($scope.statusData);
+                        }
 
-                    deferred.resolve(agentStatusList);
+                    }
+                   /* if ($scope.agentStatusListCSV) {
+                        var eventLength = Object.keys($scope.agentStatusListCSV).length;
+
+                        while (eventLength > 0) {
+                            $scope.recordMaker($scope.agentStatusListCSV[Object.keys($scope.agentStatusListCSV)[0]]);
+                            eventLength = Object.keys($scope.agentStatusListCSV).length;
+                            if(eventLength==0)
+                            {
+                                deferred.resolve($scope.statusData);
+                            }
+
+                        }
+
+                    }*/
+
+
+
+
 
                 }).catch(function (err) {
                     loginService.isCheckResponse(err);
-                    $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
-                    deferred.reject(agentStatusList);
+                    $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
+                    deferred.reject($scope.statusData);
                 });
 
 
             }
             catch (ex) {
-                $scope.showAlert('Error', 'error', 'ok', 'Error occurred while loading agent status events');
-                deferred.reject(agentStatusList);
+                $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
+                deferred.reject($scope.statusData);
             }
 
             return deferred.promise;
@@ -288,9 +444,599 @@
         };
 
 
+
+
+
+
+
+
+        $scope.recordMaker = function (events) {
+
+
+            try {
+                var eventLength = events.length;
+
+                while (eventLength > 0) {
+                    var event = events[0];
+                    var stEventName = event.Reason;
+                    var endEventName = "";
+
+                    var isACW = false;
+
+                    if (event.Reason == "Register") {
+                        endEventName = "Un" + stEventName;
+
+                    }
+                    else if (event.Reason != "EndBreak" && event.Reason.indexOf("Break") >= 0) {
+                        endEventName = "EndBreak";
+
+                    }
+                    else if (event.Reason == "AfterWork") {
+                        if (event.Status = "Completed") {
+                            isACW = true;
+                        }
+                    }
+                    else {
+                        endEventName = "end" + stEventName;
+                    }
+
+
+                    var index = -1;
+
+                    if (isACW) {
+                        isACW = false;
+
+                        index = events.map(function (el) {
+                            return el.Status;
+                        }).indexOf("Available");
+
+
+                    }
+                    else {
+                        index = events.map(function (el) {
+                            return el.Reason;
+                        }).indexOf(endEventName);
+                    }
+
+
+                    if (index >= 0) {
+
+                        var eventObj = {
+
+                            Agent: event.ResResource.ResourceName,
+                            Event: stEventName,
+                            From: moment(event.createdAt).local().format("YYYY-MM-DD HH:mm:ss"),
+                            To: moment(events[index].createdAt).local().format("YYYY-MM-DD HH:mm:ss")
+
+                        };
+
+
+                        events.splice(index, 1);
+                        events.splice(events.indexOf(event), 1);
+                        $scope.statusData.push(eventObj);
+
+                    }
+                    else {
+                        events.splice(events.indexOf(event), 1);
+                    }
+                    eventLength = events.length;
+
+                    if (eventLength == 0) {
+                        $scope.statusData;
+                    }
+
+                }
+            } catch (e) {
+                console.log("Error in Making CSV")
+            }
+
+
+
+
+
+
+        }
+
+
     };
     app.controller("agentStatusListCtrl", agentStatusListCtrl);
 
 }());
+
+mainApp.directive('statusgantt', function ($timeout) {
+    return {
+
+        restrict: 'EA',
+        scope: {
+            events: "="
+        },
+        templateUrl: 'views/cdr/partials/agentStatusListGantt.html',
+        link: function (scope, element, attributes) {
+
+            scope.mode = "custom";
+            scope.maxHeight = 0;
+            scope.showWeekends = true;
+            scope.showNonWorkHours = true;
+            scope.eventArray=[];
+
+            scope.scale="day";
+
+            scope.options = {
+                mode: 'custom',
+                scale: 'day',
+                sortMode: undefined,
+                sideMode: 'Table',
+                daily: false,
+                maxHeight: false,
+                width: true,
+                zoom: 1,
+                columns: ['model.name', 'from', 'to'],
+                treeTableColumns: ['from', 'to'],
+                columnsHeaders: {'model.name': 'Name', 'from': 'From', 'to': 'To'},
+                columnsClasses: {'model.name': 'gantt-column-name', 'from': 'gantt-column-from', 'to': 'gantt-column-to'},
+                filterTask: '',
+                filterRow: '',
+                columnsFormatters: {
+                    'from': function (from) {
+                        return from !== undefined ? from.format('lll') : undefined
+                    },
+                    'to': function (to) {
+                        return to !== undefined ? to.format('lll') : undefined
+                    }
+                },
+                treeHeaderContent: '<i class="fa fa-align-justify"></i> {{getHeader()}}',
+                columnsHeaderContents: {
+                    'model.name': '<i class="fa fa-align-justify"></i> {{getHeader()}}',
+                    'from': '<i class="fa fa-calendar"></i> {{getHeader()}}',
+                    'to': '<i class="fa fa-calendar"></i> {{getHeader()}}'
+                },
+                autoExpand: 'none',
+                taskOutOfRange: 'truncate',
+                fromDate: moment(null),
+                toDate: undefined,
+                rowContent: '<i class="fa fa-align-justify"></i> {{row.model.name}}',
+                taskContent: '<i class="fa fa-tasks"></i> {{task.model.name}}',
+                allowSideResizing: true,
+                labelsEnabled: true,
+                currentDate: 'line',
+                currentDateValue: new Date(2013, 9, 23, 11, 20, 0),
+                draw: false,
+                readOnly: false,
+                groupDisplayMode: 'group',
+                filterTask: '',
+                filterRow: '',
+                timeFrames: {
+                    'day': {
+                        start: moment('8:00', 'HH:mm'),
+                        end: moment('20:00', 'HH:mm'),
+                        color: '#ACFFA3',
+                        working: true,
+                        default: true
+                    },
+                    'noon': {
+                        start: moment('12:00', 'HH:mm'),
+                        end: moment('13:30', 'HH:mm'),
+                        working: false,
+                        default: true
+                    },
+                    'closed': {
+                        working: false,
+                        default: true
+                    },
+                    'weekend': {
+                        working: false
+                    },
+                    'holiday': {
+                        working: false,
+                        color: 'red',
+                        classes: ['gantt-timeframe-holiday']
+                    }
+                },
+                dateFrames: {
+                    'weekend': {
+                        evaluator: function (date) {
+                            return date.isoWeekday() === 6 || date.isoWeekday() === 7
+                        },
+                        targets: ['weekend']
+                    },
+                    '11-november': {
+                        evaluator: function (date) {
+                            return date.month() === 10 && date.date() === 11
+                        },
+                        targets: ['holiday']
+                    }
+                },
+                timeFramesWorkingMode: 'hidden',
+                timeFramesNonWorkingMode: 'visible',
+                columnMagnet: '15 minutes',
+                timeFramesMagnet: true,
+                dependencies: {
+                    enabled: true,
+                    conflictChecker: true
+                },
+                movable: {
+                    allowRowSwitching: function (task, targetRow) {
+                        return task.row.model.name !== 'Milestones' && targetRow.model.name !== 'Milestones'
+                    }
+                },
+                corner: {
+                    headersLabels: function (key) {
+                        return key.charAt(0).toUpperCase() + key.slice(1)
+                    },
+                    headersLabelsTemplates: '{{getLabel(header)}} <i class="fa fa-calendar"></i>'
+                },
+                targetDataAddRowIndex: undefined,
+                canDraw: function (event) {
+                    var isLeftMouseButton = event.button === 0 || event.button === 1
+                    return $scope.options.draw && !$scope.options.readOnly && isLeftMouseButton
+                },
+                drawTaskFactory: function () {
+                    return {
+                        id: ganttUtils.randomUuid(),  // Unique id of the task.
+                        name: 'Drawn task', // Name shown on top of each task.
+                        color: '#AA8833' // Color of the task in HEX format (Optional).
+                    }
+                },
+                api: function (api) {
+                    // API Object is used to control methods and events from angular-gantt.
+                    $scope.api = api
+
+                    api.core.on.ready($scope, function () {
+                        // Log various events to console
+                        api.scroll.on.scroll($scope, logScrollEvent)
+                        api.core.on.ready($scope, logReadyEvent)
+
+                        api.data.on.remove($scope, addEventName('data.on.remove', logDataEvent))
+                        api.data.on.load($scope, addEventName('data.on.load', logDataEvent))
+                        api.data.on.clear($scope, addEventName('data.on.clear', logDataEvent))
+                        api.data.on.change($scope, addEventName('data.on.change', logDataEvent))
+
+                        api.tasks.on.add($scope, addEventName('tasks.on.add', logTaskEvent))
+                        api.tasks.on.change($scope, addEventName('tasks.on.change', logTaskEvent))
+                        api.tasks.on.rowChange($scope, addEventName('tasks.on.rowChange', logTaskEvent))
+                        api.tasks.on.remove($scope, addEventName('tasks.on.remove', logTaskEvent))
+
+                        if (api.tasks.on.moveBegin) {
+                            api.tasks.on.moveBegin($scope, addEventName('tasks.on.moveBegin', logTaskEvent))
+                            // api.tasks.on.move($scope, addEventName('tasks.on.move', logTaskEvent));
+                            api.tasks.on.moveEnd($scope, addEventName('tasks.on.moveEnd', logTaskEvent))
+
+                            api.tasks.on.resizeBegin($scope, addEventName('tasks.on.resizeBegin', logTaskEvent))
+                            // api.tasks.on.resize($scope, addEventName('tasks.on.resize', logTaskEvent));
+                            api.tasks.on.resizeEnd($scope, addEventName('tasks.on.resizeEnd', logTaskEvent))
+                        }
+
+                        if (api.tasks.on.drawBegin) {
+                            api.tasks.on.drawBegin($scope, addEventName('tasks.on.drawBegin', logTaskEvent))
+                            // api.tasks.on.draw($scope, addEventName('tasks.on.draw', logTaskEvent));
+                            api.tasks.on.drawEnd($scope, addEventName('tasks.on.drawEnd', logTaskEvent))
+                        }
+
+                        api.rows.on.add($scope, addEventName('rows.on.add', logRowEvent))
+                        api.rows.on.change($scope, addEventName('rows.on.change', logRowEvent))
+                        api.rows.on.move($scope, addEventName('rows.on.move', logRowEvent))
+                        api.rows.on.remove($scope, addEventName('rows.on.remove', logRowEvent))
+
+                        api.side.on.resizeBegin($scope, addEventName('labels.on.resizeBegin', logLabelsEvent))
+                        // api.side.on.resize($scope, addEventName('labels.on.resize', logLabelsEvent));
+                        api.side.on.resizeEnd($scope, addEventName('labels.on.resizeEnd', logLabelsEvent))
+
+                        api.timespans.on.add($scope, addEventName('timespans.on.add', logTimespanEvent))
+                        api.columns.on.generate($scope, logColumnsGenerateEvent)
+
+                        api.rows.on.filter($scope, logRowsFilterEvent)
+                        api.tasks.on.filter($scope, logTasksFilterEvent)
+
+                        api.data.on.change($scope, function (newData) {
+                            if (dataToRemove === undefined) {
+                                dataToRemove = [
+                                    {'id': newData[2].id}, // Remove Kickoff row
+                                    {
+                                        'id': newData[0].id, 'tasks': [
+                                        {'id': newData[0].tasks[0].id},
+                                        {'id': newData[0].tasks[3].id}
+                                    ]
+                                    }, // Remove some Milestones
+                                    {
+                                        'id': newData[7].id, 'tasks': [
+                                        {'id': newData[7].tasks[0].id}
+                                    ]
+                                    } // Remove order basket from Sprint 2
+                                ]
+                            }
+                        })
+
+                        // When gantt is ready, load data.
+                        // `data` attribute could have been used too.
+                        $scope.load()
+
+                        // Add some DOM events
+                        api.directives.on.new($scope, function (directiveName, directiveScope, element) {
+                            if (directiveName === 'ganttTask') {
+                                element.bind('click', function (event) {
+                                    event.stopPropagation()
+                                    logTaskEvent('task-click', directiveScope.task)
+                                })
+                                element.bind('mousedown touchstart', function (event) {
+                                    event.stopPropagation()
+                                    $scope.live.row = directiveScope.task.row.model
+                                    if (directiveScope.task.originalModel !== undefined) {
+                                        $scope.live.task = directiveScope.task.originalModel
+                                    } else {
+                                        $scope.live.task = directiveScope.task.model
+                                    }
+                                    $scope.$digest()
+                                })
+                            } else if (directiveName === 'ganttRow') {
+                                element.bind('click', function (event) {
+                                    event.stopPropagation()
+                                    logRowEvent('row-click', directiveScope.row)
+                                })
+                                element.bind('mousedown touchstart', function (event) {
+                                    event.stopPropagation()
+                                    $scope.live.row = directiveScope.row.model
+                                    $scope.$digest()
+                                })
+                            } else if (directiveName === 'ganttRowLabel') {
+                                element.bind('click', function () {
+                                    logRowEvent('row-label-click', directiveScope.row)
+                                })
+                                element.bind('mousedown touchstart', function () {
+                                    $scope.live.row = directiveScope.row.model
+                                    $scope.$digest()
+                                })
+                            }
+                        })
+
+                        api.tasks.on.rowChange($scope, function (task) {
+                            $scope.live.row = task.row.model
+                        })
+
+                        objectModel = new GanttObjectModel(api)
+                    })
+                }
+            }
+
+            scope.statusData =[];
+
+            scope.chartMaker = function () {
+
+                if(scope.events)
+                {
+                    var eventLength = scope.events.length;
+
+                    while (eventLength>0) {
+                        scope.makeGanttData(scope.events[0]);
+                        eventLength = scope.events.length;
+                    }
+
+                }
+            };
+
+            scope.makeGanttData = function (event) {
+
+                var stEventName = event.Reason;
+                var endEventName="";
+                var statusColour='#F1C232';
+                var isACW = false;
+
+                if(event.Reason=="Register")
+                {
+                    endEventName="Un"+stEventName;
+                    statusColour='#0CFF00';
+                }
+                else if(event.Reason !="EndBreak" && event.Reason.indexOf("Break")>=0)
+                {
+                    endEventName="EndBreak";
+                    statusColour='#CACACA';
+                }
+                else if(event.Reason == "AfterWork" )
+                {
+                    if( event.Status="Completed")
+                    {
+                        isACW=true;
+                    }
+                }
+                else
+                {
+                    endEventName="end"+stEventName;
+                }
+
+                if(stEventName =="Inbound")
+                {
+                    statusColour='#074DEE';
+                }
+                if(stEventName =="Outbound")
+                {
+                    statusColour='#DF0AF1';
+                }
+                if(stEventName=="Offline")
+                {
+                    statusColour='#F90422';
+                }
+
+
+                var index =-1;
+
+                if(isACW)
+                {
+                    isACW=false;
+
+                     index = scope.events.map(function(el) {
+                        return el.Status ;
+                    }).indexOf("Available");
+
+
+
+                }
+                else
+                {
+                    index = scope.events.map(function(el) {
+                        return el.Reason;
+                    }).indexOf(endEventName);
+                }
+
+
+                if(index>=0)
+                {
+
+                    var eventObj = {name: stEventName, tasks: [
+                        {
+                            name: stEventName,
+                            color: statusColour,
+                            /*from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+                             to:  moment(scope.events[index].createdAt).format("YYYY-MM-DD HH:mm:ss")*/
+                            from: moment(event.createdAt),
+                            to:  moment(scope.events[index].createdAt)
+                        }
+                    ]};
+
+
+
+                    scope.events.splice(index,1);
+                    scope.events.splice(scope.events.indexOf(event),1);
+
+                    scope.statusData.push(eventObj);
+
+                }
+                else
+                {
+                    scope.events.splice(scope.events.indexOf(event),1);
+                }
+
+
+
+
+
+
+
+
+
+            };
+
+            scope.chartMaker();
+            /* scope.makeGanttData();*/
+
+
+            /*   scope.makechart = function () {
+
+             var testData =
+             [
+             {"Reason":"UnRegister","createdAt":"2015-10-10 11:11:11"},
+             {"Reason":"Register","createdAt":"2015-10-10 11:12:11"},
+             {"Reason":"offline","createdAt":"2015-10-10 11:15:15"},
+             {"Reason":"endoffline","createdAt":"2015-10-10 11:17:15"},
+             {"Reason":"online","createdAt":"2015-10-10 11:17:15"},
+             {"Reason":"endonline","createdAt":"2015-10-10 11:19:15"},
+             {"Reason":"break","createdAt":"2015-10-10 11:19:15"},
+             {"Reason":"endbreak","createdAt":"2015-10-10 11:20:15"},
+             ]
+
+             testData.forEach(function (item) {
+
+             var stEventName = item.Reason;
+             var endEventName="";
+
+             if(item.Reason=="Register")
+             {
+             endEventName="Un"+stEventName;
+             }
+             else
+             {
+             endEventName="end"+stEventName;
+             }
+
+
+             var index = testData.map(function(el) {
+             return el.Reason;
+             }).indexOf(endEventName);
+
+
+             if(index>=0)
+             {
+
+             var eventObj = {name: item.Reason, tasks: [
+             {
+             name: item.Reason,
+             color: '#F1C232',
+             from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+             to:  moment(testData[index].createdAt).format("YYYY-MM-DD HH:mm:ss")
+             }
+             ]};
+
+
+             console.log(eventObj.tasks[0].from);
+             console.log(eventObj.tasks[0].to);
+
+             testData.splice(index,1);
+
+             scope.statusData.push(eventObj);
+
+             }
+             else
+             {
+             testData.splice(scope.events.indexOf(item),1);
+             }
+
+
+
+             });
+
+
+             };
+             scope.makechart();*/
+
+
+            scope.labelEvent = function(event) {
+                // A label has been clicked.
+                console.log('Label event (by user: ' + event.userTriggered + '): ' + event.row.description + ' (Custom data: ' + event.row.data + ')');
+            };
+
+            scope.labelHeaderEvent = function(event) {
+                // The label header has been clicked.
+                console.log('Label header event. Mouse: ' + event.evt.clientX + '/' + event.evt.clientY);
+            };
+
+            scope.rowEvent = function(event) {
+                // A row has been added, updated or clicked. Use this event to save back the updated row e.g. after a user re-ordered it.
+                console.log('Row event (by user: ' + event.userTriggered + '): ' + event.date + ' '  + event.row.description + ' (Custom data: ' + event.row.data + ')');
+            };
+
+            scope.scrollEvent = function(event) {
+                if (angular.equals(event.direction, "left")) {
+                    // Raised if the user scrolled to the left side of the Gantt. Use this event to load more data.
+                    console.log('Scroll event: Left');
+                } else if (angular.equals(event.direction, "right")) {
+                    // Raised if the user scrolled to the right side of the Gantt. Use this event to load more data.
+                    console.log('Scroll event: Right');
+                }
+            };
+
+            scope.taskEvent = function(event) {
+                // A task has been updated or clicked.
+                console.log('Task event (by user: ' + event.userTriggered + '): ' + event.task.subject + ' (Custom data: ' + event.task.data + ')');
+            };
+
+            scope.scale="week";
+
+
+
+
+
+
+
+            /*scope.makeGanttData();
+
+
+             ]*/
+
+
+
+        },
+
+
+    }
+});
+
 
 

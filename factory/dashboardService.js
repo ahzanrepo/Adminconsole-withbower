@@ -726,6 +726,21 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
 
     };
+    var getQueueRecordDetails = function (qID) {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.resourceServiceBaseUrl + "/QueueSetting/"+qID
+        }).then(function (response) {
+            return response
+        });
+
+
+    };
+
+
+
+
 
 
     return {
@@ -762,6 +777,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         GetTotalLoginAgentCount: getTotalLoginAgentCount,
         getCurrentBridgedCalls: getCurrentBridgedCalls,
         GetTotalBreakTime: getTotalBreakTime,
-        GetTotalHoldTime: getTotalHoldTime
+        GetTotalHoldTime: getTotalHoldTime,
+        getQueueRecordDetails:getQueueRecordDetails
     }
 });

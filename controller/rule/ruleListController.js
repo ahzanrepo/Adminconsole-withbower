@@ -13,7 +13,7 @@ mainApp.controller('rulelistcontroller', function ($scope,$state, ruleconfigserv
     $scope.outBtnSt=true;
     $scope.isCallMonitorOption=0;
     $scope.isInbound=true;
-
+    $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     $scope.showAlert = function (title,content,type) {
 
         new PNotify({

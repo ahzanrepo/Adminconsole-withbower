@@ -2,7 +2,7 @@
  * Created by Waruna on 9/27/2017.
  */
 
-mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler) {
+mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler) {
     $anchorScroll();
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
@@ -43,10 +43,20 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
         modifierKeysToMultiSelect: false,
         noUnselect: false,
         columnDefs: [
-            {name: 'QueueName', field: 'QueueName', headerTooltip: 'Queue Name', width: '15%'},
+            {
+                name: 'QueueName', field: 'QueueName', headerTooltip: 'Queue Name', width: '15%', sort: {
+                direction: uiGridConstants.ASC
+            }
+            },
             {name: 'Cur.Waiting', field: 'CurrentWaiting', headerTooltip: 'Current Waiting', cellClass: 'table-number'},
             {name: 'presentage', field: 'presentage', headerTooltip: 'presentage', cellClass: 'presentage'},
-            {name: 'Avg.Wait', field: 'AverageWaitTime', headerTooltip: 'Average Wait Time',cellFilter:" number : 2", cellClass: 'table-number'},
+            {
+                name: 'Avg.Wait',
+                field: 'AverageWaitTime',
+                headerTooltip: 'Average Wait Time',
+                cellFilter: " number : 2",
+                cellClass: 'table-number'
+            },
             {
                 name: 'Cur.MaxWait',
                 field: 'CurrentMaxWaitTime',
@@ -114,17 +124,19 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
                         item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
                         $scope.queues[event.Message.id] = item;
                     });
+
+                    var res = [];
+                    for (var x in $scope.queues) {
+                        $scope.queues.hasOwnProperty(x) && res.push($scope.queues[x])
+                    }
+                    $scope.safeApply(function () {
+                        $scope.gridQOptions.data = res;
+                    });
                 }
                 break;
         }
 
-        var res = [];
-        for (var x in $scope.queues) {
-            $scope.queues.hasOwnProperty(x) && res.push($scope.queues[x])
-        }
-        $scope.safeApply(function () {
-            $scope.gridQOptions.data = res;
-        });
+
 
     });
 
@@ -165,15 +177,14 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
                 // if ($scope.checkQueueAvailability(item.id)) {
                 item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
                 $scope.queues[item.id] = item;
-                /*$scope.queueList.push(item);*/
-                //}
+                var res = [];
+                for (var x in $scope.queues) {
+                    $scope.queues.hasOwnProperty(x) && res.push($scope.queues[x])
+                }
+                $scope.gridQOptions.data = res;
             });
 
-            var res = [];
-            for (var x in $scope.queues) {
-                $scope.queues.hasOwnProperty(x) && res.push($scope.queues[x])
-            }
-            $scope.gridQOptions.data = res;
+
         });
     };
 
@@ -198,7 +209,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
 
     var TimeFormatter = function (seconds) {
 
-        var timeStr = '0:0:0';
+        var timeStr = '00:00:00';
         if (seconds > 0) {
             var durationObj = moment.duration(seconds * 1000);
 
@@ -216,7 +227,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
 
                 if (tempDays > 0) {
 
-                    timeStr = tempDays + 'd ' + durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                    timeStr = tempDays + 'd ' + ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
                 } else {
 
                     timeStr = ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
@@ -442,7 +453,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
             $scope.productivity = response;
             deferred.resolve(true);
         }, function (error) {
-            $scope.showAlert("Error", "error","Fail To Get productivity.");
+            $scope.showAlert("Error", "error", "Fail To Get productivity.");
             deferred.resolve(false);
         });
         return deferred.promise;
@@ -495,11 +506,12 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
     $scope.gridOptions = {
+        enableColumnResizing: true,
         enableRowSelection: true,
         enableRowHeaderSelection: true,
         multiSelect: false,
         modifierKeysToMultiSelect: false,
-        noUnselect: false,
+        noUnselect: false,enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
         columnDefs: [
             {
                 name: 'Name',
@@ -508,7 +520,10 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
                 enableFiltering: true,
                 enableCellEdit: false,
                 enableSorting: true,
-                width: '15%'
+                width: '15%',
+                sort: {
+                    direction: uiGridConstants.ASC
+                }
             },
             {
                 name: 'State',
@@ -641,8 +656,15 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
             gridApi.selection.on.rowSelectionChanged($scope, function (row) {
                 $scope.selectedAgent = undefined;
                 if (row.isSelected) {
+                    $scope.callLogPage = 1;
+                    $scope.gridCalllogsOptions.data = [];
+                    $scope.gridCalllogsOptions.data.push({
+                        callType: 'No Data',
+                        number: 'No Data',
+                        time: 'No Data'
+                    });
                     $scope.selectedAgent = row.entity;
-                    $scope.GetCallLogs(row.entity.ResourceName);
+                    $scope.GetCallLogs(1, row.entity.ResourceName);
                     $scope.gridTaskOptions.data = $scope.selectedAgent.taskList;
                     $scope.getAgentStatusList($scope.selectedAgent);
                 }
@@ -704,7 +726,11 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
         columnDefs: [
             {name: 'Task Type', field: 'taskType', headerTooltip: 'Task Type'},
             {name: 'Skill', field: 'skill', headerTooltip: 'Skill'},
-            {name: 'Percentage', field: 'percentage', headerTooltip: 'Percentage', cellClass: 'presentage'}
+            {
+                name: 'Percentage', field: 'percentage', headerTooltip: 'Percentage', cellClass: 'presentage', sort: {
+                direction: uiGridConstants.DESC
+            }
+            }
         ],
         data: [],
         onRegisterApi: function (gridApi) {
@@ -712,7 +738,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
         }
     };
 
-
+    $scope.callLogPage = 0;
     $scope.gridCalllogsOptions = {
         enableSorting: true,
         enableRowSelection: false,
@@ -729,19 +755,26 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
             callType: 'Loading',
             number: 'Loading',
             time: 'Loading'
-        }]
+        }],
+        onRegisterApi: function (gridApi) {
+            /*gridApi.pagination.on.paginationChanged($scope, function (pageNumber, pageSize) {
+
+             });*/
+            gridApi.core.on.scrollEnd($scope, function (row) {
+                if (row.y.percentage > 0) {
+                    $scope.callLogPage = $scope.callLogPage + 1;
+                    $scope.GetCallLogs($scope.callLogPage, $scope.selectedAgent.ResourceName);
+                }
+
+            });
+        }
     };
 
     $scope.callLog = [];
-    $scope.GetCallLogs = function (name) {
+    $scope.GetCallLogs = function (pageNumber, name) {
 
-        contactService.GetCallLogs(1, new Date(), name).then(function (response) {
-            $scope.gridCalllogsOptions.data = [];
-            $scope.gridCalllogsOptions.data.push({
-                callType: 'No Data',
-                number: 'No Data',
-                time: 'No Data'
-            });
+        contactService.GetCallLogs(pageNumber, new Date(), name).then(function (response) {
+
             if (response && response.length != 0) {
                 response.map(function (item) {
                     if (item) {
@@ -751,7 +784,8 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
                 });
 
             }
-            $scope.gridCalllogsOptions.data.splice(0,1);
+            if (pageNumber === 1)
+                $scope.gridCalllogsOptions.data.splice(0, 1);
         });
     };
 
@@ -774,7 +808,10 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
                 field: 'createdAt',
                 headerTooltip: 'Time',
                 cellFilter: 'date:"dd MMM yyyy hh:mm:ss"',
-                cellClass: 'table-number'
+                cellClass: 'table-number',
+                sort: {
+                    direction: uiGridConstants.DESC
+                }
             }
         ],
         data: [],

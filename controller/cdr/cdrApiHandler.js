@@ -507,6 +507,32 @@
                 loginService.isCheckResponse(err);
             });
         };
+        var getAgentStatusRecords = function (startDate, endDate, statusList, agentList) {
+            var url = baseUrls.cdrProcessor + 'Agent/AgentStatus?startDate=' + startDate + '&endDate=' + endDate;
+
+            var body = {
+                agentList: null,
+                statusList: null
+            };
+
+            if (agentList) {
+                body.agentList = agentList
+            }
+
+            if (statusList) {
+                body.statusList = statusList
+            }
+
+            return $http({
+                method: 'POST',
+                url: url,
+                data: JSON.stringify(body)
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
 
         var getCallSummaryForDay = function (sdate, edate, tz) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Daily?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
@@ -609,6 +635,7 @@
             getAbandonCDRForTimeRangeCount: getAbandonCDRForTimeRangeCount,
             getCampaignCDRForTimeRangeCount: getCampaignCDRForTimeRangeCount,
             getCampaignCDRForTimeRange: getCampaignCDRForTimeRange,
+            getAgentStatusRecords: getAgentStatusRecords,
             prepareDownloadCampaignCDRByType: prepareDownloadCampaignCDRByType
         };
     };
