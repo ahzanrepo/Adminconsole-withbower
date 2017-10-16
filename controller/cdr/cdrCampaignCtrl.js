@@ -443,7 +443,7 @@
             }
 
             $scope.DownloadButtonName = 'PROCESSING';
-            $scope.DownloadFileName = 'CDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
+            $scope.DownloadFileName = 'CAMPAIGNCDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
 
             var deferred = $q.defer();
 
@@ -464,7 +464,7 @@
                 endDate = $scope.endDate + ' 23:59:59' + momentTz;
             }
 
-            cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, 'csv', momentTz).then(function (cdrResp)
+            cdrApiHandler.prepareDownloadCampaignCDRByType(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter, 'csv', momentTz).then(function (cdrResp)
                 //cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
             {
                 if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
@@ -528,7 +528,7 @@
 
         $scope.getProcessedCDRForCSV = function () {
 
-            $scope.DownloadFileName = 'CDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
+            $scope.DownloadFileName = 'CAMPAIGNCDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
 
             var deferred = $q.defer();
 
@@ -950,6 +950,7 @@
                                             cdrAppendObj.RecievedBy = firstLeg.SipToUser;
                                             cdrAppendObj.IsAnswered = false;
                                             cdrAppendObj.HangupCause = firstLeg.HangupCause;
+                                            cdrAppendObj.CampaignName = firstLeg.CampaignName;
 
                                             cdrAppendObj.CreatedTime = moment(firstLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
                                             cdrAppendObj.Duration = firstLeg.Duration;
@@ -968,7 +969,6 @@
 
 
                                             holdSecTemp = holdSecTemp + firstLeg.HoldSec;
-                                            cdrAppendObj.HoldSec = holdSecTemp;
 
 
                                             cdrAppendObj.QueueSec = 0;
@@ -1033,6 +1033,8 @@
                                             }
 
                                         }
+
+                                        cdrAppendObj.HoldSec = holdSecTemp;
 
 
                                         if (callHangupDirectionA === 'recv_bye') {

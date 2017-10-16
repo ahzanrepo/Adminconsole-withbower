@@ -233,6 +233,40 @@
             })
         };
 
+        var prepareDownloadCampaignCDRByType = function (startDate, endDate, agent, record, custNumber, fileType, tz) {
+            var url = baseUrls.cdrProcessor + 'PrepareDownloadCampaign?startTime=' + startDate + '&endTime=' + endDate;
+
+            if (agent) {
+                url = url + '&agent=' + agent;
+            }
+
+            if (record) {
+                url = url + '&recording=' + record;
+            }
+
+            if (custNumber) {
+                url = url + '&custnumber=' + custNumber;
+            }
+
+            if (fileType) {
+                url = url + '&fileType=' + fileType;
+            }
+
+            if (tz) {
+                url = url + '&tz=' + tz;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
         var prepareDownloadCDRAbandonByType = function (startDate, endDate, agent, skill, direction, record, custNumber, didNumber, fileType, tz) {
             var url = baseUrls.cdrProcessor + 'PrepareDownloadAbandon?startTime=' + startDate + '&endTime=' + endDate;
 
@@ -574,7 +608,8 @@
             getCDRForTimeRangeCount: getCDRForTimeRangeCount,
             getAbandonCDRForTimeRangeCount: getAbandonCDRForTimeRangeCount,
             getCampaignCDRForTimeRangeCount: getCampaignCDRForTimeRangeCount,
-            getCampaignCDRForTimeRange: getCampaignCDRForTimeRange
+            getCampaignCDRForTimeRange: getCampaignCDRForTimeRange,
+            prepareDownloadCampaignCDRByType: prepareDownloadCampaignCDRByType
         };
     };
 
