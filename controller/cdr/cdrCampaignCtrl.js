@@ -6,7 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var cdrCampaignCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
+    var cdrCampaignCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, campaignService, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
         $anchorScroll();
@@ -42,6 +42,8 @@
 
 
         $scope.enableSearchButton = true;
+
+        $scope.campaignList = [];
 
 
         $scope.showAlert = function (tittle, type, content) {
@@ -88,6 +90,21 @@
                 $scope.timeEnabledStatus = false;
             }
         };
+
+        var getCampaigns = function()
+        {
+            campaignService.GetCampaigns().then(function (campaignList) {
+                if (campaignList && campaignList.length > 0) {
+                    $scope.campaignList = campaignList;
+                }
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        getCampaigns();
 
 
         $scope.onDateChange = function () {
@@ -426,12 +443,7 @@
 
 
         $scope.getProcessedCDRCSVDownload = function () {
-            /*if (checkCSVGenerateAllowed()) {
 
-            }
-            else {
-                $scope.showAlert('Warning', 'warn', 'Downloading is only allowed for previous dates');
-            }*/
 
             if ($scope.DownloadButtonName === 'CSV') {
                 $scope.cancelDownload = false;
@@ -464,7 +476,7 @@
                 endDate = $scope.endDate + ' 23:59:59' + momentTz;
             }
 
-            cdrApiHandler.prepareDownloadCampaignCDRByType(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter, 'csv', momentTz).then(function (cdrResp)
+            cdrApiHandler.prepareDownloadCampaignCDRByType(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter, 'csv', momentTz).then(function (cdrResp)
                 //cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
             {
                 if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
@@ -883,12 +895,12 @@
                 $scope.pagination.itemsPerPage = lim;
                 $scope.isTableLoading = 0;
 
-                cdrApiHandler.getCampaignCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter).then(function(cdrCntRsp)
+                cdrApiHandler.getCampaignCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter).then(function(cdrCntRsp)
                 {
                     if (cdrCntRsp && cdrCntRsp.IsSuccess) {
                         $scope.pagination.totalItems = cdrCntRsp.Result;
 
-                        cdrApiHandler.getCampaignCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp) {
+                        cdrApiHandler.getCampaignCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter).then(function (cdrResp) {
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 

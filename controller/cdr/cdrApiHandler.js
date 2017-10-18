@@ -45,7 +45,7 @@
             })
         };
 
-        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, record, custNumber) {
+        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, record, custNumber, campaignId) {
             var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if (agent) {
@@ -62,6 +62,10 @@
 
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if (campaignId) {
+                url = url + '&campaignId=' + campaignId;
             }
 
             return $http({
@@ -111,7 +115,7 @@
             })
         };
 
-        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, record, custNumber)
+        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, record, custNumber, campaignId)
         {
             var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
@@ -124,6 +128,10 @@
 
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if (campaignId) {
+                url = url + '&campaignId=' + campaignId;
             }
 
             return $http({
@@ -233,7 +241,7 @@
             })
         };
 
-        var prepareDownloadCampaignCDRByType = function (startDate, endDate, agent, record, custNumber, fileType, tz) {
+        var prepareDownloadCampaignCDRByType = function (startDate, endDate, agent, record, custNumber, campaignId, fileType, tz) {
             var url = baseUrls.cdrProcessor + 'PrepareDownloadCampaign?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
@@ -246,6 +254,10 @@
 
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if (campaignId) {
+                url = url + '&campaignId=' + campaignId;
             }
 
             if (fileType) {
