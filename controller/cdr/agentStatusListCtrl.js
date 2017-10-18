@@ -942,6 +942,10 @@ mainApp.directive('statusgantt', function ($timeout) {
                     else
                     {
 
+                        if(moment(scope.endtime).diff(moment())>=0)
+                        {
+                            scope.endtime=moment();
+                        }
 
                         if(stEventName=="Register")
                         {

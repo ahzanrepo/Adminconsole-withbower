@@ -2,25 +2,31 @@
 
     <div class="x_panel bg-light-gray animated fadeIn">
         <div class="x_title border-0">
-            <div class="col-md-4 col-sm-4 col-xs-12 ">
 
-                <h5>Select view </h5>
-                <select class="form-control has-feedback-left" ng-model="options.scale" placeholder="Select view">
-                    <option value="minute"  >Minute</option>
-                    <option value="hour">Hour</option>
-                    <option value="day" selected>Day</option>
+            <div class="col-md-12 col-sm-12 col-xs-12 pull-right">
+                <div class="col-md-8 col-sm-8 col-xs-12 ">
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 ">
+
+                    <h5>Select view </h5>
+                    <select class="form-control has-feedback-left" ng-model="options.scale" placeholder="Select view">
+                        <option value="minute"  >Minute</option>
+                        <option value="hour">Hour</option>
+                        <option value="day" selected>Day</option>
 
 
 
-                </select>
+                    </select>
 
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-12 "style="padding-top: 35px">
+
+                    <button type="button" class="btn btn-primary" ng-click="loadChart()" ng-disabled="isLoading!=-1" >
+                        Load
+                    </button>
+                </div>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-12 "style="padding-top: 35px">
 
-                <button type="button" class="btn btn-primary" ng-click="loadChart()" ng-disabled="isLoading!=-1" >
-                    Load
-                </button>
-            </div>
 
         </div>
     </div>
