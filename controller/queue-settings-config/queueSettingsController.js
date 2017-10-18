@@ -20,6 +20,7 @@ mainApp.controller("queueSettingsController", function ($scope, $state, loginSer
     $scope.skillObj=[];
     $scope.addedCombinations =[];
     $scope.showAdd=false;
+    $scope.isDisabled=false;
 
     $scope.showAlert = function (title, content, type) {
 
@@ -216,6 +217,8 @@ mainApp.controller("queueSettingsController", function ($scope, $state, loginSer
 
     $scope.addQueueSettings = function () {
 
+        $scope.isDisabled = true;
+
         var ardsObj = JSON.parse($scope.newSetting.ards);
         $scope.newSetting.ServerType=ardsObj.ServerType;
         $scope.newSetting.RequestType=ardsObj.RequestType;
@@ -225,6 +228,8 @@ mainApp.controller("queueSettingsController", function ($scope, $state, loginSer
         });
 
         queueSettingsBackendService.saveQueueSetting($scope.newSetting).then(function (response) {
+
+            $scope.isDisabled = false;
 
             if(!response.data.IsSuccess)
             {
@@ -246,6 +251,7 @@ mainApp.controller("queueSettingsController", function ($scope, $state, loginSer
 
         },function (error) {
             $scope.showAlert("Error","Queue Settings Adding Failed",'error');
+            $scope.isDisabled = false;
         });
 
 

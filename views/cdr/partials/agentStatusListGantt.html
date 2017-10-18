@@ -2,64 +2,102 @@
 
     <div class="x_panel bg-light-gray animated fadeIn">
         <div class="x_title border-0">
-            <div class="col-md-3 col-sm-3 col-xs-12 ">
 
-                <h5>Select view </h5>
-                <select class="form-control has-feedback-left" ng-model="options.scale" placeholder="Select view">
-                    <option value="minute"  >Minute</option>
-                    <option value="hour">Hour</option>
-                    <option value="day" >Day</option>
-                    <option value="week" selected>Week</option>
-                    <option value="month" >Month</option>
+            <div class="col-md-12 col-sm-12 col-xs-12 pull-right">
+                <div class="col-md-8 col-sm-8 col-xs-12 ">
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 ">
+
+                    <h5>Select view </h5>
+                    <select class="form-control has-feedback-left" ng-model="options.scale" placeholder="Select view">
+                        <option value="minute"  >Minute</option>
+                        <option value="hour">Hour</option>
+                        <option value="day" selected>Day</option>
 
 
-                </select>
 
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                <h5>Search </h5>
-                <input type="text" class="form-control" style="width: 20em; text-align: left" ng-model="options.filterRow">
+                    </select>
+
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-12 "style="padding-top: 35px">
+
+                    <button type="button" class="btn btn-primary" ng-click="loadChart()" ng-disabled="isLoading!=-1" >
+                        Load
+                    </button>
+                </div>
             </div>
 
 
         </div>
     </div>
 </div>
-<div class="row">
-    <div gantt data="statusData" headers="['month', 'day','hour','minute']" view-scale="options.scale" sort-mode="model.name"
-         max-height="600"
-         filter-task="{'name': options.filterTask}"
-         filter-row="{'name': options.filterRow}">
-        <!--<gantt-tree enabled="true" ></gantt-tree>-->
-        <!-- <gantt-table enabled="true" columns="['model.name','from','to']" headers="">
-         </gantt-table>-->
-        <gantt-tree enabled="options.sideMode === 'Tree' || options.sideMode === 'TreeTable'"
-                    header-content="options.treeHeaderContent"
-                    keep-ancestor-on-filter-row="true">
-        </gantt-tree>
-        <gantt-table enabled="options.sideMode === 'Table' || options.sideMode === 'TreeTable'"
-                     columns="options.sideMode === 'TreeTable' ? options.treeTableColumns : options.columns"
-                     headers="options.columnsHeaders"
-                     classes="options.columnsClasses"
-                     formatters="options.columnsFormatters"
-                     contents="options.columnsContents"
-                     header-contents="options.columnsHeaderContents">
-            <gantt-tooltips enabled="true" ></gantt-tooltips>
-            <gantt-sortable enabled="true"></gantt-sortable>
-            <gantt-resize-sensor enabled="true"></gantt-resize-sensor>
-            <gantt-corner headers-labels="options.corner.headersLabels" headers-labels-templates="options.corner.headersLabelsTemplates"></gantt-corner>
-            <gantt-groups enabled="options.groupDisplayMode === 'group' || options.groupDisplayMode === 'overview' || options.groupDisplayMode === 'promote'" display="options.groupDisplayMode"></gantt-groups>
-            <gantt-sortable enabled="true"></gantt-sortable>
-            <gantt-sections></gantt-sections>
-            <gantt-movable enabled="!options.readOnly" allow-row-switching="options.movable.allowRowSwitching"></gantt-movable>
-            <!--<gantt-dependencies enabled="true"
-                                read-only="false"
-                                js-plumb-defaults="{
-                                                 Endpoint: ['Dot', {radius: 7}],
-                                                 Connector: 'Flowchart'
-                                                 }">
-            </gantt-dependencies>-->
+
+<div class="search-main-wrap" ng-if="isLoading==1">
+    <div class="row ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="data-state-wrap">
+                Please Wait...
+            </div>
+
+        </div>
     </div>
+</div>
+<div class="row" ng-if="isLoading==0">
+    <div class="row">
+
+        <div class="col-md-6 col-sm-6 col-xs-6 form-group top_search pull-right">
+            <div class="input-group">
+                <input type="text" ng-model="options.filterRow" class="form-control"
+                       placeholder="Search for...">
+                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button">Search</button>
+                                </span>
+            </div>
+        </div>
+
+        <!--<div class="col-md-4 col-sm-4 col-xs-12 pull-right" style="border-bottom: groove">
+            <h5>Search </h5>
+            <input type="text" class="form-control" style="width: 20em; text-align: left" ng-model="options.filterRow">
+        </div>-->
+    </div>
+
+
+        <div gantt api="options.api" data="statusData" headers="['month', 'day','hour','minute']" view-scale="options.scale" sort-mode="model.name"
+             max-height="600"
+             filter-task="{'name': options.filterTask}"
+             filter-row="{'name': options.filterRow}">
+            <!--<gantt-tree enabled="true" ></gantt-tree>-->
+            <!-- <gantt-table enabled="true" columns="['model.name','from','to']" headers="">
+             </gantt-table>-->
+            <gantt-tree enabled="options.sideMode === 'Tree' || options.sideMode === 'TreeTable'"
+                        header-content="options.treeHeaderContent"
+                        keep-ancestor-on-filter-row="true">
+            </gantt-tree>
+            <gantt-table enabled="options.sideMode === 'Table' || options.sideMode === 'TreeTable'"
+                         columns="options.sideMode === 'TreeTable' ? options.treeTableColumns : options.columns"
+                         headers="options.columnsHeaders"
+                         classes="options.columnsClasses"
+                         formatters="options.columnsFormatters"
+                         contents="options.columnsContents"
+                         header-contents="options.columnsHeaderContents">
+                <gantt-tooltips enabled="true" ></gantt-tooltips>
+                <gantt-sortable enabled="true"></gantt-sortable>
+                <gantt-resize-sensor enabled="true"></gantt-resize-sensor>
+                <gantt-corner headers-labels="options.corner.headersLabels" headers-labels-templates="options.corner.headersLabelsTemplates"></gantt-corner>
+                <gantt-groups enabled="options.groupDisplayMode === 'group' || options.groupDisplayMode === 'overview' || options.groupDisplayMode === 'promote'" display="options.groupDisplayMode"></gantt-groups>
+                <gantt-sortable enabled="true"></gantt-sortable>
+                <gantt-sections></gantt-sections>
+                <gantt-movable enabled="!options.readOnly" allow-row-switching="options.movable.allowRowSwitching"></gantt-movable>
+                <!--<gantt-dependencies enabled="true"
+                                    read-only="false"
+                                    js-plumb-defaults="{
+                                                     Endpoint: ['Dot', {radius: 7}],
+                                                     Connector: 'Flowchart'
+                                                     }">
+                </gantt-dependencies>-->
+        </div>
+
+
 </div>
 
 

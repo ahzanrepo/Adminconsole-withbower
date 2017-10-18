@@ -55,57 +55,66 @@
                                 </div>
 
                             </div>
-                            <div class="row">
-                                <!--<label class="control-label col-md-2 col-sm-6 col-xs-12">Server Type</label>-->
-                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                    <select class="form-control has-feedback-left" ng-model="newSetting.ards"
-                                            ng-model-options="{trackBy: '$value'}" ng-change=LoadAttributes(newSetting.ards) ng-disabled="!showArds">
-                                        <option value="" disabled selected>Select Server type and Request Type</option>
-                                        <option ng-repeat="ards in ArdsList" value="{{ards}}">
-                                            {{ards.ServerType}} - {{ards.RequestType}}
-                                        </option>
-                                    </select>
-                                    <span class="fa fa-server  form-control-feedback left" aria-hidden="true"></span>
-                                </div>
+                            <div class="row " >
 
-                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                    <select class="form-control has-feedback-left" ng-model="newSetting.attribute"
-                                            ng-model-options="{trackBy: '$value'}" ng-disabled="!showAttrib" ng-change=LoadSkills(newSetting.attribute)>
-                                        <option value="" disabled selected>Select Attribute</option>
-                                        <option ng-repeat="attribute in groupAttributes" value="{{attribute}}">
-                                            {{attribute.AttributeGroupName}}
-                                        </option>
-                                    </select>
-                                    <span class="fa fa-object-group form-control-feedback left" aria-hidden="true"></span>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
-                                    <select class="form-control has-feedback-left" ng-model="newSetting.skill"
-                                            ng-model-options="{trackBy: '$value'}" ng-disabled="!showSkill">
-                                        <option value="" disabled selected>Select Skill</option>
-                                        <option ng-repeat="skill in attributeSkills" value="{{skill}}">
-                                            {{skill.Name}}
-                                        </option>
-                                    </select>
-                                    <span class="fa fa-circle form-control-feedback left" aria-hidden="true"></span>
-                                </div>
+
+                                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                        <select class="form-control has-feedback-left" ng-model="newSetting.ards"
+                                                ng-model-options="{trackBy: '$value'}" ng-change=LoadAttributes(newSetting.ards) ng-disabled="!showArds">
+                                            <option value="" disabled selected>Select Server type and Request Type</option>
+                                            <option ng-repeat="ards in ArdsList" value="{{ards}}">
+                                                {{ards.ServerType}} - {{ards.RequestType}}
+                                            </option>
+                                        </select>
+                                        <span class="fa fa-server  form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                        <select class="form-control has-feedback-left" ng-model="newSetting.attribute"
+                                                ng-model-options="{trackBy: '$value'}" ng-disabled="!showAttrib" ng-change=LoadSkills(newSetting.attribute)>
+                                            <option value="" disabled selected>Select Attribute</option>
+                                            <option ng-repeat="attribute in groupAttributes" value="{{attribute}}">
+                                                {{attribute.AttributeGroupName}}
+                                            </option>
+                                        </select>
+                                        <span class="fa fa-object-group form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                        <select class="form-control has-feedback-left" ng-model="newSetting.skill"
+                                                ng-model-options="{trackBy: '$value'}" ng-disabled="!showSkill">
+                                            <option value="" disabled selected>Select Skill</option>
+                                            <option ng-repeat="skill in attributeSkills" value="{{skill}}">
+                                                {{skill.Name}}
+                                            </option>
+                                        </select>
+                                        <span class="fa fa-circle form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                        <button type="button" class="btn btn-success  btn- pull-left" ng-disabled="!newSetting.ards || !newSetting.attribute || !newSetting.skill "
+                                                ng-click="AddNewCombination(newSetting.ards,newSetting.attribute,newSetting.skill)">
+                                            Add Combination
+                                        </button>
+                                    </div>
+
+
 
 
                             </div>
-                            <div class="row">
+                            <!--<div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <button type="button" class="btn btn-success  btn- pull-right" ng-disabled="!newSetting.ards || !newSetting.attribute || !newSetting.skill "
                                             ng-click="AddNewCombination(newSetting.ards,newSetting.attribute,newSetting.skill)">
                                         Add Combination
                                     </button>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-md-12 col-sm-12 col-xs-12  ">
                                         <tags-input ng-model="newSetting.skillObj" display-property="skillName"
                                                     add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
                                                     on-tag-removed="onChipDelete($tag)" ng-disabled="" min-length="1"
-                                                    placeholder="Add a group" required>
+                                                    placeholder="Add a combination" required>
                                             <auto-complete source="querySearch($query)"
                                                            load-on-empty="true"
                                                            load-on-focus="true"
@@ -119,7 +128,7 @@
 
                                 <div class="col-md-12 col-sm-12 col-xs-12  ">
                                     <button type="submit" class="btn btn-success  btn- pull-right"
-                                            ng-click="addQueueSettings()" ng-disabled=" queuesettings.$invalid">
+                                            ng-click="addQueueSettings()" ng-disabled=" queuesettings.$invalid || isDisabled ">
                                         Save Queue Settings
                                     </button>
 
