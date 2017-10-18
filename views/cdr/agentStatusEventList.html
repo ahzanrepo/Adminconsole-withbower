@@ -88,6 +88,9 @@
 
                     <div class="col-md-12 col-sm-12 col-xs-12" style="z-index:0" ng-if="obj.isTableLoading==1">
 
+                       <!-- <div ng-repeat="(resourceId, sessions) in agentStatusList">
+
+                        </div>-->
 
                         <uib-accordion>
 
@@ -99,7 +102,7 @@
                                     {{resourceId}}<i class="pull-right glyphicon"
                                                      ng-class="{'glyphicon-chevron-down': true, 'glyphicon-chevron-right': false}"></i>
                                 </uib-accordion-heading>
-                                <statusgantt events="sessions"></statusgantt>
+                                <statusgantt events="sessions" endtime="endDtTm"></statusgantt>
 
                                 <!--<div class="col-md-12 col-sm-12 col-xs-12">
                                     <div ng-repeat="event in sessions">

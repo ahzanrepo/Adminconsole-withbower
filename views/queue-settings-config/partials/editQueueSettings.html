@@ -113,7 +113,7 @@
     <div class="byline" ng-hide="editMode">
         <span>{{resource.createdAt|date:'MM/dd/yyyy @ h:mma'}}</span>
     </div>
-    <div ng-hide="editMode">
+    <div ng-hide="editMode" style="border-bottom: groove">
 
         <div class="col-md-4 col-sm-4 col-xs-12 form-group ">
             <label class="form-control-static">Max Wait Time</label>
@@ -143,6 +143,7 @@
 
         <!--<p class="excerpt col-md-3" ng-if="IsDeveloper"> Developer : {{application.AppDeveloper.Username}} </p>-->
     </div>
+
     <div class="clearfix"></div>
 </div>
 </div>

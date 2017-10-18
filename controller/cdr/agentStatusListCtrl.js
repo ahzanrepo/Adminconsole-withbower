@@ -80,6 +80,7 @@
 
         $scope.startTime = '12:00 AM';
         $scope.endTime = '12:00 AM';
+        $scope.endDtTm='';
 
         $scope.timeEnabled = 'Date Only';
         $scope.timeEnabledStatus = false;
@@ -202,6 +203,11 @@
             if (!$scope.timeEnabledStatus) {
                 startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
                 endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
+                $scope.endDtTm = moment($scope.obj.endDay + ' 23:59:59');
+            }
+            else
+            {
+                $scope.endDtTm = moment($scope.obj.endDay + ' ' + et + ':59');
             }
 
 
@@ -238,6 +244,8 @@
 
                     });
                 }
+
+
 
 
                 cdrApiHandler.getAgentStatusRecords(startDate, endDate, statusList, $scope.agentFilter).then(function (agentListResp) {
@@ -389,10 +397,10 @@
 
 
                                 /*agentListResp.Result[resource].forEach(function (evtItem) {
-                                    evtItem.Agent = caption;
-                                    evtItem.Date = moment(evtItem.createdAt).local().format("YYYY-MM-DD HH:mm:ss");
-                                    agentStatusList.push(evtItem);
-                                });*/
+                                 evtItem.Agent = caption;
+                                 evtItem.Date = moment(evtItem.createdAt).local().format("YYYY-MM-DD HH:mm:ss");
+                                 agentStatusList.push(evtItem);
+                                 });*/
                             }
 
                         }
@@ -407,20 +415,20 @@
                         }
 
                     }
-                   /* if ($scope.agentStatusListCSV) {
-                        var eventLength = Object.keys($scope.agentStatusListCSV).length;
+                    /* if ($scope.agentStatusListCSV) {
+                     var eventLength = Object.keys($scope.agentStatusListCSV).length;
 
-                        while (eventLength > 0) {
-                            $scope.recordMaker($scope.agentStatusListCSV[Object.keys($scope.agentStatusListCSV)[0]]);
-                            eventLength = Object.keys($scope.agentStatusListCSV).length;
-                            if(eventLength==0)
-                            {
-                                deferred.resolve($scope.statusData);
-                            }
+                     while (eventLength > 0) {
+                     $scope.recordMaker($scope.agentStatusListCSV[Object.keys($scope.agentStatusListCSV)[0]]);
+                     eventLength = Object.keys($scope.agentStatusListCSV).length;
+                     if(eventLength==0)
+                     {
+                     deferred.resolve($scope.statusData);
+                     }
 
-                        }
+                     }
 
-                    }*/
+                     }*/
 
 
 
@@ -548,10 +556,32 @@ mainApp.directive('statusgantt', function ($timeout) {
 
         restrict: 'EA',
         scope: {
-            events: "="
+            events: "=",
+            endtime:"="
         },
         templateUrl: 'views/cdr/partials/agentStatusListGantt.html',
         link: function (scope, element, attributes) {
+
+
+            scope.loadCount=0;
+            scope.isLoading=-1;
+
+            /*  scope.$watch(scope.events.isOpen,function () {
+             if(scope.events.isOpen && scope.loadCount==0)
+             {
+             scope.chartMaker();
+             scope.loadCount++;
+             }
+             })*/
+            scope.loadChart = function () {
+                if(scope.loadCount==0)
+                {
+                    scope.isLoading=1;
+                    scope.loadCount++;
+                    scope.chartMaker();
+
+                }
+            }
 
             scope.mode = "custom";
             scope.maxHeight = 0;
@@ -559,7 +589,8 @@ mainApp.directive('statusgantt', function ($timeout) {
             scope.showNonWorkHours = true;
             scope.eventArray=[];
 
-            scope.scale="day";
+
+
 
             scope.options = {
                 mode: 'custom',
@@ -679,121 +710,127 @@ mainApp.directive('statusgantt', function ($timeout) {
                 },
                 api: function (api) {
                     // API Object is used to control methods and events from angular-gantt.
-                    $scope.api = api
+                    scope.api = api
 
-                    api.core.on.ready($scope, function () {
+                    api.core.on.ready(scope, function () {
                         // Log various events to console
-                        api.scroll.on.scroll($scope, logScrollEvent)
-                        api.core.on.ready($scope, logReadyEvent)
+                        /* api.scroll.on.scroll(scope, logScrollEvent)
+                         api.core.on.ready(scope, logReadyEvent);*/
+                        api.core.on.rendered(scope,function () {
 
-                        api.data.on.remove($scope, addEventName('data.on.remove', logDataEvent))
-                        api.data.on.load($scope, addEventName('data.on.load', logDataEvent))
-                        api.data.on.clear($scope, addEventName('data.on.clear', logDataEvent))
-                        api.data.on.change($scope, addEventName('data.on.change', logDataEvent))
+                            scope.isLoading=0;
+                        });
 
-                        api.tasks.on.add($scope, addEventName('tasks.on.add', logTaskEvent))
-                        api.tasks.on.change($scope, addEventName('tasks.on.change', logTaskEvent))
-                        api.tasks.on.rowChange($scope, addEventName('tasks.on.rowChange', logTaskEvent))
-                        api.tasks.on.remove($scope, addEventName('tasks.on.remove', logTaskEvent))
+                        /*api.data.on.remove(scope, addEventName('data.on.remove', logDataEvent))
+                         api.data.on.load(scope, addEventName('data.on.load', logDataEvent))
+                         api.data.on.clear(scope, addEventName('data.on.clear', logDataEvent))
+                         api.data.on.change(scope, addEventName('data.on.change', logDataEvent))
 
-                        if (api.tasks.on.moveBegin) {
-                            api.tasks.on.moveBegin($scope, addEventName('tasks.on.moveBegin', logTaskEvent))
-                            // api.tasks.on.move($scope, addEventName('tasks.on.move', logTaskEvent));
-                            api.tasks.on.moveEnd($scope, addEventName('tasks.on.moveEnd', logTaskEvent))
+                         api.tasks.on.add(scope, addEventName('tasks.on.add', logTaskEvent))
+                         api.tasks.on.change(scope, addEventName('tasks.on.change', logTaskEvent))
+                         api.tasks.on.rowChange(scope, addEventName('tasks.on.rowChange', logTaskEvent))
+                         api.tasks.on.remove(scope, addEventName('tasks.on.remove', logTaskEvent))
 
-                            api.tasks.on.resizeBegin($scope, addEventName('tasks.on.resizeBegin', logTaskEvent))
-                            // api.tasks.on.resize($scope, addEventName('tasks.on.resize', logTaskEvent));
-                            api.tasks.on.resizeEnd($scope, addEventName('tasks.on.resizeEnd', logTaskEvent))
-                        }
+                         if (api.tasks.on.moveBegin) {
+                         api.tasks.on.moveBegin(scope, addEventName('tasks.on.moveBegin', logTaskEvent))
+                         // api.tasks.on.move($scope, addEventName('tasks.on.move', logTaskEvent));
+                         api.tasks.on.moveEnd(scope, addEventName('tasks.on.moveEnd', logTaskEvent))
 
-                        if (api.tasks.on.drawBegin) {
-                            api.tasks.on.drawBegin($scope, addEventName('tasks.on.drawBegin', logTaskEvent))
-                            // api.tasks.on.draw($scope, addEventName('tasks.on.draw', logTaskEvent));
-                            api.tasks.on.drawEnd($scope, addEventName('tasks.on.drawEnd', logTaskEvent))
-                        }
+                         api.tasks.on.resizeBegin(scope, addEventName('tasks.on.resizeBegin', logTaskEvent))
+                         // api.tasks.on.resize($scope, addEventName('tasks.on.resize', logTaskEvent));
+                         api.tasks.on.resizeEnd(scope, addEventName('tasks.on.resizeEnd', logTaskEvent))
+                         }
 
-                        api.rows.on.add($scope, addEventName('rows.on.add', logRowEvent))
-                        api.rows.on.change($scope, addEventName('rows.on.change', logRowEvent))
-                        api.rows.on.move($scope, addEventName('rows.on.move', logRowEvent))
-                        api.rows.on.remove($scope, addEventName('rows.on.remove', logRowEvent))
+                         if (api.tasks.on.drawBegin) {
+                         api.tasks.on.drawBegin(scope, addEventName('tasks.on.drawBegin', logTaskEvent))
+                         // api.tasks.on.draw($scope, addEventName('tasks.on.draw', logTaskEvent));
+                         api.tasks.on.drawEnd(scope, addEventName('tasks.on.drawEnd', logTaskEvent))
+                         }
 
-                        api.side.on.resizeBegin($scope, addEventName('labels.on.resizeBegin', logLabelsEvent))
-                        // api.side.on.resize($scope, addEventName('labels.on.resize', logLabelsEvent));
-                        api.side.on.resizeEnd($scope, addEventName('labels.on.resizeEnd', logLabelsEvent))
+                         api.rows.on.add(scope, addEventName('rows.on.add', logRowEvent))
+                         api.rows.on.change(scope, addEventName('rows.on.change', logRowEvent))
+                         api.rows.on.move(scope, addEventName('rows.on.move', logRowEvent))
+                         api.rows.on.remove(scope, addEventName('rows.on.remove', logRowEvent))
 
-                        api.timespans.on.add($scope, addEventName('timespans.on.add', logTimespanEvent))
-                        api.columns.on.generate($scope, logColumnsGenerateEvent)
+                         api.side.on.resizeBegin(scope, addEventName('labels.on.resizeBegin', logLabelsEvent))
+                         // api.side.on.resize($scope, addEventName('labels.on.resize', logLabelsEvent));
+                         api.side.on.resizeEnd(scope, addEventName('labels.on.resizeEnd', logLabelsEvent))
 
-                        api.rows.on.filter($scope, logRowsFilterEvent)
-                        api.tasks.on.filter($scope, logTasksFilterEvent)
+                         api.timespans.on.add(scope, addEventName('timespans.on.add', logTimespanEvent))
+                         api.columns.on.generate(scope, logColumnsGenerateEvent)
 
-                        api.data.on.change($scope, function (newData) {
-                            if (dataToRemove === undefined) {
-                                dataToRemove = [
-                                    {'id': newData[2].id}, // Remove Kickoff row
-                                    {
-                                        'id': newData[0].id, 'tasks': [
-                                        {'id': newData[0].tasks[0].id},
-                                        {'id': newData[0].tasks[3].id}
-                                    ]
-                                    }, // Remove some Milestones
-                                    {
-                                        'id': newData[7].id, 'tasks': [
-                                        {'id': newData[7].tasks[0].id}
-                                    ]
-                                    } // Remove order basket from Sprint 2
-                                ]
-                            }
-                        })
+                         api.rows.on.filter(scope, logRowsFilterEvent)
+                         api.tasks.on.filter(scope, logTasksFilterEvent)
 
-                        // When gantt is ready, load data.
-                        // `data` attribute could have been used too.
-                        $scope.load()
+                         api.data.on.change(scope, function (newData) {
+                         if (dataToRemove === undefined) {
+                         dataToRemove = [
+                         {'id': newData[2].id}, // Remove Kickoff row
+                         {
+                         'id': newData[0].id, 'tasks': [
+                         {'id': newData[0].tasks[0].id},
+                         {'id': newData[0].tasks[3].id}
+                         ]
+                         }, // Remove some Milestones
+                         {
+                         'id': newData[7].id, 'tasks': [
+                         {'id': newData[7].tasks[0].id}
+                         ]
+                         } // Remove order basket from Sprint 2
+                         ]
+                         }
+                         })
 
-                        // Add some DOM events
-                        api.directives.on.new($scope, function (directiveName, directiveScope, element) {
-                            if (directiveName === 'ganttTask') {
-                                element.bind('click', function (event) {
-                                    event.stopPropagation()
-                                    logTaskEvent('task-click', directiveScope.task)
-                                })
-                                element.bind('mousedown touchstart', function (event) {
-                                    event.stopPropagation()
-                                    $scope.live.row = directiveScope.task.row.model
-                                    if (directiveScope.task.originalModel !== undefined) {
-                                        $scope.live.task = directiveScope.task.originalModel
-                                    } else {
-                                        $scope.live.task = directiveScope.task.model
-                                    }
-                                    $scope.$digest()
-                                })
-                            } else if (directiveName === 'ganttRow') {
-                                element.bind('click', function (event) {
-                                    event.stopPropagation()
-                                    logRowEvent('row-click', directiveScope.row)
-                                })
-                                element.bind('mousedown touchstart', function (event) {
-                                    event.stopPropagation()
-                                    $scope.live.row = directiveScope.row.model
-                                    $scope.$digest()
-                                })
-                            } else if (directiveName === 'ganttRowLabel') {
-                                element.bind('click', function () {
-                                    logRowEvent('row-label-click', directiveScope.row)
-                                })
-                                element.bind('mousedown touchstart', function () {
-                                    $scope.live.row = directiveScope.row.model
-                                    $scope.$digest()
-                                })
-                            }
-                        })
+                         // When gantt is ready, load data.
+                         // `data` attribute could have been used too.
+                         scope.load()
 
-                        api.tasks.on.rowChange($scope, function (task) {
-                            $scope.live.row = task.row.model
-                        })
+                         // Add some DOM events
+                         api.directives.on.new(scope, function (directiveName, directiveScope, element) {
+                         if (directiveName === 'ganttTask') {
+                         element.bind('click', function (event) {
+                         event.stopPropagation()
+                         logTaskEvent('task-click', directiveScope.task)
+                         })
+                         element.bind('mousedown touchstart', function (event) {
+                         event.stopPropagation()
+                         scope.live.row = directiveScope.task.row.model
+                         if (directiveScope.task.originalModel !== undefined) {
+                         scope.live.task = directiveScope.task.originalModel
+                         } else {
+                         scope.live.task = directiveScope.task.model
+                         }
+                         scope.$digest()
+                         })
+                         } else if (directiveName === 'ganttRow') {
+                         element.bind('click', function (event) {
+                         event.stopPropagation()
+                         logRowEvent('row-click', directiveScope.row)
+                         })
+                         element.bind('mousedown touchstart', function (event) {
+                         event.stopPropagation()
+                         scope.live.row = directiveScope.row.model
+                         scope.$digest()
+                         })
+                         } else if (directiveName === 'ganttRowLabel') {
+                         element.bind('click', function () {
+                         logRowEvent('row-label-click', directiveScope.row)
+                         })
+                         element.bind('mousedown touchstart', function () {
+                         scope.live.row = directiveScope.row.model
+                         scope.$digest()
+                         })
+                         }
+                         })
 
-                        objectModel = new GanttObjectModel(api)
-                    })
+                         api.tasks.on.rowChange(scope, function (task) {
+                         scope.live.row = task.row.model
+                         })
+
+                         objectModel = new GanttObjectModel(api)
+                         */
+                    });
+
                 }
             }
 
@@ -806,8 +843,13 @@ mainApp.directive('statusgantt', function ($timeout) {
                     var eventLength = scope.events.length;
 
                     while (eventLength>0) {
+                        scope.isLoading=true;
                         scope.makeGanttData(scope.events[0]);
                         eventLength = scope.events.length;
+                        if(eventLength==0)
+                        {
+                            scope.isLoading=0;
+                        }
                     }
 
                 }
@@ -815,93 +857,128 @@ mainApp.directive('statusgantt', function ($timeout) {
 
             scope.makeGanttData = function (event) {
 
-                var stEventName = event.Reason;
-                var endEventName="";
-                var statusColour='#F1C232';
-                var isACW = false;
+                try {
+                    var stEventName = event.Reason;
+                    var endEventName = "";
+                    var statusColour = '#F1C232';
+                    var isACW = false;
 
-                if(event.Reason=="Register")
-                {
-                    endEventName="Un"+stEventName;
-                    statusColour='#0CFF00';
-                }
-                else if(event.Reason !="EndBreak" && event.Reason.indexOf("Break")>=0)
-                {
-                    endEventName="EndBreak";
-                    statusColour='#CACACA';
-                }
-                else if(event.Reason == "AfterWork" )
-                {
-                    if( event.Status="Completed")
-                    {
-                        isACW=true;
+                    if (event.Reason == "Register") {
+                        endEventName = "Un" + stEventName;
+                        statusColour = '#0CFF00';
                     }
-                }
-                else
-                {
-                    endEventName="end"+stEventName;
-                }
-
-                if(stEventName =="Inbound")
-                {
-                    statusColour='#074DEE';
-                }
-                if(stEventName =="Outbound")
-                {
-                    statusColour='#DF0AF1';
-                }
-                if(stEventName=="Offline")
-                {
-                    statusColour='#F90422';
-                }
-
-
-                var index =-1;
-
-                if(isACW)
-                {
-                    isACW=false;
-
-                     index = scope.events.map(function(el) {
-                        return el.Status ;
-                    }).indexOf("Available");
-
-
-
-                }
-                else
-                {
-                    index = scope.events.map(function(el) {
-                        return el.Reason;
-                    }).indexOf(endEventName);
-                }
-
-
-                if(index>=0)
-                {
-
-                    var eventObj = {name: stEventName, tasks: [
-                        {
-                            name: stEventName,
-                            color: statusColour,
-                            /*from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
-                             to:  moment(scope.events[index].createdAt).format("YYYY-MM-DD HH:mm:ss")*/
-                            from: moment(event.createdAt),
-                            to:  moment(scope.events[index].createdAt)
+                    else if (event.Reason != "EndBreak" && event.Reason.indexOf("Break") >= 0) {
+                        endEventName = "EndBreak";
+                        statusColour = '#CACACA';
+                    }
+                    else if (event.Reason == "AfterWork") {
+                        if (event.Status = "Completed") {
+                            isACW = true;
                         }
-                    ]};
+                    }
+                    else {
+                        endEventName = "end" + stEventName;
+                    }
+
+                    if (stEventName == "Inbound") {
+                        statusColour = '#074DEE';
+                    }
+                    if (stEventName == "Outbound") {
+                        statusColour = '#DF0AF1';
+                    }
+                    if (stEventName == "Offline") {
+                        statusColour = '#F90422';
+                    }
+
+
+                    var index = -1;
+                    var itemName;
+
+                    if (isACW) {
+                        isACW = false;
+
+
+                        index = scope.events.map(function (el) {
+                            return el.Status;
+                        }).indexOf("Available");
+
+
+                    }
+                    else {
+
+                        index = scope.events.map(function (el) {
+                            return el.Reason;
+                        }).indexOf(endEventName);
+                    }
+
+
+                    if (index >= 0) {
+
+                        var eventObj = {
+                            name: stEventName, tasks: [
+                                {
+                                    name: stEventName,
+                                    color: statusColour,
+                                    /*from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+                                     to:  moment(scope.events[index].createdAt).format("YYYY-MM-DD HH:mm:ss")*/
+                                    from:
+                                        moment(event.createdAt),
+                                    to:  moment(scope.events[index].createdAt)
+                                }
+                            ]};
 
 
 
-                    scope.events.splice(index,1);
-                    scope.events.splice(scope.events.indexOf(event),1);
+                        scope.events. splice(index,1);
+                        scope.events.splice(scope.events. indexOf(event),1);
 
-                    scope.statusData.push(eventObj);
+                        scope.statusData.push(eventObj
 
-                }
-                else
-                {
-                    scope.events.splice(scope.events.indexOf(event),1);
+
+                        );
+
+
+                    }
+                    else
+                    {
+
+
+                        if(stEventName=="Register")
+                        {
+                            var
+                                eventObj = {name:
+                                stEventName,
+                                    tasks: [
+                                        {
+                                            name: stEventName,
+                                            color: statusColour,
+                                            from:  moment(event.createdAt),
+                                            to: moment(scope.endtime)
+                                        }
+                                    ]};
+                            scope.statusData.push(eventObj);
+                        }
+                        else if(stEventName. indexOf ("end")==-1 && stEventName!="UnRegister")
+                        {
+                            var
+                                eventObj = {name:
+                                stEventName,
+                                    tasks: [
+                                        {
+                                            name: stEventName,
+                                            color: statusColour,
+                                            from:  moment(event.createdAt),
+                                            to: moment(scope.endtime)
+                                        }
+                                    ]};
+                            scope.statusData.push(eventObj);
+                        }
+                        scope.events.splice(scope.events.indexOf (event),1);
+                    }
+
+
+                } catch (e) {
+                    console.log(e);
                 }
 
 
@@ -913,8 +990,10 @@ mainApp.directive('statusgantt', function ($timeout) {
 
 
             };
+            /*scope.chartMaker();*/
 
-            scope.chartMaker();
+
+
             /* scope.makeGanttData();*/
 
 
@@ -1016,10 +1095,6 @@ mainApp.directive('statusgantt', function ($timeout) {
                 // A task has been updated or clicked.
                 console.log('Task event (by user: ' + event.userTriggered + '): ' + event.task.subject + ' (Custom data: ' + event.task.data + ')');
             };
-
-            scope.scale="week";
-
-
 
 
 

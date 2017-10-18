@@ -1317,6 +1317,7 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             scope.que.isExceeded=false;
 
 
+
             scope.$on('timer-tick',function (e,data) {
 
                 if(data.millis && scope.que.queueDetails && scope.que.queueDetails.MaxWaitTime && data.millis >=(scope.que.queueDetails.MaxWaitTime*1000))
