@@ -338,7 +338,9 @@
 
         $scope.agentStatusListCSV ={};
         $scope.statusData=[];
+        $scope.isDowloading=false;
         $scope.getAgentStatusListCSV = function () {
+            $scope.isDowloading=true;
             $scope.agentStatusListCSV ={};
             $scope.statusData=[];
             var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
