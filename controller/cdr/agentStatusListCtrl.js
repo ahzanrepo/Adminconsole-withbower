@@ -423,6 +423,7 @@
                             {
                                 $scope.recordMaker($scope.agentStatusListCSV[key]);
                             }
+                            $scope.isDowloading=false;
                             deferred.resolve($scope.statusData);
                         }
 
