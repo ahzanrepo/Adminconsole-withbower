@@ -968,8 +968,11 @@
                                             cdrAppendObj.Duration = firstLeg.Duration;
                                             cdrAppendObj.BillSec = 0;
                                             cdrAppendObj.HoldSec = 0;
+                                            cdrAppendObj.QueueSec = 0;
+                                            cdrAppendObj.AgentSkill = null;
+                                            cdrAppendObj.AnswerSec = 0;
 
-                                            if(firstLeg.ObjType === 'CUSTOMER')
+                                            if(firstLeg.ObjType === 'BLAST' || firstLeg.ObjType === 'DIRECT' || firstLeg.ObjType === 'IVRCALLBACK')
                                             {
                                                 cdrAppendObj.BillSec = firstLeg.BillSec;
                                                 cdrAppendObj.AnswerSec = firstLeg.AnswerSec;
@@ -982,10 +985,6 @@
 
                                             holdSecTemp = holdSecTemp + firstLeg.HoldSec;
 
-
-                                            cdrAppendObj.QueueSec = 0;
-                                            cdrAppendObj.AgentSkill = null;
-                                            cdrAppendObj.AnswerSec = 0;
 
                                             cdrAppendObj.ObjType = firstLeg.ObjType;
                                             cdrAppendObj.ObjCategory = firstLeg.ObjCategory;
