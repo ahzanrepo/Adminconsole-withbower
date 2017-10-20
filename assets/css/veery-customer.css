@@ -2545,6 +2545,9 @@ ul.count2 {
 .login-controller {
 
 }
+.login-header {
+    padding-left: 40px;
+}
 
 /*validation area */
 .validation-area {
