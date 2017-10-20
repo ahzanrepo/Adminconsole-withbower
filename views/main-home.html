@@ -4,7 +4,7 @@
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="index.html" class="site_title ">
-                        <img src="images/logo_main.png" width="180px" height="50px">
+                        <img src="images/logo_main.svg" width="180px" height="50px">
                     </a>
                 </div>
                 <div class="clearfix"></div>
@@ -419,6 +419,9 @@
                                                     href="javascript:void(0);"
                                                     ng-click="clickDirective.goCampaignAttempt();">Attempt</a>
                                             </li>
+                                            <li ng-show="accessNavigation.CAMPAIGN_CDR"><a href="javascript:void(0);"
+                                                                                           ng-click="clickDirective.goCampaignCdrReport()">Campaign CDR</a>
+                                            </li>
 
                                         </ul>
                                     </li>
@@ -436,9 +439,6 @@
                                     </li>
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goCdrReport()">CDR</a>
-                                    </li>
-                                    <li ng-show="accessNavigation.CAMPAIGN_CDR"><a href="javascript:void(0);"
-                                                                          ng-click="clickDirective.goCampaignCdrReport()">Campaign CDR</a>
                                     </li>
                                     <li ng-show="accessNavigation.ABANDONED_CALL_REPORT"><a href="javascript:void(0);"
                                                                                             ng-click="clickDirective.goAbandonCallList()">Abandoned

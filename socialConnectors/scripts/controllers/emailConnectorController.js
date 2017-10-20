@@ -1,7 +1,7 @@
 mainApp.controller('emailConnectorController', function FormBuilderCtrl($scope, $window,tagBackendService, socialConnectorService,$anchorScroll)
 {
     $anchorScroll();
-
+    $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     $scope.showAlert = function (tittle, type, content) {
         new PNotify({
             title: tittle,

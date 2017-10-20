@@ -15,7 +15,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         }
     };
     $anchorScroll();
-    
+
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     subscribeServices.subscribe('queuedetail');
     //subscribe services
@@ -224,7 +224,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     $scope.GetAllQueueStatistics = function () {
 
         queueMonitorService.GetAllQueueStats().then(function (response) {
-
+var i=1;
             angular.forEach(response, function (c) {
                 // var value = $filter('filter')(updatedQueues, {id: item.id})[0];
                 // if (!value) {
@@ -256,6 +256,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                 }
 
                 // if ($scope.checkQueueAvailability(item.id)) {
+                item.agentCount = i++;
                 $scope.queues[item.id] = item;
                 $scope.queueList.push(item);
                 //}
@@ -538,7 +539,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
         },
 
         template: "<th class=\"fs15 text-left\">{{que.QueueName}}</th>" + "<th class=\"fs15\">{{que.CurrentWaiting}}</th>"
-        + "<th class=\"fs15\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer></th> <th class=\"fs15\">{{que.TotalQueued}}</th><th class=\"fs15\">{{que.TotalAnswered}}</th><th class=\"fs15\">{{que.QueueDropped}}</th><th class=\"fs15\">{{agentCount}}</th>"
+        + "<th class=\"fs15\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer></th> <th class=\"fs15\">{{que.TotalQueued}}</th><th class=\"fs15\">{{que.TotalAnswered}}</th><th class=\"fs15\">{{que.QueueDropped}}</th><th class=\"fs15\">{{que.agentCount}}</th>"
         + "<th class=\"fs15\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
         + "<th class=\"fs15\">{{que.presentage}}</th>",
 
@@ -547,6 +548,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
 
             scope.maxy = 10;
             scope.val = "";
+
 
 
             var qData = function () {
@@ -590,7 +592,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
                 };
 
                 queueMonitorService.getAvailableResourcesToSkill(skillObj).then(function (response) {
-                    scope.agentCount = response;
+                    scope.que.agentCount = response;
                 }, function (err) {
                     loginService.isCheckResponse(err);
                 });

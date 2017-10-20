@@ -45,7 +45,7 @@
             })
         };
 
-        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, record, custNumber) {
+        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, record, custNumber, campaignId) {
             var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if (agent) {
@@ -62,6 +62,10 @@
 
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if (campaignId) {
+                url = url + '&campaignId=' + campaignId;
             }
 
             return $http({
@@ -111,7 +115,7 @@
             })
         };
 
-        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, record, custNumber)
+        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, record, custNumber, campaignId)
         {
             var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
@@ -124,6 +128,10 @@
 
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if (campaignId) {
+                url = url + '&campaignId=' + campaignId;
             }
 
             return $http({
@@ -212,6 +220,44 @@
 
             if (didNumber) {
                 url = url + '&didnumber=' + didNumber;
+            }
+
+            if (fileType) {
+                url = url + '&fileType=' + fileType;
+            }
+
+            if (tz) {
+                url = url + '&tz=' + tz;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
+        var prepareDownloadCampaignCDRByType = function (startDate, endDate, agent, record, custNumber, campaignId, fileType, tz) {
+            var url = baseUrls.cdrProcessor + 'PrepareDownloadCampaign?startTime=' + startDate + '&endTime=' + endDate;
+
+            if (agent) {
+                url = url + '&agent=' + agent;
+            }
+
+            if (record) {
+                url = url + '&recording=' + record;
+            }
+
+            if (custNumber) {
+                url = url + '&custnumber=' + custNumber;
+            }
+
+            if (campaignId) {
+                url = url + '&campaignId=' + campaignId;
             }
 
             if (fileType) {
@@ -473,6 +519,32 @@
                 loginService.isCheckResponse(err);
             });
         };
+        var getAgentStatusRecords = function (startDate, endDate, statusList, agentList) {
+            var url = baseUrls.cdrProcessor + 'Agent/AgentStatus?startDate=' + startDate + '&endDate=' + endDate;
+
+            var body = {
+                agentList: null,
+                statusList: null
+            };
+
+            if (agentList) {
+                body.agentList = agentList
+            }
+
+            if (statusList) {
+                body.statusList = statusList
+            }
+
+            return $http({
+                method: 'POST',
+                url: url,
+                data: JSON.stringify(body)
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
 
         var getCallSummaryForDay = function (sdate, edate, tz) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Daily?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
@@ -574,7 +646,9 @@
             getCDRForTimeRangeCount: getCDRForTimeRangeCount,
             getAbandonCDRForTimeRangeCount: getAbandonCDRForTimeRangeCount,
             getCampaignCDRForTimeRangeCount: getCampaignCDRForTimeRangeCount,
-            getCampaignCDRForTimeRange: getCampaignCDRForTimeRange
+            getCampaignCDRForTimeRange: getCampaignCDRForTimeRange,
+            getAgentStatusRecords: getAgentStatusRecords,
+            prepareDownloadCampaignCDRByType: prepareDownloadCampaignCDRByType
         };
     };
 

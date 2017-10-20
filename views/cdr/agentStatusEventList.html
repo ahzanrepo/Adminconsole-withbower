@@ -2,6 +2,7 @@
     <div class="page-title">
         <div class="title_left">
             <h2>Agent Status Event Summary</h2>
+
         </div>
     </div>
 
@@ -47,9 +48,9 @@
                             </button>
                             <button type="button" class="btn"
                                     style="background-color: #a3d100; color: #000000; font-weight: 500"
-                                    csv-header="['Agent', 'Reason', 'Date']"
-                                    csv-column-order="['Agent', 'Reason', 'Date']" ng-csv="getAgentStatusListCSV()"
-                                    filename="{{DownloadFileName}}.csv">
+                                    csv-header="['Agent', 'Event', 'From','To']"
+                                    csv-column-order="['Agent', 'Event', 'From','To']" ng-csv="getAgentStatusListCSV()"
+                                    filename="{{DownloadFileName}}.csv" ng-disabled="isDowloading">
                                 CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="fa fa-download"></i>
                             </button>
@@ -83,16 +84,29 @@
 
                     </div>
 
+
+
                     <div class="col-md-12 col-sm-12 col-xs-12" style="z-index:0" ng-if="obj.isTableLoading==1">
+
+                       <!-- <div ng-repeat="(resourceId, sessions) in agentStatusList">
+
+                        </div>-->
+
                         <uib-accordion>
+
                             <div uib-accordion-group class="panel-default"
                                  ng-repeat="(resourceId, sessions) in agentStatusList">
+
+
                                 <uib-accordion-heading>
                                     {{resourceId}}<i class="pull-right glyphicon"
                                                      ng-class="{'glyphicon-chevron-down': true, 'glyphicon-chevron-right': false}"></i>
                                 </uib-accordion-heading>
-                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                <statusgantt events="sessions" endtime="endDtTm"></statusgantt>
+
+                                <!--<div class="col-md-12 col-sm-12 col-xs-12">
                                     <div ng-repeat="event in sessions">
+
                                         <div class="col-md-12 col-sm-12 col-xs-12"
                                              style="border: 1px solid #ccc!important;padding: 15px;border-radius: 2px;
                                              font-size: 15px;margin-bottom: 10px;">
@@ -104,7 +118,7 @@
 
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </uib-accordion>
                     </div>

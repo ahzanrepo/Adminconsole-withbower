@@ -56,7 +56,17 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.grid.selection',
     'ui.grid.moveColumns',
     'ui.grid.infiniteScroll',
-    'ngWizard'
+    'ngWizard',
+    'gantt',
+    'angularMoment',
+    'gantt.table',
+    'gantt.labels',
+    'gantt.tooltips',
+    'gantt.sortable',
+    'gantt.resizeSensor',
+    'gantt.dependencies'
+
+
 ]);
 
 

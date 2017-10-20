@@ -209,7 +209,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
 
     var TimeFormatter = function (seconds) {
 
-        var timeStr = '0:0:0';
+        var timeStr = '00:00:00';
         if (seconds > 0) {
             var durationObj = moment.duration(seconds * 1000);
 
@@ -227,7 +227,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
 
                 if (tempDays > 0) {
 
-                    timeStr = tempDays + 'd ' + durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                    timeStr = tempDays + 'd ' + ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
                 } else {
 
                     timeStr = ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
