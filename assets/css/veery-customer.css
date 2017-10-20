@@ -7095,3 +7095,11 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 .disable-icon {
     color: #c3c3c3;
 }
+
+.color-panel
+{
+    border-radius: 16px;
+    border:1px solid #C3C3C3;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

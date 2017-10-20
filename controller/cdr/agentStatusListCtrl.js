@@ -24,7 +24,10 @@
             {DisplayName: 'Register', Status: 'Register'},
             {DisplayName: 'Inbound', Status: 'Inbound'},
             {DisplayName: 'Outbound', Status: 'Outbound'},
-            {DisplayName: 'ACW', Status: 'AfterWork'}
+            {DisplayName: 'ACW', Status: 'AfterWork'},
+            {DisplayName: 'Offline', Status: 'Offline'},
+            {DisplayName: 'Call', Status: 'CALL'},
+            {DisplayName: 'Chat', Status: 'CHAT'}
             /*{DisplayName: 'Training Break', Status: 'TrainingBreak'},
              {DisplayName: 'Meal Break', Status: 'MealBreak'},
              {DisplayName: 'Tea Break', Status: 'TeaBreak'},
@@ -335,7 +338,11 @@
 
         $scope.agentStatusListCSV ={};
         $scope.statusData=[];
+        $scope.isDowloading=false;
         $scope.getAgentStatusListCSV = function () {
+            $scope.isDowloading=true;
+            $scope.agentStatusListCSV ={};
+            $scope.statusData=[];
             var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
             var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
             var momentTz = moment.parseZone(new Date()).format('Z');
@@ -347,6 +354,11 @@
             if (!$scope.timeEnabledStatus) {
                 startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
                 endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
+                $scope.endDtTm = moment($scope.obj.endDay + ' 23:59:59');
+            }
+            else
+            {
+                $scope.endDtTm = moment($scope.obj.endDay + ' ' + et + ':59');
             }
 
             $scope.DownloadFileName = 'AGENT_STATUS_LIST' + $scope.obj.startDay + '_' + $scope.obj.endDay;
@@ -387,7 +399,7 @@
                     });
                 }
 
-                cdrApiHandler.getAgentStatusList(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp) {
+                cdrApiHandler.getAgentStatusRecords(startDate, endDate, $scope.statusFilter, $scope.agentFilter).then(function (agentListResp) {
                     if (agentListResp && agentListResp.Result) {
                         for (var resource in agentListResp.Result) {
                             if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
@@ -411,6 +423,7 @@
                             {
                                 $scope.recordMaker($scope.agentStatusListCSV[key]);
                             }
+                            $scope.isDowloading=false;
                             deferred.resolve($scope.statusData);
                         }
 
@@ -470,6 +483,9 @@
                     var endEventName = "";
 
                     var isACW = false;
+                    var isCALL = false;
+                    var isCHAT = false;
+                    var isSlotEndEvent = false;
 
                     if (event.Reason == "Register") {
                         endEventName = "Un" + stEventName;
@@ -480,8 +496,29 @@
 
                     }
                     else if (event.Reason == "AfterWork") {
-                        if (event.Status = "Completed") {
+                        if (event.Status == "Completed") {
                             isACW = true;
+                        }
+                        else
+                        {
+                            isSlotEndEvent=true;
+                        }
+                    }
+                    else if (event.Reason == "CALL") {
+                        if (event.Status == "Connected") {
+                            isCALL = true;
+                        }else
+                        {
+                            isSlotEndEvent=true;
+                        }
+                    }
+                    else if (event.Reason == "CHAT") {
+                        if (event.Status == "Connected") {
+                            isCHAT = true;
+                        }
+                        else
+                        {
+                            isSlotEndEvent=true;
                         }
                     }
                     else {
@@ -490,6 +527,8 @@
 
 
                     var index = -1;
+
+
 
                     if (isACW) {
                         isACW = false;
@@ -500,11 +539,43 @@
 
 
                     }
-                    else {
+                    else if (isCALL) {
+
+
+
                         index = events.map(function (el) {
-                            return el.Reason;
-                        }).indexOf(endEventName);
+                            return el.Status;
+                        }).indexOf("Completed");
+
+
+
+
                     }
+                    else if (isCHAT) {
+
+
+
+                        index = events.map(function (el) {
+                            return el.Status;
+                        }).indexOf("Completed");
+
+
+
+
+                    }
+                    else  {
+
+                        if(!isSlotEndEvent)
+                        {
+                            index = events.map(function (el) {
+                                return el.Reason;
+                            }).indexOf(endEventName);
+                        }
+
+
+
+                    }
+
 
 
                     if (index >= 0) {
@@ -525,7 +596,42 @@
 
                     }
                     else {
-                        events.splice(events.indexOf(event), 1);
+
+
+                        if(moment($scope.endDtTm).diff(moment())>=0)
+                        {
+                            $scope.endDtTm=moment();
+                        }
+
+                        if(stEventName=="Register")
+                        {
+                            var
+                                eventObj = {
+                                    Agent: event.ResResource.ResourceName,
+                                    Event: stEventName,
+                                    From: moment(event.createdAt).local().format("YYYY-MM-DD HH:mm:ss"),
+                                    To:  moment($scope.endDtTm).local().format("YYYY-MM-DD HH:mm:ss")
+                                }
+
+                            $scope.statusData.push(eventObj);
+                        }
+                        else if(stEventName. indexOf ("end")==-1 && stEventName!="UnRegister")
+                        {
+                            if(!isSlotEndEvent)
+                            {
+                                var
+                                    eventObj = {
+                                        Agent: event.ResResource.ResourceName,
+                                        Event: stEventName,
+                                        From: moment(event.createdAt).local().format("YYYY-MM-DD HH:mm:ss"),
+                                        To:  moment($scope.endDtTm).local().format("YYYY-MM-DD HH:mm:ss")
+                                    };
+                                $scope.statusData.push(eventObj);
+                            }
+
+                        }
+                        events.splice(events.indexOf (event),1);
+
                     }
                     eventLength = events.length;
 
@@ -862,6 +968,9 @@ mainApp.directive('statusgantt', function ($timeout) {
                     var endEventName = "";
                     var statusColour = '#F1C232';
                     var isACW = false;
+                    var isCALL = false;
+                    var isCHAT = false;
+                    var isSlotEndEvent=false;
 
                     if (event.Reason == "Register") {
                         endEventName = "Un" + stEventName;
@@ -869,12 +978,42 @@ mainApp.directive('statusgantt', function ($timeout) {
                     }
                     else if (event.Reason != "EndBreak" && event.Reason.indexOf("Break") >= 0) {
                         endEventName = "EndBreak";
-                        statusColour = '#CACACA';
+                        statusColour = '#7b1102';
                     }
                     else if (event.Reason == "AfterWork") {
-                        if (event.Status = "Completed") {
+                        if (event.Status == "Completed") {
                             isACW = true;
+                            statusColour = '#000000';
                         }
+                        else
+                        {
+                            isSlotEndEvent=true;
+                        }
+                    }
+                    else if(event.Reason == "CALL")
+                    {
+                        if(event.Status=="Connected")
+                        {
+                            isCALL = true;
+                            statusColour = '#7c7eff';
+
+                        }
+                        else
+                        {
+                            isSlotEndEvent=true;
+                        }
+                    }
+                    else if(event.Reason == "CHAT")
+                    {
+                        if(event.Status=="Connected")
+                        {
+                            isCHAT = true;
+                            statusColour = '#ff574d';
+                        }
+                        else {
+                            isSlotEndEvent=true;
+                        }
+
                     }
                     else {
                         endEventName = "end" + stEventName;
@@ -894,8 +1033,9 @@ mainApp.directive('statusgantt', function ($timeout) {
                     var index = -1;
                     var itemName;
 
+
                     if (isACW) {
-                        isACW = false;
+
 
 
                         index = scope.events.map(function (el) {
@@ -904,11 +1044,41 @@ mainApp.directive('statusgantt', function ($timeout) {
 
 
                     }
-                    else {
+                    else if (isCALL) {
+
+
 
                         index = scope.events.map(function (el) {
-                            return el.Reason;
-                        }).indexOf(endEventName);
+                            return el.Status;
+                        }).indexOf("Completed");
+
+
+
+
+                    }
+                    else if (isCHAT) {
+
+
+
+                        index = scope.events.map(function (el) {
+                            return el.Status;
+                        }).indexOf("Completed");
+
+
+
+
+                    }
+                    else  {
+
+                        if(!isSlotEndEvent)
+                        {
+                            index = scope.events.map(function (el) {
+                                return el.Reason;
+                            }).indexOf(endEventName);
+                        }
+
+
+
                     }
 
 
@@ -964,19 +1134,26 @@ mainApp.directive('statusgantt', function ($timeout) {
                         }
                         else if(stEventName. indexOf ("end")==-1 && stEventName!="UnRegister")
                         {
-                            var
-                                eventObj = {name:
-                                stEventName,
-                                    tasks: [
-                                        {
-                                            name: stEventName,
-                                            color: statusColour,
-                                            from:  moment(event.createdAt),
-                                            to: moment(scope.endtime)
-                                        }
-                                    ]};
-                            scope.statusData.push(eventObj);
+                            if(!isSlotEndEvent)
+                            {
+                                var
+                                    eventObj = {name:
+                                    stEventName,
+                                        tasks: [
+                                            {
+                                                name: stEventName,
+                                                color: statusColour,
+                                                from:  moment(event.createdAt),
+                                                to: moment(scope.endtime)
+                                            }
+                                        ]};
+                                scope.statusData.push(eventObj);
+                            }
+
+
+
                         }
+
                         scope.events.splice(scope.events.indexOf (event),1);
                     }
 
