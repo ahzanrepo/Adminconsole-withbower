@@ -962,7 +962,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                 });
                             }
                         },function (errQueue) {
-                            console.log(errQueue);
+                           /// console.log(errQueue);
                             item.queueDetails=undefined;
                             $scope.safeApply(function () {
 

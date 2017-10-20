@@ -55,7 +55,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.grid.resizeColumns',
     'ui.grid.selection',
     'ui.grid.moveColumns',
-    'ui.grid.infiniteScroll'
+    'ui.grid.infiniteScroll',
+    'ngWizard'
 ]);
 
 
@@ -1084,6 +1085,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('console.campaign-console', {
             url: "/campaign-console",
             templateUrl: "campaignManager/template/temp/campaign-console.html",
+            controller: "campaignController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.new-campaign', {
+            url: "/new-campaign",
+            templateUrl: "campaignManager/template/new-campaign/new-campaign.html",
             controller: "campaignController",
             data: {
                 requireLogin: true,

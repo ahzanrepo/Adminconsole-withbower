@@ -229,7 +229,9 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
 
 
     $scope.startCampaign = function (cam) {
+        $scope.isSetCommand = true;
         campaignService.StartCampaign(cam.CampaignId).then(function (response) {
+            $scope.isSetCommand = false;
             if (response) {
                 $scope.showAlert("Campaign", 'success', "Operation Execute Successfully.");
                 $scope.loadCampaign();
@@ -238,6 +240,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
                 $scope.showAlert("Campaign", 'error', "Fail To Execute Command.");
             }
         }, function (error) {
+            $scope.isSetCommand = false;
             $scope.showAlert("Campaign", 'error', "Fail To Execute Command.");
         });
     };

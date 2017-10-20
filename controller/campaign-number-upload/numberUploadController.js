@@ -148,9 +148,9 @@
                 data.forEach(function (data) {
                     var tempNumber = data[filter];
 
-                    if($scope.campaignNumberObj.CategoryID && !$scope.selectedCampaign) {
+                    if ($scope.campaignNumberObj.CategoryID && !$scope.selectedCampaign) {
                         numbers.push(data[filter]);
-                    }else {
+                    } else {
                         if ($scope.selectedCampaign && $scope.selectedCampaign.CampaignChannel.toLowerCase() === 'call') {
                             if (tempNumber && tempNumber.toString().match(numberRegex)) {
                                 if (previewFilter && previewFilter.length > 0) {
@@ -235,6 +235,7 @@
                 $scope.data = newObjects;
             },
             onRegisterApi: function (gridApi) {
+
                 $scope.gridApi = gridApi;
             },
             importerProcessHeaders: function (hData, headerArray) {
@@ -265,6 +266,7 @@
             $scope.target = target;
 
             if (target && target.files && target.files.length === 1) {
+
                 var fileObject = target.files[0];
                 $scope.gridApi.importer.importFile(fileObject);
                 //target.form.reset();
@@ -466,8 +468,9 @@
                 });
             }
         };
+        $scope.loadCampaignCategories();
 
-        $scope.loadCustomerTags = function () {
+        var loadCustomerTags = function () {
             campaignNumberApiAccess.GetCustomersTags().then(function (response) {
                 if (response.IsSuccess) {
                     $scope.customerTags = response.Result;
@@ -489,8 +492,7 @@
             });
         };
 
-        $scope.loadCampaignCategories();
-        $scope.loadCustomerTags();
+        loadCustomerTags();
 
 
         //-----------------------Campaign---------------------------------------

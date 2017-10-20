@@ -100,7 +100,8 @@
     "angular-confirm": "angular1-confirm#^1.1.0",
     "angular-strap": "^2.3.12",
     "angular-ui-switch": "^0.1.1",
-    "angular-ui-grid": "^4.0.7"
+    "angular-ui-grid": "^4.0.7",
+    "ng-wizard": "*"
   },
   "resolutions": {
     "angular": "1.5.5",
