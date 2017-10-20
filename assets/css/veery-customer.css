@@ -6650,8 +6650,50 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .gored {
-    background-color: #e7855e;
+    border-color: #e7242e;
+    border-style: outset;
+    border-width: 1px;
+    box-shadow: 1px 2px 5px #ff0202;
+    animation-name: pulseme;
+    animation-duration: 3s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: infinite;
+    -webkit-font-smoothing: subpixel-antialiased;
+
 }
+
+@keyframes pulseme {
+
+
+    0% {
+        -webkit-stransform: scale(1);  opacity: 1;
+
+
+    }
+
+    70% {
+        -webkit-transform: scale(1); opacity: 1;
+
+    }
+    90% {
+        -webkit-transform: scale(1.05); opacity: 1;
+    }
+    100% {
+        -webkit-stransform: scale(1); opacity: 1;
+    }
+}
+
+/*@-webkit-keyframes gored
+{
+    0% { transform: scale(1); }
+    30% { transform: scale(1); }
+    40% { transform: scale(1.08); }
+    50% { transform: scale(1); }
+    60% { transform: scale(1); }
+    70% { transform: scale(1.05); }
+    80% { transform: scale(1); }
+    100% { transform: scale(1); }
+}*/
 
 .test {
     min-height: 30px;
@@ -6838,7 +6880,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     z-index: 100;
     right: 0;
 
-   
+
 }
 
 .camp-header-left-icon > ul > li {
@@ -7052,4 +7094,12 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 
 .disable-icon {
     color: #c3c3c3;
+}
+
+.color-panel
+{
+    border-radius: 16px;
+    border:1px solid #C3C3C3;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

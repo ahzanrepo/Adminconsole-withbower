@@ -6,7 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var cdrCampaignCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
+    var cdrCampaignCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, campaignService, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
         $anchorScroll();
@@ -42,6 +42,8 @@
 
 
         $scope.enableSearchButton = true;
+
+        $scope.campaignList = [];
 
 
         $scope.showAlert = function (tittle, type, content) {
@@ -88,6 +90,21 @@
                 $scope.timeEnabledStatus = false;
             }
         };
+
+        var getCampaigns = function()
+        {
+            campaignService.GetCampaigns().then(function (campaignList) {
+                if (campaignList && campaignList.length > 0) {
+                    $scope.campaignList = campaignList;
+                }
+
+
+            }).catch(function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
+
+        getCampaigns();
 
 
         $scope.onDateChange = function () {
@@ -426,12 +443,7 @@
 
 
         $scope.getProcessedCDRCSVDownload = function () {
-            /*if (checkCSVGenerateAllowed()) {
 
-            }
-            else {
-                $scope.showAlert('Warning', 'warn', 'Downloading is only allowed for previous dates');
-            }*/
 
             if ($scope.DownloadButtonName === 'CSV') {
                 $scope.cancelDownload = false;
@@ -443,7 +455,7 @@
             }
 
             $scope.DownloadButtonName = 'PROCESSING';
-            $scope.DownloadFileName = 'CDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
+            $scope.DownloadFileName = 'CAMPAIGNCDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
 
             var deferred = $q.defer();
 
@@ -464,7 +476,7 @@
                 endDate = $scope.endDate + ' 23:59:59' + momentTz;
             }
 
-            cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, 'csv', momentTz).then(function (cdrResp)
+            cdrApiHandler.prepareDownloadCampaignCDRByType(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter, 'csv', momentTz).then(function (cdrResp)
                 //cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
             {
                 if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
@@ -528,7 +540,7 @@
 
         $scope.getProcessedCDRForCSV = function () {
 
-            $scope.DownloadFileName = 'CDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
+            $scope.DownloadFileName = 'CAMPAIGNCDR_' + $scope.startDate + ' ' + $scope.startTimeNow + '_' + $scope.endDate + ' ' + $scope.endTimeNow;
 
             var deferred = $q.defer();
 
@@ -883,12 +895,12 @@
                 $scope.pagination.itemsPerPage = lim;
                 $scope.isTableLoading = 0;
 
-                cdrApiHandler.getCampaignCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter).then(function(cdrCntRsp)
+                cdrApiHandler.getCampaignCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter).then(function(cdrCntRsp)
                 {
                     if (cdrCntRsp && cdrCntRsp.IsSuccess) {
                         $scope.pagination.totalItems = cdrCntRsp.Result;
 
-                        cdrApiHandler.getCampaignCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp) {
+                        cdrApiHandler.getCampaignCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter).then(function (cdrResp) {
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 
@@ -950,13 +962,17 @@
                                             cdrAppendObj.RecievedBy = firstLeg.SipToUser;
                                             cdrAppendObj.IsAnswered = false;
                                             cdrAppendObj.HangupCause = firstLeg.HangupCause;
+                                            cdrAppendObj.CampaignName = firstLeg.CampaignName;
 
                                             cdrAppendObj.CreatedTime = moment(firstLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
                                             cdrAppendObj.Duration = firstLeg.Duration;
                                             cdrAppendObj.BillSec = 0;
                                             cdrAppendObj.HoldSec = 0;
+                                            cdrAppendObj.QueueSec = 0;
+                                            cdrAppendObj.AgentSkill = null;
+                                            cdrAppendObj.AnswerSec = 0;
 
-                                            if(firstLeg.ObjType === 'CUSTOMER')
+                                            if(firstLeg.ObjType === 'BLAST' || firstLeg.ObjType === 'DIRECT' || firstLeg.ObjType === 'IVRCALLBACK')
                                             {
                                                 cdrAppendObj.BillSec = firstLeg.BillSec;
                                                 cdrAppendObj.AnswerSec = firstLeg.AnswerSec;
@@ -968,12 +984,7 @@
 
 
                                             holdSecTemp = holdSecTemp + firstLeg.HoldSec;
-                                            cdrAppendObj.HoldSec = holdSecTemp;
 
-
-                                            cdrAppendObj.QueueSec = 0;
-                                            cdrAppendObj.AgentSkill = null;
-                                            cdrAppendObj.AnswerSec = 0;
 
                                             cdrAppendObj.ObjType = firstLeg.ObjType;
                                             cdrAppendObj.ObjCategory = firstLeg.ObjCategory;
@@ -1033,6 +1044,8 @@
                                             }
 
                                         }
+
+                                        cdrAppendObj.HoldSec = holdSecTemp;
 
 
                                         if (callHangupDirectionA === 'recv_bye') {

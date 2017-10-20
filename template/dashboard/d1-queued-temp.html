@@ -1,5 +1,5 @@
-<div ng-class="{gored:isExceeded}">
-    <div class="q-chart-wrp gored" >
+<div ng-class="{'gored':isExceeded}">
+    <div class="q-chart-wrp " >
 
         <div class="chart-wrp">
             <div easypiechart options="pieoption" percent="que.presentage">
@@ -33,7 +33,7 @@
                     <timer start-time="que.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} : {{sseconds}}</timer>
 
                 </div>
-                <div ng-class="{gored:isExceeded}"></div>
+               <!-- <div ng-class="{gored:isExceeded}"></div>-->
             </div>
 
 
