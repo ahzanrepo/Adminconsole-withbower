@@ -1,4 +1,5 @@
-mainApp.controller("campaignController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, campaignService, ardsBackendService) {
+mainApp.controller("campaignController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll,
+                                                   campaignService, ardsBackendService,$state) {
 
     $anchorScroll();
     $scope.mechanisms = campaignService.mechanisms;
@@ -273,5 +274,9 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
         }, campaign)
     };
 
+    //create new camping
+    $scope.crateNewCamping = function () {
+        $state.go('console.new-campaign');
+    };
 
 });
