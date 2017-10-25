@@ -1078,6 +1078,11 @@
                                             }
                                         }*/
 
+                                        if(!cdrAppendObj.IsAnswered)
+                                        {
+                                            cdrAppendObj.AnswerSec = cdrAppendObj.Duration;
+                                        }
+
 
                                         cdrAppendObj.BillSec = convertToMMSS(cdrAppendObj.BillSec);
                                         cdrAppendObj.Duration = convertToMMSS(cdrAppendObj.Duration);
