@@ -208,6 +208,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     };
 
+    $scope.newContext={};
     $scope.saveNewContext = function () {
 
         $scope.newContext.ContextCat = "INTERNAL";

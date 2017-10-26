@@ -1,7 +1,7 @@
 <div>
     <div class="page-title">
         <div class="title_left">
-            <h3 class="font-robot font-600 ">Queue Summary Report</h3>
+            <h3 class="font-robot font-600 ">Queue Hourly Summary Report</h3>
         </div>
     </div>
 
@@ -59,7 +59,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label>Queues</label>
-                        <tags-input ng-model="skillFilter" max-tags="5" on-tag-adding="checkTagCount()" display-property="Attribute" add-from-autocomplete-only="true" min-length="1">
+                        <tags-input ng-model="skillFilter" display-property="QueueName" key-property="RecordID" add-from-autocomplete-only="true" min-length="1">
                             <auto-complete source="querySearch($query)" load-on-empty="true" load-on-focus="true" min-length="1" max-results-to-show="10000"></auto-complete>
                         </tags-input>
                     </div>

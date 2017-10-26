@@ -3,8 +3,8 @@
         <div class="col-md-3 left_col menu_fixed ">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="index.html" class="site_title ">
-                        <img src="images/logo_main.png" width="180px" height="50px">
+                    <a  class="site_title ">
+                        <img src="images/logo_main.svg" width="180px" height="50px">
                     </a>
                 </div>
                 <div class="clearfix"></div>
@@ -70,6 +70,11 @@
                                     <li ng-show="accessNavigation.AGENT_DASHBOARD"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goToAgentDashboard()">
                                         Agent Dashboard
+                                    </a>
+                                    </li>
+                                    <li ng-show="accessNavigation.AGENT_DASHBOARD"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goToDetailsDashboard()">
+                                        Details Dashboard
                                     </a>
                                     </li>
                                 </ul>
@@ -242,6 +247,10 @@
                                                                                          ng-click="clickDirective.goArdsConfig()">Router
                                         Configuration</a>
                                     </li>
+                                    <li ng-show="accessNavigation.QUEUE_SETTINGS"><a href="javascript:void(0);"
+                                                                                         ng-click="clickDirective.goQueueSettings()">Queue
+                                        Settings</a>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -337,6 +346,11 @@
                                     <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
+
+                                    <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goCreateNewCampaign()">New Campaign (beta)</a>
+                                    <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goViewCampaigns()">Campaigns (beta)</a>
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goCreateCampaign()">Campaigns</a>
                                     </li>
@@ -404,6 +418,9 @@
                                             <li ng-show="accessNavigation.CAMPAIGN_ATTEMPT_REPORT"><a
                                                     href="javascript:void(0);"
                                                     ng-click="clickDirective.goCampaignAttempt();">Attempt</a>
+                                            </li>
+                                            <li ng-show="accessNavigation.CAMPAIGN_CDR"><a href="javascript:void(0);"
+                                                                                           ng-click="clickDirective.goCampaignCdrReport()">Campaign CDR</a>
                                             </li>
 
                                         </ul>

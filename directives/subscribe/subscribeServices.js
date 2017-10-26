@@ -3,7 +3,7 @@
  */
 
 
-mainApp.factory('subscribeServices', function ($http,baseUrls, loginService) {
+mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
 
 
     //local  variable
@@ -14,11 +14,11 @@ mainApp.factory('subscribeServices', function ($http,baseUrls, loginService) {
     var statusSubcribers = [];
     //********  subscribe event ********//
     var OnConnected = function () {
-        console.log("OnConnected..............");
+        //console.log("OnConnected..............");
         var token = loginService.getToken();
         SE.authenticate({
             success: function (data) {
-                console.log("authenticate..............");
+                //console.log("authenticate..............");
 
                 if (connectionSubscribers) {
                     connectionSubscribers(true);
@@ -54,41 +54,41 @@ mainApp.factory('subscribeServices', function ($http,baseUrls, loginService) {
 
             },
             error: function (data) {
-                console.log("authenticate error..............");
+                //console.log("authenticate error..............");
             },
             token: token
         });
     };
 
     var OnDisconnect = function (o) {
-        console.log("OnDisconnect..............");
+        //console.log("OnDisconnect..............");
         if (connectionSubscribers)
             connectionSubscribers(false);
     };
 
     var OnDashBoardEvent = function (event) {
-        console.log("OnDshboardEvent..............");
+        //console.log("OnDshboardEvent..............");
         dashboardSubscriber.forEach(function (func) {
             func(event);
         });
     };
 
     var OnStatus = function (o) {
-        console.log("OnStatus..............");
+        //console.log("OnStatus..............");
         statusSubcribers.forEach(function (func) {
             func(o);
         });
     };
 
     var OnEvent = function (event, o) {
-        console.log("OnEvent..............");
+        //console.log("OnEvent..............");
         if (eventSubscriber) {
             eventSubscriber(event, o);
         }
     };
 
     var OnCallStatus = function (o) {
-        console.log("OnStatus..............");
+        //console.log("OnStatus..............");
         callSubscribers.forEach(function (func) {
             func(o);
         });
@@ -195,7 +195,7 @@ mainApp.factory('subscribeServices', function ($http,baseUrls, loginService) {
         SubscribeEvents: SubscribeEvents,
         SubscribeStatus: SubscribeStatus,
         SubscribeCallStatus: SubscribeCallStatus,
-        GetPersistenceMessages:getPersistenceMessages
+        GetPersistenceMessages: getPersistenceMessages
     }
 
 

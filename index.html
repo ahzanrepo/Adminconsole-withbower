@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=9">
-    <title>veery console beta 1.0</title>
+    <title>Facetone Console 1.7</title>
     <link rel="shortcut icon" href="favicon.png" sizes="16x16"/>
 </head>
 
@@ -36,6 +36,8 @@
 <link href="assets/vendors/starrr/dist/starrr.css" rel="stylesheet">
 
 <!-- Custom Theme Style -->
+
+<!-- ngDropper -->
 
 
 <!-- iCheck -->
@@ -90,7 +92,6 @@
 <link rel="stylesheet" type="text/css" href="bower_components/ng-sortable/dist/ng-sortable.style.css">
 
 
-
 <!-- #Goolge font API -->
 <!--<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,greek' rel='stylesheet'-->
 <!--type='text/css'>-->
@@ -110,7 +111,8 @@
 
 <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
 
-<link rel="stylesheet" type="text/css" href="bower_components/angular-timezone-selector/styling/angular-timezone-selector.css">
+<link rel="stylesheet" type="text/css"
+      href="bower_components/angular-timezone-selector/styling/angular-timezone-selector.css">
 
 <link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
 
@@ -124,6 +126,8 @@
 <link rel="stylesheet" href="assets/css/Js-plumb-UI-KIt/demo.css">
 
 <link rel="stylesheet" href="bower_components/angular-ui-switch/angular-ui-switch.min.css"/>
+
+<link rel="stylesheet" href="bower_components/ng-wizard/dist/ngWizard.css">
 
 <body class="nav-md">
 <!--style="display: none;"-->
@@ -145,7 +149,7 @@
     </div>
 </div>
 
-<div ui-view>
+<div ui-view class="right_col" role="main">
 </div>
 
 
@@ -178,7 +182,6 @@
 <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="bower_components/ngSlimscroll/src/js/ngSlimscroll.js"></script>
-
 
 
 <!-- bootstrap -->
@@ -298,7 +301,7 @@
 <script src="bower_components/angular-file-saver/dist/angular-file-saver.js"></script>
 
 <!--- angular UI-grid -->
-<script type="text/javascript" src="bower_components/angular-ui-grid/ui-grid.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-ui-grid/ui-grid.js"></script>
 
 
 <!-- auth -->
@@ -320,6 +323,8 @@
 
 <!-- snap-->
 <script type="text/javascript" src="bower_components/webcam/app/scripts/webcam.js"></script>
+
+<!-- UI table -->
 
 
 <!-- main app JS -->
@@ -352,6 +357,9 @@
 <!-- angular-object-diff --->
 <script type="text/javascript" src="bower_components/angular-object-diff/dist/angular-object-diff.js"></script>
 
+<!-- form wizard -->
+<script type="text/javascript" src="bower_components/ng-wizard/dist/ngWizard.js"></script>
+
 
 <!-- controller -->
 <script type="text/javascript" src="controller/mainCtrl.js"></script>
@@ -365,6 +373,7 @@
 <script type="text/javascript" src="controller/cdr/callSummaryCustCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/agentStatusListCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/queueSummaryHourlyCtrl.js"></script>
+<script type="text/javascript" src="controller/cdr/cdrCampaignCtrl.js"></script>
 <script type="text/javascript" src="controller/auditTrail/auditTrailReportCtrl.js"></script>
 <script type="text/javascript" src="controller/sipuser/sipUserCtrl.js"></script>
 <script type="text/javascript" src="factory/userprofile/userProfileApiAccess.js"></script>
@@ -385,6 +394,9 @@
 <script type="text/javascript" src="auth/controller/activateCtrl.js"></script>
 <script type="text/javascript" src="auth/controller/signUpCtrl.js"></script>
 <script type="text/javascript" src="auth/controller/pricingCtrl.js"></script>
+
+<!-- campaign wizard controller -->
+<script type="text/javascript" src="campaignManager/controllers/campaignWizardController.js"></script>
 
 <script type="text/javascript" src="directives/appointmentCalendar/appointmentCalendar.js"></script>
 
@@ -761,6 +773,10 @@
 <script type="text/javascript" src="directives/slabreakdown/dailySLABreakDownDirective.js"></script>
 
 
+<!-- test table check -->
+<script type="text/javascript" src="controller/testTable.js"></script>
+
+
 <!--google recaptcha js-->
 
 <!-- Include the ngReCaptcha directive -->
@@ -853,7 +869,8 @@
 
 
 <!-- Call Center Performance Report-->
-<script type="text/javascript" src="controller/callcenter-performance-summery/callcenterPerformanceReportController.js"></script>
+<script type="text/javascript"
+        src="controller/callcenter-performance-summery/callcenterPerformanceReportController.js"></script>
 
 
 <!-- File category restrictions-->
@@ -867,9 +884,41 @@
 <!-- Agent Break Report -->
 <script type="text/javascript" src="controller/agent-break-details/agentBreakDetailController.js"></script>
 
+<!--detailsdashboard-->
+<script type="text/javascript" src="detailsDashBoard/scripts/controllers/detailsDashboardController.js"></script>
+<script type="text/javascript" src="detailsDashBoard/scripts/service/contactService.js"></script>
+
 <!-- reportQueryFilter -->
 <script type="text/javascript" src="factory/reportQueryFilters/reportQueryFilterService.js"></script>
 
 <script src="bower_components/angular-ui-switch/angular-ui-switch.min.js"></script>
 
+
+<!-- queue settings -->
+<script type="text/javascript" src="controller/queue-settings-config/queueSettingsController.js"></script>
+<script type="text/javascript" src="factory/queue-settings-config/queueSettingsService.js"></script>
+<script type="text/javascript" src="directives/queue-settings-config/editQueueSettingsConfig.js"></script>
+
+
+<script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt.min.js"></script>
+<link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt.css"/>
+
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/angular-moment/angular-moment.js"></script>
+<link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt-tooltips-plugin.css">
+<script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt-tooltips-plugin.js"></script>
+<link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt-movable-plugin.css">
+<script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt-movable-plugin.js"></script>
+<link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt-table-plugin.css">
+<script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt-table-plugin.js"></script>
+<link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt-labels-plugin.css">
+<link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt-labels-plugin.css">
+<script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt-labels-plugin.js"></script>
+<link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt-tree-plugin.css">
+<script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt-tree-plugin.js"></script>
+<link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt-plugins.css">
+<script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt-plugins.js"></script>
+
+<!--<script type="text/javascript" src="controller/gantt/ganttController.js"></script>-->
+<!--<link rel="stylesheet" href="assets/css/gantt/gantt.css"/>-->
 </html>

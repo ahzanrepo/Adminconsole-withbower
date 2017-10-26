@@ -118,11 +118,10 @@
         </div>
 
         <div class="row">
-            <h2 ng-show="isConfig" class="pull-left">Tag Categories
+            <h2 ng-show="isConfig" style="padding-left: 20px;">Tag Categories
                 <span ng-click="showTagCatConig()" style="cursor: pointer ; padding-left: 30px"><i
-                        class="fa fa-plus " ng-show="isConfig && !isTagCatConfig"></i></span>
-                <span ng-click="showTagCatConig()" style="cursor: pointer ; padding-left: 30px"><i
-                        class="fa fa-plus " ng-show="isConfig && !isTagCatConfig"></i></span>
+                        ng-class ="{'fa fa-plus': !isTagCatConfig , 'fa fa-minus': isTagCatConfig }" ng-show="isConfig"></i></span>
+
             </h2>
 
             <div class="row" ng-show="isTagCatConfig && isConfig">
@@ -140,8 +139,8 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="btn btn-primary" ng-click="showNewCategoryModal()"><span
-                                    class="fa fa-plus" aria-hidden="true"></span>New
+                            <button type="submit" class="btn btn-primary" ng-click="showNewCategoryModal()">
+                                <span aria-hidden="true"></span>New
                             </button>
 
                             <div id="datatable-responsive_wrapper"
@@ -209,9 +208,9 @@
         </div>
 
         <div class="row">
-            <h2 ng-show="isConfig">Tags
+            <h2 ng-show="isConfig" style="padding-left: 20px">Tags
                 <span ng-click="showTagConig()" style="cursor: pointer ; padding-left: 30px"><i
-                        class="fa fa-plus " ng-show="isConfig && !isTagConfig"></i></span>
+                        ng-class ="{'fa fa-plus': !isTagConfig , 'fa fa-minus': isTagConfig }"  ng-show="isConfig"></i></span>
             </h2>
 
         </div>
@@ -230,8 +229,8 @@
                                 </span>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary" ng-click="showNewTagModal()"><span
-                                class="fa fa-plus" aria-hidden="true"></span>New
+                        <button type="submit" class="btn btn-primary" ng-click="showNewTagModal()">
+                            <span aria-hidden="true"></span>New
                         </button>
                         <div id="datatable-responsive_wrapper2"
                              class="dataTables_wrapper form-inline dt-bootstrap no-footer">

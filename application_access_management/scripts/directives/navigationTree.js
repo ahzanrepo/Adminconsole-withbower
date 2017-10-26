@@ -24,9 +24,7 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
             scope.vm.data = newItem(0, scope.navigation.navigationName);
 
             var items = $filter('filter')(scope.selectedConsole.consoleNavigation.saveItem, {menuItem: scope.navigation.navigationName})
-            if (scope.navigation.navigationName === 'FILE_CAT_RESTRICT') {
-                console.log('sdfdfdfs');
-            }
+
             /*Generate tree*/
             var id = 1;
             var rootSelected = true;

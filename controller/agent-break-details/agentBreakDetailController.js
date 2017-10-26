@@ -14,6 +14,7 @@
         $scope.Agents = [];
         $scope.isTableLoading = 0;
 
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
         var AgentDetailsAssignToSummery = function () {
 
 

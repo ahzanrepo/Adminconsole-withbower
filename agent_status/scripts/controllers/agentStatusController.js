@@ -1,7 +1,10 @@
-mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log,
-                                                      $anchorScroll, agentStatusService, notifiSenderService,reportQueryFilterService) {
+mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log, $http,
+                                                      $anchorScroll, agentStatusService, notifiSenderService,
+                                                      reportQueryFilterService, uiGridConstants, $interval) {
 
     $anchorScroll();
+
+    $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     $scope.showCallInfos = false;
     $scope.summaryText = "Table";
     $scope.summary = false;
@@ -37,18 +40,153 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.productivity = [];
     $scope.isLoading = true;
     $scope.GetProductivity = function () {
-        agentStatusService.GetProductivity().then(function (response) {
+        var momentTz = moment.parseZone(new Date()).format('Z');
+        momentTz = momentTz.replace("+", "%2B");
+
+        var currentDate = moment().format("YYYY-MM-DD");
+        var queryStartDate = currentDate + ' 00:00:00' + momentTz;
+        var queryEndDate = currentDate + ' 23:59:59' + momentTz;
+
+        agentStatusService.GetProductivityWithLoginTime(queryStartDate, queryEndDate).then(function (response) {
             $scope.productivity = response;
             $scope.isLoading = true;
             calculateProductivity();
         }, function (error) {
             $log.debug("productivity err");
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get productivity.");
+            $scope.showAlert("Error", "error", "Fail To Get productivity.");
             $scope.isLoading = false;
         });
     };
     $scope.GetProductivity();
     $scope.showCallDetails = false;
+
+
+    $scope.gridOptions = {
+        enableColumnResizing: true,
+        enableGridMenu: true,
+        enableSorting: true,
+        columnDefs: [],
+        data: 'Productivitys',
+
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+
+            // call resize every 500 ms for 5 s after modal finishes opening - usually only necessary on a bootstrap modal
+            $interval(function () {
+                $scope.gridApi.core.handleWindowResize();
+            }, 500, 10);
+
+
+        }
+    };
+
+
+    $scope.gridOptions.columnDefs = [
+        {
+            name: 'taskList',
+            displayName: 'Task',
+            $$treeLevel: 1,
+            width: 100,
+            // cellTemplate: 'template/taskListTemplate.html'
+            cellTemplate: 'agent_status/view/template/taskListTemplate.html'
+        },
+        {
+            name: 'profileName',
+            displayName: 'Name',
+            width: 100,
+            pinnedLeft: true,
+            sort: {direction: 'asc', priority: 0}
+        },
+        {
+            name: 'LoginTime',
+            displayName: 'Login Time',
+            width: 100,
+
+        },
+        {
+            name: 'slotState',
+            displayName: 'State',
+            width: 200
+        },
+        {
+            name: 'slotStateTime',
+            displayName: 'Slot State Time',
+            width: 100
+        },
+        {
+            name: 'AcwTime',
+            displayName: 'ACW Time',
+            width: 100,
+            cellTemplate: "<div>{{row.entity.AcwTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'BreakTime',
+            displayName: 'Break Time',
+            width: 100,
+            cellTemplate: "<div>{{row.entity.BreakTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'HoldTime',
+            displayName: 'Hold Time',
+            width: 100,
+            cellTemplate: "<div>{{row.entity.HoldTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'OnCallTime',
+            displayName: 'OnCall Time',
+            width: 100,
+            cellTemplate: "<div>{{row.entity.OnCallTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'IdleTime',
+            displayName: 'Idle Time',
+            width: 100,
+            cellTemplate: "<div>{{row.entity.IdleTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'StaffedTime',
+            displayName: 'Staffed Time',
+            width: 100,
+            cellTemplate: "<div>{{row.entity.StaffedTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'IncomingCallCount',
+            displayName: 'Answered Call Count',
+            width: 100
+        },
+        {
+            name: 'OutgoingCallCount',
+            displayName: 'Outgoing Call Count',
+            width: 100
+        },
+        {
+            name: 'MissCallCount',
+            displayName: 'Missed Call Count',
+            width: 100
+        },
+        {
+            name: 'OutboundAnswerCount',
+            displayName: 'Outgoing Answered Count',
+            width: 100
+        }
+
+    ];
+
+    $scope.cumulative = function (grid, myRow) {
+        var skill = '';
+        grid.renderContainers.body.visibleRowCache.forEach(function (row, index) {
+            if (row.entity && row.entity.taskList && row.entity.taskList.length != 0) {
+                row.entity.taskList.forEach(function (value, i) {
+                    if (i == 0) {
+                        skill += row.entity.taskList[i].skill + " " + row.entity.taskList[i].percentage + "%";
+                    } else {
+                        skill += " , " + row.entity.taskList[i].skill + " " + row.entity.taskList[i].percentage + "%";
+                    }
+                });
+            }
+        });
+        return skill;
+    };
 
     var TimeFormatter = function (seconds) {
 
@@ -86,15 +224,15 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.showCallDetails = false;
         if ($scope.profile) {
             /*if ($scope.profile.length == 0) {
-                angular.copy($scope.availableProfile, $scope.profile);
-            }*/
+             angular.copy($scope.availableProfile, $scope.profile);
+             }*/
 
             angular.forEach($scope.profile, function (agentProfile) {
                 try {
                     var agent = null;
                     var availableAgent = $filter('filter')($scope.onlineProfile, {ResourceId: agentProfile.ResourceId.toString()}, true);//"ResourceId":"1"
 
-                    if (availableAgent.length > 0){
+                    if (availableAgent.length > 0) {
                         agent = availableAgent[0];
                     }
 
@@ -124,9 +262,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                                     name: 'Idle'
                                 }],
                                 "ResourceId": agent.ResourceId,
+                                "LoginTime": ids[0].LoginTime ? moment(ids[0].LoginTime).format("YYYY-MM-DD hh:mm:ss") : "N/A",
                                 "ResourceName": agent.ResourceName,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
                                 "OutgoingCallCount": ids[0].OutgoingCallCount ? ids[0].OutgoingCallCount : 0,
+                                "OutboundAnswerCount": ids[0].OutboundAnswerCount ? ids[0].OutboundAnswerCount : 0,
                                 "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
                                 "Chatid": agent.ResourceId,
                                 "AcwTime": ids[0].AcwTime,
@@ -217,8 +357,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             }
 
 
-
-
                             /* Set Task Info*/
                             agentProductivity.taskList = [];
                             angular.forEach(agent.ResourceAttributeInfo, function (item) {
@@ -282,6 +420,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
                             agentProductivity.profileName = agent.ResourceName;
                             $scope.Productivitys.push(agentProductivity);
+                            console.log($scope.Productivitys);
+
                         }
 
                     }
@@ -332,7 +472,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
         }, function (error) {
             $log.debug("getAllActiveCalls err");
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get Active Call List.");
+            $scope.showAlert("Error", "error", "Fail To Get Active Call List.");
         });
     };
     $scope.GetAllActiveCalls();
@@ -344,7 +484,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $scope.getProfileDetails();
         }, function (error) {
             $log.debug("GetAllAttributes err");
-            $scope.showAlert("Error", "Error", "ok", "Fail To Get Attribute List.");
+            $scope.showAlert("Error", "error", "Fail To Get Attribute List.");
         });
     };
     $scope.GetAllAttributes();
@@ -356,18 +496,18 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.getProfileDetails = function () {
         agentStatusService.GetProfileDetails().then(function (response) {
 
-            if(response){
+            if (response) {
                 /*$scope.onlineProfile = response.map(function (item) {
-                    return {
-                        ResourceName:item.ResourceName,
-                        ResourceId:item.ResourceId
-                    }
-                });*/
+                 return {
+                 ResourceName:item.ResourceName,
+                 ResourceId:item.ResourceId
+                 }
+                 });*/
 
-               $scope.onlineProfile = response;
+                $scope.onlineProfile = response;
                 /*if ($scope.profile.length == 0) {
-                    angular.copy($scope.availableProfile, $scope.profile);
-                }*/
+                 angular.copy($scope.availableProfile, $scope.profile);
+                 }*/
             }
 
         });
@@ -376,11 +516,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.GetAvailableProfile = function () {
         agentStatusService.GetAvailableProfile().then(function (response) {
 
-            if(response){
+            if (response) {
                 $scope.availableProfile = response.map(function (item) {
                     return {
-                        ResourceName:item.ResourceName,
-                        ResourceId:item.ResourceId
+                        ResourceName: item.ResourceName,
+                        ResourceId: item.ResourceId
                     }
                 });
             }
@@ -396,7 +536,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 
-    // getAllRealTime();
+    getAllRealTime();
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
 
@@ -408,11 +548,20 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     $scope.refreshTime = 10000;
 
-    $scope.showAlert = function (tittle, label, button, content) {
+    /*$scope.showAlert = function (tittle, label, button, content) {
+     new PNotify({
+     title: tittle,
+     text: content,
+     type: 'success',
+     styling: 'bootstrap3'
+     });
+     };*/
+
+    $scope.showAlert = function (tittle, type, content) {
         new PNotify({
             title: tittle,
             text: content,
-            type: 'success',
+            type: type,
             styling: 'bootstrap3'
         });
     };
@@ -556,6 +705,27 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.SaveReportQueryFilter();
 
     };
+
+
+    // $(window).scroll(function (e) {
+    //
+    //     var windowPosition = this.pageYOffset;
+    //     if ($scope.showFilter) {
+    //         //filter is enable
+    //
+    //     } else {
+    //         if (windowPosition >= 208) {
+    //             console.log('fixed menu');
+    //             $('#agentStatusTblHeader').addClass('fixed-table-header');
+    //         } else {
+    //             console.log('remove fixed menu');
+    //             $('#agentStatusTblHeader').removeClass('fixed-table-header');
+    //         }
+    //     }
+    //
+    //     console.log($scope.showFilter);
+    // });
+
 });
 
 

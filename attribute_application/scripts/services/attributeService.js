@@ -185,6 +185,25 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         });
     };
 
+    var getGroupNames = function () {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'GroupNames'
+        }).then(function (response) {
+            return response;
+        });
+    };
+    var getAttributeDetails = function (groupId) {
+
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + 'Group/'+groupId+'/Attribute/Details'
+        }).then(function (response) {
+            return response;
+        });
+    };
+
     return {
         GetAttributes: getattributes,
         GetAttributeCount: getattributeCount,
@@ -200,7 +219,9 @@ mainApp.factory("attributeService", function ($http, $log, $filter, authService,
         GetTasks: getTasks,
         AddAttributeToGroup:addAttributeToGroup,
         DeleteOneAttribute:deleteOneAttribute,
-        GetAttributeByGroupId:getAttributeByGroupId
+        GetAttributeByGroupId:getAttributeByGroupId,
+        getGroupNames:getGroupNames,
+        getAttributeDetails:getAttributeDetails
     }
 
 });

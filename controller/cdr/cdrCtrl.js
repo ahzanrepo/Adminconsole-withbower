@@ -107,18 +107,72 @@
         var videogularAPI = null;
 
 
-        $scope.SetDownloadPath = function (uuid, objType) {
+        $scope.SetDownloadPath = function (cdrInf) {
             var decodedToken = loginService.getTokenDecode();
 
             if (decodedToken && decodedToken.company && decodedToken.tenant) {
                 //$scope.DownloadFileUrl = baseUrls.fileServiceUrl + 'File/DownloadLatest/' + uuid + '.mp3?Authorization='+$auth.getToken();
 
                 var fileType = '.mp3';
-                if(objType === 'FAX_INBOUND')
+                if(cdrInf.ObjType === 'FAX_INBOUND')
                 {
                     fileType = '.tif';
                 }
-                fileService.downloadLatestFile(uuid + fileType)
+
+                var saveAs = null;
+
+
+                if(cdrInf.DVPCallDirection === 'inbound')
+                {
+                    if(cdrInf.SipFromUser)
+                    {
+                        saveAs = cdrInf.SipFromUser;
+                    }
+
+                    if(cdrInf.RecievedBy)
+                    {
+                        if(saveAs)
+                        {
+                            saveAs = saveAs + '-' + cdrInf.RecievedBy;
+                        }
+                        else
+                        {
+                            saveAs = cdrInf.RecievedBy;
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    if(cdrInf.RecievedBy)
+                    {
+                        saveAs = cdrInf.RecievedBy;
+                    }
+
+                    if(cdrInf.SipFromUser)
+                    {
+                        if(saveAs)
+                        {
+                            saveAs = saveAs + '-' + cdrInf.SipFromUser;
+                        }
+                        else
+                        {
+                            saveAs = cdrInf.SipFromUser;
+                        }
+                    }
+                }
+
+                if(saveAs)
+                {
+                    saveAs = saveAs + '-' + cdrInf.CreatedTime;
+                }
+                else
+                {
+                    saveAs = cdrInf.CreatedTime;
+                }
+
+                fileService.downloadLatestFile(cdrInf.Uuid + fileType, saveAs + fileType);
 
             }
 
@@ -179,7 +233,7 @@
         $scope.isTableLoading = 3;
         $scope.cdrList = [];
         $scope.userList = [];
-        $scope.attrList = [];
+        $scope.qList = [];
 
 
         $scope.searchCriteria = "";
@@ -344,21 +398,31 @@
             });
         };
 
-        var getSkillList = function () {
+        var getQueueList = function () {
 
-            resourceService.GetAttributes().then(function (attrList) {
-                if (attrList && attrList.length > 0) {
-                    $scope.attrList = attrList;
+            resourceService.getQueueSettings().then(function (qList) {
+                if (qList && qList.length > 0) {
+                    var tempQList = qList.filter(function(q)
+                    {
+                        return !!(q.ServerType === 'CALLSERVER' && q.RequestType === 'CALL');
+                    });
+
+                    $scope.qList = tempQList;
+                }
+                else
+                {
+                    $scope.qList = [];
                 }
 
 
             }).catch(function (err) {
+                $scope.qList = [];
                 loginService.isCheckResponse(err);
             });
         };
 
         getUserList();
-        getSkillList();
+        getQueueList();
 
 
         $scope.getProcessedCDRCSVDownload = function () {
@@ -842,6 +906,7 @@
                                         var isInboundHTTAPI = false;
                                         var outLegAnswered = false;
                                         var inLegAnswered = false;
+                                        var isOutboundTransferCall = false;
 
                                         var callHangupDirectionA = '';
                                         var callHangupDirectionB = '';
@@ -885,6 +950,11 @@
                                             if (curProcessingLeg.DVPCallDirection)
                                             {
                                                 callHangupDirectionA = curProcessingLeg.HangupDisposition;
+                                            }
+
+                                            if(curProcessingLeg.DVPCallDirection === 'outbound' && (curProcessingLeg.ObjType === 'ATT_XFER_USER' || curProcessingLeg.ObjType === 'ATT_XFER_GATEWAY'))
+                                            {
+                                                isOutboundTransferCall = true;
                                             }
 
 
@@ -943,25 +1013,55 @@
 
                                         var transferCallOriginalCallLeg = null;
 
-                                        var transferLegB = filteredOutb.filter(function (item) {
-                                            if ((item.ObjType === 'ATT_XFER_USER' || item.ObjType === 'ATT_XFER_GATEWAY') && !item.IsTransferredParty) {
-                                                return true;
-                                            }
-                                            else {
-                                                return false;
-                                            }
+                                        var transferLegB = [];
+                                        var actualTransferLegs = [];
 
-                                        });
+                                        if(isOutboundTransferCall)
+                                        {
+                                            transferLegB = filteredOutb.filter(function (item) {
+                                                if (item.ObjType !== 'ATT_XFER_USER' && item.ObjType !== 'ATT_XFER_GATEWAY') {
+                                                    return true;
+                                                }
+                                                else {
+                                                    return false;
+                                                }
 
-                                        var actualTransferLegs = filteredOutb.filter(function (item) {
-                                            if (item.IsTransferredParty) {
-                                                return true;
-                                            }
-                                            else {
-                                                return false;
-                                            }
+                                            });
 
-                                        });
+                                            actualTransferLegs = filteredOutb.filter(function (item) {
+                                                if (item.ObjType === 'ATT_XFER_USER' || item.ObjType === 'ATT_XFER_GATEWAY') {
+                                                    return true;
+                                                }
+                                                else
+                                                {
+                                                    return false;
+                                                }
+
+                                            });
+                                        }
+                                        else
+                                        {
+                                            transferLegB = filteredOutb.filter(function (item) {
+                                                if ((item.ObjType === 'ATT_XFER_USER' || item.ObjType === 'ATT_XFER_GATEWAY') && !item.IsTransferredParty) {
+                                                    return true;
+                                                }
+                                                else {
+                                                    return false;
+                                                }
+
+                                            });
+
+                                            actualTransferLegs = filteredOutb.filter(function (item) {
+                                                if (item.IsTransferredParty) {
+                                                    return true;
+                                                }
+                                                else {
+                                                    return false;
+                                                }
+
+                                            });
+                                        }
+
 
                                         if (transferLegB && transferLegB.length > 0)
                                         {
@@ -981,7 +1081,7 @@
                                         }
 
                                         if (transferCallOriginalCallLeg) {
-                                            cdrAppendObj.SipFromUser = transferCallOriginalCallLeg.SipFromUser;
+                                            //cdrAppendObj.SipFromUser = transferCallOriginalCallLeg.SipFromUser;
                                             cdrAppendObj.RecievedBy = transferCallOriginalCallLeg.SipToUser;
                                             callHangupDirectionB = transferCallOriginalCallLeg.HangupDisposition;
 
@@ -989,6 +1089,11 @@
                                             cdrAppendObj.AnswerSec = transferCallOriginalCallLeg.AnswerSec;
 
                                             cdrAppendObj.BillSec = transferCallOriginalCallLeg.BillSec;
+
+                                            if (cdrAppendObj.DVPCallDirection === 'outbound') {
+
+                                                cdrAppendObj.Uuid = transferCallOriginalCallLeg.Uuid;
+                                            }
 
                                             if (!cdrAppendObj.ObjType) {
                                                 cdrAppendObj.ObjType = transferCallOriginalCallLeg.ObjType;
@@ -1137,7 +1242,7 @@
                                 }
                                 else
                                 {
-                                    $scope.showAlert('Error', 'error', 'Error occurred while loading cdr list');
+                                    $scope.showAlert('Info', 'info', 'No CDR Records to load');
                                     $scope.cdrList = [];
                                     $scope.isTableLoading = 1;
                                 }

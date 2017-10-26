@@ -47,7 +47,26 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'timer',
     'as.sortable',
     'cp.ngConfirm',
-    'uiSwitch'
+    'uiSwitch',
+    'ui.grid.pinning',
+    'ui.grid.autoResize',
+    'ui.grid.exporter',
+    'ui.grid.resizeColumns',
+    'ui.grid.resizeColumns',
+    'ui.grid.selection',
+    'ui.grid.moveColumns',
+    'ui.grid.infiniteScroll',
+    'ngWizard',
+    'gantt',
+    'angularMoment',
+    'gantt.table',
+    'gantt.labels',
+    'gantt.tooltips',
+    'gantt.sortable',
+    'gantt.resizeSensor',
+    'gantt.dependencies'
+
+
 ]);
 
 
@@ -55,6 +74,10 @@ mainApp.constant('moment', moment);
 mainApp.run(['$anchorScroll', function ($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }]);
+
+app.run(function ($rootScope) {
+    $rootScope.keys = Object.keys;
+});
 //resourceservice.app1.veery.cloud
 var baseUrls = {
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',//http://monitorrestapi.app1.veery.cloud/DVP
@@ -97,7 +120,8 @@ var baseUrls = {
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'agentDialerURL': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/', //agentdialerservice.app1.veery.cloud
     'integrationapi': 'http://localhost:4334/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
-    'reportQueryFilterUrl': 'http://reportqueryfilters.app.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/'
+    'reportQueryFilterUrl': 'http://reportqueryfilters.app.veery.cloud/DVP/API/1.0.0.0/ReportQueryFilter/',
+    'contactUrl': 'http://contacts.app1.veery.cloud/DVP/API/1.0.0.0/ContactManager/', //contacts.app1.veery.cloud
 };
 
 mainApp.constant('baseUrls', baseUrls);
@@ -227,6 +251,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "AGENT_PRODUCTIVITY"
+            }
+        }).state('console.detailsdashboard', {
+            url: "/detailsdashboard",
+            templateUrl: "detailsDashBoard/view/detailsDashboard.html",
+            controller: "detailsDashboardController",
+            data: {
+                requireLogin: true,
+                navigation: "AGENT_DASHBOARD"
             }
         }).state('console.filegallery', {
             url: "/filegallery",
@@ -627,17 +659,18 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "EXTENSION"
             }
-        }).state('console.ardsconfig', {
-            url: "/ardsconfig",
-            templateUrl: "views/ards-config/ardsconfig.html",
-            controller: "ardsController",
+        })
+            .state('console.ardsconfig', {
+                url: "/ardsconfig",
+                templateUrl: "views/ards-config/ardsconfig.html",
+                controller: "ardsController",
 
-            data: {
-                requireLogin: true,
-                navigation: "ARDS_CONFIGURATION"
-            }
+                data: {
+                    requireLogin: true,
+                    navigation: "ARDS_CONFIGURATION"
+                }
 
-        }).state('console.myprofile', {
+            }).state('console.myprofile', {
             url: "/myprofile",
             templateUrl: "views/myUserprofile/myUserprofile.html",
 
@@ -1034,14 +1067,48 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "FILE_CAT_RESTRICT"
             }
         }).state('console.agentBreakReport', {
-                url: "/agentBreakReport",
-                templateUrl: "views/agent-break-details/agentBreakDetails.html",
-                controller: "agentBreakDetailController",
-                data: {
-                    requireLogin: true,
-                    navigation: "USERS"
-                }
-            });
+            url: "/agentBreakReport",
+            templateUrl: "views/agent-break-details/agentBreakDetails.html",
+            controller: "agentBreakDetailController",
+            data: {
+                requireLogin: true,
+                navigation: "USERS"
+            }
+        }).state('console.queuesettings', {
+            url: "/queuesetting",
+            templateUrl: "views/queue-settings-config/queueSettingsConfig.html",
+            controller: "queueSettingsController",
+            data: {
+                requireLogin: true,
+                navigation: "QUEUE_SETTINGS"
+            }
+
+        }).state('console.campaigncdr', {
+            url: "/campaigncdr",
+            templateUrl: "views/cdr/campaign-cdr.html",
+            controller: "cdrCampaignCtrl",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGN_CDR"
+            }
+
+        }).state('console.campaign-console', {
+            url: "/campaign-console",
+            templateUrl: "campaignManager/template/temp/campaign-console.html",
+            controller: "campaignController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.new-campaign', {
+            url: "/new-campaign",
+            templateUrl: "campaignManager/template/new-campaign/new-campaign.html",
+            controller: "campaignController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        });
         //Todo shoud be change navigation
     }]);
 
