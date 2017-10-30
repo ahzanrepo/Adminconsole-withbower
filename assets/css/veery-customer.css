@@ -7171,7 +7171,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .cam-wizard-left-header {
-    font-family: 'Ubuntu-bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     font-size: 17px;
     letter-spacing: 2px;
     color: #494e4e;
@@ -7262,7 +7262,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .right-wizard-header > h5 {
-    font-family: 'Ubuntu-bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     font-size: 15px;
     font-weight: bold;
     letter-spacing: 2.5px;
@@ -7660,3 +7660,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     padding-bottom: 10px;
 }
 
+select > option.disable,
+select > option .disable-opt {
+    color: #a0a0a0;
+}

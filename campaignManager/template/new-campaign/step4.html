@@ -7,10 +7,10 @@
         <div class="left-wizard-header">
             <ul class="customer-inline">
                 <li>
-                    <button ng-show="!uploadButtonValue"
+                    <button style="min-width: 185px;"
                             class="btn btn-wizard btn-save-wizard wizard-green-btn-save"
-                            ng-click="uploadNumbers()">
-                        SAVE
+                            ng-click="reset()">
+                        CLEAR NUMBER SET
                     </button>
                     <button ng-show="uploadButtonValue"
                             class="btn btn-wizard btn-save-wizard wizard-green-btn-save">
@@ -38,7 +38,8 @@
                     <select class="form-control cam-textbox"
                             ng-model="campaignNumberObj.CategoryID"
                             required>
-                        <option value="" disabled selected>Ex : Promotion 30</option>
+                        <!--<option value="" class="disable-opt" disabled selected>Ex : Promotion 30</option>-->
+                        <option value="" class="disable-opt" disabled selected></option>
                         <option ng-repeat="camCategory in campaignCategories"
                                 value="{{camCategory.CategoryID}}">
                             {{camCategory.CategoryName}}
@@ -74,7 +75,8 @@
                             ng-model="campaignNumberObj.CamScheduleId"
                             ng-model-options="{trackBy: '$value'}"
                             ng-change="onChangeSchedule()">
-                        <option value="" disabled selected>Select Campaign Schedule</option>
+                        <!--<option class="disable-opt" value="" disabled selected>Select Campaign Schedule</option>-->
+                        <option class="disable-opt" value="" disabled selected></option>
                         <option ng-repeat="schedule in addedSchedule"
                                 value="{{schedule.camSchedule.CamScheduleId}}">
                             {{schedule.ScheduleName}}
@@ -125,7 +127,8 @@
                 <select class="form-control cam-textbox" ng-change="loadNumbers()"
                         ng-model="selectObj.name"
                         ng-model-options="{trackBy: '$value'}">
-                    <option value="" disabled selected>Ex : Mobile No
+                    <!--<option class="disable-opt" value="" disabled selected>Ex : Mobile No-->
+                    <option class="disable-opt" value="" disabled selected>
                     </option>
                     <option ng-repeat="hData in headerData"
                             value="{{hData.name}}">

@@ -32,7 +32,8 @@
                             ng-model="campaign.Extensions"
                             name="Extensions"
                             ng-options="opt as opt for opt in extensions track by opt" required>
-                        <option disabled value='' selected>Select Extensions</option>
+                        <!--<option disabled value='' selected>Select Extensions</option>-->
+                        <option disabled value='' selected></option>
                     </select>
                 </div>
             </div>
@@ -79,7 +80,8 @@
                             name="CampaignMode"
                             ng-model="campaign.CampaignMode"
                             required>
-                        <option disabled value='' selected>Select Campaign Mode</option>
+                        <!--<option disabled value='' selected>Select Campaign Mode</option>-->
+                        <option disabled value='' selected></option>
                         <option ng-repeat="mode in campaignModeObj"
                                 value="{{mode.name}}">{{mode.name}}
 
@@ -97,7 +99,8 @@
                             ng-change="active=2"
                             ng-model="campaign.DialoutMechanism"
                             id="DialoutMechanism">
-                        <option disabled value='' selected>Select Dialout Mechanism</option>
+                        <!--<option disabled value='' selected>Select Dialout Mechanism</option>-->
+                        <option disabled value='' selected></option>
                         <option ng-repeat="dialout in dialoutMechanismObj"
                                 value="{{dialout.name}}">{{dialout.name}}
                         </option>
