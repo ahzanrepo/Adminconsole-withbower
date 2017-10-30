@@ -45,7 +45,7 @@
             })
         };
 
-        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, record, custNumber, campaignId) {
+        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, record, custNumber, campaignName) {
             var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if (agent) {
@@ -64,8 +64,8 @@
                 url = url + '&custnumber=' + custNumber;
             }
 
-            if (campaignId) {
-                url = url + '&campaignId=' + campaignId;
+            if (campaignName) {
+                url = url + '&campaignName=' + campaignName;
             }
 
             return $http({
@@ -115,7 +115,7 @@
             })
         };
 
-        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, record, custNumber, campaignId)
+        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, record, custNumber, campaignName)
         {
             var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
@@ -130,8 +130,8 @@
                 url = url + '&custnumber=' + custNumber;
             }
 
-            if (campaignId) {
-                url = url + '&campaignId=' + campaignId;
+            if (campaignName) {
+                url = url + '&campaignName=' + campaignName;
             }
 
             return $http({
@@ -241,7 +241,7 @@
             })
         };
 
-        var prepareDownloadCampaignCDRByType = function (startDate, endDate, agent, record, custNumber, campaignId, fileType, tz) {
+        var prepareDownloadCampaignCDRByType = function (startDate, endDate, agent, record, custNumber, campaignName, fileType, tz) {
             var url = baseUrls.cdrProcessor + 'PrepareDownloadCampaign?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
@@ -256,8 +256,8 @@
                 url = url + '&custnumber=' + custNumber;
             }
 
-            if (campaignId) {
-                url = url + '&campaignId=' + campaignId;
+            if (campaignName) {
+                url = url + '&campaignName=' + campaignName;
             }
 
             if (fileType) {
