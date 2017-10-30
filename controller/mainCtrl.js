@@ -3,14 +3,14 @@
  */
 
 'use strict';
-mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices,$ngConfirm,filterFilter) {
+mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter) {
 
 
     // check adminconsole is focus or not.
-    angular.element($window).bind('focus', function() {
+    angular.element($window).bind('focus', function () {
         console.log('enter......................');
-    }).bind('blur', function() {
+    }).bind('blur', function () {
         console.log('out................');
     });
 
@@ -74,17 +74,15 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
             data.read = false;
             $scope.newNotifications.unshift(data);
 
-            if($scope.$$phase) {
+            if ($scope.$$phase) {
                 $scope.unredNotifications = $scope.newNotifications.length;
 
             }
-            else
-            {
+            else {
                 $scope.$apply(function () {
                     $scope.unredNotifications = $scope.newNotifications.length;
                 });
             }
-
 
 
             var audio = new Audio("assets/sounds/notification-1.mp3");
@@ -113,8 +111,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
 
     $scope.agentDisconnected = function () {
         $scope.isSocketRegistered = false;
-        if($scope.isLogged)
-        {
+        if ($scope.isLogged) {
             $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");
         }
 
@@ -292,8 +289,8 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
             case 'ARDS:break_exceeded':
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
-                    if(event.Message.SessionId){
-                        event.Message.Message = event.Message.Message +" Session : "+event.Message.SessionId;
+                    if (event.Message.SessionId) {
+                        event.Message.Message = event.Message.Message + " Session : " + event.Message.SessionId;
                     }
                     var data = {};
                     angular.copy(event, data);
@@ -301,7 +298,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
 
                     //var items = $filter('filter')($scope.users, {resourceid: parseInt(mObject.ResourceId)}, true);
                     var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()});
-                    mObject.From = (items&&items.length)?items[0].username : mObject.UserName;
+                    mObject.From = (items && items.length) ? items[0].username : mObject.UserName;
                     mObject.TopicKey = data.eventName;
                     mObject.messageType = mObject.Message;
                     mObject.header = mObject.Message;
@@ -327,7 +324,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
                 if (response.data.IsSuccess) {
                     $scope.unredNotifications = 0;
                     $scope.newNotifications = [];
-                    $scope.showAlert("Notifications Deleted","success","All notification deleted successfully");
+                    $scope.showAlert("Notifications Deleted", "success", "All notification deleted successfully");
                 }
                 else {
                     console.log("Error in Removing notifications");
@@ -377,8 +374,6 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
     };
 
 
-
-
     //---------------------- Notification Service End ------------------------------ //
 
     //check my navigation
@@ -391,16 +386,15 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
             $scope.loadUsers();
         }
     });
-    $scope.isLogged=true;
+    $scope.isLogged = true;
     $scope.clickDirective = {
         goLogout: function () {
             loginService.Logoff(undefined, function (issuccess) {
                 if (issuccess) {
                     veeryNotification.disconnectFromServer();
-                    $scope.isLogged=false;
+                    $scope.isLogged = false;
                     $state.go('login');
                     SE.disconnect();
-
 
 
                     /*$timeout.cancel(getAllRealTimeTimer);*/
@@ -448,7 +442,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
         goCdrReport: function () {
             $state.go('console.cdr');
         },
-        goCampaignCdrReport: function(){
+        goCampaignCdrReport: function () {
             $state.go('console.campaigncdr');
         },
         goSMSDetailReport: function () {
@@ -585,6 +579,12 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
         goCreateCampaign: function () {
             $state.go('console.campaign')
         },
+        goCreateNewCampaign: function () {
+            $state.go('console.new-campaign')
+        },
+        goViewCampaigns: function () {
+            $state.go('console.campaign-console')
+        },
         goCampaignMonitor: function () {
             $state.go('console.campaignmonitor')
         },
@@ -683,7 +683,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
         goToAgentDashboard: function () {
             $state.go('console.agentDashboard');
 
-        },goToDetailsDashboard: function () {
+        }, goToDetailsDashboard: function () {
             $state.go('console.detailsdashboard');
         },
         goToCallCenterPerformanceReport: function () {
@@ -1115,7 +1115,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
         callbackObj.From = data.From;
         callbackObj.TopicKey = callbackObj.Topic;
         callbackObj.messageType = callbackObj.MessageType;
-        callbackObj.isPersist=true;
+        callbackObj.isPersist = true;
         callbackObj.PersistMessageID = data.id;
         return callbackObj;
 
@@ -1268,7 +1268,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
                                 //}
                             }
                             $scope.notificationMsg.clients = clients;
-                            $scope.notificationMsg.isPersist=true;
+                            $scope.notificationMsg.isPersist = true;
                             notifiSenderService.broadcastNotification($scope.notificationMsg).then(function (response) {
                                 $scope.notificationMsg = {};
                                 $scope.notificationMsg.level = "low";
@@ -1371,7 +1371,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
 
     $scope.discardNotifications = function (notifyMessage) {
         /*$scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage), 1);
-        $scope.unredNotifications = $scope.newNotifications.length;*/
+         $scope.unredNotifications = $scope.newNotifications.length;*/
 
         $scope.showConfirmation("Remove notifications", "Do you want to remove this Notifications ?", "Ok", function () {
             if (notifyMessage.isPersist && notifyMessage.PersistMessageID) {
@@ -1379,7 +1379,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
                     $scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage), 1);
                     $scope.unredNotifications = $scope.newNotifications.length;
                     $scope.showMesssageModal = false;
-                    $scope.showAlert("Notification Deleted","success","Notification deleted successfully");
+                    $scope.showAlert("Notification Deleted", "success", "Notification deleted successfully");
 
                 }, function (error) {
                     $scope.showAlert("Error", "error", "Error in deleting notification");
@@ -1387,7 +1387,7 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
                 });
             }
             else {
-                $scope.showAlert("Notification Deleted","success","Notification deleted successfully");
+                $scope.showAlert("Notification Deleted", "success", "Notification deleted successfully");
                 $scope.newNotifications.splice($scope.newNotifications.indexOf(notifyMessage), 1);
                 $scope.unredNotifications = $scope.newNotifications.length;
                 $scope.showMesssageModal = false;
@@ -1395,8 +1395,6 @@ mainApp.controller('mainCtrl', function ($window,$scope, $rootScope, $state, $ti
         }, function () {
 
         });
-
-
 
 
     };

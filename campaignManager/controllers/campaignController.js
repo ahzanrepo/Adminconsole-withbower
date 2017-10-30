@@ -1,4 +1,5 @@
-mainApp.controller("campaignController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll, campaignService, ardsBackendService) {
+mainApp.controller("campaignController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll,
+                                                   campaignService, ardsBackendService,$state) {
 
     $anchorScroll();
     $scope.mechanisms = campaignService.mechanisms;
@@ -229,7 +230,9 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
 
 
     $scope.startCampaign = function (cam) {
+        $scope.isSetCommand = true;
         campaignService.StartCampaign(cam.CampaignId).then(function (response) {
+            $scope.isSetCommand = false;
             if (response) {
                 $scope.showAlert("Campaign", 'success', "Operation Execute Successfully.");
                 $scope.loadCampaign();
@@ -238,6 +241,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
                 $scope.showAlert("Campaign", 'error', "Fail To Execute Command.");
             }
         }, function (error) {
+            $scope.isSetCommand = false;
             $scope.showAlert("Campaign", 'error', "Fail To Execute Command.");
         });
     };
@@ -270,5 +274,9 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
         }, campaign)
     };
 
+    //create new camping
+    $scope.crateNewCamping = function () {
+        $state.go('console.new-campaign');
+    };
 
 });

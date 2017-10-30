@@ -1,0 +1,195 @@
+<section class="cam-create-wrapper">
+
+    <div class="camp-inline-header">
+        <div class="right-wizard-header inline-header">
+            <h5>Campaign Number Upload</h5>
+        </div>
+        <div class="left-wizard-header">
+            <ul class="customer-inline">
+                <li>
+                    <button ng-show="!uploadButtonValue"
+                            class="btn btn-wizard btn-save-wizard wizard-green-btn-save"
+                            ng-click="uploadNumbers()">
+                        SAVE
+                    </button>
+                    <button ng-show="uploadButtonValue"
+                            class="btn btn-wizard btn-save-wizard wizard-green-btn-save">
+                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                    </button>
+                </li>
+                <!--<li>-->
+                <!--<button class="btn btn-wizard btn-save-wizard">-->
+                <!--Clear All-->
+                <!--</button>-->
+                <!--</li>-->
+            </ul>
+
+        </div>
+    </div>
+
+
+    <div class="cam-create-form">
+        <form>
+            <div class="col-lg-4">
+                <div id="frmNumberCatergory"
+                     class="form-group cam-form-grp">
+                    <label for="exampleInputEmail1" class="cam-label">Campaign Category *
+                    </label>
+                    <select class="form-control cam-textbox"
+                            ng-model="campaignNumberObj.CategoryID"
+                            required>
+                        <option value="" disabled selected>Ex : Promotion 30</option>
+                        <option ng-repeat="camCategory in campaignCategories"
+                                value="{{camCategory.CategoryID}}">
+                            {{camCategory.CategoryName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group cam-form-grp">
+                    <label for="exampleInputEmail1" class="cam-label">Campaign Name</label>
+
+                    <input type="text"
+                           class="form-control input-group cam-textbox"
+                           ng-model="campaign.CampaignName" disabled>
+                    <!--<select class="form-control cam-textbox"-->
+                    <!--ng-model="campaignNumberObj.CampaignId"-->
+                    <!--ng-change="loadCampaignSchedules(campaignNumberObj.CampaignId)"-->
+                    <!--ng-model-options="{trackBy: '$value'}">-->
+                    <!--<option value="" disabled selected>Select Campaign</option>-->
+                    <!--<option value=""></option>-->
+                    <!--<option ng-repeat="newCampaign in newlyCreatedCampaigns"-->
+                    <!--value="{{newCampaign.CampaignId}}">-->
+                    <!--{{newCampaign.CampaignName.toUpperCase()}}-->
+                    <!--</option>-->
+                    <!--</select>-->
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div id="frmScheduleId" class="form-group cam-form-grp">
+                    <label for="exampleInputEmail1" class="cam-label">Select Campaign Schedule</label>
+                    <select class="form-control cam-textbox"
+                            ng-model="campaignNumberObj.CamScheduleId"
+                            ng-model-options="{trackBy: '$value'}"
+                            ng-change="onChangeSchedule()">
+                        <option value="" disabled selected>Select Campaign Schedule</option>
+                        <option ng-repeat="schedule in addedSchedule"
+                                value="{{schedule.camSchedule.CamScheduleId}}">
+                            {{schedule.ScheduleName}}
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
+    <div class="camp-tab-config" style="height: 215px;/* background: transparent; */">
+        <uib-tabset class="camp-tab"
+                    active="active">
+            <uib-tab index="1"
+                     heading="Load From Customer Profile ">
+                <div ng-include="'campaignManager/template/new-campaign/step4-config/number-upload-customer-profile.html'"></div>
+            </uib-tab>
+            <uib-tab index="2"
+                     disable="!isExtranalDataSheet"
+                     ng-click="getInputFileValue()"
+                     heading="Extranal Data Sheet">
+                <div class="camp-num-upload-wrapper number-upload-sheet">
+                    <div class="customer-tag-wrapper"
+                         style="
+    text-align: center;">
+
+                        <input accept=".csv" type="file" class="file-chooser"
+                               id="files123"
+                               name="files[]"/>
+
+                    </div>
+
+                </div>
+
+            </uib-tab>
+        </uib-tabset>
+    </div>
+
+    <div class="camp-num-option">
+        <div class="col-lg-3">
+            <div id="frmNumberColumn"
+                 class="form-group cam-form-grp">
+                <label for="exampleInputEmail1" class="cam-label">Select Number Column
+                    {{gridOptions3.data.length}}
+                </label>
+                <select class="form-control cam-textbox" ng-change="loadNumbers()"
+                        ng-model="selectObj.name"
+                        ng-model-options="{trackBy: '$value'}">
+                    <option value="" disabled selected>Ex : Mobile No
+                    </option>
+                    <option ng-repeat="hData in headerData"
+                            value="{{hData.name}}">
+                        {{hData.name}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-5 animated fadeIn"
+             ng-if="selectObj.name">
+            <div class="col-lg-9">
+                <label for="exampleInputEmail1" class="cam-label">Add Digit</label>
+                <input type="text"
+                       class="form-control  cam-textbox"
+                       ng-model="leftAddValue.value"
+                       placeholder="Ex : +94 -- -----">
+            </div>
+            <div class="col-lg-3">
+                <button type="button"
+                        ng-if="leftAddValue.value"
+                        class="btn btn-block btn-add-digit"
+                        style="margin-top: 23px;"
+                        ng-click="numberLeftAdd()">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" ng-if="enablePreviewData">
+        <label for="exampleInputEmail1" class="cam-label">Select Preview Data Columns</label>
+        <tags-input ng-model="previewData"
+                    display-property="name"
+                    add-from-autocomplete-only="true"
+                    on-tag-added="onChipAddForColumn($tag)"
+                    on-tag-removed="onChipDeleteForColumn($tag)" min-length="1"
+                    placeholder="Select Preview Data Columns" replace-spaces-with-dashes="false">
+            <auto-complete source="querySearchForColumn($query)"
+                           load-on-empty="true"
+                           load-on-focus="true"
+                           min-length="1"></auto-complete>
+    </div>
+
+    <!--<div class="col-lg-3">-->
+    <!--<button type="button" class="btn btn-success"-->
+    <!--ng-click="uploadNumbers()"-->
+    <!--ng-disabled="uploadButtonValue == 'Uploading...'">-->
+    <!--{{uploadButtonValue}}-->
+    <!--</button>-->
+    <!--<button type="button" class="btn btn-success"-->
+    <!--ng-click="reset()">Clear All-->
+    <!--</button>-->
+    <!--</div>-->
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+
+            <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
+
+            <div>
+                <label>rows: {{gridApi.grid.getVisibleRows().length}}</label>
+            </div>
+        </div>
+    </div>
+</section>

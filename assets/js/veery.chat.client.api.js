@@ -23,7 +23,7 @@ window.SE = function (e) {
 
         socket.on('connect', function () {
 
-            console.log("connected");
+            //console.log("connected");
             if (callBack.OnConnected) {
                 callBack.OnConnected();
             }
@@ -32,7 +32,7 @@ window.SE = function (e) {
         });
 
         socket.on('echo', function (data) {
-            console.log("OnEcho");
+            //console.log("OnEcho");
             if (callBack.OnEcho) {
                 callBack.OnEcho(data);
             }
@@ -40,31 +40,29 @@ window.SE = function (e) {
 
 
         socket.on('event', function (data) {
-            console.log("event");
+            //console.log("event");
             if (callBack.OnEvent) {
                 callBack.OnEvent(data);
             }
         });
 
         socket.on('status', function (data) {
-            console.log("status");
+            //console.log("status");
             if (callBack.OnStatus) {
                 callBack.OnStatus(data);
             }
         });
 
         socket.on('callstatus', function (data) {
-            console.log("status");
+            //console.log("status");
             if (callBack.OnCallStatus) {
                 callBack.OnCallStatus(data);
             }
         });
 
 
-
-
         socket.on('room:event', function (data) {
-            console.log("dashboard event");
+            //console.log("dashboard event");
             if (callBack.OnDashBoardEvent) {
                 callBack.OnDashBoardEvent(data);
             }
@@ -72,14 +70,14 @@ window.SE = function (e) {
 
 
         socket.on('allcallstatus', function (data) {
-            console.log("allcallstatus");
+            //console.log("allcallstatus");
             if (callBack.OnAllCallStatus) {
                 callBack.OnAllCallStatus(data);
             }
         });
 
         socket.on('message', function (data) {
-            console.log("message");
+            //console.log("message");
             if (callBack.OnMessage) {
                 callBack.OnMessage(data);
             }
@@ -90,7 +88,7 @@ window.SE = function (e) {
 
 
         socket.on('latestmessages', function (data) {
-            console.log("latestmessages");
+            //console.log("latestmessages");
             if (callBack.OnLatestMessage) {
                 callBack.OnLatestMessage(data);
             }
@@ -101,7 +99,7 @@ window.SE = function (e) {
 
 
         socket.on('oldmessages', function (data) {
-            console.log("oldmessages");
+            //console.log("oldmessages");
             if (callBack.OnOldMessages) {
                 callBack.OnOldMessages(data);
             }
@@ -111,11 +109,8 @@ window.SE = function (e) {
         });
 
 
-
-
-
         socket.on('chatstatus', function (data) {
-            console.log("chatstatus");
+            //console.log("chatstatus");
             if (callBack.OnChatStatus) {
                 callBack.OnChatStatus(data);
             }
@@ -125,21 +120,21 @@ window.SE = function (e) {
         });
 
         socket.on('seen', function (data) {
-            console.log("seen");
+            //console.log("seen");
             if (callBack.OnSeen) {
                 callBack.OnSeen(data);
             }
         });
 
         socket.on('typing', function (data) {
-            console.log("typing");
+            //console.log("typing");
             if (callBack.OnTyping) {
                 callBack.OnTyping(data);
             }
         });
 
         socket.on('typingstoped', function (data) {
-            console.log("typingstoped");
+            //console.log("typingstoped");
             if (callBack.OnTypingstoped) {
                 callBack.OnTypingstoped(data);
             }
@@ -147,67 +142,67 @@ window.SE = function (e) {
 
         socket.on('disconnect', function (data) {
             connected = false;
-            console.log("disconnect");
+            //console.log("disconnect");
             if (callBack.OnDisconnect) {
                 callBack.OnDisconnect(data);
             }
         });
 
         socket.on('client', function (data) {
-            console.log("client");
+            //console.log("client");
             if (callBack.OnClient) {
                 callBack.OnClient(data);
             }
         });
 
         socket.on('accept', function (data) {
-            console.log("accept");
+            //console.log("accept");
             if (callBack.OnAccept) {
                 callBack.OnAccept(data);
             }
         });
 
         socket.on('pending', function (data) {
-            console.log("pending");
+            //console.log("pending");
             if (callBack.OnPending) {
                 callBack.OnPending(data);
             }
         });
 
         socket.on('agent', function (data) {
-            console.log("agent");
+            //console.log("agent");
             if (callBack.OnAgent) {
                 callBack.OnAgent(data);
             }
         });
 
-        socket.on('connectionerror', function(data){
-            console.log("connectionerror");
+        socket.on('connectionerror', function (data) {
+            //console.log("connectionerror");
 
-            if(data === "no_agent_found"){
-                setTimeout(function(){
-                    socket.emit('retryagent',{});
+            if (data === "no_agent_found") {
+                setTimeout(function () {
+                    socket.emit('retryagent', {});
                 }, 10000);
 
             }
         });
 
-        socket.on('existingclient', function(data){
-            console.log("existingclient");
+        socket.on('existingclient', function (data) {
+            //console.log("existingclient");
             if (callBack.OnExistingclient) {
                 callBack.OnExistingclient(data);
             }
         });
 
-        socket.on('sessionend', function(data){
-            console.log("sessionend");
+        socket.on('sessionend', function (data) {
+            //console.log("sessionend");
             if (callBack.OnSessionend) {
                 callBack.OnSessionend(data);
             }
         });
 
-        socket.on('left', function(data){
-            console.log("left");
+        socket.on('left', function (data) {
+            //console.log("left");
             if (callBack.OnLeft) {
                 callBack.OnLeft(data);
             }
@@ -219,14 +214,14 @@ window.SE = function (e) {
         socket.on('notice_message', function (data) {
             data.messageType = "notice_message";
             if (callBack.OnEvent)
-                callBack.OnEvent('notice_message',data);
+                callBack.OnEvent('notice_message', data);
         });
 
         socket.on('notice', function (data) {
-            data.messageType="notice";
+            data.messageType = "notice";
 
             if (callBack.OnEvent)
-                callBack.OnEvent('notice',data);
+                callBack.OnEvent('notice', data);
 
 
         });
@@ -234,14 +229,14 @@ window.SE = function (e) {
         socket.on('ticket', function (data) {
             data.messageType = "notice";
             if (callBack.OnEvent)
-                callBack.OnEvent('notice',data);
+                callBack.OnEvent('notice', data);
         });
 
         socket.on('broadcast', function (data) {
 
             data.messageType = "broadcast";
             if (callBack.OnEvent)
-                callBack.OnEvent('notice_message',data);
+                callBack.OnEvent('notice_message', data);
         });
 
         socket.on('agent_connected', function (data) {
@@ -254,21 +249,21 @@ window.SE = function (e) {
         socket.on('agent_found', function (data) {
             //var displayMsg = "Company : " + data.Company + "<br> Company No : " + values[5] + "<br> Caller : " + values[3] + "<br> Skill : " + values[6];
             if (callBack.OnEvent)
-                callBack.OnEvent('agent_found',data);
-            //console.log("Agent found data " + data);
+                callBack.OnEvent('agent_found', data);
+            ////console.log("Agent found data " + data);
         });
 
         socket.on('agent_disconnected', function (data) {
             data.messageType = "agent_disconnected";
             if (callBack.OnEvent)
-                callBack.OnEvent('agent_disconnected',data);
+                callBack.OnEvent('agent_disconnected', data);
 
         });
 
         socket.on('agent_rejected', function (data) {
             data.messageType = "agent_rejected";
             if (callBack.OnEvent)
-                callBack.OnEvent('agent_rejected',data);
+                callBack.OnEvent('agent_rejected', data);
 
         });
 
@@ -283,7 +278,6 @@ window.SE = function (e) {
         //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
     }
 
     function n(e) {
@@ -294,7 +288,7 @@ window.SE = function (e) {
 
         socket.on('unauthorized', function (msg) {
             connected = false;
-            console.log("unauthorized: " + JSON.stringify(msg.data));
+            //console.log("unauthorized: " + JSON.stringify(msg.data));
             e(new Error(msg.data.type));
         });
 
@@ -312,13 +306,13 @@ window.SE = function (e) {
         socket.disconnect();
         socket = {};
         callBack = {};
-        console.log("Disconnected.");
+        //console.log("Disconnected.");
     }
 
     function rc() {
         //connected = false;
         socket.connect();
-        console.log("Reconnect....");
+        //console.log("Reconnect....");
     }
 
     function m(e) {
@@ -334,7 +328,7 @@ window.SE = function (e) {
                 id: uniqueId()
             };
             socket.emit('message', msg);
-            
+
             return msg;
         } else {
             if (callBack.OnError) {
@@ -464,9 +458,9 @@ window.SE = function (e) {
         var r = v(e, "presence");
         var d = v(e, "presence_type");
         if (connected) {
-            if(d){
+            if (d) {
                 socket.emit('status', {presence: r, presence_type: d});
-            }else{
+            } else {
                 socket.emit('status', {presence: r});
             }
 
@@ -477,8 +471,6 @@ window.SE = function (e) {
             }
         }
     }
-
-
 
 
     function se(e) {
@@ -501,7 +493,13 @@ window.SE = function (e) {
         var r = v(e, "type");
         if (connected) {
             if (r === "previous") {
-                socket.emit('request', {request: 'oldmessages',requester:  v(e, "requester"),  from: v(e, "from"), to: v(e, "to"), id: v(e, "id")});
+                socket.emit('request', {
+                    request: 'oldmessages',
+                    requester: v(e, "requester"),
+                    from: v(e, "from"),
+                    to: v(e, "to"),
+                    id: v(e, "id")
+                });
             }
             else if (r === "next") {
                 socket.emit('request', {request: 'newmessages', from: v(e, "from"), to: v(e, "to"), id: v(e, "id")});

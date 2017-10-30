@@ -3,7 +3,7 @@
         <div class="col-md-3 left_col menu_fixed ">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="index.html" class="site_title ">
+                    <a  class="site_title ">
                         <img src="images/logo_main.svg" width="180px" height="50px">
                     </a>
                 </div>
@@ -54,7 +54,7 @@
                                             ng-click="clickDirective.goRealTimeQueued()">Queued</a></li>
                                     <li ng-show="accessNavigation.AGENT_SUMMARY"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goAgentProfileSummary()">Agent
-                                        Summary</a></li>
+                                        Summery</a></li>
                                     <li ng-show="accessNavigation.TICKET_DASHBOARD"><a
                                             ng-click="clickDirective.goTickerAgentDashboard()">Ticket Dashboard</a>
                                     </li>
@@ -67,10 +67,7 @@
                                         Center Performance</a>
                                     </li>
 
-                                    <li ng-show="accessNavigation.AGENT_DASHBOARD"><a href="javascript:void(0);"
-                                                                                      ng-click="clickDirective.goToAgentDashboard()">
-                                        Agent Dashboard
-                                    </a>
+
                                     </li>
                                     <li ng-show="accessNavigation.AGENT_DASHBOARD"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goToDetailsDashboard()">
@@ -346,6 +343,11 @@
                                     <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
+
+                                    <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goCreateNewCampaign()">New Campaign (beta)</a>
+                                    <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goViewCampaigns()">Campaigns (beta)</a>
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goCreateCampaign()">Campaigns</a>
                                     </li>
@@ -440,10 +442,10 @@
                                         Call </a></li>
                                     <li ng-show="accessNavigation.CALL_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                                           ng-click="clickDirective.goCallSummary()">Call
-                                        Summary </a></li>
+                                        Summery </a></li>
                                     <li ng-show="accessNavigation.QUEUE_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                                            ng-click="clickDirective.goQueueSummary()">Queue
-                                        Summary</a></li>
+                                        Summery</a></li>
                                     <li ng-show="accessNavigation.QUEUE_HOURLY_BREAKDOWN_REPORT"><a
                                             href="javascript:void(0);"
                                             ng-click="clickDirective.goQueueHourlySummary()">Queue
@@ -457,11 +459,11 @@
                                         Status Events</a></li>
                                     <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                                             ng-click="clickDirective.goTicketSummary()">Ticket
-                                        Summary</a></li>
+                                        Summery</a></li>
                                     <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a href="javascript:void(0);"
                                                                                             ng-click="clickDirective.goTicketTagSummary()">Tag
                                         Wise Ticket
-                                        Summary</a></li>
+                                        Summery</a></li>
                                     <li ng-show="accessNavigation.TICKET_DETAIL_REPORT"><a href="javascript:void(0);"
                                                                                            ng-click="clickDirective.goTicketDetailReport()">Ticket
                                         Detail </a></li>

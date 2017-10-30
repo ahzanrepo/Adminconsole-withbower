@@ -2,7 +2,7 @@
 
 body {
     overflow-x: hidden;
-    font-family: 'Ubuntu-Regular', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 .introLoader,
@@ -625,7 +625,7 @@ a {
 .available > .media-body > div,
 .break > .media-body > div,
 .reserved > .media-body > div {
-    font-family: 'Ubuntu-Light', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     font-weight: bold !important;
 }
 
@@ -2545,6 +2545,7 @@ ul.count2 {
 .login-controller {
 
 }
+
 .login-header {
     padding-left: 40px;
 }
@@ -2645,7 +2646,7 @@ ul.count2 {
     background: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    font-family: 'Ubuntu-Regular', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     color: #ffffff;
     height: 140px;
 
@@ -2918,7 +2919,7 @@ ul.social li {
 
 .pricing_features {
     background: #fff;
-    font-family: 'Ubuntu-Regular', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     color: #000;
 }
 
@@ -4170,11 +4171,11 @@ footer {
 
 /*font update */
 .ubuntu-Light {
-    font-family: 'Ubuntu-Light', Courier, monospace !important;
+    font-family: 'Roboto', Courier, monospace !important;
 }
 
 .ubuntu-Medium {
-    font-family: 'Ubuntu-Medium', Courier, monospace !important;
+    font-family: 'Roboto-medium', Courier, monospace !important;
 }
 
 .notification-header {
@@ -4267,11 +4268,22 @@ tags-input .tags {
     overflow: hidden;
     background-color: #f7f7f7;
     border-radius: 5px !important;
+    -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 1px 0px rgba(0, 0, 0, .1);
 }
 
 .progress-bar {
     color: #fff;
     background-color: #4CAF50;
+}
+
+.progress-camp-upload > div > b {
+    font-family: 'Roboto-medium', Courier, monospace !important;
+}
+
+.progress-camp-upload > div {
+    background-color: #8fd539;
+    box-shadow: 0 2px 20px 0 rgba(143, 213, 56, 0.43);
 }
 
 .ticker-prg-val {
@@ -4325,7 +4337,7 @@ tags-input .tags {
 }
 
 .conversation-wrapper > .title {
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     text-transform: uppercase;
     font-size: 12px;
     padding-left: 10px;
@@ -4470,7 +4482,7 @@ tags-input .tags {
 }
 
 .group-desc > h5 {
-    font-family: 'Ubuntu-Light', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 15px;
     text-align: left;
     color: #9a9a9a;
@@ -4501,14 +4513,14 @@ tags-input .tags {
 }
 
 .member-name > h5 {
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 15px;
     color: #bdbdbd;
     margin-bottom: 15px;
 }
 
 .btn-remove {
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     padding: 5px;
     text-transform: uppercase;
     font-size: 10px;
@@ -4523,7 +4535,7 @@ tags-input .tags {
 }
 
 .group-data-error {
-    font-family: 'Ubuntu-Light', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 30px;
     color: #bdbdbd;
     text-transform: uppercase;
@@ -4651,7 +4663,7 @@ tags-input .tags {
 }
 
 .sidebar-widget {
-    font-family: 'Ubuntu-Regular', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     text-transform: uppercase;
     width: 160px;
     display: inline-block;
@@ -4689,7 +4701,7 @@ tags-input .tags {
 }
 
 .node-name {
-    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     color: #ffffff;
     text-transform: uppercase;
 }
@@ -4893,7 +4905,7 @@ section.h3 {
     display: inline-block;
     float: right;
     padding-right: 25px;
-    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     color: #ccc;
 }
 
@@ -4931,7 +4943,7 @@ section.h3 {
 }
 
 .section-panel-ac > .panel-heading > h4 {
-    font-family: 'Ubuntu-Regular', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 .section-panel-ac > .panel-heading + .panel-collapse > .panel-body {
@@ -4939,7 +4951,7 @@ section.h3 {
 }
 
 .create-new-q {
-    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     color: #ccc;
     padding-left: 9px;
     padding-top: 23px;
@@ -5053,7 +5065,7 @@ ul.row-option {
 
 ul.row-option > li {
     display: inline-block;
-    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     padding-left: 8px;
     cursor: pointer;
 }
@@ -5106,7 +5118,7 @@ ul.row-option > li.delete:focus {
 .rate-card > .rate-text,
 .rate-card > .rate-footer-title {
     text-align: center;
-    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
 }
 
 .rate-card > .rate-footer-title {
@@ -5174,7 +5186,7 @@ ul.row-option > li.delete:focus {
 
 .widget-h > h2 {
     text-align: left;
-    font-family: 'Ubuntu-Light', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     text-transform: capitalize;
     font-size: 18px;
     padding-bottom: 13px;
@@ -5394,21 +5406,21 @@ ul.row-option > li.delete:focus {
 }
 
 .d1-h-lg {
-    font-family: Ubuntu-Bold;
+    font-family: Roboto-bold;
     font-size: 25px;
     color: #ffffff;
 }
 
 .d1-h-tile {
     /* TOTAL CALL: */
-    font-family: Ubuntu-Light;
+    font-family: Roboto;
     font-size: 15px;
     color: #ffffff;
 }
 
 .d1-sub-tile-sm {
     /* Inblound/OUtbound: */
-    font-family: Ubuntu-Light;
+    font-family: Roboto;
     font-size: 14px;
 }
 
@@ -5477,7 +5489,7 @@ ul.row-option > li.delete:focus {
 }
 
 .d1-c-header {
-    font-family: Ubuntu-Medium;
+    font-family: Roboto-medium;
     width: 100%;
     min-height: 15px;
     overflow: hidden;
@@ -5490,7 +5502,7 @@ ul.row-option > li.delete:focus {
 }
 
 .d1-c-sub-header {
-    font-family: Ubuntu-Light;
+    font-family: Roboto;
     display: inline-block;
     font-size: 12px;
     color: #2BC9E2;
@@ -5510,7 +5522,7 @@ ul.row-option > li.delete:focus {
 .d1-grading-header {
     width: 100%;
     min-height: 50px;
-    font-family: Ubuntu-Medium;
+    font-family: Roboto-medium;
     background-image: linear-gradient(-180deg, #FFFFFF 0%, #F7F7F7 100%);
     border-radius: 5px;
     font-size: 15px;
@@ -5525,7 +5537,7 @@ ul.row-option > li.delete:focus {
 
 .header-count {
     display: inline-block;
-    font-family: 'Ubuntu-Medium', sans-serif;
+    font-family: 'Roboto-medium', sans-serif;
     font-size: 22px;
     color: #000000;
     letter-spacing: -0.25px;
@@ -5581,7 +5593,7 @@ ul.row-option > li.delete:focus {
 
 .d1-summary-c-left-t > .header {
     /* John Tyler: */
-    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     font-size: 15px;
     color: #0F0F0F;
     letter-spacing: -0.12px;
@@ -5613,7 +5625,7 @@ ul.row-option > li.delete:focus {
 
 .text-wrp > .status {
     /* Break: */
-    font-family: Ubuntu-Medium;
+    font-family: Roboto-medium;
     font-size: 12px;
     letter-spacing: -0.1px;
     text-align: left;
@@ -5622,7 +5634,7 @@ ul.row-option > li.delete:focus {
 
 .text-wrp > .call-status {
     /* 4.35 PM: */
-    font-family: 'Ubuntu-Medium', sans-serif;
+    font-family: 'Roboto-medium', sans-serif;
     font-size: 12px;
     color: #222222;
     letter-spacing: -0.1px;
@@ -5862,14 +5874,14 @@ ul.row-option > li.delete:focus {
 }
 
 .q-chart-header-wrp > .header {
-    font-family: 'Ubuntu-Medium', sans-serif;
+    font-family: 'Roboto-medium', sans-serif;
     font-size: 11px;
     color: #000000;
     letter-spacing: -0.11px;
 }
 
 .q-chart-header-wrp > .chart-name {
-    font-family: 'Ubuntu-Medium', sans-serif;
+    font-family: 'Roboto-medium', sans-serif;
     font-size: 13px;
     color: #2176B8;
     letter-spacing: -0.15px;
@@ -5888,7 +5900,7 @@ ul.row-option > li.delete:focus {
     width: 53px;
     position: absolute;
     top: 15px;
-    font-family: 'Ubuntu-Light', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     color: #2176B8;
     letter-spacing: -0.1px;
@@ -5907,7 +5919,7 @@ ul.row-option > li.delete:focus {
 
 .q-chart-text-wrp > .header-text > .current-w-text {
     /* Current Waiting: */
-    font-family: 'Ubuntu-Light', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 12px;
     color: #383b3b;
     letter-spacing: -0.12px;
@@ -5924,7 +5936,7 @@ ul.row-option > li.delete:focus {
 
 .q-chart-text-wrp > .header-text > .current-w-num {
     /* Current Waiting: */
-    font-family: 'Ubuntu-Light', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 13px;
     color: #383b3b;
     letter-spacing: -0.12px;
@@ -6069,7 +6081,7 @@ ul.row-option > li.delete:focus {
 }
 
 .r-pwd-header {
-    font-family: 'Ubuntu-Light', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 15px;
     color: #383b3b;
     padding-top: 15px;
@@ -6120,7 +6132,7 @@ ul.newsticker {
 }
 
 .tag-ticket-summary-wrp > .tag-name {
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     width: 100%;
     text-align: center;
     height: 25px;
@@ -6131,7 +6143,7 @@ ul.newsticker {
 }
 
 .tag-ticket-summary-wrp > .count {
-    font-family: 'Ubuntu-Light', sans-serif;
+    font-family: 'Roboto', sans-serif;
     width: 100%;
     text-align: center;
     min-height: 20px;
@@ -6215,7 +6227,7 @@ ul.newsticker {
 .ccp-body-widget-sm > .ccp-w-header,
 .ccp-body-widget-md > .ccp-w-header {
     /* AVG Dialed: */
-    font-family: 'Ubuntu-Bold ', sans-serif;
+    font-family: 'Roboto-bold ', sans-serif;
     font-size: 17px;
     letter-spacing: 0.97px;
     padding-bottom: 13px;
@@ -6251,7 +6263,7 @@ ul.newsticker {
 .ccp-body-widget-sm > .ccp-w-value,
 .ccp-body-widget-md > .ccp-w-value {
     /* AVG Dialed: */
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 22px;
     letter-spacing: 0.97px;
     padding-bottom: 8px;
@@ -6287,7 +6299,7 @@ ul.newsticker {
 .ccp-body-widget-sm > .ccp-w-header-small,
 .ccp-body-widget-md > .ccp-w-header-small {
     /* AVG Dialed: */
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 15px;
     letter-spacing: 0.63px;
 }
@@ -6323,7 +6335,7 @@ ul.newsticker {
 
 .ccp-footer-widget > .ccp-w-header {
     /* Talk Time - Total: */
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 17px;
     color: #8a8e86;
     letter-spacing: 0.97px;
@@ -6332,7 +6344,7 @@ ul.newsticker {
 
 .ccp-footer-widget > .ccp-w-body {
     /* Talk Time - Total: */
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 22px;
     color: #223448;
     letter-spacing: 1.74px;
@@ -6341,7 +6353,7 @@ ul.newsticker {
 
 .ccp-footer-widget > .ccp-w-header-sm {
     /* Talk Time - Total: */
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 15px;
     color: #8a8e86;
     letter-spacing: 0.63px;
@@ -6369,7 +6381,7 @@ ul.newsticker {
 
 .ccp-f-value {
     /* 70:27:51: */
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 25px;
     color: #223448;
     letter-spacing: 1.74px;
@@ -6379,7 +6391,7 @@ ul.newsticker {
 .ccp-f-title {
     display: block;
     /* Staff Time: */
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 18px;
     color: #8A8E86;
     letter-spacing: 0.97px;
@@ -6388,7 +6400,7 @@ ul.newsticker {
 .ccp-f-title-2 {
     display: block;
     /* Staff Time: */
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 13px;
     color: #74BEFB;
     letter-spacing: 0.63px;
@@ -6411,7 +6423,7 @@ ul.newsticker {
 }
 
 .ccp-chart-w-header > h4 {
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     color: #8A8E86;
     letter-spacing: 0.97px;
 }
@@ -6432,7 +6444,7 @@ ul.newsticker {
 }
 
 .table-header-p-space {
-    font-family: 'Ubuntu-Bold', sans-serif;
+    font-family: 'Roboto-bold', sans-serif;
     font-size: 13px;
     background: #e8e8e8;
     min-height: 35px;
@@ -6652,7 +6664,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     height: 500px;
 }
 
-.gored {
+/*.gored {
     border-color: #e7242e;
     border-style: outset;
     border-width: 1px;
@@ -6683,6 +6695,45 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     }
     100% {
         -webkit-stransform: scale(1); opacity: 1;
+    }
+}*/
+
+.pulse {
+    border-color: #e7242e;
+    border-style: outset;
+    border-width: 1px;
+    box-shadow: 1px 2px 5px #ff0202;
+    animation: pulse 2s infinite;
+}
+
+.pulse:hover {
+    animation: none;
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(255, 2, 2, 1);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 8px rgba(204, 169, 44, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        -moz-box-shadow: 0 0 0 0 rgba(255, 2, 2, 1);
+        box-shadow: 0 0 0 0 rgba(255, 2, 2, 1);
+    }
+    70% {
+        -moz-box-shadow: 0 0 0 8px rgba(204, 169, 44, 0);
+        box-shadow: 0 0 0 8px rgba(204, 169, 44, 0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+        box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
     }
 }
 
@@ -6756,7 +6807,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .camp-hleft-text.hleft-lg {
-    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     font-size: 23px;
     font-weight: bold;
     letter-spacing: 2.7px;
@@ -6765,7 +6816,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .camp-hleft-text.h-left-sm {
-    font-family: 'Ubuntu-Light', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     font-size: 11px;
     font-weight: 300;
     letter-spacing: 1.3px;
@@ -6822,7 +6873,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .tbl-header {
-    font-family: 'Ubuntu-Medium', sans-serif !important;
+    font-family: 'Roboto-medium', sans-serif !important;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 1.4px;
@@ -6846,7 +6897,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .tbl-body-text {
-    font-family: 'Ubuntu-Light', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     font-size: 12px;
     font-weight: 300;
     letter-spacing: 1.3px;
@@ -6882,8 +6933,6 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     overflow: hidden;
     z-index: 100;
     right: 0;
-
-
 }
 
 .camp-header-left-icon > ul > li {
@@ -6910,7 +6959,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 
 .cam-header-name {
     display: block;
-    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     font-size: 8px;
     font-weight: bold;
     letter-spacing: 1.5px;
@@ -6919,7 +6968,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .cam-select-name {
-    font-family: 'Ubuntu-Light', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     font-size: 11px;
     font-weight: 300;
     letter-spacing: 1.3px;
@@ -7023,7 +7072,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 
 .campaign-status-text > ul > li {
     display: inline-block;
-    font-family: 'Ubuntu-Bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     font-size: 11px;
     text-transform: uppercase;
 }
@@ -7040,7 +7089,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 
 .current-details-wrp > ul > li:first-child {
     float: left;
-    font-family: 'Ubuntu-Light', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
     font-size: 12px;
     font-weight: 300;
     letter-spacing: 1.5px;
@@ -7049,7 +7098,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 
 .current-details-wrp > ul > li:last-child {
     float: right;
-    font-family: 'Ubuntu-Medium', sans-serif !important;
+    font-family: 'Roboto-medium', sans-serif !important;
     font-size: 12px;
     font-weight: 300;
     letter-spacing: 1.5px;
@@ -7099,10 +7148,515 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     color: #c3c3c3;
 }
 
-.color-panel
-{
+/* campaing wizard */
+
+.cam-wizard-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #f6f5f0;
+}
+
+.cam-wizard-wrap-height {
+    /*min-height: 750px;*/
+    height: 750px;
+
+}
+
+.cam-left-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #f7f8f7;
+}
+
+.cam-wizard-left-header {
+    font-family: 'Ubuntu-bold', sans-serif !important;
+    font-size: 17px;
+    letter-spacing: 2px;
+    color: #494e4e;
+    padding: 30px 0px 0px 38px;
+}
+
+/*time line */
+.cam-wizard-t-line {
+    height: 490px;
+    overflow: hidden;
+}
+
+.wizard-time-line-wrp {
+
+}
+
+.wizard-time-line-wrp:before {
+    top: 123px;
+    bottom: 170px;
+    position: absolute;
+    content: " ";
+    width: 3px;
+    margin-left: -1.5px;
+    background: #e6e6e6;
+    border-radius: 8px;
+}
+
+.wizard-time-line-wrp > li {
+
+    position: relative;
+}
+
+.cam-wizard-t-line {
+    width: 222px;
+    margin: 23px auto;
+}
+
+.t-line.wizard-count {
+    background: #ffffff;
+    color: #ececec;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    position: absolute;
+    top: 50px;
+    left: -19px;
+    z-index: 0;
+    border-radius: 100%;
+    text-align: center;
+    font-size: 17px;
+    padding-top: 7px;
+}
+
+.t-line.wizard-desc {
+    width: auto;
+    /* height: 42px; */
+    /* border-radius: 10px; */
+    padding: 50px 12px 5px 12px;
+    position: relative;
+    color: #ececec;
+    margin-left: 35px;
+    letter-spacing: 2px;
+    /* margin-top: 13px; */
+}
+
+.wizard-time-line-wrp > li.processing > .t-line.wizard-count {
+    background: #494d4d;
+    color: #eeeeee;
+}
+
+.wizard-time-line-wrp > li.done > .t-line.wizard-count {
+    background: #494d4d;
+    color: #8FD539;
+    box-shadow: 0 2px 17px 0 rgba(73, 78, 78, 0.5);
+}
+
+.wizard-time-line-wrp > li.processing > .t-line.wizard-desc {
+    color: #494e4e;
+}
+
+.wizard-time-line-wrp > li.done > .t-line.wizard-desc {
+    color: #8FD539;
+}
+
+.right-wizard-header {
+    height: 50px;
+    border-bottom: solid 1px rgba(150, 150, 150, 0.26);
+}
+
+.right-wizard-header > h5 {
+    font-family: 'Ubuntu-bold', sans-serif !important;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 2.5px;
+    color: #223448;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.cam-textbox {
+    font-family: 'Roboto', sans-serif !important;
+    background-color: #ffffff;
+    border: solid 1px #eeeeee;
+    letter-spacing: 2px;
+    color: #424141;
+    font-size: 12px !important;
+}
+
+.cam-label {
+    font-family: 'Roboto-medium', sans-serif !important;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: #2b2d2c;
+}
+
+.cam-textbox::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: rgba(151, 151, 151, 0.52);
+}
+
+.cam-textbox:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: rgba(151, 151, 151, 0.52);
+}
+
+.cam-textbox::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: rgba(151, 151, 151, 0.52);
+}
+
+.cam-textbox:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: rgba(151, 151, 151, 0.52);
+}
+
+.cam-textbox::-ms-input-placeholder { /* Microsoft Edge */
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: rgba(151, 151, 151, 0.52);
+}
+
+.cam-create-form {
+    width: 100%;
+    margin-top: 15px;
+    min-height: 50px;
+    /*overflow: hidden;*/
+    /*position: relative;*/
+}
+
+.cam-form-grp {
+    margin-bottom: 15px;
+}
+
+.camp-channel {
+    width: 103px;
+    height: 35px;
+    background-color: transparent;
+    border: solid 1px #eeeeee;
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #2b2d2c;
+    text-align: center;
+    text-transform: uppercase;
+    padding-top: 8px;
+    cursor: pointer;
+}
+
+.callback-option {
+    width: 103px;
+    height: 35px;
+    background-color: transparent;
+    border: solid 1px #eeeeee;
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #2b2d2c;
+    text-align: center;
+    text-transform: uppercase;
+    padding-top: 8px;
+    cursor: pointer;
+}
+
+.customer-tag-option {
+    width: 103px;
+    height: 35px;
+    background-color: transparent;
+    border: solid 1px #d7d7d7;
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #2b2d2c;
+    text-align: center;
+    text-transform: uppercase;
+    padding-top: 8px;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.customer-tag-option.active-tag {
+    background-color: #ffffff;
+    color: #F5120D;
+}
+
+.customer-tag-option.active-tag > i {
+    color: #F5120D;
+    padding-left: 15px;
+}
+
+.customer-tag-option > i {
+    color: #2b2d2c;
+}
+
+.customer-lag-text {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 1.7px;
+    color: #8a8e86;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.camp-channel > i,
+.callback-option > i {
+    color: rgba(151, 151, 151, 0.52);
+    font-size: 15px;
+    padding-right: 5px;
+}
+
+.camp-channel.active-channel,
+.callback-option.active-channel {
+    background-color: #ffffff;
+    color: #8fd539;
+}
+
+.camp-channel.active-channel > i,
+.callback-option.active-channel > i {
+    color: #8fd539;
+}
+
+.wizard-btn-wrapper {
+    text-align: center;
+}
+
+.btn-wizard {
+    font-family: 'Roboto', sans-serif !important;
+    width: 80px;
+    height: 29px;
+    border-radius: 5px;
+    background-color: #2bc9e2;
+    box-shadow: 0 2px 20px 0 rgba(43, 201, 226, 0.69);
+    color: #fafbfd;
+    padding: 0px;
+}
+
+.btn-inside-form {
+    height: 40px;
+
+}
+
+.btn-wizard > i {
+    font-size: 12px;
+}
+
+.camp-tab-config {
+    width: 100%;
+    /*min-height: 50px;*/
+    height: 430px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 20px;
+    /*background: #fff;*/
+}
+
+/* campaign tab theme */
+.camp-tab {
+    width: 100%;
+    min-height: 50px;
+}
+
+.camp-tab > ul {
+    background: transparent !important;
+    border-bottom: solid 1px #eeeeee;
+}
+
+.camp-tab > ul.nav-tabs > li.active > a,
+.camp-tab > ul.nav-tabs > li.active > a:focus,
+.camp-tab > ul.nav-tabs > li.active > a:hover {
+    font-family: 'Roboto-bold', sans-serif !important;
+    font-size: 13px;
+    letter-spacing: 1.7px;
+    color: #8a8e86;
+    border-bottom: 2px solid #8fd539;
+    box-shadow: 0 26px 21px 0 rgba(143, 213, 56, 0.1);
+}
+
+.camp-tab > ul.nav > li > a {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 1.7px;
+    color: #8a8e86;
+}
+
+.camp-tab > .tab-content {
+    margin-top: 25px;
+}
+
+/*end*/
+.camp-config-wrapper {
+    height: 360px;
+}
+
+.campaign-list-wrapper {
+    width: 100%;
+    height: 500px;
+    display: block;
+    background: #fff;
+    overflow-x: hidden;
+    overflow-y: auto;;
+}
+
+.camp-sub-header {
+    font-family: 'Roboto-bold', sans-serif !important;
+    font-weight: bold;
+    letter-spacing: 1.3px;
+    color: #8a8e86;
+    padding: 16px 16px 16px 27px;
+}
+
+.camp-tab-page {
+    width: 100%;
+    min-height: 100px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 20px;
+}
+
+.camp-num-upload-wrapper {
+    min-height: 126px;
+    background-color: #eeeeee;
+    border: dashed 2px rgba(150, 150, 150, 0.26);
+    overflow: hidden;
+    position: relative;
+}
+
+.camp-num-upload-wrapper.error-upload {
+    border: dashed 2px rgba(245, 18, 13, 0.91);
+    background: rgba(224, 55, 55, 0.1);
+}
+
+.customer-tag-wrapper {
+    width: 100%;
+    min-height: 100px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 40px;
+    margin: 0 auto;
+}
+
+.camp-c-tag {
+
+}
+
+.has-error .form-control {
+    border-color: #f5120d !important;
+}
+
+.has-error > label {
+    color: #f5120d !important;
+}
+
+.right-wizard-header.inline-header,
+.left-wizard-header {
+    display: inline-block;
+}
+
+.right-wizard-header.inline-header {
+    float: left;
+}
+
+.left-wizard-header {
+    float: right;
+    padding-top: 5px;
+    padding-right: 23px;
+}
+
+.camp-inline-header {
+    height: 50px;
+    border-bottom: solid 1px rgba(150, 150, 150, 0.26);
+}
+
+.btn-wizard.btn-save-wizard {
+    height: 35px;
+    box-shadow: 0 0px 0px 0 rgba(43, 201, 226, 0.69);
+}
+
+.wizard-green-btn-save {
+    background-color: #aadd69;
+    letter-spacing: 1.4px;
+}
+
+.wizard-green-btn-save:hover,
+.wizard-green-btn-save:focus,
+.wizard-green-btn-save:active {
+    background-color: #53c21a;
+    color: #fff;
+}
+
+.btn-add-digit {
+    font-family: 'Roboto-bold', sans-serif !important;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+    color: #fafbfd;
+    background-color: #2bc9e2;
+    box-shadow: 0 2px 20px 0 rgba(43, 201, 226, 0.34);
+}
+
+.upload-campaign-status {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.97);
+    z-index: 100;
+    left: 10px;
+}
+
+.upload-campaign-status > .upload-status {
+    width: 50%;
+    margin: 15% auto;
+}
+
+.upload-campaign-status > .upload-status > h5 {
+    font-family: 'Roboto-bold', sans-serif !important;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+}
+
+.default-message-camp-wrapper {
+    text-align: center;
+    font-size: 30px;
+    width: 60px;
+    height: 60px;
+    margin: 115px auto;
+    background: #8fd539;
+    overflow: hidden;
+    position: relative;
+    border-radius: 100%;
+    box-shadow: 0 0px 27px 0 rgba(143, 213, 56, 0.77);
+}
+
+.default-message-camp-wrapper > i {
+    display: block;
+    font-size: 30px;
+    padding-top: 14px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.color-panel {
     border-radius: 16px;
-    border:1px solid #C3C3C3;
+    border: 1px solid #C3C3C3;
     padding-top: 10px;
     padding-bottom: 10px;
 }
+

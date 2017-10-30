@@ -56,6 +56,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.grid.selection',
     'ui.grid.moveColumns',
     'ui.grid.infiniteScroll',
+    'ngWizard',
     'gantt',
     'angularMoment',
     'gantt.table',
@@ -64,6 +65,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'gantt.sortable',
     'gantt.resizeSensor',
     'gantt.dependencies'
+
 
 ]);
 
@@ -1093,6 +1095,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('console.campaign-console', {
             url: "/campaign-console",
             templateUrl: "campaignManager/template/temp/campaign-console.html",
+            controller: "campaignController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.new-campaign', {
+            url: "/new-campaign",
+            templateUrl: "campaignManager/template/new-campaign/new-campaign.html",
             controller: "campaignController",
             data: {
                 requireLogin: true,
