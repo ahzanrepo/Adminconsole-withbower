@@ -1995,7 +1995,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.BatchUploader(numberArray).then(function () {
                         $scope.uploadButtonValue = false;
                         $('#uploadLoaindWizard').addClass('display-none');
-                        $state.go('campaign-console');
+                        $state.go('console.campaign-console');
                         $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
 
 
