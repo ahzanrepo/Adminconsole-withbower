@@ -5,7 +5,7 @@
 mainApp.controller("campaignWizardController", function ($scope,
                                                          $anchorScroll,
                                                          campaignService, campaignNumberApiAccess,
-                                                         scheduleBackendService, $filter, $q, loginService) {
+                                                         scheduleBackendService, $filter, $q, loginService, $state) {
         $anchorScroll();
 
 
@@ -44,6 +44,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 onLoadWizard: function () {
                     $scope.campaignModeObj.push(campaignModeObj[2]);
                     $scope.dialoutMechanismObj.push(dialoutMechanismObj[0]);
+
 
                     ///$('#callBackOption').addClass('display-none');
                     $scope.showCallback = "no";
@@ -169,7 +170,6 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         var dialoutMechanismObj = [
             {name: 'BLAST'},
-            {name: 'FIFO'},
             {name: 'PREVIEW'},
             {name: 'AGENT'}
         ];
@@ -185,12 +185,16 @@ mainApp.controller("campaignWizardController", function ($scope,
             step01UIFun.clearChannel();
             step01UIFun.refreshTabConfig();
             $scope.campaign.CampaignChannel = _selectMe;
+            $scope.campaign.DialoutMechanism = "";
+            $scope.campaign.CampaignMode = "";
             switch (_selectMe) {
                 case 'SMS':
                     $scope.campaignModeObj.push(campaignModeObj[2]);
                     $scope.dialoutMechanismObj.push(dialoutMechanismObj[0]);
                     $scope.stepOneConfigTabs[0].disabled = false;
                     $scope.stepOneConfigTabs[0].active = 1;
+                    $scope.campaign.CampaignMode = campaignModeObj[2].name;
+                    $scope.campaign.DialoutMechanism = dialoutMechanismObj[0].name;
                     break;
                 case 'EMAIL':
                     $scope.campaignModeObj.push(campaignModeObj[2]);
@@ -199,6 +203,9 @@ mainApp.controller("campaignWizardController", function ($scope,
                         $scope.stepOneConfigTabs[0].disabled = false;
                         $scope.stepOneConfigTabs[0].active = 1;
                     });
+
+                    $scope.campaign.CampaignMode = campaignModeObj[2].name;
+                    $scope.campaign.DialoutMechanism = dialoutMechanismObj[0].name;
                     break;
                 case 'CALL':
                     $scope.campaignModeObj.push(campaignModeObj[0],
@@ -206,8 +213,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.dialoutMechanismObj.push(
                         dialoutMechanismObj[0],
                         dialoutMechanismObj[1],
-                        dialoutMechanismObj[2],
-                        dialoutMechanismObj[3]);
+                        dialoutMechanismObj[2]);
                     $('#callBackOption').removeClass('display-none');
 
                     $scope.safeApply(function () {
@@ -215,6 +221,25 @@ mainApp.controller("campaignWizardController", function ($scope,
                         $scope.stepOneConfigTabs[2].active = 3;
                     });
                     break;
+            }
+        };
+
+        $scope.safeApply(function () {
+            $scope.changeChannels('CALL');
+        });
+
+        //on change mode
+        $scope.onCampaignChangeMode = function (value) {
+            console.log(value);
+            if (value == "IVR") {
+                $scope.dialoutMechanismObj = [];
+                $scope.dialoutMechanismObj.push(
+                    dialoutMechanismObj[0]);
+            } else if (value == "AGENT") {
+                $scope.dialoutMechanismObj = [];
+                $scope.dialoutMechanismObj.push(
+                    dialoutMechanismObj[1],
+                    dialoutMechanismObj[2]);
             }
         };
 
@@ -357,7 +382,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         //create new campaign
         $scope.campaign = {
-            CampaignChannel: 'SMS',
+            CampaignChannel: 'CALL',
             AdditionalData: {
                 FileName: '',
                 Template: ''
@@ -843,6 +868,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         //goto wizard
         $scope.changeFormWizard = function (_wizard) {
             // $scope.step = _wizard;
+            console.log($scope.campaign);
             switch (_wizard) {
                 case '1':
                     step01UIFun.moveWizard(_wizard);
@@ -902,7 +928,33 @@ mainApp.controller("campaignWizardController", function ($scope,
             });
         };
 
+
+        var addCampaignAdditionalDataAttribute = function () {
+            if ($scope.campaignAttributes && $scope.campaignAttributes.length > 0) {
+                var additionalData = {
+                    Class: "PREVIEW",
+                    Type: "ARDS",
+                    Category: "ATTRIBUTE",
+                    TenantId: $scope.campaign.TenantId,
+                    CompanyId: $scope.campaign.CompanyId,
+                    CampaignId: $scope.campaign.CampaignId,
+                    AdditionalData: JSON.stringify($scope.campaignAttributes)
+                };
+                campaignService.CreateCampaignAdditionalData($scope.campaign.CampaignId, additionalData).then(function (response) {
+                    if (response) {
+                        $scope.GetCampaignAdditionalData();
+                        $scope.showAlert("Campaign", 'success', "Additional Data Added");
+                    }
+                }, function (error) {
+                    $scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
+                });
+            }
+        };
+
         $scope.GetCampaignConfig = function () {
+            if ($scope.campaign.DialoutMechanism == 'PREVIEW') {
+                addCampaignAdditionalDataAttribute();
+            }
             campaignService.GetCampaignConfig($scope.campaign.CampaignId).then(function (response) {
                 if (response) {
 
@@ -1262,30 +1314,6 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
         };
 
-        $scope.reset = function () {
-            $scope.safeApply(function () {
-                //$scope.target.form.reset();
-                $scope.headerData = [];
-                $scope.selectObj = {};
-                $scope.campaignNumberObj.Contacts = [];
-                // $scope.campaignNumberObj.CampaignId = undefined;
-                $scope.selectObj.previewData = [];
-                $scope.gridOptions.data = [];
-                $scope.gridOptions.columnDefs = [];
-                $scope.numberProgress = 0;
-                // $scope.uploadButtonValue = "Upload";
-                $scope.leftAddValue = undefined;
-                $scope.selectedCampaign = undefined;
-                $scope.previewData;
-                $scope.customerTags = $scope.customerTags.map(function (item) {
-                    item.active = false;
-                    return item;
-                });
-                $scope.isExtranalDataSheet = true;
-
-            });
-
-        };
 
         $('.collapse-link').on('click', function () {
             var $BOX_PANEL = $(this).closest('.x_panel'),
@@ -1960,7 +1988,10 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.BatchUploader(numberArray).then(function () {
                         $scope.uploadButtonValue = false;
                         $('#uploadLoaindWizard').addClass('display-none');
+                        $state.go('console.campaign-console');
                         $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
+
+
                         //$scope.reset();
                         $scope.refreshAllWizard();
                     }, function (reason) {
@@ -2138,7 +2169,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 $scope.step = 1;
                 $scope.campaign = {};
                 $scope.campaign = {
-                    CampaignChannel: 'SMS',
+                    CampaignChannel: 'CALL',
                     AdditionalData: {
                         FileName: '',
                         Template: ''
@@ -2165,8 +2196,6 @@ mainApp.controller("campaignWizardController", function ($scope,
                 $scope.currentConfigTemplate = {};
 
 
-                $scope.reset();
-
                 createCampaignSchedule.GetSchedules();
                 mapNumberGroupSchedule.GetCategorys();
                 mapNumberGroupSchedule.getAssignedCategory();
@@ -2174,10 +2203,40 @@ mainApp.controller("campaignWizardController", function ($scope,
                 $scope.loadNewlyCreatedCampaigns();
 
                 $scope.active = 1;
+                $scope.changeChannels('CALL');
+
             });
             step01UIFun.clearChannel();
 
             createNewCampaign.clearNewCampaignValidation();
+        };
+
+
+        $scope.reset = function () {
+            $scope.safeApply(function () {
+                // $scope.target.form.reset();
+                $scope.headerData = [];
+                $scope.selectObj = {};
+                $scope.campaignNumberObj.Contacts = [];
+                // $scope.campaignNumberObj.CampaignId = undefined;
+                $scope.selectObj.previewData = [];
+                $scope.gridOptions.data = [];
+                $scope.gridOptions.columnDefs = [];
+                $scope.numberProgress = 0;
+                // $scope.uploadButtonValue = "Upload";
+                $scope.leftAddValue = undefined;
+                $scope.selectedCampaign = undefined;
+                $scope.previewData;
+
+
+                $scope.customerTags = $scope.customerTags.map(function (item) {
+                    item.active = false;
+                    return item;
+                });
+
+                $scope.isExtranalDataSheet = true;
+            });
+
         };
 
 

@@ -4,27 +4,7 @@
         <div class="right-wizard-header inline-header">
             <h5>Campaign Number Upload</h5>
         </div>
-        <div class="left-wizard-header">
-            <ul class="customer-inline">
-                <li>
-                    <button style="min-width: 185px;"
-                            class="btn btn-wizard btn-save-wizard wizard-green-btn-save"
-                            ng-click="reset()">
-                        CLEAR NUMBER SET
-                    </button>
-                    <button ng-show="uploadButtonValue"
-                            class="btn btn-wizard btn-save-wizard wizard-green-btn-save">
-                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-                    </button>
-                </li>
-                <!--<li>-->
-                <!--<button class="btn btn-wizard btn-save-wizard">-->
-                <!--Clear All-->
-                <!--</button>-->
-                <!--</li>-->
-            </ul>
 
-        </div>
     </div>
 
 
@@ -101,14 +81,20 @@
                      ng-click="getInputFileValue()"
                      heading="Extranal Data Sheet">
                 <div class="camp-num-upload-wrapper number-upload-sheet">
-                    <div class="customer-tag-wrapper"
-                         style="
-    text-align: center;">
+                    <div class="customer-lag-text inline-u-wrp">
+                        <small style="font-size: 13px;">Select extra file</small>
+                        <small ng-show="!uploadButtonValue"
+                               ng-click="reset()"
+                               class="clear">Clear All
+                        </small>
+                    </div>
 
-                        <input accept=".csv" type="file" class="file-chooser"
-                               id="files123"
-                               name="files[]"/>
-
+                    <div class="customer-tag-wrapper" style="padding-top: 20px;">
+                        <div class="col-md-8 col-sm-12 col-xs-12 ">
+                            <input accept=".csv" type="file" class="file-chooser"
+                                   id="files123"
+                                   name="files[]"/>
+                        </div>
                     </div>
 
                 </div>

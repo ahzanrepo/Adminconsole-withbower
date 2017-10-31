@@ -44,7 +44,7 @@
                     <div class="camp-channel-wrp">
                         <ul class="customer-inline">
                             <li>
-                                <div id="SMS" class="camp-channel active-channel"
+                                <div id="SMS" class="camp-channel "
                                      ng-click="changeChannels('SMS')">
                                     <i class="fa fa-comment-o"></i>
                                     sms
@@ -58,7 +58,7 @@
                                 </div>
                             </li>
                             <li>
-                                <div id="CALL" class="camp-channel"
+                                <div id="CALL" class="camp-channel active-channel"
                                      ng-click="changeChannels('CALL')">
                                     <i class="fa fa-phone"></i>
                                     call
@@ -75,13 +75,14 @@
                      ng-class="{ 'has-error' : campaignFrmStep1.CampaignMode.$invalid &&
                      !campaignFrmStep1.CampaignMode.$pristine }">
                     <label for="campaignMode" class="cam-label">Mode *</label>
-                    <select class="form-control cam-textbox"
+                    <select ng-change="onCampaignChangeMode(campaign.CampaignMode)"
+                            class="form-control cam-textbox"
                             id="CampaignMode"
                             name="CampaignMode"
                             ng-model="campaign.CampaignMode"
                             required>
                         <!--<option disabled value='' selected>Select Campaign Mode</option>-->
-                        <option disabled value='' selected></option>
+                        <!--<option disabled value='' selected></option>-->
                         <option ng-repeat="mode in campaignModeObj"
                                 value="{{mode.name}}">{{mode.name}}
 
@@ -100,7 +101,7 @@
                             ng-model="campaign.DialoutMechanism"
                             id="DialoutMechanism">
                         <!--<option disabled value='' selected>Select Dialout Mechanism</option>-->
-                        <option disabled value='' selected></option>
+                        <!--<option disabled value='' selected></option>-->
                         <option ng-repeat="dialout in dialoutMechanismObj"
                                 value="{{dialout.name}}">{{dialout.name}}
                         </option>

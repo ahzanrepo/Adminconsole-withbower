@@ -7,8 +7,7 @@
             <input type="text"
                    class="form-control cam-textbox"
                    id="extension"
-                   ng-model="campaign.AdditionalData.FileName"
-                   placeholder="File Name with Extension ">
+                   ng-model="campaign.AdditionalData.FileName">
         </div>
     </div>
 
@@ -24,13 +23,14 @@
                     ng-model="campaign.AdditionalData.Template"
                     ng-options="opt.name as opt.name for opt in Templates track by opt._id"
                     required>
-                <option disabled value='' selected>Select Tempalte</option>
+                <!--<option disabled value='' selected>Select Tempalte</option>   -->
+                <option disabled value='' selected></option>
             </select>
             <input type="text"
                    ng-if="campaignAdditionalData.length!=0"
                    class="form-control cam-textbox"
                    disabled
-                   ng-model="campaign.AdditionalData.Template">
+                   ng-model="campaign.AdditionalData.Template"/>
         </div>
     </div>
 

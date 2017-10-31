@@ -7412,6 +7412,27 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     color: #8a8e86;
     padding-top: 10px;
     padding-left: 20px;
+    padding-right: 10px;
+}
+
+.customer-lag-text.inline-u-wrp {
+    display: block;
+}
+
+.customer-lag-text.inline-u-wrp > small.clear {
+    font-family: 'Roboto', sans-serif !important;
+    float: right;
+    color: #F5120D;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.customer-lag-text.inline-u-wrp > small.clear:hover {
+    font-family: 'Roboto-bold', sans-serif !important;
+}
+
+.customer-lag-text.inline-u-wrp > small {
+    display: inline-block;
 }
 
 .camp-channel > i,

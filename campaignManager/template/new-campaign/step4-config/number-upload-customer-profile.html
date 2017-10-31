@@ -1,6 +1,9 @@
 <div class="camp-num-upload-wrapper number-upload-sheet">
-    <div class="customer-lag-text">
+    <div class="customer-lag-text inline-u-wrp">
         <small style="font-size: 13px;">Select customer tag</small>
+        <small class="clear" ng-show="!uploadButtonValue"
+               ng-click="reset()">Clear All
+        </small>
     </div>
     <div class="customer-tag-wrapper" style="padding-top: 20px;">
         <div class="col-md-8 col-sm-12 col-xs-12 ">
