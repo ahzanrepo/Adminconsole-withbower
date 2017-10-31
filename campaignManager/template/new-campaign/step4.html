@@ -50,7 +50,8 @@
 
             <div class="col-lg-4">
                 <div id="frmScheduleId" class="form-group cam-form-grp">
-                    <label for="exampleInputEmail1" class="cam-label">Select Campaign Schedule</label>
+                    <label for="exampleInputEmail1" class="cam-label">Select Campaign
+                        Schedule</label>
                     <select class="form-control cam-textbox"
                             ng-model="campaignNumberObj.CamScheduleId"
                             ng-model-options="{trackBy: '$value'}"
@@ -91,7 +92,9 @@
 
                     <div class="customer-tag-wrapper" style="padding-top: 20px;">
                         <div class="col-md-8 col-sm-12 col-xs-12 ">
-                            <input accept=".csv" type="file" class="file-chooser"
+                            <input accept=".csv" type="file"
+                                   custom-on-change="uploadFile"
+                                   class="file-chooser"
                                    id="files123"
                                    name="files[]"/>
                         </div>
@@ -129,6 +132,7 @@
             <div class="col-lg-9">
                 <label for="exampleInputEmail1" class="cam-label">Add Digit</label>
                 <input type="text"
+
                        class="form-control  cam-textbox"
                        ng-model="leftAddValue.value"
                        placeholder="Ex : +94 -- -----">
@@ -159,22 +163,11 @@
                            min-length="1"></auto-complete>
     </div>
 
-    <!--<div class="col-lg-3">-->
-    <!--<button type="button" class="btn btn-success"-->
-    <!--ng-click="uploadNumbers()"-->
-    <!--ng-disabled="uploadButtonValue == 'Uploading...'">-->
-    <!--{{uploadButtonValue}}-->
-    <!--</button>-->
-    <!--<button type="button" class="btn btn-success"-->
-    <!--ng-click="reset()">Clear All-->
-    <!--</button>-->
-    <!--</div>-->
-    </div>
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
 
-            <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
+            <div ng-if="!refreshGrid" ui-grid="gridOptions" ui-grid-importer class="grid"></div>
 
             <div>
                 <label>rows: {{gridApi.grid.getVisibleRows().length}}</label>

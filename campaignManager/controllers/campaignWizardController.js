@@ -5,7 +5,7 @@
 mainApp.controller("campaignWizardController", function ($scope,
                                                          $anchorScroll,
                                                          campaignService, campaignNumberApiAccess,
-                                                         scheduleBackendService, $filter, $q, loginService, $state) {
+                                                         scheduleBackendService, $filter, $q, loginService, $state, $timeout) {
         $anchorScroll();
 
 
@@ -289,7 +289,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 }
                 $scope.isLoadingData = false;
             }, function (error) {
-                $scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
+                $scope.showAlert("Campaign", "Fail To Create Additional Data", 'error');
                 $scope.isLoadingData = false;
             });
         };
@@ -299,13 +299,13 @@ mainApp.controller("campaignWizardController", function ($scope,
             campaignService.DeleteAdditionalDataByID(id).then(function (response) {
                 if (response) {
                     $scope.GetCampaignAdditionalData();
-                    $scope.showAlert("Campaign", 'success', "Successfully Deleted.");
+                    $scope.showAlert("Campaign", "Successfully Deleted.", 'success');
                 }
                 else {
-                    $scope.showAlert("Campaign", 'error', "Fail To Delete Additional Data");
+                    $scope.showAlert("Campaign", "Fail To Delete Additional Data", 'error');
                 }
             }, function (error) {
-                $scope.showAlert("Campaign", 'error', "Fail To Delete Additional Data");
+                $scope.showAlert("Campaign", "Fail To Delete Additional Data", 'error');
             });
         };
 
@@ -1468,6 +1468,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
         $scope.gridOptions = {
+            enableRowHashing: false,
             enableGridMenu: false,
             data: 'data',
             importerDataAddCallback: function (grid, newObjects) {
@@ -1506,7 +1507,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             if (target && target.files && target.files.length === 1) {
                 var fileObject = target.files[0];
                 $scope.gridApi.importer.importFile(fileObject);
-                //target.form.reset();
+                // target.form.reset();
             }
         };
         $scope.getInputFileValue = function () {
@@ -1516,6 +1517,12 @@ mainApp.controller("campaignWizardController", function ($scope,
             } else {
                 fileChooser[0].addEventListener('change', handleFileSelect, false);
             }
+        };
+
+        $scope.getInputFileValue();
+
+        $scope.fileNameChanged = function () {
+            console.log("select file");
         };
 
 
@@ -1988,7 +1995,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.BatchUploader(numberArray).then(function () {
                         $scope.uploadButtonValue = false;
                         $('#uploadLoaindWizard').addClass('display-none');
-                        $state.go('console.campaign-console');
+                        $state.go('campaign-console');
                         $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
 
 
@@ -2214,7 +2221,6 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.reset = function () {
             $scope.safeApply(function () {
-                // $scope.target.form.reset();
                 $scope.headerData = [];
                 $scope.selectObj = {};
                 $scope.campaignNumberObj.Contacts = [];
@@ -2228,17 +2234,28 @@ mainApp.controller("campaignWizardController", function ($scope,
                 $scope.selectedCampaign = undefined;
                 $scope.previewData;
 
-
                 $scope.customerTags = $scope.customerTags.map(function (item) {
                     item.active = false;
                     return item;
                 });
-
                 $scope.isExtranalDataSheet = true;
+                $scope.refreshGrid = true;
+                $timeout(function () {
+                    $scope.refreshGrid = false;
+                }, 0);
+            });
+        };
+    }
+).directive('customOnChange', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var onChangeHandler = scope.$eval(attrs.customOnChange);
+            element.bind('change', onChangeHandler);
+            element.on('$destroy', function () {
+                element.unbind('change');
             });
 
-        };
-
-
-    }
-);
+        }
+    };
+});

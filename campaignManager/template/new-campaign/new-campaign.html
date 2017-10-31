@@ -167,8 +167,9 @@
                      ng-include="'campaignManager/template/new-campaign/step2.html'"></div>
                 <div ng-show="step==3"
                      ng-include="'campaignManager/template/new-campaign/step3.html'"></div>
-                <div ng-show="step==4"
-                     ng-include="'campaignManager/template/new-campaign/step4.html'"></div>
+                <div ng-if="step==4"
+                     ng-include="'campaignManager/template/new-campaign/step4.html'">
+                </div>
             </div>
 
         </div>
