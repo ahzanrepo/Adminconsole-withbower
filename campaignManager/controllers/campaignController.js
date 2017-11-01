@@ -1,5 +1,5 @@
 mainApp.controller("campaignController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll,
-                                                   campaignService, ardsBackendService,$state) {
+                                                   campaignService, ardsBackendService, $state) {
 
     $anchorScroll();
     $scope.mechanisms = campaignService.mechanisms;
@@ -276,7 +276,23 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
 
     //create new camping
     $scope.crateNewCamping = function () {
-        $state.go('console.new-campaign');
+        $state.go('console.new-campaign', {id: 'new'});
     };
 
-});
+    $scope.editCampaign = function (_campaign) {
+        $state.go('console.new-campaign', {id: _campaign.CampaignId});
+    };
+
+}).directive("mainScrollCampaign", function ($window) {
+    return function (scope, element, attrs) {
+        scope.isFiexedTab = false;
+        angular.element($window).bind("scroll", function () {
+            if (this.pageYOffset >= 20) {
+                scope.isFiexedTab = true;
+            } else {
+                scope.isFiexedTab = false;
+            }
+            scope.$apply();
+        });
+    };
+})

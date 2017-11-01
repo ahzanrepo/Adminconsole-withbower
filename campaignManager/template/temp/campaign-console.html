@@ -1,4 +1,5 @@
 <section id="campMWrapper"
+         main-scroll-campaign
          class="camp-m-wrapper">
     <!-- campaign header -->
     <header class="camp-m-header">
@@ -34,6 +35,7 @@
     </header>
     <!-- table header -->
     <div class="camp-tbl-header">
+
         <div class="col-lg-4">
             <div class="tbl-header">Name</div>
         </div>
@@ -43,8 +45,13 @@
         <div class="col-lg-2">
             <div class="tbl-header">Channel</div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-2">
             <div class="tbl-header">Create Date</div>
+        </div>
+        <div class="col-lg-1">
+            <!-- <div class="tbl-header">Action</div>-->
+        </div>
+        <div class="col-lg-1">
         </div>
     </div>
 
@@ -53,8 +60,8 @@
         <div ng-include="'campaignManager/template/temp/campign-details-view-temp.html'"></div>
 
         <div id="{{cam.CampaignId}}" class="camp-tbl-row"
-             ng-click="viewCurrentCampaignDetails(cam)"
              ng-repeat="cam in campaigns | filterBy: ['CampaignName']: searchCriteria | orderBy : '-updatedAt'">
+
             <div class="col-lg-4">
                 <div class="tbl-body-text">{{cam.CampaignName}}</div>
             </div>
@@ -64,9 +71,27 @@
             <div class="col-lg-2">
                 <div class="tbl-body-text">{{cam.CampaignChannel}}</div>
             </div>
-            <div class="col-lg-4">
-                <div class="tbl-body-text">{{cam.updatedAt}}</div>
+            <div class="col-lg-2">
+                <div class="tbl-body-text">{{cam.updatedAt | amDateFormat:'MM-DD-YYYY' }}</div>
             </div>
+            <div class="col-lg-2">
+                <ul class="inline-list inline-btn-list">
+                    <li style="float: left;">
+                        <div class="campaign-edit-btn"
+                             ng-click="editCampaign(cam)">
+                            <i class="ti-pencil"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="campaign-edit-btn"
+                             ng-click="viewCurrentCampaignDetails(cam)">
+                            <i class="ti-more-alt"></i>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
         </div>
 
     </div>

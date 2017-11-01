@@ -6881,7 +6881,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .camp-tbl-body {
-    min-height: 400px;
+    min-height: 700px;
     width: 100%;
     overflow: hidden;
     position: relative;
@@ -6933,6 +6933,19 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     overflow: hidden;
     z-index: 100;
     right: 0;
+
+}
+
+.cam-details-wrapper-fixed {
+    position: fixed;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: #f6f5f0;
+    overflow: hidden;
+    z-index: 100;
+    /*right: 39px;*/
+
 }
 
 .camp-header-left-icon > ul > li {
@@ -7685,3 +7698,37 @@ select > option.disable,
 select > option .disable-opt {
     color: #a0a0a0;
 }
+
+.campaign-edit-btn {
+    width: 25px;
+    height: 25px;
+    color: #3a3b3b;
+    border-radius: 100px;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 4px;
+    cursor: pointer;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+}
+
+.campaign-edit-btn:hover {
+    background: #fff;
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    box-shadow: 0 2px 20px 0 rgba(43, 201, 226, 0.34);
+
+}
+
+.inline-btn-list {
+    display: block;
+}
+
+.inline-btn-list > li {
+    display: inline-block;
+    margin-right: 10px;
+}
+

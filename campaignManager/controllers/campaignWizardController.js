@@ -5,8 +5,47 @@
 mainApp.controller("campaignWizardController", function ($scope,
                                                          $anchorScroll,
                                                          campaignService, campaignNumberApiAccess,
-                                                         scheduleBackendService, $filter, $q, loginService, $state, $timeout) {
+                                                         scheduleBackendService, $filter, $q,
+                                                         loginService, $state, $timeout, $location) {
         $anchorScroll();
+
+
+        //check is query string
+        var queryCampaignId = $location.search();
+
+        var campaignModeObj = [
+            {name: 'IVR'},
+            {name: 'AGENT'},
+            {name: 'MESSAGE'}
+        ];
+
+        var dialoutMechanismObj = [
+            {name: 'BLAST'},
+            {name: 'PREVIEW'},
+            {name: 'AGENT'}
+        ];
+
+
+        if (queryCampaignId && queryCampaignId.id != 0) {
+            campaignService.GetCampaignById(queryCampaignId.id).then(function (res) {
+                console.log(res)
+                if (res) {
+                    $scope.changeChannels(res.CampaignChannel);
+                    $scope.campaign = {
+                        CampaignChannel: res.CampaignChannel,
+                        CampaignId: res.CampaignId,
+                        CampaignName: res.CampaignName,
+                        DialoutMechanism: res.DialoutMechanism,
+                        CampaignMode: res.CampaignMode,
+                        Extensions: res.Extensions,
+                        AdditionalData: {
+                            FileName: '',
+                            Template: ''
+                        }
+                    };
+                }
+            });
+        }
 
 
         $scope.step = 1;
@@ -162,17 +201,6 @@ mainApp.controller("campaignWizardController", function ($scope,
         step01UIFun.clearChannel();
         //step01UIFun.refreshTabConfig();
 
-        var campaignModeObj = [
-            {name: 'IVR'},
-            {name: 'AGENT'},
-            {name: 'MESSAGE'}
-        ];
-
-        var dialoutMechanismObj = [
-            {name: 'BLAST'},
-            {name: 'PREVIEW'},
-            {name: 'AGENT'}
-        ];
 
         step01UIFun.onLoadWizard();
 

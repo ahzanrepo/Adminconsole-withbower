@@ -580,7 +580,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.campaign')
         },
         goCreateNewCampaign: function () {
-            $state.go('console.new-campaign')
+            $state.go('console.new-campaign', {id: 0});
         },
         goViewCampaigns: function () {
             $state.go('console.campaign-console')
