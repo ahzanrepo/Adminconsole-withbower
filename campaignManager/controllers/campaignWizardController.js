@@ -27,8 +27,10 @@ mainApp.controller("campaignWizardController", function ($scope,
 
 
         if (queryCampaignId && queryCampaignId.id != 0) {
+            $scope.isCreateNewCampaign = true;
             campaignService.GetCampaignById(queryCampaignId.id).then(function (res) {
-                console.log(res)
+                $scope.isCreateNewCampaign = false;
+                console.log(res);
                 if (res) {
                     $scope.changeChannels(res.CampaignChannel);
                     $scope.campaign = {
@@ -38,13 +40,50 @@ mainApp.controller("campaignWizardController", function ($scope,
                         DialoutMechanism: res.DialoutMechanism,
                         CampaignMode: res.CampaignMode,
                         Extensions: res.Extensions,
+                        CompanyId: res.CompanyId,
+                        TenantId: res.TenantId,
                         AdditionalData: {
                             FileName: '',
                             Template: ''
                         }
                     };
+
+                    $scope.onCampaignChangeMode(res.CampaignMode);
+
+                    if ($scope.campaign.DialoutMechanism == 'PREVIEW') {
+                        addCampaignAdditionalDataAttribute();
+                    }
+                    $scope.isCreateNewCampaign = true;
+                    campaignService.GetCampaignConfig($scope.campaign.CampaignId).then(function (response) {
+                        $scope.isCreateNewCampaign = false;
+                        if (response) {
+                            $scope.callback = response;
+                            // $scope.callback.AllowCallBack = response.AllowCallBack === false ? 'no' : 'yes';
+                            $scope.showCallback = response.AllowCallBack;
+                            campaignService.GetCallBacks($scope.callback.ConfigureId).then(function (response) {
+                                $scope.isLoadingCallBack = false;
+                                $scope.callbacks = response.map(function (item) {
+                                    item.isLoading = false;
+                                    return item;
+                                });
+                            }, function (error) {
+                                $scope.isLoadingCallBack = false;
+                                console.log(error);
+                            });
+                        }
+                        else {
+                            $scope.callback = {AllowCallBack: 'no'};
+                        }
+                    }, function (error) {
+                        $scope.isCreateNewCampaign = false;
+
+                    });
+
+
                 }
             });
+        } else {
+
         }
 
 
@@ -627,11 +666,11 @@ mainApp.controller("campaignWizardController", function ($scope,
                             if (response) {
                                 $scope.callback.ConfigureId = response.ConfigureId;
                             } else {
-                                $scope.showAlert("Campaign", "Fail To Update Configurations");
+                                $scope.showAlert("Campaign", "Fail To Update Configurations", 'error');
                             }
                             $scope.updateConfig = false;
                         }, function (error) {
-                            $scope.showAlert("Campaign", "Fail To Update Configurations");
+                            $scope.showAlert("Campaign", "Fail To Update Configurations", 'error');
                             $scope.updateConfig = false;
                         });
                     }
@@ -941,6 +980,9 @@ mainApp.controller("campaignWizardController", function ($scope,
                     break;
                 case '4':
                     step01UIFun.moveWizard(_wizard);
+                    break;
+                case 'back':
+                    $state.go('console.campaign-console');
                     break;
 
             }
