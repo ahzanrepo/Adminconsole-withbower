@@ -549,16 +549,27 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.isCreateNewCampaign = true;
                     campaignService.CreateCampaign(campaignx).then(function (response) {
                         $scope.isCreateNewCampaign = false;
-                        if (response) {
-                            $scope.showAlert("Campaign", "Campaign Created Successfully.", 'success');
-                            if (response.CampaignId) {
+                        if (response && response.data && response.data.IsSuccess) {
+                            $scope.showAlert("Campaign", "Basic Campaign Info  Created Successfully.", 'success');
+                            if (response && response.data && response.data.Result && response.data.Result.CampaignId) {
                                 $scope.campaign = response;
                                 callBack(true);
                             }
                             //$scope.addNewCampaign = false;
                             //$scope.campaigns.push(response);
                         } else {
-                            $scope.showAlert("Campaign", "Fail To Create Campaign.", 'error');
+                            if (response && response.data && response.data) {
+                                if (response.data.CustomMessage == 'EXCEPTION') {
+                                    $scope.showAlert("Campaign", "Campaign Name Already Exists.", 'error');
+                                    var idCampaign = $('#frmCampaign');
+                                    idCampaign.addClass('has-error');
+                                    s
+                                } else {
+                                    $scope.showAlert("Campaign", "Fail To Create Campaign.", 'error');
+                                }
+                            } else {
+                                $scope.showAlert("Campaign", "Fail To Create Campaign.", 'error');
+                            }
                             callBack(false);
                         }
                     }, function (error) {
@@ -605,7 +616,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     updateCam.CampContactSchedule = undefined;
                     campaignService.UpdateCampaign($scope.campaign.CampaignId, updateCam).then(function (response) {
                         if (response) {
-                            $scope.showAlert("Campaign", "Campaign Updated successfully ", 'success');
+                            $scope.showAlert("Campaign", "Basic Campaign Info Updated successfully ", 'success');
                             callBack(true);
                         } else {
                             $scope.showAlert("Campaign", "Fail To Update Campaign", 'error');

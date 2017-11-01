@@ -12,9 +12,9 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
             data: campaign
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
-                return response.data.Result;
+                return response;
             } else {
-                return false;
+                return response;
             }
 
         });
