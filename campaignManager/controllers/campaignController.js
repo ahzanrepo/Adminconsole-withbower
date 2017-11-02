@@ -95,7 +95,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
 
     $scope.campaigns = [];
     $scope.loadCampaign = function () {
-        $scope.isLoading = true;
+        $scope.isLoadingCamp = true;
         campaignService.GetCampaigns().then(function (response) {
             if (response) {
                 $scope.campaigns = response;
@@ -103,9 +103,10 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
             } else {
                 $scope.showAlert("Campaign", "error", "There is an error, Error on loading campaigns");
             }
-            $scope.isLoading = false;
+            $scope.isLoadingCamp = false;
         }, function (error) {
             $scope.showAlert("Campaign", "error", "There is an error, Error on loading campaigns");
+            $scope.isLoadingCamp = false;
         });
     };
 

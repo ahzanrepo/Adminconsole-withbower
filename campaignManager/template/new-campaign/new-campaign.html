@@ -97,7 +97,14 @@
                                     Back
                                 </button>
                             </li>
-                            <li>
+
+                            <li ng-show="mapnumberScheduleToCam">
+                                <button class="btn btn-wizard">
+                                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                                </button>
+                            </li>
+
+                            <li ng-show="!mapnumberScheduleToCam">
                                 <button ng-if="addedSchedule.length!=0"
                                         class="btn btn-wizard"
                                         ng-click="changeFormWizard('3')">

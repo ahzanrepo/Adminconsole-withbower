@@ -7459,6 +7459,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 .callback-option.active-channel {
     background-color: #ffffff;
     color: #8fd539;
+    box-shadow: 0 2px 20px 0 rgba(143, 213, 59, 0.17);
 }
 
 .camp-channel.active-channel > i,
@@ -7732,3 +7733,44 @@ select > option .disable-opt {
     margin-right: 10px;
 }
 
+.loading-camp {
+    text-align: center;
+    margin: 100px auto;
+    position: absolute;
+    width: 100%
+}
+
+.spinner-container {
+    animation: rotate 2s linear infinite;
+    -webkit-animation: rotate 2s linear infinite;
+}
+
+.spinner-container .path {
+    stroke-dasharray: 1, 150; /* 1%, 101% circumference */
+    stroke-dashoffset: 0;
+    stroke: rgb(44, 201, 226);
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+    -webkit-animation: dash 1.5s ease-in-out infinite;
+}
+
+@-webkit-keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150; /* 1%, 101% circumference */
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150; /* 70%, 101% circumference */
+        stroke-dashoffset: -80; /* 25% circumference */
+    }
+    100% {
+        stroke-dasharray: 90, 150; /* 70%, 101% circumference */
+        stroke-dashoffset: -124; /* -99% circumference */
+    }
+}

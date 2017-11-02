@@ -56,6 +56,14 @@
     </div>
 
     <div class="camp-tbl-body">
+
+        <!-- loader -->
+        <div class="loading-camp " ng-if="isLoadingCamp">
+            <svg class="spinner-container" width="65px" height="65px" viewBox="0 0 52 52">
+                <circle class="path" cx="26px" cy="26px" r="20px" fill="none" stroke-width="4px"/>
+            </svg>
+        </div>
+
         <!-- campaign details view -->
         <div ng-include="'campaignManager/template/temp/campign-details-view-temp.html'"></div>
 
@@ -78,14 +86,18 @@
                 <ul class="inline-list inline-btn-list">
                     <li style="float: left;">
                         <div class="campaign-edit-btn"
+                             title="Edit Campaign"
                              ng-click="editCampaign(cam)">
-                            <i class="ti-pencil"></i>
+                            <i class="ti-pencil"
+                               title="Edit Campaign"></i>
                         </div>
                     </li>
                     <li>
                         <div class="campaign-edit-btn"
+                             title="More Details"
                              ng-click="viewCurrentCampaignDetails(cam)">
-                            <i class="ti-more-alt"></i>
+                            <i class="ti-more-alt"
+                               title="More Details"></i>
                         </div>
                     </li>
                 </ul>
