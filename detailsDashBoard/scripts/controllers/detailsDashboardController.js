@@ -87,7 +87,7 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
 
     subscribeServices.subscribe('queuedetail');
     //subscribe services
-    subscribeServices.subscribeDashboard(function (event) {
+    subscribeServices.subscribeDashboard('detaildashboard',function (event) {
 
         switch (event.roomName) {
             case 'QUEUE:QueueDetail':
@@ -698,6 +698,11 @@ mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
+
+
+
+            subscribeServices.unSubscribeDashboard('detaildashboard');
+
     });
 
     $scope.refreshTime = 10000;

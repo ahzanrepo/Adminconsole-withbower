@@ -11,11 +11,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     //
     //var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     //
-    //$scope.$on("$destroy", function () {
-    //    if (getAllRealTimeTimer) {
-    //        $timeout.cancel(getAllRealTimeTimer);
-    //    }
-    //});
+    $scope.$on("$destroy", function () {
+
+        subscribeServices.unSubscribeDashboard('agentsummery');
+    });
     //$scope.refreshTime = 1000;
 
     $scope.enableFilter = true;
@@ -468,7 +467,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         console.log($scope.StatusAllList);
     };
 
-    subscribeServices.subscribeDashboard(function (event) {
+    subscribeServices.subscribeDashboard('agentsummery',function (event) {
         switch (event.roomName) {
             case 'ARDS:ResourceStatus':
                 if (event.Message) {

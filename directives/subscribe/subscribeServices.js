@@ -8,10 +8,10 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
 
     //local  variable
     var connectionSubscribers;
-    var dashboardSubscriber = [];
+    var dashboardSubscriber = {};
     var eventSubscriber;
-    var callSubscribers = [];
-    var statusSubcribers = [];
+    var callSubscribers = {};
+    var statusSubcribers = {};
     //********  subscribe event ********//
     var OnConnected = function () {
         //console.log("OnConnected..............");
@@ -67,17 +67,30 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
     };
 
     var OnDashBoardEvent = function (event) {
-        //console.log("OnDshboardEvent..............");
-        dashboardSubscriber.forEach(function (func) {
-            func(event);
-        });
+
+        // dashboardSubscriber.forEach(function (func) {
+        //     func(event);
+        // });
+
+        for (var k in dashboardSubscriber) {
+            if (dashboardSubscriber.hasOwnProperty(k)) {
+                dashboardSubscriber[k](event);
+            }
+        }
+
     };
 
     var OnStatus = function (o) {
         //console.log("OnStatus..............");
-        statusSubcribers.forEach(function (func) {
-            func(o);
-        });
+        // statusSubcribers.forEach(function (func) {
+        //     func(o);
+        // });
+
+        for (var k in statusSubcribers) {
+            if (statusSubcribers.hasOwnProperty(k)) {
+                statusSubcribers[k](event);
+            }
+        }
     };
 
     var OnEvent = function (event, o) {
@@ -85,13 +98,21 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
         if (eventSubscriber) {
             eventSubscriber(event, o);
         }
+
     };
 
     var OnCallStatus = function (o) {
         //console.log("OnStatus..............");
-        callSubscribers.forEach(function (func) {
-            func(o);
-        });
+        // callSubscribers.forEach(function (func) {
+        //     func(o);
+        // });
+
+        for (var k in callSubscribers) {
+            if (callSubscribers.hasOwnProperty(k)) {
+                callSubscribers[k](event);
+            }
+        }
+
     };
 
     var callBackEvents = {
@@ -112,9 +133,14 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
             callBackEvents: callBackEvents
         });
     };
-    var subscribeDashboard = function (func) {
-        dashboardSubscriber.push(func);
+    var subscribeDashboard = function (key, func) {
+        dashboardSubscriber[key] = func;
     };
+
+    var unSubscribeDashboard = function (key) {
+        delete dashboardSubscriber[key];
+    };
+
 
     var unsubscribe = function (view) {
         //if (view == "dashoboard") {
@@ -169,11 +195,20 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
     var SubscribeEvents = function (func) {
         eventSubscriber = func;
     };
-    var SubscribeStatus = function (func) {
-        statusSubcribers.push(func);
+    var SubscribeStatus = function (key ,func) {
+        statusSubcribers[key] = func;
     };
-    var SubscribeCallStatus = function (func) {
-        callSubscribers.push(func);
+
+    var unSubscribeStatus = function (key) {
+        delete statusSubcribers[key];
+    };
+
+    var SubscribeCallStatus = function (key,func) {
+        callSubscribers[key] = func;
+    };
+
+    var unSubscribeCallStatus = function (key) {
+        delete callSubscribers[key];
     };
 
     var getPersistenceMessages = function () {
@@ -190,9 +225,12 @@ mainApp.factory('subscribeServices', function ($http, baseUrls, loginService) {
         Request: request,
         connectSubscribeServer: connect,
         subscribeDashboard: subscribeDashboard,
+        unSubscribeDashboard: unSubscribeDashboard,
         unsubscribe: unsubscribe,
         subscribe: subscribe,
         SubscribeEvents: SubscribeEvents,
+        UnSubscribeStatus: unSubscribeStatus,
+        UnSubscribeCallStatus: unSubscribeCallStatus,
         SubscribeStatus: SubscribeStatus,
         SubscribeCallStatus: SubscribeCallStatus,
         GetPersistenceMessages: getPersistenceMessages

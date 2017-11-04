@@ -212,7 +212,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
 
-    subscribeServices.SubscribeStatus(function (status) {
+    subscribeServices.SubscribeStatus('main',function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
 
@@ -265,7 +265,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     });
 
 
-    subscribeServices.SubscribeCallStatus(function (status) {
+    subscribeServices.SubscribeCallStatus('main',function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
                 var userObj = $scope.users.filter(function (item) {
@@ -284,7 +284,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
 
-    subscribeServices.subscribeDashboard(function (event) {
+    subscribeServices.subscribeDashboard('main',function (event) {
         switch (event.roomName) {
             case 'ARDS:break_exceeded':
             case 'ARDS:freeze_exceeded':
@@ -870,6 +870,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         });
 
     };
+
+    $scope.$on("$destroy", function () {
+
+        subscribeServices.unSubscribeDashboard('main');
+        subscribeServices.UnSubscribeCallStatus('main');
+        subscribeServices.UnSubscribeStatus('main');
+
+    });
 
     var onCallDisconnected = function () {
         //console.log(response);

@@ -19,7 +19,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
     subscribeServices.subscribe('queuedetail');
     //subscribe services
-    subscribeServices.subscribeDashboard(function (event) {
+    subscribeServices.subscribeDashboard('realtime',function (event) {
 
         switch (event.roomName) {
             case 'QUEUE:QueueDetail':
@@ -326,6 +326,7 @@ var i=1;
         //     $timeout.cancel(getAllRealTimeTimer);
         // }
         subscribeServices.unsubscribe('queuedetail');
+        subscribeServices.unSubscribeDashboard('realtime');
 
     });
 
