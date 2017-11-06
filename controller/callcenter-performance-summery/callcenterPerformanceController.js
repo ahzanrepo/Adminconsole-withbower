@@ -562,10 +562,12 @@
             if (getTimesTimer) {
                 $timeout.cancel(getTimesTimer);
             }
+
+            subscribeServices.unSubscribeDashboard('ccperformance');
         });
 
 
-        subscribeServices.subscribeDashboard(function (event) {
+        subscribeServices.subscribeDashboard('ccperformance',function (event) {
             switch (event.roomName) {
                 case 'CALLS:TotalCount':
                     if (event.Message) {

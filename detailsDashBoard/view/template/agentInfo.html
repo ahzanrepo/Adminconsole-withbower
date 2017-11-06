@@ -1,0 +1,79 @@
+<!--<div class="x_panel fixed_height_200" ng-controller="AgentSummaryController">-->
+<div class="x_panel " ng-controller="AgentSummaryController">
+    <!--<div class="x_title">
+        <h2><i class="fa fa-align-left"></i> Agents
+            <small>Information's</small>
+        </h2>
+        <ul class="nav navbar-right panel_toolbox">
+
+        </ul>
+        <div class="clearfix"></div>
+    </div>-->
+    <h2>Agent- {{selectedAgent.ResourceName}} <small>Information's</small></h2>
+    <div style="border-bottom: 2px solid #F7F7F7;"></div>
+    <div class="x_content">
+
+        <div class="row">
+            <!-- Task List -->
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <small>Task List</small>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div  class="x_content">
+                        <div ng-hide="gridTaskOptions.data.length>0">
+                            <div class="data-state-wrap" ng-show="selectedAgent.slotMode==='Offline'">
+                                Offline...
+                            </div>
+                            <div class="data-state-wrap" ng-hide="selectedAgent.slotMode==='Offline'">
+                                No Data...
+                            </div>
+                        </div>
+
+                        <div ng-show="gridTaskOptions.data.length>0" ui-grid="gridTaskOptions" class="qgrid" ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Task List -->
+
+            <!-- Agent Logs -->
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <small>State History</small>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="data-state-wrap" ng-hide="gridAgentLogsOptions.data.length>0">
+                            No Data...
+                        </div>
+
+                        <div ng-show="gridAgentLogsOptions.data.length>0" ui-grid="gridAgentLogsOptions" class="qgrid" ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Agent Logs -->
+            <!-- Agent Call Logs -->
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <small>Call Logs</small>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="data-state-wrap" ng-hide="gridCalllogsOptions.data.length>0">
+                            No Data...
+                        </div>
+                        <div ng-show="gridCalllogsOptions.data.length>0" ui-grid="gridCalllogsOptions" class="qgrid" ui-grid-move-columns ui-grid-resize-columns></div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /Agent Call Logs -->
+
+        </div>
+
+    </div>
+</div>

@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div ng-show="!attributes" class="new-attribute col-md-8 col-sm-6 col-xs-12 col-md-offset-2 ">
+    <div ng-hide="attributes" class="new-attribute col-md-8 col-sm-6 col-xs-12 col-md-offset-2 ">
         <div class="x_panel bg-light-gray ">
             <div class="x_title border-0">
                 <div class="col-md-6 col-sm-6 col-xs-6">
@@ -89,7 +89,7 @@
 
     </div>
 
-    <div ng-if="attributes" class="col-md-8 col-sm-6 col-xs-12 col-md-offset-2 ">
+    <div ng-show="attributes" class="col-md-8 col-sm-6 col-xs-12 col-md-offset-2 ">
         <div class="x_panel bg-light-gray">
             <div class="x_title border-0">
                 <div class="col-md-6 col-sm-6 col-xs-6">
@@ -164,7 +164,7 @@
             <div class="x_content">
                 <ul class="list-unstyled timeline-with-tag">
                     <li ng-repeat="grp in groupsData | filterBy: ['GroupName']: searchCriteria">
-                        <editgroups task-list="Tasks" groupinfo="grp" attribinfo="attribData"
+                        <editgroups task-list="Tasks" groupinfo="grp" <!--attribinfo="attribData"-->
                                     update-groups="relaodPageData(grp)"></editgroups>
                     </li>
 

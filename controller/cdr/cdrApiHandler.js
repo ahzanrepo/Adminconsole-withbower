@@ -45,6 +45,40 @@
             })
         };
 
+        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, record, custNumber, campaignName) {
+            var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
+
+            if (agent) {
+                url = url + '&agent=' + agent;
+            }
+
+            if (record) {
+                url = url + '&recording=' + record;
+            }
+
+            if (offsetId) {
+                url = url + '&offset=' + offsetId;
+            }
+
+            if (custNumber) {
+                url = url + '&custnumber=' + custNumber;
+            }
+
+            if (campaignName) {
+                url = url + '&campaignName=' + campaignName;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
         var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter)
         {
             var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
@@ -68,6 +102,36 @@
 
             if (didFilter) {
                 url = url + '&didnumber=' + didFilter;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
+        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, record, custNumber, campaignName)
+        {
+            var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
+
+            if (agent) {
+                url = url + '&agent=' + agent;
+            }
+            if (record) {
+                url = url + '&recording=' + record;
+            }
+
+            if (custNumber) {
+                url = url + '&custnumber=' + custNumber;
+            }
+
+            if (campaignName) {
+                url = url + '&campaignName=' + campaignName;
             }
 
             return $http({
@@ -156,6 +220,44 @@
 
             if (didNumber) {
                 url = url + '&didnumber=' + didNumber;
+            }
+
+            if (fileType) {
+                url = url + '&fileType=' + fileType;
+            }
+
+            if (tz) {
+                url = url + '&tz=' + tz;
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
+        var prepareDownloadCampaignCDRByType = function (startDate, endDate, agent, record, custNumber, campaignName, fileType, tz) {
+            var url = baseUrls.cdrProcessor + 'PrepareDownloadCampaign?startTime=' + startDate + '&endTime=' + endDate;
+
+            if (agent) {
+                url = url + '&agent=' + agent;
+            }
+
+            if (record) {
+                url = url + '&recording=' + record;
+            }
+
+            if (custNumber) {
+                url = url + '&custnumber=' + custNumber;
+            }
+
+            if (campaignName) {
+                url = url + '&campaignName=' + campaignName;
             }
 
             if (fileType) {
@@ -417,6 +519,32 @@
                 loginService.isCheckResponse(err);
             });
         };
+        var getAgentStatusRecords = function (startDate, endDate, statusList, agentList) {
+            var url = baseUrls.cdrProcessor + 'Agent/AgentStatus?startDate=' + startDate + '&endDate=' + endDate;
+
+            var body = {
+                agentList: null,
+                statusList: null
+            };
+
+            if (agentList) {
+                body.agentList = agentList
+            }
+
+            if (statusList) {
+                body.statusList = statusList
+            }
+
+            return $http({
+                method: 'POST',
+                url: url,
+                data: JSON.stringify(body)
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            });
+        };
 
         var getCallSummaryForDay = function (sdate, edate, tz) {
             var url = baseUrls.cdrProcessor + 'CallCDRSummary/Daily?startDate=' + sdate + '&endDate=' + edate + '&tz=' + tz;
@@ -516,7 +644,11 @@
             getTimeZones: getTimeZones,
             getCallSummaryForQueueByHr: getCallSummaryForQueueByHr,
             getCDRForTimeRangeCount: getCDRForTimeRangeCount,
-            getAbandonCDRForTimeRangeCount: getAbandonCDRForTimeRangeCount
+            getAbandonCDRForTimeRangeCount: getAbandonCDRForTimeRangeCount,
+            getCampaignCDRForTimeRangeCount: getCampaignCDRForTimeRangeCount,
+            getCampaignCDRForTimeRange: getCampaignCDRForTimeRange,
+            getAgentStatusRecords: getAgentStatusRecords,
+            prepareDownloadCampaignCDRByType: prepareDownloadCampaignCDRByType
         };
     };
 

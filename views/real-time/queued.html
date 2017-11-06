@@ -1,10 +1,170 @@
 <div ng-controller="realTimeQueuedCtrl">
-    <div>
+    <div class="col-md-12 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Queue List</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+
+                            <li><a href="javascript:void(0);" ng-class="{'active-btn':largeCard==true,
+                        '':largeCard==false}"
+                                   class="btn btn-success btn-sm pull-right attribute-btn"
+                                   ng-click="changeCardView('large')" ng-model="cardViewMode">
+                                Large Card </a>
+                            </li>
+
+                            <li><a href="javascript:void(0);" ng-class="{'active-btn':showDetails==true,
+                        '':showDetails==false}"
+                                   class="btn btn-success btn-sm pull-right attribute-btn"
+                                   ng-click="changeCardView('medium')"
+                                   ng-model="cardViewMode">
+                                Medium Card</a>
+                            </li>
+                            <li><a href="javascript:void(0);" ng-class="{'active-btn':smallCard==true,
+                        '':smallCard==false}"
+                                   class="btn btn-success btn-sm pull-right attribute-btn"
+                                   ng-click="changeCardView('small')" ng-model="cardViewMode">
+                                Small Card</a>
+                            </li>
+
+                            <li><a href="javascript:void(0);" ng-class="{'active-btn':summary==true,
+                        '':summary==false}"
+                                   class="btn btn-success btn-sm pull-right attribute-btn"
+                                   ng-click="changeCardView('table')" ng-model="cardViewMode">
+                                Table</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li ng-show="showFilter" ng-click="showFilter= !showFilter"><a class="collapse-link"><i
+                            class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li ng-hide="showFilter" ng-click="showFilter= !showFilter"><a class="close-link"><i
+                            class="fa fa-chevron-down"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content" ng-show="showFilter">
+                <div class="col-md-12 col-sm-6 col-xs-12">
+                    <div class="x_content">
+                        <div class="row">
+                            <form id="csatForm" name="csatForm" novalidate>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="form-group">
+                                        <label>Queue Filter</label>
+                                        <div class="input-group col-md-12">
+                                            <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="selectedQueues" display-property="QueueName" min-length="1"
+                                                        add-from-autocomplete-only="true" placeholder="Select queues">
+                                                <auto-complete max-results-to-show="1000" source="querySearch($query)"
+                                                               load-on-empty="true" load-on-focus="true"
+                                                               min-length="1"></auto-complete>
+                                            </tags-input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12"  ng-if="cardViewMode!='table'">
+        <!--<div class="col-md-12 col-sm-12 col-xs-12"  ng-repeat="(qkey, que) in queues">
+            <queued ng-hide = "checkQueueHidden(que.id)" que="que" name="{{que.id}}" viewmode="cardViewMode"
+                    queueoption="queueoption" pieoption="pieoption"></queued>
+        </div>-->
+
+        <queued ng-repeat="(qkey, que) in queues" ng-hide = "checkQueueHidden(que.id)" que="que" name="{{que.id}}" viewmode="cardViewMode"
+                queueoption="queueoption" pieoption="pieoption"></queued>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12" ng-if="cardViewMode=='table'">
+        <div class="x_panel">
+            <div class="x_content">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="table-wrapper"
+                         ng-slimscroll horizontal-scroll="true"
+                         height="100%"
+                         horizontal-scroll-position="bottom"
+                         size="6px" opacity="0.4">
+                        <table class="table table-striped task-tbl" dt-options="dtOptions" datatable="ng">
+                            <thead>
+                            <tr role="row">
+                                <!--<th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Tasks">Tasks
+                                </th>-->
+                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Queue Name" >Queue Name</th>
+                                <th class="sorting" tabindex="1" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Current waiting">Current waiting</th>
+                                <th class="sorting" tabindex="2" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Current max waiting Time">Current max waiting Time</th>
+                                <th class="sorting" tabindex="3" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Total Queued">Total Queued</th>
+                                <th class="sorting" tabindex="4" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Total Queued">Answered Calls</th>
+                                <th class="sorting" tabindex="5" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Total Queued">Droped Calls</th>
+                                <th class="sorting" tabindex="6" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Total Queued">Available Agents</th>
+                                <th class="sorting" tabindex="7" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Max wait Time">Max wait Time</th>
+                                <th class="sorting" tabindex="8" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Avg. Wait Time">Avg. Wait Time</th>
+                                <th class="sorting" tabindex="9" aria-controls="datatable-responsive"
+                                    rowspan="1"
+                                    colspan="1" aria-label="Precentage">Answered Percentage</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr queuedlist ng-repeat="(qkey, que) in queues" ng-hide = "checkQueueHidden(que.id)" name="{{que.id}}" que="que" name="{{que.id}}" viewmode="cardViewMode"
+                                queueoption="queueoption" pieoption="pieoption">
+                                <!--<th class="fs15 text-left">{{que.queuename}}</th>
+                                <th class="fs15 text-right">{{que.CurrentWaiting}}</th>
+                                <th class="fs15 text-right">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{que.TotalQueued}}</th>
+                                <th class="fs15 text-right">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
+                                <th class="fs15 text-right">{{que.presentage}}</th>-->
+
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--<div>
         <div class="clearfix">
-            <!--<button type="button" class="btn btn-success btn-sm pull-right attribute-btn"-->
-            <!--ng-click="changeView();">-->
-            <!--{{summaryText}}-->
-            <!--</button>-->
+            &lt;!&ndash;<button type="button" class="btn btn-success btn-sm pull-right attribute-btn"&ndash;&gt;
+            &lt;!&ndash;ng-click="changeView();">&ndash;&gt;
+            &lt;!&ndash;{{summaryText}}&ndash;&gt;
+            &lt;!&ndash;</button>&ndash;&gt;
 
             <div class="col-lg-12 m-bottom20" >
                 <div class="row">
@@ -46,7 +206,7 @@
         </div>
     </div>
 
-    <!--- Queued table -->
+    &lt;!&ndash;- Queued table &ndash;&gt;
     <div class="row" ng-if="cardViewMode=='table'">
         <div class="x_panel">
             <div class="x_content">
@@ -73,13 +233,13 @@
                             <tbody>
                             <tr queuedlist ng-repeat="(qkey, que) in queues" ng-hide = "checkQueueHidden(que.id)" name="{{que.id}}" que="que" name="{{que.id}}" viewmode="cardViewMode"
                                 queueoption="queueoption" pieoption="pieoption">
-                                <!--<th class="fs15 text-left">{{que.queuename}}</th>
+                                &lt;!&ndash;<th class="fs15 text-left">{{que.queuename}}</th>
                                 <th class="fs15 text-right">{{que.CurrentWaiting}}</th>
                                 <th class="fs15 text-right">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
                                 <th class="fs15 text-right">{{que.TotalQueued}}</th>
                                 <th class="fs15 text-right">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
                                 <th class="fs15 text-right">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
-                                <th class="fs15 text-right">{{que.presentage}}</th>-->
+                                <th class="fs15 text-right">{{que.presentage}}</th>&ndash;&gt;
 
 
                             </tr>
@@ -92,5 +252,5 @@
             </div>
 
         </div>
-    </div>
+    </div>-->
 </div>

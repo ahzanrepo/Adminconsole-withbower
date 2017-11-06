@@ -12,6 +12,8 @@
             distance: '5px',
             railColor: '#fff',
             railBorderRadius: 10}">
+
+
             <div class="conversation-wrapper">
                 <div class="title">
                     User Conversation
@@ -51,6 +53,32 @@
                 <div class="title">
                     Group Conversation
                 </div>
+
+                <div ng-mouseover="groupOption = true"
+                     ng-mouseleave="groupOption = false"
+                     class="notification-user">
+
+                    <div class="user-img">
+                        <img src="assets/images/defaultProfile.png">
+                        All active users
+                    </div>
+                    <div class="notification-details">
+                        <!--<div class="chat-icon" ng-show="groupOption" ng-click="setExtention(group)">-->
+                        <!--<i class="main-icon-2-telephone-3"></i>-->
+                        <!--</div>-->
+                        <!--<div class="chat-icon" ng-show="groupOption">-->
+                        <!--<i class="main-icon-2-transfer-8"></i>-->
+                        <!--</div>-->
+                        <div class="chat-icon" ng-show="groupOption" ng-click="showMessageBlock(undefined)">
+                            <i class="main-icon-2-speech-bubble"></i>
+                        </div>
+                        <div class="user-state" style="margin-right: 18px;margin-left: 10px;"
+                             ng-class="'online'"
+                        ></div>
+                    </div>
+                </div>
+
+
                 <div ng-mouseover="groupOption = true"
                      ng-mouseleave="groupOption = false"
                      class="notification-user" ng-repeat="group in userGroups ">
@@ -120,7 +148,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                        <textarea id="txtMessage"
+                    <select ng-model="notificationMsg.level" ng-options="x for x in notification_levels"></select>
+
+                    <textarea id="txtMessage"
                                   class="form-control" rows="3" ng-model="notificationMsg.Message">
                         </textarea>
                 </div>

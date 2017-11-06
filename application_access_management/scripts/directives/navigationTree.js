@@ -24,9 +24,7 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
             scope.vm.data = newItem(0, scope.navigation.navigationName);
 
             var items = $filter('filter')(scope.selectedConsole.consoleNavigation.saveItem, {menuItem: scope.navigation.navigationName})
-            if (scope.navigation.navigationName === 'FILE_CAT_RESTRICT') {
-                console.log('sdfdfdfs');
-            }
+
             /*Generate tree*/
             var id = 1;
             var rootSelected = true;
@@ -36,7 +34,7 @@ mainApp.directive("navigationtree", function ($filter, appAccessManageService) {
                 angular.forEach(resource.actions, function (action) {
                     id++;
                     var child = addChild(item1, id, action);
-                    if (items.length > 0 && items[0].menuAction) {
+                    if (items&&items.length > 0 && items[0].menuAction) {
                         var menuItems = $filter('filter')(items[0].menuAction, {scope: resource.scopeName},true);
                         child.isSelected = menuItems[0][action];
                     }

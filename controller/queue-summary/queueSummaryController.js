@@ -12,6 +12,7 @@ mainApp.controller("queueSummaryController", function ($scope, $filter, $state, 
     $scope.dateValid = true;
     $scope.queueSummaryList = [];
 
+    $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
     $scope.onDateChange = function () {
         if (moment($scope.params.startDate, "YYYY-MM-DD").isValid() && moment($scope.params.endDate, "YYYY-MM-DD").isValid()) {

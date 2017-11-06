@@ -12,6 +12,8 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
     $scope.currentSessionID = null;
     var authToken = authService.GetToken();
 
+    $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
+
     $rootScope.$on("is_registered", function (events, args) {
         console.log("isRegisterd " + args);
         $scope.isRegistered = args;
@@ -334,6 +336,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         $scope.isRegistered=true;
         $scope.inCall=true;
         if ($scope.isRegistered) {
+            getRegistrationData(authToken);
             $scope.currentSessionID = callData.BargeID;
             callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname).then(function (listenData) {
 

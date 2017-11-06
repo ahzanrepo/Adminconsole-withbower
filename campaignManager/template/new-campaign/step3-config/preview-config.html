@@ -1,0 +1,17 @@
+<section class="camp-config-wrapper">
+    <div class="col-md-12">
+        <div class="form-group cam-form-grp">
+            <label for="exampleInputEmail1" class="cam-label">Add a Campaign Attributes</label>
+            <tags-input ng-model="campAttribute"
+                        display-property="Name"
+                        add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
+                        on-tag-removed="onChipDelete($tag)"
+                        ng-disabled="AdditionalDataRecordId" min-length="1">
+                <auto-complete source="querySearch($query)"
+                               load-on-empty="true"
+                               load-on-focus="true"
+                               min-length="1"></auto-complete>
+            </tags-input>
+        </div>
+    </div>
+</section>

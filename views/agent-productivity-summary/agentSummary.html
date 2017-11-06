@@ -17,13 +17,13 @@
 
                 <div class="col-sm-3">
                     <label>Start Date</label>
-                    <input type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()"
+                    <input id="startDate" type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()"
                            name="startDate"
                            datepicker>
                 </div>
                 <div class="col-sm-3">
                     <label>End Date</label>
-                    <input type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
+                    <input id="endDate" type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
                            datepicker>
                 </div>
                 <div class="col-md-3 col-sm-3 col-xs-12">
@@ -47,15 +47,15 @@
                 </div>
                 <div class="col-sm-1">
                     <div style="position: relative; top: 25px;">
-                        <button type="button" class="btn"
+                        <button ng-disabled="disableDownload" type="button" class="btn"
                                 style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;"
-                                csv-header="['Agent ID', 'Date', 'Total Calls(inbound)', 'Total Calls(outbound)'
-                                , 'Total Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Staff Time', 'Inbound Time', 'Outbound Time'
+                                csv-header="['Agent ID', 'Date', 'LoginTime', 'Total Calls(inbound)', 'Total Calls(outbound)'
+                                , 'Total Answered', 'Total Outbound Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Staff Time', 'Inbound Time', 'Outbound Time'
                                 , 'Idle Time(inbound)', 'Idle Time(outbound)', 'Idle Time(offline)', 'Talk Time(inbound)', 'Talk Time(outbound)'
                                 , 'Hold Time(inbound)', 'Hold Time(outbound)', 'After Work Time(inbound)', 'After Work Time(outbound)', 'Break Time'
                                 , 'Average Handling Time(inbound)', 'Average Handling Time(outbound)', 'Average Talk Time(inbound)', 'Average Talk Time(outbound)'
                                 , 'Average Hold Time(inbound)', 'Average Hold Time(outbound)']"
-                                csv-column-order="['AgentName', 'Date', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalHoldInbound'
+                                csv-column-order="['AgentName', 'Date', 'LoginTime', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalAnsweredOutbound', 'TotalHoldInbound'
                                 , 'TotalHoldOutbound', 'StaffTime', 'InboundTime', 'OutboundTime', 'IdleTimeInbound', 'IdleTimeOutbound', 'IdleTimeOffline'
                                 , 'TalkTimeInbound', 'TalkTimeOutbound', 'TotalHoldTimeInbound', 'TotalHoldTimeOutbound', 'AfterWorkTimeInbound', 'AfterWorkTimeOutbound'
                                 , 'BreakTime', 'AverageHandlingTimeInbound', 'AverageHandlingTimeOutbound', 'AvgTalkTimeInbound', 'AvgTalkTimeOutbound', 'AvgHoldTimeInbound'
@@ -332,6 +332,24 @@
                                     </div>
                                 </div>
 
+                                <div class="widget-dy-wrp " id="outanswered">
+                                    <div class="active-card">
+                                        <div class="selected-group">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 ">
+                                        <div class="row">
+                                            <div class="w-bg-text text-left ">
+                                                Outbound Answered Calls
+                                            </div>
+                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                                {{total.OutboundAnswered}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="widget-dy-wrp " id="inbcalls">
                                     <div class="active-card">
                                         <div class="selected-group">
@@ -395,103 +413,111 @@
                                                     rowspan="1"
                                                     colspan="1" aria-label="Call Direction">Agent ID
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="1" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="To">Date
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="2" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="To">LoginTime
+                                                </th>
+                                                <th class="sorting" tabindex="3" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Total Calls(inbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="4" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Total Calls(outbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="5" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Total Answered
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="6" aria-controls="datatable-responsive"
+                                                    rowspan="1"
+                                                    colspan="1" aria-label="OutAnswered">Total Outbound Answered
+                                                </th>
+                                                <th class="sorting" tabindex="7" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Total Hold(inbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="8" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Total Hold(outbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="9" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="From">Staff Time
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="10" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="From">Inbound Time
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="11" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="From">Outbound Time
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="12" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Idle Time(inbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="13" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Idle Time(outbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="14" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Idle Time(offline)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="15" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Talk Time(inbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="16" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Talk Time(outbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="17" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Hold Time(inbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="18" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Hold Time(outbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="19" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">After Work Time(inbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="20" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">After Work Time(outbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="21" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Break Time
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="22" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Average Handling Time(inbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="23" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Average Handling Time(outbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="24" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Average Talk Time(inbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="25" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Average Talk Time(outbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="26" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Average Hold Time(inbound)
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                <th class="sorting" tabindex="27" aria-controls="datatable-responsive"
                                                     rowspan="1"
                                                     colspan="1" aria-label="ReceivedBy">Average Hold Time(outbound)
                                                 </th>
@@ -502,9 +528,11 @@
                                                 ng-repeat="agentSummary in agentSummaryList">
                                                 <td>{{agentSummary.AgentName}}</td>
                                                 <td>{{agentSummary.Date|date:"yyyy-MM-dd"}}</td>
+                                                <td>{{agentSummary.LoginTime}}</td>
                                                 <td>{{agentSummary.TotalCallsInbound}}</td>
                                                 <td>{{agentSummary.TotalCallsOutbound}}</td>
                                                 <td>{{agentSummary.TotalAnswered}}</td>
+                                                <td>{{agentSummary.TotalAnsweredOutbound}}</td>
                                                 <td>{{agentSummary.TotalHoldInbound}}</td>
                                                 <td>{{agentSummary.TotalHoldOutbound}}</td>
                                                 <td>{{agentSummary.StaffTime}}</td>

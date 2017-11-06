@@ -2,7 +2,7 @@
  * Created by Rajinda on 12/31/2015.
  */
 'use strict';
-mainApp.factory("campaignService", function ($http, $log, $filter, authService,templateMakerBackendService, baseUrls) {
+mainApp.factory("campaignService", function ($http, $log, $filter, authService, templateMakerBackendService, baseUrls) {
 
     var createCampaign = function (campaign) {
 
@@ -12,9 +12,9 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
             data: campaign
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
-                return response.data.Result;
+                return response;
             } else {
-                return false;
+                return response;
             }
 
         });
@@ -59,125 +59,117 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
 
     };
 
-    var updateCampaign = function(id, campaign){
+    var updateCampaign = function (id, campaign) {
         return $http({
             method: 'PUT',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+id,
-            data:campaign
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + id,
+            data: campaign
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return false;
             }
         });
     };
 
-    var deleteCampaign = function(id){
+    var deleteCampaign = function (id) {
         return $http({
             method: 'DELETE',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+id
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + id
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.IsSuccess;
-            }else{
+            } else {
                 return false;
             }
 
         });
     };
 
-    var deleteSchedule = function(campaignId,id){
+    var deleteSchedule = function (campaignId, id) {
         return $http({
             method: 'DELETE',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule/"+id
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/Schedule/" + id
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.IsSuccess;
-            }else{
+            } else {
                 return false;
             }
 
         });
     };
 
-    var getReasons = function(){
+    var getReasons = function () {
 
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Campaign/Configuration/callback/Reasons"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return undefined;
             }
         });
     };
 
-    var updateCallBack = function(id, callback){
+    var updateCallBack = function (id, callback) {
 
         return $http({
             method: 'POST',
-            url:baseUrls.campaignmanagerUrl + "Campaign/Configuration/"+id+"/Callback",
-            data:callback
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/Configuration/" + id + "/Callback",
+            data: callback
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return false;
             }
         });
 
     };
 
-    var createCampaignConfig = function(id, config){
+    var createCampaignConfig = function (id, config) {
         return $http({
             method: 'POST',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+id+"/Configuration",
-            data:config
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + id + "/Configuration",
+            data: config
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return undefined;
             }
         });
     };
 
-    var updateCampaignConfig = function(id, configId, config){
+    var updateCampaignConfig = function (id, configId, config) {
         return $http({
             method: 'PUT',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+id+"/Configuration/"+configId,
-            data:config
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + id + "/Configuration/" + configId,
+            data: config
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return undefined;
             }
         });
     };
 
-    var getCampaignConfig = function(id){
+    var getCampaignConfig = function (id) {
         return $http({
             method: 'GET',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+id+"/Configurations"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + id + "/Configurations"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
 
                 return response.data.Result;
 
 
-            }else{
+            } else {
 
                 return undefined;
             }
@@ -185,33 +177,50 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         });
     };
 
-    var getCallBacks = function(id){
+    var getCampaignById = function (id) {
         return $http({
             method: 'GET',
-            url: baseUrls.campaignmanagerUrl + "Campaign/Configuration/"+id+"/Callbacks"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + id
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+
                 return response.data.Result;
-            }else{
+
+
+            } else {
+
+                return undefined;
+            }
+
+        });
+    };
+
+
+    var getCallBacks = function (id) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.campaignmanagerUrl + "Campaign/Configuration/" + id + "/Callbacks"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
                 return [];
             }
         });
     };
 
-    var setCallBack = function(id, callback){
+    var setCallBack = function (id, callback) {
         return $http({
             method: 'POST',
-            url: baseUrls.campaignmanagerUrl + "Campaign/Configuration/"+id+"/Callback",
-            data:callback
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/Configuration/" + id + "/Callback",
+            data: callback
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
 
                 return response.data.Result;
 
 
-            }else{
+            } else {
 
                 return undefined;
             }
@@ -219,224 +228,209 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         });
     };
 
-    var deleteCallBack = function(cbId){
+    var deleteCallBack = function (cbId) {
         return $http({
             method: 'DELETE',
-            url: baseUrls.campaignmanagerUrl + "Campaign/Configuration/Callback/"+cbId
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/Configuration/Callback/" + cbId
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return false;
             }
         });
     };
 
-    var getCategorys = function(){
+    var getCategorys = function () {
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "CampaignCategorys"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return undefined;
             }
         });
     };
 
 
-    var mapNumberToCampaign = function(campaignId,categoryId){
+    var mapNumberToCampaign = function (campaignId, categoryId) {
         return $http({
             method: 'POST',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Category/"+categoryId+"/map"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/Category/" + categoryId + "/map"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return false;
             }
         });
     };
 
-    var mapScheduleToCampaign = function(campaignId,camScheduleId){
+    var mapScheduleToCampaign = function (campaignId, camScheduleId) {
         return $http({
             method: 'POST',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule/"+camScheduleId+"/map"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/Schedule/" + camScheduleId + "/map"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return false;
             }
         });
     };
 
-    var mapNumberAndScheduleToCampaign = function(campaignId,categoryId,camScheduleId,scheduleName){
+    var mapNumberAndScheduleToCampaign = function (campaignId, categoryId, camScheduleId, scheduleName) {
         return $http({
             method: 'POST',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Category/"+categoryId+"/Schedule/"+camScheduleId+"/map",
-            data:{ScheduleName:scheduleName}
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/Category/" + categoryId + "/Schedule/" + camScheduleId + "/map",
+            data: {ScheduleName: scheduleName}
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return false;
             }
         });
     };
 
-    var addScheduleToCampaign = function(campaignId,data){
+    var addScheduleToCampaign = function (campaignId, data) {
         return $http({
             method: 'POST',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule",
-            data:data
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/Schedule",
+            data: data
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return false;
             }
         });
     };
 
-    var getScheduleCampaign = function(campaignId){
+    var getScheduleCampaign = function (campaignId) {
         return $http({
             method: 'GET',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/Schedule"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return [];
             }
         });
     };
 
-    var getAssignableScheduleCampaign = function(campaignId){
+    var getAssignableScheduleCampaign = function (campaignId) {
         return $http({
             method: 'GET',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Schedule/Assignable"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/Schedule/Assignable"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return [];
             }
         });
     };
 
-    var getOngoingCampaign = function(){
+    var getOngoingCampaign = function () {
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Campaigns/Operations/State/Ongoing"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return [];
             }
         });
     };
 
-    var sendCommandToCampaign = function(campaignId,command){
+    var sendCommandToCampaign = function (campaignId, command) {
         return $http({
             method: 'PUT',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/Operations/"+command
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/Operations/" + command
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.IsSuccess;
-            }else{
+            } else {
                 return false;
             }
         });
     };
 
-    var getCampaignByState = function(state){
+    var getCampaignByState = function (state) {
         return $http({
             method: 'GET',
-            url: baseUrls.campaignmanagerUrl + "Campaigns/State/"+state+"/100"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaigns/State/" + state + "/100"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return [];
             }
         });
     };
 
-    var startCampaign = function(campaignId){
+    var startCampaign = function (campaignId) {
         return $http({
             method: 'put',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/State/start"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/State/start"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return [];
             }
         });
     };
 
-    var getTotalConnectedCount = function(campaignId){
+    var getTotalConnectedCount = function (campaignId) {
         return $http({
             method: 'get',
-            url: baseUrls.dialerAPIUrl + "GetTotalConnectedCount/0/0/"+campaignId
-        }).then(function(response)
-        {
-            if(response.status == 200) {
+            url: baseUrls.dialerAPIUrl + "GetTotalConnectedCount/0/0/" + campaignId
+        }).then(function (response) {
+            if (response.status == 200) {
                 return response.data;
-            }else{
+            } else {
                 return 0;
             }
         });
     };
 
-    var getTotalDialCount = function(campaignId){
+    var getTotalDialCount = function (campaignId) {
         return $http({
             method: 'get',
-            url: baseUrls.dialerAPIUrl + "GetTotalDialCount/0/0/"+campaignId
-        }).then(function(response)
-        {
-            if(response.status == 200) {
+            url: baseUrls.dialerAPIUrl + "GetTotalDialCount/0/0/" + campaignId
+        }).then(function (response) {
+            if (response.status == 200) {
                 return response.data;
-            }else{
+            } else {
                 return 0;
             }
         });
     };
 
-    var getAssignedCategory = function(campaignId){
+    var getAssignedCategory = function (campaignId) {
         return $http({
             method: 'get',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/NumberCategory"
-        }).then(function(response)
-        {
-            if(response.data && response.data.IsSuccess) {
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/NumberCategory"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
-            }else{
+            } else {
                 return [];
             }
         });
     };
 
-    var getCampaignSummery = function (pageNo,rowCount,status) {
+    var getCampaignSummery = function (pageNo, rowCount, status) {
 
         var postData = [];
         /*postData['startDateTime'] = startTime;
-        postData['endDateTime'] = endTime;*/
+         postData['endDateTime'] = endTime;*/
         postData['pageNo'] = pageNo;
         postData['rowCount'] = rowCount;
 
@@ -444,7 +438,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/summery",
-            params:postData
+            params: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -460,7 +454,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/summery/count",
-            params:postData
+            params: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -479,7 +473,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/disposition/count",
-            params:postData
+            params: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -489,7 +483,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         });
     };
 
-    var campaignDispositionReport = function (pageNo,rowCount,dispositionInfo) {
+    var campaignDispositionReport = function (pageNo, rowCount, dispositionInfo) {
         var postData = [];
         postData['pageNo'] = pageNo;
         postData['rowCount'] = rowCount;
@@ -500,7 +494,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/disposition",
-            params:postData
+            params: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -516,7 +510,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/Callback/count",
-            params:postData
+            params: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -526,7 +520,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         });
     };
 
-    var campaignCallbackReport = function (pageNo,rowCount,campaignId) {
+    var campaignCallbackReport = function (pageNo, rowCount, campaignId) {
         var postData = [];
         postData['pageNo'] = pageNo;
         postData['rowCount'] = rowCount;
@@ -534,7 +528,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/Callback",
-            params:postData
+            params: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -558,7 +552,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         });
     };
 
-    var campaignAttemptReportCount = function (campaignId,filterInfo) {
+    var campaignAttemptReportCount = function (campaignId, filterInfo) {
         var postData = [];
         postData['CampaignId'] = campaignId;
         postData['DialNumber'] = filterInfo.dialNumber;
@@ -567,7 +561,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/Attempt/count",
-            params:postData
+            params: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -577,7 +571,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         });
     };
 
-    var campaignAttemptReport = function (pageNo,rowCount,campaignId,filterInfo) {
+    var campaignAttemptReport = function (pageNo, rowCount, campaignId, filterInfo) {
         var postData = [];
         postData['pageNo'] = pageNo;
         postData['rowCount'] = rowCount;
@@ -588,7 +582,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         return $http({
             method: 'GET',
             url: baseUrls.campaignmanagerUrl + "Report/Attempt",
-            params:postData
+            params: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -601,7 +595,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
     var createCampaignAdditionalData = function (campaignId, additionalData) {
         return $http({
             method: 'POST',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditionalData",
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/AdditionalData",
             data: additionalData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -615,7 +609,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
     var updateCampaignAdditionalData = function (campaignId, additionalData) {
         return $http({
             method: 'PUT',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditionalData/"+additionalData.AdditionalDataId,
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/AdditionalData/" + additionalData.AdditionalDataId,
             data: additionalData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -629,7 +623,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
     var getCampaignAdditionalData = function (campaignId) {
         return $http({
             method: 'GET',
-            url: baseUrls.campaignmanagerUrl + "Campaign/"+campaignId+"/AdditionalData"
+            url: baseUrls.campaignmanagerUrl + "Campaign/" + campaignId + "/AdditionalData"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -642,7 +636,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
     var deleteAdditionalDataByID = function (additionalDataId) {
         return $http({
             method: 'DELETE',
-            url: baseUrls.campaignmanagerUrl + "Campaign/AdditionalData/"+additionalDataId
+            url: baseUrls.campaignmanagerUrl + "Campaign/AdditionalData/" + additionalDataId
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.IsSuccess;
@@ -655,7 +649,7 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
     var getTemplateList = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.templatesUrl+'RenderService/Templates'
+            url: baseUrls.templatesUrl + 'RenderService/Templates'
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -672,45 +666,46 @@ mainApp.factory("campaignService", function ($http, $log, $filter, authService,t
         CreateCampaign: createCampaign,
         GetExtensions: getExtensions,
         GetCampaigns: getCampaigns,
-        UpdateCampaign:updateCampaign,
-        DeleteCampaign:deleteCampaign,
-        GetReasons:getReasons,
-        UpdateCallBack:updateCallBack,
-        CreateCampaignConfig:createCampaignConfig,
-        UpdateCampaignConfig:updateCampaignConfig,
-        GetCampaignConfig:getCampaignConfig,
-        GetCallBacks:getCallBacks,
-        SetCallBack:setCallBack,
-        DeleteCallBack:deleteCallBack,
-        GetCategorys:getCategorys,
-        MapNumberToCampaign:mapNumberToCampaign,
-        MapScheduleToCampaign:mapScheduleToCampaign,
-        MapNumberAndScheduleToCampaign:mapNumberAndScheduleToCampaign,
-        AddScheduleToCampaign:addScheduleToCampaign,
-        GetScheduleCampaign:getScheduleCampaign,
-        GetAssignableScheduleCampaign:getAssignableScheduleCampaign,
-        GetOngoingCampaign:getOngoingCampaign,
-        GetCampaignByState:getCampaignByState,
-        StartCampaign:startCampaign,
-        SendCommandToCampaign:sendCommandToCampaign,
-        GetTotalConnectedCount:getTotalConnectedCount,
-        GetTotalDialCount:getTotalDialCount,
-        GetAssignedCategory:getAssignedCategory,
-        DeleteSchedule:deleteSchedule,
-        GetCampaignSummery:getCampaignSummery,
-        CampaignSummeryReportCount:campaignSummeryReportCount,
-        CampaignDispositionReport:campaignDispositionReport,
-        CampaignDispositionReportCount:campaignDispositionReportCount,
-        CampaignCallbackReport:campaignCallbackReport,
-        CampaignCallbackReportCount:campaignCallbackReportCount,
-        GetAllCallBackReasons:getAllCallBackReasons,
-        CampaignAttemptReportCount:campaignAttemptReportCount,
-        CampaignAttemptReport:campaignAttemptReport,
+        UpdateCampaign: updateCampaign,
+        DeleteCampaign: deleteCampaign,
+        GetReasons: getReasons,
+        UpdateCallBack: updateCallBack,
+        CreateCampaignConfig: createCampaignConfig,
+        UpdateCampaignConfig: updateCampaignConfig,
+        GetCampaignConfig: getCampaignConfig,
+        GetCallBacks: getCallBacks,
+        SetCallBack: setCallBack,
+        DeleteCallBack: deleteCallBack,
+        GetCategorys: getCategorys,
+        MapNumberToCampaign: mapNumberToCampaign,
+        MapScheduleToCampaign: mapScheduleToCampaign,
+        MapNumberAndScheduleToCampaign: mapNumberAndScheduleToCampaign,
+        AddScheduleToCampaign: addScheduleToCampaign,
+        GetScheduleCampaign: getScheduleCampaign,
+        GetAssignableScheduleCampaign: getAssignableScheduleCampaign,
+        GetOngoingCampaign: getOngoingCampaign,
+        GetCampaignByState: getCampaignByState,
+        StartCampaign: startCampaign,
+        SendCommandToCampaign: sendCommandToCampaign,
+        GetTotalConnectedCount: getTotalConnectedCount,
+        GetTotalDialCount: getTotalDialCount,
+        GetAssignedCategory: getAssignedCategory,
+        DeleteSchedule: deleteSchedule,
+        GetCampaignSummery: getCampaignSummery,
+        CampaignSummeryReportCount: campaignSummeryReportCount,
+        CampaignDispositionReport: campaignDispositionReport,
+        CampaignDispositionReportCount: campaignDispositionReportCount,
+        CampaignCallbackReport: campaignCallbackReport,
+        CampaignCallbackReportCount: campaignCallbackReportCount,
+        GetAllCallBackReasons: getAllCallBackReasons,
+        CampaignAttemptReportCount: campaignAttemptReportCount,
+        CampaignAttemptReport: campaignAttemptReport,
         CreateCampaignAdditionalData: createCampaignAdditionalData,
         UpdateCampaignAdditionalData: updateCampaignAdditionalData,
         GetCampaignAdditionalData: getCampaignAdditionalData,
         DeleteAdditionalDataByID: deleteAdditionalDataByID,
-        GetTemplateList:getTemplateList
+        GetTemplateList: getTemplateList,
+        GetCampaignById: getCampaignById
     }
 
 });

@@ -12,7 +12,7 @@
                     <div class="input-group">
                         <input type="text" ng-model="searchCriteria" class="form-control"
                                placeholder="Search for...">
-                                <span class="input-group-btn">
+                        <span class="input-group-btn">
                                   <button class="btn btn-default" type="button">Go!</button>
                                 </span>
                     </div>
@@ -35,33 +35,20 @@
                             </div>
 
                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left"
-                                       ng-model="newSchedule.ExtraData"
-                                       placeholder="Extra Data">
-                                <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+
+
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <timezone-selector ng-model="newSchedule.TimeZone"></timezone-selector>
+                                </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                                <!--<select class="form-control has-feedback-left" placeholder="select application type"
-                                        ng-model="newSchedule.TimeZone">
-                                    <option value="" disabled selected>Select TimeZone</option>
-                                    <option>-05:00</option>
-                                    <option>+05:00</option>
-                                    <option>+05:30</option>
-                                    <option>+06:00</option>
-                                    <option>+06:30</option>
-                                    <option>+07:00</option>
-                                </select>-->
-                                <timezone-selector ng-model="newSchedule.TimeZone"></timezone-selector>
 
-
-                            </div>
 
                         </div>
 
 
-                        <div class="row">
 
+                        <div class="row">
 
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <span style="color: grey">Start Date</span>
@@ -79,9 +66,19 @@
 
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-12">
+                                <span style="color: grey">Extra Data</span>
+                                <input type="text" class="form-control has-feedback-left"
+                                       ng-model="newSchedule.ExtraData"
+                                       placeholder="Extra Data">
+
                             </div>
 
-                            <div class="col-md-3 col-sm-3 col-xs-12">
+
+                        </div>
+
+                        <div  class="row">
+
+                            <div class="col-md-2 col-sm-2 col-xs-12 pull-right">
                                 <button type="button" class="btn btn-success btn-block  btn-pull-right"
                                         ng-click="saveSchedule()">
                                     Add

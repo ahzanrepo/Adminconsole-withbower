@@ -453,17 +453,34 @@ body {
     margin: 10px 0;
 }
 
+
+.fixed_height_200 {
+    height: 200px;
+}
+
+.fixed_height_210 {
+    height: 210px;
+}
+
+.fixed_height_240 {
+    height: 240px;
+}
+
 .fixed_height_320 {
     height: 320px;
+}
+.fixed_height_330 {
+    height: 330px;
 }
 
 .fixed_height_390 {
     height: 390px;
 }
 
-.fixed_height_200 {
-    height: 200px;
+.fixed_height_425 {
+    height: 425px;
 }
+
 
 .overflow_hidden {
     overflow: hidden;
@@ -758,7 +775,7 @@ a:hover, a:focus {
     display: block;
     height: 55px;
     margin: 0;
-    padding-left: 10px;
+    padding-left: 25px;
 }
 
 .site_title:hover, .site_title:focus {
