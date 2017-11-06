@@ -3,7 +3,7 @@
         <div class="col-md-3 left_col menu_fixed ">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a  class="site_title ">
+                    <a class="site_title ">
                         <img src="images/logo_main.svg" width="180px" height="50px">
                     </a>
                 </div>
@@ -80,13 +80,25 @@
                             <li ng-show="accessNavigation.FILE_GALLERY || accessNavigation.FILE_UPLOAD || accessNavigation.HOLD_MUSIC || accessNavigation.LimitHandler|| accessNavigation.CONFERENCE || accessNavigation.SCHEDULER || accessNavigation.REPORT_EMAIL_CONFIG || accessNavigation.COMPANY_CONFIGURATION || accessNavigation.TEMPLATEMAKER|| accessNavigation.DYNAMICFORM || accessNavigation.PHONE_BOOK || accessNavigation.NOTICE || accessNavigation.FILE_CAT_RESTRICT">
                                 <a class="font-robot font-300 "><i class="fa fa-puzzle-piece"></i> Utility <span
                                         class="fa fa-chevron-down"></span></a>
+
                                 <ul class="nav child_menu">
-                                    <li ng-show="accessNavigation.FILE_GALLERY"><a href="javascript:void(0);"
-                                                                                   ng-click="clickDirective.goFilegallery()">File
-                                        Gallery </a></li>
-                                    <li ng-show="accessNavigation.FILE_UPLOAD"><a href="javascript:void(0);"
-                                                                                  ng-click="clickDirective.goFileupload()">File
-                                        Upload</a></li>
+
+                                    <li><a>Files <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li ng-show="accessNavigation.FILE_GALLERY"><a href="javascript:void(0);"
+                                                                                           ng-click="clickDirective.goFilegallery()">File
+                                                Gallery </a></li>
+                                            <li ng-show="accessNavigation.FILE_UPLOAD"><a href="javascript:void(0);"
+                                                                                          ng-click="clickDirective.goFileupload()">File
+                                                Upload</a></li>
+                                            <li ng-show="accessNavigation.FILE_CAT_RESTRICT"><a
+                                                    href="javascript:void(0);"
+                                                    ng-click="clickDirective.goFileCatRestrict()">File
+                                                Category Restrictions </a></li>
+                                        </ul>
+                                    </li>
+
+
                                     <li ng-show="accessNavigation.HOLD_MUSIC"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goHoldMusic()">Hold
                                         Music</a></li>
@@ -99,17 +111,9 @@
                                     <li ng-show="accessNavigation.SCHEDULER"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goSchedule()">Scheduler</a>
                                     </li>
-                                    <li ng-show="accessNavigation.REPORT_EMAIL_CONFIG"><a href="javascript:void(0);"
-                                                                                          ng-click="clickDirective.goReportMail()">Report
-                                        Email Config</a></li>
-                                    <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a
-                                            href="javascript:void(0);"
-                                            ng-click="clickDirective.goCompanyConfig()">Company
-                                        configuration</a></li>
-                                    <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
-                                                                                    ng-click="clickDirective.goTemplateCreater()">Template
-                                        Maker
-                                        Configuration</a></li>
+
+
+
                                     <li ng-show="accessNavigation.DYNAMICFORM"><a href="javascript:void(0);"
                                                                                   ng-click="clickDirective.goDynamicForm()">
                                         Dynamic Form</a></li>
@@ -119,12 +123,8 @@
                                     <li ng-show="accessNavigation.NOTICE"><a href="javascript:void(0);"
                                                                              ng-click="clickDirective.goNotices()">
                                         Notices</a></li>
-                                    <li ng-show="accessNavigation.AGENT_DIALER"><a href="javascript:void(0);"
-                                                                                   ng-click="clickDirective.goAgentDial()">Agent
-                                        Dial </a></li>
-                                    <li ng-show="accessNavigation.FILE_CAT_RESTRICT"><a href="javascript:void(0);"
-                                                                            ng-click="clickDirective.goFileCatRestrict()">File
-                                        Category Restrictions </a></li>
+
+
                                     <!-- <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a href="javascript:void(0);"
                                                                                    ng-click="clickDirective.goPackages()">
                                          Packages</a>
@@ -157,6 +157,24 @@
                                     <li ng-show="accessNavigation.BILLING_HISTORY"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goBillingHistory()">
                                         Billing Histoty</a>
+                                    </li>
+
+                                    <li><a>configurations <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li ng-show="accessNavigation.COMPANY_CONFIGURATION"><a
+                                                    href="javascript:void(0);"
+                                                    ng-click="clickDirective.goCompanyConfig()">Company
+                                                configuration</a></li>
+
+                                            <li ng-show="accessNavigation.REPORT_EMAIL_CONFIG"><a href="javascript:void(0);"
+                                                                                                  ng-click="clickDirective.goReportMail()">Report
+                                                Email Config</a></li>
+                                            <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
+                                                                                            ng-click="clickDirective.goTemplateCreater()">Template
+                                                Maker
+                                                Configuration</a></li>
+                                        </ul>
+
                                     </li>
 
 
@@ -194,6 +212,7 @@
                                     <li ng-show="accessNavigation.EXTENSION"><a href="javascript:void(0);"
                                                                                 ng-click="clickDirective.goExtension()">Extension</a>
                                     </li>
+
                                     <!--<li ng-show="accessNavigation.USERS"><a href="javascript:void(0);"-->
                                     <!--ng-click="clickDirective.goSecLevels()">Security-->
                                     <!--Levels</a>-->
@@ -245,7 +264,7 @@
                                         Configuration</a>
                                     </li>
                                     <li ng-show="accessNavigation.QUEUE_SETTINGS"><a href="javascript:void(0);"
-                                                                                         ng-click="clickDirective.goQueueSettings()">Queue
+                                                                                     ng-click="clickDirective.goQueueSettings()">Queue
                                         Settings</a>
                                     </li>
                                 </ul>
@@ -345,9 +364,11 @@
                                 <ul class="nav child_menu">
 
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                      ng-click="clickDirective.goCreateNewCampaign()">New Campaign (beta)</a>
+                                                                                      ng-click="clickDirective.goCreateNewCampaign()">New
+                                        Campaign (beta)</a>
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
-                                                                                      ng-click="clickDirective.goViewCampaigns()">Campaigns (beta)</a>
+                                                                                      ng-click="clickDirective.goViewCampaigns()">Campaigns
+                                        (beta)</a>
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goCreateCampaign()">Campaigns</a>
                                     </li>
@@ -360,6 +381,9 @@
                                     <li ng-show="accessNavigation.CAMPAIGN_DNCLIST"><a href="javascript:void(0);"
                                                                                        ng-click="clickDirective.goDncNumberManage()">DNC
                                         List</a></li>
+                                    <li ng-show="accessNavigation.AGENT_DIALER"><a href="javascript:void(0);"
+                                                                                   ng-click="clickDirective.goAgentDial()">Agent
+                                        Dial </a></li>
                                 </ul>
                             </li>
 
@@ -417,12 +441,26 @@
                                                     ng-click="clickDirective.goCampaignAttempt();">Attempt</a>
                                             </li>
                                             <li ng-show="accessNavigation.CAMPAIGN_CDR"><a href="javascript:void(0);"
-                                                                                           ng-click="clickDirective.goCampaignCdrReport()">Campaign CDR</a>
+                                                                                           ng-click="clickDirective.goCampaignCdrReport()">Campaign
+                                                CDR</a>
                                             </li>
 
+                                            <li><a>Agent Dialer <span class="fa fa-chevron-down"></span></a>
+                                                <ul class="nav child_menu">
+                                                    <li ng-show="accessNavigation.AGENT_DIALER_SUMMARY_REPORT"><a
+                                                            href="javascript:void(0);"
+                                                            ng-click="clickDirective.goAgentDialerSummery();">Summery</a>
+                                                    </li>
+                                                    <li ng-show="accessNavigation.AGENT_DIALER_DETAIL_REPORT"><a
+                                                            href="javascript:void(0);"
+                                                            ng-click="clickDirective.goAgentDialerDetails();">Details</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
                                         </ul>
+
                                     </li>
-                                    <li><a>Agent Dialer <span class="fa fa-chevron-down"></span></a>
+                                    <!--<li><a>Agent Dialer <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li ng-show="accessNavigation.AGENT_DIALER_SUMMARY_REPORT"><a
                                                     href="javascript:void(0);"
@@ -433,7 +471,7 @@
                                                     ng-click="clickDirective.goAgentDialerDetails();">Details</a>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li>-->
                                     <li ng-show="accessNavigation.CDR"><a href="javascript:void(0);"
                                                                           ng-click="clickDirective.goCdrReport()">CDR</a>
                                     </li>
@@ -468,7 +506,7 @@
                                                                                            ng-click="clickDirective.goTicketDetailReport()">Ticket
                                         Detail </a></li>
                                     <li ng-show="accessNavigation.SMS_DETAIL_REPORT"><a href="javascript:void(0);"
-                                                                                           ng-click="clickDirective.goSMSDetailReport()">SMS
+                                                                                        ng-click="clickDirective.goSMSDetailReport()">SMS
                                         Detail </a></li>
                                     <li ng-show="accessNavigation.AUDITTRAIL"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goAuditTrailReport()">Audit
@@ -500,7 +538,8 @@
                                                                                            ng-click="clickDirective.goToCallCenterPerformanceReport()">Call
                                         Center Performance</a></li>
                                     <li ng-show="accessNavigation.QUEUE_SUMMARY_REPORT"><a href="javascript:void(0);"
-                                                                                           ng-click="clickDirective.goAgentBreakReport()">Agent Breaks</a></li>
+                                                                                           ng-click="clickDirective.goAgentBreakReport()">Agent
+                                        Breaks</a></li>
                                 </ul>
                             </li>
 
@@ -617,13 +656,12 @@
 
 
                                 </div>
-                                <div ng-show="newNotifications.length>0" id="delBtn" class="del-all-btn" ng-click="RemoveAllNotifications()">
+                                <div ng-show="newNotifications.length>0" id="delBtn" class="del-all-btn"
+                                     ng-click="RemoveAllNotifications()">
                                     <span
-                                        onmouseover="this.style.cursor='pointer'">Delete All</span>
+                                            onmouseover="this.style.cursor='pointer'">Delete All</span>
                                 </div>
                             </ul>
-
-
 
 
                         </li>
