@@ -5,8 +5,97 @@
 mainApp.controller("campaignWizardController", function ($scope,
                                                          $anchorScroll,
                                                          campaignService, campaignNumberApiAccess,
-                                                         scheduleBackendService, $filter, $q, loginService) {
+                                                         scheduleBackendService, $filter, $q,
+                                                         loginService, $state, $timeout, $location) {
         $anchorScroll();
+
+
+        //check is query string
+        var queryCampaignId = $location.search();
+
+        var campaignModeObj = [
+            {name: 'IVR'},
+            {name: 'AGENT'},
+            {name: 'MESSAGE'}
+        ];
+
+        var dialoutMechanismObj = [
+            {name: 'BLAST'},
+            {name: 'PREVIEW'},
+            {name: 'AGENT'}
+        ];
+
+
+        if (queryCampaignId && queryCampaignId.id != 0) {
+            $scope.isCreateNewCampaign = true;
+            campaignService.GetCampaignById(queryCampaignId.id).then(function (res) {
+                $scope.isCreateNewCampaign = false;
+                console.log(res);
+                if (res) {
+
+                    $scope.campaign = {
+                        CampaignChannel: res.CampaignChannel,
+                        CampaignId: res.CampaignId,
+                        CampaignName: res.CampaignName,
+                        DialoutMechanism: res.DialoutMechanism,
+                        CampaignMode: res.CampaignMode,
+                        Extensions: res.Extensions,
+                        CompanyId: res.CompanyId,
+                        TenantId: res.TenantId,
+                        AdditionalData: {
+                            FileName: '',
+                            Template: ''
+                        }
+                    };
+
+                    ///
+
+                    if (res.CampaignMode == "AGENT") {
+                        $scope.changeChannels('CALL');
+                        $('.camp-mode').removeClass('active-channel');
+                        $('#AGENT').addClass('active-channel');
+                        // $scope.campaign.CampaignMode = res.CampaignMode;
+                        $scope.campaign.DialoutMechanism = res.DialoutMechanism;
+                    } else {
+                        $scope.changeChannels(res.CampaignChannel);
+                    }
+                    $scope.changeMode(res.CampaignMode);
+
+                    $scope.onCampaignChangeMode(res.CampaignMode);
+
+                    if ($scope.campaign.DialoutMechanism == 'PREVIEW') {
+                        addCampaignAdditionalDataAttribute();
+                    }
+                    $scope.isCreateNewCampaign = true;
+                    campaignService.GetCampaignConfig($scope.campaign.CampaignId).then(function (response) {
+                        $scope.isCreateNewCampaign = false;
+                        if (response) {
+                            $scope.callback = response;
+                            // $scope.callback.AllowCallBack = response.AllowCallBack === false ? 'no' : 'yes';
+                            $scope.showCallback = response.AllowCallBack;
+                            campaignService.GetCallBacks($scope.callback.ConfigureId).then(function (response) {
+                                $scope.isLoadingCallBack = false;
+                                $scope.callbacks = response.map(function (item) {
+                                    item.isLoading = false;
+                                    return item;
+                                });
+                            }, function (error) {
+                                $scope.isLoadingCallBack = false;
+                                console.log(error);
+                            });
+                        }
+                        else {
+                            $scope.callback = {AllowCallBack: 'no'};
+                        }
+                    }, function (error) {
+                        $scope.isCreateNewCampaign = false;
+
+                    });
+
+
+                }
+            });
+        }
 
 
         $scope.step = 1;
@@ -45,6 +134,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.campaignModeObj.push(campaignModeObj[2]);
                     $scope.dialoutMechanismObj.push(dialoutMechanismObj[0]);
 
+
                     ///$('#callBackOption').addClass('display-none');
                     $scope.showCallback = "no";
                 },
@@ -68,7 +158,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
                     if (step == 1) {
                         $scope.safeApply(function () {
-                            $scope.step = 2;
+                            $scope.step = 1;
                         });
 
                         firstStepWizard.removeClass('processing').addClass('done');
@@ -83,6 +173,11 @@ mainApp.controller("campaignWizardController", function ($scope,
                         });
                         firstStepWizard.removeClass('processing').addClass('done');
                         secondStepWizard.addClass('processing');
+
+                        createCampaignSchedule.GetSchedules();
+                        createCampaignSchedule.getScheduleCampaign();
+                        mapNumberGroupSchedule.GetCategorys();
+                        mapNumberGroupSchedule.getAssignedCategory();
                         return;
                     }
 
@@ -161,22 +256,11 @@ mainApp.controller("campaignWizardController", function ($scope,
         step01UIFun.clearChannel();
         //step01UIFun.refreshTabConfig();
 
-        var campaignModeObj = [
-            {name: 'IVR'},
-            {name: 'AGENT'},
-            {name: 'MESSAGE'}
-        ];
-
-        var dialoutMechanismObj = [
-            {name: 'BLAST'},
-            {name: 'FIFO'},
-            {name: 'PREVIEW'},
-            {name: 'AGENT'}
-        ];
 
         step01UIFun.onLoadWizard();
 
 
+        //onclick change channel
         $scope.changeChannels = function (_selectMe) {
             $('.camp-channel').removeClass('active-channel');
             $('#' + _selectMe).addClass('active-channel');
@@ -185,12 +269,16 @@ mainApp.controller("campaignWizardController", function ($scope,
             step01UIFun.clearChannel();
             step01UIFun.refreshTabConfig();
             $scope.campaign.CampaignChannel = _selectMe;
+            $scope.campaign.DialoutMechanism = "";
+            $scope.campaign.CampaignMode = "";
             switch (_selectMe) {
                 case 'SMS':
                     $scope.campaignModeObj.push(campaignModeObj[2]);
                     $scope.dialoutMechanismObj.push(dialoutMechanismObj[0]);
                     $scope.stepOneConfigTabs[0].disabled = false;
                     $scope.stepOneConfigTabs[0].active = 1;
+                    $scope.campaign.CampaignMode = "MESSAGE";
+                    $scope.campaign.DialoutMechanism = "BLAST";
                     break;
                 case 'EMAIL':
                     $scope.campaignModeObj.push(campaignModeObj[2]);
@@ -199,22 +287,65 @@ mainApp.controller("campaignWizardController", function ($scope,
                         $scope.stepOneConfigTabs[0].disabled = false;
                         $scope.stepOneConfigTabs[0].active = 1;
                     });
+
+                    $scope.campaign.CampaignMode = "MESSAGE";
+                    $scope.campaign.DialoutMechanism = "BLAST";
                     break;
                 case 'CALL':
                     $scope.campaignModeObj.push(campaignModeObj[0],
                         campaignModeObj[1]);
                     $scope.dialoutMechanismObj.push(
-                        dialoutMechanismObj[0],
                         dialoutMechanismObj[1],
-                        dialoutMechanismObj[2],
-                        dialoutMechanismObj[3]);
+                        dialoutMechanismObj[2]);
                     $('#callBackOption').removeClass('display-none');
 
                     $scope.safeApply(function () {
                         $scope.stepOneConfigTabs[2].disabled = false;
                         $scope.stepOneConfigTabs[2].active = 3;
                     });
+
+                    $scope.campaign.CampaignMode = "IVR";
+                    $scope.campaign.DialoutMechanism = "BLAST";
+                    $scope.changeMode("IVR");
                     break;
+            }
+        };
+        $scope.changeChannels('SMS');
+
+        //onclick change mode
+        $scope.changeMode = function (_selectMe) {
+            $scope.campaign.CampaignMode = null;
+            if (_selectMe == "IVR" || _selectMe == "AGENT") {
+
+                $("._camp-mode").removeClass('active-channel');
+                $('#' + _selectMe).addClass('active-channel');
+                //$scope.campaign.DialoutMechanism = null;
+                // $('#callBackOption').addClass('display-none');
+                $scope.campaign.CampaignMode = _selectMe;
+                if (_selectMe == "IVR") {
+                    $scope.campaign.DialoutMechanism = "BLAST";
+                } else {
+
+                    if ($scope.campaign.DialoutMechanism != "BLAST") {
+                        $scope.dialoutMechanismObj.push(
+                            dialoutMechanismObj[1],
+                            dialoutMechanismObj[2]);
+                    }
+                }
+            }
+        };
+
+        //on change mode
+        $scope.onCampaignChangeMode = function (value) {
+            if (value == "IVR") {
+                $scope.dialoutMechanismObj = [];
+                $scope.dialoutMechanismObj.push(
+                    dialoutMechanismObj[0]);
+            } else if (value == "AGENT") {
+                $scope.dialoutMechanismObj = [];
+                $scope.dialoutMechanismObj.push(
+                    dialoutMechanismObj[1],
+                    dialoutMechanismObj[2]);
             }
         };
 
@@ -226,11 +357,14 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.GetCampaignAdditionalData = function () {
             $scope.isLoadingData = true;
+            $scope.isTemplateConfigLoading = true;
             campaignService.GetTemplateList().then(function (response) {
+                $scope.isTemplateConfigLoading = false;
                 if (response) {
                     $scope.Templates = response;
                 }
             }, function (error) {
+                $scope.isTemplateConfigLoading = false;
                 $scope.showAlert("Campaign", 'error', "Fail To Load Template Data");
             });
 
@@ -264,7 +398,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 }
                 $scope.isLoadingData = false;
             }, function (error) {
-                $scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
+                $scope.showAlert("Campaign", "Fail To Create Additional Data", 'error');
                 $scope.isLoadingData = false;
             });
         };
@@ -274,13 +408,13 @@ mainApp.controller("campaignWizardController", function ($scope,
             campaignService.DeleteAdditionalDataByID(id).then(function (response) {
                 if (response) {
                     $scope.GetCampaignAdditionalData();
-                    $scope.showAlert("Campaign", 'success', "Successfully Deleted.");
+                    $scope.showAlert("Campaign", "Successfully Deleted.", 'success');
                 }
                 else {
-                    $scope.showAlert("Campaign", 'error', "Fail To Delete Additional Data");
+                    $scope.showAlert("Campaign", "Fail To Delete Additional Data", 'error');
                 }
             }, function (error) {
-                $scope.showAlert("Campaign", 'error', "Fail To Delete Additional Data");
+                $scope.showAlert("Campaign", "Fail To Delete Additional Data", 'error');
             });
         };
 
@@ -358,6 +492,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         //create new campaign
         $scope.campaign = {
             CampaignChannel: 'SMS',
+            DialoutMechanism: 'BLAST',
             AdditionalData: {
                 FileName: '',
                 Template: ''
@@ -427,7 +562,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 callback.ReasonId = callback.CampCallBackReasons.ReasonId;
                 campaignService.SetCallBack(id, callback).then(function (response) {
                     if (!response) {
-                        $scope.showAlert("Campaign", 'error', "Fail To Set Callback");
+                        $scope.showAlert("Campaign", "Fail To Set Callback", 'error');
                     }
                     else {
                         callback.Status = true;
@@ -446,7 +581,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                     }
                     $scope.updateConfig = false;
                 }, function (error) {
-                    $scope.showAlert("Campaign", 'error', "Fail To Set Callback");
+                    $scope.showAlert("Campaign", "Fail To Set Callback", 'error');
                     $scope.updateConfig = false;
                 });
             }
@@ -499,12 +634,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                     } else if (campaign.CampaignChannel) {
                         //user selected channel sms
                         //validation sms configuration
-                        if (!campaign.CampaignMode) {
-                            $scope.showAlert("Campaign", "Please Select Campaign Mode.", 'error');
-                            idCampaignMode.addClass('has-error');
-                            return false;
+                        if (campaign.CampaignChannel == "SMS" || campaign.CampaignChannel == "EMAIL" || campaign.CampaignMode == "IVR") {
+                            $scope.campaign.DialoutMechanism = "BLAST";
                         }
-                        else if (!campaign.DialoutMechanism) {
+
+
+                        if (!campaign.DialoutMechanism) {
                             $scope.showAlert("Campaign", "Please Select Campaign Dialout Mechanism.", 'error');
                             idDialoutMechanism.addClass('has-error');
                             return false;
@@ -524,16 +659,26 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.isCreateNewCampaign = true;
                     campaignService.CreateCampaign(campaignx).then(function (response) {
                         $scope.isCreateNewCampaign = false;
-                        if (response) {
-                            $scope.showAlert("Campaign", "Campaign Created Successfully.", 'success');
-                            if (response.CampaignId) {
-                                $scope.campaign = response;
+                        if (response && response.data && response.data.IsSuccess) {
+                            $scope.showAlert("Campaign", "Basic Campaign Info  Created Successfully.", 'success');
+                            if (response && response.data && response.data.Result && response.data.Result.CampaignId) {
+                                $scope.campaign = response.data.Result;
                                 callBack(true);
                             }
                             //$scope.addNewCampaign = false;
                             //$scope.campaigns.push(response);
                         } else {
-                            $scope.showAlert("Campaign", "Fail To Create Campaign.", 'error');
+                            if (response && response.data && response.data) {
+                                if (response.data.CustomMessage == 'EXCEPTION') {
+                                    $scope.showAlert("Campaign", "Campaign Name Already Exists.", 'error');
+                                    var idCampaign = $('#frmCampaign');
+                                    idCampaign.addClass('has-error');
+                                } else {
+                                    $scope.showAlert("Campaign", "Fail To Create Campaign.", 'error');
+                                }
+                            } else {
+                                $scope.showAlert("Campaign", "Fail To Create Campaign.", 'error');
+                            }
                             callBack(false);
                         }
                     }, function (error) {
@@ -542,53 +687,62 @@ mainApp.controller("campaignWizardController", function ($scope,
                         callBack(true);
                     });
                 },
-                updateCampaignConfig: function (callback) {
+                updateCampaignConfig: function (_callback, callback) {
                     if (callback.ConfigureId > 0) {
                         /*update config id, configId, config*/
-                        campaignService.UpdateCampaignConfig($scope.campaign.CampaignId, callback.ConfigureId, callback).then(function (response) {
+                        campaignService.UpdateCampaignConfig($scope.campaign.CampaignId, _callback.ConfigureId, _callback).then(function (response) {
                             if (response) {
                                 $scope.showAlert("Campaign", "Configurations  Updated successfully ", 'success');
+                                callback(true);
                             } else {
                                 $scope.showAlert("Campaign", "Fail To Update Configurations", 'error');
+                                callback(false);
                             }
                             $scope.updateConfig = false;
                         }, function (error) {
                             $scope.showAlert("Campaign", "Fail To Update Configurations", 'error');
                             $scope.updateConfig = false;
+                            callback(false);
                         });
                     }
                     else {
                         /*save config*/
-                        campaignService.CreateCampaignConfig($scope.campaign.CampaignId, callback).then(function (response) {
+                        campaignService.CreateCampaignConfig($scope.campaign.CampaignId, _callback).then(function (response) {
                             if (response) {
                                 $scope.callback.ConfigureId = response.ConfigureId;
+                                callback(true);
                             } else {
-                                $scope.showAlert("Campaign", "Fail To Update Configurations");
+                                $scope.showAlert("Campaign", "Fail To Update Configurations", 'error');
+                                callback(false);
                             }
                             $scope.updateConfig = false;
                         }, function (error) {
-                            $scope.showAlert("Campaign", "Fail To Update Configurations");
+                            $scope.showAlert("Campaign", "Fail To Update Configurations", 'error');
                             $scope.updateConfig = false;
+                            callback(false);
                         });
                     }
                 },
-                updateCampaign: function () {
-                    $scope.updateEdit = true;
+                updateCampaign: function (campaignx, callBack) {
+                    $scope.isCreateNewCampaign = true;
                     var updateCam = {};
                     angular.copy(campaignx, updateCam);
                     updateCam.CampConfigurations = undefined;
                     updateCam.CampContactSchedule = undefined;
-
                     campaignService.UpdateCampaign($scope.campaign.CampaignId, updateCam).then(function (response) {
                         if (response) {
-                            $scope.showAlert("Campaign", "Campaign Updated successfully ");
+                            $scope.showAlert("Campaign", "Basic Campaign Info Updated successfully ", 'success');
+                            callBack(true);
                         } else {
-                            $scope.showAlert("Campaign", "Fail To Update Campaign");
+                            $scope.showAlert("Campaign", "Fail To Update Campaign", 'error');
+                            callBack(false);
                         }
-                        $scope.updateEdit = false;
+                        $scope.isCreateNewCampaign = false;
                     }, function (error) {
-                        $scope.showAlert("Campaign", "Fail To Update Campaign");
-                        $scope.updateEdit = false;
+                        $scope.showAlert("Campaign", "Fail To Update Campaign", 'error');
+                        console.log(error);
+                        $scope.isCreateNewCampaign = false;
+                        callBack(false);
                     });
                 }
 
@@ -632,10 +786,13 @@ mainApp.controller("campaignWizardController", function ($scope,
                 },
                 getScheduleCampaign: function () {
                     $scope.scheduleList = true;
+                    $scope.addScheduleToCampaign = true;
+
                     //$scope.campaign.CampaignId
                     campaignService.GetScheduleCampaign($scope.campaign.CampaignId).then(function (response) {
                         $scope.camSchedule = [];
                         $scope.addedSchedule = [];
+                        $scope.addScheduleToCampaign = false;
                         if (response && response.length > 0) {
                             $scope.ScheduleList.map(function (t) {
                                 var items = $filter('filter')(response, {ScheduleId: parseInt(t.id)}, true);
@@ -656,12 +813,15 @@ mainApp.controller("campaignWizardController", function ($scope,
                     }, function (error) {
                         console.log("Error in GetScheduleCampaign " + error);
                         $scope.scheduleList = false;
+                        $scope.addScheduleToCampaign = false;
                     });
                 },
                 GetSchedules: function () {
                     $scope.editMapSchedule = true;
                     $scope.scheduleList = true;
+                    $scope.addScheduleToCampaign = true;
                     scheduleBackendService.getSchedules().then(function (response) {
+                        $scope.addScheduleToCampaign = false;
                         if (response.data.IsSuccess) {
                             $scope.ScheduleList = response.data.Result;
                             createCampaignSchedule.getScheduleCampaign();
@@ -676,6 +836,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                         $scope.showAlert("Campaign", "Fail To Get Schedules", 'error');
                         $scope.editMapSchedule = false;
                         $scope.scheduleList = false;
+                        $scope.addScheduleToCampaign = false;
                     });
                 },
                 addScheduleToCampaign: function (data) {
@@ -714,7 +875,6 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
         }();
 
-        createCampaignSchedule.GetSchedules();
 
         //add schedule to campaign
         $scope.crateScheduleToCampaign = function (_campaignSchedule) {
@@ -756,20 +916,20 @@ mainApp.controller("campaignWizardController", function ($scope,
                     campaignService.GetCategorys().then(function (response) {
                         $scope.Categorys = response;
                     }, function (error) {
-                        $scope.showAlert("Campaign", 'error', "Fail To Load Categories");
+                        $scope.showAlert("Campaign", "Fail To Load Categories", 'error');
                     });
                 },
                 validation: function (callback) {
                     clearAllValidation();
                     if (!$scope.mapnumberschedue.Schedule) {
                         idCurrentCampaignSchedule.addClass('has-error');
-                        $scope.showAlert("Campaign", 'error', "Please Select Current Campaign Schedule");
+                        $scope.showAlert("Campaign", "Please Select Current Campaign Schedule", 'error');
                         callback(false);
                         return;
                     }
                     if (!$scope.mapnumberschedue.CategoryID) {
                         idCategory.addClass('has-error');
-                        $scope.showAlert("Campaign", 'error', "Please Select  Campaign Category Schedule");
+                        $scope.showAlert("Campaign", "Please Select  Campaign Category Schedule", 'error');
                         callback(false);
                         return;
                     }
@@ -779,11 +939,14 @@ mainApp.controller("campaignWizardController", function ($scope,
                 getAssignedCategory: function () {
                     $scope.AssignedCategory = [];
                     $scope.AvailableCategory = [];
+                    $scope.mapnumberScheduleToCam = true;
                     campaignService.GetAssignedCategory($scope.campaign.CampaignId).then(function (response) {
+                        $scope.mapnumberScheduleToCam = false;
                         if (response) {
                             $scope.AssignedCategory = response;
                         }
                     }, function (error) {
+                        $scope.mapnumberScheduleToCam = false;
                         $scope.AvailableCategory = $scope.Categorys;
                     });
                 },
@@ -795,14 +958,14 @@ mainApp.controller("campaignWizardController", function ($scope,
                             $scope.mapnumberScheduleToCam = false;
                             if (response) {
                                 mapNumberGroupSchedule.getAssignedCategory();
-                                $scope.showAlert("Campaign", 'success', "Successfully Map To Campaign.");
+                                $scope.showAlert("Campaign", "Successfully Map To Campaign.", 'success');
                             } else {
-                                $scope.showAlert("Campaign", 'error', "Fail To Map");
+                                $scope.showAlert("Campaign", "Fail To Map", 'error');
                             }
                             $scope.mapnumberScheduleToCam = false;
                         }, function (error) {
                             $scope.mapnumberScheduleToCam = false;
-                            $scope.showAlert("Campaign", 'error', "Fail To Map");
+                            $scope.showAlert("Campaign", "Fail To Map", 'error');
                             validationFailed().mapnumberScheduleToCam = false;
                         });
 
@@ -816,8 +979,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
 
         }();
-        mapNumberGroupSchedule.GetCategorys();
-        mapNumberGroupSchedule.getAssignedCategory();
+
 
         /// map number and schedule to campaign
         $scope.MapNumberAndScheduleToCampaign = function (mapnumberschedue) {
@@ -840,6 +1002,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         //goto wizard
         $scope.changeFormWizard = function (_wizard) {
             // $scope.step = _wizard;
+            console.log($scope.campaign);
             switch (_wizard) {
                 case '1':
                     step01UIFun.moveWizard(_wizard);
@@ -848,14 +1011,26 @@ mainApp.controller("campaignWizardController", function ($scope,
                     //create new campaign
                     if (createNewCampaign.validation()) {
                         //save campaign
-                        //if(campaign.CampaignId) {
-                        createNewCampaign.createCampaign($scope.campaign, function (status) {
-                            if (status) {
-                                //update campaign configuration
-                                createNewCampaign.updateCampaignConfig($scope.callback);
-                                step01UIFun.moveWizard(_wizard);
-                            }
-                        });
+                        if ($scope.campaign && !$scope.campaign.CampaignId) {
+                            createNewCampaign.createCampaign($scope.campaign, function (status) {
+                                if (status) {
+                                    //update campaign configuration
+                                    createNewCampaign.updateCampaignConfig($scope.callback, function (res) {
+                                        if (res) {
+                                            step01UIFun.moveWizard(_wizard);
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            //update campaign
+                            createNewCampaign.updateCampaign($scope.campaign, function (status) {
+                                if (status) {
+                                    step01UIFun.moveWizard(_wizard);
+                                }
+                            });
+
+                        }
                     }
                     break;
                 case '3':
@@ -864,6 +1039,9 @@ mainApp.controller("campaignWizardController", function ($scope,
                     break;
                 case '4':
                     step01UIFun.moveWizard(_wizard);
+                    break;
+                case 'back':
+                    $state.go('console.campaign-console');
                     break;
 
             }
@@ -890,7 +1068,33 @@ mainApp.controller("campaignWizardController", function ($scope,
             });
         };
 
+
+        var addCampaignAdditionalDataAttribute = function () {
+            if ($scope.campaignAttributes && $scope.campaignAttributes.length > 0) {
+                var additionalData = {
+                    Class: "PREVIEW",
+                    Type: "ARDS",
+                    Category: "ATTRIBUTE",
+                    TenantId: $scope.campaign.TenantId,
+                    CompanyId: $scope.campaign.CompanyId,
+                    CampaignId: $scope.campaign.CampaignId,
+                    AdditionalData: JSON.stringify($scope.campaignAttributes)
+                };
+                campaignService.CreateCampaignAdditionalData($scope.campaign.CampaignId, additionalData).then(function (response) {
+                    if (response) {
+                        $scope.GetCampaignAdditionalData();
+                        $scope.showAlert("Campaign", "Additional Data Added", 'success');
+                    }
+                }, function (error) {
+                    $scope.showAlert("Campaign", "Fail To Create Additional Data", 'error');
+                });
+            }
+        };
+
         $scope.GetCampaignConfig = function () {
+            if ($scope.campaign.DialoutMechanism == 'PREVIEW') {
+                addCampaignAdditionalDataAttribute();
+            }
             campaignService.GetCampaignConfig($scope.campaign.CampaignId).then(function (response) {
                 if (response) {
 
@@ -987,7 +1191,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                                 }
                                 $scope.isTemplateConfigLoading = false;
                             }, function (error) {
-                                $scope.showAlert("Campaign", 'error', "Fail To Create Additional Data");
+                                $scope.showAlert("Campaign", "Fail To Create Additional Data", 'error');
                                 $scope.isTemplateConfigLoading = false;
                             });
                         });
@@ -1250,24 +1454,6 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
         };
 
-        $scope.reset = function () {
-            $scope.safeApply(function () {
-                $scope.target.form.reset();
-                $scope.headerData = [];
-                $scope.selectObj = {};
-                $scope.campaignNumberObj.Contacts = [];
-                $scope.campaignNumberObj.CampaignId = undefined;
-                $scope.selectObj.previewData = [];
-                $scope.gridOptions.data = [];
-                $scope.gridOptions.columnDefs = [];
-                $scope.numberProgress = 0;
-                $scope.uploadButtonValue = "Upload";
-                $scope.leftAddValue = undefined;
-                $scope.selectedCampaign = undefined;
-                $scope.previewData;
-            });
-
-        };
 
         $('.collapse-link').on('click', function () {
             var $BOX_PANEL = $(this).closest('.x_panel'),
@@ -1422,6 +1608,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
         $scope.gridOptions = {
+            enableRowHashing: false,
             enableGridMenu: false,
             data: 'data',
             importerDataAddCallback: function (grid, newObjects) {
@@ -1460,7 +1647,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             if (target && target.files && target.files.length === 1) {
                 var fileObject = target.files[0];
                 $scope.gridApi.importer.importFile(fileObject);
-                //target.form.reset();
+                // target.form.reset();
             }
         };
         $scope.getInputFileValue = function () {
@@ -1470,6 +1657,12 @@ mainApp.controller("campaignWizardController", function ($scope,
             } else {
                 fileChooser[0].addEventListener('change', handleFileSelect, false);
             }
+        };
+
+        $scope.getInputFileValue();
+
+        $scope.fileNameChanged = function () {
+            console.log("select file");
         };
 
 
@@ -1942,7 +2135,10 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.BatchUploader(numberArray).then(function () {
                         $scope.uploadButtonValue = false;
                         $('#uploadLoaindWizard').addClass('display-none');
+                        $state.go('console.campaign-console');
                         $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
+
+
                         //$scope.reset();
                         $scope.refreshAllWizard();
                     }, function (reason) {
@@ -2114,19 +2310,13 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
 
-        //refresh form
+        //Refresh form
         $scope.refreshAllWizard = function () {
-
             $scope.safeApply(function () {
                 $scope.step = 1;
-            });
-            step01UIFun.refreshWizard();
-            step01UIFun.clearChannel();
-
-            $scope.safeApply(function () {
                 $scope.campaign = {};
                 $scope.campaign = {
-                    CampaignChannel: 'SMS',
+                    CampaignChannel: 'CALL',
                     AdditionalData: {
                         FileName: '',
                         Template: ''
@@ -2136,11 +2326,76 @@ mainApp.controller("campaignWizardController", function ($scope,
                 $scope.callback = {
                     AllowCallBack: 'no'
                 };
+
+                $scope.camSchedule = [];
+                $scope.addedSchedule = [];
+                $scope.availableSchedule = [];
+                $scope.ScheduleList = [];
+                $scope.campaignSchedule = {};
+
+                $scope.Categorys = [];
+                $scope.mapnumberschedue = {};
+                $scope.AssignedCategory = [];
+                $scope.AvailableCategory = [];
+
+                $scope.Templates = [];
+                $scope.campaignAdditionalData = [];
+                $scope.currentConfigTemplate = {};
+
+
+                createCampaignSchedule.GetSchedules();
+                mapNumberGroupSchedule.GetCategorys();
+                mapNumberGroupSchedule.getAssignedCategory();
+                loadCustomerTags();
+                $scope.loadNewlyCreatedCampaigns();
+
+                $scope.active = 1;
+                $scope.changeChannels('SMS');
+
             });
+            step01UIFun.clearChannel();
 
             createNewCampaign.clearNewCampaignValidation();
         };
 
 
+        $scope.reset = function () {
+            $scope.safeApply(function () {
+                $scope.headerData = [];
+                $scope.selectObj = {};
+                $scope.campaignNumberObj.Contacts = [];
+                // $scope.campaignNumberObj.CampaignId = undefined;
+                $scope.selectObj.previewData = [];
+                $scope.gridOptions.data = [];
+                $scope.gridOptions.columnDefs = [];
+                $scope.numberProgress = 0;
+                // $scope.uploadButtonValue = "Upload";
+                $scope.leftAddValue = undefined;
+                $scope.selectedCampaign = undefined;
+                $scope.previewData;
+
+                $scope.customerTags = $scope.customerTags.map(function (item) {
+                    item.active = false;
+                    return item;
+                });
+                $scope.isExtranalDataSheet = true;
+                $scope.refreshGrid = true;
+                $timeout(function () {
+                    $scope.refreshGrid = false;
+                }, 0);
+            });
+        };
     }
-);
+).directive('customOnChange', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var onChangeHandler = scope.$eval(attrs.customOnChange);
+            element.bind('change', onChangeHandler);
+            element.on('$destroy', function () {
+                element.unbind('change');
+            });
+
+        }
+    };
+});

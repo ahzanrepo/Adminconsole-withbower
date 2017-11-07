@@ -1101,7 +1101,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 navigation: "CAMPAIGNMANAGER"
             }
         }).state('console.new-campaign', {
-            url: "/new-campaign",
+            url: "/new-campaign/?id",
             templateUrl: "campaignManager/template/new-campaign/new-campaign.html",
             controller: "campaignController",
             data: {

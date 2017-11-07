@@ -7,7 +7,18 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices) {
 
 
-    subscribeServices.subscribeDashboard(function (event) {
+    $scope.safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
+
+    subscribeServices.subscribeDashboard('dashboard',function (event) {
         switch (event.roomName) {
             case 'ARDS:ResourceStatus':
                 if (event.Message) {
@@ -736,7 +747,9 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         //     $timeout.cancel(getAllRealTimeTimer);
         // }
 
-        subscribeServices.unsubscribe('dashoboard');
+        //subscribeServices.unsubscribe('dashoboard');
+        subscribeServices.unSubscribeDashboard('dashboard');
+
 
     });
 
@@ -852,6 +865,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     };
     //chart js
 
+
     //update code damith
     //QUEUED
     $scope.queues = {};
@@ -948,35 +962,35 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             if(resQueue.data && resQueue.data.IsSuccess && resQueue.data.Result)
                             {
                                 item.queueDetails=resQueue.data.Result;
-                                $scope.safeApply(function () {
+                                //$scope.safeApply(function () {
 
                                     $scope.queues[item.id] = item;
-                                });
+                                //});
                             }
                             else
                             {
                                 item.queueDetails=undefined;
-                                $scope.safeApply(function () {
+                               // $scope.safeApply(function () {
 
                                     $scope.queues[item.id] = item;
-                                });
+                               // });
                             }
                         },function (errQueue) {
                            /// console.log(errQueue);
                             item.queueDetails=undefined;
-                            $scope.safeApply(function () {
+                            //$scope.safeApply(function () {
 
                                 $scope.queues[item.id] = item;
-                            });
+                           // });
                         });
                     }
                     else {
 
                         item.queueDetails=$scope.queues[item.id].queueDetails;
-                        $scope.safeApply(function () {
+                        //$scope.safeApply(function () {
 
                             $scope.queues[item.id] = item;
-                        });
+                        //});
                     }
 
 

@@ -4,27 +4,7 @@
         <div class="right-wizard-header inline-header">
             <h5>Campaign Number Upload</h5>
         </div>
-        <div class="left-wizard-header">
-            <ul class="customer-inline">
-                <li>
-                    <button ng-show="!uploadButtonValue"
-                            class="btn btn-wizard btn-save-wizard wizard-green-btn-save"
-                            ng-click="uploadNumbers()">
-                        SAVE
-                    </button>
-                    <button ng-show="uploadButtonValue"
-                            class="btn btn-wizard btn-save-wizard wizard-green-btn-save">
-                        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-                    </button>
-                </li>
-                <!--<li>-->
-                <!--<button class="btn btn-wizard btn-save-wizard">-->
-                <!--Clear All-->
-                <!--</button>-->
-                <!--</li>-->
-            </ul>
 
-        </div>
     </div>
 
 
@@ -38,7 +18,8 @@
                     <select class="form-control cam-textbox"
                             ng-model="campaignNumberObj.CategoryID"
                             required>
-                        <option value="" disabled selected>Ex : Promotion 30</option>
+                        <!--<option value="" class="disable-opt" disabled selected>Ex : Promotion 30</option>-->
+                        <option value="" class="disable-opt" disabled selected></option>
                         <option ng-repeat="camCategory in campaignCategories"
                                 value="{{camCategory.CategoryID}}">
                             {{camCategory.CategoryName}}
@@ -69,12 +50,14 @@
 
             <div class="col-lg-4">
                 <div id="frmScheduleId" class="form-group cam-form-grp">
-                    <label for="exampleInputEmail1" class="cam-label">Select Campaign Schedule</label>
+                    <label for="exampleInputEmail1" class="cam-label">Select Campaign
+                        Schedule</label>
                     <select class="form-control cam-textbox"
                             ng-model="campaignNumberObj.CamScheduleId"
                             ng-model-options="{trackBy: '$value'}"
                             ng-change="onChangeSchedule()">
-                        <option value="" disabled selected>Select Campaign Schedule</option>
+                        <!--<option class="disable-opt" value="" disabled selected>Select Campaign Schedule</option>-->
+                        <option class="disable-opt" value="" disabled selected></option>
                         <option ng-repeat="schedule in addedSchedule"
                                 value="{{schedule.camSchedule.CamScheduleId}}">
                             {{schedule.ScheduleName}}
@@ -99,14 +82,22 @@
                      ng-click="getInputFileValue()"
                      heading="Extranal Data Sheet">
                 <div class="camp-num-upload-wrapper number-upload-sheet">
-                    <div class="customer-tag-wrapper"
-                         style="
-    text-align: center;">
+                    <div class="customer-lag-text inline-u-wrp">
+                        <small style="font-size: 13px;">Select extra file</small>
+                        <small ng-show="!uploadButtonValue"
+                               ng-click="reset()"
+                               class="clear">Clear All
+                        </small>
+                    </div>
 
-                        <input accept=".csv" type="file" class="file-chooser"
-                               id="files123"
-                               name="files[]"/>
-
+                    <div class="customer-tag-wrapper" style="padding-top: 20px;">
+                        <div class="col-md-8 col-sm-12 col-xs-12 ">
+                            <input accept=".csv" type="file"
+                                   custom-on-change="uploadFile"
+                                   class="file-chooser"
+                                   id="files123"
+                                   name="files[]"/>
+                        </div>
                     </div>
 
                 </div>
@@ -125,7 +116,8 @@
                 <select class="form-control cam-textbox" ng-change="loadNumbers()"
                         ng-model="selectObj.name"
                         ng-model-options="{trackBy: '$value'}">
-                    <option value="" disabled selected>Ex : Mobile No
+                    <!--<option class="disable-opt" value="" disabled selected>Ex : Mobile No-->
+                    <option class="disable-opt" value="" disabled selected>
                     </option>
                     <option ng-repeat="hData in headerData"
                             value="{{hData.name}}">
@@ -140,6 +132,7 @@
             <div class="col-lg-9">
                 <label for="exampleInputEmail1" class="cam-label">Add Digit</label>
                 <input type="text"
+
                        class="form-control  cam-textbox"
                        ng-model="leftAddValue.value"
                        placeholder="Ex : +94 -- -----">
@@ -170,22 +163,11 @@
                            min-length="1"></auto-complete>
     </div>
 
-    <!--<div class="col-lg-3">-->
-    <!--<button type="button" class="btn btn-success"-->
-    <!--ng-click="uploadNumbers()"-->
-    <!--ng-disabled="uploadButtonValue == 'Uploading...'">-->
-    <!--{{uploadButtonValue}}-->
-    <!--</button>-->
-    <!--<button type="button" class="btn btn-success"-->
-    <!--ng-click="reset()">Clear All-->
-    <!--</button>-->
-    <!--</div>-->
-    </div>
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
 
-            <div ui-grid="gridOptions" ui-grid-importer class="grid"></div>
+            <div ng-if="!refreshGrid" ui-grid="gridOptions" ui-grid-importer class="grid"></div>
 
             <div>
                 <label>rows: {{gridApi.grid.getVisibleRows().length}}</label>

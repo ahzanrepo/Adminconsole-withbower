@@ -6881,7 +6881,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .camp-tbl-body {
-    min-height: 400px;
+    min-height: 700px;
     width: 100%;
     overflow: hidden;
     position: relative;
@@ -6933,6 +6933,19 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     overflow: hidden;
     z-index: 100;
     right: 0;
+
+}
+
+.cam-details-wrapper-fixed {
+    position: fixed;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: #f6f5f0;
+    overflow: hidden;
+    z-index: 100;
+    /*right: 39px;*/
+
 }
 
 .camp-header-left-icon > ul > li {
@@ -7171,7 +7184,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .cam-wizard-left-header {
-    font-family: 'Ubuntu-bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     font-size: 17px;
     letter-spacing: 2px;
     color: #494e4e;
@@ -7180,7 +7193,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 
 /*time line */
 .cam-wizard-t-line {
-    height: 490px;
+    height: 400px;
     overflow: hidden;
 }
 
@@ -7190,7 +7203,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 
 .wizard-time-line-wrp:before {
     top: 123px;
-    bottom: 170px;
+    bottom: 244px;
     position: absolute;
     content: " ";
     width: 3px;
@@ -7262,7 +7275,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 }
 
 .right-wizard-header > h5 {
-    font-family: 'Ubuntu-bold', sans-serif !important;
+    font-family: 'Roboto-bold', sans-serif !important;
     font-size: 15px;
     font-weight: bold;
     letter-spacing: 2.5px;
@@ -7412,6 +7425,27 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     color: #8a8e86;
     padding-top: 10px;
     padding-left: 20px;
+    padding-right: 10px;
+}
+
+.customer-lag-text.inline-u-wrp {
+    display: block;
+}
+
+.customer-lag-text.inline-u-wrp > small.clear {
+    font-family: 'Roboto', sans-serif !important;
+    float: right;
+    color: #F5120D;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.customer-lag-text.inline-u-wrp > small.clear:hover {
+    font-family: 'Roboto-bold', sans-serif !important;
+}
+
+.customer-lag-text.inline-u-wrp > small {
+    display: inline-block;
 }
 
 .camp-channel > i,
@@ -7425,6 +7459,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 .callback-option.active-channel {
     background-color: #ffffff;
     color: #8fd539;
+    box-shadow: 0 2px 20px 0 rgba(143, 213, 59, 0.17);
 }
 
 .camp-channel.active-channel > i,
@@ -7660,3 +7695,82 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     padding-bottom: 10px;
 }
 
+select > option.disable,
+select > option .disable-opt {
+    color: #a0a0a0;
+}
+
+.campaign-edit-btn {
+    width: 25px;
+    height: 25px;
+    color: #3a3b3b;
+    border-radius: 100px;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 4px;
+    cursor: pointer;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+}
+
+.campaign-edit-btn:hover {
+    background: #fff;
+    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    box-shadow: 0 2px 20px 0 rgba(43, 201, 226, 0.34);
+
+}
+
+.inline-btn-list {
+    display: block;
+}
+
+.inline-btn-list > li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.loading-camp {
+    text-align: center;
+    margin: 100px auto;
+    position: absolute;
+    width: 100%
+}
+
+.spinner-container {
+    animation: rotate 2s linear infinite;
+    -webkit-animation: rotate 2s linear infinite;
+}
+
+.spinner-container .path {
+    stroke-dasharray: 1, 150; /* 1%, 101% circumference */
+    stroke-dashoffset: 0;
+    stroke: rgb(44, 201, 226);
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+    -webkit-animation: dash 1.5s ease-in-out infinite;
+}
+
+@-webkit-keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150; /* 1%, 101% circumference */
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150; /* 70%, 101% circumference */
+        stroke-dashoffset: -80; /* 25% circumference */
+    }
+    100% {
+        stroke-dasharray: 90, 150; /* 70%, 101% circumference */
+        stroke-dashoffset: -124; /* -99% circumference */
+    }
+}

@@ -7,8 +7,7 @@
             <input type="text"
                    class="form-control cam-textbox"
                    id="extension"
-                   ng-model="campaign.AdditionalData.FileName"
-                   placeholder="File Name with Extension ">
+                   ng-model="campaign.AdditionalData.FileName">
         </div>
     </div>
 
@@ -24,13 +23,14 @@
                     ng-model="campaign.AdditionalData.Template"
                     ng-options="opt.name as opt.name for opt in Templates track by opt._id"
                     required>
-                <option disabled value='' selected>Select Tempalte</option>
+                <!--<option disabled value='' selected>Select Tempalte</option>   -->
+                <option disabled value='' selected></option>
             </select>
             <input type="text"
                    ng-if="campaignAdditionalData.length!=0"
                    class="form-control cam-textbox"
                    disabled
-                   ng-model="campaign.AdditionalData.Template">
+                   ng-model="campaign.AdditionalData.Template"/>
         </div>
     </div>
 
@@ -66,15 +66,15 @@
 
         <div class="camp-tbl-body">
             <div class="camp-tbl-row"
-                 ng-if="tempData.Category=='ATTACHMENT'"
+
                  ng-repeat="tempData in campaignAdditionalData">
-                <div class="col-lg-4" ng-if="tempData.Category=='ATTACHMENT'">
+                <div class="col-lg-4" >
                     <div class="tbl-body-text">{{tempData.AdditionalData}}</div>
                 </div>
-                <div class="col-lg-4" ng-if="tempData.Category== 'ATTACHMENT'">
+                <div class="col-lg-4" >
                     <div class="tbl-body-text">{{tempData.Category}}</div>
                 </div>
-                <div class="col-lg-4" ng-if="tempData.Category=='ATTACHMENT'">
+                <div class="col-lg-4" >
                     <div class="tbl-body-text">
                         <div class="camp-delete-btn"
                              ng-click="DeleteAdditionalDataByID(tempData.AdditionalDataId);">

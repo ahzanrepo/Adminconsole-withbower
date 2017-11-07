@@ -1,5 +1,5 @@
 mainApp.controller("campaignController", function ($scope, $compile, $uibModal, $filter, $location, $log, $anchorScroll,
-                                                   campaignService, ardsBackendService,$state) {
+                                                   campaignService, ardsBackendService, $state) {
 
     $anchorScroll();
     $scope.mechanisms = campaignService.mechanisms;
@@ -95,7 +95,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
 
     $scope.campaigns = [];
     $scope.loadCampaign = function () {
-        $scope.isLoading = true;
+        $scope.isLoadingCamp = true;
         campaignService.GetCampaigns().then(function (response) {
             if (response) {
                 $scope.campaigns = response;
@@ -103,9 +103,10 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
             } else {
                 $scope.showAlert("Campaign", "error", "There is an error, Error on loading campaigns");
             }
-            $scope.isLoading = false;
+            $scope.isLoadingCamp = false;
         }, function (error) {
             $scope.showAlert("Campaign", "error", "There is an error, Error on loading campaigns");
+            $scope.isLoadingCamp = false;
         });
     };
 
@@ -276,7 +277,23 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
 
     //create new camping
     $scope.crateNewCamping = function () {
-        $state.go('console.new-campaign');
+        $state.go('console.new-campaign', {id: 'new'});
     };
 
-});
+    $scope.editCampaign = function (_campaign) {
+        $state.go('console.new-campaign', {id: _campaign.CampaignId});
+    };
+
+}).directive("mainScrollCampaign", function ($window) {
+    return function (scope, element, attrs) {
+        scope.isFiexedTab = false;
+        angular.element($window).bind("scroll", function () {
+            if (this.pageYOffset >= 20) {
+                scope.isFiexedTab = true;
+            } else {
+                scope.isFiexedTab = false;
+            }
+            scope.$apply();
+        });
+    };
+})
