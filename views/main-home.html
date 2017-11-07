@@ -693,28 +693,28 @@
                         <div class="call-moitor-btn-wrap">
                             <!--ng-if="inCall"-->
                             <div ng-if="inCall">
-                                <button class="btn bg-blue700 hvr-pop" ng-click=""><span
+                                <!--<button class="btn bg-blue700 hvr-pop" ng-click="" title="Mute"><span
                                         class="fa fa-microphone-slash "
                                         aria-hidden="true"></span>
-                                </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()"><span
+                                </button>-->
+                                <button class="btn bg-blue700 hvr-pop" ng-click="HangUpCall()" title="Hangup"><span
                                         class="fa fa-phone"
                                         aria-hidden="true"></span>
                                 </button>
-                                <button class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()"><span
+                                <button class="btn bg-blue700 hvr-pop" ng-click="ThreeWayCall()" title="Three Way"><span
                                         class="fa fa-group"
                                         aria-hidden="true"></span>
                                 </button>
                                 <button class="btn bg-blue700 hvr-pop" ng-click="BargeCall()"
                                         ng-disabled="(CallStatus=='BARGED' || CallStatus=='THREEWAY' || CallStatus==null)"><span
-                                        class="fa fa-bullhorn" aria-hidden="true"></span></button>
+                                        class="fa fa-bullhorn" aria-hidden="true" title="Barge"></span></button>
                                 <button class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
-                                        ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)"><span
+                                        ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)" title="Return To Listen"><span
                                         class="fa fa-mail-reply"
                                         aria-hidden="true"></span>
                                 </button>
                                 <button class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
-                                        ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )">
+                                        ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )" title="Swap User">
                                     <span class="fa fa-user" aria-hidden="true"></span></button>
                                 <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->
                             </div>
