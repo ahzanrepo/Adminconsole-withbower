@@ -13,9 +13,12 @@
             <div class="col-lg-4">
                 <div id="frmNumberCatergory"
                      class="form-group cam-form-grp">
-                    <label for="exampleInputEmail1" class="cam-label">Campaign Category *
+                    <label for="exampleInputEmail1" class="cam-label"> Select Category *
+                        <a ng-show="!isCreateNewCategory"
+                           href="javascript:void(0)"
+                           ng-click="createNewCategory()">[Create New] </a>
                     </label>
-                    <select class="form-control cam-textbox"
+                    <select ng-show="!isCreateNewCategory" class="form-control cam-textbox "
                             ng-model="campaignNumberObj.CategoryID"
                             required>
                         <!--<option value="" class="disable-opt" disabled selected>Ex : Promotion 30</option>-->
@@ -25,10 +28,42 @@
                             {{camCategory.CategoryName}}
                         </option>
                     </select>
+
+                    <!-- create new category wrapper -->
+                    <div ng-show="isCreateNewCategory"
+                         class="create-new-ca-wrapper ">
+                        <div class="input-group bg-input-group">
+                            <input ng-model="campaignNumberObj.CategoryID"
+                                   type="text"
+                                   class="form-control"
+                                   required
+                                   aria-label="...">
+                            <div class="input-group-btn bg-input-group">
+                                <button ng-show="!isSavingCategory" type="button"
+                                        ng-disabled="!campaignNumberObj.CategoryID"
+                                        ng-click="createCampaignCategories()"
+                                        class="btn btn-default"><span
+                                        class="fa fa-save"></span></button>
+                                <button ng-show="!isSavingCategory" type="button"
+                                        class="btn btn-default"
+                                        ng-click="closeCategory()"
+                                        aria-label="close"><span
+                                        class="fa fa-close"></span></button>
+
+                                <button ng-show="isSavingCategory"
+                                        type="button"
+                                        class="btn btn-default"
+                                        ng-click="closeCategory()"
+                                        aria-label="close"><span
+                                        class="fa fa-circle-o-notch fa-spin"></span></button>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="form-group cam-form-grp">
+                <div ng-show="!isCreateNewCategory" class="form-group cam-form-grp">
                     <label for="exampleInputEmail1" class="cam-label">Campaign Name</label>
 
                     <input type="text"
@@ -49,7 +84,8 @@
             </div>
 
             <div class="col-lg-4">
-                <div id="frmScheduleId" class="form-group cam-form-grp">
+                <div ng-show="!isCreateNewCategory"
+                     id="frmScheduleId" class="form-group cam-form-grp">
                     <label for="exampleInputEmail1" class="cam-label">Select Campaign
                         Schedule</label>
                     <select class="form-control cam-textbox"
@@ -70,7 +106,7 @@
         </form>
     </div>
 
-    <div class="camp-tab-config" style="height: 215px;/* background: transparent; */">
+    <div class="camp-tab-config" ng-show="!isCreateNewCategory" style="height: 215px;/* background: transparent; */">
         <uib-tabset class="camp-tab"
                     active="active">
             <uib-tab index="1"
@@ -106,7 +142,7 @@
         </uib-tabset>
     </div>
 
-    <div class="camp-num-option">
+    <div ng-show="!isCreateNewCategory" class="camp-num-option">
         <div class="col-lg-3">
             <div id="frmNumberColumn"
                  class="form-group cam-form-grp">
@@ -149,7 +185,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4" ng-if="enablePreviewData">
+    <div ng-show="!isCreateNewCategory" class="col-lg-4" ng-if="enablePreviewData">
         <label for="exampleInputEmail1" class="cam-label">Select Preview Data Columns</label>
         <tags-input ng-model="previewData"
                     display-property="name"
@@ -164,7 +200,7 @@
     </div>
 
 
-    <div class="row">
+    <div ng-show="!isCreateNewCategory" class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
 
             <div ng-if="!refreshGrid" ui-grid="gridOptions" ui-grid-importer class="grid"></div>
