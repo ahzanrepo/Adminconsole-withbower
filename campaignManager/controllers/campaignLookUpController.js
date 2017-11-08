@@ -268,6 +268,7 @@ mainApp.controller("campaignLookUpController", function ($scope,
     }();
 
     $scope.searchNumbers = function () {
+
         if ($scope.searchObj.CampaignId) {
             if ($scope.searchObj.CamScheduleId) {
                 searchOption.searchNumbersByCampaignAndSchedule();

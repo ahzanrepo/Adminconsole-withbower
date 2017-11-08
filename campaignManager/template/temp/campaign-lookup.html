@@ -78,10 +78,16 @@
                         <ul>
                             <li>
                                 <div class="create-btn-wrap">
-                                    <div class="rectangle-create-new-c camp-search-btn"
+                                    <div ng-show="!isLoadingLookUp"
+                                         class="rectangle-create-new-c camp-search-btn"
                                          ng-click="searchNumbers();">
                                         <i class="ti-search"></i>
                                         Search
+                                    </div>
+                                    <div ng-show="isLoadingLookUp"
+                                         class="rectangle-create-new-c camp-search-btn"
+                                         disabled>
+                                        <i class="fa fa-circle-o-notch fa-spin "></i>
                                     </div>
                                 </div>
                             </li>
@@ -111,7 +117,9 @@
 
                 </div>
 
-                <div class="camp-tbl-body">
+                <div class="camp-tbl-body" style="
+    height: 700px;
+    overflow-y: auto;">
 
                     <!-- loader -->
                     <div class="loading-camp " ng-if="isLoadingLookUp">
