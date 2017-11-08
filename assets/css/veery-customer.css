@@ -6854,7 +6854,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 .rectangle-create-new-c:hover,
 .rectangle-create-new-c:active,
 .rectangle-create-new-c:focus {
-    background-color: #1eacb7;
+    background-color: #0dacec;
 }
 
 .campaign-search {
@@ -7626,6 +7626,8 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 .wizard-green-btn-save {
     background-color: #aadd69;
     letter-spacing: 1.4px;
+    /* Rectangle 65: */
+    box-shadow: 0 2px 20px 0 rgba(143, 213, 56, 0.43);
 }
 
 .wizard-green-btn-save:hover,
@@ -7839,8 +7841,46 @@ select > option .disable-opt {
     padding-top: 8px;
 }
 
-
 .bg-input-group > button {
     background: transparent;
     border: 0;
+}
+
+/* campaign lookup */
+.camp-lookup-opt-wrapper {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    padding-top: 25px;
+    border-right: 1px solid #f7f7f7;
+    min-height: 788px;
+    background: #f6f5f0;
+}
+
+.camp-search-btn {
+    width: 95px;
+    /*height: 38px;*/
+    text-align: center;
+    padding-top: 7px;
+}
+
+.camp-lookup-wrapper {
+    width: 100%;
+    min-height: 700px;
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+}
+
+.camp-contact-info-error {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+}
+
+.camp-contact-info-error > .contact-error-text {
+    font-family: 'Roboto-light', sans-serif !important;
+    font-size: 20px;
+    padding-top: 200px;
 }

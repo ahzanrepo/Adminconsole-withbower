@@ -1108,6 +1108,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
+        }).state('console.campaign-lookup', {
+            url: "/campaign-lookup",
+            templateUrl: "campaignManager/template/temp/campaign-lookup.html",
+            controller: "campaignLookUpController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
         });
         //Todo shoud be change navigation
     }]);
