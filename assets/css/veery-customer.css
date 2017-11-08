@@ -6854,7 +6854,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 .rectangle-create-new-c:hover,
 .rectangle-create-new-c:active,
 .rectangle-create-new-c:focus {
-    background-color: #1eacb7;
+    background-color: #0dacec;
 }
 
 .campaign-search {
@@ -6933,7 +6933,6 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     overflow: hidden;
     z-index: 100;
     right: 0;
-
 }
 
 .cam-details-wrapper-fixed {
@@ -7627,6 +7626,8 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 .wizard-green-btn-save {
     background-color: #aadd69;
     letter-spacing: 1.4px;
+    /* Rectangle 65: */
+    box-shadow: 0 2px 20px 0 rgba(143, 213, 56, 0.43);
 }
 
 .wizard-green-btn-save:hover,
@@ -7773,4 +7774,113 @@ select > option .disable-opt {
         stroke-dasharray: 90, 150; /* 70%, 101% circumference */
         stroke-dashoffset: -124; /* -99% circumference */
     }
+}
+
+@keyframes elastic {
+    0% {
+        transform: rotateX(90deg);
+    }
+    15% {
+        transform: rotateX(150deg);
+    }
+    20% {
+        transform: rotateX(50deg);
+    }
+    25% {
+        transform: rotateX(120deg);
+    }
+    30% {
+        transform: rotateX(70deg);
+    }
+    35% {
+        transform: rotateX(100deg);
+    }
+    40% {
+        transform: rotateX(83deg);
+    }
+    45% {
+        transform: rotateX(93deg);
+    }
+    50% {
+        transform: rotateX(90deg);
+    }
+
+    65% {
+        transform: rotateX(30deg);
+    }
+    70% {
+        transform: rotateX(130deg);
+    }
+    75% {
+        transform: rotateX(60deg);
+    }
+    80% {
+        transform: rotateX(110deg);
+    }
+    85% {
+        transform: rotateX(80deg);
+    }
+    90% {
+        transform: rotateX(97deg);
+    }
+    95% {
+        transform: rotateX(87deg);
+    }
+    100% {
+        transform: rotateX(90deg);
+    }
+}
+
+.bg-input-group {
+    background: #fff;
+    padding-top: 3px;
+}
+
+.bg-input-group > input {
+    border: 0;
+    padding-top: 8px;
+}
+
+.bg-input-group > button {
+    background: transparent;
+    border: 0;
+}
+
+/* campaign lookup */
+.camp-lookup-opt-wrapper {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    padding-top: 25px;
+    border-right: 1px solid #f7f7f7;
+    min-height: 788px;
+    background: #f6f5f0;
+}
+
+.camp-search-btn {
+    width: 95px;
+    /*height: 38px;*/
+    text-align: center;
+    padding-top: 7px;
+}
+
+.camp-lookup-wrapper {
+    width: 100%;
+    min-height: 700px;
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+}
+
+.camp-contact-info-error {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+}
+
+.camp-contact-info-error > .contact-error-text {
+    font-family: 'Roboto-light', sans-serif !important;
+    font-size: 20px;
+    padding-top: 200px;
 }

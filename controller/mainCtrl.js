@@ -212,7 +212,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
 
-    subscribeServices.SubscribeStatus('main',function (status) {
+    subscribeServices.SubscribeStatus('main', function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
 
@@ -265,7 +265,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     });
 
 
-    subscribeServices.SubscribeCallStatus('main',function (status) {
+    subscribeServices.SubscribeCallStatus('main', function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
                 var userObj = $scope.users.filter(function (item) {
@@ -284,7 +284,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         }
     });
 
-    subscribeServices.subscribeDashboard('main',function (event) {
+    subscribeServices.subscribeDashboard('main', function (event) {
         switch (event.roomName) {
             case 'ARDS:break_exceeded':
             case 'ARDS:freeze_exceeded':
@@ -581,6 +581,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goCreateNewCampaign: function () {
             $state.go('console.new-campaign', {id: 0});
+        },
+        goCampaignLookUp: function () {
+            $state.go('console.campaign-lookup');
         },
         goViewCampaigns: function () {
             $state.go('console.campaign-console')

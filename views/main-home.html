@@ -113,7 +113,6 @@
                                     </li>
 
 
-
                                     <li ng-show="accessNavigation.DYNAMICFORM"><a href="javascript:void(0);"
                                                                                   ng-click="clickDirective.goDynamicForm()">
                                         Dynamic Form</a></li>
@@ -166,8 +165,9 @@
                                                     ng-click="clickDirective.goCompanyConfig()">Company
                                                 configuration</a></li>
 
-                                            <li ng-show="accessNavigation.REPORT_EMAIL_CONFIG"><a href="javascript:void(0);"
-                                                                                                  ng-click="clickDirective.goReportMail()">Report
+                                            <li ng-show="accessNavigation.REPORT_EMAIL_CONFIG"><a
+                                                    href="javascript:void(0);"
+                                                    ng-click="clickDirective.goReportMail()">Report
                                                 Email Config</a></li>
                                             <li ng-show="accessNavigation.TEMPLATEMAKER"><a href="javascript:void(0);"
                                                                                             ng-click="clickDirective.goTemplateCreater()">Template
@@ -371,6 +371,9 @@
                                         (beta)</a>
                                     <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goCreateCampaign()">Campaigns</a>
+                                    </li>
+                                    <li ng-show="accessNavigation.CAMPAIGNMANAGER"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goCampaignLookUp()">LookUp</a>
                                     </li>
                                     <li ng-show="accessNavigation.CAMPAIGN_MONITOR"><a href="javascript:void(0);"
                                                                                        ng-click="clickDirective.goCampaignMonitor()">Monitor</a>
@@ -709,12 +712,14 @@
                                         ng-disabled="(CallStatus=='BARGED' || CallStatus=='THREEWAY' || CallStatus==null)"><span
                                         class="fa fa-bullhorn" aria-hidden="true" title="Barge"></span></button>
                                 <button class="btn bg-blue700 hvr-pop" ng-click="ReturnToListen()"
-                                        ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)" title="Return To Listen"><span
+                                        ng-disabled="(CallStatus=='LISTEN' || CallStatus==null)"
+                                        title="Return To Listen"><span
                                         class="fa fa-mail-reply"
                                         aria-hidden="true"></span>
                                 </button>
                                 <button class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
-                                        ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )" title="Swap User">
+                                        ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )"
+                                        title="Swap User">
                                     <span class="fa fa-user" aria-hidden="true"></span></button>
                                 <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->
                             </div>

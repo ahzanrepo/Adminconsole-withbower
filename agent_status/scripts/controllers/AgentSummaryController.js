@@ -323,7 +323,9 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                                     if (reservedDate == "") {
                                         profile.LastReservedTime = null;
                                     } else {
-                                        profile.LastReservedTime = moment(reservedDate).format("h:mm a");
+                                        profile.LastReservedTime = moment(reservedDate).isBefore(moment(response[i].Status.StateChangeTime))? moment(response[i].Status.StateChangeTime).format("h:mm a"): moment(reservedDate).format("h:mm a");
+                                        profile.LastReservedTimeT = moment(reservedDate).isBefore(moment(response[i].Status.StateChangeTime))? response[i].Status.StateChangeTime: reservedDate;
+                                        //profile.LastReservedTime = moment(reservedDate).format("h:mm a");
                                     }
 
 

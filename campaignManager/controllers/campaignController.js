@@ -276,6 +276,7 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
     };
 
     //create new camping
+    $scope.newCategory = null;
     $scope.crateNewCamping = function () {
         $state.go('console.new-campaign', {id: 'new'});
     };
@@ -283,6 +284,10 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
     $scope.editCampaign = function (_campaign) {
         $state.go('console.new-campaign', {id: _campaign.CampaignId});
     };
+
+
+
+
 
 }).directive("mainScrollCampaign", function ($window) {
     return function (scope, element, attrs) {
