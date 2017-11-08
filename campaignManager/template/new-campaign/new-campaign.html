@@ -32,24 +32,27 @@
                                     Basic <br/>Campaign Info
                                 </div>
                             </li>
-                            <li id="2ndStepWizard" class="">
+
+                            <li id="2ndStepWizard"
+                                class="">
                                 <div class="t-line wizard-count active">
                                     2
+                                </div>
+                                <div class="t-line wizard-desc">
+                                    Campaign <br/> Config
+                                </div>
+                            </li>
+
+                            <li id="3ndStepWizard" class="">
+                                <div class="t-line wizard-count active">
+                                    3
                                 </div>
                                 <div class="t-line wizard-desc">
                                     Campaign <br/> Schedule
                                 </div>
                             </li>
 
-                            <li id="3ndStepWizard"
-                                class="">
-                                <div class="t-line wizard-count active">
-                                    3
-                                </div>
-                                <div class="t-line wizard-desc">
-                                    Campaign <br/> Config
-                                </div>
-                            </li>
+
                             <li id="4ndStepWizard" class="">
                                 <div class="t-line wizard-count active">
                                     4
@@ -87,12 +90,30 @@
                             </li>
                         </ul>
 
-                        <!-- campaign schedule -->
+                        <!-- campaign config -->
                         <ul class="customer-inline" ng-show="step=='2'">
+                            <li>
+                                <button class="btn btn-wizard"
+                                        ng-click="wizardBackMove('2')">
+                                    <i class="ti-angle-left"></i>
+                                    Back
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-wizard"
+                                        ng-click="changeFormWizard('3')">
+                                    Next
+                                    <i class="ti-angle-right"></i>
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- campaign schedule -->
+                        <ul class="customer-inline" ng-show="step=='3'">
                             <li>
                                 <!--ng-click="wizardBackMove('2')"-->
                                 <button class="btn btn-wizard"
-                                        ng-click="changeFormWizard('1')">
+                                        ng-click="wizardBackMove('3')">
                                     <i class="ti-angle-left"></i>
                                     Back
                                 </button>
@@ -107,7 +128,7 @@
                             <li ng-show="!mapnumberScheduleToCam">
                                 <button ng-if="addedSchedule.length!=0"
                                         class="btn btn-wizard"
-                                        ng-click="changeFormWizard('3')">
+                                        ng-click="changeFormWizard('4')">
                                     Next
                                     <i class="ti-angle-right"></i>
                                 </button>
@@ -121,23 +142,6 @@
                             </li>
                         </ul>
 
-                        <!-- campaign config -->
-                        <ul class="customer-inline" ng-show="step=='3'">
-                            <li>
-                                <button class="btn btn-wizard"
-                                        ng-click="wizardBackMove('3')">
-                                    <i class="ti-angle-left"></i>
-                                    Back
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-wizard"
-                                        ng-click="changeFormWizard('4')">
-                                    Next
-                                    <i class="ti-angle-right"></i>
-                                </button>
-                            </li>
-                        </ul>
 
                         <!-- number upload -->
                         <ul class="customer-inline" ng-show="step=='4'">
@@ -170,9 +174,9 @@
             <div class="row">
                 <div ng-show="step==1"
                      ng-include="'campaignManager/template/new-campaign/step1.html'"></div>
-                <div ng-show="step==2"
-                     ng-include="'campaignManager/template/new-campaign/step2.html'"></div>
                 <div ng-show="step==3"
+                     ng-include="'campaignManager/template/new-campaign/step2.html'"></div>
+                <div ng-show="step==2"
                      ng-include="'campaignManager/template/new-campaign/step3.html'"></div>
                 <div ng-if="step==4"
                      ng-include="'campaignManager/template/new-campaign/step4.html'">

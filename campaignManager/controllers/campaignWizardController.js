@@ -173,11 +173,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                         });
                         firstStepWizard.removeClass('processing').addClass('done');
                         secondStepWizard.addClass('processing');
+                        $scope.GetCampaignAdditionalData();
 
-                        createCampaignSchedule.GetSchedules();
-                        createCampaignSchedule.getScheduleCampaign();
-                        mapNumberGroupSchedule.GetCategorys();
-                        mapNumberGroupSchedule.getAssignedCategory();
                         return;
                     }
 
@@ -189,7 +186,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                         secondStepWizard.removeClass('processing').addClass('done');
                         configWizard.addClass('processing');
 
-                        $scope.GetCampaignAdditionalData();
+                        createCampaignSchedule.GetSchedules();
+                        createCampaignSchedule.getScheduleCampaign();
+                        mapNumberGroupSchedule.GetCategorys();
+                        mapNumberGroupSchedule.getAssignedCategory();
+
+
                         return;
                     }
 
@@ -1841,32 +1843,6 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
 
-        $scope.createCampaignCategories = function () {
-            if (typeof $scope.campaignNumberObj.CategoryID === "string") {
-                var reqData = {CategoryName: $scope.campaignNumberObj.CategoryID};
-                campaignNumberApiAccess.CreateNumberCategory(reqData).then(function (response) {
-                    if (response.IsSuccess) {
-                        $scope.campaignCategories.push(response.Result);
-                        $scope.showAlert('Campaign Number Upload', 'Create Number Category Success', 'success');
-                    }
-                    else {
-                        var errMsg = response.CustomMessage;
-
-                        if (response.Exception) {
-                            errMsg = response.Exception.Message;
-                        }
-                        $scope.showAlert('Campaign Number Upload', errMsg, 'error');
-                    }
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                    var errMsg = "Error occurred while creating number category";
-                    if (err.statusText) {
-                        errMsg = err.statusText;
-                    }
-                    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
-                });
-            }
-        };
         $scope.loadCampaignCategories();
 
         var loadCustomerTags = function () {
@@ -2384,6 +2360,51 @@ mainApp.controller("campaignWizardController", function ($scope,
                     $scope.refreshGrid = false;
                 }, 0);
             });
+        };
+
+
+        //crate new category
+        $scope.createNewCategory = function () {
+            $scope.isCreateNewCategory = !$scope.isCreateNewCategory;
+        };
+        $scope.closeCategory = function () {
+            $scope.isCreateNewCategory = false;
+        };
+
+        $scope.createCampaignCategories = function () {
+            if (typeof $scope.campaignNumberObj.CategoryID === "string") {
+                var reqData = {CategoryName: $scope.campaignNumberObj.CategoryID};
+                $scope.isSavingCategory = true;
+                campaignNumberApiAccess.CreateNumberCategory(reqData).then(function (response) {
+                    $scope.isSavingCategory = false;
+                    $scope.isCreateNewCategory = false;
+                    if (response.IsSuccess) {
+                        $scope.campaignCategories.push(response.Result);
+                        if (response && response.Result) {
+                            $scope.campaignCategories.CategoryID = response.Result.CategoryID;
+                            $scope.campaignCategories.CategoryName = response.Result.CategoryName;
+                        }
+
+                        $scope.showAlert('Campaign Number Upload', 'Create Number Category Success', 'success');
+                    }
+                    else {
+                        var errMsg = response.CustomMessage;
+
+                        if (response.Exception) {
+                            errMsg = response.Exception.Message;
+                        }
+                        $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                    }
+                }, function (err) {
+                    $scope.isSavingCategory = false;
+                    loginService.isCheckResponse(err);
+                    var errMsg = "Error occurred while creating number category";
+                    if (err.statusText) {
+                        errMsg = err.statusText;
+                    }
+                    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
+                });
+            }
         };
     }
 ).directive('customOnChange', function () {
