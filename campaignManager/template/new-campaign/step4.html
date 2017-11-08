@@ -110,10 +110,6 @@
         <uib-tabset class="camp-tab"
                     active="active">
             <uib-tab index="1"
-                     heading="Load From Customer Profile ">
-                <div ng-include="'campaignManager/template/new-campaign/step4-config/number-upload-customer-profile.html'"></div>
-            </uib-tab>
-            <uib-tab index="2"
                      disable="!isExtranalDataSheet"
                      ng-click="getInputFileValue()"
                      heading="Extranal Data Sheet">
@@ -137,7 +133,11 @@
                     </div>
 
                 </div>
+            </uib-tab>
 
+            <uib-tab index="2"
+                     heading="Load From Customer Profile ">
+                <div ng-include="'campaignManager/template/new-campaign/step4-config/number-upload-customer-profile.html'"></div>
             </uib-tab>
         </uib-tabset>
     </div>

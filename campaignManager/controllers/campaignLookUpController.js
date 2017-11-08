@@ -9,6 +9,8 @@ mainApp.controller("campaignLookUpController", function ($scope,
 
     $scope.searchObj = {};
     $scope.categoryLookupObj = [];
+    $scope.campaignNumberObj = {};
+
     $scope.showAlert = function (title, content, type) {
         new PNotify({
             title: title,

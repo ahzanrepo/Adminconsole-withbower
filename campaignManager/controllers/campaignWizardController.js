@@ -71,8 +71,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                         $scope.isCreateNewCampaign = false;
                         if (response) {
                             $scope.callback = response;
-                            // $scope.callback.AllowCallBack = response.AllowCallBack === false ? 'no' : 'yes';
-                            $scope.showCallback = response.AllowCallBack;
+                            $scope.callback.AllowCallBack = response.AllowCallBack;
+                            //$scope.showCallback = response.AllowCallBack;
                             campaignService.GetCallBacks($scope.callback.ConfigureId).then(function (response) {
                                 $scope.isLoadingCallBack = false;
                                 $scope.callbacks = response.map(function (item) {
@@ -85,7 +85,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                             });
                         }
                         else {
-                            $scope.callback = {AllowCallBack: 'no'};
+                            $scope.callback = {AllowCallBack: false};
                         }
                     }, function (error) {
                         $scope.isCreateNewCampaign = false;
@@ -127,7 +127,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         //
 
         $scope.active = 1;
-
+        $scope.callback = {};
         var step01UIFun = function () {
             return {
                 onLoadWizard: function () {
@@ -136,7 +136,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
 
                     ///$('#callBackOption').addClass('display-none');
-                    $scope.showCallback = "no";
+                    $scope.callback.AllowCallBack = false;
                 },
                 clearChannel: function () {
                     $scope.campaignModeObj = [];
@@ -326,14 +326,14 @@ mainApp.controller("campaignWizardController", function ($scope,
                 $scope.campaign.CampaignMode = _selectMe;
                 if (_selectMe == "IVR") {
                     $scope.campaign.DialoutMechanism = "BLAST";
-                } else {
-
-                    if ($scope.campaign.DialoutMechanism != "BLAST") {
-                        $scope.dialoutMechanismObj.push(
-                            dialoutMechanismObj[1],
-                            dialoutMechanismObj[2]);
-                    }
                 }
+            }
+
+            if (_selectMe == "AGENT") {
+                $scope.dialoutMechanismObj = [];
+                $scope.dialoutMechanismObj.push(
+                    dialoutMechanismObj[1],
+                    dialoutMechanismObj[2]);
             }
         };
 
@@ -428,8 +428,8 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         $scope.setCallback = function (value) {
             console.log(value);
-            $scope.showCallback = value;
-            $scope.callback.AllowCallBack = value == "yes" ? 'YES' : 'NO';
+            // $scope.showCallback = value;
+            $scope.callback.AllowCallBack = value == "YES" ? true : false;
         };
 
 
@@ -501,7 +501,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             }
         };
         $scope.callback = {
-            AllowCallBack: 'no'
+            AllowCallBack: false
         };
 
 
@@ -690,9 +690,13 @@ mainApp.controller("campaignWizardController", function ($scope,
                     });
                 },
                 updateCampaignConfig: function (_callback, callback) {
-                    if (callback.ConfigureId > 0) {
+                    $scope.isCampaignUpdateConfig = true;
+                    $scope.isCreateNewCampaign = true;
+                    if (_callback.ConfigureId > 0) {
                         /*update config id, configId, config*/
                         campaignService.UpdateCampaignConfig($scope.campaign.CampaignId, _callback.ConfigureId, _callback).then(function (response) {
+                            $scope.isCampaignUpdateConfig = false;
+                            $scope.isCreateNewCampaign = false;
                             if (response) {
                                 $scope.showAlert("Campaign", "Configurations  Updated successfully ", 'success');
                                 callback(true);
@@ -702,6 +706,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                             }
                             $scope.updateConfig = false;
                         }, function (error) {
+                            $scope.isCampaignUpdateConfig = false;
                             $scope.showAlert("Campaign", "Fail To Update Configurations", 'error');
                             $scope.updateConfig = false;
                             callback(false);
@@ -710,6 +715,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                     else {
                         /*save config*/
                         campaignService.CreateCampaignConfig($scope.campaign.CampaignId, _callback).then(function (response) {
+                            $scope.isCampaignUpdateConfig = false;
+                            $scope.isCreateNewCampaign = false;
                             if (response) {
                                 $scope.callback.ConfigureId = response.ConfigureId;
                                 callback(true);
@@ -719,6 +726,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                             }
                             $scope.updateConfig = false;
                         }, function (error) {
+                            $scope.isCampaignUpdateConfig = false;
+                            $scope.isCreateNewCampaign = false;
                             $scope.showAlert("Campaign", "Fail To Update Configurations", 'error');
                             $scope.updateConfig = false;
                             callback(false);
@@ -1019,6 +1028,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                                     //update campaign configuration
                                     createNewCampaign.updateCampaignConfig($scope.callback, function (res) {
                                         if (res) {
+                                            $scope.GetCampaignConfig();
                                             step01UIFun.moveWizard(_wizard);
                                         }
                                     });
@@ -1028,7 +1038,13 @@ mainApp.controller("campaignWizardController", function ($scope,
                             //update campaign
                             createNewCampaign.updateCampaign($scope.campaign, function (status) {
                                 if (status) {
-                                    step01UIFun.moveWizard(_wizard);
+                                    //update campaign configuration
+                                    createNewCampaign.updateCampaignConfig($scope.callback, function (res) {
+                                        if (res) {
+                                            $scope.GetCampaignConfig();
+                                            step01UIFun.moveWizard(_wizard);
+                                        }
+                                    });
                                 }
                             });
 
@@ -1036,8 +1052,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                     }
                     break;
                 case '3':
-                    $scope.GetCampaignConfig();
-                    step01UIFun.moveWizard(_wizard);
+                    createNewCampaign.updateCampaignConfig($scope.callback, function (status) {
+                        if (status) {
+                            step01UIFun.moveWizard(_wizard);
+                        }
+                    });
+
                     break;
                 case '4':
                     step01UIFun.moveWizard(_wizard);
@@ -1101,12 +1121,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                 if (response) {
 
                     $scope.callback = response;
-                    // $scope.callback.AllowCallBack = response.AllowCallBack === false ? 'no' : 'yes';
-                    $scope.showCallback = response.AllowCallBack;
+                    $scope.callback.AllowCallBack = response.AllowCallBack === false ? false : 'true';
+                    //$scope.showCallback = response.AllowCallBack;
                     $scope.GetCallBacks();
                 }
                 else {
-                    $scope.callback = {AllowCallBack: 'no'};
+                    $scope.callback = {AllowCallBack: false};
                 }
             }, function (error) {
 
@@ -2300,7 +2320,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 };
                 $scope.callback = {};
                 $scope.callback = {
-                    AllowCallBack: 'no'
+                    AllowCallBack: false
                 };
 
                 $scope.camSchedule = [];
