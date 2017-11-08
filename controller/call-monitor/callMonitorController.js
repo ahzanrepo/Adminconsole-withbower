@@ -335,7 +335,40 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         //alert("barged: "+bargeID);
         $scope.isRegistered=true;
         $scope.inCall=true;
-        if ($scope.isRegistered) {
+
+        getRegistrationData(authToken);
+        $scope.currentSessionID = callData.BargeID;
+        callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname).then(function (listenData) {
+
+            if (!listenData.data.IsSuccess) {
+                console.log("Invalid or Disconnected call, Loading Current list ", listenData.data.CustomMessage);
+                $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
+                $scope.LoadCurrentCalls();
+                $scope.inCall=false;
+            }else
+            {
+
+                var listenObj =
+                    {
+                        sessionID:$scope.currentSessionID,
+                        protocol:protocol,
+                        legID:listenData.data.Result,
+                        CallStatus:"LISTEN"
+                    }
+                $rootScope.$emit("call_listning", listenObj);
+
+            }
+
+        }, function (error) {
+            loginService.isCheckResponse(error);
+            console.log("Invalid or Disconnected call, Loading Current list ", error);
+            $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
+            $scope.inCall=false;
+            $scope.LoadCurrentCalls();
+
+        });
+       /* if ($scope.isRegistered) {
+            getRegistrationData(authToken);
             $scope.currentSessionID = callData.BargeID;
             callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname).then(function (listenData) {
 
@@ -376,7 +409,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                 displayname: $scope.displayname
             };
 
-        }
+        }*/
 
 
     };
