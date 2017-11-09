@@ -8,11 +8,11 @@
                     <tags-input ng-model="campAttribute"
                                 display-property="Name"
                                 add-from-autocomplete-only="true"
-                                on-tag-added="onChipAdd($tag)"
-                                on-tag-removed="onChipDelete($tag)"
+                                on-tag-added="onChipAddAttribute($tag)"
+                                on-tag-removed="onChipDeleteAttribute($tag)"
                                 ng-disabled="AdditionalDataRecordId" min-length="1"
                                 placeholder="Add a Campaign Attributes">
-                        <auto-complete source="querySearch($query)"
+                        <auto-complete source="querySearchAttribute($query)"
                                        load-on-empty="true"
                                        load-on-focus="true"
                                        min-length="1"></auto-complete>

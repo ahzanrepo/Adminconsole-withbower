@@ -6,7 +6,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                                                          $anchorScroll,
                                                          campaignService, campaignNumberApiAccess,
                                                          scheduleBackendService, $filter, $q,
-                                                         loginService, $state, $timeout, $location,ardsBackendService) {
+                                                         loginService, $state, $timeout, $location, ardsBackendService) {
         $anchorScroll();
 
 
@@ -63,9 +63,9 @@ mainApp.controller("campaignWizardController", function ($scope,
 
                     $scope.onCampaignChangeMode(res.CampaignMode);
 
-                    if ($scope.campaign.DialoutMechanism == 'PREVIEW') {
-                        addCampaignAdditionalDataAttribute();
-                    }
+                    // if ($scope.campaign.DialoutMechanism == 'PREVIEW') {
+                    //     addCampaignAdditionalDataAttribute();
+                    // }
                     $scope.isCreateNewCampaign = true;
                     campaignService.GetCampaignConfig($scope.campaign.CampaignId).then(function (response) {
                         $scope.isCreateNewCampaign = false;
@@ -174,7 +174,6 @@ mainApp.controller("campaignWizardController", function ($scope,
                         firstStepWizard.removeClass('processing').addClass('done');
                         secondStepWizard.addClass('processing');
                         $scope.GetCampaignAdditionalData();
-                        $scope.GetArdsAttributes();
                         return;
                     }
 
@@ -354,8 +353,54 @@ mainApp.controller("campaignWizardController", function ($scope,
 
         /*template config */
         $scope.Templates = [];
+        $scope.campaignAttributes = [];
         $scope.campaignAdditionalData = [];
         $scope.currentConfigTemplate = {};
+
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(attribute) {
+                return (attribute.Name.toLowerCase().indexOf(lowercaseQuery) != -1);
+
+            };
+        }
+
+        $scope.querySearchAttribute = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.ardsAttributes) {
+                    return $scope.ardsAttributes;
+                }
+                else {
+                    return [];
+                }
+
+            }
+            else {
+                if ($scope.ardsAttributes) {
+                    return query ? $scope.ardsAttributes.filter(createFilterFor(query)) : [];
+
+                } else {
+                    return [];
+                }
+            }
+
+        };
+
+        $scope.campAttribute;
+        $scope.onChipAddAttribute = function (chip) {
+
+            $scope.campaignAttributes.push(chip.Id);
+
+        };
+        $scope.onChipDeleteAttribute = function (chip) {
+
+            var index = $scope.campaignAttributes.indexOf(chip.Id);
+            if (index > -1) {
+                $scope.campaignAttributes.splice(index, 1);
+            }
+
+
+        };
 
         $scope.GetCampaignAdditionalData = function () {
             $scope.isLoadingData = true;
@@ -1091,7 +1136,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
 
-        var addCampaignAdditionalDataAttribute = function () {
+        $scope.addCampaignAdditionalDataAttribute = function () {
             if ($scope.campaignAttributes && $scope.campaignAttributes.length > 0) {
                 var additionalData = {
                     Class: "PREVIEW",
@@ -1114,9 +1159,9 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
         $scope.GetCampaignConfig = function () {
-            if ($scope.campaign.DialoutMechanism == 'PREVIEW') {
-                addCampaignAdditionalDataAttribute();
-            }
+            // if ($scope.campaign.DialoutMechanism == 'PREVIEW') {
+            //     addCampaignAdditionalDataAttribute();
+            // }
             campaignService.GetCampaignConfig($scope.campaign.CampaignId).then(function (response) {
                 if (response) {
 
@@ -1608,7 +1653,10 @@ mainApp.controller("campaignWizardController", function ($scope,
                 if (response.data.IsSuccess) {
                     var result = JSON.parse(response.data.Result);
                     if (result && result.AttributeMeta && result.AttributeMeta.length > 0) {
-                        $scope.ardsAttributes = result.AttributeMeta[0].AttributeDetails;
+                        $scope.ardsAttributes = [];
+                        result.AttributeMeta.forEach(function (atrMeta) {
+                            $scope.ardsAttributes = $scope.ardsAttributes.concat(atrMeta.AttributeDetails);
+                        });
                     }
                 } else {
                     $scope.showAlert("Campaign", "error", "Error on loading ARDS Data");
@@ -1620,6 +1668,7 @@ mainApp.controller("campaignWizardController", function ($scope,
         };
 
 
+        $scope.GetArdsAttributes();
 
 
         $scope.loadNumbers = function () {
@@ -2357,6 +2406,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 $scope.AvailableCategory = [];
 
                 $scope.Templates = [];
+                $scope.campaignAttributes = [];
                 $scope.campaignAdditionalData = [];
                 $scope.currentConfigTemplate = {};
 
