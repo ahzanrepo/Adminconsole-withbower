@@ -154,7 +154,11 @@ mainApp.controller("campaignWizardController", function ($scope,
                     var firstStepWizard = $('#1stStepWizard'),
                         secondStepWizard = $('#2ndStepWizard'),
                         configWizard = $('#3ndStepWizard'),
-                        fourthStepWizard = $('#4ndStepWizard');
+                        fourthStepWizard = $('#4ndStepWizard'),
+                        stepOne = $('#numberOne'),
+                        stepTwo = $('#numberTwo'),
+                        stepTree = $('#numberTree'),
+                        stepFour = $('#numberFour');
 
                     if (step == 1) {
                         $scope.safeApply(function () {
@@ -165,6 +169,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                         secondStepWizard.removeClass('processing');
                         configWizard.removeClass('processing');
                         fourthStepWizard.removeClass('processing');
+
+
                     }
 
                     if (step == 2) {
@@ -174,6 +180,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                         firstStepWizard.removeClass('processing').addClass('done');
                         secondStepWizard.addClass('processing');
                         $scope.GetCampaignAdditionalData();
+
+                        stepTwo.addClass('rubberBand-step');
                         return;
                     }
 
@@ -189,7 +197,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                         createCampaignSchedule.getScheduleCampaign();
                         mapNumberGroupSchedule.GetCategorys();
                         mapNumberGroupSchedule.getAssignedCategory();
-
+                        stepTree.addClass('rubberBand-step');
 
                         return;
                     }
@@ -200,13 +208,24 @@ mainApp.controller("campaignWizardController", function ($scope,
                         });
                         configWizard.removeClass('processing').addClass('done');
                         fourthStepWizard.addClass('processing');
+
+                        stepFour.addClass('rubberBand-step');
                     }
                 },
                 moveBackWizard: function (step) {
                     var firstStepWizard = $('#1stStepWizard'),
                         secondStepWizard = $('#2ndStepWizard'),
                         configWizard = $('#3ndStepWizard'),
-                        fourthStepWizard = $('#4ndStepWizard');
+                        fourthStepWizard = $('#4ndStepWizard'),
+                        stepOne = $('#numberOne'),
+                        stepTwo = $('#numberTwo'),
+                        stepTree = $('#numberTree'),
+                        stepFour = $('#numberFour');
+
+                    stepTwo.removeClass('rubberBand-step');
+                    stepTree.removeClass('rubberBand-step');
+                    stepFour.removeClass('rubberBand-step');
+                    stepTwo.removeClass('rubberBand-step');
 
                     if (step == 2) {
                         $scope.safeApply(function () {
@@ -689,11 +708,14 @@ mainApp.controller("campaignWizardController", function ($scope,
                         }
 
 
-                        if (!campaign.DialoutMechanism) {
-                            $scope.showAlert("Campaign", "Please Select Campaign Dialout Mechanism.", 'error');
-                            idDialoutMechanism.addClass('has-error');
-                            return false;
+                        if ($scope.campaign.CampaignChannel == 'CALL' && $scope.campaign.CampaignMode == 'AGENT') {
+                            if ($scope.campaign.DialoutMechanism == "BLAST" || !$scope.campaign.DialoutMechanism) {
+                                $scope.showAlert("Campaign", "Please Select Campaign Dialout Mechanism.", 'error');
+                                idDialoutMechanism.addClass('has-error');
+                                return false;
+                            }
                         }
+
 
                         if (!campaignCallBack.ChannelConcurrency) {
                             $scope.showAlert("Campaign", "Please Enter Campaign Channel Concurrency", 'error');

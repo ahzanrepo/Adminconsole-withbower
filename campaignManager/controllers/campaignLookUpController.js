@@ -194,13 +194,6 @@ mainApp.controller("campaignLookUpController", function ($scope,
                             });
                         }
                     }
-                    else {
-                        var errMsg = response.CustomMessage;
-                        if (response.Exception) {
-                            errMsg = response.Exception.Message;
-                        }
-                        $scope.showAlert('Number Base', errMsg, 'error');
-                    }
                 }, function (err) {
                     $scope.isLoadingLookUp = false;
                     loginService.isCheckResponse(err);
@@ -208,7 +201,7 @@ mainApp.controller("campaignLookUpController", function ($scope,
                     if (err.statusText) {
                         errMsg = err.statusText;
                     }
-                    $scope.showAlert('Number Base', errMsg, 'error');
+                    //$scope.showAlert('Number Base', errMsg, 'error');
                 });
             },
             searchNumbersByCampaignAndSchedule: function () {
@@ -217,23 +210,12 @@ mainApp.controller("campaignLookUpController", function ($scope,
                     $scope.isLoadingLookUp = false;
                     if (response.IsSuccess) {
                         if (response.Result && response.Result.length > 0) {
-                            if (response.Result && response.Result && response.Result.length > 0) {
-                                $scope.categoryLookupObj = response.Result.map(function (result) {
-                                    return result;
-                                });
-                            }
+                            $scope.gridOptions3.data = response.Result.map(function (contact) {
+                                return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
+                            });
                         }
-
                     }
-                    else {
-                        $scope.isTableLoading = 2;
-                        var errMsg = response.CustomMessage;
 
-                        if (response.Exception) {
-                            errMsg = response.Exception.Message;
-                        }
-                        $scope.showAlert('Number Base', errMsg, 'error');
-                    }
                 }, function (err) {
                     $scope.isLoadingLookUp = false;
                     loginService.isCheckResponse(err);
@@ -256,12 +238,6 @@ mainApp.controller("campaignLookUpController", function ($scope,
                                 return contact;
                             });
                         }
-                        var errMsg = response.CustomMessage;
-
-                        if (response.Exception) {
-                            errMsg = response.Exception.Message;
-                        }
-                        $scope.showAlert('Number Base', errMsg, 'error');
                     }
                 }, function (err) {
                     $scope.isLoadingLookUp = false;
