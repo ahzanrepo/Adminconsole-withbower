@@ -217,11 +217,9 @@ mainApp.controller("campaignLookUpController", function ($scope,
                     $scope.isLoadingLookUp = false;
                     if (response.IsSuccess) {
                         if (response.Result && response.Result.length > 0) {
-                            if (response.Result && response.Result && response.Result.length > 0) {
-                                $scope.categoryLookupObj = response.Result.map(function (result) {
-                                    return result;
-                                });
-                            }
+                            $scope.gridOptions3.data = response.Result.map(function (contact) {
+                                return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
+                            });
                         }
 
                     }
