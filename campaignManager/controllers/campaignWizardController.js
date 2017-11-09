@@ -689,11 +689,14 @@ mainApp.controller("campaignWizardController", function ($scope,
                         }
 
 
-                        if (!campaign.DialoutMechanism) {
-                            $scope.showAlert("Campaign", "Please Select Campaign Dialout Mechanism.", 'error');
-                            idDialoutMechanism.addClass('has-error');
-                            return false;
+                        if ($scope.campaign.CampaignChannel == 'CALL' && $scope.campaign.CampaignMode == 'AGENT') {
+                            if ($scope.campaign.DialoutMechanism == "BLAST" || !$scope.campaign.DialoutMechanism) {
+                                $scope.showAlert("Campaign", "Please Select Campaign Dialout Mechanism.", 'error');
+                                idDialoutMechanism.addClass('has-error');
+                                return false;
+                            }
                         }
+
 
                         if (!campaignCallBack.ChannelConcurrency) {
                             $scope.showAlert("Campaign", "Please Enter Campaign Channel Concurrency", 'error');
