@@ -1600,10 +1600,10 @@ mainApp.controller("campaignWizardController", function ($scope,
                 data.forEach(function (data) {
                     var tempNumber = data[filter];
 
-                    if ($scope.campaignNumberObj.CategoryID && !$scope.selectedCampaign) {
+                    if ($scope.campaignNumberObj.CategoryID && !$scope.campaign) {
                         numbers.push(data[filter]);
                     } else {
-                        if ($scope.selectedCampaign && $scope.selectedCampaign.CampaignChannel.toLowerCase() === 'call') {
+                        if ($scope.campaign && $scope.campaign.CampaignChannel.toLowerCase() === 'call') {
                             if (tempNumber && tempNumber.toString().match(numberRegex)) {
                                 if (previewFilter && previewFilter.length > 0) {
                                     var previewObj = {};
@@ -2028,7 +2028,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                         var newCamp = $scope.newlyCreatedCampaigns[i];
                         if (newCamp.CampaignId.toString() === campaignId) {
 
-                            $scope.selectedCampaign = newCamp;
+                            $scope.campaign = newCamp;
                             newCamp.CampScheduleInfo.forEach(function (camSchedule) {
                                 promiseFnList.push(scheduleBackendService.getSchedule(camSchedule.ScheduleId));
                             });
