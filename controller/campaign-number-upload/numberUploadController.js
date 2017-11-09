@@ -62,7 +62,7 @@
 
         $scope.reset = function () {
             $scope.safeApply(function () {
-                $scope.target.form.reset();
+                //$scope.target.form.reset();
                 $scope.headerData = [];
                 $scope.selectObj = {};
                 $scope.campaignNumberObj.Contacts = [];

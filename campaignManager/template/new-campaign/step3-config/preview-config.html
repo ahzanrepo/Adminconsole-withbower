@@ -1,17 +1,34 @@
 <section class="camp-config-wrapper">
     <div class="col-md-12">
         <div class="form-group cam-form-grp">
-            <label for="exampleInputEmail1" class="cam-label">Add a Campaign Attributes</label>
-            <tags-input ng-model="campAttribute"
-                        display-property="Name"
-                        add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
-                        on-tag-removed="onChipDelete($tag)"
-                        ng-disabled="AdditionalDataRecordId" min-length="1">
-                <auto-complete source="querySearch($query)"
-                               load-on-empty="true"
-                               load-on-focus="true"
-                               min-length="1"></auto-complete>
-            </tags-input>
+            <label for="exampleInputEmail1" class="cam-label">Add A Campaign Attribute</label>
+            <div class="col-md-12 col-sm-12 col-xs-12 form-group"
+                 ng-show="(campaign.CampaignChannel === 'CALL' )">
+                <div class="col-md-12 col-sm-10 col-xs-10 form-group has-feedback">
+                    <tags-input ng-model="campAttribute"
+                                display-property="Name"
+                                add-from-autocomplete-only="true"
+                                on-tag-added="onChipAdd($tag)"
+                                on-tag-removed="onChipDelete($tag)"
+                                ng-disabled="AdditionalDataRecordId" min-length="1"
+                                placeholder="Add a Campaign Attributes">
+                        <auto-complete source="querySearch($query)"
+                                       load-on-empty="true"
+                                       load-on-focus="true"
+                                       min-length="1"></auto-complete>
+                    </tags-input>
+                </div>
+                <div class="col-md-12 col-sm-2 col-xs-2 form-group has-feedback">
+
+                    <button ng-if="!AdditionalDataRecordId" type="button" class="btn btn-success btn-xs "
+                            ng-click="addCampaignAdditionalDataAttribute()">
+                        Add
+                    </button>
+                    <button ng-if="AdditionalDataRecordId" type="button" class="btn btn-success btn-xs "
+                            ng-click="DeleteAdditionalDataByID(AdditionalDataRecordId)">
+                        Remove
+                    </button>
+                </div>
         </div>
     </div>
 </section>
