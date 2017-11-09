@@ -62,13 +62,14 @@
 
         $scope.reset = function () {
             $scope.safeApply(function () {
-                $scope.target.form.reset();
+                //$scope.target.form.reset();
                 $scope.headerData = [];
                 $scope.selectObj = {};
                 $scope.campaignNumberObj.Contacts = [];
                 $scope.campaignNumberObj.CampaignId = undefined;
                 $scope.selectObj.previewData = [];
-                $scope.gridOptions.data = [];
+                $scope.gridOptions.data = "data";
+                $scope.data = [];
                 $scope.gridOptions.columnDefs = [];
                 $scope.numberProgress = 0;
                 $scope.uploadButtonValue = "Upload";
@@ -730,9 +731,7 @@
                 if (response.IsSuccess) {
                     if (response.Result && response.Result.CampContactInfo && response.Result.CampContactInfo.length > 0) {
                         $scope.gridOptions3.data = response.Result.CampContactInfo.map(function (contact) {
-
                             return contact;
-
                         });
                         $scope.isTableLoading = 1;
                     } else {

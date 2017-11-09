@@ -210,33 +210,33 @@
 
         <div class="current-details-wrp">
             <ul class="customer-inline">
-                <li class="left-align">Create @</li>
-                <li class="right-align">{{campaignSelectedData.createdAt}}</li>
+                <li class="left-align">Created Time</li>
+                <li class="right-align">{{campaignSelectedData.createdAt| amDateFormat:'MM-DD-YYYY ,hh:mm:ss a'}}</li>
             </ul>
         </div>
         <div class="current-details-wrp">
             <ul class="customer-inline">
-                <li class="left-align">Update @</li>
-                <li class="right-align">{{campaignSelectedData.updatedAt}}</li>
+                <li class="left-align">Last Updated Time</li>
+                <li class="right-align">{{campaignSelectedData.updatedAt | amDateFormat:'MM-DD-YYYY, hh:mm:ss a' }}</li>
             </ul>
         </div>
-        <div class="current-details-wrp">
-            <ul class="customer-inline">
-                <li class="left-align">Last Response Time</li>
-                <li class="right-align">{{campaignSelectedData.CampaignMode}}</li>
-            </ul>
-        </div>
+        <!--<div class="current-details-wrp">-->
+        <!--<ul class="customer-inline">-->
+        <!--<li class="left-align">Last Response Time</li>-->
+        <!--<li class="right-align">{{campaignSelectedData.CampaignMode}}</li>-->
+        <!--</ul>-->
+        <!--</div>-->
         <div class="current-details-wrp">
             <ul class="customer-inline">
                 <li class="left-align">Total Dial Count</li>
-                <li class="right-align">{{campaignSelectedData.CampaignMode}}</li>
+                <li class="right-align">{{campaignSelectedData.dialCount}}</li>
             </ul>
         </div>
 
         <div class="current-details-wrp">
             <ul class="customer-inline">
                 <li class="left-align">Total Connected</li>
-                <li class="right-align">1</li>
+                <li class="right-align">{{campaignSelectedData.totalConnect}}</li>
             </ul>
         </div>
     </section>

@@ -3102,10 +3102,23 @@ tags-input .autocomplete .suggestion-list {
 }
 
 tags-input .tags .tag-item {
+    font-family: 'Roboto-light', sans-serif;
     color: #fff;
-    background: #f8b01d;
-    border: 1px solid #f8b01d;
-    border-radius: 5px;
+    background: #8fd53b;
+    border: 0px solid #f8b01d;
+    border-radius: 0px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding-top: 1px;
+}
+
+tags-input .tags .tag-item .remove-button {
+    color: #f5f5f5 !important;
+}
+
+tags-input[disabled] .tags,
+tags-input .tags. {
+    border-radius: 0px !important;
 }
 
 tags-input .tags {
@@ -4211,6 +4224,7 @@ footer {
 
 tags-input .tags {
     height: auto !important;
+    border-radius: 0px !important;
 }
 
 .image_edit > i {
@@ -6851,10 +6865,26 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     cursor: pointer;
 }
 
+.attribute-add {
+    width: 70px;
+    text-align: center;
+}
+
+.attribute-remove {
+    background-color: #e25539;
+    box-shadow: 0 2px 20px 0 rgba(226, 33, 36, 0.34);
+}
+
 .rectangle-create-new-c:hover,
 .rectangle-create-new-c:active,
 .rectangle-create-new-c:focus {
-    background-color: #1eacb7;
+    background-color: #0dacec;
+}
+
+.attribute-remove:hover,
+.attribute-remove:active,
+.attribute-remove:focus {
+    background-color: #e21e08;
 }
 
 .campaign-search {
@@ -6864,7 +6894,7 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 .camp-tbl-header {
     width: 100%;
     height: 40px;
-    background-color: #393b3b;
+    background-color: #73879c;
     overflow: hidden;
     position: relative;
     padding-top: 11px;
@@ -6933,7 +6963,6 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     overflow: hidden;
     z-index: 100;
     right: 0;
-
 }
 
 .cam-details-wrapper-fixed {
@@ -7599,6 +7628,10 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     color: #f5120d !important;
 }
 
+.has-error > tags-input {
+    border: 1px solid #f51411;
+}
+
 .right-wizard-header.inline-header,
 .left-wizard-header {
     display: inline-block;
@@ -7627,6 +7660,8 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
 .wizard-green-btn-save {
     background-color: #aadd69;
     letter-spacing: 1.4px;
+    /* Rectangle 65: */
+    box-shadow: 0 2px 20px 0 rgba(143, 213, 56, 0.43);
 }
 
 .wizard-green-btn-save:hover,
@@ -7772,5 +7807,198 @@ select > option .disable-opt {
     100% {
         stroke-dasharray: 90, 150; /* 70%, 101% circumference */
         stroke-dashoffset: -124; /* -99% circumference */
+    }
+}
+
+@keyframes elastic {
+    0% {
+        transform: rotateX(90deg);
+    }
+    15% {
+        transform: rotateX(150deg);
+    }
+    20% {
+        transform: rotateX(50deg);
+    }
+    25% {
+        transform: rotateX(120deg);
+    }
+    30% {
+        transform: rotateX(70deg);
+    }
+    35% {
+        transform: rotateX(100deg);
+    }
+    40% {
+        transform: rotateX(83deg);
+    }
+    45% {
+        transform: rotateX(93deg);
+    }
+    50% {
+        transform: rotateX(90deg);
+    }
+
+    65% {
+        transform: rotateX(30deg);
+    }
+    70% {
+        transform: rotateX(130deg);
+    }
+    75% {
+        transform: rotateX(60deg);
+    }
+    80% {
+        transform: rotateX(110deg);
+    }
+    85% {
+        transform: rotateX(80deg);
+    }
+    90% {
+        transform: rotateX(97deg);
+    }
+    95% {
+        transform: rotateX(87deg);
+    }
+    100% {
+        transform: rotateX(90deg);
+    }
+}
+
+.bg-input-group {
+    background: #fff;
+    padding-top: 3px;
+}
+
+.bg-input-group > input {
+    border: 0;
+    padding-top: 8px;
+}
+
+.bg-input-group > button {
+    background: transparent;
+    border: 0;
+}
+
+/* campaign lookup */
+.camp-lookup-opt-wrapper {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    padding-top: 25px;
+    border-right: 1px solid #f7f7f7;
+    min-height: 788px;
+    background: #f6f5f0;
+}
+
+.camp-search-btn {
+    width: 95px;
+    /*height: 38px;*/
+    text-align: center;
+    padding-top: 7px;
+}
+
+.camp-lookup-wrapper {
+    width: 100%;
+    min-height: 700px;
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+}
+
+.camp-contact-info-error {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+}
+
+.camp-contact-info-error > .contact-error-text {
+    font-family: 'Roboto-light', sans-serif !important;
+    font-size: 20px;
+    padding-top: 200px;
+}
+
+.preview-data-wrapper {
+    min-height: 30px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.ui-grid {
+    border: 0px solid #d4d4d4 !important;
+}
+
+.ui-grid-header {
+    border-bottom: 0px solid rgb(212, 212, 212) !important;
+}
+
+.rubberBand-step {
+    -webkit-animation-name: rubberBand;
+    animation-name: rubberBand;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+@-webkit-keyframes rubberBand {
+    0% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    30% {
+        -webkit-transform: scale3d(1.25, 0.75, 1);
+        transform: scale3d(1.25, 0.75, 1);
+    }
+    40% {
+        -webkit-transform: scale3d(0.75, 1.25, 1);
+        transform: scale3d(0.75, 1.25, 1);
+    }
+    50% {
+        -webkit-transform: scale3d(1.15, 0.85, 1);
+        transform: scale3d(1.15, 0.85, 1);
+    }
+    65% {
+        -webkit-transform: scale3d(.95, 1.05, 1);
+        transform: scale3d(.95, 1.05, 1);
+    }
+    75% {
+        -webkit-transform: scale3d(1.05, .95, 1);
+        transform: scale3d(1.05, .95, 1);
+    }
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+@keyframes rubberBand {
+    0% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    30% {
+        -webkit-transform: scale3d(1.25, 0.75, 1);
+        transform: scale3d(1.25, 0.75, 1);
+    }
+    40% {
+        -webkit-transform: scale3d(0.75, 1.25, 1);
+        transform: scale3d(0.75, 1.25, 1);
+    }
+    50% {
+        -webkit-transform: scale3d(1.15, 0.85, 1);
+        transform: scale3d(1.15, 0.85, 1);
+    }
+    65% {
+        -webkit-transform: scale3d(.95, 1.05, 1);
+        transform: scale3d(.95, 1.05, 1);
+    }
+    75% {
+        -webkit-transform: scale3d(1.05, .95, 1);
+        transform: scale3d(1.05, .95, 1);
+    }
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
     }
 }
