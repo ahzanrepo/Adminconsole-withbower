@@ -1046,7 +1046,6 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     };
 
 
-
     $scope.MakeNotificationObject = function (data) {
         var callbackObj = JSON.parse(data.Callback);
 
@@ -1397,7 +1396,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     });
 
 
-   /*   //toggle menu option
+    /*   //toggle menu option
      //text function
      var CURRENT_URL = window.location.href.split("?")[0], $BODY = $("body"), $MENU_TOGGLE = $("#menu_toggle"), $SIDEBAR_MENU = $("#sidebar-menu"),
      $SIDEBAR_FOOTER = $(".sidebar-footer"), $LEFT_COL = $(".left_col"), $RIGHT_COL = $(".right_col"), $NAV_MENU = $(".nav_menu"), $FOOTER = $("footer");
@@ -1470,7 +1469,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
      });
 
-    */
+     */
     // Sidebar
     var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
         $BODY = $('body'),
@@ -1500,9 +1499,32 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $RIGHT_COL.css('min-height', contentHeight);
         };
 
+        var liOld = undefined;
         $SIDEBAR_MENU.find('a').on('click', function (ev) {
-            var $li = $(this).parent();
 
+            var $li = $(this).parent();
+            if(liOld){
+                if (liOld.context.text === $li.context.text ) {
+                    return;
+                }else{
+                    liOld.removeClass('active active-sm');
+                }
+            }
+            liOld = $li;
+            /*if(liOld){
+                if (liOld.context.text === $li.context.text ) {
+                    return;
+                }else{
+
+                    if ((liOld.parent().is('.child_menu'))&&(!$li.parent().is('.child_menu')) ){
+                        liOld.removeClass('active active-sm');
+                        $('ul:first', liOld).slideUp(function () {
+                            setContentHeight();
+                        });
+                    }
+                }
+            }
+            liOld = $li;*/
             if ($li.is('.active')) {
                 $li.removeClass('active active-sm');
                 $('ul:first', $li).slideUp(function () {
