@@ -1503,28 +1503,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         $SIDEBAR_MENU.find('a').on('click', function (ev) {
 
             var $li = $(this).parent();
-            if(liOld){
-                if (liOld.context.text === $li.context.text ) {
-                    return;
-                }else{
-                    liOld.removeClass('active active-sm');
-                }
-            }
-            liOld = $li;
-            /*if(liOld){
-                if (liOld.context.text === $li.context.text ) {
-                    return;
-                }else{
 
-                    if ((liOld.parent().is('.child_menu'))&&(!$li.parent().is('.child_menu')) ){
-                        liOld.removeClass('active active-sm');
-                        $('ul:first', liOld).slideUp(function () {
-                            setContentHeight();
-                        });
-                    }
-                }
-            }
-            liOld = $li;*/
             if ($li.is('.active')) {
                 $li.removeClass('active active-sm');
                 $('ul:first', $li).slideUp(function () {
