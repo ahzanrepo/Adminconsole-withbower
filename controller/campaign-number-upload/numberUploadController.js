@@ -68,7 +68,8 @@
                 $scope.campaignNumberObj.Contacts = [];
                 $scope.campaignNumberObj.CampaignId = undefined;
                 $scope.selectObj.previewData = [];
-                $scope.gridOptions.data = [];
+                $scope.gridOptions.data = "data";
+                $scope.data = [];
                 $scope.gridOptions.columnDefs = [];
                 $scope.numberProgress = 0;
                 $scope.uploadButtonValue = "Upload";
