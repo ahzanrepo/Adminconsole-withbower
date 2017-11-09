@@ -7628,6 +7628,10 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     color: #f5120d !important;
 }
 
+.has-error > tags-input {
+    border: 1px solid #f51411;
+}
+
 .right-wizard-header.inline-header,
 .left-wizard-header {
     display: inline-block;

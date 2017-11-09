@@ -1705,6 +1705,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                 promise.then(function (numbers) {
                     $scope.campaignNumberObj.Contacts = numbers;
                 });
+
+                $scope.leftAddValue.value = null;
             }
         };
 
@@ -1841,7 +1843,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             });
         };
 
-        $scope.previewData;
+        $scope.previewData = [];
         $scope.isExtranalDataSheet = true;
         $scope.searchFromProfile = function (tag) {
 
@@ -2138,18 +2140,21 @@ mainApp.controller("campaignWizardController", function ($scope,
         var idNumberCategory,
             idNumberSchedule,
             idNumberSheet,
-            idNumberColumn;
+            idNumberColumn,
+            idPreviewDataCol;
         var clearNumUploadValidation = function () {
 
             idNumberCategory = $('#frmNumberCatergory');
             idNumberSchedule = $('#frmScheduleId');
             idNumberColumn = $('#frmNumberColumn');
             idNumberSheet = $('.number-upload-sheet');
+            idPreviewDataCol = $('#previewDataColumn');
 
             idNumberCategory.removeClass('has-error');
             idNumberSchedule.removeClass('has-error');
             idNumberColumn.removeClass('has-error');
             idNumberSheet.removeClass('error-upload');
+            idPreviewDataCol.removeClass('has-error');
         };
 
 
@@ -2178,6 +2183,14 @@ mainApp.controller("campaignWizardController", function ($scope,
                 idNumberColumn.addClass('has-error');
                 $scope.showAlert('Campaign Number Upload', 'Please select number column before upload', 'error');
                 return;
+            }
+
+            if ($scope.campaign.DialoutMechanism == 'PREVIEW') {
+                if ($scope.previewData.length == 0) {
+                    idPreviewDataCol.addClass('has-error');
+                    $scope.showAlert('Campaign Number Upload', 'Please select preview data column before upload', 'error');
+                    return;
+                }
             }
 
 
@@ -2454,7 +2467,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 // $scope.uploadButtonValue = "Upload";
                 $scope.leftAddValue = undefined;
                 $scope.selectedCampaign = undefined;
-                $scope.previewData;
+                $scope.previewData = [];
 
                 $scope.customerTags = $scope.customerTags.map(function (item) {
                     item.active = false;
