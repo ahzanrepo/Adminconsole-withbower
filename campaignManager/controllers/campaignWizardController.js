@@ -6,7 +6,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                                                          $anchorScroll,
                                                          campaignService, campaignNumberApiAccess,
                                                          scheduleBackendService, $filter, $q,
-                                                         loginService, $state, $timeout, $location) {
+                                                         loginService, $state, $timeout, $location,ardsBackendService) {
         $anchorScroll();
 
 
@@ -174,7 +174,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                         firstStepWizard.removeClass('processing').addClass('done');
                         secondStepWizard.addClass('processing');
                         $scope.GetCampaignAdditionalData();
-
+                        $scope.GetArdsAttributes();
                         return;
                     }
 
@@ -1597,7 +1597,29 @@ mainApp.controller("campaignWizardController", function ($scope,
                 deferred.resolve(numbers);
             }, 1000);
             return deferred.promise;
-        }
+        };
+
+
+        $scope.ardsAttributes = [];
+        $scope.GetArdsAttributes = function () {
+            ardsBackendService.getRequestMetaByType('DIALER', 'CALL').then(function (response) {
+                $scope.loadCampaign();
+
+                if (response.data.IsSuccess) {
+                    var result = JSON.parse(response.data.Result);
+                    if (result && result.AttributeMeta && result.AttributeMeta.length > 0) {
+                        $scope.ardsAttributes = result.AttributeMeta[0].AttributeDetails;
+                    }
+                } else {
+                    $scope.showAlert("Campaign", "error", "Error on loading ARDS Data");
+                }
+            }, function (error) {
+                $scope.loadCampaign();
+                $scope.showAlert("Campaign", "error", "Error on loading ARDS Data");
+            });
+        };
+
+
 
 
         $scope.loadNumbers = function () {
