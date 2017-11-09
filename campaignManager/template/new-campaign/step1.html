@@ -13,7 +13,7 @@
                          class="form-group cam-form-grp"
                          ng-class="{ 'has-error' : campaignFrmStep1.CampaignName.$invalid &&
                      !campaignFrmStep1.CampaignName.$pristine }">
-                        <label for="campaignName" class="cam-label">Campaign Name *</label>
+                        <label for="campaignName" class="cam-label">Campaign Name (space not allowed) *</label>
                         <input type="text"
                                name="CampaignName"
                                ng-model="campaign.CampaignName"

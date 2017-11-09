@@ -178,7 +178,14 @@ mainApp.controller("campaignLookUpController", function ($scope,
                     if (response.IsSuccess) {
                         if (response.Result && response.Result.length > 0) {
                             $scope.categoryLookupObj = response.Result.map(function (result) {
-                                return result;
+                                if (result.CampContactInfo) {
+                                    return {
+                                        ContactId: result.CampContactInfo.ContactId,
+                                        ExtraData: result.ExtraData
+                                    }
+                                } else {
+                                    return result;
+                                }
                             });
                         }
 
