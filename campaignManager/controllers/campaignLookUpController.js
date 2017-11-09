@@ -4,12 +4,23 @@
 
 
 mainApp.controller("campaignLookUpController", function ($scope,
-                                                         $anchorScroll, campaignNumberApiAccess, loginService) {
+                                                         $anchorScroll, campaignNumberApiAccess,
+                                                         loginService,scheduleBackendService, $q) {
     $anchorScroll();
 
     $scope.searchObj = {};
     $scope.categoryLookupObj = [];
     $scope.campaignNumberObj = {};
+
+
+    $scope.gridOptions3 = {
+        enableSorting: true,
+        enableFiltering: true,
+        treeRowHeaderAlwaysVisible: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi3 = gridApi;
+        }
+    };
 
     $scope.showAlert = function (title, content, type) {
         new PNotify({
@@ -87,7 +98,6 @@ mainApp.controller("campaignLookUpController", function ($scope,
     loadNewlyCreatedCampaigns();
 
     $scope.loadCampaignSchedules = function (campaignId) {
-        if ($scope.campaignNumberObj) {
             $scope.campaignSchedules = [];
             $scope.enablePreviewData = false;
             if (campaignId) {
@@ -164,7 +174,6 @@ mainApp.controller("campaignLookUpController", function ($scope,
                 //    $scope.showAlert('Campaign Number Upload', errMsg, 'error');
                 //});
             }
-        }
     };
 
 
@@ -172,23 +181,18 @@ mainApp.controller("campaignLookUpController", function ($scope,
 
         return {
             searchNumbersByCampaign: function () {
+                $scope.gridOptions3.data = [];
+                $scope.gridOptions3.columnDefs = [];
+
                 $scope.isLoadingLookUp = true;
                 campaignNumberApiAccess.GetNumbersByCampaign($scope.searchObj.CampaignId).then(function (response) {
                     $scope.isLoadingLookUp = false;
                     if (response.IsSuccess) {
                         if (response.Result && response.Result.length > 0) {
-                            $scope.categoryLookupObj = response.Result.map(function (result) {
-                                if (result.CampContactInfo) {
-                                    return {
-                                        ContactId: result.CampContactInfo.ContactId,
-                                        ExtraData: result.ExtraData
-                                    }
-                                } else {
-                                    return result;
-                                }
+                            $scope.gridOptions3.data = response.Result.map(function (contact) {
+                                return {ContactId: contact.CampContactInfo.ContactId, ExtraData: contact.ExtraData};
                             });
                         }
-
                     }
                     else {
                         var errMsg = response.CustomMessage;
@@ -241,19 +245,17 @@ mainApp.controller("campaignLookUpController", function ($scope,
                 });
             },
             searchNumbersByCategories: function () {
-
+                $scope.gridOptions3.data = [];
+                $scope.gridOptions3.columnDefs = [];
                 $scope.isLoadingLookUp = true;
                 campaignNumberApiAccess.GetNumbersByCategory($scope.searchObj.CategoryID).then(function (response) {
                     $scope.isLoadingLookUp = false;
                     if (response.IsSuccess) {
                         if (response.Result && response.Result.CampContactInfo && response.Result.CampContactInfo.length > 0) {
-                            $scope.categoryLookupObj = response.Result.CampContactInfo.map(function (result) {
-                                return result;
-                            })
+                            $scope.gridOptions3.data = response.Result.CampContactInfo.map(function (contact) {
+                                return contact;
+                            });
                         }
-
-                    }
-                    else {
                         var errMsg = response.CustomMessage;
 
                         if (response.Exception) {
@@ -292,5 +294,9 @@ mainApp.controller("campaignLookUpController", function ($scope,
     $scope.clearSearch = function () {
         $scope.searchObj = {};
         $scope.categoryLookupObj = [];
+
+        $scope.gridOptions3.data = [];
+        $scope.gridOptions3.columnDefs = [];
+        $scope.isTableLoading = 0;
     };
 });

@@ -731,9 +731,7 @@
                 if (response.IsSuccess) {
                     if (response.Result && response.Result.CampContactInfo && response.Result.CampContactInfo.length > 0) {
                         $scope.gridOptions3.data = response.Result.CampContactInfo.map(function (contact) {
-
                             return contact;
-
                         });
                         $scope.isTableLoading = 1;
                     } else {
