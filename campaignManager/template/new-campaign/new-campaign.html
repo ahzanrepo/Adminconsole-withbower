@@ -100,7 +100,9 @@
                                 </button>
                             </li>
 
-                            <li ng-show="callback.AllowCallBack && !isCampaignUpdateConfig">
+                            <li ng-show="callback.AllowCallBack
+                            && !isCampaignUpdateConfig
+                            && campaign.DialoutMechanism!='PREVIEW'">
                                 <button class="btn btn-wizard"
                                         ng-if="callbacks.length!=0"
                                         ng-click="changeFormWizard('3')">
@@ -109,6 +111,7 @@
                                 </button>
 
                                 <button class="btn btn-wizard"
+                                        ng-show="campaign.DialoutMechanism!='PREVIEW'"
                                         ng-if="callbacks.length==0"
                                         disabled>
                                     Next
@@ -116,7 +119,9 @@
                                 </button>
                             </li>
 
-                            <li ng-show="!callback.AllowCallBack && !isCampaignUpdateConfig">
+                            <li ng-show="!callback.AllowCallBack
+                            && !isCampaignUpdateConfig
+                            && campaign.DialoutMechanism!='PREVIEW'">
                                 <button class="btn btn-wizard"
                                         ng-click="changeFormWizard('3')">
                                     Next
@@ -124,7 +129,37 @@
                                 </button>
                             </li>
 
-                            <li ng-if="isCampaignUpdateConfig">
+
+                            <!--<li ng-show="!callback.AllowCallBack-->
+                            <!--&& !isCampaignUpdateConfig-->
+                            <!--&& campaign.DialoutMechanism=='PREVIEW'">-->
+                            <!--<button class="btn btn-wizard"-->
+                            <!--ng-click="changeFormWizard('3')">-->
+                            <!--Next-->
+                            <!--<i class="ti-angle-right"></i>-->
+                            <!--</button>-->
+                            <!--</li>-->
+
+                            <li ng-show="AdditionalDataRecordId
+                            && campaign.DialoutMechanism=='PREVIEW'">
+                                <button class="btn btn-wizard"
+                                        ng-click="changeFormWizard('3')">
+                                    Next
+                                    <i class="ti-angle-right"></i>
+                                </button>
+                            </li>
+
+                            <li ng-show="!AdditionalDataRecordId
+                            && campaign.DialoutMechanism=='PREVIEW'">
+                                <button class="btn btn-wizard"
+                                        disabled>
+                                    Next
+                                    <i class="ti-angle-right"></i>
+                                </button>
+                            </li>
+
+                            <li ng-if="isCampaignUpdateConfig
+                            && campaign.DialoutMechanism!='PREVIEW'">
                                 <button class="btn btn-wizard">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
                                 </button>
