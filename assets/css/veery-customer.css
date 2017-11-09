@@ -7628,6 +7628,10 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     color: #f5120d !important;
 }
 
+.has-error > tags-input {
+    border: 1px solid #f51411;
+}
+
 .right-wizard-header.inline-header,
 .left-wizard-header {
     display: inline-block;
@@ -7920,4 +7924,12 @@ select > option .disable-opt {
     overflow: hidden;
     position: relative;
     margin-bottom: 15px;
+}
+
+.ui-grid {
+    border: 0px solid #d4d4d4 !important;
+}
+
+.ui-grid-header {
+    border-bottom: 0px solid rgb(212, 212, 212) !important;
 }

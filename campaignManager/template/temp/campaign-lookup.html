@@ -5,7 +5,7 @@
     <header class="camp-m-header"
             style="border-bottom: 1px solid #f7f7f7;">
         <!-- UI hedaer -->
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             <div class="camp-header-left" style="width: 250px;">
                 <div class="camp-hleft-text hleft-lg">
                     CM
@@ -16,6 +16,8 @@
             </div>
             <span class="left-line"></span>
         </div>
+
+
 
     </header>
 
@@ -108,41 +110,29 @@
         </div>
 
         <div class="col-lg-8">
-            <div class="row">
-                <!-- table header -->
-                <div class="camp-tbl-header">
-                    <div class="col-lg-12">
-                        <div class="tbl-header">Contact Info</div>
-                    </div>
 
-                </div>
+            <!-- table header -->
 
-                <div class="camp-tbl-body" style="
+            <div class="camp-tbl-body" style="
     height: 700px;
     overflow-y: auto;">
 
-                    <!-- loader -->
-                    <div class="loading-camp " ng-if="isLoadingLookUp">
-                        <svg class="spinner-container" width="65px" height="65px" viewBox="0 0 52 52">
-                            <circle class="path" cx="26px" cy="26px" r="20px" fill="none" stroke-width="4px"/>
-                        </svg>
-                    </div>
-
-                    <div class="camp-contact-info-error">
-                        <div class="contact-error-text" ng-if="categoryLookupObj.length==0 && !isLoadingLookUp">
-                            Record is empty.
-                        </div>
-                    </div>
-
-
-                    <div class="camp-tbl-row"
-                         ng-repeat="cam in categoryLookupObj">
-                        <div class="col-lg-12">
-                            <div class="tbl-body-text">{{cam.ContactId}}</div>
-                        </div>
-                    </div>
-
+                <!-- loader -->
+                <div class="loading-camp " ng-if="isLoadingLookUp">
+                    <svg class="spinner-container" width="65px" height="65px" viewBox="0 0 52 52">
+                        <circle class="path" cx="26px" cy="26px" r="20px" fill="none" stroke-width="4px"/>
+                    </svg>
                 </div>
+
+                <div class="camp-contact-info-error" ng-if="gridOptions3.data.length==0 && !isLoadingLookUp">
+                    <div class="contact-error-text">
+                        Record is empty.
+                    </div>
+                </div>
+
+
+                <div ui-grid="gridOptions3" class="grid"></div>
+
             </div>
         </div>
     </div>
