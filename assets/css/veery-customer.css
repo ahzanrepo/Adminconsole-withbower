@@ -3102,10 +3102,23 @@ tags-input .autocomplete .suggestion-list {
 }
 
 tags-input .tags .tag-item {
+    font-family: 'Roboto-light', sans-serif;
     color: #fff;
-    background: #f8b01d;
-    border: 1px solid #f8b01d;
-    border-radius: 5px;
+    background: #8fd53b;
+    border: 0px solid #f8b01d;
+    border-radius: 0px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding-top: 1px;
+}
+
+tags-input .tags .tag-item .remove-button {
+    color: #f5f5f5 !important;
+}
+
+tags-input[disabled] .tags,
+tags-input .tags. {
+    border-radius: 0px !important;
 }
 
 tags-input .tags {
@@ -4211,6 +4224,7 @@ footer {
 
 tags-input .tags {
     height: auto !important;
+    border-radius: 0px !important;
 }
 
 .image_edit > i {
