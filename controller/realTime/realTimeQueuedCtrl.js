@@ -357,6 +357,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
             enableColumnResizing: true,
             enableGridMenu: true,
             enableSorting: true,
+            data: [],
             columnDefs: [
                 {
                     name: 'QueueName',
@@ -421,14 +422,10 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
             var gridData = [];
             for (var key in $scope.queues) {
                 if ($scope.queues.hasOwnProperty(key)) {
-
                     gridData.push($scope.queues[key]);
-
-
                 }
             }
             $scope.safeApply(function () {
-
                 $scope.gridOptions3.data = gridData;
             });
         };
