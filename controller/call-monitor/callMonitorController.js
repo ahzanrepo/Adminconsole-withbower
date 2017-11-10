@@ -57,26 +57,25 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         console.log("DB Call count " + callObjLen);
 
         for (var i = 0; i < callObjLen; i++) {
-            var keyObj = callObj.Result[Object.keys(callObj.Result)[i]];
+            if(Object.keys(callObj.Result)[i]!="undefined")
+            {
+                var keyObj = callObj.Result[Object.keys(callObj.Result)[i]];
 
-            if (keyObj.length > 1) {
-                var callObject = CallObjectCreator(keyObj);
-                if (callObject) {
+                if (keyObj.length > 1) {
+                    var callObject = CallObjectCreator(keyObj);
+                    if (callObject) {
 
-                    curCallArr.push(callObject);
-                    $scope.CallObj = curCallArr;
-                    console.log("Call Object " + $scope.CallObj);
+                        curCallArr.push(callObject);
+                        $scope.CallObj = curCallArr;
+                        console.log("Call Object " +JSON.stringify($scope.CallObj));
+                    }
+
+
                 }
-                else {
-                    $scope.CallObj = {}
-                }
+
 
             }
 
-
-            if (i == callObjLen - 1) {
-                console.log("Current calls " + JSON.stringify(curCallArr));
-            }
         }
 
     };
@@ -163,6 +162,8 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
         }
 
+
+
         if (Bridged) {
             newKeyObj.FromID = FromID;
             newKeyObj.ToID = ToID;
@@ -172,14 +173,24 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
             newKeyObj.Skill = skill;
             newKeyObj.LocalTime = localTime;
             newKeyObj.CallDuration = callDuration;
+            if(Direction === 'outbound')
+            {
+                newKeyObj.BargeID = otherID;
+            }
+
+
+            return newKeyObj;
+        }
+        else
+        {
+            return null;
         }
 
-        if(Direction === 'outbound')
-            newKeyObj.BargeID = otherID;
 
 
 
-        return newKeyObj;
+
+
     };
   
   
