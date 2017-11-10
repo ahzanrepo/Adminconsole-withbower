@@ -255,7 +255,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('console.detailsdashboard', {
             url: "/detailsdashboard",
             templateUrl: "detailsDashBoard/view/detailsDashboard.html",
-            controller: "detailsDashboardController",
+            controller: "detailsDashBoardController",
             data: {
                 requireLogin: true,
                 navigation: "AGENT_DASHBOARD"
@@ -1104,6 +1104,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/new-campaign/?id",
             templateUrl: "campaignManager/template/new-campaign/new-campaign.html",
             controller: "campaignController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.campaign-lookup', {
+            url: "/campaign-lookup",
+            templateUrl: "campaignManager/template/temp/campaign-lookup.html",
+            controller: "campaignLookUpController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"

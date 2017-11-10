@@ -66,6 +66,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 $scope.getProductivity();
             }
         }, function (error) {
+            $scope.getProductivity();
             $log.debug("GetOnlineAgents err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
         });

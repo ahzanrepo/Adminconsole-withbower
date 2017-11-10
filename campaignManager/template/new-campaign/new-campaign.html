@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
             <div class="row">
                 <div class="cam-left-wrapper cam-wizard-wrap-height">
 
@@ -25,7 +25,7 @@
 
                         <ul class="wizard-time-line-wrp">
                             <li id="1stStepWizard" class="processing">
-                                <div class="t-line wizard-count active">
+                                <div id="numberOne" class="t-line wizard-count active">
                                     1
                                 </div>
                                 <div class="t-line wizard-desc">
@@ -35,7 +35,7 @@
 
                             <li id="2ndStepWizard"
                                 class="">
-                                <div class="t-line wizard-count active">
+                                <div id="numberTwo" class="t-line wizard-count active">
                                     2
                                 </div>
                                 <div class="t-line wizard-desc">
@@ -44,7 +44,7 @@
                             </li>
 
                             <li id="3ndStepWizard" class="">
-                                <div class="t-line wizard-count active">
+                                <div id="numberTree" class="t-line wizard-count active">
                                     3
                                 </div>
                                 <div class="t-line wizard-desc">
@@ -54,7 +54,7 @@
 
 
                             <li id="4ndStepWizard" class="">
-                                <div class="t-line wizard-count active">
+                                <div id="numberFour" class="t-line wizard-count active">
                                     4
                                 </div>
                                 <div class="t-line wizard-desc">
@@ -99,11 +99,69 @@
                                     Back
                                 </button>
                             </li>
-                            <li>
+
+                            <li ng-show="callback.AllowCallBack
+                            && !isCampaignUpdateConfig
+                            && campaign.DialoutMechanism!='PREVIEW'">
+                                <button class="btn btn-wizard"
+                                        ng-if="callbacks.length!=0"
+                                        ng-click="changeFormWizard('3')">
+                                    Next
+                                    <i class="ti-angle-right"></i>
+                                </button>
+
+                                <button class="btn btn-wizard"
+                                        ng-show="campaign.DialoutMechanism!='PREVIEW'"
+                                        ng-if="callbacks.length==0"
+                                        disabled>
+                                    Next
+                                    <i class="ti-angle-right"></i>
+                                </button>
+                            </li>
+
+                            <li ng-show="!callback.AllowCallBack
+                            && !isCampaignUpdateConfig
+                            && campaign.DialoutMechanism!='PREVIEW'">
                                 <button class="btn btn-wizard"
                                         ng-click="changeFormWizard('3')">
                                     Next
                                     <i class="ti-angle-right"></i>
+                                </button>
+                            </li>
+
+
+                            <!--<li ng-show="!callback.AllowCallBack-->
+                            <!--&& !isCampaignUpdateConfig-->
+                            <!--&& campaign.DialoutMechanism=='PREVIEW'">-->
+                            <!--<button class="btn btn-wizard"-->
+                            <!--ng-click="changeFormWizard('3')">-->
+                            <!--Next-->
+                            <!--<i class="ti-angle-right"></i>-->
+                            <!--</button>-->
+                            <!--</li>-->
+
+                            <li ng-show="AdditionalDataRecordId
+                            && campaign.DialoutMechanism=='PREVIEW'">
+                                <button class="btn btn-wizard"
+                                        ng-click="changeFormWizard('3')">
+                                    Next
+                                    <i class="ti-angle-right"></i>
+                                </button>
+                            </li>
+
+                            <li ng-show="!AdditionalDataRecordId
+                            && campaign.DialoutMechanism=='PREVIEW'">
+                                <button class="btn btn-wizard"
+                                        disabled>
+                                    Next
+                                    <i class="ti-angle-right"></i>
+                                </button>
+                            </li>
+
+                            <li ng-if="isCampaignUpdateConfig
+                            && campaign.DialoutMechanism!='PREVIEW'">
+                                <button class="btn btn-wizard">
+                                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
                                 </button>
                             </li>
                         </ul>
@@ -170,7 +228,7 @@
             </div>
         </div>
 
-        <div class="col-lg-9">
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
             <div class="row">
                 <div ng-show="step==1"
                      ng-include="'campaignManager/template/new-campaign/step1.html'"></div>

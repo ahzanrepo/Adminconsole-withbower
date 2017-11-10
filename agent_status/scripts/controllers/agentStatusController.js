@@ -223,9 +223,9 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
-            /*if ($scope.profile.length == 0) {
+            if ($scope.profile.length == 0) {
              angular.copy($scope.availableProfile, $scope.profile);
-             }*/
+             }
 
             angular.forEach($scope.profile, function (agentProfile) {
                 try {
