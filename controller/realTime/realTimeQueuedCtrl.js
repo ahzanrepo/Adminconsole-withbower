@@ -372,7 +372,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                     name: 'CurrentMaxWaitTime',
                     displayName: 'Current max waiting Time',
                     width: 170,
-                    cellTemplate: "<div>{{row.entity.CurrentMaxWaitTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
+                    cellTemplate: "<timer start-time=\"row.entity.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer>"
                 },
                 {
                     name: 'TotalQueued',
