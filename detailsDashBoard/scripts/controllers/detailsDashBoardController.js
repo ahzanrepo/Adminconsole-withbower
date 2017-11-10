@@ -2,7 +2,7 @@
  * Created by Waruna on 9/27/2017.
  */
 
-mainApp.controller("detailsDashboardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler) {
+mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler) {
     $anchorScroll();
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};

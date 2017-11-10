@@ -1499,40 +1499,22 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $RIGHT_COL.css('min-height', contentHeight);
         };
 
-        var liOld = undefined;
+        var oldItem = undefined;
         $SIDEBAR_MENU.find('a').on('click', function (ev) {
 
             var $li = $(this).parent();
-            if(liOld){
-                $('.child_menu li').removeClass('active');
-                /*if (liOld.context.text === $li.context.text ) {
-                 return;
-                 }else{
-
-                 liOld.removeClass('active active-sm');
-                 }*/
+            if (oldItem) {
+                oldItem.addClass('activet');
             }
-            liOld = $li;
 
-            /*if(liOld){
-                if (liOld.context.text === $li.context.text ) {
-                    return;
-                }else{
-
-                    if ((liOld.parent().is('.child_menu'))&&(!$li.parent().is('.child_menu')) ){
-                        liOld.removeClass('active active-sm');
-                        $('ul:first', liOld).slideUp(function () {
-                            setContentHeight();
-                        });
-                    }
-                }
-            }
-            liOld = $li;*/
             if ($li.is('.active')) {
-                $li.removeClass('active active-sm');
+                $li.removeClass('active active-sm activet');
                 $('ul:first', $li).slideUp(function () {
                     setContentHeight();
                 });
+                if($li.context.text != oldItem.context.text &&($li.closest("li").children("ul").length==0)){
+                    $li.addClass('active');
+                }
             } else {
                 // prevent closing menu if we are on child menu
                 if (!$li.parent().is('.child_menu')) {
@@ -1546,7 +1528,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     setContentHeight();
                 });
             }
-
+            oldItem = $li;
             //slide menu height set daynamically
             $scope.windowMenuHeight = jsUpdateSize() - 120 + "px";
             document.getElementById('sidebar-menu').style.height = $scope.windowMenuHeight;

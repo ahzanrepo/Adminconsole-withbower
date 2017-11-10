@@ -255,7 +255,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('console.detailsdashboard', {
             url: "/detailsdashboard",
             templateUrl: "detailsDashBoard/view/detailsDashboard.html",
-            controller: "detailsDashboardController",
+            controller: "detailsDashBoardController",
             data: {
                 requireLogin: true,
                 navigation: "AGENT_DASHBOARD"

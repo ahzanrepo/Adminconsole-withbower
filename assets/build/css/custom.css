@@ -692,7 +692,11 @@ a:hover, a:focus {
 }
 
 .nav-md ul.nav.child_menu li.active:before {
-    background: #17bab8;
+    background: #0675ba;
+}
+
+.nav-md ul.nav.child_menu li.activet:before {
+    background: rgba(114, 184, 208, 0.76);
 }
 
 .nav-md ul.nav.child_menu li:after {
