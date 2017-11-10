@@ -2,29 +2,245 @@
  * Created by Damith on 5/29/2016.
  */
 
-mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService, $anchorScroll, subscribeServices,reportQueryFilterService ) {
+mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService,
+                                                   $anchorScroll,
+                                                   subscribeServices, reportQueryFilterService) {
 
-    $scope.safeApply = function (fn) {
-        var phase = this.$root.$$phase;
-        if (phase == '$apply' || phase == '$digest') {
-            if (fn && (typeof(fn) === 'function')) {
-                fn();
+        $scope.safeApply = function (fn) {
+            var phase = this.$root.$$phase;
+            if (phase == '$apply' || phase == '$digest') {
+                if (fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
             }
-        } else {
-            this.$apply(fn);
+        };
+        $anchorScroll();
+
+        $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
+        subscribeServices.subscribe('queuedetail');
+        //subscribe services
+        subscribeServices.subscribeDashboard('realtime', function (event) {
+
+            switch (event.roomName) {
+                case 'QUEUE:QueueDetail':
+                    if (event.Message) {
+                        var item = event.Message.QueueInfo;
+                        if (item.CurrentMaxWaitTime) {
+                            var d = moment(item.CurrentMaxWaitTime).valueOf();
+                            item.MaxWaitingMS = d;
+
+                            if (item.EventTime) {
+
+                                var serverTime = moment(item.EventTime).valueOf();
+                                tempMaxWaitingMS = serverTime - d;
+                                item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                            }
+
+                        }
+
+                        //
+                        item.id = event.Message.QueueId;
+
+                        item.QueueName = event.Message.QueueName;
+                        item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+
+                        if (item.TotalQueued > 0) {
+                            item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
+                        }
+
+                        if (!$scope.queues[event.Message.QueueId]) {
+                            $scope.queueList.push(item);
+                        }
+
+                        $scope.safeApply(function () {
+
+                            $scope.queues[event.Message.QueueId] = item;
+                        });
+
+                        setGridData();
+                    }
+                    break;
+            }
+        });
+
+
+        //$scope.percent = 65;
+
+        //#
+
+        $scope.isGrid = false;
+        $scope.summaryText = "Table";
+        $scope.isLoaded = false;
+        $scope.refreshTime = 10000;
+
+        $scope.pieoption = {
+            animate: {
+                duration: 1000,
+                enabled: true
+            },
+            barColor: '#2C3E50',
+            scaleColor: false,
+            lineWidth: 20,
+            lineCap: 'circle',
+            size: 200
+        };
+
+        //#Chart option
+        $scope.queueoption = {
+            grid: {
+                borderColor: '#f8f6f6',
+                show: true
+            },
+            series: {shadowSize: 0, color: "#f8b01d"},
+            color: {color: '#63a5a2'},
+            legend: {
+                container: '#legend',
+                show: true
+            },
+            yaxis: {
+                min: 0,
+                max: 10
+            },
+            xaxis: {
+                tickFormatter: function (val, axis) {
+                    return moment.unix(val).minute() + ":" + moment.unix(val).second();
+                }
+            }
+        };
+
+        $scope.queues = {};
+
+        $scope.queueList = [];
+
+        var emptyArr = [];
+
+        $scope.querySearch = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.queueList) {
+                    return $scope.queueList;
+                }
+                else {
+                    return emptyArr;
+                }
+
+            }
+            else {
+                if ($scope.queueList) {
+                    var filteredArr = $scope.queueList.filter(function (item) {
+                        var regEx = "^(" + query + ")";
+
+                        if (item.QueueName) {
+                            return item.QueueName.match(regEx);
+                        }
+                        else {
+                            return false;
+                        }
+
+                    });
+
+                    return filteredArr;
+                }
+                else {
+                    return emptyArr;
+                }
+            }
+
+        };
+
+
+        /*$scope.GetAllQueueStatistics = function () {
+
+         queueMonitorService.GetAllQueueStats().then(function (response) {
+
+         $scope.queues = [];
+         $scope.queues = response.map(function (c, index) {
+
+         if(c.QueueId)
+
+         var item = c.QueueInfo;
+         item.id = c.QueueId;
+         item.queuename= c.QueueName;
+         item.AverageWaitTime = Math.round(item.AverageWaitTime*100)/100;
+
+         if (c.QueueInfo.TotalQueued > 0) {
+         item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
+         }
+         return item;
+         });
+         });
+         };*/
+
+
+        $scope.checkQueueAvailability = function (itemID) {
+
+            var value = $filter('filter')($scope.queues, {id: itemID})[0];
+            if (value) {
+                return false;
+            }
+            else {
+                return true;
+            }
+
+
+        };
+
+        $scope.SaveReportQueryFilter = function () {
+            reportQueryFilterService.SaveReportQueryFilter("realtime-queued", $scope.selectedQueues);
+        };
+
+        $scope.selectedQueues = [];
+        $scope.GetReportQueryFilter = function () {
+            reportQueryFilterService.GetReportQueryFilter("realtime-queued").then(function (response) {
+                if (response) {
+                    $scope.selectedQueues = response;
+                }
+            }, function (error) {
+                console.log(error);
+            });
+        };
+        $scope.GetReportQueryFilter();
+
+        $scope.checkQueueHidden = function (qid) {
+            if ($scope.selectedQueues && $scope.selectedQueues.length > 0) {
+                var matchingQueues = $scope.selectedQueues.filter(function (queue) {
+                    if (queue.id === qid) {
+                        return true;
+                    }
+                });
+
+                if (matchingQueues && matchingQueues.length > 0) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            else {
+                return false;
+            }
+
         }
-    };
-    $anchorScroll();
 
-    $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
-    subscribeServices.subscribe('queuedetail');
-    //subscribe services
-    subscribeServices.subscribeDashboard('realtime',function (event) {
 
-        switch (event.roomName) {
-            case 'QUEUE:QueueDetail':
-                if (event.Message) {
-                    var item = event.Message.QueueInfo;
+        $scope.GetAllQueueStatistics = function () {
+
+            queueMonitorService.GetAllQueueStats().then(function (response) {
+                var i = 1;
+                angular.forEach(response, function (c) {
+                    // var value = $filter('filter')(updatedQueues, {id: item.id})[0];
+                    // if (!value) {
+                    //     $scope.queues.splice($scope.queues.indexOf(item), 1);
+                    // }
+
+
+                    var item = c.QueueInfo;
+                    item.id = c.QueueId;
+                    item.QueueName = c.QueueName;
+                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+
                     if (item.CurrentMaxWaitTime) {
                         var d = moment(item.CurrentMaxWaitTime).valueOf();
                         item.MaxWaitingMS = d;
@@ -39,311 +255,186 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
                     }
 
-                    //
-                    item.id = event.Message.QueueId;
-
-                    item.QueueName = event.Message.QueueName;
-                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
-
                     if (item.TotalQueued > 0) {
                         item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                     }
 
-                    if (!$scope.queues[event.Message.QueueId]) {
-                        $scope.queueList.push(item);
-                    }
-
-                    $scope.safeApply(function () {
-
-                        $scope.queues[event.Message.QueueId] = item;
-                    });
-                }
-                break;
-        }
-    });
-
-
-    //$scope.percent = 65;
-
-    //#
-
-    $scope.isGrid = false;
-    $scope.summaryText = "Table";
-    $scope.isLoaded = false;
-    $scope.refreshTime = 10000;
-
-    $scope.pieoption = {
-        animate: {
-            duration: 1000,
-            enabled: true
-        },
-        barColor: '#2C3E50',
-        scaleColor: false,
-        lineWidth: 20,
-        lineCap: 'circle',
-        size: 200
-    };
-
-    //#Chart option
-    $scope.queueoption = {
-        grid: {
-            borderColor: '#f8f6f6',
-            show: true
-        },
-        series: {shadowSize: 0, color: "#f8b01d"},
-        color: {color: '#63a5a2'},
-        legend: {
-            container: '#legend',
-            show: true
-        },
-        yaxis: {
-            min: 0,
-            max: 10
-        },
-        xaxis: {
-            tickFormatter: function (val, axis) {
-                return moment.unix(val).minute() + ":" + moment.unix(val).second();
-            }
-        }
-    };
-
-    $scope.queues = {};
-
-    $scope.queueList = [];
-
-    var emptyArr = [];
-
-    $scope.querySearch = function (query) {
-        if (query === "*" || query === "") {
-            if ($scope.queueList) {
-                return $scope.queueList;
-            }
-            else {
-                return emptyArr;
-            }
-
-        }
-        else {
-            if ($scope.queueList) {
-                var filteredArr = $scope.queueList.filter(function (item) {
-                    var regEx = "^(" + query + ")";
-
-                    if (item.QueueName) {
-                        return item.QueueName.match(regEx);
-                    }
-                    else {
-                        return false;
-                    }
-
+                    // if ($scope.checkQueueAvailability(item.id)) {
+                    item.agentCount = i++;
+                    $scope.queues[item.id] = item;
+                    $scope.queueList.push(item);
+                    //}
                 });
 
-                return filteredArr;
-            }
-            else {
-                return emptyArr;
-            }
-        }
 
-    };
-
-
-    /*$scope.GetAllQueueStatistics = function () {
-
-     queueMonitorService.GetAllQueueStats().then(function (response) {
-
-     $scope.queues = [];
-     $scope.queues = response.map(function (c, index) {
-
-     if(c.QueueId)
-
-     var item = c.QueueInfo;
-     item.id = c.QueueId;
-     item.queuename= c.QueueName;
-     item.AverageWaitTime = Math.round(item.AverageWaitTime*100)/100;
-
-     if (c.QueueInfo.TotalQueued > 0) {
-     item.presentage = Math.round((c.QueueInfo.TotalAnswered / c.QueueInfo.TotalQueued) * 100);
-     }
-     return item;
-     });
-     });
-     };*/
-
-
-    $scope.checkQueueAvailability = function (itemID) {
-
-        var value = $filter('filter')($scope.queues, {id: itemID})[0];
-        if (value) {
-            return false;
-        }
-        else {
-            return true;
-        }
-
-
-    };
-
-    $scope.SaveReportQueryFilter = function () {
-        reportQueryFilterService.SaveReportQueryFilter("realtime-queued",$scope.selectedQueues);
-    };
-
-    $scope.selectedQueues = [];
-    $scope.GetReportQueryFilter = function () {
-        reportQueryFilterService.GetReportQueryFilter("realtime-queued").then(function (response) {
-            if(response){
-                $scope.selectedQueues = response;
-            }
-        }, function (error) {
-            console.log(error);
-        });
-    };
-    $scope.GetReportQueryFilter();
-
-    $scope.checkQueueHidden = function (qid) {
-        if ($scope.selectedQueues && $scope.selectedQueues.length > 0) {
-            var matchingQueues = $scope.selectedQueues.filter(function (queue) {
-                if (queue.id === qid) {
-                    return true;
-                }
             });
+        };
 
-            if (matchingQueues && matchingQueues.length > 0) {
-                return false;
+
+        /*
+
+         $scope.GetAllQueueStatistics = function() {
+
+
+         queueMonitorService.GetAllConcurrentQueue().then(function (response) {
+
+         $scope.dataSetQueued[0].data = response.map(function (c, index) {
+         var item = c;
+
+         if(c.TotalQueued > 0) {
+         item.presentage = Math.round(c.TotalAnswered / c.TotalQueued) * 100;
+         }
+
+         return item;
+         });
+         });
+         }
+
+
+         */
+
+
+        $scope.changeView = function () {
+            $scope.isGrid = !$scope.isGrid;
+            if ($scope.isGrid) {
+                $scope.summaryText = "Card";
             }
             else {
-                return true;
+                $scope.summaryText = "Table";
             }
-        }
-        else {
-            return false;
-        }
+        };
+
+        $scope.GetAllQueueStatistics();
+
+
+        var ServerHandler = (function () {
+            $scope.dataSetQueued = [{
+                data: [],
+                lines: {
+                    fill: true,
+                    lineWidth: 2
+                }
+            }];
+        })();
+
+        var getAllRealTime = function () {
+            //$scope.GetAllQueueStatistics();
+            //getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+        };
+
+        // getAllRealTime();
+        //var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+
+        $scope.$on("$destroy", function () {
+            // if (getAllRealTimeTimer) {
+            //     $timeout.cancel(getAllRealTimeTimer);
+            // }
+            subscribeServices.unsubscribe('queuedetail');
+            subscribeServices.unSubscribeDashboard('realtime');
+
+        });
+
+        //update code
+        //damith
+        $scope.cardViewMode = 'large';
+        $scope.largeCard = true;
+        $scope.changeCardView = function (_viewType) {
+            $scope.cardViewMode = _viewType;
+
+            $scope.summary = _viewType === 'table';
+            $scope.largeCard = _viewType === 'large';
+            $scope.smallCard = _viewType === 'small';
+            $scope.showDetails = _viewType === 'medium';
+
+            if (_viewType === 'table') {
+                setGridData();
+            }
+        };
+
+
+        //update new table
+        $scope.gridOptions3 = {
+            enableColumnResizing: true,
+            enableGridMenu: true,
+            enableSorting: true,
+            columnDefs: [
+                {
+                    name: 'QueueName',
+                    displayName: 'Queue Name',
+                    width: 200
+                },
+                {
+                    name: 'CurrentWaiting',
+                    displayName: 'Current waiting',
+                    width: 100
+                },
+                {
+                    name: 'CurrentMaxWaitTime',
+                    displayName: 'Current max waiting Time',
+                    width: 170,
+                    cellTemplate: "<div>{{row.entity.CurrentMaxWaitTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
+                },
+                {
+                    name: 'TotalQueued',
+                    displayName: 'Total Queued',
+                    width: 100
+                },
+                {
+                    name: 'TotalAnswered',
+                    displayName: 'Answered Calls',
+                    width: 100
+                },
+                {
+                    name: 'TotalAnswered',
+                    displayName: 'Answered Calls',
+                    width: 100
+                },
+                {
+                    name: 'QueueDropped',
+                    displayName: 'Droped Calls',
+                    width: 100
+                },
+                {
+                    name: 'MaxWaitTime',
+                    displayName: 'Max wait Time',
+                    width: 100,
+                    cellTemplate: "<div>{{row.entity.MaxWaitTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
+                },
+                {
+                    name: 'AverageWaitTime',
+                    displayName: 'Avg. Wait Time',
+                    width: 100,
+                    cellTemplate: "<div>{{row.entity.AverageWaitTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
+                },
+                {
+                    name: 'presentage',
+                    displayName: 'Answered Percentage',
+                    width: 100
+                }
+
+
+            ]
+        };
+
+
+        var setGridData = function () {
+            var gridData = [];
+            for (var key in $scope.queues) {
+                if ($scope.queues.hasOwnProperty(key)) {
+
+                    gridData.push($scope.queues[key]);
+
+
+                }
+            }
+            $scope.safeApply(function () {
+
+                $scope.gridOptions3.data = gridData;
+            });
+        };
 
     }
-
-
-    $scope.GetAllQueueStatistics = function () {
-
-        queueMonitorService.GetAllQueueStats().then(function (response) {
-var i=1;
-            angular.forEach(response, function (c) {
-                // var value = $filter('filter')(updatedQueues, {id: item.id})[0];
-                // if (!value) {
-                //     $scope.queues.splice($scope.queues.indexOf(item), 1);
-                // }
-
-
-                var item = c.QueueInfo;
-                item.id = c.QueueId;
-                item.QueueName = c.QueueName;
-                item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
-
-                if (item.CurrentMaxWaitTime) {
-                    var d = moment(item.CurrentMaxWaitTime).valueOf();
-                    item.MaxWaitingMS = d;
-
-                    if (item.EventTime) {
-
-                        var serverTime = moment(item.EventTime).valueOf();
-                        tempMaxWaitingMS = serverTime - d;
-                        item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
-
-                    }
-
-                }
-
-                if (item.TotalQueued > 0) {
-                    item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
-                }
-
-                // if ($scope.checkQueueAvailability(item.id)) {
-                item.agentCount = i++;
-                $scope.queues[item.id] = item;
-                $scope.queueList.push(item);
-                //}
-            });
-
-
-        });
-    };
-
-
-    /*
-
-     $scope.GetAllQueueStatistics = function() {
-
-
-     queueMonitorService.GetAllConcurrentQueue().then(function (response) {
-
-     $scope.dataSetQueued[0].data = response.map(function (c, index) {
-     var item = c;
-
-     if(c.TotalQueued > 0) {
-     item.presentage = Math.round(c.TotalAnswered / c.TotalQueued) * 100;
-     }
-
-     return item;
-     });
-     });
-     }
-
-
-     */
-
-
-    $scope.changeView = function () {
-        $scope.isGrid = !$scope.isGrid;
-        if ($scope.isGrid) {
-            $scope.summaryText = "Card";
-        }
-        else {
-            $scope.summaryText = "Table";
-        }
-    };
-
-    $scope.GetAllQueueStatistics();
-
-
-    var ServerHandler = (function () {
-        $scope.dataSetQueued = [{
-            data: [],
-            lines: {
-                fill: true,
-                lineWidth: 2
-            }
-        }];
-    })();
-
-    var getAllRealTime = function () {
-        //$scope.GetAllQueueStatistics();
-        //getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-    };
-
-    // getAllRealTime();
-    //var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-
-    $scope.$on("$destroy", function () {
-        // if (getAllRealTimeTimer) {
-        //     $timeout.cancel(getAllRealTimeTimer);
-        // }
-        subscribeServices.unsubscribe('queuedetail');
-        subscribeServices.unSubscribeDashboard('realtime');
-
-    });
-
-    //update code 
-    //damith
-    $scope.cardViewMode = 'large';
-    $scope.largeCard = true;
-    $scope.changeCardView = function (_viewType) {
-        $scope.cardViewMode = _viewType;
-
-        $scope.summary = _viewType==='table';
-        $scope.largeCard = _viewType==='large';
-        $scope.smallCard = _viewType==='small';
-        $scope.showDetails = _viewType==='medium';
-    };
-
-});
+);
 
 mainApp.directive('queued', function (queueMonitorService, $timeout, loginService) {
     return {
@@ -540,10 +631,11 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
         },
 
         template: "<th class=\"fs15 text-left\">{{que.QueueName}}</th>" + "<th class=\"fs15\">{{que.CurrentWaiting}}</th>"
-        + "<th class=\"fs15\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer></th> <th class=\"fs15\">{{que.TotalQueued}}</th><th class=\"fs15\">{{que.TotalAnswered}}</th><th class=\"fs15\">{{que.QueueDropped}}</th><th class=\"fs15\">{{que.agentCount}}</th>"
+        + "<th class=\"fs15\"><timer start-time=\"que.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer></th> <th class=\"fs15\">{{que.TotalQueued}}</th><th class=\"fs15\">{{que.TotalAnswered}}</th><th class=\"fs15\">{{que.QueueDropped}}</th>"
         + "<th class=\"fs15\">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th> <th class=\"fs15\">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>"
         + "<th class=\"fs15\">{{que.presentage}}</th>",
 
+        // <th class=\"fs15\">{{que.agentCount}}</th>
         link: function (scope, element, attributes) {
 
 
@@ -551,30 +643,29 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
             scope.val = "";
 
 
-
             var qData = function () {
 
                 /*queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
 
-                    if (response.QueueInfo) {
-                        response.QueueInfo.QueueName = response.QueueName;
-                    }
-                    scope.que = response.QueueInfo;
-                    if (response.QueueInfo.CurrentMaxWaitTime) {
-                        scope.que.CurrentMaxWaitTime = moment().diff(moment(response.QueueInfo.CurrentMaxWaitTime), 'seconds');
-                    }
-                    console.log("que  ", scope.que);
-                    scope.que.id = response.QueueId;
+                 if (response.QueueInfo) {
+                 response.QueueInfo.QueueName = response.QueueName;
+                 }
+                 scope.que = response.QueueInfo;
+                 if (response.QueueInfo.CurrentMaxWaitTime) {
+                 scope.que.CurrentMaxWaitTime = moment().diff(moment(response.QueueInfo.CurrentMaxWaitTime), 'seconds');
+                 }
+                 console.log("que  ", scope.que);
+                 scope.que.id = response.QueueId;
 
-                    scope.val = response.QueueName;
-                    scope.que.AverageWaitTime = Math.round(scope.que.AverageWaitTime * 100) / 100;
+                 scope.val = response.QueueName;
+                 scope.que.AverageWaitTime = Math.round(scope.que.AverageWaitTime * 100) / 100;
 
-                    if (scope.que.TotalQueued > 0) {
-                        scope.que.presentage = Math.round((scope.que.TotalAnswered / scope.que.TotalQueued) * 100);
-                    }
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                });*/
+                 if (scope.que.TotalQueued > 0) {
+                 scope.que.presentage = Math.round((scope.que.TotalAnswered / scope.que.TotalQueued) * 100);
+                 }
+                 }, function (err) {
+                 loginService.isCheckResponse(err);
+                 });*/
             };
 
 
@@ -599,7 +690,7 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
                 });
             };
 
-            skilledResources();
+            //skilledResources();
 
             var updateRealtime = function () {
 
@@ -610,16 +701,16 @@ mainApp.directive('queuedlist', function (queueMonitorService, moment, $timeout,
 
             };
 
-            var updatetimer = $timeout(updateRealtime, 2000);
+            //var updatetimer = $timeout(updateRealtime, 2000);
 
             //updateRealtime();
 
 
-            scope.$on("$destroy", function () {
-                if (updatetimer) {
-                    $timeout.cancel(updatetimer);
-                }
-            })
+            // scope.$on("$destroy", function () {
+            //     if (updatetimer) {
+            //         $timeout.cancel(updatetimer);
+            //     }
+            // })
 
 
             /*
