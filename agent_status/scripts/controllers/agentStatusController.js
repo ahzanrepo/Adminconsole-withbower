@@ -108,7 +108,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         {
             name: 'LoginTime',
             displayName: 'Login Time',
-            width: 100,
+            cellClass: 'table-time',
+            width: 100
 
         },
         {
@@ -119,63 +120,74 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         {
             name: 'slotStateTime',
             displayName: 'Slot State Time',
+            cellClass: 'table-time',
             width: 100
         },
         {
             name: 'AcwTime',
             displayName: 'ACW Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.AcwTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'BreakTime',
             displayName: 'Break Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.BreakTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'HoldTime',
             displayName: 'Hold Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.HoldTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'OnCallTime',
             displayName: 'OnCall Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.OnCallTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'IdleTime',
             displayName: 'Idle Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.IdleTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'StaffedTime',
             displayName: 'Staffed Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.StaffedTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'IncomingCallCount',
             displayName: 'Answered Call Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         },
         {
             name: 'OutgoingCallCount',
             displayName: 'Outgoing Call Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         },
         {
             name: 'MissCallCount',
             displayName: 'Missed Call Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         },
         {
             name: 'OutboundAnswerCount',
             displayName: 'Outgoing Answered Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         }
 
     ];
