@@ -32,7 +32,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     };
 
     /*------------------------ queue details ------------------------------------*/
-    var statusTemplate = '<timer start-time=\"row.entity.CurrentMaxWaitTime\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer>';
+    var statusTemplate = '<timer start-time=\"row.entity.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer>';
     var maxWaitTimeTemplate = "<div>{{row.entity.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</div>";
 
     $scope.gridQOptions = {
@@ -122,7 +122,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                     }
                     $scope.safeApply(function () {
                         item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
-                        $scope.queues[event.Message.id] = item;
+                        $scope.queues[event.Message.QueueId] = item;
                     });
 
                     var res = [];

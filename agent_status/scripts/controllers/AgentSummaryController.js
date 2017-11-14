@@ -57,7 +57,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         else {
             if ($scope.usrList) {
                 var filteredArrUsr = $scope.usrList.filter(function (item) {
-                    var regEx = "^(" + query + ")";
+                    //var regEx = "^(" + query + ")";
+                    var regEx = query;
 
                     if (item.username) {
                         return item.username.match(regEx);
