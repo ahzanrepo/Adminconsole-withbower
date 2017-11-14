@@ -49,31 +49,33 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
             }
             },
             {name: 'Cur.Waiting', field: 'CurrentWaiting', headerTooltip: 'Current Waiting', cellClass: 'table-number'},
-            {name: 'presentage', field: 'presentage', headerTooltip: 'presentage', cellClass: 'presentage'},
+
             {
                 name: 'Avg.Wait',
                 field: 'AverageWaitTime',
                 headerTooltip: 'Average Wait Time',
                 cellFilter: " number : 2",
-                cellClass: 'table-number'
+                cellClass: 'table-time',
+                cellTemplate: "<div>{{row.entity.AverageWaitTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
             },
             {
                 name: 'Cur.MaxWait',
                 field: 'CurrentMaxWaitTime',
                 headerTooltip: 'Current MaxWait Time',
                 cellTemplate: statusTemplate,
-                cellClass: 'table-number'
+                cellClass: 'table-time'
             },
             {
                 name: 'MaxWait',
                 field: 'MaxWaitTime',
                 headerTooltip: 'Max Waiting Time',
                 cellTemplate: maxWaitTimeTemplate,
-                cellClass: 'table-number'
+                cellClass: 'table-time'
             },
             {name: 'Q.Dropped', field: 'QueueDropped', headerTooltip: 'Queue Dropped', cellClass: 'table-number'},
             {name: 'Answered', field: 'TotalAnswered', headerTooltip: 'Total Answered', cellClass: 'table-number'},
             {name: 'Queued', field: 'TotalQueued', headerTooltip: 'Total Queued', cellClass: 'table-number'},
+            {name: 'presentage', field: 'presentage', headerTooltip: 'presentage', cellClass: 'presentage'},
             {name: 'Time', field: 'EventTime', headerTooltip: 'Last Event Time', visible: false},
             {name: 'id', field: 'id', visible: false}
         ],
@@ -595,7 +597,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 enableFiltering: false,
                 enableCellEdit: false,
                 enableSorting: true,
-                width: "*", cellClass: 'table-number',
+                width: "*", cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.AcwTime| secondsToDateTime | date:'HH:mm:ss'}}</div>"
             },
             {
@@ -605,7 +607,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 enableFiltering: false,
                 enableCellEdit: false,
                 enableSorting: true,
-                width: "*", cellClass: 'table-number',
+                width: "*", cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.BreakTime| secondsToDateTime | date:'HH:mm:ss'}}</div>"
             },
             {
@@ -615,7 +617,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 enableFiltering: false,
                 enableCellEdit: false,
                 enableSorting: true,
-                width: "*", cellClass: 'table-number',
+                width: "*", cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.OnCallTime| secondsToDateTime | date:'HH:mm:ss'}}</div>"
             },
             {
@@ -625,7 +627,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 enableFiltering: false,
                 enableCellEdit: false,
                 enableSorting: true,
-                width: "*", cellClass: 'table-number',
+                width: "*", cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</div>"
             },
             {
@@ -635,7 +637,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 enableFiltering: false,
                 enableCellEdit: false,
                 enableSorting: true,
-                width: "*", cellClass: 'table-number',
+                width: "*", cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.IdleTime| secondsToDateTime | date:'HH:mm:ss'}}</div>"
             },
             {
@@ -645,7 +647,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 enableFiltering: false,
                 enableCellEdit: false,
                 enableSorting: true,
-                width: "*", cellClass: 'table-number',
+                width: "*", cellClass: 'table-time',
                 cellTemplate: "<div>{{row.entity.StaffedTime| secondsToDateTime | date:'HH:mm:ss'}}</div>"
             },
 
@@ -813,7 +815,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 field: 'createdAt',
                 headerTooltip: 'Time',
                 cellFilter: 'date:"dd MMM yyyy hh:mm:ss"',
-                cellClass: 'table-number',
+                cellClass: 'table-time',
                 sort: {
                     direction: uiGridConstants.DESC
                 }

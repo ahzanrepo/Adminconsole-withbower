@@ -61,6 +61,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.showCallDetails = false;
 
 
+    $scope.getTableHeight = function() {
+        var rowHeight = 30; // your row height
+        var headerHeight = 50; // your header height
+        return {
+            height: (($scope.gridOptions.data.length+2) * rowHeight + headerHeight) + "px"
+        };
+    };
+
     $scope.gridOptions = {
         enableColumnResizing: true,
         enableGridMenu: true,

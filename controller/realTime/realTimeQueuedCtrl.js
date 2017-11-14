@@ -4,7 +4,7 @@
 
 mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout, $filter, queueMonitorService,
                                                    $anchorScroll,
-                                                   subscribeServices, reportQueryFilterService) {
+                                                   subscribeServices, reportQueryFilterService,uiGridConstants) {
 
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -56,7 +56,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                         }
 
                         $scope.safeApply(function () {
-
+                            item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
                             $scope.queues[event.Message.QueueId] = item;
                         });
 
@@ -259,7 +259,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                     if (item.TotalQueued > 0) {
                         item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                     }
-
+                    item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
                     // if ($scope.checkQueueAvailability(item.id)) {
                     item.agentCount = i++;
                     $scope.queues[item.id] = item;
@@ -359,18 +359,77 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
             height: (($scope.gridOptions3.data.length+2) * rowHeight + headerHeight) + "px"
         };
     };
+
+    var statusTemplate = '<timer start-time=\"row.entity.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer>';
+    var maxWaitTimeTemplate = "<div>{{row.entity.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</div>";
+
+    $scope.gridOptions3 = {
+        enableSorting: true,
+        enableRowSelection: false,
+        enableRowHeaderSelection: false,
+        multiSelect: false,
+        modifierKeysToMultiSelect: false,
+        noUnselect: false,
+        columnDefs: [
+            {
+                name: 'QueueName', field: 'QueueName', headerTooltip: 'Queue Name', width: '15%', sort: {
+                direction: uiGridConstants.ASC
+            }
+            },
+            {name: 'Cur.Waiting', field: 'CurrentWaiting', headerTooltip: 'Current Waiting', cellClass: 'table-number'},
+            {
+                name: 'Avg.Wait',
+                field: 'AverageWaitTime',
+                headerTooltip: 'Average Wait Time',
+                cellFilter: " number : 2",
+                cellClass: 'table-time',
+                cellTemplate: "<div>{{row.entity.AverageWaitTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
+            },
+            {
+                name: 'Cur.MaxWait',
+                field: 'CurrentMaxWaitTime',
+                headerTooltip: 'Current MaxWait Time',
+                cellTemplate: statusTemplate,
+                cellClass: 'table-time'
+            },
+            {
+                name: 'MaxWait',
+                field: 'MaxWaitTime',
+                headerTooltip: 'Max Waiting Time',
+                cellTemplate: maxWaitTimeTemplate,
+                cellClass: 'table-time'
+            },
+            {name: 'Q.Dropped', field: 'QueueDropped', headerTooltip: 'Queue Dropped', cellClass: 'table-number'},
+            {name: 'Answered', field: 'TotalAnswered', headerTooltip: 'Total Answered', cellClass: 'table-number'},
+            {name: 'Queued', field: 'TotalQueued', headerTooltip: 'Total Queued', cellClass: 'table-number'},
+            {name: 'presentage', field: 'presentage', headerTooltip: 'presentage', cellClass: 'presentage'},
+            {name: 'Time', field: 'EventTime', headerTooltip: 'Last Event Time', visible: false},
+            {name: 'id', field: 'id', visible: false}
+        ],
+        data: [],
+        onRegisterApi: function (gridApi) {
+            //$scope.grid1Api = gridApi;
+        }
+    };
+
+
         //update new table
-        $scope.gridOptions3 = {
+       /* $scope.gridOptions3 = {
             enableColumnResizing: true,
             enableGridMenu: true,
             enableSorting: true,
             data: [],
             columnDefs: [
                 {
+                    name: 'QueueName', field: 'QueueName', headerTooltip: 'Queue Name', width: 200, sort: {
+                    direction: uiGridConstants.ASC
+                }
+                },
+                /!*{
                     name: 'QueueName',
                     displayName: 'Queue Name',
                     width: 200
-                },
+                },*!/
                 {
                     name: 'CurrentWaiting',
                     displayName: 'Current waiting',
@@ -422,7 +481,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
 
             ]
-        };
+        };*/
 
 
         var setGridData = function () {
