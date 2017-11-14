@@ -352,7 +352,13 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
             }
         };
 
-
+    $scope.getTableHeight = function() {
+        var rowHeight = 30; // your row height
+        var headerHeight = 50; // your header height
+        return {
+            height: (($scope.gridOptions3.data.length+2) * rowHeight + headerHeight) + "px"
+        };
+    };
         //update new table
         $scope.gridOptions3 = {
             enableColumnResizing: true,
