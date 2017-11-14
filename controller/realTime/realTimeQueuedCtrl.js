@@ -188,6 +188,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         };
 
         $scope.SaveReportQueryFilter = function () {
+            setGridData();
             reportQueryFilterService.SaveReportQueryFilter("realtime-queued", $scope.selectedQueues);
         };
 
@@ -418,9 +419,18 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
 
         var setGridData = function () {
+
+            /*var res = [];
+            for (var x in $scope.queues) {
+                $scope.queues.hasOwnProperty(x) && res.push($scope.queues[x]&& !$scope.checkQueueHidden(x.id))
+            }
+            $scope.safeApply(function () {
+                $scope.gridOptions3.data = res;
+            });*/
+
             var gridData = [];
             for (var key in $scope.queues) {
-                if ($scope.queues.hasOwnProperty(key)) {
+                if ($scope.queues.hasOwnProperty(key)&& !$scope.checkQueueHidden(key)) {
 
                     gridData.push($scope.queues[key]);
 
