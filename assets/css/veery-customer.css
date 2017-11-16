@@ -8015,3 +8015,16 @@ select > option .disable-opt {
         transform: scale3d(1, 1, 1);
     }
 }
+
+.number-upload-animation-wrapper {
+    position: absolute;
+    top: 46px;
+    left: -24px;
+}
+circle {
+    stroke: rgb(58, 229, 93);
+    stroke-linecap: round;
+}
+circle {
+    transition: stroke-dashoffset 0.1s linear;
+}

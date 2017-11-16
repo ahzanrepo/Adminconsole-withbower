@@ -3,7 +3,7 @@
  */
 
 mainApp.controller('signUpCtrl', function ($rootScope, $scope, $state, vcRecaptchaService,
-                                           signUpServices, $auth, $http) {
+                                           signUpServices, $auth, $http,moment) {
 
     //go to login
 
