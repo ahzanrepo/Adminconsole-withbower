@@ -64,9 +64,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'gantt.tooltips',
     'gantt.sortable',
     'gantt.resizeSensor',
-    'gantt.dependencies'
-
-
+    'gantt.dependencies',
+    'angular-progress-arc'
 ]);
 
 

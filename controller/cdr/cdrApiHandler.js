@@ -45,11 +45,15 @@
             })
         };
 
-        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, record, custNumber, campaignName) {
+        var getCampaignCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, record, custNumber, campaignName) {
             var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if (agent) {
                 url = url + '&agent=' + agent;
+            }
+
+            if (skill) {
+                url = url + '&skill=' + skill;
             }
 
             if (record) {
@@ -115,13 +119,18 @@
             })
         };
 
-        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, record, custNumber, campaignName)
+        var getCampaignCDRForTimeRangeCount = function (startDate, endDate, agent, skill, record, custNumber, campaignName)
         {
             var url = baseUrls.cdrProcessor + 'GetCampaignCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
                 url = url + '&agent=' + agent;
             }
+
+            if (skill) {
+                url = url + '&skill=' + skill;
+            }
+
             if (record) {
                 url = url + '&recording=' + record;
             }
@@ -241,11 +250,15 @@
             })
         };
 
-        var prepareDownloadCampaignCDRByType = function (startDate, endDate, agent, record, custNumber, campaignName, fileType, tz) {
+        var prepareDownloadCampaignCDRByType = function (startDate, endDate, agent, skill, record, custNumber, campaignName, fileType, tz) {
             var url = baseUrls.cdrProcessor + 'PrepareDownloadCampaign?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
                 url = url + '&agent=' + agent;
+            }
+
+            if (skill) {
+                url = url + '&skill=' + skill;
             }
 
             if (record) {

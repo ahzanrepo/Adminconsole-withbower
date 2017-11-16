@@ -189,7 +189,7 @@
                     saveAs = cdrInf.CreatedTime;
                 }
 
-                fileService.downloadLatestFile(cdrInf.Uuid + fileType, saveAs + fileType);
+                fileService.downloadLatestFile(cdrInf.RecordingUuid + fileType, saveAs + fileType);
 
             }
 
@@ -476,7 +476,7 @@
                 endDate = $scope.endDate + ' 23:59:59' + momentTz;
             }
 
-            cdrApiHandler.prepareDownloadCampaignCDRByType(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter, 'csv', momentTz).then(function (cdrResp)
+            cdrApiHandler.prepareDownloadCampaignCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter, 'csv', momentTz).then(function (cdrResp)
                 //cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
             {
                 if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
@@ -895,12 +895,12 @@
                 $scope.pagination.itemsPerPage = lim;
                 $scope.isTableLoading = 0;
 
-                cdrApiHandler.getCampaignCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter).then(function(cdrCntRsp)
+                cdrApiHandler.getCampaignCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter).then(function(cdrCntRsp)
                 {
                     if (cdrCntRsp && cdrCntRsp.IsSuccess) {
                         $scope.pagination.totalItems = cdrCntRsp.Result;
 
-                        cdrApiHandler.getCampaignCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter).then(function (cdrResp) {
+                        cdrApiHandler.getCampaignCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.recFilter, $scope.custFilter, $scope.campaignFilter).then(function (cdrResp) {
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 
@@ -963,13 +963,13 @@
                                             cdrAppendObj.IsAnswered = false;
                                             cdrAppendObj.HangupCause = firstLeg.HangupCause;
                                             cdrAppendObj.CampaignName = firstLeg.CampaignName;
+                                            cdrAppendObj.AgentSkill = firstLeg.AgentSkill;
 
                                             cdrAppendObj.CreatedTime = moment(firstLeg.CreatedTime).local().format("YYYY-MM-DD HH:mm:ss");
                                             cdrAppendObj.Duration = firstLeg.Duration;
                                             cdrAppendObj.BillSec = 0;
                                             cdrAppendObj.HoldSec = 0;
                                             cdrAppendObj.QueueSec = 0;
-                                            cdrAppendObj.AgentSkill = null;
                                             cdrAppendObj.AnswerSec = 0;
 
                                             if(firstLeg.ObjType === 'BLAST' || firstLeg.ObjType === 'DIRECT' || firstLeg.ObjType === 'IVRCALLBACK')
@@ -1034,6 +1034,7 @@
                                                 callHangupDirectionB = customerLeg.HangupDisposition;
 
                                                 cdrAppendObj.IsAnswered = customerLeg.IsAnswered;
+                                                cdrAppendObj.RecordingUuid = customerLeg.Uuid;
 
                                             }
 

@@ -49,6 +49,13 @@ mainApp.controller("campaignWizardController", function ($scope,
                     };
 
                     ///
+                    if (res.OperationalStatus == "start") {
+                        console.log("campaign start...");
+
+                        $scope.OperationalStatus = "start";
+                        step01UIFun.goToLastWizard();
+                        return;
+                    }
 
                     if (res.CampaignMode == "AGENT") {
                         $scope.changeChannels('CALL');
@@ -96,6 +103,12 @@ mainApp.controller("campaignWizardController", function ($scope,
                 }
             });
         }
+
+
+        //is check campaign mode when moving to the upload screen
+        var checkIsCampaignStatus = function () {
+
+        };
 
 
         $scope.step = 1;
@@ -211,6 +224,26 @@ mainApp.controller("campaignWizardController", function ($scope,
 
                         stepFour.addClass('rubberBand-step');
                     }
+                },
+
+                goToLastWizard: function () {
+                    var firstStepWizard = $('#1stStepWizard'),
+                        secondStepWizard = $('#2ndStepWizard'),
+                        configWizard = $('#3ndStepWizard'),
+                        fourthStepWizard = $('#4ndStepWizard');
+                    createCampaignSchedule.GetSchedules();
+                    createCampaignSchedule.getScheduleCampaign();
+                    $scope.safeApply(function () {
+                        $scope.step = 4;
+                    });
+
+
+                    firstStepWizard.removeClass('processing').addClass('done');
+                    secondStepWizard.removeClass('processing').addClass('done');
+                    configWizard.removeClass('processing').addClass('done');
+                    fourthStepWizard.addClass('processing');
+
+
                 },
                 moveBackWizard: function (step) {
                     var firstStepWizard = $('#1stStepWizard'),
@@ -695,11 +728,6 @@ mainApp.controller("campaignWizardController", function ($scope,
                         $scope.showAlert("Campaign", "Please Enter Campaign Name.", 'error');
                         idCampaign.addClass('has-error');
                         return false;
-                    } else if (!campaign.Extensions) {
-                        //campaign extensions
-                        $scope.showAlert("Campaign", "Please Select Extension", 'error');
-                        idExtension.addClass('has-error');
-                        return false;
                     } else if (campaign.CampaignChannel) {
                         //user selected channel sms
                         //validation sms configuration
@@ -707,8 +735,18 @@ mainApp.controller("campaignWizardController", function ($scope,
                             $scope.campaign.DialoutMechanism = "BLAST";
                         }
 
+                        if ($scope.campaign.CampaignChannel == 'CALL') {
+                            if (!campaign.Extensions) {
+                                //campaign extensions
+                                $scope.showAlert("Campaign", "Please Select Extension", 'error');
+                                idExtension.addClass('has-error');
+                                return false;
+                            }
+                        }
 
                         if ($scope.campaign.CampaignChannel == 'CALL' && $scope.campaign.CampaignMode == 'AGENT') {
+
+
                             if ($scope.campaign.DialoutMechanism == "BLAST" || !$scope.campaign.DialoutMechanism) {
                                 $scope.showAlert("Campaign", "Please Select Campaign Dialout Mechanism.", 'error');
                                 idDialoutMechanism.addClass('has-error');
@@ -2146,6 +2184,7 @@ mainApp.controller("campaignWizardController", function ($scope,
 
             execPromises[0].then(function (response) {
                 $scope.numberProgress = Math.ceil((end / items.length) * 100);
+
                 batchedHTTP(items, end);
             });
         };
@@ -2221,7 +2260,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             } else {
                 if ($scope.campaignNumberObj && $scope.campaignNumberObj.Contacts.length > 0) {
 
-                    $('#uploadLoaindWizard').removeClass('display-none');
+                     $('#uploadLoaindWizard').removeClass('display-none');
                     $scope.uploadButtonValue = true;
 
                     $scope.numberProgress = 0;
@@ -2253,12 +2292,11 @@ mainApp.controller("campaignWizardController", function ($scope,
                         $state.go('console.campaign-console');
                         $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
 
-
                         //$scope.reset();
                         $scope.refreshAllWizard();
                     }, function (reason) {
                         $scope.uploadButtonValue = false;
-                        $('#uploadLoaindWizard').addClass('display-none');
+                       $('#uploadLoaindWizard').addClass('display-none');
                     });
                 } else {
                     $scope.showAlert('Campaign Number Upload', 'Please select number column before upload', 'error');
@@ -2485,7 +2523,7 @@ mainApp.controller("campaignWizardController", function ($scope,
                 $scope.gridOptions.data = "data";
                 $scope.data = [];
                 $scope.gridOptions.columnDefs = [];
-                $scope.numberProgress = 0;
+                $scope.numberProgress = 5;
                 // $scope.uploadButtonValue = "Upload";
                 $scope.leftAddValue = undefined;
                 $scope.selectedCampaign = undefined;
@@ -2547,6 +2585,14 @@ mainApp.controller("campaignWizardController", function ($scope,
                 });
             }
         };
+
+
+        //progress arc
+        $scope.size = 50;
+        $scope.progress = 0.75;
+        $scope.strokeWidth = 5;
+        $scope.stroke = '#333';
+        $scope.counterClockwise = '';
     }
 ).directive('customOnChange', function () {
     return {

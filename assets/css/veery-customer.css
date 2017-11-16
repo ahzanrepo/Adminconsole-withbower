@@ -7696,21 +7696,25 @@ ul.nav.nav-list.abn-tree .level-12 .indented {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.97);
+    background: rgba(255, 255, 255, 1);
     z-index: 100;
-    left: 10px;
 }
 
 .upload-campaign-status > .upload-status {
-    width: 50%;
-    margin: 15% auto;
+    width: 70%;
+    margin: 20% auto;
 }
 
 .upload-campaign-status > .upload-status > h5 {
-    font-family: 'Roboto-bold', sans-serif !important;
-    font-size: 20px;
+    font-family: 'Roboto-light', sans-serif !important;
+    font-size: 15px;
     font-weight: bold;
     letter-spacing: 1.4px;
+    line-height: 25px;
+    border: 2px solid #f5adad;
+    padding: 20px;
+    background: #fbe5e5;
+    color: #ff0303;
 }
 
 .default-message-camp-wrapper {
@@ -8014,4 +8018,17 @@ select > option .disable-opt {
         -webkit-transform: scale3d(1, 1, 1);
         transform: scale3d(1, 1, 1);
     }
+}
+
+.number-upload-animation-wrapper {
+    position: absolute;
+    top: 46px;
+    left: -24px;
+}
+circle {
+    stroke: rgb(58, 229, 93);
+    stroke-linecap: round;
+}
+circle {
+    transition: stroke-dashoffset 0.1s linear;
 }
