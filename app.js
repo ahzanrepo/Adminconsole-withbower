@@ -64,9 +64,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'gantt.tooltips',
     'gantt.sortable',
     'gantt.resizeSensor',
-    'gantt.dependencies'
-
-
+    'gantt.dependencies',
+    'angular-progress-arc'
 ]);
 
 
@@ -255,7 +254,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('console.detailsdashboard', {
             url: "/detailsdashboard",
             templateUrl: "detailsDashBoard/view/detailsDashboard.html",
-            controller: "detailsDashboardController",
+            controller: "detailsDashBoardController",
             data: {
                 requireLogin: true,
                 navigation: "AGENT_DASHBOARD"

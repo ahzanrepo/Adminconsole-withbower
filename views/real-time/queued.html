@@ -57,7 +57,9 @@
                                     <div class="form-group">
                                         <label>Queue Filter</label>
                                         <div class="input-group col-md-12">
-                                            <tags-input on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()" ng-model="selectedQueues" display-property="QueueName" min-length="1"
+                                            <tags-input on-tag-removed="SaveReportQueryFilter()"
+                                                        on-tag-added="SaveReportQueryFilter()" ng-model="selectedQueues"
+                                                        display-property="QueueName" min-length="1"
                                                         add-from-autocomplete-only="true" placeholder="Select queues">
                                                 <auto-complete max-results-to-show="1000" source="querySearch($query)"
                                                                load-on-empty="true" load-on-focus="true"
@@ -75,13 +77,14 @@
         </div>
     </div>
 
-    <div class="col-md-12 col-sm-12 col-xs-12"  ng-if="cardViewMode!='table'">
+    <div class="col-md-12 col-sm-12 col-xs-12" ng-if="cardViewMode!='table'">
         <!--<div class="col-md-12 col-sm-12 col-xs-12"  ng-repeat="(qkey, que) in queues">
             <queued ng-hide = "checkQueueHidden(que.id)" que="que" name="{{que.id}}" viewmode="cardViewMode"
                     queueoption="queueoption" pieoption="pieoption"></queued>
         </div>-->
 
-        <queued ng-repeat="(qkey, que) in queues" ng-hide = "checkQueueHidden(que.id)" que="que" name="{{que.id}}" viewmode="cardViewMode"
+        <queued ng-repeat="(qkey, que) in queues" ng-hide="checkQueueHidden(que.id)" que="que" name="{{que.id}}"
+                viewmode="cardViewMode"
                 queueoption="queueoption" pieoption="pieoption"></queued>
     </div>
 
@@ -95,62 +98,7 @@
                          height="100%"
                          horizontal-scroll-position="bottom"
                          size="6px" opacity="0.4">
-                        <table class="table table-striped task-tbl" dt-options="dtOptions" datatable="ng">
-                            <thead>
-                            <tr role="row">
-                                <!--<th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Tasks">Tasks
-                                </th>-->
-                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Queue Name" >Queue Name</th>
-                                <th class="sorting" tabindex="1" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Current waiting">Current waiting</th>
-                                <th class="sorting" tabindex="2" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Current max waiting Time">Current max waiting Time</th>
-                                <th class="sorting" tabindex="3" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Total Queued">Total Queued</th>
-                                <th class="sorting" tabindex="4" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Total Queued">Answered Calls</th>
-                                <th class="sorting" tabindex="5" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Total Queued">Droped Calls</th>
-                                <th class="sorting" tabindex="6" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Total Queued">Available Agents</th>
-                                <th class="sorting" tabindex="7" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Max wait Time">Max wait Time</th>
-                                <th class="sorting" tabindex="8" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Avg. Wait Time">Avg. Wait Time</th>
-                                <th class="sorting" tabindex="9" aria-controls="datatable-responsive"
-                                    rowspan="1"
-                                    colspan="1" aria-label="Precentage">Answered Percentage</th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr queuedlist ng-repeat="(qkey, que) in queues" ng-hide = "checkQueueHidden(que.id)" name="{{que.id}}" que="que" name="{{que.id}}" viewmode="cardViewMode"
-                                queueoption="queueoption" pieoption="pieoption">
-                                <!--<th class="fs15 text-left">{{que.queuename}}</th>
-                                <th class="fs15 text-right">{{que.CurrentWaiting}}</th>
-                                <th class="fs15 text-right">{{que.CurrentMaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
-                                <th class="fs15 text-right">{{que.TotalQueued}}</th>
-                                <th class="fs15 text-right">{{que.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
-                                <th class="fs15 text-right">{{que.AverageWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</th>
-                                <th class="fs15 text-right">{{que.presentage}}</th>-->
-
-
-                            </tr>
-
-                            </tbody>
-                        </table>
+                        <div ui-grid="gridOptions3" class="grid" ng-style="getTableHeight()"></div>
 
                     </div>
                 </div>

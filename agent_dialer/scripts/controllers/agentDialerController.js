@@ -188,7 +188,7 @@ mainApp.controller("agentDialerController", function ($http, $scope, $filter, $l
 
 
             $scope.headerData = [];
-            $scope.gridOptions.data = [];
+            $scope.gridOptions.data = "data";
             $scope.gridOptions.columnDefs = [];
 
             $scope.target.form.reset();

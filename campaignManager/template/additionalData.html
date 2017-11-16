@@ -37,9 +37,12 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 form-group"
                          ng-show="(campaign.CampaignChannel === 'CALL' )">
                         <div class="col-md-12 col-sm-10 col-xs-10 form-group has-feedback">
-                            <tags-input ng-model="campAttribute" display-property="Name"
-                                        add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
-                                        on-tag-removed="onChipDelete($tag)" ng-disabled="AdditionalDataRecordId" min-length="1"
+                            <tags-input ng-model="campAttribute"
+                                        display-property="Name"
+                                        add-from-autocomplete-only="true"
+                                        on-tag-added="onChipAdd($tag)"
+                                        on-tag-removed="onChipDelete($tag)"
+                                        ng-disabled="AdditionalDataRecordId" min-length="1"
                                         placeholder="Add a Campaign Attributes">
                                 <auto-complete source="querySearch($query)"
                                                load-on-empty="true"

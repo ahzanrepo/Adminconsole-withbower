@@ -187,7 +187,24 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
         campaignUiAction.rightPanelShow();
 
         $scope.campaignSelectedData = _campign;
-        console.log(_campign);
+        $scope.campaignSelectedData.totalConnect = 0;
+        $scope.campaignSelectedData.dialCount = 0;
+
+        //get total connect count
+        campaignService.GetTotalConnectedCount(_campign.CampaignId).then(function (response) {
+            if (response) {
+                $scope.campaignSelectedData.totalConnect = response;
+            }
+        });
+
+        //get total dial count
+        campaignService.GetTotalDialCount(_campign.CampaignId).then(function (response) {
+            if (response) {
+                $scope.campaignSelectedData.dialCount = response;
+            }
+        });
+
+
     };
 
     $scope.closeRightPanel = function () {
@@ -284,9 +301,6 @@ mainApp.controller("campaignController", function ($scope, $compile, $uibModal, 
     $scope.editCampaign = function (_campaign) {
         $state.go('console.new-campaign', {id: _campaign.CampaignId});
     };
-
-
-
 
 
 }).directive("mainScrollCampaign", function ($window) {

@@ -61,6 +61,14 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.showCallDetails = false;
 
 
+    $scope.getTableHeight = function() {
+        var rowHeight = 30; // your row height
+        var headerHeight = 50; // your header height
+        return {
+            height: (($scope.gridOptions.data.length+2) * rowHeight + headerHeight) + "px"
+        };
+    };
+
     $scope.gridOptions = {
         enableColumnResizing: true,
         enableGridMenu: true,
@@ -100,7 +108,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         {
             name: 'LoginTime',
             displayName: 'Login Time',
-            width: 100,
+            cellClass: 'table-time',
+            width: 100
 
         },
         {
@@ -111,63 +120,74 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         {
             name: 'slotStateTime',
             displayName: 'Slot State Time',
+            cellClass: 'table-number',
             width: 100
         },
         {
             name: 'AcwTime',
             displayName: 'ACW Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.AcwTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'BreakTime',
             displayName: 'Break Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.BreakTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'HoldTime',
             displayName: 'Hold Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.HoldTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'OnCallTime',
             displayName: 'OnCall Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.OnCallTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'IdleTime',
             displayName: 'Idle Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.IdleTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'StaffedTime',
             displayName: 'Staffed Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.StaffedTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'IncomingCallCount',
             displayName: 'Answered Call Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         },
         {
             name: 'OutgoingCallCount',
             displayName: 'Outgoing Call Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         },
         {
             name: 'MissCallCount',
             displayName: 'Missed Call Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         },
         {
             name: 'OutboundAnswerCount',
             displayName: 'Outgoing Answered Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         }
 
     ];
@@ -190,7 +210,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     var TimeFormatter = function (seconds) {
 
-        var timeStr = '0:0:0';
+        var timeStr = '00:00:00';
         if (seconds > 0) {
             var durationObj = moment.duration(seconds * 1000);
 
@@ -208,10 +228,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
                 if (tempDays > 0) {
 
-                    timeStr = tempDays + 'd ' + durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                    timeStr = tempDays + 'd ' + ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
                 } else {
 
-                    timeStr = durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                    timeStr = ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
+                    //(durationObj._data.hours<=9)?('0'+durationObj._data.hours):durationObj._data.hours + ':' + (durationObj._data.minutes<=9)?('0'+durationObj._data.minutes):durationObj._data.minutes  + ':' + (durationObj._data.seconds<=9)?('0'+durationObj._data.seconds):durationObj._data.seconds;
                 }
             }
         }
@@ -223,9 +244,9 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
-            /*if ($scope.profile.length == 0) {
+            if ($scope.profile.length == 0) {
              angular.copy($scope.availableProfile, $scope.profile);
-             }*/
+             }
 
             angular.forEach($scope.profile, function (agentProfile) {
                 try {
