@@ -421,7 +421,7 @@
                 if (qList && qList.length > 0) {
                     var tempQList = qList.filter(function(q)
                     {
-                        return !!(q.ServerType === 'CALLSERVER' && q.RequestType === 'CALL');
+                        return !!(q.ServerType === 'DIALER' && q.RequestType === 'CALL');
                     });
 
                     $scope.qList = tempQList;
