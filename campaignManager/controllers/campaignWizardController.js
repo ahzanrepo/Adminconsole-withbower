@@ -231,7 +231,8 @@ mainApp.controller("campaignWizardController", function ($scope,
                         secondStepWizard = $('#2ndStepWizard'),
                         configWizard = $('#3ndStepWizard'),
                         fourthStepWizard = $('#4ndStepWizard');
-
+                    createCampaignSchedule.GetSchedules();
+                    createCampaignSchedule.getScheduleCampaign();
                     $scope.safeApply(function () {
                         $scope.step = 4;
                     });
@@ -2259,7 +2260,7 @@ mainApp.controller("campaignWizardController", function ($scope,
             } else {
                 if ($scope.campaignNumberObj && $scope.campaignNumberObj.Contacts.length > 0) {
 
-                    // $('#uploadLoaindWizard').removeClass('display-none');
+                     $('#uploadLoaindWizard').removeClass('display-none');
                     $scope.uploadButtonValue = true;
 
                     $scope.numberProgress = 0;
@@ -2287,16 +2288,15 @@ mainApp.controller("campaignWizardController", function ($scope,
 
                     $scope.BatchUploader(numberArray).then(function () {
                         $scope.uploadButtonValue = false;
-                        //$('#uploadLoaindWizard').addClass('display-none');
+                        $('#uploadLoaindWizard').addClass('display-none');
                         $state.go('console.campaign-console');
                         $scope.showAlert('Campaign Number Upload', 'Numbers uploaded successfully', 'success');
-
 
                         //$scope.reset();
                         $scope.refreshAllWizard();
                     }, function (reason) {
                         $scope.uploadButtonValue = false;
-                        //$('#uploadLoaindWizard').addClass('display-none');
+                       $('#uploadLoaindWizard').addClass('display-none');
                     });
                 } else {
                     $scope.showAlert('Campaign Number Upload', 'Please select number column before upload', 'error');
