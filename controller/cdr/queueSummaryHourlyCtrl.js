@@ -414,7 +414,7 @@
                 $scope.summaryArr = [];
 
                 var attribArray = $scope.skillFilter.map(function (item) {
-                    return item.Attribute;
+                    return item.QueueName;
                 });
 
                 var momentTz = moment.parseZone(new Date()).format('Z');
