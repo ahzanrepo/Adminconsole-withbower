@@ -597,7 +597,7 @@
 
                 $scope.isTableLoading = 0;
 
-                cdrApiHandler.getAbandonCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter).then(function(cdrCntRsp)
+                cdrApiHandler.getAbandonCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function(cdrCntRsp)
                 {
                     if (cdrCntRsp && cdrCntRsp.IsSuccess)
                     {
