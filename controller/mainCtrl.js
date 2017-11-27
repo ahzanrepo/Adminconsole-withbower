@@ -1194,7 +1194,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $scope.isSendingNotifi = true;
             if ($scope.naviSelectedUser.listType === "Group") {
 
-                subscribeServices.getGroupMembers($scope.naviSelectedUser._id).then(function (response) {
+                userProfileApiAccess.getGroupMembers($scope.naviSelectedUser._id).then(function (response) {
                     if (response.IsSuccess) {
                         if (response.Result) {
                             var clients = [];
