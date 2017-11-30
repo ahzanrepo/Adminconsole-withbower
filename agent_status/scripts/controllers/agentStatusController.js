@@ -76,7 +76,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         var rowHeight = 30; // your row height
         var headerHeight = 50; // your header height
         return {
-            height: (($scope.gridOptions.data.length+2) * rowHeight + headerHeight) + "px"
+            height: (($scope.Productivitys.length+2) * rowHeight + headerHeight) + "px"
         };
     };
 
@@ -455,6 +455,12 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             $scope.Productivitys.push(agentProductivity);
                             console.log($scope.Productivitys);
 
+                            /*for (var i=0; i<10; i++) {
+                             agentProductivity.profileName = agent.ResourceName+i;
+                             agentProductivity.ResourceName = i+ agent.ResourceName+i;
+                             agentProductivity.ResourceId = i + agent.ResourceId+(i*100);
+                             $scope.Productivitys.push(agentProductivity);
+                             }*/
                         }
 
                     }
