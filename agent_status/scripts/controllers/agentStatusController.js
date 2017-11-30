@@ -58,25 +58,28 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         });
     };
     $scope.GetProductivity();
-    $scope.loadAllAgents = function () {
-        angular.copy($scope.availableProfile, $scope.profile);
-    }
-    $scope.loadAllAgents();
+    /* $scope.loadAllAgents = function () {
+     angular.copy($scope.availableProfile, $scope.profile);
+     }
+     $scope.loadAllAgents();*/
     $scope.showCallDetails = false;
     $scope.onSelectionChanged = function () {
 
-        if($scope.filterType=="ALL" || $scope.profile.length == 0)
-        {
-            $scope.loadAllAgents();
+        if ($scope.filterType == "ALL" || $scope.profile.length == 0) {
+            angular.copy($scope.availableProfile, $scope.profile);
+        }
+        else {
+            $scope.profile = [];
+            $scope.ResourceRemoved(undefined);
         }
 
     };
 
-    $scope.getTableHeight = function() {
+    $scope.getTableHeight = function () {
         var rowHeight = 30; // your row height
         var headerHeight = 50; // your header height
         return {
-            height: (($scope.Productivitys.length+2) * rowHeight + headerHeight) + "px"
+            height: (($scope.Productivitys.length + 2) * rowHeight + headerHeight) + "px"
         };
     };
 
@@ -98,7 +101,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
         }
     };
-
 
 
     $scope.gridOptions.columnDefs = [
@@ -256,10 +258,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
-            if ($scope.profile.length == 0) {
-             angular.copy($scope.availableProfile, $scope.profile);
-             }
-
             angular.forEach($scope.profile, function (agentProfile) {
                 try {
                     var agent = null;
@@ -484,7 +482,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         var data = {
             agentMode: $scope.agentMode,
             profile: $scope.profile,
-            filterType:$scope.filterType
+            filterType: $scope.filterType
         };
         reportQueryFilterService.SaveReportQueryFilter("AgentStatus", data);
     };
@@ -494,10 +492,9 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             if (response) {
                 $scope.agentMode = response.agentMode;
                 $scope.profile = response.profile;
-                $scope.filterType=response.filterType;
-                if(!$scope.filterType)
-                {
-                    $scope.filterType="ALL";
+                $scope.filterType = response.filterType;
+                if (!$scope.filterType) {
+                    $scope.filterType = "ALL";
                 }
             }
         }, function (error) {
@@ -725,7 +722,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         if (index > -1) {
             $scope.profile.splice(index, 1);
         }
-        $scope.filterType="USER";
+        $scope.filterType = "USER";
         $scope.SaveReportQueryFilter();
     };
 
