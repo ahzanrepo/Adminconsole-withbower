@@ -66,7 +66,7 @@
                                     </div>
 
 
-                                    <div class="input-group col-md-12">
+                                    <div class="input-group col-md-12" ng-if="filterType==='USER'">
                                         <!--on-tag-removed="SaveReportQueryFilter()" on-tag-added="SaveReportQueryFilter()"-->
                                         <tags-input ng-model="profile" display-property="ResourceName"
                                                     key-property="ResourceName"
@@ -280,6 +280,7 @@
                              ui-grid-exporter
                              ui-grid-selection
                              ui-grid-move-columns
+                             ui-grid-auto-resize
                              class="grid grid-width-full"
                              ng-style="getTableHeight()"></div>
                     </div>

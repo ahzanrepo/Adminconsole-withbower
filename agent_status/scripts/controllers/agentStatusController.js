@@ -652,10 +652,9 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         else {
             if ($scope.availableProfile) {
                 var filteredArr = $scope.availableProfile.filter(function (item) {
-                    var regEx = "^(" + query + ")";
 
                     if (item.ResourceName) {
-                        return item.ResourceName.match(regEx);
+                        return item.ResourceName.match(query);
                     }
                     else {
                         return false;
