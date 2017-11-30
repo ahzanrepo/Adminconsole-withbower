@@ -89,6 +89,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
 
+
     $scope.gridOptions.columnDefs = [
         {
             name: 'taskList',

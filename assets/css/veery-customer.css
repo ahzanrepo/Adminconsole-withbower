@@ -5279,8 +5279,8 @@ ul.row-option > li.delete:focus {
 
 .w-bg-text {
     font-size: 13px;
-    text-align: left;
-    padding-left: 8px;
+    text-align: center;
+    /*padding-left: 8px;*/
 }
 
 .widget-dyn {
