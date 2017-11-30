@@ -11,6 +11,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.largeCard = false;
     $scope.smallCard = false;
     $scope.showDetails = true;
+    $scope.filterType="ALL";
     $scope.showTableCard = function () {
         $scope.summary = true;
         $scope.largeCard = false;
@@ -39,214 +40,13 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.productivity = [];
     $scope.productivity = [];
     $scope.isLoading = true;
-    $scope.GetProductivity = function () {
-        var momentTz = moment.parseZone(new Date()).format('Z');
-        momentTz = momentTz.replace("+", "%2B");
-
-        var currentDate = moment().format("YYYY-MM-DD");
-        var queryStartDate = currentDate + ' 00:00:00' + momentTz;
-        var queryEndDate = currentDate + ' 23:59:59' + momentTz;
-
-        agentStatusService.GetProductivityWithLoginTime(queryStartDate, queryEndDate).then(function (response) {
-            $scope.productivity = response;
-            $scope.isLoading = true;
-            calculateProductivity();
-        }, function (error) {
-            $log.debug("productivity err");
-            $scope.showAlert("Error", "error", "Fail To Get productivity.");
-            $scope.isLoading = false;
-        });
-    };
-    $scope.GetProductivity();
-    $scope.showCallDetails = false;
-
-
-    $scope.getTableHeight = function() {
-        var rowHeight = 30; // your row height
-        var headerHeight = 50; // your header height
-        return {
-            height: (($scope.gridOptions.data.length+2) * rowHeight + headerHeight) + "px"
-        };
-    };
-
-    $scope.gridOptions = {
-        enableColumnResizing: true,
-        enableGridMenu: true,
-        enableSorting: true,
-        columnDefs: [],
-        data: 'Productivitys',
-
-        onRegisterApi: function (gridApi) {
-            $scope.gridApi = gridApi;
-
-            // call resize every 500 ms for 5 s after modal finishes opening - usually only necessary on a bootstrap modal
-            $interval(function () {
-                $scope.gridApi.core.handleWindowResize();
-            }, 500, 10);
-
-
-        }
-    };
-
-
-    $scope.gridOptions.columnDefs = [
-        {
-            name: 'taskList',
-            displayName: 'Task',
-            $$treeLevel: 1,
-            width: 100,
-            // cellTemplate: 'template/taskListTemplate.html'
-            cellTemplate: 'agent_status/view/template/taskListTemplate.html'
-        },
-        {
-            name: 'profileName',
-            displayName: 'Name',
-            width: 100,
-            pinnedLeft: true,
-            sort: {direction: 'asc', priority: 0}
-        },
-        {
-            name: 'LoginTime',
-            displayName: 'Login Time',
-            cellClass: 'table-time',
-            width: 100
-
-        },
-        {
-            name: 'slotState',
-            displayName: 'State',
-            width: 200
-        },
-        {
-            name: 'slotStateTime',
-            displayName: 'Slot State Time',
-            cellClass: 'table-number',
-            width: 100
-        },
-        {
-            name: 'AcwTime',
-            displayName: 'ACW Time',
-            width: 100,
-            cellClass: 'table-time',
-            cellTemplate: "<div>{{row.entity.AcwTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
-        },
-        {
-            name: 'BreakTime',
-            displayName: 'Break Time',
-            width: 100,
-            cellClass: 'table-time',
-            cellTemplate: "<div>{{row.entity.BreakTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
-        },
-        {
-            name: 'HoldTime',
-            displayName: 'Hold Time',
-            width: 100,
-            cellClass: 'table-time',
-            cellTemplate: "<div>{{row.entity.HoldTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
-        },
-        {
-            name: 'OnCallTime',
-            displayName: 'OnCall Time',
-            width: 100,
-            cellClass: 'table-time',
-            cellTemplate: "<div>{{row.entity.OnCallTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
-        },
-        {
-            name: 'IdleTime',
-            displayName: 'Idle Time',
-            width: 100,
-            cellClass: 'table-time',
-            cellTemplate: "<div>{{row.entity.IdleTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
-        },
-        {
-            name: 'StaffedTime',
-            displayName: 'Staffed Time',
-            width: 100,
-            cellClass: 'table-time',
-            cellTemplate: "<div>{{row.entity.StaffedTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
-        },
-        {
-            name: 'IncomingCallCount',
-            displayName: 'Answered Call Count',
-            width: 100,
-            cellClass: 'table-number'
-        },
-        {
-            name: 'OutgoingCallCount',
-            displayName: 'Outgoing Call Count',
-            width: 100,
-            cellClass: 'table-number'
-        },
-        {
-            name: 'MissCallCount',
-            displayName: 'Missed Call Count',
-            width: 100,
-            cellClass: 'table-number'
-        },
-        {
-            name: 'OutboundAnswerCount',
-            displayName: 'Outgoing Answered Count',
-            width: 100,
-            cellClass: 'table-number'
-        }
-
-    ];
-
-    $scope.cumulative = function (grid, myRow) {
-        var skill = '';
-        grid.renderContainers.body.visibleRowCache.forEach(function (row, index) {
-            if (row.entity && row.entity.taskList && row.entity.taskList.length != 0) {
-                row.entity.taskList.forEach(function (value, i) {
-                    if (i == 0) {
-                        skill += row.entity.taskList[i].skill + " " + row.entity.taskList[i].percentage + "%";
-                    } else {
-                        skill += " , " + row.entity.taskList[i].skill + " " + row.entity.taskList[i].percentage + "%";
-                    }
-                });
-            }
-        });
-        return skill;
-    };
-
-    var TimeFormatter = function (seconds) {
-
-        var timeStr = '00:00:00';
-        if (seconds > 0) {
-            var durationObj = moment.duration(seconds * 1000);
-
-            if (durationObj) {
-                var tempDays = 0;
-                if (durationObj._data.years > 0) {
-                    tempDays = tempDays + durationObj._data.years * 365;
-                }
-                if (durationObj._data.months > 0) {
-                    tempDays = tempDays + durationObj._data.months * 30;
-                }
-                if (durationObj._data.days > 0) {
-                    tempDays = tempDays + durationObj._data.days;
-                }
-
-                if (tempDays > 0) {
-
-                    timeStr = tempDays + 'd ' + ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
-                } else {
-
-                    timeStr = ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
-                    //(durationObj._data.hours<=9)?('0'+durationObj._data.hours):durationObj._data.hours + ':' + (durationObj._data.minutes<=9)?('0'+durationObj._data.minutes):durationObj._data.minutes  + ':' + (durationObj._data.seconds<=9)?('0'+durationObj._data.seconds):durationObj._data.seconds;
-                }
-            }
-        }
-        return timeStr;
-    };
-
-
     var calculateProductivity = function () {
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
-            if ($scope.profile.length == 0) {
+            /*if ($scope.profile.length == 0) {
              angular.copy($scope.availableProfile, $scope.profile);
-             }
+             }*/
 
             angular.forEach($scope.profile, function (agentProfile) {
                 try {
@@ -460,12 +260,231 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         }
 
     };
+    $scope.GetProductivity = function () {
+        var momentTz = moment.parseZone(new Date()).format('Z');
+        momentTz = momentTz.replace("+", "%2B");
 
+        var currentDate = moment().format("YYYY-MM-DD");
+        var queryStartDate = currentDate + ' 00:00:00' + momentTz;
+        var queryEndDate = currentDate + ' 23:59:59' + momentTz;
+
+        agentStatusService.GetProductivityWithLoginTime(queryStartDate, queryEndDate).then(function (response) {
+            $scope.productivity = response;
+            $scope.isLoading = true;
+            calculateProductivity();
+        }, function (error) {
+            $log.debug("productivity err");
+            $scope.showAlert("Error", "error", "Fail To Get productivity.");
+            $scope.isLoading = false;
+        });
+    };
+    $scope.loadAllAgents = function () {
+            angular.copy($scope.availableProfile, $scope.profile);
+    }
+    $scope.GetProductivity();
+    $scope.loadAllAgents();
+    $scope.showCallDetails = false;
+
+
+    $scope.getTableHeight = function() {
+        var rowHeight = 30; // your row height
+        var headerHeight = 50; // your header height
+        return {
+            height: (($scope.gridOptions.data.length+2) * rowHeight + headerHeight) + "px"
+        };
+    };
+
+
+    $scope.gridOptions = {
+        enableColumnResizing: true,
+        enableGridMenu: true,
+        enableSorting: true,
+        columnDefs: [],
+        data: 'Productivitys',
+
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+
+            // call resize every 500 ms for 5 s after modal finishes opening - usually only necessary on a bootstrap modal
+            $interval(function () {
+                $scope.gridApi.core.handleWindowResize();
+            }, 500, 10);
+
+
+        }
+    };
+
+
+    $scope.gridOptions.columnDefs = [
+        {
+            name: 'taskList',
+            displayName: 'Task',
+            $$treeLevel: 1,
+            width: 100,
+            // cellTemplate: 'template/taskListTemplate.html'
+            cellTemplate: 'agent_status/view/template/taskListTemplate.html'
+        },
+        {
+            name: 'profileName',
+            displayName: 'Name',
+            width: 100,
+            pinnedLeft: true,
+            sort: {direction: 'asc', priority: 0}
+        },
+        {
+            name: 'LoginTime',
+            displayName: 'Login Time',
+            cellClass: 'table-time',
+            width: 100
+
+        },
+        {
+            name: 'slotState',
+            displayName: 'State',
+            width: 200
+        },
+        {
+            name: 'slotStateTime',
+            displayName: 'Slot State Time',
+            cellClass: 'table-number',
+            width: 100
+        },
+        {
+            name: 'AcwTime',
+            displayName: 'ACW Time',
+            width: 100,
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.AcwTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'BreakTime',
+            displayName: 'Break Time',
+            width: 100,
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.BreakTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'HoldTime',
+            displayName: 'Hold Time',
+            width: 100,
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.HoldTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'OnCallTime',
+            displayName: 'OnCall Time',
+            width: 100,
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.OnCallTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'IdleTime',
+            displayName: 'Idle Time',
+            width: 100,
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.IdleTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'StaffedTime',
+            displayName: 'Staffed Time',
+            width: 100,
+            cellClass: 'table-time',
+            cellTemplate: "<div>{{row.entity.StaffedTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
+        },
+        {
+            name: 'IncomingCallCount',
+            displayName: 'Answered Call Count',
+            width: 100,
+            cellClass: 'table-number'
+        },
+        {
+            name: 'OutgoingCallCount',
+            displayName: 'Outgoing Call Count',
+            width: 100,
+            cellClass: 'table-number'
+        },
+        {
+            name: 'MissCallCount',
+            displayName: 'Missed Call Count',
+            width: 100,
+            cellClass: 'table-number'
+        },
+        {
+            name: 'OutboundAnswerCount',
+            displayName: 'Outgoing Answered Count',
+            width: 100,
+            cellClass: 'table-number'
+        }
+
+    ];
+
+    $scope.cumulative = function (grid, myRow) {
+        var skill = '';
+        grid.renderContainers.body.visibleRowCache.forEach(function (row, index) {
+            if (row.entity && row.entity.taskList && row.entity.taskList.length != 0) {
+                row.entity.taskList.forEach(function (value, i) {
+                    if (i == 0) {
+                        skill += row.entity.taskList[i].skill + " " + row.entity.taskList[i].percentage + "%";
+                    } else {
+                        skill += " , " + row.entity.taskList[i].skill + " " + row.entity.taskList[i].percentage + "%";
+                    }
+                });
+            }
+        });
+        return skill;
+    };
+
+    var TimeFormatter = function (seconds) {
+
+        var timeStr = '00:00:00';
+        if (seconds > 0) {
+            var durationObj = moment.duration(seconds * 1000);
+
+            if (durationObj) {
+                var tempDays = 0;
+                if (durationObj._data.years > 0) {
+                    tempDays = tempDays + durationObj._data.years * 365;
+                }
+                if (durationObj._data.months > 0) {
+                    tempDays = tempDays + durationObj._data.months * 30;
+                }
+                if (durationObj._data.days > 0) {
+                    tempDays = tempDays + durationObj._data.days;
+                }
+
+                if (tempDays > 0) {
+
+                    timeStr = tempDays + 'd ' + ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
+                } else {
+
+                    timeStr = ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
+                    //(durationObj._data.hours<=9)?('0'+durationObj._data.hours):durationObj._data.hours + ':' + (durationObj._data.minutes<=9)?('0'+durationObj._data.minutes):durationObj._data.minutes  + ':' + (durationObj._data.seconds<=9)?('0'+durationObj._data.seconds):durationObj._data.seconds;
+                }
+            }
+        }
+        return timeStr;
+    };
+
+
+
+
+
+
+
+    $scope.onSelectionChanged = function () {
+
+        if($scope.filterType=="ALL" || $scope.profile.length == 0)
+        {
+            $scope.loadAllAgents();
+        }
+
+    };
     /*--------------------------- Filter ------------------------------------------*/
     $scope.SaveReportQueryFilter = function () {
         var data = {
             agentMode: $scope.agentMode,
-            profile: $scope.profile
+            profile: $scope.profile,
+            filterType:$scope.filterType
         };
         reportQueryFilterService.SaveReportQueryFilter("AgentStatus", data);
     };
@@ -475,6 +494,12 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             if (response) {
                 $scope.agentMode = response.agentMode;
                 $scope.profile = response.profile;
+                $scope.filterType=response.filterType;
+                if(!$scope.filterType)
+                {
+                    $scope.filterType="ALL";
+                }
+
             }
         }, function (error) {
             console.log(error);
@@ -701,6 +726,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         if (index > -1) {
             $scope.profile.splice(index, 1);
         }
+        $scope.filterType="USER";
         $scope.SaveReportQueryFilter();
     };
 
