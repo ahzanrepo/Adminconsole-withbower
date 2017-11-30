@@ -58,8 +58,19 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         });
     };
     $scope.GetProductivity();
+    $scope.loadAllAgents = function () {
+        angular.copy($scope.availableProfile, $scope.profile);
+    }
+    $scope.loadAllAgents();
     $scope.showCallDetails = false;
+    $scope.onSelectionChanged = function () {
 
+        if($scope.filterType=="ALL" || $scope.profile.length == 0)
+        {
+            $scope.loadAllAgents();
+        }
+
+    };
 
     $scope.getTableHeight = function() {
         var rowHeight = 30; // your row height
@@ -466,7 +477,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     $scope.SaveReportQueryFilter = function () {
         var data = {
             agentMode: $scope.agentMode,
-            profile: $scope.profile
+            profile: $scope.profile,
+            filterType:$scope.filterType
         };
         reportQueryFilterService.SaveReportQueryFilter("AgentStatus", data);
     };
@@ -476,6 +488,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             if (response) {
                 $scope.agentMode = response.agentMode;
                 $scope.profile = response.profile;
+                $scope.filterType=response.filterType;
+                if(!$scope.filterType)
+                {
+                    $scope.filterType="ALL";
+                }
             }
         }, function (error) {
             console.log(error);
@@ -702,6 +719,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         if (index > -1) {
             $scope.profile.splice(index, 1);
         }
+        $scope.filterType="USER";
         $scope.SaveReportQueryFilter();
     };
 
