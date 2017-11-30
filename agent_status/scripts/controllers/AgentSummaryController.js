@@ -163,6 +163,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         $scope.SaveReportQueryFilter();
     };
 
+
+
     $scope.loadUserList();
 
     $scope.loadUserGroupList = function () {
