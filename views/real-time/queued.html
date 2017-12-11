@@ -93,14 +93,16 @@
             <div class="x_content">
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-wrapper"
-                         ng-slimscroll horizontal-scroll="true"
-                         height="100%"
-                         horizontal-scroll-position="bottom"
-                         size="6px" opacity="0.4">
-                        <div ui-grid="gridOptions3" class="grid" ng-style="getTableHeight()"></div>
-
-                    </div>
+                    <div id="grid1"
+                         ui-grid="gridOptions3"
+                         ui-grid-resize-columns
+                         ui-grid-pinning
+                         ui-grid-exporter
+                         ui-grid-selection
+                         ui-grid-move-columns
+                         ui-grid-auto-resize
+                         class="grid grid-width-full"
+                         ng-style="getTableHeight()"></div>
                 </div>
             </div>
 
