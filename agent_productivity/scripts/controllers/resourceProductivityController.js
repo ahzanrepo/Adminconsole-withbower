@@ -12,11 +12,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
     $scope.isLoading = true;
     $scope.productivity = [];
     $scope.getProductivity = function () {
-        if ($scope.OnlineAgents.length == 0) {
-            angular.copy($scope.AvailableAgents, $scope.OnlineAgents);
-        }
         resourceProductivityService.GetProductivity().then(function (response) {
-
             $log.debug("GetCallServers: response" + response);
             $scope.productivity = response;
             calculateProductivity();
@@ -46,6 +42,9 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                 });
 
                 $scope.showFilter = !($scope.AvailableAgents.length>0);
+                if($scope.OnlineAgents.length === $scope.AvailableAgents.length){
+                    $scope.agentSelectingType = "ALL";
+                }
             }
             //$scope.AvailableAgents = response;
             /*angular.copy(response, $scope.OnlineAgents);
@@ -59,11 +58,16 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
 
     };
     $scope.GetOnlineAgents();
+    $scope.agentSelectingType = "ALL";
     $scope.GetReportQueryFilter = function () {
         reportQueryFilterService.GetReportQueryFilter("AGENTPRODUCTIVITY").then(function (response) {
+            $scope.agentSelectingType = "ALL";
             if(response){
                 $scope.OnlineAgents = response;
                 $scope.getProductivity();
+                if($scope.OnlineAgents.length != $scope.AvailableAgents.length){
+                    $scope.agentSelectingType = "USER";
+                }
             }
         }, function (error) {
             $scope.getProductivity();
@@ -88,10 +92,10 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         else {
             if ($scope.AvailableAgents) {
                 var filteredArr = $scope.AvailableAgents.filter(function (item) {
-                    var regEx = "^(" + query + ")";
+
 
                     if (item.ResourceName) {
-                        return item.ResourceName.match(regEx);
+                        return item.ResourceName.match(query);
                     }
                     else {
                         return false;
@@ -106,6 +110,16 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
             }
         }
 
+    };
+
+    $scope.onSelectionChanged = function () {
+        if ($scope.agentSelectingType == "ALL" || $scope.OnlineAgents.length == 0) {
+            angular.copy($scope.AvailableAgents, $scope.OnlineAgents);
+        }
+        else {
+            $scope.OnlineAgents = [];
+        }
+        $scope.getProductivity();
     };
 
     $scope.AgentAdded = function () {
