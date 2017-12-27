@@ -571,6 +571,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
     $scope.GetAvailableProfile();
 
+    var getAllRealTimeTimer = null;
     var getAllRealTime = function () {
         $scope.getProfileDetails();
         $scope.GetAllActiveCalls();
@@ -579,7 +580,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
     getAllRealTime();
-    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+    //var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
 
     $scope.$on("$destroy", function () {
