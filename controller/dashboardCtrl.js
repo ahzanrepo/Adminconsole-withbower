@@ -734,9 +734,9 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
 
     $scope.$on("$destroy", function () {
-        // if (countAllCallServicesTimer) {
-        //     $timeout.cancel(countAllCallServicesTimer);
-        // }
+        if (countAllCallServicesTimer) {
+            $timeout.cancel(countAllCallServicesTimer);
+        }
         //
         // if (getAllNumTotalTimer) {
         //     $timeout.cancel(getAllNumTotalTimer);
