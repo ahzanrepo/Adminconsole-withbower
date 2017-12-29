@@ -255,7 +255,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
     //#profile object
     $scope.AvailableTask = [];
-    $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE: []};
     $scope.profile = [];
 
 
@@ -542,128 +541,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     loginService.isCheckResponse(err);
                 });
             },
-            /*getProfileDetails: function () {
-             dashboardService.GetProfileDetails().then(function (response) {
-             //$scope.profile = [];
-             $scope.ResourceTask = {CALL: [], CHAT: [], SMS: [], SOCIAL: [], TICKET: [], OFFLINE: []};
-             if (response.length > 0) {
-             for (var i = 0; i < response.length; i++) {
-
-
-             var profile = {
-             name: '',
-             avatar: '',
-             slotInfo: []
-             };
-             profile.name = response[i].ResourceName;
-
-             //get current user profile image
-             userImageList.getAvatarByUserName(profile.name, function (res) {
-             profile.avatar = res;
-             });
-
-             if (response[i].Status.Reason && response[i].Status.State) {
-             resonseAvailability = response[i].Status.State;
-             resonseStatus = response[i].Status.Reason;
-             resourceMode = response[i].Status.Mode;
-             }
-
-
-             if (response[i].ConcurrencyInfo && response[i].ConcurrencyInfo.length > 0) {
-
-             for (var j = 0; j < response[i].ConcurrencyInfo.length; j++) {
-             var resourceTask = response[i].ConcurrencyInfo[j].HandlingType;
-
-
-             if (response[i].ConcurrencyInfo[j].SlotInfo.length > 0) {
-             for (var k = 0; k < response[i].ConcurrencyInfo[j].SlotInfo.length; k++) {
-             var resonseStatus = null, resonseAvailability = null;
-
-             if (response[i].ConcurrencyInfo[j].IsRejectCountExceeded) {
-             resonseAvailability = "NotAvailable";
-             resonseStatus = "Suspended";
-             }
-
-             var reservedDate ="";
-             if(response[i].ConcurrencyInfo[j].SlotInfo[k]) {
-             reservedDate = response[i].ConcurrencyInfo[j].SlotInfo[k].StateChangeTime;
-             }
-
-             var slotInfo = {
-             slotState: null,
-             LastReservedTime: 0,
-             other: null,
-             slotMode: resourceMode
-             };
-
-             if (resonseAvailability == "NotAvailable" && (resonseStatus == "Reject Count Exceeded" || resonseStatus == "Suspended")) {
-             slotInfo.slotState = resonseStatus;
-             slotInfo.other = "Reject";
-             } else if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
-             slotInfo.slotState = resonseStatus;
-             slotInfo.other = "Break";
-             reservedDate = response[i].Status.StateChangeTime;
-             } else {
-             if(response[i].ConcurrencyInfo[j].SlotInfo[k]) {
-             slotInfo.slotState = response[i].ConcurrencyInfo[j].SlotInfo[k].State;
-
-
-             if (response[i].ConcurrencyInfo[j].SlotInfo[k].State == "Available") {
-
-             var slotStateTime = moment(reservedDate);
-             var resourceStateTime = moment(response[i].Status.StateChangeTime);
-             if (slotStateTime.isBefore(resourceStateTime)) {
-             reservedDate = response[i].Status.StateChangeTime;
-             }
-             }
-             }
-             }
-
-
-             if (reservedDate == "") {
-             slotInfo.LastReservedTime = null;
-             //slotInfo.unixTime = 0;
-             } else {
-             slotInfo.LastReservedTime = moment(reservedDate).format("h:mm a");
-             //slotInfo.unixTime = moment(reservedDate).unix();
-             }
-
-             profile.slotInfo.push(slotInfo);
-             $scope.ResourceTask[resourceTask].push(profile);
-             //$scope.profile.push(profile);
-             }
-             }
-             }
-
-             // is user state Reason
-
-             } else {
-
-             reservedDate = response[i].Status.StateChangeTime;
-             var slotInfoOffline = {
-             slotState: "Other",
-             LastReservedTime: moment(reservedDate).format("h:mm a"),
-             other: "Offline",
-             slotMode: resourceMode
-             };
-
-             if (resonseAvailability == "NotAvailable" && resonseStatus.toLowerCase().indexOf("break") > -1) {
-
-
-             slotInfoOffline.slotState = resonseStatus;
-             slotInfoOffline.other = "Break";
-
-             }
-
-             profile.slotInfo.push(slotInfoOffline);
-             $scope.ResourceTask['OFFLINE'].push(profile);
-             }
-             }
-             }
-             }, function (err) {
-             loginService.isCheckResponse(err);
-             });
-             },*/
             callAllServices: function () {
                 ServerHandler.getDataAll();
                 ServerHandler.getAllQueued();

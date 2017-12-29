@@ -1032,15 +1032,6 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "USERS"
             }
-        }).state('console.agentDashboard', {
-            url: "/agentDashboard",
-            controller: "dashboardCtrl",
-            templateUrl: "views/dashboard/dashboardContactCenter.html",
-            data: {
-                requireLogin: true,
-                navigation: "AGENT_DASHBOARD"
-            }
-
         }).state('console.notices', {
             url: "/Notices",
             templateUrl: "views/notice-config/notices.html",
