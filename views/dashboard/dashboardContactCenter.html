@@ -179,9 +179,9 @@
                 <div class="col-lg-4 col-xs-12">
                     <div class="d1-right-wrp">
                         <div class="agent-summary">
-                            <div class="col-lg-3 col-md-6 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-xs-12 " style="cursor: pointer"  ng-click="carouselAutoplay(0);">
                                 <div class="row">
-                                    <div class="d1-sumry-count-wrp "
+                                    <div  class="d1-sumry-count-wrp "
                                          ng-class={'available-bg':agentCurrentState=='available'}>
                                         <div class="d1-summary-body">
                                             <div class="d1-header available-text">
@@ -195,7 +195,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-xs-12" style="cursor: pointer"  ng-click="carouselAutoplay(1);">
                                 <div class="row">
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'connected-bg':agentCurrentState=='connected'}>
@@ -211,7 +211,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-xs-12" style="cursor: pointer"  ng-click="carouselAutoplay(2);">
                                 <div class="row">
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'after-work-bg':agentCurrentState=='afterwork'}>
@@ -227,7 +227,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-xs-12" style="cursor: pointer"  ng-click="carouselAutoplay(3);">
                                 <div class="row">
                                     <div class="d1-sumry-count-wrp  "
                                          ng-class={'reserved-bg':agentCurrentState=='reserved'}>
@@ -244,8 +244,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-3 col-md-6 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-xs-12" style="cursor: pointer"  ng-click="carouselAutoplay(4);">
                                 <div class="row">
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'break-bg':agentCurrentState=='break'}>
@@ -262,8 +261,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-3 col-md-6 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-xs-12" style="cursor: pointer"  ng-click="carouselAutoplay(5);">
                                 <div class="row">
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'outbound-bg':agentCurrentState=='outbound'}>
@@ -280,8 +278,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-3 col-md-6 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-xs-12" style="cursor: pointer"  ng-click="carouselAutoplay(6);">
                                 <div class="row">
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'suspended-bg':agentCurrentState=='suspended'}>
@@ -298,8 +295,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-3 col-md-6 col-xs-12">
+                            <div class="col-lg-3 col-md-6 col-xs-12" style="cursor: pointer"  ng-click="carouselAutoplay(7);">
                                 <div class="row">
                                     <div class="d1-sumry-count-wrp "
                                          ng-class={'other-bg':agentCurrentState=='other'}>
@@ -318,7 +314,7 @@
                             </div>
                         </div>
 
-                        <div class="d1-grading-header">
+                        <div class="d1-grading-header" >
                             {{agentCurrentState}}
                             <!--<div class="action-btn-wrp">-->
                             <!--<div id="play" class="action-btn play display-none">-->
@@ -676,6 +672,7 @@
             animateOut: 'slideOutLeft',
             animateIn: 'slideInRight'
         });
+
 
 //        $('#play').on('click', function () {
 //            owl.trigger('play.owl.autoplay', [5000]);
