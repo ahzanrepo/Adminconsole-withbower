@@ -24,7 +24,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 if (event.Message) {
 
                     userImageList.getAvatarByUserName(event.Message.userName, function (res) {
-                        event.Message.avatar = res;
+                        event.Message.avatar = res?res:"assets/images/defaultProfile.png";
                     });
 
                     if(event.Message.task === 'CALL' || !event.Message.task) {
@@ -39,7 +39,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                 if (event.Message) {
 
                     userImageList.getAvatarByUserName(event.Message.userName, function (res) {
-                        event.Message.avatar = res;
+                        event.Message.avatar = res?res:"assets/images/defaultProfile.png";
                     });
 
                     if(event.Message.task && event.Message.task === 'CALL') {
@@ -253,30 +253,6 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         onGoingOutb: 0
     };
 
-    //#profile object
-    $scope.AvailableTask = [];
-    $scope.profile = [];
-
-
-    $scope.LoadCompanyTasks = function () {
-        dashboardService.getCompanyTasks().then(function (response) {
-            if (response.IsSuccess) {
-                if (response.Result && response.Result.length > 0) {
-                    for (var i = 0; i < response.Result.length; i++) {
-                        var TaskType = response.Result[i].ResTaskInfo.TaskType;
-                        $scope.AvailableTask.push(TaskType);
-                    }
-                }
-            }
-            else {
-                $scope.AvailableTask = ["CALL", "CHAT", "SMS", "SOCIAL", "TICKET"];
-            }
-        }, function (err) {
-            loginService.isCheckResponse(err);
-            $scope.AvailableTask = ["CALL", "CHAT", "SMS", "SOCIAL", "TICKET"];
-        });
-    };
-    $scope.LoadCompanyTasks();
 
     $scope.chartymax = {
         calls: 1,
@@ -948,7 +924,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                         profile.resourceName = response[i].ResourceName;
                         //get current user profile image
                         userImageList.getAvatarByUserName(profile.resourceName, function (res) {
-                            profile.avatar = res;
+                            profile.avatar = res?res:"assets/images/defaultProfile.png";
                         });
 
                         var resonseStatus = null, resonseAvailability = null, resourceMode = null;
