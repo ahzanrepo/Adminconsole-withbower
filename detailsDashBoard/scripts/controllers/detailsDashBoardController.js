@@ -94,7 +94,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         switch (event.roomName) {
             case 'QUEUE:QueueDetail':
                 if (event.Message) {
-                    var item = event.Message.QueueInfo;
+                    var item = event.Message.queueDetail.QueueInfo;
                     if (item.CurrentMaxWaitTime) {
                         var d = moment(item.CurrentMaxWaitTime).valueOf();
                         item.MaxWaitingMS = d;
@@ -110,7 +110,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                     }
 
                     //
-                    item.id = event.Message.QueueId;
+                    item.id = event.Message.queueDetail.QueueId;
 
                     item.QueueName = event.Message.QueueName;
                     item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
@@ -119,12 +119,12 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                         item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                     }
 
-                    if (!$scope.queues[event.Message.QueueId]) {
+                    if (!$scope.queues[event.Message.queueDetail.QueueId]) {
                         $scope.queueList.push(item);
                     }
                     $scope.safeApply(function () {
                         item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
-                        $scope.queues[event.Message.QueueId] = item;
+                        $scope.queues[event.Message.queueDetail.QueueId] = item;
                     });
 
                     var res = [];

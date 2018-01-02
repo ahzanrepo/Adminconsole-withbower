@@ -1,6 +1,6 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll, resourceProductivityService,reportQueryFilterService) {
+app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll, resourceProductivityService,reportQueryFilterService,ShareData) {
 
     $anchorScroll();
     $scope.reloadPage = function () {
@@ -8,6 +8,8 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         $scope.productivity = [];
         $scope.GetOnlineAgents();
     };
+
+    $scope.BusinessUnit = ShareData.BusinessUnit;
     $scope.showFilter = true;
     $scope.isLoading = true;
     $scope.productivity = [];
