@@ -13,7 +13,7 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardGraph/ConcurrentQueued/" + queue + "/5"
+            url: baseUrls.dashBordUrl+"DashboardGraph/ConcurrentQueued/*/" + queue + "/5"
         }).then(function (response) {
             if (response.data) {
                 if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){
@@ -32,7 +32,7 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardEvent/QueueDetails"
+            url: baseUrls.dashBordUrl+"DashboardEvent/QueueDetails/*"
         }).then(function (response) {
             if (response.data) {
                 if(response.data.IsSuccess && response.data.Result){
@@ -52,7 +52,7 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardEvent/QueueSingleDetail/" + queue
+            url: baseUrls.dashBordUrl+"DashboardEvent/QueueSingleDetail/*/" + queue
         }).then(function (response) {
             if (response.data) {
                 if(response.data.IsSuccess && response.data.Result){
@@ -71,7 +71,7 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardGraph/ConcurrentQueued/"+ queue+"/5"
+            url: baseUrls.dashBordUrl+"DashboardGraph/ConcurrentQueued/*/"+ queue+"/5"
         }).then(function (response) {
             if (response.data) {
                 if(response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints){

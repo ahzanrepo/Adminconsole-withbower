@@ -152,13 +152,13 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     //     event.Message.QueueInfo.MaxWaitingMS = d;
                     // }
 
-                    var item = event.Message.QueueInfo;
-                    item.id = event.Message.QueueId;
-                    item.queuename = event.Message.QueueName;
+                    var item = event.Message.queueDetail.QueueInfo;
+                    item.id = event.Message.queueDetail.QueueId;
+                    item.queuename = event.Message.queueDetail.QueueName;
                     item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
 
-                    if (event.Message.QueueInfo.TotalQueued > 0) {
-                        item.presentage = Math.round((event.Message.QueueInfo.TotalAnswered / event.Message.QueueInfo.TotalQueued) * 100);
+                    if (event.Message.queueDetail.QueueInfo.TotalQueued > 0) {
+                        item.presentage = Math.round((event.Message.queueDetail.QueueInfo.TotalAnswered / event.Message.queueDetail.QueueInfo.TotalQueued) * 100);
                     }
 
 
