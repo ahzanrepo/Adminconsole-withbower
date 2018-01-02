@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter,ShareData) {
 
 
     // check adminconsole is focus or not.
@@ -15,7 +15,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     });
 
 
-    //added by pawan
+    $scope.BusinessUnit = ShareData.BusinessUnit;
 
 
     $scope.CallStatus = null;
@@ -405,6 +405,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             });
             //loginService.clearCookie("@loginToken");
             //$state.go('login');
+        },
+        SetBusinessUnit: function (unit) {
+            ShareData.BusinessUnit = unit;
+            $scope.BusinessUnit = ShareData.BusinessUnit;
         },
         goDashboard: function () {
             $state.go('console.dashboard');

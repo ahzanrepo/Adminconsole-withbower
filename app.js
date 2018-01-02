@@ -70,7 +70,6 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
 
 
 mainApp.constant('moment', moment);
-mainApp.value('businessUnit', 'All');
 mainApp.run(['$anchorScroll', function ($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }]);

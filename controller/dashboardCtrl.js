@@ -4,7 +4,7 @@
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               loginService, $filter,
-                                              dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices,businessUnit) {
+                                              dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices) {
 
 
     $scope.safeApply = function (fn) {
@@ -105,215 +105,219 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
 
     subscribeServices.subscribeDashboard('dashboard', function (event) {
-        switch (event.roomName) {
-            case 'ARDS:ResourceStatus':
-                if (event.Message) {
+        if (event && event.Message && event.Message.businessUnit && ((event.Message.businessUnit === "default") || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
+            switch (event.roomName) {
+                case 'ARDS:ResourceStatus':
+                    if (event.Message) {
 
-                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
-                        event.Message.avatar = res ? res : "assets/images/defaultProfile.png";
-                    });
+                        userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                            event.Message.avatar = res ? res : "assets/images/defaultProfile.png";
+                        });
 
-                    if (event.Message.task === 'CALL' || !event.Message.task) {
-                        removeExistingResourceData(event.Message);
-                        setResourceData(event.Message);
-                    }
-
-                }
-                break;
-
-            case 'ARDS:RemoveResourceTask':
-                if (event.Message) {
-
-                    userImageList.getAvatarByUserName(event.Message.userName, function (res) {
-                        event.Message.avatar = res ? res : "assets/images/defaultProfile.png";
-                    });
-
-                    if (event.Message.task && event.Message.task === 'CALL') {
-                        removeExistingResourceData(event.Message);
-                        setResourceData(event.Message);
-                    }
-
-                }
-                break;
-
-            case 'ARDS:RemoveResource':
-                if (event.Message) {
-
-                    removeExistingResourceData(event.Message);
-
-                }
-                break;
-            case 'QUEUE:QueueDetail':
-                //Queue Detail
-                if (event.Message) {
-                    // //
-                    // if (event.Message.QueueInfo.CurrentMaxWaitTime) {
-                    //     var d = moment(event.Message.QueueInfo.CurrentMaxWaitTime).valueOf();
-                    //     event.Message.QueueInfo.MaxWaitingMS = d;
-                    // }
-
-                    var item = event.Message.queueDetail.QueueInfo;
-                    item.id = event.Message.queueDetail.QueueId;
-                    item.queuename = event.Message.queueDetail.QueueName;
-                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
-
-                    if (event.Message.queueDetail.QueueInfo.TotalQueued > 0) {
-                        item.presentage = Math.round((event.Message.queueDetail.QueueInfo.TotalAnswered / event.Message.queueDetail.QueueInfo.TotalQueued) * 100);
-                    }
-
-
-                    if (item.CurrentMaxWaitTime) {
-                        var d = moment(item.CurrentMaxWaitTime).valueOf();
-                        item.MaxWaitingMS = d;
-
-                        if (item.EventTime) {
-
-                            var serverTime = moment(item.EventTime).valueOf();
-                            tempMaxWaitingMS = serverTime - d;
-                            item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
-
+                        if (event.Message.task === 'CALL' || !event.Message.task) {
+                            removeExistingResourceData(event.Message);
+                            setResourceData(event.Message);
                         }
 
                     }
+                    break;
+
+                case 'ARDS:RemoveResourceTask':
+                    if (event.Message) {
+
+                        userImageList.getAvatarByUserName(event.Message.userName, function (res) {
+                            event.Message.avatar = res ? res : "assets/images/defaultProfile.png";
+                        });
+
+                        if (event.Message.task && event.Message.task === 'CALL') {
+                            removeExistingResourceData(event.Message);
+                            setResourceData(event.Message);
+                        }
+
+                    }
+                    break;
+
+                case 'ARDS:RemoveResource':
+                    if (event.Message) {
+
+                        removeExistingResourceData(event.Message);
+
+                    }
+                    break;
+                case 'QUEUE:QueueDetail':
+                    //Queue Detail
+                    if (event.Message) {
+                        // //
+                        // if (event.Message.QueueInfo.CurrentMaxWaitTime) {
+                        //     var d = moment(event.Message.QueueInfo.CurrentMaxWaitTime).valueOf();
+                        //     event.Message.QueueInfo.MaxWaitingMS = d;
+                        // }
+
+                        var item = event.Message.queueDetail.QueueInfo;
+                        item.id = event.Message.queueDetail.QueueId;
+                        item.queuename = event.Message.queueDetail.QueueName;
+                        item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+
+                        if (event.Message.queueDetail.QueueInfo.TotalQueued > 0) {
+                            item.presentage = Math.round((event.Message.queueDetail.QueueInfo.TotalAnswered / event.Message.queueDetail.QueueInfo.TotalQueued) * 100);
+                        }
 
 
-                    var queueIDData = item.id.split('-');
+                        if (item.CurrentMaxWaitTime) {
+                            var d = moment(item.CurrentMaxWaitTime).valueOf();
+                            item.MaxWaitingMS = d;
 
-                    var queueID = "";
-                    queueIDData.forEach(function (qItem, i) {
+                            if (item.EventTime) {
 
-                        if (i != queueIDData.length - 1) {
-                            if (i == queueIDData.length - 2) {
-                                queueID = queueID + qItem;
-                            }
-                            else {
-                                queueID = queueID.concat(qItem, ":");
+                                var serverTime = moment(item.EventTime).valueOf();
+                                tempMaxWaitingMS = serverTime - d;
+                                item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
                             }
 
                         }
 
-                    });
 
-                    if (!$scope.queues[item.id]) {
-                        // $scope.queueList.push(item);
-                        dashboardService.getQueueRecordDetails(queueID).then(function (resQueue) {
+                        var queueIDData = item.id.split('-');
 
-                            if (resQueue.data && resQueue.data.IsSuccess && resQueue.data.Result) {
-                                item.queueDetails = resQueue.data.Result;
-                                $scope.safeApply(function () {
+                        var queueID = "";
+                        queueIDData.forEach(function (qItem, i) {
 
-                                    $scope.queues[item.id] = item;
-                                });
+                            if (i != queueIDData.length - 1) {
+                                if (i == queueIDData.length - 2) {
+                                    queueID = queueID + qItem;
+                                }
+                                else {
+                                    queueID = queueID.concat(qItem, ":");
+                                }
+
                             }
-                            else {
+
+                        });
+
+                        if (!$scope.queues[item.id]) {
+                            // $scope.queueList.push(item);
+                            dashboardService.getQueueRecordDetails(queueID).then(function (resQueue) {
+
+                                if (resQueue.data && resQueue.data.IsSuccess && resQueue.data.Result) {
+                                    item.queueDetails = resQueue.data.Result;
+                                    $scope.safeApply(function () {
+
+                                        $scope.queues[item.id] = item;
+                                    });
+                                }
+                                else {
+                                    item.queueDetails = undefined;
+                                    $scope.safeApply(function () {
+
+                                        $scope.queues[item.id] = item;
+                                    });
+                                }
+                            }, function (errQueue) {
+                                console.log(errQueue);
                                 item.queueDetails = undefined;
                                 $scope.safeApply(function () {
 
                                     $scope.queues[item.id] = item;
                                 });
-                            }
-                        }, function (errQueue) {
-                            console.log(errQueue);
-                            item.queueDetails = undefined;
+                            });
+                        }
+                        else {
+
+                            item.queueDetails = $scope.queues[item.id].queueDetails;
                             $scope.safeApply(function () {
 
                                 $scope.queues[item.id] = item;
                             });
-                        });
+                        }
+
+                        /* if (!$scope.queues[item.id]) {
+                         $scope.queueList.push(item);
+                         }
+
+                         $scope.safeApply(function () {
+
+                         $scope.queues[item.id] = item;
+                         });*/
+
+                        //$scope.queues[item.id] = item;
+
+                        //console.log("No Message found");
                     }
-                    else {
+                    break;
 
-                        item.queueDetails = $scope.queues[item.id].queueDetails;
-                        $scope.safeApply(function () {
+                case 'QUEUE:CurrentCount':
+                    //Current waiting
+                    if (event.Message) {
+                        $scope.total.waiting = event.Message.CurrentCountWindow;
+                    }
+                    break;
+                case 'CALLS:TotalCount':
+                    //TOTAL CALL
+                    //Inblound/Outbound
+                    if (event.Message) {
 
-                            $scope.queues[item.id] = item;
-                        });
+                        if (event.Message.param1 == "inbound") {
+                            $scope.total.callsInb = event.Message.TotalCountParam1;
+                        } else if (event.Message.param1 == "outbound") {
+                            $scope.total.callsOutb = event.Message.TotalCountParam1;
+                        }
+                    }
+                    break;
+                case 'QUEUEANSWERED:TotalCount':
+                    //Total queued answered
+                    if (event.Message) {
+                        $scope.total.queueAnswered = event.Message.TotalCountWindow;
+                    }
+                    break;
+                case 'QUEUE:TotalCount':
+                    //Total queued
+                    if (event.Message) {
+                        $scope.total.queued = event.Message.TotalCountWindow;
+                    }
+                    break;
+
+                case 'QUEUEDROPPED:TotalCount':
+                    //Total queued dropped
+                    if (event.Message) {
+                        $scope.total.queueDropped = event.Message.TotalCountWindow;
+                    }
+                    break;
+                case 'BRIDGE:CurrentCount':
+                    //ONGOING
+                    //Inblound/Outbound
+                    if (event.Message) {
+                        if (event.Message.param2 == "inbound") {
+                            $scope.total.onGoingInb = event.Message.CurrentCountParam2;
+                        } else if (event.Message.param2 == "outbound") {
+                            $scope.total.onGoingOutb = event.Message.CurrentCountParam2;
+                        }
+                    }
+                    break;
+                case 'ARDS:break_exceeded':
+                    if (event.Message) {
+                        var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
+                        if (agent && agent.length > 0) {
+                            agent[0].breakExceeded = true;
+                        }
                     }
 
-                    /* if (!$scope.queues[item.id]) {
-                     $scope.queueList.push(item);
-                     }
-
-                     $scope.safeApply(function () {
-
-                     $scope.queues[item.id] = item;
-                     });*/
-
-                    //$scope.queues[item.id] = item;
-
-                    //console.log("No Message found");
-                }
-                break;
-
-            case 'QUEUE:CurrentCount':
-                //Current waiting
-                if (event.Message) {
-                    $scope.total.waiting = event.Message.CurrentCountWindow;
-                }
-                break;
-            case 'CALLS:TotalCount':
-                //TOTAL CALL
-                //Inblound/Outbound
-                if (event.Message) {
-
-                    if (event.Message.param1 == "inbound") {
-                        $scope.total.callsInb = event.Message.TotalCountParam1;
-                    } else if (event.Message.param1 == "outbound") {
-                        $scope.total.callsOutb = event.Message.TotalCountParam1;
+                    break;
+                case 'ARDS:freeze_exceeded':
+                    if (event.Message) {
+                        var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
+                        if (agent && agent.length > 0) {
+                            agent[0].freezeExceeded = true;
+                        }
                     }
-                }
-                break;
-            case 'QUEUEANSWERED:TotalCount':
-                //Total queued answered
-                if (event.Message) {
-                    $scope.total.queueAnswered = event.Message.TotalCountWindow;
-                }
-                break;
-            case 'QUEUE:TotalCount':
-                //Total queued
-                if (event.Message) {
-                    $scope.total.queued = event.Message.TotalCountWindow;
-                }
-                break;
+                    break;
+                default:
+                    //console.log(event);
+                    break;
 
-            case 'QUEUEDROPPED:TotalCount':
-                //Total queued dropped
-                if (event.Message) {
-                    $scope.total.queueDropped = event.Message.TotalCountWindow;
-                }
-                break;
-            case 'BRIDGE:CurrentCount':
-                //ONGOING
-                //Inblound/Outbound
-                if (event.Message) {
-                    if (event.Message.param2 == "inbound") {
-                        $scope.total.onGoingInb = event.Message.CurrentCountParam2;
-                    } else if (event.Message.param2 == "outbound") {
-                        $scope.total.onGoingOutb = event.Message.CurrentCountParam2;
-                    }
-                }
-                break;
-            case 'ARDS:break_exceeded':
-                if (event.Message) {
-                    var agent = $filter('filter')($scope.StatusList.BreakProfile, {'resourceId': event.Message.ResourceId});
-                    if (agent && agent.length > 0) {
-                        agent[0].breakExceeded = true;
-                    }
-                }
-
-                break;
-            case 'ARDS:freeze_exceeded':
-                if (event.Message) {
-                    var agent = $filter('filter')($scope.StatusList.AfterWorkProfile, {'resourceId': event.Message.ResourceId});
-                    if (agent && agent.length > 0) {
-                        agent[0].freezeExceeded = true;
-                    }
-                }
-                break;
-            default:
-                //console.log(event);
-                break;
-
+            }
+        }else{
+            console.error("Subscribe Dashboard Event Recive For Invalid Business Unit");
         }
     });
 
@@ -1227,9 +1231,12 @@ mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginServ
             // scope.skillList=scope.name.match(/attribute_[0-9]*/g);
             scope.tempSkills = scope.name.match(/attribute_([^\-]+)/g);
 
-            scope.skillList = scope.tempSkills.map(function (item) {
-                return item.split('_')[1].toString();
-            });
+            if (scope.tempSkills) {
+                scope.skillList = scope.tempSkills.map(function (item) {
+                    return item.split('_')[1].toString();
+                });
+            }
+
 
             /*scope.que = {};
              scope.options = {};

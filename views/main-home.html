@@ -936,14 +936,14 @@
                             <a href="javascript:void(0);" class="user-profile dropdown-toggle ubuntu-Light"
                                data-toggle="dropdown"
                                aria-expanded="false">
-                                    Business Unit
-                                <span ng-show="showDisplayName">{{displayname}}</span>
+                                    Business Unit :
+                                <span >{{BusinessUnit}}</span>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li ng-click="clickDirective.goLogout()"><a href="javascript:void(0)"> All Unit</a></li>
-                                <li ><a href="javascript:void(0)"> Unit 1</a></li>
-                                <li ><a href="javascript:void(0)"> Unit 2</a></li>
+                                <li ng-click="clickDirective.SetBusinessUnit('All')"><a href="javascript:void(0)"> All Unit</a></li>
+                                <li ng-click="clickDirective.SetBusinessUnit('Unit 1')"><a href="javascript:void(0)"> Unit 1</a></li>
+                                <li ng-click="clickDirective.SetBusinessUnit('Unit 2')"><a href="javascript:void(0)"> Unit 2</a></li>
                             </ul>
                         </li>
 
