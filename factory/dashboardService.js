@@ -10,7 +10,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/Calls/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/Calls/*/5"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
@@ -27,7 +27,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/Queued/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/Queued/*/5"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
@@ -45,7 +45,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/Bridge/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/Bridge/*/5"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
@@ -62,7 +62,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/Channels/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/Channels/*/5"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
@@ -94,7 +94,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/CALLS/" + tempParam1 + "/" + tempParam2
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/CALLS/" + tempParam1 + "/" + tempParam2
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -112,7 +112,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getNewTicketCountViaChenal = function (chenal) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/NEWTICKET/via_" + chenal + "/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/NEWTICKET/via_" + chenal + "/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -132,7 +132,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/QUEUE/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/QUEUE/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -151,7 +151,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         //dashboard.app.veery.cloud
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/AllConcurrentQueued/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/AllConcurrentQueued/*/5"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
@@ -168,7 +168,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getTotalQueueAnswered = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/QUEUEANSWERED/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/QUEUEANSWERED/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -188,7 +188,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/QUEUEDROPPED/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/QUEUEDROPPED/*/*"
 
         }).then(function (response) {
             if (response.data) {
@@ -214,7 +214,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getCurrentWaiting = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/QUEUE/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/*/QUEUE/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -231,7 +231,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getTotalBriged = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/BRIDGE/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/BRIDGE/*/*"
         }).then(function (response) {
             if (response.data) {
 
@@ -256,7 +256,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getCurrentBridgedCalls = function (param) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/BRIDGE/*/" + param
+            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/*/BRIDGE/*/" + param
         }).then(function (response) {
             if (response.data) {
 
@@ -340,7 +340,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getTicketCount = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/" + status + "/total/total"
+            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/*/" + status + "/total/total"
         }).then(function (response) {
             if (response.status === 200) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -358,7 +358,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getTotalTicketCount = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/" + status + "/total/total"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/*/" + status + "/total/total"
         }).then(function (response) {
             if (response.status === 200) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -376,7 +376,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getTotalTicketAvg = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTime/" + status + "/total/total"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTime/*/" + status + "/total/total"
         }).then(function (response) {
             if (response.status === 200) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -428,7 +428,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getCreatedTicketSeries = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/NewTicket/30"
+            url: baseUrls.dashBordUrl + "DashboardGraph/NewTicket/*/30"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
@@ -448,7 +448,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getResolvedTicketSeries = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedTicket/30"
+            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedTicket/*/30"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
@@ -467,7 +467,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     var getDeferenceResolvedTicketSeries = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedVsOpenTicket/30"
+            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedVsOpenTicket/*/30"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
@@ -491,7 +491,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/CONNECTED/*/CALLinbound"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/*/CONNECTED/*/CALLinbound"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -511,7 +511,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/CONNECTED/*/CALLoutbound"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/*/CONNECTED/*/CALLoutbound"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -531,7 +531,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/BREAK/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/*/BREAK/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -551,7 +551,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/AGENTHOLD/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/*/AGENTHOLD/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -571,7 +571,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTimeWithCurrentSessions/LOGIN/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTimeWithCurrentSessions/*/LOGIN/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -591,7 +591,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/AFTERWORK/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/*/AFTERWORK/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -611,7 +611,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTimePerKeyWithCurrentSessions/LOGIN/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTimePerKeyWithCurrentSessions/*/LOGIN/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -631,7 +631,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTime/AFTERWORK/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTime/*/AFTERWORK/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -651,7 +651,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageCountPerKey/count/CONNECTED/*/CALLinbound/key/CONNECTED/*/CALLinbound"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageCountPerKey/*/count/CONNECTED/*/CALLinbound/key/CONNECTED/*/CALLinbound"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -671,7 +671,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageCountPerKey/count/CALLS/outbound/*/key/CONNECTED/*/CALLoutbound"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageCountPerKey/*/count/CALLS/outbound/*/key/CONNECTED/*/CALLoutbound"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -711,7 +711,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/CountPerKey/LOGIN/*/Register"
+            url: baseUrls.dashBordUrl + "DashboardEvent/CountPerKey/*/LOGIN/*/Register"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
