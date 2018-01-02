@@ -4,7 +4,7 @@
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               loginService, $filter,
-                                              dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices) {
+                                              dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices,businessUnit) {
 
 
     $scope.safeApply = function (fn) {
