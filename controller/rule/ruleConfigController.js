@@ -2,7 +2,7 @@
  * Created by Pawan on 6/6/2016.
  */
 'use strict';
-mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, notificationService, $state, $stateParams, loginService,scheduleBackendService) {
+mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, userProfileApiAccess, notificationService, $state, $stateParams, loginService,scheduleBackendService) {
 
 
     $scope.newObj = {};
@@ -15,6 +15,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
     $scope.DNISRequired = true;
     $scope.ANIRequired = true;
     $scope.scheduleList;
+    $scope.BusinessUnits = [];
 
 
     $scope.showAlert = function (title, content, type) {
@@ -67,6 +68,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
             $scope.newObj = response.data.Result;
             console.log(response.data.Result);
             loadContexts();
+            loadBusinessUnits();
             loadTranslations();
             $scope.setEnableStatus();
             $scope.newObj.ScheduleId = {id: $scope.newObj.ScheduleId};
@@ -285,6 +287,30 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         ruleconfigservice.getContextList().then(onContextLoad, onError);
     };
 
+    function loadBusinessUnits() {
+        userProfileApiAccess.getBusinessUnits().then(function(result)
+        {
+            if (result && !result.IsSuccess)
+            {
+                var errMsg = "Error occurred while retrieving business units";
+                if(result.CustomMessage)
+                {
+                    errMsg = result.CustomMessage;
+                }
+                $scope.showAlert("Call Rule", errMsg, 'error');
+            }
+            else
+            {
+                $scope.BusinessUnits = result.Result;
+            }
+
+        }, function(err)
+        {
+            $scope.showAlert("Call Rule", 'Error occurred while loading business units', 'error');
+
+        });
+    };
+
     $scope.backToList = function () {
         $scope.isPressed=false;
         $state.go('console.rule');
@@ -299,6 +325,7 @@ mainApp.controller('newrulecontroller', function ($scope, ruleconfigservice, not
         }
         else {
             loadContexts();
+            loadBusinessUnits();
         }
     };
 
