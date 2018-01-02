@@ -129,6 +129,17 @@
                 return resp.data;
             })
         };
+
+        var getBusinessUnits = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnits'
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
         var getGroupMembers = function (groupID) {
 
             return $http({
@@ -252,7 +263,8 @@
             restrictFileCategoryToUser:restrictFileCategoryToUser,
             addUserFromAD:addUserFromAD,
             GetFileCatagories:GetFileCatagories,
-            ReactivateUser:reactivateUser
+            ReactivateUser:reactivateUser,
+            getBusinessUnits: getBusinessUnits
         };
     };
 
