@@ -4,7 +4,7 @@
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               loginService, $filter,
-                                              dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices) {
+                                              dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices,ShareData) {
 
 
     $scope.safeApply = function (fn) {
@@ -1192,6 +1192,19 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     };
 
 
+    $scope.$watch(function(){
+        return ShareData.BusinessUnit;
+    }, function(newValue, oldValue){
+        if(newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()){
+            ServerHandler.callAllServices();
+            ServerHandler.getAllNumTotal();
+            ServerHandler.updateRelaTimeFuntion();
+            GetD1AllQueueStatistics();
+            $scope.getProfileDetails();
+            console.log("Reload Dashboard ****************************************");
+        }
+
+    });
 });
 
 

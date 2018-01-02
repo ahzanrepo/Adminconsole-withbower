@@ -942,8 +942,8 @@
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
                                 <li ng-click="clickDirective.SetBusinessUnit('All')"><a href="javascript:void(0)"> All Unit</a></li>
-                                <li ng-click="clickDirective.SetBusinessUnit('Unit 1')"><a href="javascript:void(0)"> Unit 1</a></li>
-                                <li ng-click="clickDirective.SetBusinessUnit('Unit 2')"><a href="javascript:void(0)"> Unit 2</a></li>
+                                <li ng-repeat="unit in BusinessUnits" ng-click="clickDirective.SetBusinessUnit(unit.unitName)"><a href="javascript:void(0)"> {{unit.unitName}}</a></li>
+                                <!--<li ng-click="clickDirective.SetBusinessUnit('Unit 2')"><a href="javascript:void(0)"> Unit 2</a></li>-->
                             </ul>
                         </li>
 
