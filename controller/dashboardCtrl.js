@@ -105,7 +105,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 
 
     subscribeServices.subscribeDashboard('dashboard', function (event) {
-        if (event && event.Message && event.Message.businessUnit && ((event.Message.businessUnit === "default") || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
+        if (event && event.Message && event.Message.businessUnit && (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase())) {
             switch (event.roomName) {
                 case 'ARDS:ResourceStatus':
                     if (event.Message) {
