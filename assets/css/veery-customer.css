@@ -8032,3 +8032,26 @@ circle {
 circle {
     transition: stroke-dashoffset 0.1s linear;
 }
+
+.group-config {
+    float: right;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    padding-top: 4px;
+    margin-top: 15px;
+}
+
+.bisunit-item {
+    padding-left: 10px;
+    padding-top: 10px;
+
+}
+
+.bisunit-item > h5 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    text-align: left;
+    color: #9a9a9a;
+}
+

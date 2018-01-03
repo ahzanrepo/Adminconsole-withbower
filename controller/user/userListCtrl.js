@@ -28,7 +28,8 @@
             });
         };
 
-
+        $scope.isEditing=false;
+        $scope.businessUnits=[];
         $scope.newUser = {};
         $scope.newUserGroup = {};
         $scope.newUser.title = 'mr';
@@ -191,49 +192,49 @@
                             history: false
                         }
                     }).get().on('pnotify.confirm', function () {
-                            userProfileApiAccess.ReactivateUser(user.username).then(function (data) {
-                                if (data.IsSuccess) {
-                                    $scope.showAlert('Success', 'info', 'User Reactivated');
-                                    $scope.safeApply(function () {
-                                        $scope.disableSwitch = false;
-                                    });
-                                }
-                                else {
-                                    var errMsg = "";
-                                    $scope.safeApply(function () {
-                                        user.Active = false;
-                                        $scope.disableSwitch = false;
-                                    });
-
-
-                                    if (data.Exception) {
-                                        errMsg = data.Exception.Message;
-                                    }
-
-                                    if (data.CustomMessage) {
-                                        errMsg = data.CustomMessage;
-                                    }
-                                    $scope.showAlert('Error', 'error', errMsg);
-                                }
-
-                            }, function (err) {
+                        userProfileApiAccess.ReactivateUser(user.username).then(function (data) {
+                            if (data.IsSuccess) {
+                                $scope.showAlert('Success', 'info', 'User Reactivated');
+                                $scope.safeApply(function () {
+                                    $scope.disableSwitch = false;
+                                });
+                            }
+                            else {
+                                var errMsg = "";
                                 $scope.safeApply(function () {
                                     user.Active = false;
                                     $scope.disableSwitch = false;
                                 });
-                                loginService.isCheckResponse(err);
-                                var errMsg = "Error occurred while deleting contact";
-                                if (err.statusText) {
-                                    errMsg = err.statusText;
+
+
+                                if (data.Exception) {
+                                    errMsg = data.Exception.Message;
+                                }
+
+                                if (data.CustomMessage) {
+                                    errMsg = data.CustomMessage;
                                 }
                                 $scope.showAlert('Error', 'error', errMsg);
-                            });
-                        }).on('pnotify.cancel', function () {
+                            }
+
+                        }, function (err) {
                             $scope.safeApply(function () {
                                 user.Active = false;
                                 $scope.disableSwitch = false;
                             });
+                            loginService.isCheckResponse(err);
+                            var errMsg = "Error occurred while deleting contact";
+                            if (err.statusText) {
+                                errMsg = err.statusText;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
                         });
+                    }).on('pnotify.cancel', function () {
+                        $scope.safeApply(function () {
+                            user.Active = false;
+                            $scope.disableSwitch = false;
+                        });
+                    });
                 }
 
             }else{
@@ -258,48 +259,48 @@
                             history: false
                         }
                     }).get().on('pnotify.confirm', function () {
-                            userProfileApiAccess.deleteUser(user.username).then(function (data) {
-                                if (data.IsSuccess) {
-                                    $scope.showAlert('Success', 'info', 'User Deleted');
-                                    $scope.safeApply(function () {
-                                        $scope.disableSwitch = false;
-                                    });
-                                }
-                                else {
-                                    var errMsg = "";
-                                    $scope.safeApply(function () {
-                                        user.Active = true;
-                                        $scope.disableSwitch = false;
-                                    });
-
-                                    if (data.Exception) {
-                                        errMsg = data.Exception.Message;
-                                    }
-
-                                    if (data.CustomMessage) {
-                                        errMsg = data.CustomMessage;
-                                    }
-                                    $scope.showAlert('Error', 'error', errMsg);
-                                }
-
-                            }, function (err) {
+                        userProfileApiAccess.deleteUser(user.username).then(function (data) {
+                            if (data.IsSuccess) {
+                                $scope.showAlert('Success', 'info', 'User Deleted');
+                                $scope.safeApply(function () {
+                                    $scope.disableSwitch = false;
+                                });
+                            }
+                            else {
+                                var errMsg = "";
                                 $scope.safeApply(function () {
                                     user.Active = true;
                                     $scope.disableSwitch = false;
                                 });
-                                loginService.isCheckResponse(err);
-                                var errMsg = "Error occurred while deleting contact";
-                                if (err.statusText) {
-                                    errMsg = err.statusText;
+
+                                if (data.Exception) {
+                                    errMsg = data.Exception.Message;
+                                }
+
+                                if (data.CustomMessage) {
+                                    errMsg = data.CustomMessage;
                                 }
                                 $scope.showAlert('Error', 'error', errMsg);
-                            });
-                        }).on('pnotify.cancel', function () {
+                            }
+
+                        }, function (err) {
                             $scope.safeApply(function () {
                                 user.Active = true;
                                 $scope.disableSwitch = false;
                             });
+                            loginService.isCheckResponse(err);
+                            var errMsg = "Error occurred while deleting contact";
+                            if (err.statusText) {
+                                errMsg = err.statusText;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
                         });
+                    }).on('pnotify.cancel', function () {
+                        $scope.safeApply(function () {
+                            user.Active = true;
+                            $scope.disableSwitch = false;
+                        });
+                    });
                 }
             }
 
@@ -342,24 +343,29 @@
         };
 
         $scope.loadGroupMembers = function (group) {
-            $scope.groupMemberlist = [];
-            $scope.isLoadingUsers = true;
-            $scope.selectedGroup = group;
 
-            userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
-                if (response.IsSuccess) {
-                    $scope.groupMemberlist = response.Result;
-                    removeAllocatedAgents()
-                }
-                else {
-                    console.log("Error in loading Group member list");
+            if(!$scope.isEditing)
+            {
+                $scope.groupMemberlist = [];
+                $scope.isLoadingUsers = true;
+                $scope.selectedGroup = group;
+
+                userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
+                    if (response.IsSuccess) {
+                        $scope.groupMemberlist = response.Result;
+                        removeAllocatedAgents()
+                    }
+                    else {
+                        console.log("Error in loading Group member list");
+                        //scope.showAlert("User removing from group", "error", "Error in removing user from group");
+                    }
+                    $scope.isLoadingUsers = false;
+                }, function (err) {
+                    console.log("Error in loading Group member list ", err);
                     //scope.showAlert("User removing from group", "error", "Error in removing user from group");
-                }
-                $scope.isLoadingUsers = false;
-            }, function (err) {
-                console.log("Error in loading Group member list ", err);
-                //scope.showAlert("User removing from group", "error", "Error in removing user from group");
-            });
+                });
+            }
+
         };
 
 
@@ -428,6 +434,10 @@
                 bottom: "-95"
             }, 300);
         };
+        $scope.showUnits=false;
+        $scope.showIt = function () {
+            $scope.showUnits=!$scope.showUnits
+        }
 
 
         //add user to group
@@ -595,6 +605,24 @@
 
         $scope.userActiveCheck = false;
 
+        $scope.checkEditing = function () {
+            $scope.isEditing=!$scope.isEditing;
+        }
+
+        $scope.loadBusinessUnits = function () {
+            userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
+                if(resUnits.IsSuccess)
+                {
+                    $scope.businessUnits=resUnits.Result;
+                }
+                else {
+                    $scope.showAlert("Business Unit","error","No Business Units found");
+                }
+            },function (errUnits) {
+                $scope.showAlert("Business Unit","error","Error in searching Business Units");
+            });
+        }
+        $scope.loadBusinessUnits();
 
 
     };
