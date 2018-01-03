@@ -228,6 +228,26 @@
             })
         };
 
+        var saveBusinessUnit = function (unitObj) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnit',
+                data: unitObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        }
+
+        var GetBusinessUnits = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnits'
+            }).then(function (response) {
+                return response.data;
+            })
+        };
+
 
 
 
@@ -252,7 +272,9 @@
             restrictFileCategoryToUser:restrictFileCategoryToUser,
             addUserFromAD:addUserFromAD,
             GetFileCatagories:GetFileCatagories,
-            ReactivateUser:reactivateUser
+            ReactivateUser:reactivateUser,
+            saveBusinessUnit:saveBusinessUnit,
+            GetBusinessUnits:GetBusinessUnits
         };
     };
 

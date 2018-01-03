@@ -2,7 +2,7 @@
  * Created by Pawan on 7/29/2016.
  */
 
-mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, loginService,$anchorScroll) {
+mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, loginService,$anchorScroll,userProfileApiAccess) {
 
     $anchorScroll();
 
@@ -581,17 +581,17 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 var errMsg = response.CustomMessage;
 
                 /*if(response.Exception)
-                {
-                    errMsg = response.Exception.Message;
-                }*/
+                 {
+                 errMsg = response.Exception.Message;
+                 }*/
                 $scope.showAlert('Custom Ticket Status', errMsg, 'error');
             }
         }, function(err){
             var errMsg = "Error occurred while add new ticket status";
             /*if(err.statusText)
-            {
-                errMsg = err.statusText;
-            }*/
+             {
+             errMsg = err.statusText;
+             }*/
             $scope.showAlert('Custom Ticket Status', errMsg, 'error');
         });
     };
@@ -1009,4 +1009,62 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
 
     $scope.getActiveDirectory();
+
+
+
+    //----------------------------Business Units------------------------------------------------------
+
+    $scope.newBUnit = {};
+    $scope.businessUnits = [];
+    $scope.saveNewBusinessUnit = function () {
+
+        if($scope.newBUnit && $scope.newBUnit.unitName && $scope.newBUnit.description)
+        {
+            var unitObj =
+                {
+                    unitName:$scope.newBUnit.unitName,
+                    description:$scope.newBUnit.description
+                }
+
+            userProfileApiAccess.saveBusinessUnit(unitObj).then(function (resSave) {
+
+                if(resSave.IsSuccess)
+                {
+                    $scope.showAlert('Business Unit', 'New Business Unit added successfully', 'success');
+                    $scope.businessUnits.push(resSave.Result);
+                    $scope.newBUnit = {};
+                }
+                else
+                {
+                    $scope.showAlert('Business Unit', 'New Business Unit adding failed', 'error');
+                }
+
+            },function (errSave) {
+
+                $scope.showAlert('Business Unit', 'New Business Unit adding failed', 'error');
+                console.log(errSave);
+            });
+        }
+
+    }
+    $scope.getBusinessUnits = function () {
+
+        userProfileApiAccess.GetBusinessUnits().then(function (resUnits) {
+
+            if(resUnits.IsSuccess)
+            {
+                $scope.businessUnits=resUnits.Result;
+            }
+            else
+            {
+                $scope.showAlert('Business Unit', 'No Business Units found', 'info');
+            }
+        },function (errUnits) {
+            $scope.showAlert('Business Unit', 'Error in searching Business Units', 'error');
+        });
+    }
+
+    $scope.getBusinessUnits();
+
+
 });
