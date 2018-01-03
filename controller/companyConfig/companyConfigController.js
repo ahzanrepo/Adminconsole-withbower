@@ -1049,7 +1049,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     }
     $scope.getBusinessUnits = function () {
 
-        userProfileApiAccess.GetBusinessUnits().then(function (resUnits) {
+        userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
 
             if(resUnits.IsSuccess)
             {

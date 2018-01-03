@@ -16,6 +16,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
 
     $scope.BusinessUnit = ShareData.BusinessUnit;
+    $scope.BusinessUnits = ShareData.BusinessUnits;
 
 
     $scope.CallStatus = null;
@@ -709,6 +710,18 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $state.go('console.queuesettings');
         }
     };
+
+    $scope.loadBusinessUnit = function () {
+        loginService.LoadBusinessUnits().then(function (response) {
+            ShareData.BusinessUnits = response;
+            $scope.BusinessUnits = ShareData.BusinessUnits;
+        }, function (error) {
+            $log.debug("loadBusinessUnit err");
+        });
+
+    };
+    $scope.loadBusinessUnit();
+
     $scope.showDisplayName = false;
     var getUserName = function () {
         var userDetails = loginService.getTokenDecode();
@@ -1067,6 +1080,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.naviSelectedUser = {};
     $scope.userGroups = [];
     var isPersistanceLoaded = false;
+
 
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
