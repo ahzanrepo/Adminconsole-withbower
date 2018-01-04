@@ -780,7 +780,7 @@ label {
     padding-bottom: 20px;
     color: #40BCB0;
     background: #fff;
-    width: 350px;
+    width: 100%;
     text-align: center;
 }
 
@@ -2507,6 +2507,32 @@ ul.count2 {
     font-size: 12px;
 }
 
+.owl-profile-img {
+    width: 50px;
+    height: 50px;
+    position: inherit;
+    margin-top: 6px;
+    margin-left: 6px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    overflow: hidden;
+    background: transparent;
+    display: inline-block;
+    /* Avatar: */
+    box-shadow: 0 2px 4px 0 rgba(31, 36, 40, 0.35);
+    /* Bitmap: */
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50), 0 2px 4px 0 rgba(0, 0, 0, 0.50), inset 0 1px 3px 0 rgba(0, 0, 0, 0.50), inset 0 1px 3px 0 rgba(0, 0, 0, 0.50);
+
+}
+.owl-profile-headtext{
+    font-family: 'Roboto-bold', sans-serif !important;
+    font-size: 15px;
+    color: #0F0F0F;
+    letter-spacing: -0.12px;
+    margin-top: 10px;
+    margin-bottom: 1px;
+    margin-left: 5px;
+}
 .img-circle.profile_img {
     width: 100px;
     position: inherit;
@@ -4288,7 +4314,7 @@ tags-input .tags {
 
 .progress-bar {
     color: #fff;
-    background-color: #4CAF50;
+    /*background-color: #4CAF50;*/
 }
 
 .progress-camp-upload > div > b {
@@ -5548,7 +5574,15 @@ ul.row-option > li.delete:focus {
     padding: 10px 5px 5px 10px;
     display: inline-block;
 }
-
+.d1-grading-header-text {
+    font-family: Roboto-medium;
+    font-size: 15px;
+    color: #1D1D1D;
+    letter-spacing: -0.12px;
+    text-transform: uppercase;
+    padding: 10px 5px 5px 10px;
+    display: inline-block;
+}
 .header-count {
     display: inline-block;
     font-family: 'Roboto-medium', sans-serif;
@@ -5909,17 +5943,137 @@ ul.row-option > li.delete:focus {
     left: 8px;
     overflow: hidden;
 }
-
+.d1-pie-chart{
+    /*Kasun_1_JAN*/
+    /*margin-left: -30px;*/
+    /*margin-top: -5px;*/
+    height: 50px;
+    width: 50px;
+    position: relative;
+    /*Kasun_1_JAN*/
+}
 .d1-pie-text {
+    /*Kasun_1_JAN*/
     width: 53px;
+    height: 17px;
     position: absolute;
-    top: 15px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+
+    /*width: 53px;*/
+    /*position: absolute;*/
+    /*top: 12px;*/
+    /*Kasun_1_JAN*/
+
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     color: #2176B8;
     letter-spacing: -0.1px;
     text-align: center;
 }
+
+
+/*Kasun_Wijeratne_4_JAN_2017*/
+.que-wrapper{
+    padding: 0px;
+}
+.que-wrapper .que_panel{
+    display: block;
+    overflow: auto;
+    padding: 10px;
+    border: solid 1px #E6E9ED;
+    margin: 3px;
+}
+.que-block{}
+.que-block .que-chart-wrap{}
+.que-block .que-chart-wrap, .que-block .que-detials{
+    display: inline-block;
+    float: left;
+}
+.que-block .que-chart-wrap{
+    width: 70px;
+}
+.que-block .que-chart-wrap .que-status{
+    margin-top: 6px;
+    text-align: center;
+    height: 16px;
+}
+.que-block .que-detials{
+    width: calc(100% - 70px);
+    padding-left: 10px;
+    line-height: 15px;
+    border-left: solid 1px #E6E9ED;
+}
+.que-block .que-detials-with-progress{
+    width: calc(100% - 70px);
+    padding-left: 20px;
+    line-height: 12px;
+}
+.que-block .que-detials .que-name{
+    /*font-weight: bold;*/
+    margin-bottom: 5px;
+    color: #000;
+    font-size: 17px;
+}
+.que-block .que-detials .que-info{
+    /*line-height: 12px;*/
+}
+.que-block .que-detials .que-info>div>label{
+    font-size: 11px;
+    color: #aaa;
+    margin-bottom: 0;
+}
+.que-block .que-detials .que-info>div>div.que-info-timer{
+    color: #000;
+    display: inline;
+}
+.que-block .que-value .que-info-timer{
+    display: block;
+    width: 50px!important;
+    height: 30px!important;
+    margin: 0 auto;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    color: #2bc9e2;
+    line-height: 1;
+}
+.que-block .que-detials .que-info>div:first-child{
+    /*width: 60%;*/
+    /*border-right: solid 1px #eeeeee;*/
+    margin-bottom: 5px;
+}
+.que-block .que-detials .que-info>div:last-child label{
+    width: 30%;
+    display: inline-block;
+    float: left;
+}
+.que-block .que-detials .que-info>div:last-child .que-progress{
+    display: inline-block;
+    width: 70%;
+    float: left;
+}
+.que-block .que-detials .que-info>div:last-child .que-progress .progress{
+    margin-bottom: 0!important;
+    height: 13px!important;
+}
+.que-block .que-detials .que-info>div:last-child .que-progress .progress .progress-bar>span{
+    position: relative;
+    top: -3px;
+    font-size: 11px;
+}
+.que-block .que-chart-wrap .chart{
+    display: block;
+    width: 50px!important;
+    height: 50px!important;
+    margin: 0 auto;
+}
+
+
+
+/*Kasun_Wijeratne_4_JAN_2017*/
+
 
 .q-chart-text-wrp > .header-text {
     min-height: 18px;

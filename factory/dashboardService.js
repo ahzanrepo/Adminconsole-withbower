@@ -8,7 +8,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getAllCalls = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -28,7 +28,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     };
     var getAllQueued = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -49,7 +49,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     };
     var getAllBriged = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -69,7 +69,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     };
     var getAllChannels = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -93,7 +93,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     var getTotalCalls = function (param1, param2) {
 
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -128,7 +128,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getNewTicketCountViaChenal = function (chenal) {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -151,7 +151,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalQueued = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -174,7 +174,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     };
     var getTotalQueueHit = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -195,7 +195,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     };
     var getTotalQueueAnswered = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -219,7 +219,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalQueueDropped = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -249,7 +249,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getCurrentWaiting = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -271,7 +271,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalBriged = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -300,7 +300,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getCurrentBridgedCalls = function (param) {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -330,7 +330,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalOnGoing = function (callDirection) {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -357,7 +357,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getProfileDetails = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -379,7 +379,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getCompanyTasks = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -400,7 +400,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     /*ticket*/
     var getTicketCount = function (status) {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -423,7 +423,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalTicketCount = function (status) {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -446,7 +446,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalTicketAvg = function (status) {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -502,7 +502,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getCreatedTicketSeries = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -526,7 +526,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getResolvedTicketSeries = function (status) {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -549,7 +549,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getDeferenceResolvedTicketSeries = function (status) {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
@@ -576,7 +576,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalTalkTimeInbound = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -600,7 +600,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalTalkTimeOutbound = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -624,7 +624,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalBreakTime = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -648,7 +648,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalHoldTime = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -672,7 +672,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalStaffTime = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -696,7 +696,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalAcwTime = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -720,7 +720,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getAverageStaffTime = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -744,7 +744,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getAverageAcwTime = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -768,7 +768,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getAverageInboundCallsPerAgent = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -792,7 +792,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getAverageOutboundCallsPerAgent = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -817,7 +817,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     var getCallCenterPerformanceHistory = function (startDate, endDate, requestType) {
 
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -841,7 +841,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getTotalLoginAgentCount = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 
@@ -864,7 +864,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
     };
     var getQueueRecordDetails = function (qID) {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
             businessUnit = ShareData.BusinessUnit;
         }
 

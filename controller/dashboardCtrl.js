@@ -4,7 +4,7 @@
 
 mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                               loginService, $filter,
-                                              dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices,ShareData) {
+                                              dashboardService, moment, userImageList, $interval, queueMonitorService, subscribeServices, ShareData) {
 
 
     $scope.safeApply = function (fn) {
@@ -18,36 +18,60 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         }
     };
 
-    $scope.agentCurrentState = 'available';
-    var setAgentCurrentState = function (index) {
-        switch (index) {
-            case 0:
-                $scope.agentCurrentState = "available";
-                break;
-            case 1:
-                $scope.agentCurrentState = "connected";
-                break;
-            case 2:
-                $scope.agentCurrentState = "afterwork";
-                break;
-            case 3:
-                $scope.agentCurrentState = "reserved";
-                break;
-            case 4:
-                $scope.agentCurrentState = "break";
-                break;
-            case 5:
-                $scope.agentCurrentState = "outbound";
-                break;
-            case 6:
-                $scope.agentCurrentState = "suspended";
-                break;
-            case 7:
-                $scope.agentCurrentState = "other";
-                break;
-            default:
+    $scope.StatusList = {
+        ReservedProfile: [],
+        AvailableProfile: [],
+        ConnectedProfile: [],
+        AfterWorkProfile: [],
+        OutboundProfile: [],
+        SuspendedProfile: [],
+        BreakProfile: [],
+        profile: []
+    };
 
-        }
+    $scope.agentCurrentState = 'available';
+    $scope.owlCarouselAgent = $scope.StatusList.AvailableProfile;
+    var setAgentCurrentState = function (index) {
+        $scope.safeApply(function () {
+            switch (index) {
+                case 0:
+                    $scope.agentCurrentState = "available";
+                    $scope.owlCarouselAgent = $scope.StatusList.AvailableProfile;
+                    break;
+                case 1:
+                    $scope.agentCurrentState = "reserved";
+                    $scope.owlCarouselAgent = $scope.StatusList.ReservedProfile;
+                    break;
+                case 2:
+                    $scope.agentCurrentState = "connected";
+                    $scope.owlCarouselAgent = $scope.StatusList.ConnectedProfile;
+                    break;
+                case 3:
+                    $scope.agentCurrentState = "afterwork";
+                    $scope.owlCarouselAgent = $scope.StatusList.AfterWorkProfile;
+                    break;
+
+                case 4:
+                    $scope.agentCurrentState = "break";
+                    $scope.owlCarouselAgent = $scope.StatusList.BreakProfile;
+                    break;
+                case 5:
+                    $scope.agentCurrentState = "outbound";
+                    $scope.owlCarouselAgent = $scope.StatusList.OutboundProfile;
+                    break;
+                case 6:
+                    $scope.agentCurrentState = "suspended";
+                    $scope.owlCarouselAgent = $scope.StatusList.SuspendedProfile;
+                    break;
+                case 7:
+                    $scope.agentCurrentState = "other";
+                    $scope.owlCarouselAgent = $scope.StatusList.profile;
+                    break;
+                default:
+
+            }
+         });
+
 
     };
 
@@ -57,36 +81,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         //var elementAttr = this.$element.attr('data');
         // console.log(elementAttr);
         var index = e.item.index;
-        switch (index) {
-            case 4:
-                $scope.agentCurrentState = "available";
-                break;
-            case 5:
-                $scope.agentCurrentState = "connected";
-                break;
-            case 6:
-                $scope.agentCurrentState = "afterwork";
-                break;
-            case 7:
-                $scope.agentCurrentState = "reserved";
-                break;
-            case 8:
-                $scope.agentCurrentState = "break";
-                break;
-            case 9:
-                $scope.agentCurrentState = "outbound";
-                break;
-            case 10:
-                $scope.agentCurrentState = "suspended";
-                break;
-            case 11:
-            case 3:
-                $scope.agentCurrentState = "other";
-                break;
-            default:
-
-        }
-
+        setAgentCurrentState(index-4);
     });
 
     var carouselAutoplay = true;
@@ -316,7 +311,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     break;
 
             }
-        }else{
+        } else {
             console.error("Subscribe Dashboard Event Recive For Invalid Business Unit");
         }
     });
@@ -963,16 +958,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     $scope.refreshTime = 1000;
 
 
-    $scope.StatusList = {
-        ReservedProfile: [],
-        AvailableProfile: [],
-        ConnectedProfile: [],
-        AfterWorkProfile: [],
-        OutboundProfile: [],
-        SuspendedProfile: [],
-        BreakProfile: [],
-        profile: []
-    };
+
     $scope.getProfileDetails = function () {
         dashboardService.GetProfileDetails().then(function (response) {
             $scope.StatusList = {
@@ -1106,6 +1092,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             $scope.StatusList.SuspendedProfile.push(profile);
                         } else if (profile.slotState == 'Available') {
                             $scope.StatusList.AvailableProfile.push(profile);
+                            $scope.owlCarouselAgent = $scope.StatusList.AvailableProfile;
                         } else {
                             $scope.StatusList.profile.push(profile);
                             //$scope.BreakProfile.push(profile);
@@ -1192,10 +1179,10 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
     };
 
 
-    $scope.$watch(function(){
+    $scope.$watch(function () {
         return ShareData.BusinessUnit;
-    }, function(newValue, oldValue){
-        if(newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()){
+    }, function (newValue, oldValue) {
+        if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
             ServerHandler.callAllServices();
             ServerHandler.getAllNumTotal();
             ServerHandler.updateRelaTimeFuntion();
@@ -1208,197 +1195,3 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
 });
 
 
-mainApp.directive('d1queued', function (queueMonitorService, $timeout, loginService) {
-    return {
-
-        restrict: 'EA',
-        scope: {
-            name: "@",
-            queueoption: "=",
-            pieoption: "=",
-            viewmode: "=",
-            que: "=",
-            mque: "="
-        },
-        templateUrl: 'template/dashboard/d1-queued-temp.html',
-        link: function (scope, element, attributes) {
-
-
-            scope.que.isExceeded = false;
-
-
-            scope.$on('timer-tick', function (e, data) {
-
-                if (data.millis && scope.que.queueDetails && scope.que.queueDetails.MaxWaitTime && data.millis >= (scope.que.queueDetails.MaxWaitTime * 1000)) {
-                    scope.que.isExceeded = true;
-                }
-                else {
-                    scope.que.isExceeded = false;
-                }
-
-            });
-
-
-            //console.log(scope.queueoption)
-            // console.log(scope.pieoption)
-            // scope.skillList=scope.name.match(/attribute_[0-9]*/g);
-            scope.tempSkills = scope.name.match(/attribute_([^\-]+)/g);
-
-            if (scope.tempSkills) {
-                scope.skillList = scope.tempSkills.map(function (item) {
-                    return item.split('_')[1].toString();
-                });
-            }
-
-
-            /*scope.que = {};
-             scope.options = {};
-             scope.que.CurrentWaiting = 0;
-             scope.que.CurrentMaxWaitTime = 0;
-             scope.que.presentage = 0;
-             scope.maxy = 10;
-             scope.val = "0";*/
-
-
-            scope.dataSet = [{
-                data: [],
-                lines: {
-                    fill: true,
-                    lineWidth: 2
-                }
-            }];
-
-
-            scope.queueoption = {
-                grid: {
-                    borderColor: '#f8f6f6',
-                    show: true
-                },
-                series: {shadowSize: 0, color: "#f8b01d"},
-                color: {color: '#63a5a2'},
-                legend: {
-                    container: '#legend',
-                    show: true
-                },
-                yaxis: {
-                    min: 0,
-                    max: scope.maxy
-                },
-                xaxis: {
-                    tickFormatter: function (val, axis) {
-                        return moment.unix(val).minute() + ":" + moment.unix(val).second();
-                    }
-                }
-            };
-
-
-            var qData = function () {
-
-                queueMonitorService.GetSingleQueueStats(scope.name).then(function (response) {
-                    scope.que = response.QueueInfo;
-                    scope.que.id = response.QueueId;
-
-                    scope.val = response.QueueName;
-                    scope.que.AverageWaitTime = Math.round(scope.que.AverageWaitTime * 100) / 100;
-
-                    if (scope.que.TotalQueued > 0) {
-                        scope.que.presentage = Math.round((scope.que.TotalAnswered / scope.que.TotalQueued) * 100);
-                    }
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                });
-            };
-            var skilledResources = function () {
-
-                var skillObj = {
-                    skills: scope.skillList
-                }
-
-                queueMonitorService.getAvailableResourcesToSkill(skillObj).then(function (response) {
-                    scope.agentCount = response.length;
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                });
-            };
-
-
-            var qStats = function () {
-
-                //GetSingleQueueStats
-                queueMonitorService.GetSingleQueueGraph(scope.name).then(function (response) {
-                    response.pop();
-                    var max = 0;
-                    scope.dataSet[0].data = response.map(function (c, index) {
-                        var item = [];
-                        item[0] = c[1];
-                        item[1] = c[0];
-
-
-                        if (c[0] > max) {
-
-                            max = c[0];
-                        }
-
-                        return item;
-                    });
-
-                    if (max == 0) {
-                        max = 1;
-                    }
-
-                    if (scope.maxy != Math.ceil(max)) {
-
-                        scope.maxy = Math.ceil(max);
-                        scope.queueoption.yaxis.max = scope.maxy + 1;
-                    }
-                }, function (err) {
-                    loginService.isCheckResponse(err);
-                });
-
-            }
-
-
-            //qData();
-            //qStats();
-            //skilledResources();
-
-
-            var updateRealtime = function () {
-
-                qData();
-                qStats();
-                skilledResources();
-
-                updatetimer = $timeout(updateRealtime, 2000);
-
-            };
-
-            //var updatetimer = $timeout(updateRealtime, 2000);
-
-            //updateRealtime();
-
-
-            // scope.$on("$destroy", function () {
-            //     if (updatetimer) {
-            //         $timeout.cancel(updatetimer);
-            //     }
-            // });
-
-
-            /*
-
-             $interval(function updateRandom() {
-             qData();
-             qStats();
-
-
-             }, 10000);
-
-             */
-
-
-        },
-
-
-    }
-});
