@@ -1,12 +1,14 @@
 /**
  * Created by Pawan on 6/13/2016.
  */
-mainApp.controller("holdMusicController", function ($scope, $state, holdMusicBackendService, loginService) {
+mainApp.controller("holdMusicController", function ($scope, $state, holdMusicBackendService, loginService,userProfileApiAccess,$anchorScroll) {
 
     $scope.holdMusicList = [];
     $scope.holdMusicFiles = [];
     $scope.addNew = false;
     $scope.searchCriteria = "";
+    $scope.businessUnits = [];
+    $anchorScroll();
 
     $scope.languages = [
         {"code": "ab", "name": "Abkhaz", "nativeName": "?????"},
@@ -313,5 +315,23 @@ mainApp.controller("holdMusicController", function ($scope, $state, holdMusicBac
     $scope.makeAnnouncementEmpty = function () {
         $scope.newHoldMusic.Announcement = null;
     };
+    $scope.makeBusinessUnitEmpty = function () {
+        $scope.newHoldMusic.BusinessUnit = null;
+    };
+
+    $scope.loadBusinessUnits = function () {
+        userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
+            if(resUnits.IsSuccess)
+            {
+                $scope.businessUnits=resUnits.Result;
+            }
+            else {
+                $scope.showAlert("Business Unit","No Business Units found","error");
+            }
+        },function (errUnits) {
+            $scope.showAlert("Business Unit","Error in searching Business Units","error");
+        });
+    }
+    $scope.loadBusinessUnits();
 
 });
