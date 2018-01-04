@@ -239,6 +239,28 @@
             })
         };
 
+        var saveBusinessUnit = function (unitObj) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnit',
+                data: unitObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
+        var updateUserGroup = function (id,updtObj) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'UserGroup/'+id,
+                data: updtObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        }
+
+
+
 
 
 
@@ -264,7 +286,9 @@
             addUserFromAD:addUserFromAD,
             GetFileCatagories:GetFileCatagories,
             ReactivateUser:reactivateUser,
-            getBusinessUnits: getBusinessUnits
+            getBusinessUnits: getBusinessUnits,
+            saveBusinessUnit:saveBusinessUnit,
+            updateUserGroup:updateUserGroup
         };
     };
 
