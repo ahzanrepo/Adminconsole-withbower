@@ -6,7 +6,7 @@
 
     var cdrApiHandler = function ($http, authService, baseUrls, loginService)
     {
-        var getCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber, didFilter) {
+        var getCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, direction, record, custNumber, didFilter, bUnit) {
             var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
             if (agent) {
@@ -33,6 +33,12 @@
             if (didFilter) {
                 url = url + '&didnumber=' + didFilter;
             }
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
+            }
+
 
             return $http({
                 method: 'GET',
@@ -83,7 +89,7 @@
             })
         };
 
-        var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter)
+        var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter, bUnit)
         {
             var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
@@ -106,6 +112,11 @@
 
             if (didFilter) {
                 url = url + '&didnumber=' + didFilter;
+            }
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
             }
 
             return $http({
@@ -207,7 +218,7 @@
             })
         };
 
-        var prepareDownloadCDRByType = function (startDate, endDate, agent, skill, direction, record, custNumber, didNumber, fileType, tz) {
+        var prepareDownloadCDRByType = function (startDate, endDate, agent, skill, direction, record, custNumber, didNumber, fileType, tz, bUnit) {
             var url = baseUrls.cdrProcessor + 'PrepareDownload?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
@@ -237,6 +248,11 @@
 
             if (tz) {
                 url = url + '&tz=' + tz;
+            }
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
             }
 
             return $http({
@@ -292,7 +308,7 @@
             })
         };
 
-        var prepareDownloadCDRAbandonByType = function (startDate, endDate, agent, skill, direction, record, custNumber, didNumber, fileType, tz) {
+        var prepareDownloadCDRAbandonByType = function (startDate, endDate, agent, skill, direction, record, custNumber, didNumber, fileType, tz, bUnit) {
             var url = baseUrls.cdrProcessor + 'PrepareDownloadAbandon?startTime=' + startDate + '&endTime=' + endDate;
 
             if (agent) {
@@ -324,6 +340,11 @@
                 url = url + '&tz=' + tz;
             }
 
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
+            }
+
             return $http({
                 method: 'GET',
                 url: url,
@@ -335,7 +356,7 @@
             });
         };
 
-        var getAbandonCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, custNumber) {
+        var getAbandonCDRForTimeRange = function (startDate, endDate, limit, offsetId, agent, skill, custNumber, bUnit) {
             var url = baseUrls.cdrProcessor + 'GetAbandonCallDetailsByRange?startTime=' + startDate + '&endTime=' + endDate + '&limit=' + limit;
 
 
@@ -353,6 +374,11 @@
                 url = url + '&custnumber=' + custNumber;
             }
 
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
+            }
+
             return $http({
                 method: 'GET',
                 url: url,
@@ -364,7 +390,7 @@
             });
         };
 
-        var getAbandonCDRForTimeRangeCount = function (startDate, endDate, agent, skill, custNumber) {
+        var getAbandonCDRForTimeRangeCount = function (startDate, endDate, agent, skill, custNumber, bUnit) {
             var url = baseUrls.cdrProcessor + 'GetAbandonCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
 
 
@@ -376,6 +402,11 @@
             }
             if (custNumber) {
                 url = url + '&custnumber=' + custNumber;
+            }
+
+            if(bUnit)
+            {
+                url = url + '&businessunit=' + bUnit;
             }
 
             return $http({

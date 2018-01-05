@@ -257,7 +257,16 @@
             }).then(function (resp) {
                 return resp.data;
             })
-        }
+        };
+        var updateBusinessUnit = function (name,updtObj) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnit/'+name,
+                data: updtObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
 
 
 
@@ -288,7 +297,8 @@
             ReactivateUser:reactivateUser,
             getBusinessUnits: getBusinessUnits,
             saveBusinessUnit:saveBusinessUnit,
-            updateUserGroup:updateUserGroup
+            updateUserGroup:updateUserGroup,
+            updateBusinessUnit:updateBusinessUnit
         };
     };
 

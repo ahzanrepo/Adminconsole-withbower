@@ -39,10 +39,12 @@ mainApp.directive("groupitemview", function ($filter, $uibModal, userProfileApiA
 
             scope.updateGroupBUnit = function () {
 
-                var updateObj =
-                    {
-                        businessUnit:scope.group.businessUnit
-                    }
+                if(scope.group.businessUnit)
+                {
+                    var updateObj =
+                        {
+                            businessUnit:scope.group.businessUnit
+                        }
 
 
                     userProfileApiAccess.updateUserGroup(scope.group._id,updateObj).then(function (resUpdate) {
@@ -57,6 +59,12 @@ mainApp.directive("groupitemview", function ($filter, $uibModal, userProfileApiA
                     },function (errUpdate) {
                         scope.showAlert("Business Unit","error","Error in updating Business Unit of Group");
                     });
+                }
+                else
+                {
+                    scope.showAlert("Business Unit","error","Select BusinessUnit first");
+                }
+
 
             }
 
