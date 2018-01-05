@@ -1,7 +1,18 @@
 <div ng-controller="cdrCtrl">
     <div class="page-title">
-        <div class="title_left">
-            <h3 class="font-robot font-600 ">CDR Report</h3>
+        <div class="row">
+            <div class="col-md-10 col-sm-10 col-xs-10">
+                <h3 class="font-robot font-600 ">CDR Report</h3>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <div class="col-md-6 col-sm-6 col-xs-6"><b>Show All Units</b>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <checkbox class="btn-primary" ng-model="businessUnitEnabled"></checkbox>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
@@ -313,6 +324,10 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
+                                                colspan="1" aria-label="Business Unit">Business Unit
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
                                                 colspan="1" aria-label="Play File">Play File
                                             </th>
                                         </thead>
@@ -335,6 +350,7 @@
                                             <td>{{cdr.ObjCategory}}</td>
                                             <td>{{cdr.HangupParty}}</td>
                                             <td>{{cdr.TransferredParties}}</td>
+                                            <td>{{cdr.BusinessUnit}}</td>
                                             <td>
                             <span ng-show="cdr.ShowButton">
 
