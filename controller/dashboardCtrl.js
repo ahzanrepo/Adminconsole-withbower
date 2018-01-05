@@ -208,6 +208,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                         $scope.queues[item.id] = item;
                                     });
                                 }
+                                $scope.queuesLength = Object.keys($scope.queues).length > 0;
                             }, function (errQueue) {
                                 console.log(errQueue);
                                 item.queueDetails = undefined;
@@ -226,18 +227,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                             });
                         }
 
-                        /* if (!$scope.queues[item.id]) {
-                         $scope.queueList.push(item);
-                         }
-
-                         $scope.safeApply(function () {
-
-                         $scope.queues[item.id] = item;
-                         });*/
-
-                        //$scope.queues[item.id] = item;
-
-                        //console.log("No Message found");
+                        $scope.queuesLength = Object.keys($scope.queues).length > 0;
                     }
                     break;
 
@@ -824,11 +814,12 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         }
     };
 
-
+    $scope.queuesLength = false;
     //get all queued
     var GetD1AllQueueStatistics = function () {
+        $scope.queues ={};
         queueMonitorService.GetAllQueueStats().then(function (response) {
-            var updatedQueues = [];
+
             if (response) {
                 response.forEach(function (c) {
                     var item = {};
@@ -900,6 +891,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                                 $scope.queues[item.id] = item;
                                 // });
                             }
+                            $scope.queuesLength = Object.keys($scope.queues).length > 0;
                         }, function (errQueue) {
                             /// console.log(errQueue);
                             item.queueDetails = undefined;
@@ -924,7 +916,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
                     //console.log( item.MaxWaitingMS);
                 });
 
-                //console.log($scope.queues);
+                $scope.queuesLength = Object.keys($scope.queues).length > 0;
             }
 
 
@@ -973,7 +965,7 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             };
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
-                    if (response[i]) {
+                    if (response[i] && response[i].BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()) {
                         var profile = {
                             name: '',
                             slotState: null,

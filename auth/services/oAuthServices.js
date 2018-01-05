@@ -291,10 +291,10 @@
             }
         };
 
-        function loadBusinessUnits() {
+        function loadBusinessUnits(id) {
             return $http({
                 method: 'GET',
-                url: baseUrls.UserServiceBaseUrl + "BusinessUnits"
+                url: baseUrls.UserServiceBaseUrl + "Supervisor/"+id+"/BusinessUnits"
             }).then(function (response) {
                 if (response.data && response.data.IsSuccess) {
                     return response.data.Result;
