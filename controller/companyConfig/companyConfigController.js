@@ -1064,7 +1064,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 if(resSave.IsSuccess)
                 {
                     $scope.showAlert('Business Unit', 'New Business Unit added successfully', 'success');
-                    $scope.businessUnits.push(resSave.Result);
+                    $scope.getBusinessUnits();
                     $scope.newBUnit = {};
                 }
                 else
