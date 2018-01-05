@@ -6,7 +6,7 @@
     var app = angular.module("veeryConsoleApp");
 
 
-    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, resourceService, sipUserApiHandler, ngAudio,
+    var cdrCtrl = function ($scope, $filter, $q, $sce, $timeout, $http, cdrApiHandler, ShareData, resourceService, sipUserApiHandler, ngAudio,
                             loginService, baseUrls,$anchorScroll,$auth,fileService) {
 
         $anchorScroll();
@@ -66,6 +66,8 @@
 
         $scope.timeEnabled = 'Date Only';
         $scope.timeEnabledStatus = false;
+
+        $scope.businessUnitEnabled = false;
 
         $scope.changeTimeAvailability = function () {
             if ($scope.timeEnabled === 'Date Only') {
@@ -464,7 +466,14 @@
                 endDate = $scope.endDate + ' 23:59:59' + momentTz;
             }
 
-            cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, 'csv', momentTz).then(function (cdrResp)
+            var tempBUnit = null;
+
+            if(!$scope.businessUnitEnabled)
+            {
+                tempBUnit = ShareData.BusinessUnit;
+            }
+
+            cdrApiHandler.prepareDownloadCDRByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, 'csv', momentTz, tempBUnit).then(function (cdrResp)
                 //cdrApiHandler.getProcessedCDRByFilter(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp)
             {
                 if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
@@ -551,8 +560,15 @@
                     endDate = $scope.endDate + ' 23:59:59' + momentTz;
                 }
 
+                var tempBUnit = null;
 
-                cdrApiHandler.getCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter).then(function (cdrResp) {
+                if(!$scope.businessUnitEnabled)
+                {
+                    tempBUnit = ShareData.BusinessUnit;
+                }
+
+
+                cdrApiHandler.getCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, null, tempBUnit).then(function (cdrResp) {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
                             var count = 0;
@@ -883,12 +899,19 @@
                 $scope.pagination.itemsPerPage = lim;
                 $scope.isTableLoading = 0;
 
-                cdrApiHandler.getCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter).then(function(cdrCntRsp)
+                var tempBUnit = null;
+
+                if(!$scope.businessUnitEnabled)
+                {
+                    tempBUnit = ShareData.BusinessUnit;
+                }
+
+                cdrApiHandler.getCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, tempBUnit).then(function(cdrCntRsp)
                 {
                     if (cdrCntRsp && cdrCntRsp.IsSuccess) {
                         $scope.pagination.totalItems = cdrCntRsp.Result;
 
-                        cdrApiHandler.getCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter).then(function (cdrResp) {
+                        cdrApiHandler.getCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter, tempBUnit).then(function (cdrResp) {
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 
@@ -962,6 +985,7 @@
 
 
                                             cdrAppendObj.Uuid = curProcessingLeg.Uuid;
+                                            cdrAppendObj.BusinessUnit = curProcessingLeg.BusinessUnit;
                                             cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
                                             cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
                                             cdrAppendObj.IsAnswered = false;
