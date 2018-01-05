@@ -1016,17 +1016,50 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.newBUnit = {};
     $scope.businessUnits = [];
+    $scope.headUsers=[];
+
+    function createFilterFor(query) {
+        var lowercaseQuery = angular.lowercase(query);
+        return function filterFn(group) {
+            return (group.username.toLowerCase().indexOf(lowercaseQuery) != -1);
+            ;
+        };
+    }
+
+    /* $scope.querySearch = function(query) {
+     var results = query ? $scope.groups.filter(createFilterFor(query)) : [];
+     return results;
+     };*/
+
+
+    $scope.querySearch = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.headUsers) {
+                return $scope.headUsers;
+            }
+            else {
+                return [];
+            }
+
+        }
+        else {
+            var results = query ? $scope.headUsers.filter(createFilterFor(query)) : [];
+            return results;
+        }
+
+    };
+
     $scope.saveNewBusinessUnit = function () {
 
         if($scope.newBUnit && $scope.newBUnit.unitName && $scope.newBUnit.description)
         {
-            var unitObj =
+            /*var unitObj =
                 {
                     unitName:$scope.newBUnit.unitName,
                     description:$scope.newBUnit.description
-                }
+                }*/
 
-            userProfileApiAccess.saveBusinessUnit(unitObj).then(function (resSave) {
+            userProfileApiAccess.saveBusinessUnit($scope.newBUnit).then(function (resSave) {
 
                 if(resSave.IsSuccess)
                 {
@@ -1062,9 +1095,28 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
         },function (errUnits) {
             $scope.showAlert('Business Unit', 'Error in searching Business Units', 'error');
         });
-    }
+    };
+    $scope.getAdminUsers = function () {
+
+        userProfileApiAccess.getUsersByRole().then(function (resAdmins) {
+
+            if(resAdmins.IsSuccess)
+            {
+                $scope.headUsers=resAdmins.Result;
+            }
+            else
+            {
+                $scope.showAlert('Business Unit', 'No Business Units found', 'info');
+            }
+        },function (errAdmins) {
+            $scope.showAlert('Business Unit', 'Error in searching Business Units', 'error');
+        });
+    };
+
+
 
     $scope.getBusinessUnits();
+    $scope.getAdminUsers();
 
 
 });

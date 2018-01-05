@@ -41,7 +41,6 @@
                         id="unit"
                         name="unit" ng-model="group.businessUnit"
                         ng-model-options="{trackBy: '$value'}">
-                    <option value="null"></option>
                     <option ng-repeat="unit in units" value="{{unit.unitName}}">{{unit.unitName}}
                     </option>
                 </select>
@@ -50,7 +49,7 @@
         </div>
         <div class="row create-new">
             <button class="btn btn-default "
-                    ng-click="updateGroupBUnit()">
+                    ng-click="updateGroupBUnit()" ng-disabled="!group.businessUnit">
                 Update
             </button>
             <!--<button class="btn btn-default fa fa-times fa-lg"
