@@ -1,16 +1,14 @@
-/**
- * Created by Pawan on 7/21/2016.
- */
-
 mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $uibModal, $timeout,
                                                  callMonitorSrv, notificationService,
-                                                 jwtHelper, authService, loginService,$anchorScroll) {
+                                                 jwtHelper, authService, loginService,$anchorScroll,ShareData) {
 
     $anchorScroll();
-    $scope.CallObj = {};
+    $scope.CallObj = [];
+    $scope.FullCallObj = [];
     $scope.isRegistered = false;
     $scope.currentSessionID = null;
     var authToken = authService.GetToken();
+    $scope.selectedBUnit="ALL";
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
@@ -48,13 +46,40 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         console.log(error);
     };
 
+
+    $scope.$watch(function(){
+        return ShareData.BusinessUnit;
+    }, function(newValue, oldValue){
+
+        $scope.selectBUnitCalls(newValue)
+
+
+    });
+
+
+    $scope.selectBUnitCalls= function (unit) {
+        if(unit=="ALL")
+        {
+            $scope.CallObj= $scope.FullCallObj;
+        }
+        else
+        {
+            $scope.CallObj={};
+            $scope.CallObj = $scope.FullCallObj.filter(function (item) {
+                if(unit==item.BusinessUnit)
+                {
+                    return item;
+                }
+            })
+        }
+    }
+
+
     var ValidCallsPicker = function (callObj) {
 
-        var curCallArr = [];
-        $scope.CallObj = {};
+        $scope.CallObj = [];
 
         var callObjLen = Object.keys(callObj.Result).length;
-        console.log("DB Call count " + callObjLen);
 
         for (var i = 0; i < callObjLen; i++) {
             if(Object.keys(callObj.Result)[i]!="undefined")
@@ -65,9 +90,10 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                     var callObject = CallObjectCreator(keyObj);
                     if (callObject) {
 
-                        curCallArr.push(callObject);
-                        $scope.CallObj = curCallArr;
-                        console.log("Call Object " +JSON.stringify($scope.CallObj));
+
+                        $scope.CallObj.push(callObject) ;
+                        $scope.FullCallObj.push(callObject);
+                        $scope.selectBUnitCalls(ShareData.BusinessUnit);
                     }
 
 
@@ -79,9 +105,9 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         }
 
     };
-  
-  
-  var CallObjectCreator = function (objKey) {
+
+
+    var CallObjectCreator = function (objKey) {
         var bargeID = "";
         var otherID = "";
         var FromID = "";
@@ -93,11 +119,15 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         var skill = "";
         var callDuration = "";
         var localTime = "";
+        var BusinessUnit = "";
 
         for (var j = 0; j < objKey.length; j++) {
 
             if (objKey[j]["DVP-Call-Direction"]) {
                 Direction = objKey[j]["DVP-Call-Direction"];
+            }
+            if (objKey[j]["DVP-Business-Unit"]) {
+                BusinessUnit = objKey[j]["DVP-Business-Unit"];
             }
 
             if (objKey[j]['Call-Direction'] == "inbound") {
@@ -173,6 +203,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
             newKeyObj.Skill = skill;
             newKeyObj.LocalTime = localTime;
             newKeyObj.CallDuration = callDuration;
+            newKeyObj.BusinessUnit = BusinessUnit;
             if(Direction === 'outbound')
             {
                 newKeyObj.BargeID = otherID;
@@ -192,11 +223,11 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
 
     };
-  
-  
 
-  
-  
+
+
+
+
     $scope.showAlert = function (title, content, type) {
 
         new PNotify({
@@ -210,8 +241,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
     $scope.pickPassword = function (response) {
         $scope.password = response;
-        console.log("Hit");
-        console.log("password ", response);
+
 
         if ($scope.password != null) {
             console.log("Password picked " + $scope.password);
@@ -257,7 +287,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
     var getRegistrationData = function (authToken) {
 
         var decodeData = jwtHelper.decodeToken(authToken);
-        console.log("Token Obj " + decodeData);
+
 
         if (decodeData.context.veeryaccount) {
             var values = decodeData.context.veeryaccount.contact.split("@");
@@ -322,11 +352,11 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
                 else
                 {
                     var listenObj =
-                    {
-                        sessionID:$scope.currentSessionID,
-                        protocol:protocol,
-                        legID:listenData.data.Result
-                    }
+                        {
+                            sessionID:$scope.currentSessionID,
+                            protocol:protocol,
+                            legID:listenData.data.Result
+                        }
                     $rootScope.$emit("call_listning", listenObj);
                 }
 
@@ -378,49 +408,43 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
             $scope.LoadCurrentCalls();
 
         });
-       /* if ($scope.isRegistered) {
-            getRegistrationData(authToken);
-            $scope.currentSessionID = callData.BargeID;
-            callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname).then(function (listenData) {
-
-                if (!listenData.data.IsSuccess) {
-                    console.log("Invalid or Disconnected call, Loading Current list ", listenData.data.CustomMessage);
-                    $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
-                    $scope.LoadCurrentCalls();
-                    $scope.inCall=false;
-                }else
-                {
-
-                    var listenObj =
-                    {
-                        sessionID:$scope.currentSessionID,
-                        protocol:protocol,
-                        legID:listenData.data.Result,
-                        CallStatus:"LISTEN"
-                    }
-                    $rootScope.$emit("call_listning", listenObj);
-
-                }
-
-            }, function (error) {
-                loginService.isCheckResponse(error);
-                console.log("Invalid or Disconnected call, Loading Current list ", error);
-                $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
-                $scope.inCall=false;
-                $scope.LoadCurrentCalls();
-
-            });
-        }
-        else {
-            getRegistrationData(authToken);
-            actionObject = {
-                action: "LISTEN",
-                BargeID: callData.BargeID,
-                protocol: protocol,
-                displayname: $scope.displayname
-            };
-
-        }*/
+        /* if ($scope.isRegistered) {
+         getRegistrationData(authToken);
+         $scope.currentSessionID = callData.BargeID;
+         callMonitorSrv.listenCall(callData.BargeID, protocol, $scope.displayname).then(function (listenData) {
+         if (!listenData.data.IsSuccess) {
+         console.log("Invalid or Disconnected call, Loading Current list ", listenData.data.CustomMessage);
+         $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
+         $scope.LoadCurrentCalls();
+         $scope.inCall=false;
+         }else
+         {
+         var listenObj =
+         {
+         sessionID:$scope.currentSessionID,
+         protocol:protocol,
+         legID:listenData.data.Result,
+         CallStatus:"LISTEN"
+         }
+         $rootScope.$emit("call_listning", listenObj);
+         }
+         }, function (error) {
+         loginService.isCheckResponse(error);
+         console.log("Invalid or Disconnected call, Loading Current list ", error);
+         $scope.showAlert("Info", "Invalid or Disconnected call, Loading Current list", "notice");
+         $scope.inCall=false;
+         $scope.LoadCurrentCalls();
+         });
+         }
+         else {
+         getRegistrationData(authToken);
+         actionObject = {
+         action: "LISTEN",
+         BargeID: callData.BargeID,
+         protocol: protocol,
+         displayname: $scope.displayname
+         };
+         }*/
 
 
     };

@@ -23,7 +23,7 @@
                                                name="businessUnitName"
                                                ng-pattern="/^[a-zA-Z0-9-_\\s]+$/"
                                                placeholder="Unit Name" required>
-                                        <span class="error-msg" ng-show="frmbUnit.newBUnit.$error.pattern">Invalid Name</span>
+                                        <span class="error-msg" ng-show="frmbUnit.businessUnitName.$error.pattern">Invalid Unit Name</span>
                                     </div>
 
                                     <div class="col-md-6 col-sm-6 col-xs-12  ">
@@ -31,7 +31,7 @@
                                         <input type="text" class="form-control "
                                                ng-model="newBUnit.description"
                                                name="businessUnitDescription"
-                                               ng-pattern="/^[a-zA-Z0-9-_\\s]+$/"
+                                               ng-pattern=""
                                                placeholder="Unit Description" required>
                                         <span class="error-msg" ng-show="frmbUnit.newBUnit.$error.pattern">Invalid Name</span>
                                     </div>
@@ -92,7 +92,7 @@
 
             <div class="x_content">
                 <ul class="list-unstyled ">
-                    <li ng-repeat="bUnit in businessUnits | filterBy: ['unitName']: searchCriteria">
+                    <li ng-repeat="bUnit in businessUnits | orderBy : 'unitName' | filterBy: ['unitName']: searchCriteria">
                         <bisunit unit="bUnit" headusers="headUsers"></bisunit>
                     </li>
 
