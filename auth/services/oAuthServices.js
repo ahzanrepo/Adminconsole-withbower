@@ -9,6 +9,7 @@
         var service = {};
         service.mynavigations = mynavigations;
         service.LoadBusinessUnits = loadBusinessUnits;
+        service.LoadUserByBusinessUnit = loadUserByBusinessUnit;
         service.Login = Login;
         service.clearCookie = clearCookie;
         service.getToken = getToken;
@@ -304,7 +305,19 @@
 
 
         };
+        function loadUserByBusinessUnit(id) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + "BusinessUnit/"+id+"/Users"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                }
+                return [];
+            });
 
+
+        };
     }
 })();
 

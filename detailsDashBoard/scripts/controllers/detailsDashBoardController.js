@@ -2,7 +2,7 @@
  * Created by Waruna on 9/27/2017.
  */
 
-mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler) {
+mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler,ShareData) {
     $anchorScroll();
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
@@ -89,57 +89,55 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     subscribeServices.subscribe('queuedetail');
     //subscribe services
-    subscribeServices.subscribeDashboard('detaildashboard',function (event) {
+    subscribeServices.subscribeDashboard('detaildashboard', function (event) {
+        if (event && event.Message && event.Message.businessUnit && ((ShareData.BusinessUnit.toLowerCase() === 'all') || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
+            switch (event.roomName) {
+                case 'QUEUE:QueueDetail':
+                    if (event.Message) {
+                        var item = event.Message.queueDetail.QueueInfo;
+                        if (item.CurrentMaxWaitTime) {
+                            var d = moment(item.CurrentMaxWaitTime).valueOf();
+                            item.MaxWaitingMS = d;
 
-        switch (event.roomName) {
-            case 'QUEUE:QueueDetail':
-                if (event.Message) {
-                    var item = event.Message.queueDetail.QueueInfo;
-                    if (item.CurrentMaxWaitTime) {
-                        var d = moment(item.CurrentMaxWaitTime).valueOf();
-                        item.MaxWaitingMS = d;
+                            if (item.EventTime) {
 
-                        if (item.EventTime) {
+                                var serverTime = moment(item.EventTime).valueOf();
+                                tempMaxWaitingMS = serverTime - d;
+                                item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
 
-                            var serverTime = moment(item.EventTime).valueOf();
-                            tempMaxWaitingMS = serverTime - d;
-                            item.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+                            }
 
                         }
 
+                        //
+                        item.id = event.Message.queueDetail.QueueId;
+
+                        item.QueueName = event.Message.QueueName;
+                        item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
+
+                        if (item.TotalQueued > 0) {
+                            item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
+                        }
+
+                        if (!$scope.queues[event.Message.queueDetail.QueueId]) {
+                            $scope.queueList.push(item);
+                        }
+                        $scope.safeApply(function () {
+                            item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
+                            $scope.queues[event.Message.queueDetail.QueueId] = item;
+                        });
+
+                        var res = [];
+                        for (var x in $scope.queues) {
+                            $scope.queues.hasOwnProperty(x) && res.push($scope.queues[x])
+                        }
+                        $scope.safeApply(function () {
+                            $scope.gridQOptions.data = res;
+                        });
                     }
-
-                    //
-                    item.id = event.Message.queueDetail.QueueId;
-
-                    item.QueueName = event.Message.QueueName;
-                    item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
-
-                    if (item.TotalQueued > 0) {
-                        item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
-                    }
-
-                    if (!$scope.queues[event.Message.queueDetail.QueueId]) {
-                        $scope.queueList.push(item);
-                    }
-                    $scope.safeApply(function () {
-                        item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
-                        $scope.queues[event.Message.queueDetail.QueueId] = item;
-                    });
-
-                    var res = [];
-                    for (var x in $scope.queues) {
-                        $scope.queues.hasOwnProperty(x) && res.push($scope.queues[x])
-                    }
-                    $scope.safeApply(function () {
-                        $scope.gridQOptions.data = res;
-                    });
-                }
-                break;
+                    break;
+            }
         }
-
-
-
     });
 
     $scope.GetAllQueueStatistics = function () {
@@ -245,10 +243,11 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
         $scope.showCallDetails = false;
         if ($scope.onlineProfile) {
+
             angular.forEach($scope.onlineProfile, function (agent) {
                 try {
 
-                    if (agent) {
+                    if (agent && (agent.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()||ShareData.BusinessUnit.toLowerCase()==="all")) {
 
 
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId.toString()}, true);//"ResourceId":"1"
@@ -513,7 +512,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         enableRowHeaderSelection: true,
         multiSelect: false,
         modifierKeysToMultiSelect: false,
-        noUnselect: false,enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+        noUnselect: false, enableHorizontalScrollbar: uiGridConstants.scrollbars.NEVER,
         columnDefs: [
             {
                 name: 'Name',
@@ -673,28 +672,6 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
             });
         }
     };
-    /*$scope.configureColumns = function () {
-     /!* $scope.gridOptions.columnDefs = [
-     {name: 'Name', field: 'ResourceName', enableCellEdit: false},
-     {name: 'State', field: 'slotState', enableCellEdit: false},
-     {name: 'Mode', field: 'slotMode', enableCellEdit: false},
-     {name: 'State Time', field: 'slotStateTime', enableCellEdit: false},
-     {name: 'AcwTime', field: 'AcwTime', enableCellEdit: false},
-     {name: 'BreakTime', field: 'BreakTime', enableCellEdit: false},
-     {name: 'HoldTime', field: 'HoldTime', enableCellEdit: false},
-     {name: 'OnCallTime', field: 'OnCallTime', enableCellEdit: false},
-     {name: 'IdleTime', field: 'IdleTime', enableCellEdit: false},
-     {name: 'StaffedTime', field: 'StaffedTime', enableCellEdit: false},
-     {name: 'IncomingCallCount', field: 'IncomingCallCount', enableCellEdit: false},
-     {name: 'OutgoingCallCount', field: 'OutgoingCallCount', enableCellEdit: false},
-     {name: 'MissCallCount', field: 'MissCallCount', enableCellEdit: false},
-     {name: 'TransferCallCount', field: 'TransferCallCount', enableCellEdit: false}
-     ];*!/
-     };*/
-
-    /*$scope.gridOptions.onRegisterApi = function (gridApi) {
-     $scope.gridApi = gridApi;
-     };*/
 
     $scope.$on("$destroy", function () {
         if (getAllRealTimeTimer) {
@@ -702,8 +679,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         }
 
 
-
-            subscribeServices.unSubscribeDashboard('detaildashboard');
+        subscribeServices.unSubscribeDashboard('detaildashboard');
 
     });
 
@@ -854,6 +830,24 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
 
     /*------------------------ getAgentStatusList ------------------------------------*/
+
+    $scope.BusinessUnitUsers = [];
+    /*Listing For Business Unit Change*/
+    $scope.$watch(function () {
+        return ShareData.BusinessUnit;
+    }, function (newValue, oldValue) {
+        if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+            $scope.GetAllQueueStatistics();
+            getAllRealTime();
+            /*ShareData.GetUserByBusinessUnit().then(function (respons) {
+                $scope.BusinessUnitUsers = respons;
+            }, function (error) {
+
+            });*/
+            console.log("Reload Dashboard ****************************************");
+        }
+
+    });
 });
 
 
