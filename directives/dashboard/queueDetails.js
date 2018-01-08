@@ -32,7 +32,7 @@ mainApp.directive('queueDetails', function () {
 
             });
 
-            scope.$watch(function () {
+            /*scope.$watch(function () {
                 return scope.que.presentage;
             }, function (newValue, oldValue) {
                 if (newValue < 25) {
@@ -46,7 +46,7 @@ mainApp.directive('queueDetails', function () {
                 }
                 console.log("Reload Dashboard quePresentageType ****************************************");
 
-            });
+            });*/
 
 
         }

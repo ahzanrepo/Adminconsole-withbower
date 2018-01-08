@@ -30,7 +30,7 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls,ShareData) {
 
     var getAllQueueStats = function () {
         var businessUnit = "*";
-        if (ShareData.BusinessUnit.toLowerCase() != "default") {
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
             businessUnit = ShareData.BusinessUnit;
         }
         return $http({
