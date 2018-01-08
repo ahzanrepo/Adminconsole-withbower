@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter,ShareData) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData) {
 
 
     // check adminconsole is focus or not.
@@ -713,8 +713,12 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
     $scope.loadBusinessUnit = function () {
         loginService.LoadBusinessUnits(ShareData.MyProfile._id).then(function (response) {
-            ShareData.BusinessUnits = response;
-            $scope.BusinessUnits = ShareData.BusinessUnits;
+            if (response && response.length > 0 && response[0]) {
+                ShareData.BusinessUnits = $filter('orderBy')(response, 'unitName');
+                $scope.BusinessUnits = ShareData.BusinessUnits;
+                ShareData.BusinessUnit = ShareData.BusinessUnits[0].unitName;
+                $scope.BusinessUnit = ShareData.BusinessUnit;
+            }
         }, function (error) {
             $log.debug("loadBusinessUnit err");
         });
@@ -785,7 +789,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     };
     getUserName();
 
-   // $scope.loadBusinessUnit();
+    // $scope.loadBusinessUnit();
 
     $scope.scrollEnabled = false;
     $scope.safeApply = function (fn) {
@@ -1533,7 +1537,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                 $('ul:first', $li).slideUp(function () {
                     setContentHeight();
                 });
-                if($li.context.text != oldItem.context.text &&($li.closest("li").children("ul").length==0)){
+                if ($li.context.text != oldItem.context.text && ($li.closest("li").children("ul").length == 0)) {
                     $li.addClass('active');
                 }
             } else {
