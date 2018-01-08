@@ -105,14 +105,27 @@ mainApp.controller("resourceController", function ($scope, $compile, $uibModal, 
     };
 
     $scope.userNameReadOnly = false;
+    $scope.userNameAvilable = false;
 
 
     $scope.checkAvailability = function (resource) {
         resourceService.ResourceNameIsExsists(resource.ResourceName).then(function (response) {
-            $scope.userNameAvilable = response.IsSuccess;
+            //$scope.userNameAvilable = response.IsSuccess;
             if (response.IsSuccess) {
-                $scope.showAlert("Info", "Info", "ok", "Available to Use.");
-                $scope.userNameReadOnly = true;
+                resourceService.ResourceIsExists(resource.ResourceName).then(function (resResponse) {
+                    if(!resResponse.IsSuccess) {
+                        $scope.showAlert("Info", "Info", "ok", "Available to Use.");
+                        $scope.userNameAvilable = true;
+                        $scope.userNameReadOnly = true;
+                    }else {
+                        $scope.userNameAvilable = false;
+                        $scope.showError("Error", "Error", "ok", "Not Available");
+                    }
+                }, function (error) {
+                    $log.debug("GetResources err");
+                    $scope.showError("Error", "Error", "ok", "There is an error ");
+                });
+
             }
             else {
                 $scope.showError("Error", "Error", "ok", "Not Available");
