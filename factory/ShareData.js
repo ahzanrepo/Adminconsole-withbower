@@ -3,7 +3,5 @@
  */
 
 mainApp.factory('ShareData', function () {
-
-
-    return {BusinessUnit: 'default',BusinessUnits:[]};
+    return {BusinessUnit: 'default',BusinessUnits:[], MyProfile:{}};
 });

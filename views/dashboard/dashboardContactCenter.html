@@ -137,15 +137,16 @@
                                             </div>
                                             <div class="x_content">
 
-                                                <div class="col-md-12 col-sm-12 col-xs-12" ng-show="queues.length==0">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" ng-hide="queuesLength">
                                                     <div class="data-state-wrap">
                                                         Queue Details Not Found
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-12 col-sm-12 col-xs-12" ng-hide="queues.length==0">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" ng-show="queuesLength">
+
                                                     <div class="row">
-                                                        <queue-details ng-repeat="queue in queues" name="{{queue.id}}"
+                                                        <queue-details ng-repeat="queue in queues " name="{{queue.id}}"
                                                                        que="queue"
                                                                        mque="queue"
                                                                        viewmode="cardViewMode"

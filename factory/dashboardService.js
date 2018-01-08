@@ -57,7 +57,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
             url: baseUrls.dashBordUrl + "DashboardGraph/Bridge/"+businessUnit+"/5"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -77,7 +77,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
             url: baseUrls.dashBordUrl + "DashboardGraph/Channels/"+businessUnit+"/5"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -182,7 +182,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
             url: baseUrls.dashBordUrl + "DashboardGraph/AllConcurrentQueued/"+businessUnit+"/5"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -510,7 +510,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
             url: baseUrls.dashBordUrl + "DashboardGraph/NewTicket/"+businessUnit+"/30"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -534,7 +534,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
             url: baseUrls.dashBordUrl + "DashboardGraph/ClosedTicket/"+businessUnit+"/30"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result &&response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -557,7 +557,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
             url: baseUrls.dashBordUrl + "DashboardGraph/ClosedVsOpenTicket/"+businessUnit+"/30"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result &&response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};

@@ -6,7 +6,7 @@
 
 'use strict';
 
-mainApp.factory("queueMonitorService", function ($http, baseUrls) {
+mainApp.factory("queueMonitorService", function ($http, baseUrls,ShareData) {
 
 
     var getAllConcurrentQueue = function () {
@@ -29,16 +29,19 @@ mainApp.factory("queueMonitorService", function ($http, baseUrls) {
 
 
     var getAllQueueStats = function () {
-        //dashboard.app.veery.cloud
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "default") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl+"DashboardEvent/QueueDetails/*"
+            url: baseUrls.dashBordUrl+"DashboardEvent/QueueDetails/"+businessUnit
         }).then(function (response) {
             if (response.data) {
                 if(response.data.IsSuccess && response.data.Result){
                     return response.data.Result;
                 }else{
-                    return 0;
+                    return [];
                 }
             } else {
 
