@@ -1051,7 +1051,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.saveNewBusinessUnit = function () {
 
-        if($scope.newBUnit && $scope.newBUnit.unitName && $scope.newBUnit.description)
+        if($scope.newBUnit && $scope.newBUnit.unitName)
         {
             /*var unitObj =
                 {

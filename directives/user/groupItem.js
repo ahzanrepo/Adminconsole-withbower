@@ -71,8 +71,7 @@ mainApp.directive("groupitemview", function ($filter, $uibModal, userProfileApiA
 
             scope.updateGroupBUnit = function () {
 
-                if(scope.group.businessUnit)
-                {
+
                     var updateObj =
                         {
                             businessUnit:scope.group.businessUnit,
@@ -93,17 +92,13 @@ mainApp.directive("groupitemview", function ($filter, $uibModal, userProfileApiA
                     },function (errUpdate) {
                         scope.showAlert("Business Unit","error","Error in updating Business Unit of Group");
                     });
-                }
-                else
-                {
-                    scope.showAlert("Business Unit","error","Select BusinessUnit first");
-                }
+
 
 
             }
 
-            scope.emptyBUnit = function () {
-                scope.group.businessUnit=null;
+            scope.makeBusinessUnitEmpty = function () {
+                scope.group.businessUnit="";
             }
 
 
