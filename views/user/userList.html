@@ -236,7 +236,7 @@
                                              ng-class="group.name == selectedGroup.name ? 'active-group' : ''"
                                              ng-click="loadGroupMembers(group)"
                                              ng-repeat="group in userGroupList | filterBy: ['name']: searchCriteria">
-                                            <groupitemview group="group" selected-group="selectedGroup" check-editing="checkEditing()" units="businessUnits" editing="isEditing"></groupitemview>
+                                            <groupitemview group="group" selected-group="selectedGroup" check-editing="checkEditing()" units="businessUnits" editing="isEditing" supervisors="adminUserList"></groupitemview>
                                         </div>
                                     </div>
                                 </div>

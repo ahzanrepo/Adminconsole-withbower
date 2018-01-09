@@ -341,7 +341,7 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
             };
             scope.makeBusinessUnitEmpty=function()
             {
-                scope.holdmusic.BusinessUnit =null;
+                scope.holdmusic.BusinessUnit ="";
             };
 
 
