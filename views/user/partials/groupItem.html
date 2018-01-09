@@ -30,11 +30,11 @@
         </div>
     </div>
 
-    <div class="row bisunit-item" ng-show="showUnits">
+    <div class="row bisunit-item" ng-show="showUnits" >
 
-        <div>
+        <div class="row" style="margin-left: 10px">
             <h5>Business Unit</h5>
-            <div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
+            <div class="col-md-8 col-sm-8 col-xs-12 form-group">
 
                 <select class="select2_single form-control" tabindex="-1"
                         aria-hidden="true"
@@ -46,10 +46,32 @@
                 </select>
 
             </div>
+            <div class="col-md-1 col-sm-1 col-xs-12 form-group">
+                <i class="fa fa-close fa-lg" ng-click="makeBusinessUnitEmpty()" title="Click here to remove Business Unit"></i>
+            </div>
         </div>
-        <div class="row create-new">
+
+        <div class="row" style="margin-left: 10px">
+            <h5>Supervisors</h5>
+            <div class="col-md-8 col-sm-8 col-xs-12 form-group has-feedback">
+
+                <tags-input ng-model="group.supervisors" display-property="username"
+                            add-from-autocomplete-only="true"  ng-disabled="" min-length="1"
+                            placeholder="Add a Supervisor">
+                    <auto-complete source="querySearch($query)"
+                                   load-on-empty="true"
+                                   load-on-focus="true"
+                                   min-length="1"></auto-complete>
+                </tags-input>
+
+            </div>
+        </div>
+
+
+
+        <div class="row create-new pull-right" style="margin-right: 10px">
             <button class="btn btn-default "
-                    ng-click="updateGroupBUnit()" ng-disabled="!group.businessUnit">
+                    ng-click="updateGroupBUnit()" ng-disabled="!group.businessUnit && (!group.supervisors || group.supervisors.length==0)">
                 Update
             </button>
             <!--<button class="btn btn-default fa fa-times fa-lg"

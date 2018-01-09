@@ -316,7 +316,7 @@ mainApp.controller("holdMusicController", function ($scope, $state, holdMusicBac
         $scope.newHoldMusic.Announcement = null;
     };
     $scope.makeBusinessUnitEmpty = function () {
-        $scope.newHoldMusic.BusinessUnit = null;
+        $scope.newHoldMusic.BusinessUnit = "";
     };
 
     $scope.loadBusinessUnits = function () {

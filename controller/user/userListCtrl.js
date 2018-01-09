@@ -97,6 +97,31 @@
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
+
+        var loadAdminUsers = function () {
+            userProfileApiAccess.getUsersByRole().then(function (data) {
+                if (data.IsSuccess) {
+                    $scope.adminUserList = data.Result;
+                }
+                else {
+                    var errMsg = data.CustomMessage;
+
+                    if (data.Exception) {
+                        errMsg = data.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+
+                }
+            },function (err) {
+                var errMsg = "Error occurred while loading users";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            })
+        };
+
+
         var loadUserGroups = function () {
             userProfileApiAccess.getUserGroups().then(function (data) {
                 if (data.IsSuccess) {
@@ -161,6 +186,7 @@
 
         loadUsers();
         loadUserGroups();
+        loadAdminUsers();
 
 
         $scope.removeUser = function (user) {

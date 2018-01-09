@@ -51,7 +51,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
         return ShareData.BusinessUnit;
     }, function(newValue, oldValue){
 
-        $scope.selectBUnitCalls(newValue)
+        /*$scope.selectBUnitCalls(newValue)*/
 
 
     });
@@ -92,8 +92,8 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
 
                         $scope.CallObj.push(callObject) ;
-                        $scope.FullCallObj.push(callObject);
-                        $scope.selectBUnitCalls(ShareData.BusinessUnit);
+                        /*$scope.FullCallObj.push(callObject);
+                        $scope.selectBUnitCalls(ShareData.BusinessUnit);*/
                     }
 
 
@@ -135,7 +135,7 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
                 FromID = objKey[j]['Caller-Caller-ID-Number'];
                 ToID = objKey[j]['Caller-Destination-Number'];
-                otherID = objKey[j]['Caller-Unique-ID'];;
+                otherID = objKey[j]['Caller-Unique-ID'];
 
                 if (objKey[j]['Bridge-State'] == "Bridged") {
                     Bridged = true;
@@ -273,6 +273,8 @@ mainApp.controller('callmonitorcntrl', function ($scope, $rootScope, $state, $ui
 
     $scope.LoadCurrentCalls = function () {
         $rootScope.$emit("monitor_panel", false);
+        $scope.CallObj = [];
+        $scope.FullCallObj = [];
         callMonitorSrv.getCurrentCalls().then(onCallsDataReceived, onError);
     };
 

@@ -10,7 +10,8 @@ mainApp.directive("groupitemview", function ($filter, $uibModal, userProfileApiA
             selectedGroup:"=",
             units:"=",
             'checkEditing':"&",
-            editing:"="
+            editing:"=",
+            supervisors:"="
 
         },
 
@@ -19,6 +20,37 @@ mainApp.directive("groupitemview", function ($filter, $uibModal, userProfileApiA
         link: function (scope) {
 
             scope.showUnits=false;
+
+            function createFilterFor(query) {
+                var lowercaseQuery = angular.lowercase(query);
+                return function filterFn(group) {
+                    return (group.username.toLowerCase().indexOf(lowercaseQuery) != -1);
+                    ;
+                };
+            }
+
+            /* $scope.querySearch = function(query) {
+             var results = query ? $scope.groups.filter(createFilterFor(query)) : [];
+             return results;
+             };*/
+
+
+            scope.querySearch = function (query) {
+                if (query === "*" || query === "") {
+                    if (scope.supervisors) {
+                        return scope.supervisors;
+                    }
+                    else {
+                        return [];
+                    }
+
+                }
+                else {
+                    var results = query ? scope.headUsers.filter(createFilterFor(query)) : [];
+                    return results;
+                }
+
+            };
 
 
             scope.showAlert = function (title, type, content) {
@@ -39,11 +71,11 @@ mainApp.directive("groupitemview", function ($filter, $uibModal, userProfileApiA
 
             scope.updateGroupBUnit = function () {
 
-                if(scope.group.businessUnit)
-                {
+
                     var updateObj =
                         {
-                            businessUnit:scope.group.businessUnit
+                            businessUnit:scope.group.businessUnit,
+                            supervisors:scope.group.supervisors
                         }
 
 
@@ -59,19 +91,16 @@ mainApp.directive("groupitemview", function ($filter, $uibModal, userProfileApiA
                     },function (errUpdate) {
                         scope.showAlert("Business Unit","error","Error in updating Business Unit of Group");
                     });
-                }
-                else
-                {
-                    scope.showAlert("Business Unit","error","Select BusinessUnit first");
-                }
+
+
 
 
             }
 
-            scope.emptyBUnit = function () {
-                scope.group.businessUnit=null;
-            }
-
+            scope.makeBusinessUnitEmpty=function()
+            {
+                scope.group.businessUnit ="";
+            };
 
 
 
