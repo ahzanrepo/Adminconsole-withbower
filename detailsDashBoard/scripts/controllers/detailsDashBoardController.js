@@ -2,7 +2,7 @@
  * Created by Waruna on 9/27/2017.
  */
 
-mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData) {
+mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData,notifiSenderService,dashboardService) {
     $anchorScroll();
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
@@ -506,6 +506,19 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     // getAllRealTime();
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+
+    $scope.AgentProductivity = {};
+    $scope.ProductivityByResourceId = function (id) {
+        $scope.AgentProductivity = {};
+        dashboardService.ProductivityByResourceId(id).then(function (response) {
+            if (response) {
+                $scope.AgentProductivity = response;
+            }
+
+        });
+
+    };
+
     $scope.BusinessUnitUsers = [];
     $scope.gridOptions = {
         enableColumnResizing: true,
@@ -669,7 +682,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                     $scope.GetCallLogs(1, row.entity.ResourceName);
                     $scope.gridTaskOptions.data = $scope.selectedAgent.taskList;
                     $scope.getAgentStatusList($scope.selectedAgent);
-
+                    $scope.ProductivityByResourceId(row.entity.ResourceId);
 
                     var ids = $filter('filter')($scope.BusinessUnitUsers, {resourceid: row.entity.ResourceId.toString()}, true);//"ResourceId":"1"
                     if (ids.length > 0) {
@@ -1095,6 +1108,8 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         });
     };
 
+
+
     /*------------------------ Agent info ------------------------------------*/
 
     /*------------------------ getAgentStatusList ------------------------------------*/
@@ -1153,6 +1168,34 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
 
     /*------------------------ getAgentStatusList ------------------------------------*/
+
+    /*send notification*/
+    $scope.notificationMsg = {
+        To : "",
+        From:"",
+        Message:"",
+        isPersist :true,
+        eventlevel : "low",
+        Direction : "STATELESS"
+    };
+
+    $scope.sendNotification = function () {
+        $scope.notificationMsg.To = $scope.selectedAgent.ResourceName;
+        $scope.notificationMsg.From = $scope.userName;
+        notifiSenderService.sendNotification($scope.notificationMsg, "message", "", $scope.notificationMsg.eventlevel).then(function (response) {
+            $scope.notificationMsg = {
+                To : "",
+                From:"",
+                Message:"",
+                isPersist :true,
+                eventlevel : "low",
+                Direction : "STATELESS"
+            };
+        }, function (err) {
+            $scope.showAlert('Notification', 'error', "Send Notification Failed");
+        });
+    };
+
 
     var GetUserByBusinessUnit = function () {
         ShareData.GetUserByBusinessUnit().then(function (respond) {

@@ -9,7 +9,9 @@
         </ul>
         <div class="clearfix"></div>
     </div>-->
-    <h2>Agent- {{selectedAgent.ResourceName}} <small>Information's</small></h2>
+    <h2>Agent- {{selectedAgent.ResourceName}}
+        <small>Information's</small>
+    </h2>
     <div style="border-bottom: 2px solid #F7F7F7;"></div>
     <div class="x_content">
 
@@ -17,17 +19,39 @@
             <!--Agent Profile-->
             <div class="col-md-3 col-sm-3 col-xs-12">
 
-                <img class="img-responsive avatar-view"
-                     style='height: 100%; width: 100%; object-fit: contain'
-                     src="{{selectedAgent.avatar}}">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <img class="img-responsive avatar-view"
+                             style='height: 100%; width: 100%; object-fit: contain'
+                             src="{{selectedAgent.avatar}}">
 
-                <h3 style="margin-bottom: 1px;">{{selectedAgent.displayName}} </h3>
+                        <h3 style="margin-bottom: 1px;">{{selectedAgent.displayName}} </h3>
 
-                <ul class="list-unstyled profile-data-list">
-                    <li>
-                        <i class="fa fa-envelope user-profile-icon"></i> {{selectedAgent.Email}}
-                    </li>
-                </ul>
+                        <ul class="list-unstyled profile-data-list">
+                            <li>
+                                <i class="fa fa-envelope user-profile-icon"></i> {{selectedAgent.Email}}
+                            </li>
+
+                            <li>
+                                <i class="fa fa-bullhorn user-profile-icon"></i> Send Notification
+                            </li>
+                        </ul>
+                        <!--notification penel-->
+                        <div>
+                            <div class="form-group">
+                                <select ng-model="notificationMsg.eventlevel" ng-options="x for x in notification_levels"></select>
+
+                                <textarea id="txtMessage"
+                                          class="form-control" rows="3" ng-model="notificationMsg.Message">
+                        </textarea>
+                            </div>
+                            <div class="btn-warp inline-btn pull-right">
+                                <span class="btn btn-default " ng-click="sendNotification()">send</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
             <!--Agent Productivity-->
@@ -46,7 +70,7 @@
                         <div class="clearfix"></div>
                     </div>
 
-                    <div  class="x_content">
+                    <div class="x_content">
                         <div ng-hide="gridTaskOptions.data.length>0">
                             <div class="data-state-wrap" ng-show="selectedAgent.slotMode==='Offline'">
                                 Offline...
@@ -56,17 +80,44 @@
                             </div>
                         </div>
 
-                        <div ng-show="gridTaskOptions.data.length>0" ui-grid="gridTaskOptions" class="qgrid" ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
+                        <div ng-show="gridTaskOptions.data.length>0" ui-grid="gridTaskOptions" class="qgrid"
+                             ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
                     </div>
                 </div>
             </div>
             <!-- /Task List -->
             <!--Agent Activity-->
             <div class="col-md-3 col-sm-3 col-xs-12">
-                Activity
-            </div>
-        </div>
+                <div class="x_panel">
+                    <div class="x_content">
 
+                        <ul class="list-unstyled profile-data-list">
+                            <li>
+                                <i class="fa fa-envelope user-profile-icon"></i>State : {{selectedAgent.slotState}}
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope user-profile-icon"></i>On Call Time (inbound) : {{AgentProductivity.InboundCallTime| date:'HH:mm:ss'}}
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope user-profile-icon"></i>On Call Time (outbound) : {{AgentProductivity.OutboundCallTime| date:'HH:mm:ss'}}
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope user-profile-icon"></i>Break Time : {{AgentProductivity.BreakTime| date:'HH:mm:ss'}}
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope user-profile-icon"></i>inbound calls : {{AgentProductivity.IncomingCallCount}}
+                            </li>
+                            <li>
+                                <i class="fa fa-bullhorn user-profile-icon"></i>  Missed Calls: {{AgentProductivity.MissCallCount}}
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope user-profile-icon"></i> Outbound Calls : {{AgentProductivity.OutgoingCallCount}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+        </div>
         <div class="row">
             <!-- Agent Call Logs -->
             <div class="col-md-3 col-sm-3 col-xs-12">
@@ -79,7 +130,8 @@
                         <div class="data-state-wrap" ng-hide="gridCalllogsOptions.data.length>0">
                             No Data...
                         </div>
-                        <div ng-show="gridCalllogsOptions.data.length>0" ui-grid="gridCalllogsOptions" class="qgrid" ui-grid-move-columns ui-grid-resize-columns></div>
+                        <div ng-show="gridCalllogsOptions.data.length>0" ui-grid="gridCalllogsOptions" class="qgrid"
+                             ui-grid-move-columns ui-grid-resize-columns></div>
 
                     </div>
                 </div>
@@ -97,7 +149,8 @@
                             No Data...
                         </div>
 
-                        <div ng-show="gridAgentLogsOptions.data.length>0" ui-grid="gridAgentLogsOptions" class="qgrid" ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
+                        <div ng-show="gridAgentLogsOptions.data.length>0" ui-grid="gridAgentLogsOptions" class="qgrid"
+                             ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
                     </div>
                 </div>
             </div>

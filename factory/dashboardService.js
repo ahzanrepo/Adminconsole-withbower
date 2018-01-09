@@ -878,7 +878,18 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     };
 
-
+    var productivityByResourceId = function (id) {
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + id + "/Productivity"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return undefined;
+            }
+        });
+    };
     return {
         GetAll: getAllCalls,
         GetAllQueued: getAllQueued,
@@ -914,6 +925,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
         getCurrentBridgedCalls: getCurrentBridgedCalls,
         GetTotalBreakTime: getTotalBreakTime,
         GetTotalHoldTime: getTotalHoldTime,
-        getQueueRecordDetails: getQueueRecordDetails
+        getQueueRecordDetails: getQueueRecordDetails,
+        ProductivityByResourceId:productivityByResourceId
     }
 });
