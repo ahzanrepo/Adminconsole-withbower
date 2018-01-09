@@ -14,8 +14,32 @@
     <div class="x_content">
 
         <div class="row">
+            <!--Agent Profile-->
+            <div class="col-md-3 col-sm-3 col-xs-12">
+
+                <img class="img-responsive avatar-view"
+                     style='height: 100%; width: 100%; object-fit: contain'
+                     src="{{selectedAgent.avatar}}">
+
+                <h3 style="margin-bottom: 1px;">{{selectedAgent.displayName}} </h3>
+
+                <ul class="list-unstyled profile-data-list">
+                    <li>
+                        <i class="fa fa-envelope user-profile-icon"></i> {{selectedAgent.Email}}
+                    </li>
+                </ul>
+
+            </div>
+            <!--Agent Productivity-->
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="x_panel x-panel-overflow ">
+                    <div class="x_content productivity-panel">
+                        <div id="productivityId" style="height:350px;"></div>
+                    </div>
+                </div>
+            </div>
             <!-- Task List -->
-            <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <small>Task List</small>
@@ -37,26 +61,15 @@
                 </div>
             </div>
             <!-- /Task List -->
-
-            <!-- Agent Logs -->
-            <div class="col-md-4 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <small>State History</small>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <div class="data-state-wrap" ng-hide="gridAgentLogsOptions.data.length>0">
-                            No Data...
-                        </div>
-
-                        <div ng-show="gridAgentLogsOptions.data.length>0" ui-grid="gridAgentLogsOptions" class="qgrid" ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
-                    </div>
-                </div>
+            <!--Agent Activity-->
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                Activity
             </div>
-            <!-- /Agent Logs -->
+        </div>
+
+        <div class="row">
             <!-- Agent Call Logs -->
-            <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <small>Call Logs</small>
@@ -72,6 +85,23 @@
                 </div>
             </div>
             <!-- /Agent Call Logs -->
+            <!-- Agent Logs -->
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <small>State History</small>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="data-state-wrap" ng-hide="gridAgentLogsOptions.data.length>0">
+                            No Data...
+                        </div>
+
+                        <div ng-show="gridAgentLogsOptions.data.length>0" ui-grid="gridAgentLogsOptions" class="qgrid" ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Agent Logs -->
 
         </div>
 
