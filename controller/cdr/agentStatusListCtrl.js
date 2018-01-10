@@ -1286,8 +1286,6 @@ mainApp.directive('statusgantt', function ($timeout) {
 
              ]*/
 
-
-
         },
 
 

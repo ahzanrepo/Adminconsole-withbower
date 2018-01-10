@@ -4,7 +4,7 @@
 
 mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData, notifiSenderService, dashboardService) {
     $anchorScroll();
-
+    $scope.refreshTime = 10000;
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
@@ -471,7 +471,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     $scope.GetProductivity();
 
     $scope.onlineProfile = [];
-    $scope.refreshTime = 10000;
+
 
     $scope.getProfileDetails = function () {
         $scope.onlineProfile = [];
@@ -517,10 +517,10 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     // getAllRealTime();
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     $scope.setRefreshTime = function (val) {
-        $scope.refreshTime = val ;
-        if(val==="stop"){
+        $scope.refreshTime = val;
+        if (val === "stop") {
             $timeout.cancel(getAllRealTimeTimer);
-        }else{
+        } else {
             getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
         }
     };
@@ -709,6 +709,8 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                         if (temData.email)
                             $scope.selectedAgent.Email = temData.email.contact;
                     }
+                }else{
+                    $scope.setRefreshTime($scope.refreshTime);
                 }
             });
         }
@@ -1125,6 +1127,432 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     };
 
 
+    $scope.statusData =[];
+    var gearaltGanttChartData = function (events) {
+        $scope.statusData =[];
+       /* var events =[];
+        angular.copy(data,events);*/
+
+       /* var eventLength = events.length;
+
+        while (eventLength>0) {
+            try {
+                var stEventName = event.Reason;
+                var endEventName = "";
+                var statusColour = '#F1C232';
+                var isACW = false;
+                var isCALL = false;
+                var isCHAT = false;
+                var isSlotEndEvent=false;
+
+                if (event.Reason == "Register") {
+                    endEventName = "Un" + stEventName;
+                    statusColour = '#0CFF00';
+                }
+                else if (event.Reason != "EndBreak" && event.Reason.indexOf("Break") >= 0) {
+                    endEventName = "EndBreak";
+                    statusColour = '#7b1102';
+                }
+                else if (event.Reason == "AfterWork") {
+                    if (event.Status == "Completed") {
+                        isACW = true;
+                        statusColour = '#000000';
+                    }
+                    else
+                    {
+                        isSlotEndEvent=true;
+                    }
+                }
+                else if(event.Reason == "CALL")
+                {
+                    if(event.Status=="Connected")
+                    {
+                        isCALL = true;
+                        statusColour = '#7c7eff';
+
+                    }
+                    else
+                    {
+                        isSlotEndEvent=true;
+                    }
+                }
+                else if(event.Reason == "CHAT")
+                {
+                    if(event.Status=="Connected")
+                    {
+                        isCHAT = true;
+                        statusColour = '#ff574d';
+                    }
+                    else {
+                        isSlotEndEvent=true;
+                    }
+
+                }
+                else {
+                    endEventName = "end" + stEventName;
+                }
+
+                if (stEventName == "Inbound") {
+                    statusColour = '#074DEE';
+                }
+                if (stEventName == "Outbound") {
+                    statusColour = '#DF0AF1';
+                }
+                if (stEventName == "Offline") {
+                    statusColour = '#F90422';
+                }
+
+
+                var index = -1;
+                var itemName;
+
+
+                if (isACW) {
+
+
+
+                    index = events.map(function (el) {
+                        return el.Status;
+                    }).indexOf("Available");
+
+
+                }
+                else if (isCALL) {
+
+
+
+                    index = events.map(function (el) {
+                        return el.Status;
+                    }).indexOf("Completed");
+
+
+
+
+                }
+                else if (isCHAT) {
+
+
+
+                    index = events.map(function (el) {
+                        return el.Status;
+                    }).indexOf("Completed");
+
+
+
+
+                }
+                else  {
+
+                    if(!isSlotEndEvent)
+                    {
+                        index = events.map(function (el) {
+                            return el.Reason;
+                        }).indexOf(endEventName);
+                    }
+
+
+
+                }
+
+
+                if (index >= 0) {
+
+                    var eventObj = {
+                        name: stEventName, tasks: [
+                            {
+                                name: stEventName,
+                                color: statusColour,
+                                /!*from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+                                 to:  moment(events[index].createdAt).format("YYYY-MM-DD HH:mm:ss")*!/
+                                from:
+                                    moment(event.createdAt),
+                                to:  moment(events[index].createdAt)
+                            }
+                        ]};
+
+
+
+                    events.splice(index,1);
+                    events.splice(events. indexOf(event),1);
+                    $scope.statusData.push(eventObj);
+                }
+                else
+                {
+
+                    if(moment($scope.endtime).diff(moment())>=0)
+                    {
+                        $scope.endtime=moment();
+                    }
+
+                    if(stEventName=="Register")
+                    {
+                        var
+                            eventObj = {name:
+                            stEventName,
+                                tasks: [
+                                    {
+                                        name: stEventName,
+                                        color: statusColour,
+                                        from:  moment(event.createdAt),
+                                        to: moment($scope.endtime)
+                                    }
+                                ]};
+                        $scope.statusData.push(eventObj);
+                    }
+                    else if(stEventName. indexOf ("end")==-1 && stEventName!="UnRegister")
+                    {
+                        if(!isSlotEndEvent)
+                        {
+                            var
+                                eventObj = {name:
+                                stEventName,
+                                    tasks: [
+                                        {
+                                            name: stEventName,
+                                            color: statusColour,
+                                            from:  moment(event.createdAt),
+                                            to: moment($scope.endtime)
+                                        }
+                                    ]};
+                            $scope.statusData.push(eventObj);
+                        }
+
+
+
+                    }
+
+                    events.splice(events.indexOf (event),1);
+                }
+
+
+            } catch (e) {
+                console.log(e);
+            }
+
+            eventLength = events.length;
+
+        }*/
+
+        angular.forEach(events,function (event) {
+            try {
+                var stEventName = event.Reason;
+                var endEventName = "";
+                var statusColour = '#F1C232';
+                var isACW = false;
+                var isCALL = false;
+                var isCHAT = false;
+                var isSlotEndEvent=false;
+
+                if (event.Reason == "Register") {
+                    endEventName = "Un" + stEventName;
+                    statusColour = '#0CFF00';
+                }
+                else if (event.Reason != "EndBreak" && event.Reason.indexOf("Break") >= 0) {
+                    endEventName = "EndBreak";
+                    statusColour = '#7b1102';
+                }
+                else if (event.Reason == "AfterWork") {
+                    if (event.Status == "Completed") {
+                        isACW = true;
+                        statusColour = '#000000';
+                    }
+                    else
+                    {
+                        isSlotEndEvent=true;
+                    }
+                }
+                else if(event.Reason == "CALL")
+                {
+                    if(event.Status=="Connected")
+                    {
+                        isCALL = true;
+                        statusColour = '#7c7eff';
+
+                    }
+                    else
+                    {
+                        isSlotEndEvent=true;
+                    }
+                }
+                else if(event.Reason == "CHAT")
+                {
+                    if(event.Status=="Connected")
+                    {
+                        isCHAT = true;
+                        statusColour = '#ff574d';
+                    }
+                    else {
+                        isSlotEndEvent=true;
+                    }
+
+                }
+                else {
+                    endEventName = "end" + stEventName;
+                }
+
+                if (stEventName == "Inbound") {
+                    statusColour = '#074DEE';
+                }
+                if (stEventName == "Outbound") {
+                    statusColour = '#DF0AF1';
+                }
+                if (stEventName == "Offline") {
+                    statusColour = '#F90422';
+                }
+
+
+                var index = -1;
+                var itemName;
+
+
+                if (isACW) {
+
+
+
+                    index = events.map(function (el) {
+                        return el.Status;
+                    }).indexOf("Available");
+
+
+                }
+                else if (isCALL) {
+
+
+
+                    index = events.map(function (el) {
+                        return el.Status;
+                    }).indexOf("Completed");
+
+
+
+
+                }
+                else if (isCHAT) {
+
+
+
+                    index = events.map(function (el) {
+                        return el.Status;
+                    }).indexOf("Completed");
+
+
+
+
+                }
+                else  {
+
+                    if(!isSlotEndEvent)
+                    {
+                        index = events.map(function (el) {
+                            return el.Reason;
+                        }).indexOf(endEventName);
+                    }
+
+
+
+                }
+
+
+                if (index >= 0) {
+
+                    var eventObj = {
+                        name: stEventName, tasks: [
+                            {
+                                name: stEventName,
+                                color: statusColour,
+                                /*from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+                                 to:  moment(events[index].createdAt).format("YYYY-MM-DD HH:mm:ss")*/
+                                from:
+                                    moment(event.createdAt),
+                                to:  moment(events[index].createdAt)
+                            }
+                        ]};
+
+
+
+                    events. splice(index,1);
+
+                    $scope.statusData.push(eventObj);
+                }
+                else
+                {
+
+                    if(moment($scope.endtime).diff(moment())>=0)
+                    {
+                        $scope.endtime=moment();
+                    }
+
+                    if(stEventName=="Register")
+                    {
+                        var
+                            eventObj = {name:
+                            stEventName,
+                                tasks: [
+                                    {
+                                        name: stEventName,
+                                        color: statusColour,
+                                        from:  moment(event.createdAt),
+                                        to: moment($scope.endtime)
+                                    }
+                                ]};
+                        $scope.statusData.push(eventObj);
+                    }
+                    else if(stEventName. indexOf ("end")==-1 && stEventName!="UnRegister")
+                    {
+                        if(!isSlotEndEvent)
+                        {
+                            var
+                                eventObj = {name:
+                                stEventName,
+                                    tasks: [
+                                        {
+                                            name: stEventName,
+                                            color: statusColour,
+                                            from:  moment(event.createdAt),
+                                            to: moment($scope.endtime)
+                                        }
+                                    ]};
+                            $scope.statusData.push(eventObj);
+                        }
+
+
+
+                    }
+
+                    
+                }
+
+
+            } catch (e) {
+                console.log(e);
+            }
+        })
+    };
+
+    $scope.ganttChartOptions = {
+        mode: 'custom',
+        scale: 'minute',
+        sortMode: undefined,
+        sideMode: 'Table',
+        columns: ['model.name', 'from', 'to'],
+        treeTableColumns: ['from', 'to'],
+        columnsHeaders: {'model.name': 'Name', 'from': 'From', 'to': 'To'},
+        columnsClasses: {'model.name': 'gantt-column-name', 'from': 'gantt-column-from', 'to': 'gantt-column-to'},
+        columnsFormatters: {
+            'from': function (from) {
+                return from !== undefined ?  moment(from).format("HH:mm:ss") : undefined
+            },
+            'to': function (to) {
+                return to !== undefined ? moment(to).format("HH:mm:ss") : undefined
+            }
+        },
+        columnsHeaderContents: {
+            'model.name': '<i class="fa fa-align-justify"></i> {{getHeader()}}',
+            'from': '<i class="fa fa-calendar"></i> {{getHeader()}}',
+            'to': '<i class="fa fa-calendar"></i> {{getHeader()}}'
+        },
+    };
+
     /*------------------------ Agent info ------------------------------------*/
 
     /*------------------------ getAgentStatusList ------------------------------------*/
@@ -1169,6 +1597,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 for (var key in agentListResp.Result) {
                     $scope.gridAgentLogsOptions.data = agentListResp.Result[key];
                 }
+                gearaltGanttChartData($scope.gridAgentLogsOptions.data);
                 $scope.echartDonutSetOption(selectedAgent)
             }).catch(function (err) {
                 $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
@@ -1180,7 +1609,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         }
 
     };
-
+    $scope.endDtTm = moment();
 
     /*------------------------ getAgentStatusList ------------------------------------*/
 
@@ -1220,7 +1649,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         });
     };
     GetUserByBusinessUnit();
-
+    $scope.statusData = [];
     /*Listing For Business Unit Change*/
     $scope.$watch(function () {
         return ShareData.BusinessUnit;
