@@ -2,8 +2,9 @@
  * Created by Waruna on 9/27/2017.
  */
 
-mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData,notifiSenderService,dashboardService) {
+mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData, notifiSenderService, dashboardService) {
     $anchorScroll();
+
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
@@ -254,23 +255,12 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
                         if (ids.length > 0) {
                             var agentProductivity = {
-                                "data": [{
-                                    value: ids[0].AcwTime ? ids[0].AcwTime : 0,
-                                    name: 'After work'
-                                }, {
-                                    value: ids[0].BreakTime ? ids[0].BreakTime : 0,
-                                    name: 'Break'
-                                }, {
-                                    value: ((ids[0].OnCallTime ? ids[0].OnCallTime : 0) + (ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0)),//OutboundCallTime
-                                    name: 'On Call'
-                                }, {
-                                    value: ids[0].IdleTime ? ids[0].IdleTime : 0,
-                                    name: 'Idle'
-                                }],
                                 "ResourceId": agent.ResourceId,
                                 "ResourceName": agent.ResourceName,
+                                "InboundCallTime": ids[0].InboundCallTime ? ids[0].InboundCallTime : 0,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
                                 "OutgoingCallCount": ids[0].OutgoingCallCount ? ids[0].OutgoingCallCount : 0,
+                                "OutboundCallTime": ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,
                                 "OutboundAnswerCount": ids[0].OutboundAnswerCount ? ids[0].OutboundAnswerCount : 0,
                                 "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
                                 "Chatid": agent.ResourceId,
@@ -282,7 +272,26 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                                 "IdleTime": ids[0].IdleTime,
                                 "StaffedTime": ids[0].StaffedTime,
                                 "slotState": {},
-                                "RemoveProductivity": false
+                                "RemoveProductivity": false,
+                                "data": [{
+                                    value: ids[0].AcwTime ? ids[0].AcwTime : 0,
+                                    name: 'After work'
+                                }, {
+                                    value: ids[0].BreakTime ? ids[0].BreakTime : 0,
+                                    name: 'Break'
+                                }, {
+                                    value: ids[0].InboundCallTime ? ids[0].InboundCallTime : 0,
+                                    name: 'Inbound'
+                                }, {
+                                    value: ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,
+                                    name: 'Outbound'
+                                }, {
+                                    value: ids[0].IdleTime ? ids[0].IdleTime : 0,
+                                    name: 'Idle'
+                                }, {
+                                    value: ids[0].HoldTime ? ids[0].HoldTime : 0,
+                                    name: 'Hold'
+                                }],
                             };
                             var resonseStatus = null, resonseAvailability = null, resourceMode = null;
                             var reservedDate = "";
@@ -462,6 +471,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     $scope.GetProductivity();
 
     $scope.onlineProfile = [];
+    $scope.refreshTime = 10000;
 
     $scope.getProfileDetails = function () {
         $scope.onlineProfile = [];
@@ -506,18 +516,25 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     // getAllRealTime();
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-
-    $scope.AgentProductivity = {};
-    $scope.ProductivityByResourceId = function (id) {
-        $scope.AgentProductivity = {};
-        dashboardService.ProductivityByResourceId(id).then(function (response) {
-            if (response) {
-                $scope.AgentProductivity = response;
-            }
-
-        });
-
+    $scope.setRefreshTime = function (val) {
+        $scope.refreshTime = val ;
+        if(val==="stop"){
+            $timeout.cancel(getAllRealTimeTimer);
+        }else{
+            getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+        }
     };
+    /*$scope.AgentProductivity = {};
+     $scope.ProductivityByResourceId = function (id) {
+     $scope.AgentProductivity = {};
+     dashboardService.ProductivityByResourceId(id).then(function (response) {
+     if (response) {
+     $scope.AgentProductivity = response;
+     }
+
+     });
+
+     };*/
 
     $scope.BusinessUnitUsers = [];
     $scope.gridOptions = {
@@ -682,7 +699,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                     $scope.GetCallLogs(1, row.entity.ResourceName);
                     $scope.gridTaskOptions.data = $scope.selectedAgent.taskList;
                     $scope.getAgentStatusList($scope.selectedAgent);
-                    $scope.ProductivityByResourceId(row.entity.ResourceId);
+
 
                     var ids = $filter('filter')($scope.BusinessUnitUsers, {resourceid: row.entity.ResourceId.toString()}, true);//"ResourceId":"1"
                     if (ids.length > 0) {
@@ -707,7 +724,6 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     });
 
-    $scope.refreshTime = 10000;
 
     $scope.reloadCallDetails = function () {
         $rootScope.$emit("load_calls");
@@ -1109,7 +1125,6 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     };
 
 
-
     /*------------------------ Agent info ------------------------------------*/
 
     /*------------------------ getAgentStatusList ------------------------------------*/
@@ -1171,12 +1186,12 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     /*send notification*/
     $scope.notificationMsg = {
-        To : "",
-        From:"",
-        Message:"",
-        isPersist :true,
-        eventlevel : "low",
-        Direction : "STATELESS"
+        To: "",
+        From: "",
+        Message: "",
+        isPersist: true,
+        eventlevel: "low",
+        Direction: "STATELESS"
     };
 
     $scope.sendNotification = function () {
@@ -1184,12 +1199,12 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         $scope.notificationMsg.From = $scope.userName;
         notifiSenderService.sendNotification($scope.notificationMsg, "message", "", $scope.notificationMsg.eventlevel).then(function (response) {
             $scope.notificationMsg = {
-                To : "",
-                From:"",
-                Message:"",
-                isPersist :true,
-                eventlevel : "low",
-                Direction : "STATELESS"
+                To: "",
+                From: "",
+                Message: "",
+                isPersist: true,
+                eventlevel: "low",
+                Direction: "STATELESS"
             };
         }, function (err) {
             $scope.showAlert('Notification', 'error', "Send Notification Failed");
