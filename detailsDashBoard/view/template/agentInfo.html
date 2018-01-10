@@ -59,6 +59,10 @@
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <div class="x_panel x-panel-overflow ">
                     <div class="x_content productivity-panel">
+                        <div class="data-state-wrap" ng-show="agentProductivityLoadin">
+                            Loading...
+                        </div>
+
                         <div id="productivityId" style="height:350px;"></div>
                     </div>
                 </div>
@@ -156,53 +160,60 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <div class="data-state-wrap" ng-hide="gridAgentLogsOptions.data.length>0">
-                            No Data...
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-xs-12 color-panel">
-                            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                <span class="fa fa-square" style="color: #074DEE"></span> <span> Inbound</span>
+
+                        <div class="data-state-wrap" ng-hide="statusData.length>0">
+                            <div ng-show="agentProductivityLoadin">
+                                Loading...
                             </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                <span class="fa fa-square" style="color: #DF0AF1"></span><span> Outbound</span>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                <span class="fa fa-square" style="color: #0CFF00"></span><span> Register</span>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                <span class="fa fa-square" style="color: #F90422"></span><span> Offline</span>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                <span class="fa fa-square" style="color: #7c7eff"></span><span> Call</span>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                <span class="fa fa-square" style="color: #ff574d"></span><span> Chat</span>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                <span class="fa fa-square" style="color: #000000"></span><span> ACW</span>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                <span class="fa fa-square" style="color: #7b1102"></span><span> Breaks</span>
-                            </div>
-                            <div class="col-md-3 col-sm-3 col-xs-12 ">
-                                <span class="fa fa-square" style="color: #F1C232"></span><span> Default</span>
+                            <div ng-hide="agentProductivityLoadin">
+                                No Data...
                             </div>
 
                         </div>
-                        <div gantt data=statusData view-scale="ganttChartOptions.scale">
-                            <gantt-table enabled="ganttChartOptions.sideMode === 'Table' || ganttChartOptions.sideMode === 'TreeTable'"
-                                         columns="ganttChartOptions.sideMode === 'TreeTable' ? ganttChartOptions.treeTableColumns : ganttChartOptions.columns"
-                                         headers="ganttChartOptions.columnsHeaders"
-                                         classes="ganttChartOptions.columnsClasses"
-                                         formatters="ganttChartOptions.columnsFormatters"
-                                         contents="ganttChartOptions.columnsContents"
-                                         header-contents="ganttChartOptions.columnsHeaderContents">
-                                <gantt-tooltips enabled="true"></gantt-tooltips>
-                                <gantt-resize-sensor enabled="true"></gantt-resize-sensor>
-                        </div>
+                        <div ng-show="statusData.length>0">
+                            <div class="col-md-12 col-sm-12 col-xs-12 color-panel">
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #074DEE"></span> <span> Inbound</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #DF0AF1"></span><span> Outbound</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #0CFF00"></span><span> Register</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #F90422"></span><span> Offline</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #7c7eff"></span><span> Call</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #ff574d"></span><span> Chat</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #000000"></span><span> ACW</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #7b1102"></span><span> Breaks</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #F1C232"></span><span> Default</span>
+                                </div>
 
-                       <!-- <div ng-show="gridAgentLogsOptions.data.length>0" ui-grid="gridAgentLogsOptions" class="qgrid"
-                             ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>-->
+                            </div>
+                            <div gantt data=statusData view-scale="ganttChartOptions.scale">
+                                <gantt-table
+                                        enabled="ganttChartOptions.sideMode === 'Table' || ganttChartOptions.sideMode === 'TreeTable'"
+                                        columns="ganttChartOptions.sideMode === 'TreeTable' ? ganttChartOptions.treeTableColumns : ganttChartOptions.columns"
+                                        headers="ganttChartOptions.columnsHeaders"
+                                        classes="ganttChartOptions.columnsClasses"
+                                        formatters="ganttChartOptions.columnsFormatters"
+                                        contents="ganttChartOptions.columnsContents"
+                                        header-contents="ganttChartOptions.columnsHeaderContents">
+                                    <gantt-tooltips enabled="true"></gantt-tooltips>
+                                    <gantt-resize-sensor enabled="true"></gantt-resize-sensor>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
