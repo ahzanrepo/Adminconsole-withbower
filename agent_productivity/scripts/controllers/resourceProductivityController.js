@@ -1,11 +1,12 @@
 var app = angular.module("veeryConsoleApp");
 
-app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll, resourceProductivityService,reportQueryFilterService,ShareData) {
+app.controller("resourceProductivityController", function ($scope, $filter, $location, $log, $anchorScroll,$q, resourceProductivityService, reportQueryFilterService, ShareData) {
 
     $anchorScroll();
     $scope.reloadPage = function () {
         $scope.OnlineAgents = [];
         $scope.productivity = [];
+        $scope.GetReportQueryFilter();
         $scope.GetOnlineAgents();
     };
 
@@ -28,46 +29,83 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
     };
 
     $scope.SaveReportQueryFilter = function () {
-        reportQueryFilterService.SaveReportQueryFilter("AGENTPRODUCTIVITY",$scope.OnlineAgents);
+        reportQueryFilterService.SaveReportQueryFilter("AGENTPRODUCTIVITY"+ShareData.BusinessUnit, $scope.OnlineAgents);
     };
 
     $scope.AvailableAgents = [];
     $scope.OnlineAgents = [];
     $scope.GetOnlineAgents = function () {
-        resourceProductivityService.GetOnlineAgents().then(function (response) {
-            if(response){
-                $scope.AvailableAgents = response.map(function (item) {
-                    return {
-                        ResourceName:item.ResourceName,
-                        ResourceId:item.ResourceId
+        $scope.AvailableAgents = [];
+            ShareData.GetUserByBusinessUnit().then(function (response) {
+                if (response) {
+
+                   response.map(function (item) {
+                       if(item&&item.resourceid){
+                           $scope.AvailableAgents.push({
+                               ResourceName: item.username,
+                               ResourceId: item.resourceid
+                           });
+                       }
+                    });
+
+                    $scope.showFilter = !($scope.AvailableAgents.length > 0);
+                    if ($scope.OnlineAgents.length === $scope.AvailableAgents.length) {
+                        $scope.agentSelectingType = "ALL";
                     }
-                });
-
-                $scope.showFilter = !($scope.AvailableAgents.length>0);
-                if($scope.OnlineAgents.length === $scope.AvailableAgents.length){
-                    $scope.agentSelectingType = "ALL";
                 }
-            }
-            //$scope.AvailableAgents = response;
-            /*angular.copy(response, $scope.OnlineAgents);
-            $scope.getProductivity();*/
-            $scope.isLoading = false;
-        }, function (error) {
-            $log.debug("GetOnlineAgents err");
-            $scope.showError("Error", "Error", "ok", "There is an error ");
-            $scope.isLoading = false;
-        });
-
+                $scope.isLoading = false;
+            }, function (error) {
+                $log.debug("GetOnlineAgents err");
+                $scope.showError("Error", "Error", "ok", "There is an error ");
+                $scope.isLoading = false;
+            });
     };
+
     $scope.GetOnlineAgents();
     $scope.agentSelectingType = "ALL";
     $scope.GetReportQueryFilter = function () {
-        reportQueryFilterService.GetReportQueryFilter("AGENTPRODUCTIVITY").then(function (response) {
+        $q.all([
+            ShareData.GetUserByBusinessUnit(),
+            reportQueryFilterService.GetReportQueryFilter("AGENTPRODUCTIVITY"+ShareData.BusinessUnit)
+        ]).then(function (value) {
+            $scope.OnlineAgents = [];
+            if (value[1]) {
+                if(value[1].length===0){
+                    $scope.OnlineAgents = value[0].map(function (item) {
+                        return {
+                            ResourceName: item.username,
+                            ResourceId: item.resourceid
+                        }
+                    })
+                }
+                else{
+                    value[1].map(function (item) {
+                        if(item&&item.ResourceId){
+                            var ids = $filter('filter')(value[0], {resourceid: item.ResourceId.toString()}, true);
+                            if(ids.length>0){
+                                $scope.OnlineAgents.push(item);
+                            }
+                        }
+                    });
+                }
+
+                $scope.getProductivity();
+                if ($scope.OnlineAgents.length != $scope.AvailableAgents.length) {
+                    $scope.agentSelectingType = "USER";
+                }
+            }
+        }, function (reason) {
+
+        });
+
+
+
+       /* reportQueryFilterService.GetReportQueryFilter("AGENTPRODUCTIVITY").then(function (response) {
             $scope.agentSelectingType = "ALL";
-            if(response){
+            if (response) {
                 $scope.OnlineAgents = response;
                 $scope.getProductivity();
-                if($scope.OnlineAgents.length != $scope.AvailableAgents.length){
+                if ($scope.OnlineAgents.length != $scope.AvailableAgents.length) {
                     $scope.agentSelectingType = "USER";
                 }
             }
@@ -75,7 +113,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
             $scope.getProductivity();
             $log.debug("GetOnlineAgents err");
             $scope.showError("Error", "Error", "ok", "There is an error ");
-        });
+        });*/
 
     };
     $scope.GetReportQueryFilter();
@@ -136,21 +174,25 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
             $scope.Productivitys = [];
             angular.forEach($scope.OnlineAgents, function (agent) {
                 try {
-
+                    var agentProductivity = {
+                        "data": [{
+                            value: 0,
+                            name: 'Offline'
+                        }],
+                        "ResourceId": 0,
+                        "ResourceName": 0,
+                        "IncomingCallCount": 0,
+                        "MissCallCount": 0,
+                        "Chatid": 0
+                    };
                     if (agent) {
                         agent.onlineStatus = true;
-                        var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId.toString()},true);//"ResourceId":"1"
-                        var agentProductivity = {
-                            "data": [{
-                                value: 0,
-                                name: 'Offline'
-                            }],
-                            "ResourceId": agent.ResourceId,
-                            "ResourceName": agent.ResourceName,
-                            "IncomingCallCount": 0,
-                            "MissCallCount":  0,
-                            "Chatid": agent.ResourceId
-                        };
+                        agentProductivity.ResourceId = agent.ResourceId;
+                        agentProductivity.ResourceName = agent.ResourceName;
+                        agentProductivity.Chatid = agent.ResourceId;
+
+                        var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId.toString()}, true);//"ResourceId":"1"
+
                         if (ids[0]) {
                             agent.onlineStatus = false;
                             agentProductivity = {
@@ -187,7 +229,8 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
                     }
                     $scope.isLoading = false;
                 } catch (ex) {
-                    console.log(ex);
+                    $scope.Productivitys.push(agentProductivity);
+                    $scope.echartDonutSetOption(agentProductivity);
                     $scope.isLoading = false;
                 }
             });
@@ -474,7 +517,7 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
             legend: {
                 x: 'center',
                 y: 'bottom',
-                data: ['After work', 'Break', 'Inbound','Outbound', 'Idle', 'Hold']
+                data: ['After work', 'Break', 'Inbound', 'Outbound', 'Idle', 'Hold']
             },
             toolbox: {
                 show: true,
@@ -532,97 +575,14 @@ app.controller("resourceProductivityController", function ($scope, $filter, $loc
         });
     };
 
-    /*$scope.echartDonutSetOption = function () {
-        var myObject = {};
-        angular.forEach($scope.Productivitys, function (productivity) {
-            myObject[productivity.Chatid] = echarts.init(document.getElementById(productivity.ResourceId), theme);
-            myObject[productivity.Chatid].setOption({
-                title: {
-                    show: true,
-                    text: productivity.ResourceName,
-                    textStyle: {
-                        fontSize: 18,
-                        fontWeight: 'bolder',
-                        color: '#333',
-                        fontFamily: 'Ubuntu-Regular'
-                    }
-                },
-                tooltip: {
-                    trigger: 'item',
-                    //formatter: "{a} <br/>{b} : {c} ({d}%)",
-                    formatter: function (params, ticket, callback) {
-                        var res = params.seriesName + ' <br/>' + params.name + ' ' + secondsToTime(params.value) + ' ' + params.percent + '%';
-                        setTimeout(function () {
-                            callback(ticket, res);
-                        }, 100);
-                        return 'loading';
-                    }
-                },
-                calculable: true,
-                legend: {
-                    x: 'center',
-                    y: 'bottom',
-                    data: ['After work', 'Break', 'On Call','Out Call Time', 'Idle']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        mark: {show: true},
-                        //dataView : {show: true, readOnly: false},
-                        magicType: {
-                            show: true,
-                            type: ['pie', 'funnel'],
-                            option: {
-                                funnel: {
-                                    x: '10%',
-                                    width: '50%',
-                                    funnelAlign: 'center',
-                                    max: 1548
-                                }
-                            }
-                        },
-                        restore: {
-                            show: false,
-                            title: "Restore"
-                        },
-                        saveAsImage: {
-                            show: true,
-                            title: "Save As Image"
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Productivity',
-                    type: 'pie',
-                    radius: ['35%', '55%'],
-                    itemStyle: {
-                        normal: {
-                            label: {
-                                show: true
-                            },
-                            labelLine: {
-                                show: true
-                            }
-                        },
-                        emphasis: {
-                            label: {
-                                show: true,
-                                position: 'center',
-                                textStyle: {
-                                    fontSize: '14',
-                                    fontWeight: 'normal'
-                                }
-                            }
-                        }
-                    },
-                    data: productivity.data
-                }]
-            });
-
-        });
-
-
-    };*/
+    $scope.$watch(function () {
+        return ShareData.BusinessUnit;
+    }, function (newValue, oldValue) {
+        if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+            $scope.reloadPage();
+            console.log("Reload Productivity ****************************************");
+        }
+    });
 
 });
 
