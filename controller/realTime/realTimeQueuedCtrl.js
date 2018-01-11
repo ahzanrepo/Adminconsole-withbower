@@ -298,43 +298,27 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
             });
         };
 
-        $scope.ShareData = ShareData;
+        $scope.$watch(function () {
+            return ShareData.BusinessUnit;
+        }, function (newValue, oldValue) {
+            if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+                var reportQueryName = 'realtime-queued';
 
-        $scope.$watch('ShareData.BusinessUnit', function()
-        {
-            var reportQueryName = 'realtime-queued';
+                if(ShareData.BusinessUnit)
+                {
+                    reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+                }
 
-            if(ShareData.BusinessUnit)
-            {
-                reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
-            }
-
-            reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
-                if (response) {
-                    $scope.selectedQueues = response;
-                    if(!$scope.firstTimeLoad)
-                    {
+                reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
+                    if (response) {
+                        $scope.selectedQueues = response;
                         $scope.GetAllQueueStatistics();
                     }
-                    else
-                    {
-                        $scope.firstTimeLoad = false;
-                    }
-                }
-            }, function (error) {
-                if(!$scope.firstTimeLoad)
-                {
+                }, function (error) {
                     $scope.GetAllQueueStatistics();
-                }
-                else
-                {
-                    $scope.firstTimeLoad = false;
-                }
-                console.log(error);
-            });
-
-
-
+                    console.log(error);
+                });
+            }
         });
 
 
