@@ -65,7 +65,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'gantt.sortable',
     'gantt.resizeSensor',
     'gantt.dependencies',
-    'angular-progress-arc'
+    'angular-progress-arc',
+    'ui.tab.scroll'
 ]);
 
 
@@ -76,6 +77,12 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 
 app.run(function ($rootScope) {
     $rootScope.keys = Object.keys;
+});
+
+mainApp.config(function (scrollableTabsetConfigProvider) {
+    scrollableTabsetConfigProvider.setShowTooltips(true);
+    scrollableTabsetConfigProvider.setTooltipLeftPlacement('bottom');
+    scrollableTabsetConfigProvider.setTooltipRightPlacement('left');
 });
 //resourceservice.app1.veery.cloud
 var baseUrls = {

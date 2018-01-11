@@ -268,7 +268,42 @@
             })
         };
 
+        var GetExternalUserConfig = function () {
 
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig'
+            }).then(function (response) {
+                return response.data;
+            })
+        };
+        var GetExternalUserDefaultAccessFields = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig/DefaultKeys'
+            }).then(function (response) {
+                return response.data;
+            })
+        };
+        var updateAccessFields = function (updtObj) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig',
+                data: updtObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+        var addAccessFields = function (updtObj) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig',
+                data: updtObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
 
 
 
@@ -298,7 +333,11 @@
             getBusinessUnits: getBusinessUnits,
             saveBusinessUnit:saveBusinessUnit,
             updateUserGroup:updateUserGroup,
-            updateBusinessUnit:updateBusinessUnit
+            updateBusinessUnit:updateBusinessUnit,
+            GetExternalUserConfig:GetExternalUserConfig,
+            GetExternalUserDefaultAccessFields:GetExternalUserDefaultAccessFields,
+            updateAccessFields:updateAccessFields,
+            addAccessFields:addAccessFields
         };
     };
 

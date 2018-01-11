@@ -5,6 +5,13 @@
 mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, loginService,$anchorScroll,userProfileApiAccess) {
 
     $anchorScroll();
+    $scope.scrlTabsApi = {};
+
+    $scope.reCalcScroll = function () {
+        if ($scope.scrlTabsApi.doRecalculate) {
+            $scope.scrlTabsApi.doRecalculate();
+        }
+    };
 
     $scope.isNewEndUser = false;
     $scope.isUserError = false;
@@ -1054,10 +1061,10 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
         if($scope.newBUnit && $scope.newBUnit.unitName)
         {
             /*var unitObj =
-                {
-                    unitName:$scope.newBUnit.unitName,
-                    description:$scope.newBUnit.description
-                }*/
+             {
+             unitName:$scope.newBUnit.unitName,
+             description:$scope.newBUnit.description
+             }*/
 
             userProfileApiAccess.saveBusinessUnit($scope.newBUnit).then(function (resSave) {
 
@@ -1118,5 +1125,207 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.getBusinessUnits();
     $scope.getAdminUsers();
 
+
+
+    //----------------------------Accessible Fields ------------------------------------------------------
+
+    $scope.isConfigured =false;
+    $scope.accessFileds =[];
+    $scope.accessArray =[];
+    $scope.isDefault=false;
+
+    $scope.getDefaultAccessFieldConfigs = function () {
+
+        $scope.accessFileds=[];
+
+        userProfileApiAccess.GetExternalUserDefaultAccessFields().then(function (resConfigs) {
+            if(resConfigs.IsSuccess)
+            {
+                if(resConfigs.Result)
+                {
+
+
+
+                    resConfigs.Result.Keys.forEach(function (key) {
+                        if(!(key =="_id" || key =="created_at" || key =="updated_at" || key=="__v" || key=="company" ||key=="tenant" ) )
+                        {
+                            /*$scope.accessFileds[key] =
+                             {
+                             Key:key
+                             }*/
+                            var obj =
+                                {
+                                    Key:key,
+                                    Sub_fileds:[]
+                                }
+
+                            resConfigs.Result.Sub_keys.forEach(function (field) {
+
+                                if(field!="_id")
+                                {
+                                    var sub_obj =
+                                        {
+                                            action:field,
+                                            value:true
+                                        }
+
+                                    obj.Sub_fileds.push(sub_obj);
+                                }
+
+                            });
+
+                            $scope.accessFileds.push(obj);
+
+
+                        }
+                    });
+
+
+
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+
+            }
+        },function (errConfigs) {
+
+        })
+    };
+    $scope.getAccessFieldConfigs = function () {
+        $scope.accessFileds=[];
+        userProfileApiAccess.GetExternalUserConfig().then(function (resConfigs) {
+            if(resConfigs.IsSuccess)
+            {
+                if(resConfigs.Result)
+                {
+                    $scope.isConfigured=true;
+
+                    for(key in resConfigs.Result)
+                    {
+                        if(!(key =="_id" || key =="created_at" || key =="updated_at" || key=="__v" || key=="company" ||key=="tenant" ) )
+                        {
+
+                            var obj =
+                                {
+                                    Key:key,
+                                    Sub_fileds:[]
+                                }
+
+
+
+                            for(field in resConfigs.Result[key])
+                            {
+
+                                if(field!="_id")
+                                {
+                                    var sub_obj =
+                                        {
+                                            action:field,
+                                            value:resConfigs.Result[key][field]
+                                        }
+
+                                    obj.Sub_fileds.push(sub_obj);
+                                }
+
+                            }
+
+                            $scope.accessFileds.push(obj);
+
+                        }
+
+                    }
+
+
+                }
+                else
+                {
+                    $scope.isConfigured=false;
+                    $scope.isDefault=true;
+                    $scope.getDefaultAccessFieldConfigs();
+                }
+            }
+            else
+            {
+                $scope.showAlert("Error","Error in loading Access configs","error");
+            }
+        },function (errConfigs) {
+
+        })
+    };
+
+
+    $scope.getAccessFieldConfigs();
+    //$scope.getDefaultAccessFieldConfigs();
+
+    $scope.addOrUpdateConfig = function () {
+        var saveObj= {};
+
+        $scope.accessFileds.forEach(function (item) {
+
+            item.Sub_fileds.forEach(function (sub) {
+
+                if(!saveObj[item.Key])
+                {
+                    saveObj[item.Key]={};
+                }
+                if(!saveObj[item.Key][sub.action])
+                {
+                    saveObj[item.Key][sub.action]="";
+                }
+                saveObj[item.Key][sub.action]=sub.value;
+
+            });
+
+
+
+
+        });
+
+        var dataObj=
+            {
+                fields:saveObj
+            }
+
+
+            if(!$scope.isDefault)
+            {
+                userProfileApiAccess.updateAccessFields(dataObj).then(function (resUpdate) {
+                    if(resUpdate.IsSuccess)
+                    {
+                        $scope.showAlert("Updated","Access Fields Updated","success");
+                    }
+                    else {
+                        $scope.showAlert("Error","Access Fields Updating failed","error");
+                    }
+                },function (errUpdate) {
+                    $scope.showAlert(" Error","Access Fields Updating failed","error");
+                });
+            }
+            else
+            {
+                userProfileApiAccess.addAccessFields(dataObj).then(function (resUpdate) {
+                    if(resUpdate.IsSuccess)
+                    {
+                        $scope.showAlert("New Access Config","Access Fields Added","success");
+                    }
+                    else {
+                        $scope.showAlert("New Access Config","Access Fields Adding failed","error");
+                    }
+                },function (errUpdate) {
+                    $scope.showAlert("New Access Config","Access Fields Adding failed","error");
+                });
+            }
+
+
+    };
+
+    $scope.showDefaultAceessFields = function () {
+        $scope.isConfigured =true;
+    }
 
 });
