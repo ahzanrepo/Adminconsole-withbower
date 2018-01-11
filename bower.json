@@ -107,7 +107,8 @@
     "angular-ui-tree": "^2.22.6",
     "jsplumb": "^2.5.5",
     "angular-moment": "^1.1.0",
-    "angular-progress-arc": "^1.0.0"
+    "angular-progress-arc": "^1.0.0",
+    "angular-ui-tab-scroll": "^2.3.4"
   },
   "resolutions": {
     "angular": "1.5.5",
