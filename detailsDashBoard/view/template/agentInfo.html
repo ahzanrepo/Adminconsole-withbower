@@ -39,7 +39,8 @@
                         <!--notification penel-->
                         <div>
                             <div class="form-group">
-                                <select ng-model="notificationMsg.eventlevel" ng-options="x for x in notification_levels"></select>
+                                <select ng-model="notificationMsg.eventlevel"
+                                        ng-options="x for x in notification_levels"></select>
 
                                 <textarea id="txtMessage"
                                           class="form-control" rows="3" ng-model="notificationMsg.Message">
@@ -58,6 +59,10 @@
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <div class="x_panel x-panel-overflow ">
                     <div class="x_content productivity-panel">
+                        <div class="data-state-wrap" ng-show="agentProductivityLoadin">
+                            Loading...
+                        </div>
+
                         <div id="productivityId" style="height:350px;"></div>
                     </div>
                 </div>
@@ -96,27 +101,37 @@
                                 <i class="fa fa-envelope user-profile-icon"></i>State : {{selectedAgent.slotState}}
                             </li>
                             <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>On Call Time (inbound) : {{AgentProductivity.InboundCallTime| date:'HH:mm:ss'}}
+                                <i class="fa fa-envelope user-profile-icon"></i>Inbound Call Time :
+                                {{selectedAgent.InboundCallTime| secondsToDateTime | date:'HH:mm:ss'}}
                             </li>
                             <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>On Call Time (outbound) : {{AgentProductivity.OutboundCallTime| date:'HH:mm:ss'}}
+                                <i class="fa fa-envelope user-profile-icon"></i>Outbound Call Time :
+                                {{selectedAgent.OutboundCallTime| secondsToDateTime | date:'HH:mm:ss'}}
                             </li>
                             <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>Break Time : {{AgentProductivity.BreakTime| date:'HH:mm:ss'}}
+                                <i class="fa fa-envelope user-profile-icon"></i>Break Time : {{selectedAgent.BreakTime|
+                                secondsToDateTime | date:'HH:mm:ss'}}
                             </li>
                             <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>inbound calls : {{AgentProductivity.IncomingCallCount}}
+                                <i class="fa fa-envelope user-profile-icon"></i>Hold Time : {{selectedAgent.HoldTime|
+                                secondsToDateTime | date:'HH:mm:ss'}}
                             </li>
                             <li>
-                                <i class="fa fa-bullhorn user-profile-icon"></i>  Missed Calls: {{AgentProductivity.MissCallCount}}
+                                <i class="fa fa-envelope user-profile-icon"></i>inbound calls :
+                                {{selectedAgent.IncomingCallCount}}
                             </li>
                             <li>
-                                <i class="fa fa-envelope user-profile-icon"></i> Outbound Calls : {{AgentProductivity.OutgoingCallCount}}
+                                <i class="fa fa-bullhorn user-profile-icon"></i> Missed Calls:
+                                {{selectedAgent.MissCallCount}}
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope user-profile-icon"></i> Outbound Calls :
+                                {{selectedAgent.OutgoingCallCount}}
                             </li>
                         </ul>
                     </div>
                 </div>
-        </div>
+            </div>
         </div>
         <div class="row">
             <!-- Agent Call Logs -->
@@ -145,14 +160,63 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <div class="data-state-wrap" ng-hide="gridAgentLogsOptions.data.length>0">
-                            No Data...
-                        </div>
 
-                        <div ng-show="gridAgentLogsOptions.data.length>0" ui-grid="gridAgentLogsOptions" class="qgrid"
-                             ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
+                        <div class="data-state-wrap" ng-hide="statusData.length>0">
+                            <div ng-show="agentProductivityLoadin">
+                                Loading...
+                            </div>
+                            <div ng-hide="agentProductivityLoadin">
+                                No Data...
+                            </div>
+
+                        </div>
+                        <div ng-show="statusData.length>0">
+                            <div class="col-md-12 col-sm-12 col-xs-12 color-panel">
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #074DEE"></span> <span> Inbound</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #DF0AF1"></span><span> Outbound</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #0CFF00"></span><span> Register</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #F90422"></span><span> Offline</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #7c7eff"></span><span> Call</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #ff574d"></span><span> Chat</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #000000"></span><span> ACW</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #7b1102"></span><span> Breaks</span>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                    <span class="fa fa-square" style="color: #F1C232"></span><span> Default</span>
+                                </div>
+
+                            </div>
+                            <div gantt data=statusData view-scale="ganttChartOptions.scale">
+                                <gantt-table
+                                        enabled="ganttChartOptions.sideMode === 'Table' || ganttChartOptions.sideMode === 'TreeTable'"
+                                        columns="ganttChartOptions.sideMode === 'TreeTable' ? ganttChartOptions.treeTableColumns : ganttChartOptions.columns"
+                                        headers="ganttChartOptions.columnsHeaders"
+                                        classes="ganttChartOptions.columnsClasses"
+                                        formatters="ganttChartOptions.columnsFormatters"
+                                        contents="ganttChartOptions.columnsContents"
+                                        header-contents="ganttChartOptions.columnsHeaderContents">
+                                    <gantt-tooltips enabled="true"></gantt-tooltips>
+                                    <gantt-resize-sensor enabled="true"></gantt-resize-sensor>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
             <!-- /Agent Logs -->
 

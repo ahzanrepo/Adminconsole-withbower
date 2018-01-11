@@ -2,8 +2,9 @@
  * Created by Waruna on 9/27/2017.
  */
 
-mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData,notifiSenderService,dashboardService) {
+mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData, notifiSenderService, dashboardService) {
     $anchorScroll();
+    $scope.refreshTime = 10000;
 
     $scope.dtOptions = {paging: false, searching: false, info: false, order: [0, 'desc']};
 
@@ -254,23 +255,12 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
                         if (ids.length > 0) {
                             var agentProductivity = {
-                                "data": [{
-                                    value: ids[0].AcwTime ? ids[0].AcwTime : 0,
-                                    name: 'After work'
-                                }, {
-                                    value: ids[0].BreakTime ? ids[0].BreakTime : 0,
-                                    name: 'Break'
-                                }, {
-                                    value: ((ids[0].OnCallTime ? ids[0].OnCallTime : 0) + (ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0)),//OutboundCallTime
-                                    name: 'On Call'
-                                }, {
-                                    value: ids[0].IdleTime ? ids[0].IdleTime : 0,
-                                    name: 'Idle'
-                                }],
                                 "ResourceId": agent.ResourceId,
                                 "ResourceName": agent.ResourceName,
+                                "InboundCallTime": ids[0].InboundCallTime ? ids[0].InboundCallTime : 0,
                                 "IncomingCallCount": ids[0].IncomingCallCount ? ids[0].IncomingCallCount : 0,
                                 "OutgoingCallCount": ids[0].OutgoingCallCount ? ids[0].OutgoingCallCount : 0,
+                                "OutboundCallTime": ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,
                                 "OutboundAnswerCount": ids[0].OutboundAnswerCount ? ids[0].OutboundAnswerCount : 0,
                                 "MissCallCount": ids[0].MissCallCount ? ids[0].MissCallCount : 0,
                                 "Chatid": agent.ResourceId,
@@ -282,7 +272,26 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                                 "IdleTime": ids[0].IdleTime,
                                 "StaffedTime": ids[0].StaffedTime,
                                 "slotState": {},
-                                "RemoveProductivity": false
+                                "RemoveProductivity": false,
+                                "data": [{
+                                    value: ids[0].AcwTime ? ids[0].AcwTime : 0,
+                                    name: 'After work'
+                                }, {
+                                    value: ids[0].BreakTime ? ids[0].BreakTime : 0,
+                                    name: 'Break'
+                                }, {
+                                    value: ids[0].InboundCallTime ? ids[0].InboundCallTime : 0,
+                                    name: 'Inbound'
+                                }, {
+                                    value: ids[0].OutboundCallTime ? ids[0].OutboundCallTime : 0,
+                                    name: 'Outbound'
+                                }, {
+                                    value: ids[0].IdleTime ? ids[0].IdleTime : 0,
+                                    name: 'Idle'
+                                }, {
+                                    value: ids[0].HoldTime ? ids[0].HoldTime : 0,
+                                    name: 'Hold'
+                                }],
                             };
                             var resonseStatus = null, resonseAvailability = null, resourceMode = null;
                             var reservedDate = "";
@@ -436,10 +445,10 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
             });
 
-            $scope.isLoading = false;
+
         }
         else {
-            $scope.isLoading = false;
+
         }
 
     };
@@ -463,6 +472,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     $scope.onlineProfile = [];
 
+
     $scope.getProfileDetails = function () {
         $scope.onlineProfile = [];
         var deferred = $q.defer();
@@ -480,6 +490,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     $scope.stopTimerFn = function (val) {
         $scope.stopTimer = val;
     };
+    $scope.agentSummaryLoading = true;
     var getAllRealTime = function () {
         $rootScope.$emit("load_calls");
         if ($scope.selectedAgent) {
@@ -489,14 +500,15 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
             $scope.getProfileDetails(),
             $scope.GetProductivity()
         ]).then(function (value) {
-
+            $scope.agentSummaryLoading = false;
             calculateProductivity();
 
             var res = [];
             for (var x in $scope.Productivitys) {
                 $scope.Productivitys.hasOwnProperty(x) && res.push($scope.Productivitys[x])
             }
-            $scope.gridOptions.data = res;
+
+            $scope.agentSummaryGridOptions.data = res;
         }, function (reason) {
 
         });
@@ -504,23 +516,19 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
     };
 
-    // getAllRealTime();
+    getAllRealTime();
     var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
-
-    $scope.AgentProductivity = {};
-    $scope.ProductivityByResourceId = function (id) {
-        $scope.AgentProductivity = {};
-        dashboardService.ProductivityByResourceId(id).then(function (response) {
-            if (response) {
-                $scope.AgentProductivity = response;
-            }
-
-        });
-
+    $scope.setRefreshTime = function (val) {
+        $scope.refreshTime = val;
+        if (val === "stop") {
+            $timeout.cancel(getAllRealTimeTimer);
+        } else {
+            getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+        }
     };
 
     $scope.BusinessUnitUsers = [];
-    $scope.gridOptions = {
+    $scope.agentSummaryGridOptions = {
         enableColumnResizing: true,
         enableRowSelection: true,
         enableRowHeaderSelection: true,
@@ -682,7 +690,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                     $scope.GetCallLogs(1, row.entity.ResourceName);
                     $scope.gridTaskOptions.data = $scope.selectedAgent.taskList;
                     $scope.getAgentStatusList($scope.selectedAgent);
-                    $scope.ProductivityByResourceId(row.entity.ResourceId);
+
 
                     var ids = $filter('filter')($scope.BusinessUnitUsers, {resourceid: row.entity.ResourceId.toString()}, true);//"ResourceId":"1"
                     if (ids.length > 0) {
@@ -692,6 +700,8 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                         if (temData.email)
                             $scope.selectedAgent.Email = temData.email.contact;
                     }
+                } else {
+                    $scope.setRefreshTime($scope.refreshTime);
                 }
             });
         }
@@ -707,7 +717,6 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     });
 
-    $scope.refreshTime = 10000;
 
     $scope.reloadCallDetails = function () {
         $rootScope.$emit("load_calls");
@@ -778,6 +787,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     };
 
     $scope.callLog = [];
+    $scope.agentProductivityLoadin = true;
     $scope.GetCallLogs = function (pageNumber, name) {
 
         contactService.GetCallLogs(pageNumber, new Date(), name).then(function (response) {
@@ -1109,52 +1119,37 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     };
 
 
-
     /*------------------------ Agent info ------------------------------------*/
 
-    /*------------------------ getAgentStatusList ------------------------------------*/
-
-    $scope.gridAgentLogsOptions = {
-        enableSorting: true,
-        enableRowSelection: false,
-        enableRowHeaderSelection: false,
-        multiSelect: false,
-        modifierKeysToMultiSelect: false,
-        noUnselect: false,
-        columnDefs: [
-            {name: 'Reason', field: 'Reason', headerTooltip: 'Reason'},
-            {
-                name: 'time',
-                field: 'createdAt',
-                headerTooltip: 'Time',
-                cellFilter: 'date:"dd MMM yyyy hh:mm:ss"',
-                cellClass: 'table-time',
-                sort: {
-                    direction: uiGridConstants.DESC
-                }
-            }
-        ],
-        data: [],
-        onRegisterApi: function (gridApi) {
-            //$scope.grid1Api = gridApi;
-        }
-    };
-
+            /*------------------------ getAgentStatusList ------------------------------------*/
+    $scope.endDtTm = moment();
     $scope.getAgentStatusList = function (selectedAgent) {
-        $scope.gridAgentLogsOptions.data = [];
+        $scope.agentProductivityLoadin = true;
         var momentTz = moment.parseZone(new Date()).format('Z');
         momentTz = momentTz.replace("+", "%2B");
         var d = moment().format("YYYY-MM-DD");
         var startDate = d + ' 00:00:00' + momentTz;
         var endDate = d + ' 23:59:59' + momentTz;
+        $scope.endDtTm = endDate;
         var agentFilter = [];
         agentFilter.push(selectedAgent);
         try {
             cdrApiHandler.getAgentStatusList(startDate, endDate, undefined, agentFilter).then(function (agentListResp) {
-                for (var key in agentListResp.Result) {
-                    $scope.gridAgentLogsOptions.data = agentListResp.Result[key];
-                }
-                $scope.echartDonutSetOption(selectedAgent)
+                $scope.agentProductivityLoadin = false;
+                $scope.echartDonutSetOption(selectedAgent);
+                /*$scope.agentStatusList = {};var caption = "";
+                if (agentListResp && agentListResp.Result) {
+                    for (var resource in agentListResp.Result) {
+                        if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
+                            caption = agentListResp.Result[resource][0].ResResource.ResourceName;
+                            $scope.agentStatusList[caption] = agentListResp.Result[resource];
+                        }
+                    }
+                    gearaltGanttChartData($scope.agentStatusList[caption]);
+                }*/
+
+                gearaltGanttChartData(  agentListResp.Result[Object.keys(agentListResp.Result)[0]]);
+
             }).catch(function (err) {
                 $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
             });
@@ -1166,17 +1161,256 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     };
 
+                /*configuring Gantt Chart*/
+    $scope.statusData = [];
 
-    /*------------------------ getAgentStatusList ------------------------------------*/
+    $scope.ganttChartOptions = {
+        mode: 'custom',
+        scale: 'minute',
+        sortMode: undefined,
+        sideMode: 'Table',
+        columns: ['model.name', 'from', 'to'],
+        treeTableColumns: ['from', 'to'],
+        columnsHeaders: {'model.name': 'Name', 'from': 'From', 'to': 'To'},
+        columnsClasses: {'model.name': 'gantt-column-name', 'from': 'gantt-column-from', 'to': 'gantt-column-to'},
+        columnsFormatters: {
+            'from': function (from) {
+                /*return from !== undefined ? moment(from).format("HH:mm:ss") : undefined*/
+                return from !== undefined ? moment(from).format("HH:mm:ss") : undefined
+            },
+            'to': function (to) {
+                return to !== undefined ? moment(to).format("HH:mm:ss") : undefined
+            }
+        },
+        columnsHeaderContents: {
+            'model.name': '<i class="fa fa-align-justify"></i> {{getHeader()}}',
+            'from': '<i class="fa fa-calendar"></i> {{getHeader()}}',
+            'to': '<i class="fa fa-calendar"></i> {{getHeader()}}'
+        },
+    };
+
+
+    var gearaltGanttChartData = function (events) {
+        $scope.statusData = [];
+        var eventLength = events.length;
+
+        while (eventLength>0) {
+            var event = events[0];
+            try {
+                var stEventName = event.Reason;
+                var endEventName = "";
+                var statusColour = '#F1C232';
+                var isACW = false;
+                var isCALL = false;
+                var isCHAT = false;
+                var isSlotEndEvent=false;
+
+                if (event.Reason == "Register") {
+                    endEventName = "Un" + stEventName;
+                    statusColour = '#0CFF00';
+                }
+                else if (event.Reason != "EndBreak" && event.Reason.indexOf("Break") >= 0) {
+                    endEventName = "EndBreak";
+                    statusColour = '#7b1102';
+                }
+                else if (event.Reason == "AfterWork") {
+                    if (event.Status == "Completed") {
+                        isACW = true;
+                        statusColour = '#000000';
+                    }
+                    else
+                    {
+                        isSlotEndEvent=true;
+                    }
+                }
+                else if(event.Reason == "CALL")
+                {
+                    if(event.Status=="Connected")
+                    {
+                        isCALL = true;
+                        statusColour = '#7c7eff';
+
+                    }
+                    else
+                    {
+                        isSlotEndEvent=true;
+                    }
+                }
+                else if(event.Reason == "CHAT")
+                {
+                    if(event.Status=="Connected")
+                    {
+                        isCHAT = true;
+                        statusColour = '#ff574d';
+                    }
+                    else {
+                        isSlotEndEvent=true;
+                    }
+
+                }
+                else {
+                    endEventName = "end" + stEventName;
+                }
+
+                if (stEventName == "Inbound") {
+                    statusColour = '#074DEE';
+                }
+                if (stEventName == "Outbound") {
+                    statusColour = '#DF0AF1';
+                }
+                if (stEventName == "Offline") {
+                    statusColour = '#F90422';
+                }
+
+
+                var index = -1;
+                var itemName;
+
+
+                if (isACW) {
+
+
+
+                    index = events.map(function (el) {
+                        return el.Status;
+                    }).indexOf("Available");
+
+
+                }
+                else if (isCALL) {
+
+
+
+                    index = events.map(function (el) {
+                        return el.Status;
+                    }).indexOf("Completed");
+
+
+
+
+                }
+                else if (isCHAT) {
+
+
+
+                    index = events.map(function (el) {
+                        return el.Status;
+                    }).indexOf("Completed");
+
+
+
+
+                }
+                else  {
+
+                    if(!isSlotEndEvent)
+                    {
+                        index = events.map(function (el) {
+                            return el.Reason;
+                        }).indexOf(endEventName);
+                    }
+
+
+
+                }
+
+
+                if (index >= 0) {
+
+                    var eventObj = {
+                        name: stEventName, tasks: [
+                            {
+                                name: stEventName,
+                                color: statusColour,
+                                /*from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+                                 to:  moment(events[index].createdAt).format("YYYY-MM-DD HH:mm:ss")*/
+                                from:
+                                    moment(event.createdAt),
+                                to:  moment(events[index].createdAt)
+                            }
+                        ]};
+
+
+
+                    events. splice(index,1);
+                    events.splice(events. indexOf(event),1);
+
+                    $scope.statusData.push(eventObj
+
+
+                    );
+
+
+                }
+                else
+                {
+
+                    if(moment($scope.endtime).diff(moment())>=0)
+                    {
+                        $scope.endtime=moment();
+                    }
+
+                    if(stEventName=="Register")
+                    {
+                        var
+                            eventObj = {name:
+                            stEventName,
+                                tasks: [
+                                    {
+                                        name: stEventName,
+                                        color: statusColour,
+                                        from:  moment(event.createdAt),
+                                        to: moment($scope.endtime)
+                                    }
+                                ]};
+                        $scope.statusData.push(eventObj);
+                    }
+                    else if(stEventName. indexOf ("end")==-1 && stEventName!="UnRegister")
+                    {
+                        if(!isSlotEndEvent)
+                        {
+                            var
+                                eventObj = {name:
+                                stEventName,
+                                    tasks: [
+                                        {
+                                            name: stEventName,
+                                            color: statusColour,
+                                            from:  moment(event.createdAt),
+                                            to: moment($scope.endtime)
+                                        }
+                                    ]};
+                            $scope.statusData.push(eventObj);
+                        }
+
+
+
+                    }
+
+                    events.splice(events.indexOf (event),1);
+                }
+
+
+            } catch (e) {
+                console.log(e);
+            }
+            eventLength = events.length;
+        }
+
+    };
+
+
+                /*configuring Gantt Chart - end*/
+            /*------------------------ getAgentStatusList ------------------------------------*/
 
     /*send notification*/
     $scope.notificationMsg = {
-        To : "",
-        From:"",
-        Message:"",
-        isPersist :true,
-        eventlevel : "low",
-        Direction : "STATELESS"
+        To: "",
+        From: "",
+        Message: "",
+        isPersist: true,
+        eventlevel: "low",
+        Direction: "STATELESS"
     };
 
     $scope.sendNotification = function () {
@@ -1184,12 +1418,12 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         $scope.notificationMsg.From = $scope.userName;
         notifiSenderService.sendNotification($scope.notificationMsg, "message", "", $scope.notificationMsg.eventlevel).then(function (response) {
             $scope.notificationMsg = {
-                To : "",
-                From:"",
-                Message:"",
-                isPersist :true,
-                eventlevel : "low",
-                Direction : "STATELESS"
+                To: "",
+                From: "",
+                Message: "",
+                isPersist: true,
+                eventlevel: "low",
+                Direction: "STATELESS"
             };
         }, function (err) {
             $scope.showAlert('Notification', 'error', "Send Notification Failed");
@@ -1205,7 +1439,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         });
     };
     GetUserByBusinessUnit();
-
+    $scope.statusData = [];
     /*Listing For Business Unit Change*/
     $scope.$watch(function () {
         return ShareData.BusinessUnit;
