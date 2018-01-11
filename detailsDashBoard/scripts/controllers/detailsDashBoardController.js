@@ -1177,7 +1177,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
         var agentFilter = [];
         agentFilter.push(selectedAgent);
         try {
-            cdrApiHandler.getAgentStatusList(startDate, endDate, undefined, agentFilter).then(function (agentListResp) {
+            cdrApiHandler.getAgentStatusRecords(startDate, endDate, [], agentFilter).then(function (agentListResp) {
                 $scope.agentProductivityLoadin = false;
                 $scope.echartDonutSetOption(selectedAgent);
                 /*$scope.agentStatusList = {};var caption = "";
