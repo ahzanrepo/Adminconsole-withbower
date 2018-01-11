@@ -2,7 +2,7 @@
  * Created by Waruna on 9/27/2017.
  */
 
-mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData, notifiSenderService, dashboardService) {
+mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData, notifiSenderService, dashboardService) {
     $anchorScroll();
     $scope.refreshTime = 10000;
 
@@ -36,6 +36,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     var statusTemplate = '<timer start-time=\"row.entity.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer>';
     var maxWaitTimeTemplate = "<div>{{row.entity.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</div>";
 
+
     $scope.gridQOptions = {
         enableFiltering: true,
         enableSorting: true,
@@ -62,7 +63,6 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 headerTooltip: 'Current Waiting',
                 cellClass: 'table-number'
             },
-
             {
                 enableFiltering: false,
                 name: 'Avg.Wait',
@@ -122,9 +122,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 field: 'EventTime',
                 headerTooltip: 'Last Event Time',
                 visible: false
-            },
-            {enableFiltering: false, name: 'id', field: 'id', visible: false}
-        ],
+            }],
         data: [],
         onRegisterApi: function (gridApi) {
             //$scope.grid1Api = gridApi;
@@ -1478,6 +1476,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
             console.log("Reload Dashboard ****************************************");
         }
     });
+
 });
 
 
