@@ -46,12 +46,41 @@
             <div class="x_content">
                 <ul class="list-unstyled ">
                     <li ng-repeat="field in accessFileds | filterBy: ['field']: searchCriteria">
-                        <ul> <lable>{{field.Key}}</lable>
-                            <li ng-repeat="sub in field.Sub_fileds">
-                                <label >{{sub.action}}</label>
-                                <switch  ng-model="sub.value" class="form-control "></switch>
-                            </li>
-                        </ul>
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 edit-main-wrap" >
+                            <div class="application-edit">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6" style="padding-bottom: 10px">
+                                        <h1 class="font-robot font-300 text-uppercase font-15"> {{field.Key.toUpperCase()}}</h1>
+                                    </div>
+
+                                </div>
+                                <ul>
+                                    <li ng-repeat="sub in field.Sub_fileds">
+
+
+                                        <div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback"
+                                             style="margin-bottom: 15px;">
+                                            <label >{{sub.action}}</label>
+
+                                        </div>
+                                        <div class="col-md-1 col-sm-1 col-xs-12 form-group">
+                                            <switch  ng-model="sub.value" class="form-control "></switch>
+                                        </div>
+
+
+
+
+
+                                    </li>
+                                </ul>
+
+
+
+                            </div>
+                        </div>
+
+
 
                     </li>
 
@@ -70,7 +99,14 @@
                     </paging>
                 </ul>
 
-                <button ng-click="addOrUpdateConfig()">Push</button>
+                <div class="col-md-12 col-sm-6 col-xs-12">
+                    <button type="button" class="btn btn-success btn-lg pull-right"
+                            ng-click="addOrUpdateConfig()">
+                        {{btnTitle}}
+                    </button>
+                </div>
+
+
             </div>
         </div>
 

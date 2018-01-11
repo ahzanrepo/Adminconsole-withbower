@@ -1133,6 +1133,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.accessFileds =[];
     $scope.accessArray =[];
     $scope.isDefault=false;
+    $scope.btnTitle="SAVE";
 
     $scope.getDefaultAccessFieldConfigs = function () {
 
@@ -1185,15 +1186,15 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 }
                 else
                 {
-
+                    $scope.showAlert("Error","Error in loading Access configs","error");
                 }
             }
             else
             {
-
+                $scope.showAlert("Error","Error in loading Access configs","error");
             }
         },function (errConfigs) {
-
+            $scope.showAlert("Error","Error in loading Access configs","error");
         })
     };
     $scope.getAccessFieldConfigs = function () {
@@ -1204,6 +1205,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 if(resConfigs.Result)
                 {
                     $scope.isConfigured=true;
+                    $scope.btnTitle="UPDATE";
 
                     for(key in resConfigs.Result)
                     {
@@ -1254,8 +1256,8 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 $scope.showAlert("Error","Error in loading Access configs","error");
             }
         },function (errConfigs) {
-
-        })
+            $scope.showAlert("Error","Error in loading Access configs","error");
+        });
     };
 
 
