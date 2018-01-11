@@ -1,4 +1,4 @@
-<div class="row" >
+<div class="row" ng-controller="callmonitorcntrl">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="page-title">
             <div class="title_left">
@@ -37,7 +37,6 @@
                             <th class="column-title selectedTpcs">To</th>
                             <th class="column-title selectedTpcs">Receiver</th>
                             <th class="column-title selectedTpcs">Skill</th>
-                            <th class="column-title selectedTpcs">Business Unit</th>
                             <th class="column-title selectedTpcs">Call Duration</th>
                             <th class="column-title selectedTpcs">Call Answered Time</th>
                             <th class="column-title lstCol"></th>
@@ -53,7 +52,6 @@
                                 <td class="valAlgn">{{call.ToID}}</td>
                                 <td class="valAlgn">{{call.Receiver}}</td>
                                 <td class="valAlgn">{{call.Skill}}</td>
-                                <td class="valAlgn">{{call.BusinessUnit}}</td>
                                 <td class="valAlgn">{{call.CallDuration}}</td>
                                 <td class="valAlgn">{{call.LocalTime}}</td>
 

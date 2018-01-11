@@ -56,6 +56,7 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'ui.grid.selection',
     'ui.grid.moveColumns',
     'ui.grid.infiniteScroll',
+    'ui.grid.grouping',
     'ngWizard',
     'gantt',
     'angularMoment',
@@ -65,7 +66,8 @@ var mainApp = angular.module('veeryConsoleApp', ['ngAnimate', 'ngMessages', 'ui.
     'gantt.sortable',
     'gantt.resizeSensor',
     'gantt.dependencies',
-    'angular-progress-arc'
+    'angular-progress-arc',
+    'ui.tab.scroll'
 ]);
 
 
@@ -76,6 +78,12 @@ mainApp.run(['$anchorScroll', function ($anchorScroll) {
 
 app.run(function ($rootScope) {
     $rootScope.keys = Object.keys;
+});
+
+mainApp.config(function (scrollableTabsetConfigProvider) {
+    scrollableTabsetConfigProvider.setShowTooltips(true);
+    scrollableTabsetConfigProvider.setTooltipLeftPlacement('bottom');
+    scrollableTabsetConfigProvider.setTooltipRightPlacement('left');
 });
 //resourceservice.app1.veery.cloud
 var baseUrls = {
@@ -534,7 +542,7 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
         }).state('console.callmonitor', {
             url: "/call-monitor",
             templateUrl: "views/call-monitor/callMonitor.html",
-            controller: "callmonitorcntrl",
+
             data: {
                 requireLogin: true,
                 navigation: "CALL_MONITOR"

@@ -2,7 +2,7 @@
  * Created by Waruna on 9/27/2017.
  */
 
-mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData, notifiSenderService, dashboardService) {
+mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootScope, $filter, $stateParams, $anchorScroll, $timeout, $q, uiGridConstants, queueMonitorService, subscribeServices, agentStatusService, contactService, cdrApiHandler, ShareData, notifiSenderService, dashboardService) {
     $anchorScroll();
     $scope.refreshTime = 10000;
 
@@ -36,7 +36,9 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     var statusTemplate = '<timer start-time=\"row.entity.MaxWaitingMS\" interval=\"1000\"> {{hhours}}:{{mminutes}}:{{sseconds}}</timer>';
     var maxWaitTimeTemplate = "<div>{{row.entity.MaxWaitTime| secondsToDateTime | date:'HH:mm:ss'}}</div>";
 
+
     $scope.gridQOptions = {
+        enableFiltering: true,
         enableSorting: true,
         enableRowSelection: false,
         enableRowHeaderSelection: false,
@@ -45,13 +47,24 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
         noUnselect: false,
         columnDefs: [
             {
-                name: 'QueueName', field: 'QueueName', headerTooltip: 'Queue Name', width: '15%', sort: {
-                direction: uiGridConstants.ASC
-            }
+                enableFiltering: true,
+                name: 'QueueName',
+                field: 'QueueName',
+                headerTooltip: 'Queue Name',
+                width: '15%',
+                sort: {
+                    direction: uiGridConstants.ASC
+                }
             },
-            {name: 'Cur.Waiting', field: 'CurrentWaiting', headerTooltip: 'Current Waiting', cellClass: 'table-number'},
-
             {
+                enableFiltering: false,
+                name: 'Cur.Waiting',
+                field: 'CurrentWaiting',
+                headerTooltip: 'Current Waiting',
+                cellClass: 'table-number'
+            },
+            {
+                enableFiltering: false,
                 name: 'Avg.Wait',
                 field: 'AverageWaitTime',
                 headerTooltip: 'Average Wait Time',
@@ -60,6 +73,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 cellTemplate: "<div>{{row.entity.AverageWaitTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
             },
             {
+                enableFiltering: false,
                 name: 'Cur.MaxWait',
                 field: 'CurrentMaxWaitTime',
                 headerTooltip: 'Current MaxWait Time',
@@ -67,19 +81,48 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 cellClass: 'table-time'
             },
             {
+                enableFiltering: false,
                 name: 'MaxWait',
                 field: 'MaxWaitTime',
                 headerTooltip: 'Max Waiting Time',
                 cellTemplate: maxWaitTimeTemplate,
                 cellClass: 'table-time'
             },
-            {name: 'Q.Dropped', field: 'QueueDropped', headerTooltip: 'Queue Dropped', cellClass: 'table-number'},
-            {name: 'Answered', field: 'TotalAnswered', headerTooltip: 'Total Answered', cellClass: 'table-number'},
-            {name: 'Queued', field: 'TotalQueued', headerTooltip: 'Total Queued', cellClass: 'table-number'},
-            {name: 'presentage', field: 'presentage', headerTooltip: 'presentage', cellClass: 'presentage'},
-            {name: 'Time', field: 'EventTime', headerTooltip: 'Last Event Time', visible: false},
-            {name: 'id', field: 'id', visible: false}
-        ],
+            {
+                enableFiltering: false,
+                name: 'Q.Dropped',
+                field: 'QueueDropped',
+                headerTooltip: 'Queue Dropped',
+                cellClass: 'table-number'
+            },
+            {
+                enableFiltering: false,
+                name: 'Answered',
+                field: 'TotalAnswered',
+                headerTooltip: 'Total Answered',
+                cellClass: 'table-number'
+            },
+            {
+                enableFiltering: false,
+                name: 'Queued',
+                field: 'TotalQueued',
+                headerTooltip: 'Total Queued',
+                cellClass: 'table-number'
+            },
+            {
+                enableFiltering: false,
+                name: 'presentage',
+                field: 'presentage',
+                headerTooltip: 'presentage',
+                cellClass: 'presentage'
+            },
+            {
+                enableFiltering: false,
+                name: 'Time',
+                field: 'EventTime',
+                headerTooltip: 'Last Event Time',
+                visible: false
+            }],
         data: [],
         onRegisterApi: function (gridApi) {
             //$scope.grid1Api = gridApi;
@@ -492,7 +535,6 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
     };
     $scope.agentSummaryLoading = true;
     var getAllRealTime = function () {
-        $rootScope.$emit("load_calls");
         if ($scope.selectedAgent) {
             return;
         }
@@ -529,6 +571,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     $scope.BusinessUnitUsers = [];
     $scope.agentSummaryGridOptions = {
+        enableFiltering: true,
         enableColumnResizing: true,
         enableRowSelection: true,
         enableRowHeaderSelection: true,
@@ -552,7 +595,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 name: 'State',
                 field: 'slotState',
                 headerTooltip: 'Agent State',
-                enableFiltering: false,
+                enableFiltering: true,
                 enableCellEdit: false,
                 enableSorting: true,
                 width: '10%'
@@ -561,7 +604,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 name: 'Mode',
                 field: 'slotMode',
                 headerTooltip: 'Agent Mode',
-                enableFiltering: false,
+                enableFiltering: true,
                 enableCellEdit: false,
                 enableSorting: true,
                 width: "*"
@@ -719,7 +762,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
 
     $scope.reloadCallDetails = function () {
-        $rootScope.$emit("load_calls");
+        /*$rootScope.$emit("load_calls");*/
     };
 
     $scope.selectedAgent = undefined;
@@ -1121,7 +1164,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     /*------------------------ Agent info ------------------------------------*/
 
-            /*------------------------ getAgentStatusList ------------------------------------*/
+    /*------------------------ getAgentStatusList ------------------------------------*/
     $scope.endDtTm = moment();
     $scope.getAgentStatusList = function (selectedAgent) {
         $scope.agentProductivityLoadin = true;
@@ -1138,17 +1181,17 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
                 $scope.agentProductivityLoadin = false;
                 $scope.echartDonutSetOption(selectedAgent);
                 /*$scope.agentStatusList = {};var caption = "";
-                if (agentListResp && agentListResp.Result) {
-                    for (var resource in agentListResp.Result) {
-                        if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
-                            caption = agentListResp.Result[resource][0].ResResource.ResourceName;
-                            $scope.agentStatusList[caption] = agentListResp.Result[resource];
-                        }
-                    }
-                    gearaltGanttChartData($scope.agentStatusList[caption]);
-                }*/
+                 if (agentListResp && agentListResp.Result) {
+                 for (var resource in agentListResp.Result) {
+                 if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
+                 caption = agentListResp.Result[resource][0].ResResource.ResourceName;
+                 $scope.agentStatusList[caption] = agentListResp.Result[resource];
+                 }
+                 }
+                 gearaltGanttChartData($scope.agentStatusList[caption]);
+                 }*/
 
-                gearaltGanttChartData(  agentListResp.Result[Object.keys(agentListResp.Result)[0]]);
+                gearaltGanttChartData(agentListResp.Result[Object.keys(agentListResp.Result)[0]]);
 
             }).catch(function (err) {
                 $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
@@ -1161,7 +1204,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     };
 
-                /*configuring Gantt Chart*/
+    /*configuring Gantt Chart*/
     $scope.statusData = [];
 
     $scope.ganttChartOptions = {
@@ -1192,216 +1235,197 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
 
     var gearaltGanttChartData = function (events) {
         $scope.statusData = [];
-        var eventLength = events.length;
+        if (events) {
 
-        while (eventLength>0) {
-            var event = events[0];
-            try {
-                var stEventName = event.Reason;
-                var endEventName = "";
-                var statusColour = '#F1C232';
-                var isACW = false;
-                var isCALL = false;
-                var isCHAT = false;
-                var isSlotEndEvent=false;
 
-                if (event.Reason == "Register") {
-                    endEventName = "Un" + stEventName;
-                    statusColour = '#0CFF00';
-                }
-                else if (event.Reason != "EndBreak" && event.Reason.indexOf("Break") >= 0) {
-                    endEventName = "EndBreak";
-                    statusColour = '#7b1102';
-                }
-                else if (event.Reason == "AfterWork") {
-                    if (event.Status == "Completed") {
-                        isACW = true;
-                        statusColour = '#000000';
-                    }
-                    else
-                    {
-                        isSlotEndEvent=true;
-                    }
-                }
-                else if(event.Reason == "CALL")
-                {
-                    if(event.Status=="Connected")
-                    {
-                        isCALL = true;
-                        statusColour = '#7c7eff';
+            var eventLength = events.length;
 
+            while (eventLength > 0) {
+                var event = events[0];
+                try {
+                    var stEventName = event.Reason;
+                    var endEventName = "";
+                    var statusColour = '#F1C232';
+                    var isACW = false;
+                    var isCALL = false;
+                    var isCHAT = false;
+                    var isSlotEndEvent = false;
+
+                    if (event.Reason == "Register") {
+                        endEventName = "Un" + stEventName;
+                        statusColour = '#0CFF00';
                     }
-                    else
-                    {
-                        isSlotEndEvent=true;
+                    else if (event.Reason != "EndBreak" && event.Reason.indexOf("Break") >= 0) {
+                        endEventName = "EndBreak";
+                        statusColour = '#7b1102';
                     }
-                }
-                else if(event.Reason == "CHAT")
-                {
-                    if(event.Status=="Connected")
-                    {
-                        isCHAT = true;
-                        statusColour = '#ff574d';
+                    else if (event.Reason == "AfterWork") {
+                        if (event.Status == "Completed") {
+                            isACW = true;
+                            statusColour = '#000000';
+                        }
+                        else {
+                            isSlotEndEvent = true;
+                        }
+                    }
+                    else if (event.Reason == "CALL") {
+                        if (event.Status == "Connected") {
+                            isCALL = true;
+                            statusColour = '#7c7eff';
+
+                        }
+                        else {
+                            isSlotEndEvent = true;
+                        }
+                    }
+                    else if (event.Reason == "CHAT") {
+                        if (event.Status == "Connected") {
+                            isCHAT = true;
+                            statusColour = '#ff574d';
+                        }
+                        else {
+                            isSlotEndEvent = true;
+                        }
+
                     }
                     else {
-                        isSlotEndEvent=true;
+                        endEventName = "end" + stEventName;
                     }
 
-                }
-                else {
-                    endEventName = "end" + stEventName;
-                }
-
-                if (stEventName == "Inbound") {
-                    statusColour = '#074DEE';
-                }
-                if (stEventName == "Outbound") {
-                    statusColour = '#DF0AF1';
-                }
-                if (stEventName == "Offline") {
-                    statusColour = '#F90422';
-                }
+                    if (stEventName == "Inbound") {
+                        statusColour = '#074DEE';
+                    }
+                    if (stEventName == "Outbound") {
+                        statusColour = '#DF0AF1';
+                    }
+                    if (stEventName == "Offline") {
+                        statusColour = '#F90422';
+                    }
 
 
-                var index = -1;
-                var itemName;
+                    var index = -1;
+                    var itemName;
 
 
-                if (isACW) {
+                    if (isACW) {
 
 
-
-                    index = events.map(function (el) {
-                        return el.Status;
-                    }).indexOf("Available");
-
-
-                }
-                else if (isCALL) {
-
-
-
-                    index = events.map(function (el) {
-                        return el.Status;
-                    }).indexOf("Completed");
-
-
-
-
-                }
-                else if (isCHAT) {
-
-
-
-                    index = events.map(function (el) {
-                        return el.Status;
-                    }).indexOf("Completed");
-
-
-
-
-                }
-                else  {
-
-                    if(!isSlotEndEvent)
-                    {
                         index = events.map(function (el) {
-                            return el.Reason;
-                        }).indexOf(endEventName);
+                            return el.Status;
+                        }).indexOf("Available");
+
+
+                    }
+                    else if (isCALL) {
+
+
+                        index = events.map(function (el) {
+                            return el.Status;
+                        }).indexOf("Completed");
+
+
+                    }
+                    else if (isCHAT) {
+
+
+                        index = events.map(function (el) {
+                            return el.Status;
+                        }).indexOf("Completed");
+
+
+                    }
+                    else {
+
+                        if (!isSlotEndEvent) {
+                            index = events.map(function (el) {
+                                return el.Reason;
+                            }).indexOf(endEventName);
+                        }
+
+
                     }
 
 
+                    if (index >= 0) {
 
-                }
-
-
-                if (index >= 0) {
-
-                    var eventObj = {
-                        name: stEventName, tasks: [
-                            {
-                                name: stEventName,
-                                color: statusColour,
-                                /*from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
-                                 to:  moment(events[index].createdAt).format("YYYY-MM-DD HH:mm:ss")*/
-                                from:
-                                    moment(event.createdAt),
-                                to:  moment(events[index].createdAt)
-                            }
-                        ]};
+                        var eventObj = {
+                            name: stEventName, tasks: [
+                                {
+                                    name: stEventName,
+                                    color: statusColour,
+                                    /*from: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+                                     to:  moment(events[index].createdAt).format("YYYY-MM-DD HH:mm:ss")*/
+                                    from: moment(event.createdAt),
+                                    to: moment(events[index].createdAt)
+                                }
+                            ]
+                        };
 
 
+                        events.splice(index, 1);
+                        events.splice(events.indexOf(event), 1);
 
-                    events. splice(index,1);
-                    events.splice(events. indexOf(event),1);
-
-                    $scope.statusData.push(eventObj
-
-
-                    );
+                        $scope.statusData.push(eventObj
+                        );
 
 
-                }
-                else
-                {
-
-                    if(moment($scope.endtime).diff(moment())>=0)
-                    {
-                        $scope.endtime=moment();
                     }
+                    else {
 
-                    if(stEventName=="Register")
-                    {
-                        var
-                            eventObj = {name:
-                            stEventName,
-                                tasks: [
-                                    {
-                                        name: stEventName,
-                                        color: statusColour,
-                                        from:  moment(event.createdAt),
-                                        to: moment($scope.endtime)
-                                    }
-                                ]};
-                        $scope.statusData.push(eventObj);
-                    }
-                    else if(stEventName. indexOf ("end")==-1 && stEventName!="UnRegister")
-                    {
-                        if(!isSlotEndEvent)
-                        {
+                        if (moment($scope.endtime).diff(moment()) >= 0) {
+                            $scope.endtime = moment();
+                        }
+
+                        if (stEventName == "Register") {
                             var
-                                eventObj = {name:
-                                stEventName,
+                                eventObj = {
+                                    name: stEventName,
                                     tasks: [
                                         {
                                             name: stEventName,
                                             color: statusColour,
-                                            from:  moment(event.createdAt),
+                                            from: moment(event.createdAt),
                                             to: moment($scope.endtime)
                                         }
-                                    ]};
+                                    ]
+                                };
                             $scope.statusData.push(eventObj);
                         }
+                        else if (stEventName.indexOf("end") == -1 && stEventName != "UnRegister") {
+                            if (!isSlotEndEvent) {
+                                var
+                                    eventObj = {
+                                        name: stEventName,
+                                        tasks: [
+                                            {
+                                                name: stEventName,
+                                                color: statusColour,
+                                                from: moment(event.createdAt),
+                                                to: moment($scope.endtime)
+                                            }
+                                        ]
+                                    };
+                                $scope.statusData.push(eventObj);
+                            }
 
 
+                        }
 
+                        events.splice(events.indexOf(event), 1);
                     }
 
-                    events.splice(events.indexOf (event),1);
+
+                } catch (e) {
+                    console.log(e);
                 }
-
-
-            } catch (e) {
-                console.log(e);
+                eventLength = events.length;
             }
-            eventLength = events.length;
         }
-
     };
 
 
-                /*configuring Gantt Chart - end*/
-            /*------------------------ getAgentStatusList ------------------------------------*/
+    /*configuring Gantt Chart - end*/
+    /*------------------------ getAgentStatusList ------------------------------------*/
 
     /*send notification*/
     $scope.notificationMsg = {
@@ -1452,6 +1476,7 @@ mainApp.controller("detailsDashBoardController", function ($scope, $rootScope, $
             console.log("Reload Dashboard ****************************************");
         }
     });
+
 });
 
 
