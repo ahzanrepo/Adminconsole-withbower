@@ -17,6 +17,17 @@
 
                         <div class="validation-area">
 
+                            <label class="inline-block dark-frm-label">Company name
+                                <span class="inline-block validation-on  "
+                                      ng-show="loginFrm.companyName.$invalid && !loginFrm.companyName.$pristine">
+                             *
+                            </span> </label>
+                            <input type="text" name="companyName" ng-model="companyName"
+                                   class="form-control login-controller dark-frm-input "
+                                   required/>
+                        </div>
+                        <div class="validation-area">
+
                             <label class="inline-block dark-frm-label">User name
                                 <span class="inline-block validation-on  "
                                       ng-show="loginFrm.userName.$invalid && !loginFrm.userName.$pristine">
