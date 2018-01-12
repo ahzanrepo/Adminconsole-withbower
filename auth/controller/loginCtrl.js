@@ -100,7 +100,7 @@ mainApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         para.password = $scope.password;
         para.scope = ["all_all", "profile_veeryaccount"];
         para.console = "SUPERVISOR_CONSOLE";
-        para.companyName = "duoowner";
+        para.companyName = $scope.companyName;
         //parameter option
         //username
         //password
