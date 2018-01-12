@@ -1175,6 +1175,17 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         return ShareData.BusinessUnit;
     }, function (newValue, oldValue) {
         if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+            $scope.StatusList = {
+                ReservedProfile: [],
+                AvailableProfile: [],
+                ConnectedProfile: [],
+                AfterWorkProfile: [],
+                OutboundProfile: [],
+                SuspendedProfile: [],
+                BreakProfile: [],
+                profile: []
+            };
+
             ServerHandler.callAllServices();
             ServerHandler.getAllNumTotal();
             ServerHandler.updateRelaTimeFuntion();
