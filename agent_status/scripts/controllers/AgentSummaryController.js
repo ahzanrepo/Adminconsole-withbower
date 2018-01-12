@@ -134,6 +134,14 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             if (response) {
                 $scope.filter = response;
             }
+            else
+            {
+                $scope.filter = {
+                    filterType: 'ALL',
+                    agentFilter: [],
+                    groupFilter: []
+                };
+            }
         }, function (error) {
             console.log(error);
         });
@@ -218,7 +226,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                 else
                 {
                     var grpMapList = [];
-                    grpList.forEach(function(tmpGrp)
+                    grpList.Result.forEach(function(tmpGrp)
                     {
                         if(tmpGrp.BusinessUnit === ShareData.BusinessUnit)
                         {
@@ -244,6 +252,38 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     };
 
     $scope.loadUserGroupList();
+
+    $scope.$watch(function () {
+        return ShareData.BusinessUnit;
+    }, function (newValue, oldValue) {
+        if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+            var reportQueryName = 'AgentProfileSummary';
+
+            if(ShareData.BusinessUnit)
+            {
+                reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+            }
+
+            reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
+                if (response) {
+                    $scope.filter = response;
+                }
+                else
+                {
+                    $scope.filter = {
+                        filterType: 'ALL',
+                        agentFilter: [],
+                        groupFilter: []
+                    };
+                }
+
+                $scope.loadUserList();
+                $scope.loadUserGroupList();
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    });
 
     $scope.filterResList = function (res) {
         if ($scope.filter.filterType === 'USER') {
