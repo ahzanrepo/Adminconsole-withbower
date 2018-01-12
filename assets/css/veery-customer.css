@@ -6024,6 +6024,16 @@ ul.row-option > li.delete:focus {
     color: #aaa;
     margin-bottom: 0;
 }
+.que-block .que-detials .que-info>div.floated{
+    float: left;
+}
+.que-block .que-detials .que-info>div.floated:first-child{
+    margin-right: 10px;
+}
+.que-block .que-detials .que-info>div.cleared{
+    float: none;
+    clear: both;
+}
 .que-block .que-detials .que-info>div>div.que-info-timer{
     color: #000;
     display: inline;
