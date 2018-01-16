@@ -965,7 +965,8 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
             };
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
-                    if (response[i] && response[i].BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()) {
+                    //agent.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all")
+                    if (response[i] &&(response[i].BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()|| ShareData.BusinessUnit.toLowerCase() === "all")) {
                         var profile = {
                             name: '',
                             slotState: null,
@@ -1175,6 +1176,17 @@ mainApp.controller('dashboardCtrl', function ($scope, $state, $timeout,
         return ShareData.BusinessUnit;
     }, function (newValue, oldValue) {
         if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+            $scope.StatusList = {
+                ReservedProfile: [],
+                AvailableProfile: [],
+                ConnectedProfile: [],
+                AfterWorkProfile: [],
+                OutboundProfile: [],
+                SuspendedProfile: [],
+                BreakProfile: [],
+                profile: []
+            };
+
             ServerHandler.callAllServices();
             ServerHandler.getAllNumTotal();
             ServerHandler.updateRelaTimeFuntion();

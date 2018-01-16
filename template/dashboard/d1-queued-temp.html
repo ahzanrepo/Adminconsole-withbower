@@ -32,11 +32,15 @@
             <div class="que-detials">
                 <div class="que-name">{{ que.queuename | limitTo: 30 }}{{que.queuename.length > 30 ? '...' :''}}</div>
                 <div class="que-info">
-                    <div>
+                    <div class="floated">
                         <label>Max Wait Time : </label>
                         <div class="que-info-timer"><timer start-time="que.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} : {{sseconds}}</timer></div>
                     </div>
-                    <div>
+                    <div class="floated">
+                        <label>Queued :</label>
+                        <div class="que-info-timer">{{que.TotalQueued}}</div>
+                    </div>
+                    <div class="cleared">
                         <label>Answered : </label>
                         <div class="que-progress">
                             <uib-progressbar class="progress-striped" value="que.presentage" type="{{quePresentageType}}">{{que.presentage}}%</uib-progressbar>
