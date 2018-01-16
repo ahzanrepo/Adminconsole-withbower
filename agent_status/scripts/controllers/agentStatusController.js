@@ -1,6 +1,6 @@
 mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log, $http,
                                                       $anchorScroll, agentStatusService, notifiSenderService,
-                                                      reportQueryFilterService, uiGridConstants, $interval) {
+                                                      reportQueryFilterService, ShareData, uiGridConstants, $interval) {
 
     $anchorScroll();
 
@@ -51,6 +51,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $scope.productivity = response;
             $scope.isLoading = true;
             calculateProductivity();
+            $scope.SaveReportQueryFilter();
         }, function (error) {
             $log.debug("productivity err");
             $scope.showAlert("Error", "error", "Fail To Get productivity.");
@@ -82,6 +83,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             height: (($scope.Productivitys.length + 2) * rowHeight + headerHeight) + "px"
         };
     };
+
 
     $scope.gridOptions = {
         enableColumnResizing: true,
@@ -479,16 +481,29 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     /*--------------------------- Filter ------------------------------------------*/
     $scope.SaveReportQueryFilter = function () {
+
+        var reportQueryName = 'AgentStatus';
+
+        if(ShareData.BusinessUnit)
+        {
+            reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+        }
         var data = {
             agentMode: $scope.agentMode,
             profile: $scope.profile,
             filterType: $scope.filterType
         };
-        reportQueryFilterService.SaveReportQueryFilter("AgentStatus", data);
+        reportQueryFilterService.SaveReportQueryFilter(reportQueryName, data);
     };
 
     $scope.GetReportQueryFilter = function () {
-        reportQueryFilterService.GetReportQueryFilter("AgentStatus").then(function (response) {
+        var reportQueryName = 'AgentStatus';
+
+        if(ShareData.BusinessUnit)
+        {
+            reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+        }
+        reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
             if (response) {
                 $scope.agentMode = response.agentMode;
                 $scope.profile = response.profile;
@@ -556,7 +571,34 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
     $scope.GetAvailableProfile = function () {
-        agentStatusService.GetAvailableProfile().then(function (response) {
+        $scope.availableProfile = [];
+
+        ShareData.GetUserByBusinessUnit().then(function (response) {
+            if (response) {
+
+                if(response)
+                {
+                    angular.forEach(response, function(item)
+                    {
+                        if(item.resourceid)
+                        {
+                            var obj = {
+                                ResourceName: item.username,
+                                ResourceId: item.resourceid
+                            };
+                            $scope.availableProfile.push(obj);
+                        }
+                    });
+                }
+            }
+        }, function (error) {
+            $log.debug("GetUserByBusinessUnit err");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
+        });
+
+
+
+        /*agentStatusService.GetAvailableProfile().then(function (response) {
 
             if (response) {
                 $scope.availableProfile = response.map(function (item) {
@@ -567,8 +609,90 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                 });
             }
 
-        });
+        });*/
     };
+
+    $scope.$watch(function () {
+        return ShareData.BusinessUnit;
+    }, function (newValue, oldValue) {
+        if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+            $scope.isLoading = true;
+            $scope.availableProfile = [];
+
+            ShareData.GetUserByBusinessUnit().then(function (response) {
+                if (response) {
+
+                    if(response && response.length > 0)
+                    {
+                        angular.forEach(response, function(item)
+                        {
+                            if(item.resourceid)
+                            {
+                                var obj = {
+                                    ResourceName: item.username,
+                                    ResourceId: item.resourceid
+                                };
+                                $scope.availableProfile.push(obj);
+                            }
+                        });
+
+                        var reportQueryName = 'AgentStatus';
+
+                        if(ShareData.BusinessUnit)
+                        {
+                            reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+                        }
+                        reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (resp) {
+                            if (resp) {
+
+                                $scope.profile = [];
+
+                                angular.forEach(resp.profile, function(prof)
+                                {
+                                    for(i = 0; i < $scope.availableProfile.length; i++)
+                                    {
+                                        if($scope.availableProfile[i].ResourceId === prof.ResourceId)
+                                        {
+                                            $scope.profile.push($scope.availableProfile[i]);
+                                            break;
+                                        }
+
+                                    }
+                                });
+
+                                $scope.agentMode = resp.agentMode;
+                                $scope.filterType = resp.filterType;
+                                if (!$scope.filterType) {
+                                    $scope.filterType = "ALL";
+                                }
+
+                                $scope.GetProductivity();
+                            }
+                            else
+                            {
+                                $scope.isLoading = false;
+                            }
+                        }, function (error) {
+                            console.log(error);
+                            $scope.isLoading = false;
+                        });
+                    }
+                    else
+                    {
+                        $scope.isLoading = false;
+                    }
+                }
+                else
+                {
+                    $scope.isLoading = false;
+                }
+            }, function (error) {
+                $log.debug("GetUserByBusinessUnit err");
+                $scope.showError("Error", "Error", "ok", "There is an error ");
+            });
+
+        }
+    });
     $scope.GetAvailableProfile();
 
     var getAllRealTimeTimer = null;

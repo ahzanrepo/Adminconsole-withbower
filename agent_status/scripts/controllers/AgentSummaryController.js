@@ -292,7 +292,16 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                     return agent.username === res.resourceName;
                 });
 
-                return !!matchingRecord;
+                var bUnitMatchRec = null;
+
+                if(matchingRecord)
+                {
+                    bUnitMatchRec = $scope.usrList.find(function (usr) {
+                        return usr.username === res.resourceName;
+                    });
+                }
+
+                return !!matchingRecord && !!bUnitMatchRec;
             }
             else {
                 return false;
@@ -319,7 +328,16 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                         return agent.username === res.resourceName;
                     });
 
-                    return !!matchingRecord;
+                    var bUnitMatchRec = null;
+
+                    if(matchingRecord)
+                    {
+                        bUnitMatchRec = $scope.usrList.find(function (usr) {
+                            return usr.username === res.resourceName;
+                        });
+                    }
+
+                    return !!matchingRecord && !!bUnitMatchRec;
                 }
                 else {
                     return false;
@@ -330,7 +348,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             }
         }
         else {
-            return true;
+            var bUnitMatchRec = $scope.usrList.find(function (usr) {
+                return usr.username === res.resourceName;
+            });
+            return !!bUnitMatchRec;
         }
     };
 

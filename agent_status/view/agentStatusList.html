@@ -55,7 +55,7 @@
                                     <label>Agents</label>
                                     <div class="row">
                                         <div class="col-md-3 col-sm-3 col-xs-12">
-                                            <select name="filterType" ng-model="filterType" ng-change="onSelectionChanged()"
+                                            <select name="filterType" ng-disabled="isLoading" ng-model="filterType" ng-change="onSelectionChanged()"
                                                     aria-controls="datatable-responsive" class="form-control select-limit">
                                                 <option value="ALL">All Users</option>
                                                 <option value="USER">By User</option>
