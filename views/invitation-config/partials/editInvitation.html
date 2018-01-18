@@ -58,7 +58,7 @@
                     Cancel
                 </button>
                 <button type="button" class="btn btn-primary  btn- pull-right"
-                        ng-click="resendInvitation()" ng-show="invite.status =='canceled'">
+                        ng-click="resendInvitation()" ng-show="invite.status =='rejected' ||  invite.status =='canceled'">
                     Resend
                 </button>
             </div>
