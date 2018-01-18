@@ -1154,9 +1154,17 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                              {
                              Key:key
                              }*/
+                            var title="";
+
+                            if(key=="primary_contacts")
+                            {
+                                title="( Phone number & Email )"
+                            }
+
                             var obj =
                                 {
                                     Key:key,
+                                    title:title,
                                     Sub_fileds:[]
                                 }
 
