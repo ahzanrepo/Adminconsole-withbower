@@ -57,6 +57,10 @@
                         ng-click="cancelInvitation()" ng-show="invite.status =='pending'">
                     Cancel
                 </button>
+                <button type="button" class="btn btn-primary  btn- pull-right"
+                        ng-click="resendInvitation()" ng-show="invite.status =='canceled'">
+                    Resend
+                </button>
             </div>
         </div>
         <div class="clearfix"></div>

@@ -35,7 +35,7 @@ mainApp.directive("editinviteconfig", function (invitationApiAccess) {
 
                     if(resCancel.data.IsSuccess)
                     {
-                        scope.showAlert("Success","Invitation Canceled to "+scope.invite.to,"success");
+                        scope.showAlert("Success","Invitation to "+scope.invite.to+" is Canceled","success");
                         scope.invite.status="canceled";
                     }
                     else
@@ -45,6 +45,24 @@ mainApp.directive("editinviteconfig", function (invitationApiAccess) {
 
                 },function (errCancel) {
                     scope.showAlert("Error","Failed to Cancel invitation  to "+scope.invite.to,"error");
+                });
+            }
+
+            scope.resendInvitation = function () {
+                invitationApiAccess.resendInvitation(scope.invite._id).then(function (resResend) {
+
+                    if(resResend.data.IsSuccess)
+                    {
+                        scope.showAlert("Success","Invitation Resend to "+scope.invite.to,"success");
+                        scope.invite.status="pending";
+                    }
+                    else
+                    {
+                        scope.showAlert("Error","Failed to Resend invitation  to "+scope.invite.to,"error");
+                    }
+
+                },function (errResend) {
+                    scope.showAlert("Error","Failed to Resend invitation  to "+scope.invite.to,"error");
                 });
             }
 

@@ -43,6 +43,15 @@ mainApp.factory('invitationApiAccess', function ($http, baseUrls)
             {
                 return response;
             });
+        },
+        resendInvitation: function (id) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl+'Invitation/Resend/'+id
+            }).then(function(response)
+            {
+                return response;
+            });
         }
 
 
