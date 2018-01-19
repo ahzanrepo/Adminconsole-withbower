@@ -101,6 +101,21 @@ mainApp.factory("agentDialService", function ($http, $log, authService, baseUrls
         });
     };
 
+    var dispositionSummeryAgentWiseReport = function (data) {
+        return $http({
+            method: 'GET',
+            url:  baseUrls.agentDialerURL+"Report/DispositionSummary",
+            params:data
+        }).then(function(response)
+        {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return null;
+            }
+        });
+    };
+
     var dispositionSummeryReportCount = function (data) {
         return $http({
             method: 'GET',
@@ -155,7 +170,8 @@ mainApp.factory("agentDialService", function ($http, $log, authService, baseUrls
         DispositionSummeryReport:dispositionSummeryReport,
         DispositionSummeryReportCount:dispositionSummeryReportCount,
         DispositionDetailsReport:dispositionDetailsReport,
-        DispositionDetailsReportCount:dispositionDetailsReportCount
+        DispositionDetailsReportCount:dispositionDetailsReportCount,
+        DispositionSummeryAgentWiseReport: dispositionSummeryAgentWiseReport
     }
 
 });

@@ -331,6 +331,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "FILE_GALLERY"
             }
+        }).state('console.AgentDialerAgentWiseSummary', {
+            url: "/AgentDialerAgentWiseSummary",
+            templateUrl: "agent_dialer/views/agentDialerAgentSummary.html",
+            controller: "agentDialerAgentSummaryController",
+            data: {
+                requireLogin: true,
+                navigation: "FILE_GALLERY"
+            }
         }).state('console.FormDesign', {
             url: "/FormDesign",
             templateUrl: "dynamicForm/view/formDesign.html",
