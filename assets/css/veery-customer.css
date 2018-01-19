@@ -8265,6 +8265,7 @@ circle {
     /*background: #f7f7f7;*/
     background: #eee;
     margin-bottom: 10px;
+    z-index:1;
 }
 
 .overhead-panel .overhead-panel-heading{
