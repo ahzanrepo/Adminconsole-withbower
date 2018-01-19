@@ -332,6 +332,35 @@
 
         };
 
+        $scope.removeSupervisor = function (userId) {
+
+            $scope.selectedGroup.supervisors = $scope.selectedGroup.supervisors.filter(function (item) {
+
+                return item._id != userId;
+            });
+
+            var updateObj =
+                {
+
+                    supervisors:$scope.selectedGroup.supervisors
+
+                }
+
+
+            userProfileApiAccess.updateUserGroup($scope.selectedGroup._id,updateObj).then(function (resUpdate) {
+                if(resUpdate.IsSuccess)
+                {
+                    $scope.showAlert("Success","success","Supervisor removed successfully");
+                }
+                else
+                {
+                    $scope.showAlert("Error","error","Supervisor removing failed");
+                }
+            },function (errUpdate) {
+                $scope.showAlert("Error","error","Supervisor removing failed");
+            });
+        };
+
 
         $scope.addNewUserGroup = function () {
             userProfileApiAccess.addUserGroup($scope.newUserGroup).then(function (response) {
@@ -393,6 +422,7 @@
             }
 
         };
+
 
 
         //remove group member

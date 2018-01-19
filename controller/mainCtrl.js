@@ -423,6 +423,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goAgentDial: function () {
             $state.go('console.AgentDialer');
         },
+        goAgentDialerAgentWise: function () {
+            $state.go('console.AgentDialerAgentWiseSummary');
+        },
         goFileupload: function () {
             $state.go('console.fileupload');
         },
@@ -708,6 +711,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goQueueSettings: function () {
             $state.go('console.queuesettings');
+        },
+        goInvitations: function () {
+            $state.go('console.invitations');
         }
     };
 

@@ -99,7 +99,7 @@ var baseUrls = {
     'fileServiceInternalUrl': 'http://fileservice.app1.veery.cloud/DVP/API/1.0.0.0/InternalFileService/',
     'clusterconfigUrl': 'http://clusterconfig.app1.veery.cloud/DVP/API/1.0.0.0/CloudConfiguration/',//clusterconfig.app1.veery.cloud
     'conferenceUrl': 'http://conference.app1.veery.cloud/DVP/API/1.0.0.0/',
-    'sipUserendpoint': 'http://localhost:8086/DVP/API/1.0.0.0/SipUser/',
+    'sipUserendpoint': 'http://sipuserendpointservice.app1.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'pbxUrl': 'http://pbxservice.app1.veery.cloud/DVP/API/1.0.0.0/PBXService/',
     'ticketUrl': 'http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',//http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',
     'dashBordUrl': 'http://dashboardservice.app1.veery.cloud/',
@@ -327,6 +327,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             url: "/AgentDialerSummary",
             templateUrl: "agent_dialer/views/agentDialerSummary.html",
             controller: "agentDialerSummaryController",
+            data: {
+                requireLogin: true,
+                navigation: "FILE_GALLERY"
+            }
+        }).state('console.AgentDialerAgentWiseSummary', {
+            url: "/AgentDialerAgentWiseSummary",
+            templateUrl: "agent_dialer/views/agentDialerAgentSummary.html",
+            controller: "agentDialerAgentSummaryController",
             data: {
                 requireLogin: true,
                 navigation: "FILE_GALLERY"
@@ -1113,6 +1121,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
+            }
+        }).state('console.invitations', {
+            url: "/invitations",
+            templateUrl: "views/invitation-config/invitations.html",
+            controller: "invitationController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
             }
         });
         //Todo shoud be change navigation

@@ -19,7 +19,7 @@
 
                         <div class="row">
 
-                            <div class="col-md-12 col-sm-12 col-xs-12 form-group"
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group"
                                  ng-class="{ 'has-error' : campaingForm.BatchNames.$invalid && !campaingForm.BatchNames.$pristine }">
                                 <select class="form-control has-feedback-left" id="Extensions"
                                         ng-model="dispositionInfo.BatchName"
@@ -33,7 +33,15 @@
                                     Batch Names is required.</p>
                             </div>
 
-                            <div class="col-md-8 col-sm-8 col-xs-12 form-group" >
+                            <div class="col-md-1 col-sm-1 col-xs-4 form-group" style="position: relative; top: 12px">
+                                <label>Agent</label>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                                <input style="max-height: 200px;overflow-y: auto" type="text" ng-model="Resource"  uib-typeahead="resource.ResourceName as resource.ResourceName for resource in ResourceList | filter:$viewValue | orderBy: 'ResourceName'"  class="form-control" typeahead-show-hint="true" typeahead-min-length="0">
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group" >
                                 <select class="form-control has-feedback-left" id="dialerState"
                                         ng-model="dispositionInfo.DialerState"
                                         ng-options="opt as opt for opt in DialerStates track by opt" required>

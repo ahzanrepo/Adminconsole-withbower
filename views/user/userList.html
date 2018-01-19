@@ -313,22 +313,67 @@
                                              ng-show="!isLoadingUsers && groupMemberlist.length==0">
                                             please add user
                                         </div>
-                                        <div class="col-md-3 col-lg-3 col-xs-6"
-                                             ng-repeat="member in groupMemberlist | filterBy: ['username']: searchMember">
-                                            <div class="group-member">
-                                                <div class="member-img">
-                                                    <img ng-src="{{member.avatar}}"
-                                                         src="assets/images/defaultProfile.png">
-                                                </div>
-                                                <div class="member-name">
-                                                    <h5>{{member.username}}</h5>
-                                                </div>
-                                                <button class="btn btn-sm btn-default btn-remove"
-                                                        ng-click="removeGroupMember(member._id)">
-                                                    remove
-                                                </button>
+
+                                        <div class="row">
+                                            <div class="col-md-4 col-lg-4 col-xs-6">
+
+                                            </div>
+                                            <div class="col-md-4 col-lg-4 col-xs-6">
+                                                <h3 >Group members</h3>
                                             </div>
                                         </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-3 col-lg-3 col-xs-6"
+
+                                                 ng-repeat="member in groupMemberlist | filterBy: ['username']: searchMember">
+                                                <div class="group-member">
+                                                    <div class="member-img">
+                                                        <img ng-src="{{member.avatar}}"
+                                                             src="assets/images/defaultProfile.png">
+                                                    </div>
+                                                    <div class="member-name">
+                                                        <h5>{{member.username}}</h5>
+                                                    </div>
+                                                    <button class="btn btn-sm btn-default btn-remove"
+                                                            ng-click="removeGroupMember(member._id)">
+                                                        remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4 col-lg-4 col-xs-6">
+
+                                            </div>
+                                            <div class="col-md-4 col-lg-4 col-xs-6">
+                                                <h3 >Supervisors</h3>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-3 col-lg-3 col-xs-6"
+
+                                                 ng-repeat="supervisor in selectedGroup.supervisors | filterBy: ['username']: searchMember">
+                                                <div class="group-member">
+                                                    <div class="member-img">
+                                                        <img ng-src="{{supervisor.avatar}}"
+                                                             src="assets/images/defaultProfile.png">
+                                                    </div>
+                                                    <div class="member-name">
+                                                        <h5>{{supervisor.username}}</h5>
+                                                    </div>
+                                                    <button class="btn btn-sm btn-default btn-remove"
+                                                            ng-click="removeSupervisor(supervisor._id)">
+                                                        remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@
  * Created by Rajinda on 05/17/2017.
  */
 
-mainApp.controller("agentDialerSummaryController", function ($http, $scope, $filter, $location, $log, $q, $anchorScroll, notifiSenderService, agentDialService) {
+mainApp.controller("agentDialerSummaryController", function ($http, $scope, $filter, $location, $log, $q, $anchorScroll, resourceService, notifiSenderService, agentDialService) {
 
     $anchorScroll();
 
@@ -47,7 +47,16 @@ mainApp.controller("agentDialerSummaryController", function ($http, $scope, $fil
                 $scope.BatchNames = response.BatchName;
                 $scope.DialerStates = response.DialerState;
             }
-            $scope.isLoading = false;
+
+            resourceService.getResourcesWithoutPaging().then(function (resList) {
+                if (resList && resList.length > 0) {
+                    $scope.ResourceList = resList;
+                }
+                $scope.isLoading = false;
+            }, function (error) {
+                $scope.showAlert("Agent Dialer", 'error', "Fail To Get Resource List");
+                $scope.isLoading = false;
+            });
         }, function (error) {
             $scope.showAlert("Agent Dialer", 'error', "Fail To Get Page Count.");
             $scope.isLoading = false;
@@ -70,6 +79,10 @@ mainApp.controller("agentDialerSummaryController", function ($http, $scope, $fil
         if ($scope.dispositionInfo && $scope.dispositionInfo.DialerState) {
             data.DialerState = $scope.dispositionInfo.DialerState;
         }
+        if($scope.Resource)
+        {
+            data.Resource = $scope.Resource;
+        }
         data.rowCount = pageSize;
         data.pageNo = page;
         agentDialService.DispositionSummeryReport(data).then(function (response) {
@@ -91,6 +104,10 @@ mainApp.controller("agentDialerSummaryController", function ($http, $scope, $fil
         }
         if ($scope.dispositionInfo && $scope.dispositionInfo.DialerState) {
             data.DialerState = $scope.dispositionInfo.DialerState;
+        }
+        if($scope.Resource)
+        {
+            data.Resource = $scope.Resource;
         }
         agentDialService.DispositionSummeryReportCount(data).then(function (response) {
             $scope.pageTotal = response;
