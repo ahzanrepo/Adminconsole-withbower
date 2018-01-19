@@ -1122,6 +1122,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "CAMPAIGNMANAGER"
             }
+        }).state('console.invitations', {
+            url: "/invitations",
+            templateUrl: "views/invitation-config/invitations.html",
+            controller: "invitationController",
+            data: {
+                requireLogin: true,
+                navigation: "COMPANY_CONFIGURATION"
+            }
         });
         //Todo shoud be change navigation
     }]);

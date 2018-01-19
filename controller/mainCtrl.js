@@ -711,6 +711,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goQueueSettings: function () {
             $state.go('console.queuesettings');
+        },
+        goInvitations: function () {
+            $state.go('console.invitations');
         }
     };
 
