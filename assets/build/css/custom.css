@@ -5467,7 +5467,7 @@ ul.notifications {
     background: #fff!important;
 }
 .ui-grid-top-panel input[type="text"].ui-grid-filter-input{
-    border-radius: 15px!important;
+    border-radius: 3px!important;
     /*border-color: #e5e5e5!important;*/
     border-color: #95d4ce!important;
     padding: 0 5px;
