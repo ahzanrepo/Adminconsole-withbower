@@ -1,5 +1,5 @@
 <!--<div class="x_panel fixed_height_210" ng-mouseenter="stopTimerFn(true)" ng-mouseleave="stopTimerFn(false);">-->
-<div class="x_panel fixed_height_240" >
+<div class="x_panel">
     <!--<div class="x_title">
         <h2><i class="fa fa-align-left"></i> Agents
             <small>Summary</small>
@@ -9,9 +9,8 @@
         </ul>
         <div class="clearfix"></div>
     </div>-->
-    <h2 class="cursor-pointer" ng-click="GetProductivity();">Agents <small>Summary</small></h2>
-    <div style="border-bottom: 2px solid #F7F7F7;"></div>
-    <div class="x_content">
+    <h2 class="x_title_inner" ng-click="GetProductivity();">Agents <small>Summary</small></h2>
+    <div class="x_content agentSummery" style="padding: 0;">
 
         <div ng-hide="agentSummaryGridOptions.data.length>0">
             <div class="row ">
@@ -24,7 +23,10 @@
             </div>
         </div>
 
-        <div ng-show="agentSummaryGridOptions.data.length>0" ui-grid="agentSummaryGridOptions" class="agentSummarygrid" ui-grid-selection ui-grid-move-columns ui-grid-resize-columns  ui-grid-auto-resize ></div>
+        <div ng-show="agentSummaryGridOptions.data.length>0" ui-grid="agentSummaryGridOptions" class="agentSummarygrid" ui-grid-selection ui-grid-move-columns ui-grid-resize-columns ></div>
+
+
+        <div ng-if="selectedAgent" ng-include="'detailsDashBoard/view/template/agentInfo.html'"></div>
 
     </div>
 </div>
