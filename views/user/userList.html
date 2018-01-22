@@ -249,24 +249,31 @@
                                         <h5>Group member</h5>
 
                                         <div class="row">
-                                            <div class="col-lg-8 col-xs-12"
-                                                 style="padding-right: 0px">
-                                                <div class="search-wrapper">
-                                                    <input type="text"
-                                                           ng-model="searchMember"
-                                                           placeholder="search group member here"
-                                                           class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-xs-12" style="padding-left: 0px;">
-                                                <div class="create-new">
-                                                    <button class="btn btn-default "
-                                                            ng-click="addNewGroupMember()">
-                                                        Add User
-                                                    </button>
-                                                </div>
 
+                                            <div class="col-lg-6 col-xs-12"></div>
+                                            <div class="col-lg-6 col-xs-12">
+                                                <div class="col-lg-5 col-xs-12" style="padding-left: 0px;">
+                                                </div>
+                                                <div class="col-lg-3 col-xs-12" style="padding-left: 0px;">
+                                                    <div class="create-new">
+                                                        <button class="btn btn-default "
+                                                                ng-click="addNewGroupMember('member')">
+                                                            Add User
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-4 col-xs-12" style="padding-left: 0px;">
+                                                    <div class="create-new">
+                                                        <button class="btn btn-default "
+                                                                ng-click="addNewGroupMember('supervisor')">
+                                                            Add Supervisor
+                                                        </button>
+                                                    </div>
+
+                                                </div>
                                             </div>
+
                                         </div>
                                         <!-- #add new group member -->
                                         <!-- create new group -->
@@ -274,10 +281,10 @@
                                             <ul class="group-inline-des">
                                                 <li>
                                                     <div class="create-new header">
-                                                        <h5>Add GROUP MEMBER</h5>
+                                                        <h5>{{addingTitle}}</h5>
                                                     </div>
                                                 </li>
-                                                <li class="pull-right">
+                                                <li class="pull-right" ng-show="addMemRole.toLowerCase()=='member'">
                                                     <div class="create-new" style="padding-top: 2px;">
                                                         <button class="btn btn-default btn-remove"
                                                                 ng-click="addUserToGroup(newMember._id)">
@@ -290,9 +297,22 @@
                                                         </button>
                                                     </div>
                                                 </li>
+                                                <li class="pull-right" ng-show="addMemRole.toLowerCase()!='member'">
+                                                    <div class="create-new" style="padding-top: 2px;">
+                                                        <button class="btn btn-default btn-remove"
+                                                                ng-click="addSupervisorsToGroup()">
+                                                            save
+                                                        </button>
+                                                        <button style="margin-right: 0px;"
+                                                                class="btn btn-default btn-remove"
+                                                                ng-click="hiddenNewGroupMember()">
+                                                            cancel
+                                                        </button>
+                                                    </div>
+                                                </li>
                                             </ul>
 
-                                            <div class="row">
+                                            <div class="row" ng-show="addMemRole.toLowerCase()=='member'">
                                                 <div class="col-lg-12 col-xs-12">
                                                     <div class="search-wrapper">
                                                         <select class="select2_single form-control" tabindex="-1"
@@ -302,10 +322,47 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row" id="fixedCreateNew" ng-show="addMemRole.toLowerCase()!='member'" style="position: fixed;width: 51%;z-index: -1; opacity: 0;">
+                                                <div class="col-lg-12 col-xs-12">
+                                                    <div class="search-wrapper">
+                                                        <tags-input ng-model="selectedGroup.supervisors"
+                                                                    on-tag-added="onChipAdd($tag)"
+                                                                    display-property="username"
+                                                                    add-from-autocomplete-only="true"  ng-disabled="" min-length="1"
+                                                                    placeholder="Add a Supervisor">
+                                                            <auto-complete source="querySearch($query)"
+                                                                           load-on-empty="true"
+                                                                           load-on-focus="true"
+                                                                           min-length="1"
+                                                                           max-results-to-show="100"></auto-complete>
+                                                        </tags-input>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- #view group member -->
                                     <div class="group-wrapper group-member-wrapper">
+
+                                        <div class="row">
+
+                                            <div class="col-lg-4 col-xs-12">
+
+                                            </div>
+                                            <div class="col-lg-8 col-xs-12"
+                                                 style="padding-right: 0px">
+                                                <div class="search-wrapper">
+                                                    <input type="text"
+                                                           ng-model="searchMember"
+                                                           placeholder="search group member / supervisor here"
+                                                           class="form-control">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-bottom: 20px"></div>
+
+
                                         <div class="group-load-wrapper" ng-show="isLoadingUsers">
                                             <div class="loader-md-90"></div>
                                         </div>
@@ -315,11 +372,10 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-4 col-lg-4 col-xs-6">
 
-                                            </div>
-                                            <div class="col-md-4 col-lg-4 col-xs-6">
-                                                <h3 >Group members</h3>
+                                            <div class="col-md-4 col-lg-4 col-xs-6" style="padding-bottom: 20px">
+                                                <h3 ng-show="groupMemberlist.length>0">Group members</h3>
+
                                             </div>
                                         </div>
 
@@ -328,7 +384,7 @@
                                             <div class="col-md-3 col-lg-3 col-xs-6"
 
                                                  ng-repeat="member in groupMemberlist | filterBy: ['username']: searchMember">
-                                                <div class="group-member">
+                                                <div class="group-member" >
                                                     <div class="member-img">
                                                         <img ng-src="{{member.avatar}}"
                                                              src="assets/images/defaultProfile.png">
@@ -345,11 +401,9 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-4 col-lg-4 col-xs-6">
 
-                                            </div>
-                                            <div class="col-md-4 col-lg-4 col-xs-6">
-                                                <h3 >Supervisors</h3>
+                                            <div class="col-md-4 col-lg-4 col-xs-6" style="padding-bottom: 20px">
+                                                <h3 ng-show="selectedGroup.supervisors.length>0">Supervisors</h3>
                                             </div>
                                         </div>
 
@@ -358,17 +412,21 @@
                                             <div class="col-md-3 col-lg-3 col-xs-6"
 
                                                  ng-repeat="supervisor in selectedGroup.supervisors | filterBy: ['username']: searchMember">
-                                                <div class="group-member">
-                                                    <div class="member-img">
+                                                <div class="group-member" >
+                                                    <div class="member-img" ng-class="{set_gary:supervisor.isTemp}">
                                                         <img ng-src="{{supervisor.avatar}}"
                                                              src="assets/images/defaultProfile.png">
                                                     </div>
                                                     <div class="member-name">
                                                         <h5>{{supervisor.username}}</h5>
                                                     </div>
-                                                    <button class="btn btn-sm btn-default btn-remove"
+                                                    <button class="btn btn-sm btn-default btn-remove" ng-show="!supervisor.isTemp"
                                                             ng-click="removeSupervisor(supervisor._id)">
                                                         remove
+                                                    </button>
+                                                    <button class="btn btn-sm btn-default btn-remove" ng-show="supervisor.isTemp"
+                                                            ng-click="addSupervisorsToGroup()">
+                                                        add
                                                     </button>
                                                 </div>
                                             </div>

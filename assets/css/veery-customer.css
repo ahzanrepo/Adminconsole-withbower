@@ -8476,3 +8476,24 @@ circle {
 .ui-pnotify{
     z-index: 1000000000!important;
 }
+
+.new-group-wrapper_new {
+
+    width: 98%;
+    min-height: 88px;
+    bottom: -95px;
+    left: 0;
+    background: #fcfbfb;
+    border: 1px solid #efefef;
+    padding: 5px 10px 5px 10px;
+}
+
+.new-group-wrapper_new.new-group-member {
+    left: 13px;
+}
+
+.set_gary
+{
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}

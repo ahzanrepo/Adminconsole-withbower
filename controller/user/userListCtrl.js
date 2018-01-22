@@ -17,6 +17,41 @@
             }
         };
 
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(group) {
+                return (group.username.toLowerCase().indexOf(lowercaseQuery) != -1);
+                ;
+            };
+        }
+
+
+
+
+        $scope.querySearch = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.adminUserList) {
+                    return $scope.adminUserList;
+                }
+                else {
+                    return [];
+                }
+
+            }
+            else {
+                var results = query ? $scope.adminUserList.filter(createFilterFor(query)) : [];
+                return results;
+            }
+
+        };
+
+        $scope.onChipAdd = function (chip) {
+
+            chip.isTemp=true;
+            console.log("add attGroup " + $scope.attributeGroups);
+
+        };
+
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
@@ -35,6 +70,8 @@
         $scope.newUser.title = 'mr';
         $scope.NewUserLabel = "+";
         $scope.newGroupUsers = [];
+        $scope.addMemRole="user";
+        $scope.isScrolled =false;
 
         $scope.searchCriteria = "";
 
@@ -334,31 +371,54 @@
 
         $scope.removeSupervisor = function (userId) {
 
-            $scope.selectedGroup.supervisors = $scope.selectedGroup.supervisors.filter(function (item) {
+            new PNotify({
+                title: 'Confirmation Needed',
+                text: 'Do you want to remove Supervisor from this Group',
+                icon: 'glyphicon glyphicon-question-sign',
+                hide: false,
+                confirm: {
+                    confirm: true
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                },
+                addclass: 'stack-modal',
+            }).get().on('pnotify.confirm', function () {
+                $scope.selectedGroup.supervisors = $scope.selectedGroup.supervisors.filter(function (item) {
 
-                return item._id != userId;
-            });
+                    return item._id != userId;
+                });
 
-            var updateObj =
-                {
-
-                    supervisors:$scope.selectedGroup.supervisors
-
-                }
+                var updateObj =
+                    {
+                        supervisors:$scope.selectedGroup.supervisors
+                    };
 
 
-            userProfileApiAccess.updateUserGroup($scope.selectedGroup._id,updateObj).then(function (resUpdate) {
-                if(resUpdate.IsSuccess)
-                {
-                    $scope.showAlert("Success","success","Supervisor removed successfully");
-                }
-                else
-                {
+                userProfileApiAccess.updateUserGroup($scope.selectedGroup._id,updateObj).then(function (resUpdate) {
+                    if(resUpdate.IsSuccess)
+                    {
+                        $scope.showAlert("Success","success","Supervisor removed successfully");
+
+
+                    }
+                    else
+                    {
+                        $scope.showAlert("Error","error","Supervisor removing failed");
+                    }
+                },function (errUpdate) {
                     $scope.showAlert("Error","error","Supervisor removing failed");
-                }
-            },function (errUpdate) {
-                $scope.showAlert("Error","error","Supervisor removing failed");
+                });
+            }).on('pnotify.cancel', function () {
+                console.log('fire event cancel');
             });
+
+
+
         };
 
 
@@ -480,16 +540,46 @@
             }, 300);
         };
 
-        $scope.addNewGroupMember = function () {
+
+        $scope.addNewGroupMember = function (memState) {
+            $anchorScroll();
+            $scope.isOpen=true;
             $('#crateNewGroupMemberWrapper').animate({
                 bottom: "-5"
-            }, 500);
+            }, 200);
+            $('#fixedCreateNew').animate({
+                opacity: 1,
+                "z-index": 1
+            }, 200);
+
+
+            if(memState.toLowerCase()=='member')
+            {
+                $scope.addingTitle = "Add Group Member";
+                $scope.addMemRole="member";
+            }
+            else
+            {
+                $scope.addingTitle = "Add Group Supervisor";
+                $scope.addMemRole="supervisor";
+            }
+
+
         };
+
         $scope.hiddenNewGroupMember = function () {
             $('#crateNewGroupMemberWrapper').animate({
                 bottom: "-95"
-            }, 300);
+            }, 200);
+
+            $('#fixedCreateNew').animate({
+                opacity: 0,
+                "z-index": -1
+            }, 200);
+
+            $scope.isOpen=false;
         };
+
         $scope.showUnits=false;
         $scope.showIt = function () {
             $scope.showUnits=!$scope.showUnits
@@ -536,7 +626,26 @@
 
             $scope.pwdBox = !$scope.pwdBox;
         };
+        // $scope.$watch(function () {
+        //
+        //     if($scope.isOpenAdd)
+        //     {
+        //         $scope.hiddenNewGroupMember();
+        //     }
+        //
+        // });
 
+
+
+        $(document).bind('scroll', function () {
+
+            if( $scope.isOpen)
+            {
+                $scope.hiddenNewGroupMember();
+            }
+
+
+        });
 
         //-------------------------Active Directory-------------------------------------
 
@@ -680,8 +789,43 @@
         }
         $scope.loadBusinessUnits();
 
+        $scope.addSupervisorsToGroup = function () {
+
+
+            var updateObj =
+                {
+                    supervisors:$scope.selectedGroup.supervisors
+
+                }
+
+
+            userProfileApiAccess.updateUserGroup($scope.selectedGroup._id,updateObj).then(function (resUpdate) {
+                if(resUpdate.IsSuccess)
+                {
+                    $scope.showAlert("Business Unit","success","Supervisors of Group updated successfully");
+                    $scope.selectedGroup.supervisors.forEach(function (item) {
+
+                        item.isTemp=false;
+                    });
+
+
+                }
+                else
+                {
+                    $scope.showAlert("Business Unit","error","Error in updating Supervisors of Group");
+                }
+            },function (errUpdate) {
+                $scope.showAlert("Business Unit","error","Error in updating Supervisors of Group");
+            });
+
+
+
+        }
+
 
     };
+
+
 
     app.controller("userListCtrl", userListCtrl);
 }());
