@@ -980,6 +980,11 @@
                                                 cdrAppendObj.IsAnswered = firstLeg.IsAnswered;
                                             }
 
+                                            if(firstLeg.QueueSec)
+                                            {
+                                                cdrAppendObj.QueueSec = firstLeg.QueueSec;
+                                            }
+
                                             cdrAppendObj.DVPCallDirection = 'outbound';
 
 
@@ -1015,7 +1020,7 @@
                                             });
 
                                             var agentLeg = otherLegs.find(function (item) {
-                                                if (item.ObjType === 'AGENT') {
+                                                if (item.ObjType === 'AGENT' || item.ObjType === 'PRIVATE_USER') {
                                                     return true;
                                                 }
                                                 else {
@@ -1042,6 +1047,7 @@
                                             {
                                                 holdSecTemp = holdSecTemp + agentLeg.HoldSec;
                                                 callHangupDirectionB = agentLeg.HangupDisposition;
+                                                cdrAppendObj.RecievedBy = agentLeg.SipToUser;
                                             }
 
                                         }

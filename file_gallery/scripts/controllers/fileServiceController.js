@@ -535,7 +535,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $http, $sce, $uibModalInst
         $uibModalInstance.dismiss('cancel');
     };
 
-    var urlTemp = baseUrls.fileServiceUrl + "File/Download/"+ file.UniqueId + "/" + file.Filename+"?Authorization="+$auth.getToken();
+    var urlTemp = baseUrls.fileServiceUrl + "File/Download/"+ file.UniqueId + "/" + file.Filename;
 
     if(file.ObjCategory === 'CONVERSATION')
     {
