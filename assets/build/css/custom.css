@@ -410,8 +410,10 @@ body .container.body .right_col {
 }
 
 body {
-    color: #73879C;
+    /*color: #73879C;*/
+    color: #666;
     background: #383b3b;
+    /*background: #f7f7f7;*/
     font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -421,6 +423,11 @@ body {
 .main_container .top_nav {
     display: block;
     margin-left: 230px;
+
+    /*FIXED-TO-TOP setup*/
+    position: fixed;
+    width: calc(100% - 230px);
+    z-index: 100;
 }
 
 .no-padding {
@@ -852,7 +859,7 @@ a:hover, a:focus {
 
 .panel_toolbox {
     float: right;
-    min-width: 70px;
+    /*min-width: 70px;*/
 }
 
 .panel_toolbox > li {
@@ -5422,3 +5429,105 @@ ul.notifications {
     border: 2px solid #f7f7f7;
     border-radius: 10px;
 }
+
+
+/*** +++++++++++++++++++++++++++++++++++++++++++ UI GRID EXTENDED +++++++++++++++++++++++++++++++++++++++++++ ***/
+/*** Following styles mainly focus on overwriting "ui-grid" tool styles to inline with FaceTone theme ***/
+
+.qgrid{
+    height: auto!important;
+}
+
+/*Header*/
+.ui-grid-header{
+    box-shadow: 0 2px 2px #e5e5e5!important;
+    position: relative!important;
+    /*left: -30px!important;*/
+    /*padding-left: 30px!important;*/
+    background: #fff!important;
+}
+.ui-grid-header-cell{
+    font-size: 12px!important;
+    font-weight: normal!important;
+    color: rgba(0, 0, 0, 0.5);
+    border-color: #eee!important;
+}
+.ui-grid-header-cell-row .ui-grid-header-cell:last-child{
+    border: none!important;
+}
+.ui-grid-header-cell:last-child .ui-grid-column-resizer.right{
+    border-right: none!important;
+}
+.ui-grid-header-cell-row:hover .ui-grid-header-cell:last-child .ui-grid-column-resizer.right{
+    border-right: solid 1px #eeeeee!important;
+}
+
+.ui-grid-top-panel{
+    /*background: #fafafa!important;*/
+    background: #fff!important;
+}
+.ui-grid-top-panel input[type="text"].ui-grid-filter-input{
+    border-radius: 3px!important;
+    /*border-color: #e5e5e5!important;*/
+    border-color: #95d4ce!important;
+    padding: 0 5px;
+}
+.ui-grid-filter-container{
+    padding: 0 5px 5px 5px!important;
+}
+.ui-grid-filter-container:before{
+    /*content: '\c362'!important;*/
+}
+
+/*Selection controls*/
+.agentSummarygrid{
+    height: auto!important;
+}
+.ui-grid-viewport{
+    overflow-y: visible!important;
+    height: auto!important;
+}
+.ui-grid-render-container-left .ui-grid-viewport{
+    height: auto!important;
+}
+
+/*Row*/
+.ui-grid-row-selected{
+    background: #eee;
+}
+.ui-grid-row .ui-grid-cell{
+    border: none!important;
+    padding: 5px;
+}
+.ui-grid-cell-contents{
+    padding: 0!important;
+}
+.ui-grid-row:nth-child(even) .ui-grid-cell{
+    background-color: rgba(43, 168, 156, 0.04)!important;
+}
+.ui-grid-row:nth-child(odd) .ui-grid-cell{
+    background-color: transparent!important;
+}
+.ui-grid-row:last-child .ui-grid-cell{
+    border: none!important;
+}
+
+.ui-grid-icon-ok:before{
+    content: '+'!important;
+    width: 15px!important;
+    height: 15px!important;
+    font-size: 14px;
+    font-weight: bolder!important;
+    opacity: 0.5!important;
+    border-radius: 50%;
+    background: #2ba89c;
+    color: #fff;
+}
+.ui-grid-header-cell-wrapper .ui-grid-icon-ok:before{
+    background: #fff!important;
+    color: #fff;
+}
+.ui-grid-header-cell-wrapper .ui-grid-cell-contents{
+    padding: 0 5px!important;
+}
+/***  UI GRID EXTENDED - END  ***/

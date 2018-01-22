@@ -74,8 +74,8 @@ mainApp.directive("groupitemview", function ($filter, $uibModal, userProfileApiA
 
                     var updateObj =
                         {
-                            businessUnit:scope.group.businessUnit,
-                            supervisors:scope.group.supervisors
+                            businessUnit:scope.group.businessUnit
+
 
                         }
 

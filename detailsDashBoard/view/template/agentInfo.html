@@ -1,5 +1,7 @@
 <!--<div class="x_panel fixed_height_200" ng-controller="AgentSummaryController">-->
-<div class="x_panel " ng-controller="AgentSummaryController">
+<div class="x_panel overhead-panel agent-details-overhead"
+     ng-controller="AgentSummaryController"
+>
     <!--<div class="x_title">
         <h2><i class="fa fa-align-left"></i> Agents
             <small>Information's</small>
@@ -9,79 +11,81 @@
         </ul>
         <div class="clearfix"></div>
     </div>-->
-    <h2>Agent- {{selectedAgent.ResourceName}}
-        <small>Information's</small>
-    </h2>
-    <div style="border-bottom: 2px solid #F7F7F7;"></div>
-    <div class="x_content">
 
-        <div class="row">
-            <!--Agent Profile-->
-            <div class="col-md-3 col-sm-3 col-xs-12">
+    <!--<h2>{{selectedAgent.ResourceName}}<small>Information's</small></h2>-->
+    <div class="overhead-panel-heading">Agent details</div>
 
-                <div class="x_panel">
-                    <div class="x_content">
-                        <img class="img-responsive avatar-view"
-                             style='height: 100%; width: 100%; object-fit: contain'
-                             src="{{selectedAgent.avatar}}">
+    <!--<div style="border-bottom: 2px solid #F7F7F7;"></div>-->
+    <div class="overhead-content">
+        <div class="row row-eq-height clearfix" style="margin-bottom: 15px">
 
-                        <h3 style="margin-bottom: 1px;">{{selectedAgent.displayName}} </h3>
+            <div class="row-eq-height col-md-6 col-sm-12 col-xs-12 nop innerdash-t">
+                <!--Agent Profile-->
+                <div class="col-md-6 col-sm-6 col-xs-12 col-customp">
+                    <div class="x_panel dashboard-avatar" style="background: #eee;box-shadow: none;">
+                        <div class="x_title">Agent profile</div>
+                        <div class="x_content">
+                            <img class="img-responsive avatar-view"
+                                 style='height: 100%; width: 100%; object-fit: contain'
+                                 src="{{selectedAgent.avatar != '' && selectedAgent.avatar != undefined && selectedAgent.avatar != null ? selectedAgent.avatar : 'assets/images/noimage.jpg'}}">
 
-                        <ul class="list-unstyled profile-data-list">
-                            <li>
-                                <i class="fa fa-envelope user-profile-icon"></i> {{selectedAgent.Email}}
-                            </li>
+                            <h3 class="avatar-name">{{selectedAgent.displayName}} </h3>
 
-                            <li>
-                                <i class="fa fa-bullhorn user-profile-icon"></i> Send Notification
-                            </li>
-                        </ul>
-                        <!--notification penel-->
-                        <div>
-                            <div class="form-group">
-                                <select ng-model="notificationMsg.eventlevel"
-                                        ng-options="x for x in notification_levels"></select>
-
-                                <textarea id="txtMessage"
-                                          class="form-control" rows="3" ng-model="notificationMsg.Message">
-                        </textarea>
-                            </div>
-                            <div class="btn-warp inline-btn pull-right">
-                                <span class="btn btn-default " ng-click="sendNotification()">send</span>
+                            <ul class="list-unstyled profile-data-list">
+                                <li>
+                                    <i class="fa fa-envelope user-profile-icon"></i> {{selectedAgent.Email}}
+                                </li>
+                            </ul>
+                            <div style="border-bottom: solid 1px #eee;margin-bottom: 5px;"></div>
+                            <!--notification penel-->
+                            <div class="compact-control-box">
+                                <div class="form-group">
+                                    <div style="position: relative;top: 7px;"> <i class="fa fa-bullhorn user-profile-icon"></i> <span style="color: #bbbaba">Notify {{selectedAgent.displayName.split(' ')[0]}}</span></div>
+                                    <div class="text-right dashboard-chatarea">
+                                        <select class="merged-elem {{notificationMsg.eventlevel}}" ng-model="notificationMsg.eventlevel"
+                                            ng-options="x for x in notification_levels">
+                                        </select>
+                                        <textarea id="txtMessage"
+                                                  class="form-control text-left {{notificationMsg.eventlevel}}" rows="3"
+                                                  ng-model="notificationMsg.Message">
+                                        </textarea>
+                                        <div class="btn-warp inline-btn text-center">
+                                            <span class="btn btn-default " ng-click="sendNotification()">send</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!--Agent Productivity-->
+                <div class="col-md-6 col-sm-6 col-xs-12 col-customp">
+                    <div class="x_panel x-panel-overflow ">
+                        <div class="x_title">Agent productivity</div>
+                        <div class="x_content productivity-panel">
+                            <div class="data-state-wrap" ng-if="agentProductivityLoadin">
+                                Loading...
+                            </div>
 
-            </div>
-            <!--Agent Productivity-->
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <div class="x_panel x-panel-overflow ">
-                    <div class="x_content productivity-panel">
-                        <div class="data-state-wrap" ng-show="agentProductivityLoadin">
-                            Loading...
+                            <div id="productivityId" style="height:350px;"></div>
                         </div>
-
-                        <div id="productivityId" style="height:350px;"></div>
                     </div>
                 </div>
             </div>
-            <!-- Task List -->
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <small>Task List</small>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="x_content">
+            <div class="row-eq-height col-md-6 col-sm-12 col-xs-12 nop innerdash-b">
+                <!-- Task List -->
+                <div class="col-md-6 col-sm-6 col-xs-12 col-customp">
+                    <div class="x_panel">
+                        <div class="x_title">Task List</div>
                         <div ng-hide="gridTaskOptions.data.length>0">
                             <div class="data-state-wrap" ng-show="selectedAgent.slotMode==='Offline'">
-                                Offline...
+                                <i class="fa fa-exclamation-triangle user-profile-icon"></i>
+                                Offline..
                             </div>
                             <div class="data-state-wrap" ng-hide="selectedAgent.slotMode==='Offline'">
-                                No Data...
+                                <i class="fa fa-exclamation-triangle user-profile-icon"></i>
+                                No Data..
                             </div>
                         </div>
 
@@ -89,83 +93,99 @@
                              ui-grid-auto-resize ui-grid-move-columns ui-grid-resize-columns></div>
                     </div>
                 </div>
-            </div>
-            <!-- /Task List -->
-            <!--Agent Activity-->
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_content">
 
-                        <ul class="list-unstyled profile-data-list">
-                            <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>State : {{selectedAgent.slotState}}
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>Inbound Call Time :
-                                {{selectedAgent.InboundCallTime| secondsToDateTime | date:'HH:mm:ss'}}
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>Outbound Call Time :
-                                {{selectedAgent.OutboundCallTime| secondsToDateTime | date:'HH:mm:ss'}}
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>Break Time : {{selectedAgent.BreakTime|
-                                secondsToDateTime | date:'HH:mm:ss'}}
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>Hold Time : {{selectedAgent.HoldTime|
-                                secondsToDateTime | date:'HH:mm:ss'}}
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope user-profile-icon"></i>inbound calls :
-                                {{selectedAgent.IncomingCallCount}}
-                            </li>
-                            <li>
-                                <i class="fa fa-bullhorn user-profile-icon"></i> Missed Calls:
-                                {{selectedAgent.MissCallCount}}
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope user-profile-icon"></i> Outbound Calls :
-                                {{selectedAgent.OutgoingCallCount}}
-                            </li>
-                        </ul>
+                <!--Agent Activity-->
+                <div class="col-md-6 col-sm-6 col-xs-12 col-customp">
+                    <div class="x_panel">
+                        <div class="x_title">Agent Activity</div>
+                        <div class="x_content">
+
+                            <ul class="list-unstyled profile-data-list iconed-status-wrap medium">
+                                <li style="border: none">
+                                    <div>
+                                        <i class="fa fa-certificate user-profile-icon"></i> <span>State :</span>
+                                    </div>
+                                    <div class="pilled-status" ng-class="{'suspended': selectedAgent.slotState == 'Suspended', 'offline':selectedAgent.slotState == 'Offline' ,'available':selectedAgent.slotState == 'Available'}">{{selectedAgent.slotState}}</div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <i class="fa fa-volume-control-phone user-profile-icon positive"></i> <span>Inbound Call Time :</span>
+                                    </div>
+                                    <div>{{selectedAgent.InboundCallTime| secondsToDateTime | date:'HH:mm:ss'}}</div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <i class="fa fa-volume-control-phone user-profile-icon positive"></i> <span>Outbound Call Time :</span>
+                                    </div>
+                                    <div>{{selectedAgent.OutboundCallTime| secondsToDateTime | date:'HH:mm:ss'}}</div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <i class="fa fa-volume-control-phone user-profile-icon negative"></i> <span>Break Time :</span>
+                                    </div>
+                                    <div> {{selectedAgent.BreakTime| secondsToDateTime | date:'HH:mm:ss'}}</div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <i class="fa fa-volume-control-phone user-profile-icon negative"></i> <span>Hold Time :</span>
+                                    </div>
+                                    <div> {{selectedAgent.HoldTime| secondsToDateTime | date:'HH:mm:ss'}}</div>
+                                </li>
+                            </ul>
+
+                            <ul class="list-unstyled profile-data-list iconed-status-wrap medium">
+                                <li>
+                                    <div>
+                                        <i class="fa fa-phone user-profile-icon"></i> <span>inbound calls :</span>
+                                    </div>
+                                    <div>{{selectedAgent.IncomingCallCount}}</div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <i class="fa fa-phone user-profile-icon"></i> <span>Outbound Calls :</span>
+                                    </div>
+                                    <div>{{selectedAgent.OutgoingCallCount}}</div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <i class="fa fa-phone user-profile-icon negative"></i> <span>Missed Calls:</span>
+                                    </div>
+                                    <div>{{selectedAgent.MissCallCount}}</div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <!-- Agent Call Logs -->
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <small>Call Logs</small>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <div class="data-state-wrap" ng-hide="gridCalllogsOptions.data.length>0">
-                            No Data...
-                        </div>
-                        <div ng-show="gridCalllogsOptions.data.length>0" ui-grid="gridCalllogsOptions" class="qgrid"
-                             ui-grid-move-columns ui-grid-resize-columns></div>
 
+        </div>
+        <div class="row row-eq-height clearfix">
+            <!-- Agent Call Logs -->
+            <div class="col-md-3 col-sm-3 col-xs-12 col-customp">
+                <div class="x_panel nom">
+                    <div class="x_title">Call Logs</div>
+                    <div class="data-state-wrap" ng-hide="gridCalllogsOptions.data.length>0">
+                        <i class="fa fa-exclamation-triangle user-profile-icon"></i>
+                        No Data..
                     </div>
+                    <div ng-show="gridCalllogsOptions.data.length>0" ui-grid="gridCalllogsOptions" class="qgrid"
+                         ui-grid-move-columns ui-grid-resize-columns></div>
+
                 </div>
             </div>
             <!-- /Agent Call Logs -->
-            <!-- Agent Logs -->
-            <div class="col-md-9 col-sm-9 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <small>State History</small>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
 
+            <!-- Agent Logs -->
+            <div class="col-md-9 col-sm-9 col-xs-12 col-customp">
+                <div class="x_panel nom">
+                    <div class="x_title">State History</div>
+                    <div>
                         <div class="data-state-wrap" ng-hide="statusData.length>0">
                             <div ng-show="agentProductivityLoadin">
                                 Loading...
                             </div>
                             <div ng-hide="agentProductivityLoadin">
+                                <i class="fa fa-exclamation-triangle user-profile-icon"></i>
                                 No Data...
                             </div>
 
@@ -219,8 +239,6 @@
 
             </div>
             <!-- /Agent Logs -->
-
         </div>
-
     </div>
 </div>
