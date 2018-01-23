@@ -1024,6 +1024,10 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     $scope.newBUnit = {};
     $scope.businessUnits = [];
     $scope.headUsers=[];
+    $scope.bUnitGroups={};
+    $scope.userGroupList=[];
+
+
 
     function createFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
@@ -1055,6 +1059,9 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
         }
 
     };
+
+
+
 
     $scope.saveNewBusinessUnit = function () {
 
@@ -1089,7 +1096,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     }
     $scope.getBusinessUnits = function () {
 
-        userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
+        userProfileApiAccess.getBusinessUnitsWithGroups().then(function (resUnits) {
 
             if(resUnits.IsSuccess)
             {
@@ -1120,11 +1127,54 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
         });
     };
 
+    $scope.loadUserGroups = function () {
+        userProfileApiAccess.getUserGroups().then(function (data) {
+            if (data.IsSuccess) {
+                $scope.userGroupList = data.Result;
+
+            }
+            else
+            {
+                var errMsg = data.CustomMessage;
+
+                if (data.Exception) {
+                    errMsg = data.Exception.Message;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+
+            }
+
+        }, function (err) {
+
+            var errMsg = "Error occurred while loading users";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Error', 'error', errMsg);
+        });
+    };
+
+
+    $scope.updateGroupsOfBUnit = function (groupId,unitName) {
+
+        $scope.businessUnits.forEach(function (unit) {
+
+            if(unit.unitName!=unitName && unit.groups)
+            {
+
+                unit.groups = unit.groups.filter(function( obj ) {
+                    return obj._id != groupId;
+                });
+
+            }
+        });
+
+    };
 
 
     $scope.getBusinessUnits();
     $scope.getAdminUsers();
-
+    $scope.loadUserGroups();
 
 
     //----------------------------Accessible Fields ------------------------------------------------------
@@ -1310,34 +1360,34 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             }
 
 
-            if(!$scope.isDefault)
-            {
-                userProfileApiAccess.updateAccessFields(dataObj).then(function (resUpdate) {
-                    if(resUpdate.IsSuccess)
-                    {
-                        $scope.showAlert("Updated","Access Fields Updated","success");
-                    }
-                    else {
-                        $scope.showAlert("Error","Access Fields Updating failed","error");
-                    }
-                },function (errUpdate) {
-                    $scope.showAlert(" Error","Access Fields Updating failed","error");
-                });
-            }
-            else
-            {
-                userProfileApiAccess.addAccessFields(dataObj).then(function (resUpdate) {
-                    if(resUpdate.IsSuccess)
-                    {
-                        $scope.showAlert("New Access Config","Access Fields Added","success");
-                    }
-                    else {
-                        $scope.showAlert("New Access Config","Access Fields Adding failed","error");
-                    }
-                },function (errUpdate) {
+        if(!$scope.isDefault)
+        {
+            userProfileApiAccess.updateAccessFields(dataObj).then(function (resUpdate) {
+                if(resUpdate.IsSuccess)
+                {
+                    $scope.showAlert("Updated","Access Fields Updated","success");
+                }
+                else {
+                    $scope.showAlert("Error","Access Fields Updating failed","error");
+                }
+            },function (errUpdate) {
+                $scope.showAlert(" Error","Access Fields Updating failed","error");
+            });
+        }
+        else
+        {
+            userProfileApiAccess.addAccessFields(dataObj).then(function (resUpdate) {
+                if(resUpdate.IsSuccess)
+                {
+                    $scope.showAlert("New Access Config","Access Fields Added","success");
+                }
+                else {
                     $scope.showAlert("New Access Config","Access Fields Adding failed","error");
-                });
-            }
+                }
+            },function (errUpdate) {
+                $scope.showAlert("New Access Config","Access Fields Adding failed","error");
+            });
+        }
 
 
     };
