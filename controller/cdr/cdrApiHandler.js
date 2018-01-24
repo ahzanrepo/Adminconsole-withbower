@@ -89,6 +89,61 @@
             })
         };
 
+        var getCampaignAgentSummary = function (startDate, endDate, campaignId, agent) {
+            var url = baseUrls.cdrProcessor + 'CampaignCallSummary';
+
+            var firstParam = true;
+
+            if (agent)
+            {
+                if(firstParam)
+                {
+                    url = url + '?Agent=' + agent;
+                    firstParam = false;
+                }
+                else
+                {
+                    url = url + '&Agent=' + agent;
+                }
+            }
+
+            if (campaignId)
+            {
+                if(firstParam)
+                {
+                    url = url + '?CampaignId=' + agent;
+                    firstParam = false;
+                }
+                else
+                {
+                    url = url + '&CampaignId=' + agent;
+                }
+            }
+
+            if (startDate && endDate)
+            {
+                if(firstParam)
+                {
+                    url = url + '?StartDate=' + startDate + '&EndDate=' + endDate;
+                    firstParam = false;
+                }
+                else
+                {
+                    url = url + '&StartDate=' + startDate + '&EndDate=' + endDate;
+                }
+            }
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
         var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter, bUnit)
         {
             var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
@@ -692,7 +747,8 @@
             getCampaignCDRForTimeRangeCount: getCampaignCDRForTimeRangeCount,
             getCampaignCDRForTimeRange: getCampaignCDRForTimeRange,
             getAgentStatusRecords: getAgentStatusRecords,
-            prepareDownloadCampaignCDRByType: prepareDownloadCampaignCDRByType
+            prepareDownloadCampaignCDRByType: prepareDownloadCampaignCDRByType,
+            getCampaignAgentSummary: getCampaignAgentSummary
         };
     };
 
