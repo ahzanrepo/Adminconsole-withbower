@@ -46,6 +46,11 @@ window.SE = function (e) {
             }
         });
 
+        socket.on('invite', function (data) {
+            console.log(data);
+
+        });
+
         socket.on('status', function (data) {
             //console.log("status");
             if (callBack.OnStatus) {
