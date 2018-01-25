@@ -243,7 +243,14 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
     $scope.attributesList = [];
     $scope.GetAllAttributes = function () {
         agentStatusService.GetAllAttributes().then(function (response) {
-            $scope.attributesList = response;
+            if (response) {
+                $scope.attributesList = response.map(function (item) {
+                    return {
+                        AttributeId: item.AttributeId,
+                        Attribute: item.Attribute
+                    }
+                })
+            }
             $scope.getProfileDetails();
         }, function (error) {
             $log.debug("GetAllAttributes err");
@@ -282,6 +289,41 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
         }
         return timeStr;
     };
+
+    var emptyArr = [];
+    $scope.querySearch = function (val) {
+        var query = val.toString().toLowerCase();
+        if (query === "*" || query === "") {
+            if ($scope.attributesList) {
+                return $scope.attributesList;
+            }
+            else {
+                return emptyArr;
+            }
+
+        }
+        else {
+            if ($scope.attributesList) {
+                var filteredArr = $scope.attributesList.filter(function (item) {
+
+                    if (item.Attribute) {
+                        return item.Attribute.toString().toLowerCase().match(query);
+                    }
+                    else {
+                        return false;
+                    }
+
+                });
+
+                return filteredArr;
+            }
+            else {
+                return emptyArr;
+            }
+        }
+
+    };
+
 
     $scope.Productivitys = {Loading: "Loading"};
     var calculateProductivity = function () {
@@ -422,6 +464,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                                     var task = {};
                                     task.taskType = item.HandlingType;
                                     task.percentage = item.Percentage;
+                                    task.AttributeId = parseInt(item.Attribute);
                                     //$filter('filter')(array, expression, comparator, anyPropertyKey)
                                     //var filteredData =  $filter('filter')($scope.gridUserData.data,{ Id: userid },true);
                                     var data = $filter('filter')($scope.attributesList, {AttributeId: parseInt(item.Attribute)}, true);
@@ -477,7 +520,41 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                             /* Set ConcurrencyInfo*/
 
                             agentProductivity.profileName = agent.ResourceName;
-                            $scope.Productivitys[agent.ResourceId] = agentProductivity;
+                            /*check skill filter*/
+                            if ($scope.selectedSkills.length > 0) {
+
+                                var array3 = [];
+                                var getIntersectionOfArray = function(array1,array2){
+                                    angular.forEach(array1, function(value,index){
+                                        angular.forEach(array2, function(object,index1){
+                                            if(value.AttributeId==object.AttributeId){
+                                                array3.push(value);
+                                            }
+                                        })
+                                    })
+                                };
+
+                                if(agentProductivity.taskList.length>0){
+                                    getIntersectionOfArray($scope.selectedSkills,agentProductivity.taskList);
+
+                                    if(angular.equals($scope.selectedSkills, array3)){
+                                        $scope.Productivitys[agent.ResourceId] = agentProductivity;
+                                    }
+                                    /*angular.forEach(agentProductivity.taskList, function (item) {
+                                        var data = $filter('filter')($scope.selectedSkills, {AttributeId: item.AttributeId}, true);
+                                        if (data.length > 0) {
+                                            $scope.Productivitys[agent.ResourceId] = agentProductivity;
+                                        }
+                                    })*/
+                                }
+
+
+                            }
+                            else {
+                                $scope.Productivitys[agent.ResourceId] = agentProductivity;
+                            }
+
+
                         }
 
                     }
@@ -580,6 +657,12 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
         }, $scope.refreshTime);
     };
     $scope.StartTimer();
+
+    $scope.selectedSkills = [];
+    $scope.skillChanged = function () {
+        $scope.Productivitys = {Loading: "Loading"};
+        $scope.StartTimer();
+    };
 
     $scope.BusinessUnitUsers = [];
     $scope.agentSummaryGridOptions = {
