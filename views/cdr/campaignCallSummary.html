@@ -2,7 +2,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Campaign Agent Summary
+                <h2>Campaign Call Summary
                 </h2>
                 <div class="clearfix"></div>
             </div>
@@ -37,6 +37,17 @@
                                     PLEASE WAIT...
                                 </button>
                             </div>
+                            <div class="col-md-2 col-sm-2 col-xs-12" style="position: relative; top: 24px;">
+
+                                <button type="button" class="btn"
+                                        style="background-color: #a3d100; color: #000000; font-weight: 500"
+                                        csv-header="['Campaign', 'Dialed Count', 'Queued Count', 'Answered Count']"
+                                        csv-column-order="['CampaignName', 'DialedCount', 'QueuedCount', 'AnsweredCount']"
+                                        ng-csv="DownloadCSV()" filename="{{DownloadFileName}}.csv">
+                                    CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-download"></i>
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -45,7 +56,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" ng-show="!initialLoad">
     <div class="col-md-12 col-sm-12 col-xs-12" ng-hide="intiate">
         <div class="x_panel">
 
@@ -104,7 +115,7 @@
                                             <tbody>
                                             <tr role="row" class="odd"
                                                 ng-repeat="sum in SummaryDetails">
-                                                <td>{{sum.Campaign}}</td>
+                                                <td>{{sum.CampaignName}}</td>
                                                 <td>{{sum.DialedCount}}</td>
                                                 <td>{{sum.QueuedCount}}</td>
                                                 <td>{{sum.AnsweredCount}}</td>

@@ -331,10 +331,10 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
                 requireLogin: true,
                 navigation: "FILE_GALLERY"
             }
-        }).state('console.CampaignAgentSummary', {
-            url: "/CampaignAgentSummary",
-            templateUrl: "views/cdr/campaignAgentWiseSummary.html",
-            controller: "campaignAgentWiseSummaryController",
+        }).state('console.CampaignCallSummary', {
+            url: "/CampaignCallSummary",
+            templateUrl: "views/cdr/campaignCallSummary.html",
+            controller: "campaignCallSummaryController",
             data: {
                 requireLogin: true,
                 navigation: "CAMPAIGN_SUMMARY_REPORT"
