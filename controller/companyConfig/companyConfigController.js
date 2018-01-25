@@ -1208,7 +1208,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
                             if(key=="primary_contacts")
                             {
-                                title="( Phone number & Email )"
+                                title="( Phone numbers & Email )"
                             }
 
                             var obj =
@@ -1329,6 +1329,33 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.getAccessFieldConfigs();
     //$scope.getDefaultAccessFieldConfigs();
+
+    $scope.checkValidation=function (action,filed,val) {
+
+        if(action=="require" || action=="editable")
+        {
+            $scope.accessFileds.forEach(function (item) {
+
+                if(item.Key == filed)
+                {
+                    item.Sub_fileds.forEach(function (sub) {
+
+                        if((action=="require" && sub.action=="editable") || (action=="editable" && sub.action=="require" && val==false))
+                        {
+                            sub.value=val;
+                        }
+
+
+                    });
+                }
+            });
+        }
+
+
+
+
+
+    };
 
     $scope.addOrUpdateConfig = function () {
         var saveObj= {};
