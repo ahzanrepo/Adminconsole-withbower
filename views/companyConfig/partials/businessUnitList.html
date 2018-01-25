@@ -33,7 +33,7 @@
             <div class="application-edit">
                 <div class="col-sm-12">
                     <div class="col-sm-6">
-                        <h2 class="font-robot font-300 text-uppercase font-15">Edit {{unit.unitName}}</h2>
+                        <h2 class="font-robot font-300 text-uppercase font-15">Edit : {{unit.unitName}}</h2>
                     </div>
                     <div class="col-sm-6">
                         <div class="edit-close pull-right">
@@ -61,6 +61,21 @@
                                             add-from-autocomplete-only="true"  ng-disabled="" min-length="1"
                                             placeholder="Add a Head User">
                                     <auto-complete source="querySearch($query)"
+                                                   load-on-empty="true"
+                                                   load-on-focus="true"
+                                                   min-length="1"></auto-complete>
+                                </tags-input>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 form-group "
+                                 style="margin-bottom: 15px;">
+
+                                <label >User Groups</label>
+                                <tags-input ng-model="unit.groups" display-property="name"
+                                            add-from-autocomplete-only="true"  ng-disabled="" min-length="1"
+                                            placeholder="Add a Group" on-tag-added="onChipAdd($tag)"
+                                            on-tag-removed="onChipDelete($tag)">
+
+                                    <auto-complete source="querySearchGroups($query)"
                                                    load-on-empty="true"
                                                    load-on-focus="true"
                                                    min-length="1"></auto-complete>

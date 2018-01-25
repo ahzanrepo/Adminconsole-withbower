@@ -140,6 +140,16 @@
             })
         };
 
+        var getBusinessUnitsWithGroups = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnitsWithGroups'
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
         var getGroupMembers = function (groupID) {
 
             return $http({
@@ -337,7 +347,8 @@
             GetExternalUserConfig:GetExternalUserConfig,
             GetExternalUserDefaultAccessFields:GetExternalUserDefaultAccessFields,
             updateAccessFields:updateAccessFields,
-            addAccessFields:addAccessFields
+            addAccessFields:addAccessFields,
+            getBusinessUnitsWithGroups:getBusinessUnitsWithGroups
         };
     };
 

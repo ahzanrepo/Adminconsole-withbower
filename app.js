@@ -107,7 +107,7 @@ var baseUrls = {
     'TrunkServiceURL': 'http://phonenumbertrunkservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     'socialConnectorUrl': 'http://104.236.197.119:4647/DVP/API/1.0.0.0/Social/', //104.236.197.119
     'notification': 'http://notificationservice.app1.veery.cloud/',//notificationservice.app1.veery.cloud
-    'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
+    'cdrProcessor': 'http://cdrprocessor.app1.veery.cloud/DVP/API/1.0.0.0/CallCDR/',
     'scheduleWorker': 'http://scheduleworker.app1.veery.cloud/DVP/API/1.0.0.0/',
     'qaModule': 'http://qamodule.app1.veery.cloud/DVP/API/1.0.0.0/QAModule/',
     'limitHandlerUrl': 'http://limithandler.app1.veery.cloud/DVP/API/1.0.0.0/',
@@ -330,6 +330,14 @@ mainApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authP
             data: {
                 requireLogin: true,
                 navigation: "FILE_GALLERY"
+            }
+        }).state('console.CampaignCallSummary', {
+            url: "/CampaignCallSummary",
+            templateUrl: "views/cdr/campaignCallSummary.html",
+            controller: "campaignCallSummaryController",
+            data: {
+                requireLogin: true,
+                navigation: "CAMPAIGN_SUMMARY_REPORT"
             }
         }).state('console.AgentDialerAgentWiseSummary', {
             url: "/AgentDialerAgentWiseSummary",

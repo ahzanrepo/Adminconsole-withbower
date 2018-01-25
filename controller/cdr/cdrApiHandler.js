@@ -89,6 +89,20 @@
             })
         };
 
+        var getCampaignAgentSummary = function (startDate, endDate) {
+            var url = baseUrls.cdrProcessor + 'CampaignCallSummary?StartDate=' + startDate + '&EndDate=' + endDate;
+
+            return $http({
+                method: 'GET',
+                url: url,
+                timeout: 240000
+            }).then(function (resp) {
+                return resp.data;
+            }, function (err) {
+                loginService.isCheckResponse(err);
+            })
+        };
+
         var getCDRForTimeRangeCount = function (startDate, endDate, agent, skill, direction, record, custNumber, didFilter, bUnit)
         {
             var url = baseUrls.cdrProcessor + 'GetCallDetailsByRange/Count?startTime=' + startDate + '&endTime=' + endDate;
@@ -692,7 +706,8 @@
             getCampaignCDRForTimeRangeCount: getCampaignCDRForTimeRangeCount,
             getCampaignCDRForTimeRange: getCampaignCDRForTimeRange,
             getAgentStatusRecords: getAgentStatusRecords,
-            prepareDownloadCampaignCDRByType: prepareDownloadCampaignCDRByType
+            prepareDownloadCampaignCDRByType: prepareDownloadCampaignCDRByType,
+            getCampaignAgentSummary: getCampaignAgentSummary
         };
     };
 
