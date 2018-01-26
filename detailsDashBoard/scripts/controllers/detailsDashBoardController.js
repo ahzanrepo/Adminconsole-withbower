@@ -816,6 +816,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
             $scope.grid1Api = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope, function (row) {
                 $scope.selectedAgent = undefined;
+
                 if (row.isSelected) {
                     $scope.callLogPage = 1;
                     $scope.gridCalllogsOptions.data = [];
@@ -853,8 +854,8 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                         // 	if(p.height)
                         // })
 
-                        $('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - 31));
-                        window.scrollTo(0, selectedAgentRowPos.top - (selectedAgentChartPos.top - 31));
+                        $('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - 162));
+                        window.scrollTo(0, selectedAgentRowPos.top - 90);
                         count += 1;
 
                         if (count == 3) {
@@ -871,6 +872,12 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
             });
         }
     };
+
+    /** Kasun_Wijeratne_26_JAN_2017 **/
+    $scope.closeAgentInfo = function () {
+		$scope.selectedAgent = false;
+	}
+    /** Kasun_Wijeratne_26_JAN_2017 - ENDS**/
 
     $scope.$on("$destroy", function () {
 

@@ -296,6 +296,15 @@
                 return response.data;
             })
         };
+        var getExternalUserFields = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig/UserFields'
+            }).then(function (response) {
+                return response.data;
+            })
+        };
         var updateAccessFields = function (updtObj) {
             return $http({
                 method: 'PUT',
@@ -348,7 +357,8 @@
             GetExternalUserDefaultAccessFields:GetExternalUserDefaultAccessFields,
             updateAccessFields:updateAccessFields,
             addAccessFields:addAccessFields,
-            getBusinessUnitsWithGroups:getBusinessUnitsWithGroups
+            getBusinessUnitsWithGroups:getBusinessUnitsWithGroups,
+            getExternalUserFields:getExternalUserFields
         };
     };
 

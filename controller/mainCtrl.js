@@ -798,6 +798,13 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     };
     getUserName();
 
+    // Kasun_Wijeratne
+	$scope.isNavHidden = false;
+	$scope.navToggleCheck = function () {
+		$scope.isNavHidden = !$scope.isNavHidden;
+	}
+    // Kasun_Wijeratne
+
     // $scope.loadBusinessUnit();
 
     $scope.scrollEnabled = false;
