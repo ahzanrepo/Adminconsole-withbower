@@ -334,7 +334,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
             angular.forEach($scope.onlineProfile, function (agent) {
                 try {
 
-                    if (agent && (agent.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all")) {
+                    if (agent && agent.BusinessUnit && (agent.BusinessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase() || ShareData.BusinessUnit.toLowerCase() === "all")) {
 
 
                         var ids = $filter('filter')($scope.productivity, {ResourceId: agent.ResourceId.toString()}, true);//"ResourceId":"1"
@@ -560,7 +560,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                     }
 
                 } catch (ex) {
-                    console.log(ex);
+                    console.error(ex);
                     //$scope.isLoading = false;
                 }
 
