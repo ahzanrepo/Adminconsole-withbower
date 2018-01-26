@@ -13,7 +13,10 @@
     </div>-->
 
     <!--<h2>{{selectedAgent.ResourceName}}<small>Information's</small></h2>-->
-    <div class="overhead-panel-heading">Agent details</div>
+    <div class="overhead-panel-heading">
+        <span>Agent details</span>
+        <button class="btn" ng-click="closeAgentInfo()" style="padding: 5px 10px;float: right"><i class="fa fa-close"></i></button>
+    </div>
 
     <!--<div style="border-bottom: 2px solid #F7F7F7;"></div>-->
     <div class="overhead-content">
@@ -26,7 +29,7 @@
                         <div class="x_title">Agent profile</div>
                         <div class="x_content">
                             <img class="img-responsive avatar-view"
-                                 style='height: 100%; width: 100%; object-fit: contain'
+                                 style='object-fit: contain'
                                  src="{{selectedAgent.avatar != '' && selectedAgent.avatar != undefined && selectedAgent.avatar != null ? selectedAgent.avatar : 'assets/images/noimage.jpg'}}">
 
                             <h3 class="avatar-name">{{selectedAgent.displayName}} </h3>

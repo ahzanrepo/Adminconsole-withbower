@@ -426,7 +426,6 @@ body {
 
     /*FIXED-TO-TOP setup*/
     position: fixed;
-    width: calc(100% - 230px);
     z-index: 100;
 }
 
@@ -5483,11 +5482,14 @@ ul.notifications {
 .agentSummarygrid{
     height: auto!important;
 }
-.ui-grid-viewport{
+.details-dashboard .ui-grid-viewport{
     overflow-y: visible!important;
     height: auto!important;
 }
-.ui-grid-render-container-left .ui-grid-viewport{
+.details-dashboard .ui-grid-render-container-body .ui-grid-viewport{
+    overflow-x: scroll!important;
+}
+.details-dashboard .ui-grid-render-container-left .ui-grid-viewport{
     height: auto!important;
 }
 
