@@ -1126,12 +1126,15 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
             $scope.showAlert('Business Unit', 'Error in searching Business Units', 'error');
         });
     };
+    $scope.nonAlocatedGroups =[];
 
     $scope.loadUserGroups = function () {
         userProfileApiAccess.getUserGroups().then(function (data) {
             if (data.IsSuccess) {
                 $scope.userGroupList = data.Result;
-
+                $scope.nonAlocatedGroups = $scope.userGroupList.filter(function (obj) {
+                    return !obj.businessUnit
+                });
             }
             else
             {
@@ -1155,21 +1158,41 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
 
 
-    $scope.updateGroupsOfBUnit = function (groupId,unitName) {
 
-        $scope.businessUnits.forEach(function (unit) {
+    $scope.updateGroupsOfBUnit = function (groupId,unitName,item,isAdd) {
 
-            if(unit.unitName!=unitName && unit.groups)
-            {
 
-                unit.groups = unit.groups.filter(function( obj ) {
-                    return obj._id != groupId;
-                });
+        if(isAdd)
+        {
+            $scope.nonAlocatedGroups= $scope.nonAlocatedGroups.filter(function (obj) {
 
-            }
-        });
+                if(obj._id !=groupId)
+                {
+                    return obj;
+                };
+            });
+            $scope.businessUnits.forEach(function (unit) {
+
+                if(unit.unitName!=unitName && unit.groups)
+                {
+
+                    unit.groups = unit.groups.filter(function( obj ) {
+                        return obj._id != groupId;
+                    });
+
+                }
+            });
+        }
+        else
+        {
+            $scope.nonAlocatedGroups.push(item);
+        }
+
+
 
     };
+
+
 
 
     $scope.getBusinessUnits();
@@ -1214,19 +1237,16 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
     $scope.getExternalUserFields();
 
-
-
     $scope.getDefaultAccessFieldConfigs = function () {
 
-        $scope.accessFileds=[];
+
 
         userProfileApiAccess.GetExternalUserDefaultAccessFields().then(function (resConfigs) {
             if(resConfigs.IsSuccess)
             {
+                $scope.accessFileds=[];
                 if(resConfigs.Result)
                 {
-
-
 
                     resConfigs.Result.Keys.forEach(function (key) {
                         if(!(key =="_id" || key =="created_at" || key =="updated_at" || key=="__v" || key=="company" ||key=="tenant" ) )
@@ -1264,7 +1284,12 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                                 {
                                     Key:key,
                                     title:title,
-                                    Sub_fileds:[],
+                                    Sub_fileds:{
+                                        require:{},
+                                        view_enable:{},
+                                        editable:{}
+
+                                    },
                                     isRequired:isRequired
                                 }
 
@@ -1278,7 +1303,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                                             value:true
                                         }
 
-                                    obj.Sub_fileds.push(sub_obj);
+                                    obj.Sub_fileds[field]=sub_obj;
                                 }
 
                             });
@@ -1288,7 +1313,6 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
                         }
                     });
-
 
 
                 }
@@ -1306,15 +1330,15 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
         })
     };
     $scope.getAccessFieldConfigs = function () {
-        $scope.accessFileds=[];
+
         userProfileApiAccess.GetExternalUserConfig().then(function (resConfigs) {
             if(resConfigs.IsSuccess)
             {
+                $scope.accessFileds=[];
                 if(resConfigs.Result)
                 {
                     $scope.isConfigured=true;
                     $scope.btnTitle="UPDATE";
-
 
                     for(key in resConfigs.Result)
                     {
@@ -1342,7 +1366,12 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                             var obj =
                                 {
                                     Key:key,
-                                    Sub_fileds:[],
+                                    Sub_fileds:{
+                                        require:{},
+                                        view_enable:{},
+                                        editable:{}
+
+                                    },
                                     title:title,
                                     isRequired:isRequired
                                 }
@@ -1360,7 +1389,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                                             value:resConfigs.Result[key][field]
                                         }
 
-                                    obj.Sub_fileds.push(sub_obj);
+                                    obj.Sub_fileds[field]=sub_obj;
                                 }
 
                             }
@@ -1390,7 +1419,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
 
     $scope.checkDisable = function (sub,field) {
-        if(sub.action =='require' && field.isRequired)
+        if((sub.action =='require' || sub.action =='editable') && field.isRequired)
         {
             return true;
         }
@@ -1406,27 +1435,41 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.checkValidation=function (action,filed,val) {
 
+
+
         if((action=="require" || action=="editable") && $scope.RequireFields.indexOf(filed)==-1)
         {
             $scope.accessFileds.forEach(function (item) {
 
                 if(item.Key == filed)
                 {
-                    item.Sub_fileds.forEach(function (sub) {
+                    if(action=="editable" && !val)
+                    {
+                        item.Sub_fileds.require.value=val;
+                    }
+                    if(action=="require")
+                    {
+                        item.Sub_fileds.editable.value=val;
+                    }
 
-                        if(((action=="require" && sub.action=="editable") || (action=="editable" && sub.action=="require" && val==false)))
-                        {
 
-                            sub.value=val;
+                    /*
+                     item.Sub_fileds.forEach(function (sub) {
 
-                        }
+                     if(((action=="require" && sub.action=="editable") || (action=="editable" && sub.action=="require" && val==false)))
+                     {
+
+                     sub.value=val;
+
+                     }
 
 
-                    });
+                     });*/
                 }
             });
         }
-        
+
+
 
     };
 
@@ -1435,19 +1478,33 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
         $scope.accessFileds.forEach(function (item) {
 
-            item.Sub_fileds.forEach(function (sub) {
 
+
+            Object.keys(item.Sub_fileds).forEach(function(sub, index) {
                 if(!saveObj[item.Key])
                 {
                     saveObj[item.Key]={};
                 }
-                if(!saveObj[item.Key][sub.action])
+                if(!saveObj[item.Key][sub])
                 {
-                    saveObj[item.Key][sub.action]="";
+                    saveObj[item.Key][sub]="";
                 }
-                saveObj[item.Key][sub.action]=sub.value;
+                saveObj[item.Key][sub]=item.Sub_fileds[sub].value;
+            }, item.Sub_fileds);
 
-            });
+            /* item.Sub_fileds.forEach(function (sub) {
+
+             if(!saveObj[item.Key])
+             {
+             saveObj[item.Key]={};
+             }
+             if(!saveObj[item.Key][sub.action])
+             {
+             saveObj[item.Key][sub.action]="";
+             }
+             saveObj[item.Key][sub.action]=sub.value;
+
+             });*/
 
 
 
