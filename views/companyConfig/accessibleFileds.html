@@ -60,12 +60,13 @@
 
 
                                         <div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback"
-                                             style="margin-bottom: 15px;">
-                                            <label>{{sub.action}}</label>
+                                             style="margin-bottom: 15px; ">
+                                            <h4>{{sub.action}}</h4>
 
                                         </div>
                                         <div class="col-md-1 col-sm-1 col-xs-12 form-group">
-                                            <switch  ng-model="sub.value" class="form-control " ng-change="checkValidation(sub.action,field.Key,sub.value)"></switch>
+                                            <checkbox class="btn-success" ng-model="sub.value" ng-change="checkValidation(sub.action,field.Key,sub.value)" ng-disabled="checkDisable(sub,field)"></checkbox>
+                                            <!--<switch  ng-model="sub.value"  class="form-control " ></switch>-->
                                         </div>
 
 
