@@ -854,7 +854,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                         // 	if(p.height)
                         // })
 
-                        $('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - 31));
+                        $('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - 162));
                         window.scrollTo(0, selectedAgentRowPos.top - 90);
                         count += 1;
 

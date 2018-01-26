@@ -24,8 +24,7 @@
     </div>
 
     <h2 class="x_title_inner" ng-click="GetProductivity();">Agents <small>Summary</small></h2>
-    <div class="x_content agentSummery" style="padding: 0;">
-
+    <div class="x_content agentSummery" style="padding: 0" ng-style="selectedAgent ? {'z-index':'0'} : {'z-index':'1'}">
 
 
         <div ng-hide="agentSummaryGridOptions.data.length>0">
@@ -42,8 +41,6 @@
         <div ng-show="agentSummaryGridOptions.data.length>0" ui-grid="agentSummaryGridOptions" class="agentSummarygrid"
              ui-grid-move-columns ui-grid-resize-columns  ui-grid-auto-resize ui-grid-selection ui-grid-pinning ></div>
 
-
-        <div ng-if="selectedAgent" ng-include="'detailsDashBoard/view/template/agentInfo.html'"></div>
-
     </div>
+    <div ng-if="selectedAgent" ng-include="'detailsDashBoard/view/template/agentInfo.html'"></div>
 </div>
