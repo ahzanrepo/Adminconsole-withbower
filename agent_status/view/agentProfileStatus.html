@@ -55,7 +55,7 @@
         </div>
         <!-- SUSPEND  PROFILE -->
         <div class="x_panel">
-            <h2>Suspended <b class="profile-status-right">{{StatusList.SuspendedProfile.length}}</b>
+            <h2>Suspended <b class="profile-status-right">{{filtered1.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-3 col-sm-3 col-xs-3 media event "
@@ -66,7 +66,7 @@
                                                'outbound':resource.slotState=='Outbound',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
-                    ng-repeat="resource in StatusList.SuspendedProfile | filter: filterResList">
+                    ng-repeat="resource in filtered1 = (StatusList.SuspendedProfile | filter: filterResList)">
                     <div class="profile-status-dah"></div>
                     <div class="pull-left border-aero profile_thumb">
                         <img src="assets/images/defaultProfile.png"
@@ -101,7 +101,7 @@
 
         <!-- AVAILABLE  PROFILE -->
         <div class="x_panel">
-            <h2>Available <b class="profile-status-right">{{StatusList.AvailableProfile.length}}</b>
+            <h2>Available <b class="profile-status-right">{{filtered2.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -112,7 +112,8 @@
                                                'outbound':resource.slotState=='Outbound',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
-                    ng-repeat="resource in StatusList.AvailableProfile | filter: filterResList">
+
+                    ng-repeat="resource in filtered2 = ( StatusList.AvailableProfile | filter: filterResList)">
                     <div class="profile-status-dah"></div>
                     <div class="pull-left border-aero profile_thumb">
                         <img src="assets/images/defaultProfile.png"
@@ -147,7 +148,7 @@
 
         <!-- CONNECTED  PROFILE -->
         <div class="x_panel">
-            <h2>Connected <b class="profile-status-right">{{StatusList.ConnectedProfile.length}}</b>
+            <h2>Connected <b class="profile-status-right">{{filtered3.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -158,7 +159,7 @@
                                                'outbound':resource.slotState=='Outbound',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
-                    ng-repeat="resource in StatusList.ConnectedProfile | filter: filterResList">
+                    ng-repeat="resource in filtered3 = (StatusList.ConnectedProfile | filter: filterResList)">
                     <div class="profile-status-dah"></div>
                     <div class="pull-left border-aero profile_thumb">
                         <img src="assets/images/defaultProfile.png"
@@ -192,7 +193,7 @@
 
         <!-- OUTBOUND  PROFILE -->
         <div class="x_panel">
-            <h2>Outbound <b class="profile-status-right">{{StatusList.OutboundProfile.length}}</b>
+            <h2>Outbound <b class="profile-status-right">{{filtered4.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -203,7 +204,7 @@
                                                'outbound':resource.slotState=='Outbound',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
-                    ng-repeat="resource in StatusList.OutboundProfile | filter: filterResList">
+                    ng-repeat="resource in filtered4 = (StatusList.OutboundProfile | filter: filterResList)">
                     <div class="profile-status-dah"></div>
                     <div class="pull-left border-aero profile_thumb">
                         <img src="assets/images/defaultProfile.png"
@@ -237,7 +238,7 @@
 
         <!-- OUTBOUND  PROFILE -->
         <div class="x_panel">
-            <h2>After Work <b class="profile-status-right">{{StatusList.AfterWorkProfile.length}}</b>
+            <h2>After Work <b class="profile-status-right">{{filtered5.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -248,7 +249,7 @@
                                                'outbound':resource.slotState=='Outbound',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
-                    ng-repeat="resource in StatusList.AfterWorkProfile | filter: filterResList">
+                    ng-repeat="resource in filtered5 = (StatusList.AfterWorkProfile | filter: filterResList)">
                     <div class="profile-status-dah"></div>
                     <div class="pull-left border-aero profile_thumb">
                         <img src="assets/images/defaultProfile.png"
@@ -288,7 +289,7 @@
 
         <!-- RESERVED  PROFILE -->
         <div class="x_panel">
-            <h2>Reserved <b class="profile-status-right">{{StatusList.ReservedProfile.length}}</b>
+            <h2>Reserved <b class="profile-status-right">{{filtered6.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -299,7 +300,7 @@
                                                'outbound':resource.slotState=='Outbound',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
-                    ng-repeat="resource in StatusList.ReservedProfile | filter: filterResList">
+                    ng-repeat="resource in filtered6 = (StatusList.ReservedProfile | filter: filterResList)">
                     <div class="profile-status-dah"></div>
                     <div class="pull-left border-aero profile_thumb">
                         <img src="assets/images/defaultProfile.png"
@@ -334,7 +335,7 @@
 
         <!-- BREAK PROFILE -->
         <div class="x_panel">
-            <h2>Break <b class="profile-status-right">{{StatusList.BreakProfile.length}}</b>
+            <h2>Break <b class="profile-status-right">{{filtered7.length}}</b>
             </h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
@@ -345,7 +346,7 @@
                                                'outbound':resource.slotState=='Outbound',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
-                    ng-repeat="resource in StatusList.BreakProfile | filter: filterResList">
+                    ng-repeat="resource in filtered7 = (StatusList.BreakProfile | filter: filterResList)">
                     <div class="profile-status-dah"></div>
                     <div class="pull-left border-aero profile_thumb">
                         <img src="assets/images/defaultProfile.png"
@@ -384,7 +385,7 @@
 
         <!-- RESERVED  PROFILE -->
         <div class="x_panel">
-            <h2> Other <b class="profile-status-right">{{StatusList.profile.length}}</b></h2>
+            <h2> Other <b class="profile-status-right">{{filtered8.length}}</b></h2>
             <ul class="list-unstyled top-profile-shadow scroll-view">
                 <li class="col-md-2 col-sm-2 col-xs-2 media event "
                     ng-class="{'reserved':resource.slotState=='Reserved',
@@ -395,7 +396,7 @@
                                                'other':resource.slotState=='Other',
                                                'suspended':resource.slotState=='Suspended',
                                                'break':resource.other=='Break'}"
-                    ng-repeat="resource in StatusList.profile | filter: filterResList">
+                    ng-repeat="resource in filtered8 = (StatusList.profile | filter: filterResList)">
                     <div class="profile-status-dah"></div>
                     <div class="pull-left border-aero profile_thumb">
                         <img src="assets/images/defaultProfile.png"
