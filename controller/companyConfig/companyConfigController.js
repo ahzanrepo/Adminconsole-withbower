@@ -1406,7 +1406,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
     $scope.checkValidation=function (action,filed,val) {
 
-        if((action=="require" || action=="editable") && $scope.RequireFields.indexOf(item.Key)==-1)
+        if((action=="require" || action=="editable") && $scope.RequireFields.indexOf(filed)==-1)
         {
             $scope.accessFileds.forEach(function (item) {
 
@@ -1419,7 +1419,6 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
                             sub.value=val;
 
-
                         }
 
 
@@ -1427,10 +1426,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 }
             });
         }
-
-
-
-
+        
 
     };
 
