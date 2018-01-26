@@ -1,4 +1,4 @@
-mainApp.controller("campaignAgentWiseSummaryController", function ($http, $scope, $filter, $location, $log, $q, $anchorScroll, sipUserApiHandler, campaignService, cdrApiHandler) {
+mainApp.controller("campaignCallSummaryController", function ($http, $scope, $filter, $location, $log, $q, $anchorScroll, sipUserApiHandler, campaignService, cdrApiHandler) {
 
     $anchorScroll();
 
@@ -11,6 +11,8 @@ mainApp.controller("campaignAgentWiseSummaryController", function ($http, $scope
             styling: 'bootstrap3'
         });
     };
+
+    $scope.initialLoad = true;
 
     $scope.SummaryDetails = [];
 
@@ -56,15 +58,53 @@ mainApp.controller("campaignAgentWiseSummaryController", function ($http, $scope
     $scope.StartDate = moment().format("YYYY-MM-DD");
     $scope.EndDate = moment().format("YYYY-MM-DD");
 
+    $scope.DownloadCSV = function () {
+
+        $scope.DownloadFileName = 'CAMPAIGN_SUMMARY_' + $scope.StartDate + '_' + $scope.EndDate;
+        var deferred = $q.defer();
+        var emptyList = [];
+
+        var momentTz = moment.parseZone(new Date()).format('Z');
+        momentTz = momentTz.replace("+", "%2B");
+        var startD = $scope.StartDate + ' 00:00:00' + momentTz;
+        var endD  = $scope.EndDate + ' 23:59:59' + momentTz;
+
+        if(moment($scope.StartDate).isBefore($scope.EndDate) || moment($scope.StartDate).isSame($scope.EndDate))
+        {
+            cdrApiHandler.getCampaignAgentSummary(startD, endD).then(function (response){
+
+                if(response.Result)
+                {
+                    deferred.resolve(response.Result);
+                }
+                else
+                {
+                    deferred.reject(emptyList);
+                }
+
+            }, function (error) {
+                deferred.reject(emptyList);
+            });
+        }
+        else
+        {
+            deferred.reject(emptyList);
+        }
+
+
+        return deferred.promise;
+    };
+
 
     $scope.getPageData = function () {
+
         $scope.isLoading = true;
         var momentTz = moment.parseZone(new Date()).format('Z');
         momentTz = momentTz.replace("+", "%2B");
         var startD = $scope.StartDate + ' 00:00:00' + momentTz;
         var endD  = $scope.EndDate + ' 23:59:59' + momentTz;
 
-        cdrApiHandler.getCampaignAgentSummary(startD, endD, $scope.Campaign, $scope.Agent).then(function (response)
+        cdrApiHandler.getCampaignAgentSummary(startD, endD).then(function (response)
         {
             if(response.Result)
             {
@@ -77,10 +117,12 @@ mainApp.controller("campaignAgentWiseSummaryController", function ($http, $scope
                 $scope.isError = true;
             }
             $scope.isLoading = false;
+            $scope.initialLoad = false;
         }, function (error) {
             $scope.showAlert("Campaign Report", 'error', "Fail To Load Summery Report.");
             $scope.isLoading = false
             $scope.isError = true;
+            $scope.initialLoad = false;
         });
     };
 });

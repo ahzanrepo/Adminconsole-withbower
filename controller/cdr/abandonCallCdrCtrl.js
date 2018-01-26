@@ -314,7 +314,7 @@
 
                 var tempBUnit = null;
 
-                if(!$scope.businessUnitEnabled)
+                if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
                 {
                     tempBUnit = ShareData.BusinessUnit;
                 }
@@ -376,7 +376,7 @@
 
                 var tempBUnit = null;
 
-                if(!$scope.businessUnitEnabled)
+                if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
                 {
                     tempBUnit = ShareData.BusinessUnit;
                 }

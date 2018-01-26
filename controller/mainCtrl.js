@@ -456,8 +456,8 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         goSMSDetailReport: function () {
             $state.go('console.smsdetailreport');
         },
-        goCampaignAgentSummery: function () {
-            $state.go('console.CampaignAgentSummary');
+        goCampaignCallSummery: function () {
+            $state.go('console.CampaignCallSummary');
         },
         goCallMonitor: function () {
             $state.go('console.callmonitor');
