@@ -916,11 +916,11 @@
                 </div>
             </div>
         </div>
-        <div class="top_nav">
+        <div class="top_nav" ng-style="!isNavHidden ? {'width': 'calc(100% - 230px)'} : {'width':'100%'}">
             <div class="nav_menu">
                 <nav class="" role="navigation">
                     <div class="nav toggle ">
-                        <a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
+                        <a id="menu_toggle" nav-toggle ng-click="navToggleCheck()"><i class="fa fa-bars font-gry-150"></i></a>
                     </div>
 
                     <ul class="nav navbar-nav navbar-right">
@@ -1077,7 +1077,7 @@
                                 </button>
                                 <button class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
                                         ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )"
-                                        title="Swap User">
+                                        title="Connect with caller">
                                     <span class="fa fa-user" aria-hidden="true"></span></button>
                                 <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->
                             </div>

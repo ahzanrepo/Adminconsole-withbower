@@ -8307,10 +8307,10 @@ circle {
 }
 .overhead-panel .dashboard-avatar img.avatar-view{
     border-radius: 50%;
-    min-width: 170px;
-    min-height: 170px;
+    width: 170px;
+    height: 170px;
     margin: 0 auto;
-    width: 80%!important;
+    /*width: 80%!important;*/
     box-shadow: none;
     border: solid 1px #eee;
     background: #fff;
@@ -8468,6 +8468,18 @@ circle {
 .x_panel .iconed-status-wrap .pilled-status.available{
     background: rgb(50, 224, 102)!important;
 }
+
+.backdrop-dark{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    pointer-events: none;
+}
+
 /* Iconed status wrap - END */
 
 /*DETAILS DASHBOARD - END =========================================================================*/

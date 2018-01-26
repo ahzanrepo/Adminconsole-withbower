@@ -93,7 +93,7 @@
             <div class="x_content">
                 <ul class="list-unstyled ">
                     <li ng-repeat="bUnit in businessUnits | orderBy : 'unitName' | filterBy: ['unitName']: searchCriteria">
-                        <bisunit unit="bUnit" headusers="headUsers" groups="userGroupList" updateobjs="updateGroupsOfBUnit"></bisunit>
+                        <bisunit unit="bUnit" headusers="headUsers" groups="nonAlocatedGroups" updateobjs="updateGroupsOfBUnit"></bisunit>
                     </li>
 
                     <paging ng-show="showPaging"

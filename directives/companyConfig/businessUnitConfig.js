@@ -18,6 +18,12 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
         link: function (scope) {
 
             scope.editBUnit=false;
+            scope.isHide=false;
+
+            if(scope.unit.unitName.toUpperCase() == 'ALL' || scope.unit.unitName.toUpperCase() == 'DEFAULT')
+            {
+                scope.isHide=true;
+            }
 
             scope.showAlert = function (title,content,type) {
 
@@ -103,12 +109,12 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
 
             };
 
-            scope.onChipAdd = function (chip) {
+            scope.onChipAdd = function (group) {
 
-                scope.updateGroupBUnit(scope.unit.unitName,chip._id);
+                scope.updateGroupBUnit(scope.unit.unitName,group,true);
 
             };
-            scope.onChipDelete = function (chip) {
+            scope.onChipDelete = function (group) {
 
                /* var index = $scope.attributeGroups.indexOf(chip.GroupId);
                 console.log("index ", index);
@@ -116,12 +122,12 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
                     $scope.attributeGroups.splice(index, 1);
                     console.log("rem attGroup " + $scope.attributeGroups);
                 }*/
-                scope.updateGroupBUnit("",chip._id);
+                scope.updateGroupBUnit("",group,false);
 
 
             };
 
-            scope.updateGroupBUnit = function (bUnit,groupId) {
+            scope.updateGroupBUnit = function (bUnit,group,isAdd) {
 
 
                 var updateObj =
@@ -130,11 +136,11 @@ mainApp.directive("bisunit", function (userProfileApiAccess) {
                     }
 
 
-                userProfileApiAccess.updateUserGroup(groupId,updateObj).then(function (resUpdate) {
+                userProfileApiAccess.updateUserGroup(group._id,updateObj).then(function (resUpdate) {
                     if(resUpdate.IsSuccess)
                     {
                         scope.showAlert("Business Unit","Update Groups of Business Unit successfully","success");
-                        scope.updateobjs(groupId,bUnit);
+                        scope.updateobjs(group._id,bUnit,group,isAdd);
 
                     }
                     else

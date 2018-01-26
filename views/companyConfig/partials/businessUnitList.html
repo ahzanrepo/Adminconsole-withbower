@@ -13,7 +13,7 @@
                     <div class="pull-right user-option-wrap" ng-show="!editBUnit">
                         <h3>
                             <small ng-disabled="true" ng-click="changeEditMode()" style="cursor: pointer"><i
-                                    class="fa fa-edit"></i></small>
+                                    class="fa fa-edit" ></i></small>
                         </h3>
                     </div>
                 </div>
@@ -67,13 +67,13 @@
                                 </tags-input>
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group "
-                                 style="margin-bottom: 15px;">
+                                 style="margin-bottom: 15px;" ng-if="!isHide">
 
                                 <label >User Groups</label>
                                 <tags-input ng-model="unit.groups" display-property="name"
                                             add-from-autocomplete-only="true"  ng-disabled="" min-length="1"
                                             placeholder="Add a Group" on-tag-added="onChipAdd($tag)"
-                                            on-tag-removed="onChipDelete($tag)">
+                                            on-tag-removed="onChipDelete($tag)" >
 
                                     <auto-complete source="querySearchGroups($query)"
                                                    load-on-empty="true"
