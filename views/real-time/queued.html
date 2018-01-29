@@ -83,7 +83,7 @@
                     queueoption="queueoption" pieoption="pieoption"></queued>
         </div>-->
 
-        <queued ng-repeat="(qkey, que) in queues" ng-hide="checkQueueHidden(que)" que="que" name="{{que.id}}"
+        <queued ng-repeat="(qkey, que) in queues" ng-hide="checkQueueHidden(que.id)" que="que" name="{{que.id}}"
                 viewmode="cardViewMode"
                 queueoption="queueoption" pieoption="pieoption"></queued>
     </div>
