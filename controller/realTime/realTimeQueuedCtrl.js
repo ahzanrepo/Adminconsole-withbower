@@ -43,6 +43,7 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
 
                         //
                         item.id = event.Message.queueDetail.QueueId;
+                        item.BusinessUnit = event.Message.businessUnit;
 
                         item.QueueName = event.Message.queueDetail.QueueName;
                         item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
@@ -219,10 +220,10 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         };
         $scope.GetReportQueryFilter();
 
-        $scope.checkQueueHidden = function (qid) {
+        $scope.checkQueueHidden = function (queid) {
             if ($scope.selectedQueues && $scope.selectedQueues.length > 0) {
                 var matchingQueues = $scope.selectedQueues.filter(function (queue) {
-                    if (queue.id === qid) {
+                    if (queue.id === queid) {
                         return true;
                     }
                 });
@@ -235,10 +236,11 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                 }
             }
             else {
+
                 return false;
             }
 
-        }
+        };
 
 
         $scope.GetAllQueueStatistics = function () {
@@ -286,11 +288,14 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                         $scope.queueList.push(item);
                         //}
                     });
+
+                    setGridData();
                 }
                 else
                 {
                     $scope.queues = {};
                     $scope.queueList = [];
+                    $scope.gridOptions3.data = [];
                 }
 
 
@@ -312,6 +317,11 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                 reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
                     if (response) {
                         $scope.selectedQueues = response;
+                        $scope.GetAllQueueStatistics();
+                    }
+                    else
+                    {
+                        $scope.selectedQueues = [];
                         $scope.GetAllQueueStatistics();
                     }
                 }, function (error) {
