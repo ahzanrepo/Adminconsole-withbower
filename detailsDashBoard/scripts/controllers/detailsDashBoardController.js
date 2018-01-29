@@ -855,9 +855,15 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                         // 	if(p.height)
                         // })
 
-                        $('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - 162));
-                        window.scrollTo(0, selectedAgentRowPos.top - 90);
-                        count += 1;
+                        if($('.agent-details-overhead') != undefined &&
+							selectedAgentRowPos != undefined &&
+							selectedAgentChartPos != undefined){
+
+							$('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - 162));
+							window.scrollTo(0, selectedAgentRowPos.top - 90);
+							count += 1;
+
+						}
 
                         if (count == 3) {
                             $interval.cancel(AInfoPanelSetup);
