@@ -8458,7 +8458,7 @@ circle {
     color: #FFF!important;
     text-transform: uppercase;
 }
-.x_panel .iconed-status-wrap .pilled-status.suspend{
+.x_panel .iconed-status-wrap .pilled-status.suspended{
     background: #d21c27!important;
 }
 .x_panel .iconed-status-wrap .pilled-status.offline{
@@ -8467,6 +8467,21 @@ circle {
 }
 .x_panel .iconed-status-wrap .pilled-status.available{
     background: rgb(50, 224, 102)!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.available{
+    background: rgb(50, 224, 102)!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.afterwork{
+    background: rgb(219, 65, 20)!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.break{
+    background: rgb(248, 176, 29)!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.idle{
+    background: rgb(155, 89, 182)!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.hold{
+    background: rgb(17, 72, 88)!important;
 }
 
 .backdrop-dark{

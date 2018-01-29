@@ -48,7 +48,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
         noUnselect: false,
         columnDefs: [
             {
-                enableFiltering: true,
+                enableSorting: true, enableFiltering: true,
                 name: 'QueueName',
                 field: 'QueueName',
                 headerTooltip: 'Queue Name',
@@ -58,14 +58,14 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                 }
             },
             {
-                enableFiltering: false,
+                enableSorting: true, enableFiltering: false,
                 name: 'Cur.Waiting',
                 field: 'CurrentWaiting',
                 headerTooltip: 'Current Waiting',
                 cellClass: 'table-number'
             },
             {
-                enableFiltering: false,
+                enableSorting: true, enableFiltering: false,
                 name: 'Avg.Wait',
                 field: 'AverageWaitTime',
                 headerTooltip: 'Average Wait Time',
@@ -74,7 +74,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                 cellTemplate: "<div>{{row.entity.AverageWaitTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
             },
             {
-                enableFiltering: false,
+                enableSorting: true, enableFiltering: false,
                 name: 'Cur.MaxWait',
                 field: 'CurrentMaxWaitTime',
                 headerTooltip: 'Current MaxWait Time',
@@ -82,7 +82,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                 cellClass: 'table-time'
             },
             {
-                enableFiltering: false,
+                enableSorting: true, enableFiltering: false,
                 name: 'MaxWait',
                 field: 'MaxWaitTime',
                 headerTooltip: 'Max Waiting Time',
@@ -90,35 +90,35 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                 cellClass: 'table-time'
             },
             {
-                enableFiltering: false,
+                enableSorting: true, enableFiltering: false,
                 name: 'Q.Dropped',
                 field: 'QueueDropped',
                 headerTooltip: 'Queue Dropped',
                 cellClass: 'table-number'
             },
             {
-                enableFiltering: false,
+                enableSorting: true, enableFiltering: false,
                 name: 'Answered',
                 field: 'TotalAnswered',
                 headerTooltip: 'Total Answered',
                 cellClass: 'table-number'
             },
             {
-                enableFiltering: false,
+                enableSorting: true, enableFiltering: false,
                 name: 'Queued',
                 field: 'TotalQueued',
                 headerTooltip: 'Total Queued',
                 cellClass: 'table-number'
             },
             {
-                enableFiltering: false,
+                enableSorting: true, enableFiltering: false,
                 name: 'presentage',
                 field: 'presentage',
                 headerTooltip: 'presentage',
                 cellClass: 'presentage'
             },
             {
-                enableFiltering: false,
+                enableSorting: true, enableFiltering: false,
                 name: 'Time',
                 field: 'EventTime',
                 headerTooltip: 'Last Event Time',
@@ -135,6 +135,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
     subscribeServices.subscribe('queuedetail');
     //subscribe services
     subscribeServices.subscribeDashboard('detaildashboard', function (event) {
+        console.debug(event);
         if (event && event.Message && event.Message.businessUnit && ((ShareData.BusinessUnit.toLowerCase() === 'all') || (event.Message.businessUnit.toLowerCase() === ShareData.BusinessUnit.toLowerCase()))) {
             switch (event.roomName) {
                 case 'QUEUE:QueueDetail':
@@ -157,7 +158,7 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                         //
                         item.id = event.Message.queueDetail.QueueId;
 
-                        item.QueueName = event.Message.QueueName;
+                        item.QueueName = event.Message.queueDetail.QueueName;
                         item.AverageWaitTime = Math.round(item.AverageWaitTime * 100) / 100;
 
                         if (item.TotalQueued > 0) {
@@ -524,20 +525,20 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                             if ($scope.selectedSkills.length > 0) {
 
                                 var array3 = [];
-                                var getIntersectionOfArray = function(array1,array2){
-                                    angular.forEach(array1, function(value,index){
-                                        angular.forEach(array2, function(object,index1){
-                                            if(value.AttributeId==object.AttributeId){
+                                var getIntersectionOfArray = function (array1, array2) {
+                                    angular.forEach(array1, function (value, index) {
+                                        angular.forEach(array2, function (object, index1) {
+                                            if (value.AttributeId == object.AttributeId) {
                                                 array3.push(value);
                                             }
                                         })
                                     })
                                 };
 
-                                if(agentProductivity.taskList.length>0){
-                                    getIntersectionOfArray($scope.selectedSkills,agentProductivity.taskList);
+                                if (agentProductivity.taskList.length > 0) {
+                                    getIntersectionOfArray($scope.selectedSkills, agentProductivity.taskList);
 
-                                    if(angular.equals($scope.selectedSkills, array3)){
+                                    if (angular.equals($scope.selectedSkills, array3)) {
                                         $scope.Productivitys[agent.ResourceId] = agentProductivity;
                                     }
                                     /*angular.forEach(agentProductivity.taskList, function (item) {
@@ -854,9 +855,15 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                         // 	if(p.height)
                         // })
 
-                        $('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - 162));
-                        window.scrollTo(0, selectedAgentRowPos.top - 90);
-                        count += 1;
+                        if($('.agent-details-overhead') != undefined &&
+							selectedAgentRowPos != undefined &&
+							selectedAgentChartPos != undefined){
+
+							$('.agent-details-overhead').css('top', selectedAgentRowPos.top - (selectedAgentChartPos.top - 162));
+							window.scrollTo(0, selectedAgentRowPos.top - 90);
+							count += 1;
+
+						}
 
                         if (count == 3) {
                             $interval.cancel(AInfoPanelSetup);
@@ -875,8 +882,8 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
 
     /** Kasun_Wijeratne_26_JAN_2017 **/
     $scope.closeAgentInfo = function () {
-		$scope.selectedAgent = false;
-	}
+        $scope.selectedAgent = false;
+    }
     /** Kasun_Wijeratne_26_JAN_2017 - ENDS**/
 
     $scope.$on("$destroy", function () {
