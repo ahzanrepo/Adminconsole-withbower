@@ -220,10 +220,10 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
         };
         $scope.GetReportQueryFilter();
 
-        $scope.checkQueueHidden = function (que) {
+        $scope.checkQueueHidden = function (queid) {
             if ($scope.selectedQueues && $scope.selectedQueues.length > 0) {
                 var matchingQueues = $scope.selectedQueues.filter(function (queue) {
-                    if (queue.id === que.id) {
+                    if (queue.id === queid) {
                         return true;
                     }
                 });
@@ -288,11 +288,14 @@ mainApp.controller('realTimeQueuedCtrl', function ($scope, $rootScope, $timeout,
                         $scope.queueList.push(item);
                         //}
                     });
+
+                    setGridData();
                 }
                 else
                 {
                     $scope.queues = {};
                     $scope.queueList = [];
+                    $scope.gridOptions3.data = [];
                 }
 
 
