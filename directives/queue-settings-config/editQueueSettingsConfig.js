@@ -101,15 +101,15 @@ mainApp.directive("editqsettings", function ($filter,$uibModal,queueSettingsBack
                 queueSettingsBackendService.UpdateQueueSettings(scope.setting.RecordID,scope.setting).then(function (response) {
                     if(!response.data.IsSuccess)
                     {
-                        scope.showAlert("Error","Error in updating Queue Setting : "+scope.setting.RecordID,"error");
+                        scope.showAlert("Error","Error in updating Queue Setting : "+scope.setting.QueueName,"error");
                     }
                     else {
-                        scope.showAlert("Success","Successfully updated Queue Setting : "+scope.setting.RecordID,"success");
+                        scope.showAlert("Success","Successfully updated Queue Setting : "+scope.setting.QueueName,"success");
                         scope.reloadrecords();
                         scope.editQueueSetting();
                     }
                 },function (error) {
-                    scope.showAlert("Error","Error in updating Queue Setting : "+scope.setting.RecordID,"error");
+                    scope.showAlert("Error","Error in updating Queue Setting : "+scope.setting.QueueName,"error");
                 })
                 
             };
