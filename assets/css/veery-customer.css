@@ -8458,7 +8458,7 @@ circle {
     color: #FFF!important;
     text-transform: uppercase;
 }
-.x_panel .iconed-status-wrap .pilled-status.suspend{
+.x_panel .iconed-status-wrap .pilled-status.suspended{
     background: #d21c27!important;
 }
 .x_panel .iconed-status-wrap .pilled-status.offline{
