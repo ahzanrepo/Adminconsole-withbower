@@ -108,7 +108,16 @@
                                     <div>
                                         <i class="fa fa-certificate user-profile-icon"></i> <span>State :</span>
                                     </div>
-                                    <div class="pilled-status" ng-class="{'suspended': selectedAgent.slotState == 'Suspended', 'offline':selectedAgent.slotState == 'Offline' ,'available':selectedAgent.slotState == 'Available'}">{{selectedAgent.slotState}}</div>
+                                    <div class="pilled-status {{selectedAgent.slotState | lowercase}}">
+                                         <!--ng-class="{'suspended': selectedAgent.slotState == 'Suspended',-->
+                                         <!--'offline':selectedAgent.slotState == 'Offline' ,-->
+                                         <!--'available':selectedAgent.slotState == 'Available',-->
+                                         <!--'afterwork':selectedAgent.slotState == 'Afterwork',-->
+                                         <!--'break':selectedAgent.slotState == 'Break',-->
+                                         <!--'idle':selectedAgent.slotState == 'Idle',-->
+                                         <!--'hold':selectedAgent.slotState == 'Hold'-->
+                                         <!--}">-->
+                                    {{selectedAgent.slotState}}</div>
                                 </li>
                                 <li>
                                     <div>

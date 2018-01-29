@@ -8455,18 +8455,45 @@ circle {
     border-radius: 20px!important;
     border: solid 1px #eee!important;
     font-size: 16px;
-    color: #FFF!important;
+    color: #aaa;
     text-transform: uppercase;
 }
-.x_panel .iconed-status-wrap .pilled-status.suspend{
+.x_panel .iconed-status-wrap .pilled-status.suspended,
+.x_panel .iconed-status-wrap .pilled-status.break{
+    color: #fff!important;
     background: #d21c27!important;
 }
 .x_panel .iconed-status-wrap .pilled-status.offline{
     color: #aaa!important;
     background: #fafafa!important;
 }
+.x_panel .iconed-status-wrap .pilled-status.outbound{
+    color: #aaa!important;
+    background: rgb(17, 72, 88)!important;
+}
 .x_panel .iconed-status-wrap .pilled-status.available{
+    color: #FFF!important;
     background: rgb(50, 224, 102)!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.connected{
+    color: #FFF!important;
+    background: #2BC9E2!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.afterwork{
+    color: #FFF!important;
+    background: #efc936!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.idle,
+.x_panel .iconed-status-wrap .pilled-status.reserved{
+    color: #FFF!important;
+    background: rgb(155, 89, 182)!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.hold{
+    color: #FFF!important;
+    background: rgb(17, 72, 88)!important;
+}
+.x_panel .iconed-status-wrap .pilled-status.other{
+    color: #000!important;
 }
 
 .backdrop-dark{

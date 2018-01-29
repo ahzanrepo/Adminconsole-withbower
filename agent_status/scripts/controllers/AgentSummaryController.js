@@ -325,7 +325,7 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                 if (tempUserArr && tempUserArr.length > 0) {
                     var matchingRecord = tempUserArr.find(function (agent) {
-                        return agent.username === res.resourceName;
+                        return agent.user === res.resourceName;
                     });
 
                     var bUnitMatchRec = null;
