@@ -707,9 +707,10 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     var getPhoneConfig = function () {
         companyConfigBackendService.getPhoneConfig().then(function (response) {
             $scope.phoneConfig = response;
-            $scope.phoneConfig.autoAnswerDelay = parseInt(response.autoAnswerDelay)/1000;
+
             if(response){
                 $scope.isPhoneConfiged =true;
+                $scope.phoneConfig.autoAnswerDelay = parseInt(response.autoAnswerDelay)/1000;
             }
         }, function(err){
             $scope.showAlert('Phone Config', "Fail To Get Phone Config.", 'error');
