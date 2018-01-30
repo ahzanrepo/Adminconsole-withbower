@@ -42,7 +42,7 @@
                                 <button type="button" class="btn"
                                         style="background-color: #a3d100; color: #000000; font-weight: 500"
                                         csv-header="['Campaign', 'Dialed Count', 'Queued Count', 'Answered Count']"
-                                        csv-column-order="['Campaign', 'DialedCount', 'QueuedCount', 'AnsweredCount']"
+                                        csv-column-order="['CampaignName', 'DialedCount', 'QueuedCount', 'AnsweredCount']"
                                         ng-csv="DownloadCSV()" filename="{{DownloadFileName}}.csv">
                                     CSV&nbsp;&nbsp;&nbsp;&nbsp;
                                     <i class="fa fa-download"></i>
@@ -115,7 +115,7 @@
                                             <tbody>
                                             <tr role="row" class="odd"
                                                 ng-repeat="sum in SummaryDetails">
-                                                <td>{{sum.Campaign}}</td>
+                                                <td>{{sum.CampaignName}}</td>
                                                 <td>{{sum.DialedCount}}</td>
                                                 <td>{{sum.QueuedCount}}</td>
                                                 <td>{{sum.AnsweredCount}}</td>
