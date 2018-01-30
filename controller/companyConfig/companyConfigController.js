@@ -733,7 +733,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 }
             }
 
-            var patt = new RegExp("/^[a-zA-Z0-9-_\\s]+(Break|break)$/");
+            var patt = /^[a-zA-Z0-9-_\\s]+(Break|break)$/;
             if(!patt.test($scope.breakType.BreakType)){
                 $scope.breakType.BreakType = $scope.breakType.BreakType+'Break';
             }
