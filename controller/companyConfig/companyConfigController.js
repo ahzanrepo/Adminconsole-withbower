@@ -1438,8 +1438,8 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
 
 
 
-        // if((action=="require" || action=="editable") && $scope.RequireFields.indexOf(filed)==-1)
-        if(action=="editable" && $scope.RequireFields.indexOf(filed)==-1)
+       if((action=="require" || action=="editable") && $scope.RequireFields.indexOf(filed)==-1)
+
         {
             $scope.accessFileds.forEach(function (item) {
 
@@ -1448,6 +1448,10 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                     if(action=="editable" && !val)
                     {
                         item.Sub_fileds.require.value=val;
+                    }
+                    if(action=="require" && val)
+                    {
+                        item.Sub_fileds.editable.value=val;
                     }
 
 
