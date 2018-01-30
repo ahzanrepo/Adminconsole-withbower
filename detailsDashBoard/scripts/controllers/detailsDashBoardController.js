@@ -165,9 +165,9 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                             item.presentage = Math.round((item.TotalAnswered / item.TotalQueued) * 100);
                         }
 
-                        if (!$scope.queues[event.Message.queueDetail.QueueId]) {
+                        /*if (!$scope.queues[event.Message.queueDetail.QueueId]) {
                             $scope.queueList.push(item);
-                        }
+                        }*/
                         $scope.safeApply(function () {
                             item.CurrentMaxWaitTime = (item.CurrentMaxWaitTime === 0) ? undefined : item.CurrentMaxWaitTime;
                             $scope.queues[event.Message.queueDetail.QueueId] = item;
