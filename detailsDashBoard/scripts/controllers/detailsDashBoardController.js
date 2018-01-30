@@ -882,7 +882,9 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
 
     /** Kasun_Wijeratne_26_JAN_2017 **/
     $scope.closeAgentInfo = function () {
-        $scope.selectedAgent = false;
+		$scope.selectedAgent.isSelected = false;
+		$scope.selectedAgent = undefined;
+		$scope.setRefreshTime($scope.refreshTime);
     }
     /** Kasun_Wijeratne_26_JAN_2017 - ENDS**/
 
@@ -1544,7 +1546,6 @@ mainApp.controller("detailsDashBoardController", function ($http, $scope, $rootS
                                     };
                                 $scope.statusData.push(eventObj);
                             }
-
 
                         }
 
