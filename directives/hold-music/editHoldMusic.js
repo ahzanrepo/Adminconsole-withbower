@@ -8,7 +8,9 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
         scope: {
             holdmusic: "=",
             'updateholdmusic': '&',
-            'reloadpage':'&'
+            'reloadpage':'&',
+            units:'='
+
         },
 
         templateUrl: 'views/hold-music/partials/editHoldMusic.html',
@@ -336,6 +338,10 @@ mainApp.directive("editholdmusic", function ($filter,$uibModal,holdMusicBackendS
             scope.makeAnnouncementEmpty=function()
             {
                 scope.holdmusic.Announcement =null;
+            };
+            scope.makeBusinessUnitEmpty=function()
+            {
+                scope.holdmusic.BusinessUnit ="";
             };
 
 

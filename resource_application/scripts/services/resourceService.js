@@ -40,6 +40,16 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
 
     };
 
+    var resourceIsExists = function (resourceName) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.resourceServiceBaseUrl + "Resource/" + resourceName + "/Exists"
+        }).then(function (response) {
+            return response.data;
+        });
+
+    };
+
     var getResources = function (rowCount, pageNo) {
         return $http({
             method: 'GET',
@@ -299,7 +309,8 @@ mainApp.factory("resourceService", function ($http, $log, $filter, authService, 
         SetResourceToProfile:setResourceToProfile,
         getResourcesWithoutPaging: getResourcesWithoutPaging,
         AssignAttributeToResource: assignAttributeToResource,
-        getQueueSettings: getQueueSettings
+        getQueueSettings: getQueueSettings,
+        ResourceIsExists: resourceIsExists
     }
 
 });

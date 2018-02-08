@@ -4,7 +4,7 @@
 
 'use strict';
 mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $timeout, $filter, $uibModal, jwtHelper, loginService,
-                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter) {
+                                         authService, notifiSenderService, veeryNotification, $q, userImageList, userProfileApiAccess, myUserProfileApiAccess, turnServers, callMonitorSrv, subscribeServices, $ngConfirm, filterFilter, ShareData) {
 
 
     // check adminconsole is focus or not.
@@ -15,7 +15,8 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     });
 
 
-    //added by pawan
+    $scope.BusinessUnit = ShareData.BusinessUnit;
+    $scope.BusinessUnits = ShareData.BusinessUnits;
 
 
     $scope.CallStatus = null;
@@ -406,6 +407,10 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             //loginService.clearCookie("@loginToken");
             //$state.go('login');
         },
+        SetBusinessUnit: function (unit) {
+            ShareData.BusinessUnit = unit;
+            $scope.BusinessUnit = ShareData.BusinessUnit;
+        },
         goDashboard: function () {
             $state.go('console.dashboard');
         },
@@ -417,6 +422,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goAgentDial: function () {
             $state.go('console.AgentDialer');
+        },
+        goAgentDialerAgentWise: function () {
+            $state.go('console.AgentDialerAgentWiseSummary');
         },
         goFileupload: function () {
             $state.go('console.fileupload');
@@ -447,6 +455,9 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goSMSDetailReport: function () {
             $state.go('console.smsdetailreport');
+        },
+        goCampaignCallSummery: function () {
+            $state.go('console.CampaignCallSummary');
         },
         goCallMonitor: function () {
             $state.go('console.callmonitor');
@@ -703,8 +714,27 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
         },
         goQueueSettings: function () {
             $state.go('console.queuesettings');
+        },
+        goInvitations: function () {
+            $state.go('console.invitations');
         }
     };
+
+    $scope.loadBusinessUnit = function () {
+        loginService.LoadBusinessUnits(ShareData.MyProfile._id).then(function (response) {
+            if (response && response.length > 0 && response[0]) {
+                ShareData.BusinessUnits = $filter('orderBy')(response, 'unitName');
+                $scope.BusinessUnits = ShareData.BusinessUnits;
+                ShareData.BusinessUnit = ShareData.BusinessUnits[0].unitName;
+                $scope.BusinessUnit = ShareData.BusinessUnit;
+            }
+        }, function (error) {
+            $log.debug("loadBusinessUnit err");
+        });
+
+    };
+
+
     $scope.showDisplayName = false;
     var getUserName = function () {
         var userDetails = loginService.getTokenDecode();
@@ -715,6 +745,8 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
 
             myUserProfileApiAccess.getMyProfile().then(function (resMyProf) {
                 if (resMyProf.IsSuccess && resMyProf.Result) {
+                    ShareData.MyProfile = resMyProf.Result;
+                    $scope.loadBusinessUnit();
                     myUserProfileApiAccess.getMyOrganization().then(function (resOrg) {
 
                             if (resOrg.IsSuccess && resOrg.Result) {
@@ -766,6 +798,14 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     };
     getUserName();
 
+    // Kasun_Wijeratne
+	$scope.isNavHidden = false;
+	$scope.navToggleCheck = function () {
+		$scope.isNavHidden = !$scope.isNavHidden;
+	}
+    // Kasun_Wijeratne
+
+    // $scope.loadBusinessUnit();
 
     $scope.scrollEnabled = false;
     $scope.safeApply = function (fn) {
@@ -1064,6 +1104,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
     $scope.userGroups = [];
     var isPersistanceLoaded = false;
 
+
     $scope.loadUsers = function () {
         notifiSenderService.getUserList().then(function (response) {
 
@@ -1194,7 +1235,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $scope.isSendingNotifi = true;
             if ($scope.naviSelectedUser.listType === "Group") {
 
-                subscribeServices.getGroupMembers($scope.naviSelectedUser._id).then(function (response) {
+                userProfileApiAccess.getGroupMembers($scope.naviSelectedUser._id).then(function (response) {
                     if (response.IsSuccess) {
                         if (response.Result) {
                             var clients = [];
@@ -1499,40 +1540,22 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
             $RIGHT_COL.css('min-height', contentHeight);
         };
 
-        var liOld = undefined;
+        var oldItem = undefined;
         $SIDEBAR_MENU.find('a').on('click', function (ev) {
 
             var $li = $(this).parent();
-            if(liOld){
-                $('.child_menu li').removeClass('active');
-                /*if (liOld.context.text === $li.context.text ) {
-                 return;
-                 }else{
-
-                 liOld.removeClass('active active-sm');
-                 }*/
+            if (oldItem) {
+                oldItem.addClass('activet');
             }
-            liOld = $li;
 
-            /*if(liOld){
-                if (liOld.context.text === $li.context.text ) {
-                    return;
-                }else{
-
-                    if ((liOld.parent().is('.child_menu'))&&(!$li.parent().is('.child_menu')) ){
-                        liOld.removeClass('active active-sm');
-                        $('ul:first', liOld).slideUp(function () {
-                            setContentHeight();
-                        });
-                    }
-                }
-            }
-            liOld = $li;*/
             if ($li.is('.active')) {
-                $li.removeClass('active active-sm');
+                $li.removeClass('active active-sm activet');
                 $('ul:first', $li).slideUp(function () {
                     setContentHeight();
                 });
+                if ($li.context.text != oldItem.context.text && ($li.closest("li").children("ul").length == 0)) {
+                    $li.addClass('active');
+                }
             } else {
                 // prevent closing menu if we are on child menu
                 if (!$li.parent().is('.child_menu')) {
@@ -1546,7 +1569,7 @@ mainApp.controller('mainCtrl', function ($window, $scope, $rootScope, $state, $t
                     setContentHeight();
                 });
             }
-
+            oldItem = $li;
             //slide menu height set daynamically
             $scope.windowMenuHeight = jsUpdateSize() - 120 + "px";
             document.getElementById('sidebar-menu').style.height = $scope.windowMenuHeight;

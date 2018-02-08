@@ -257,7 +257,23 @@
                         for (var resource in agentListResp.Result) {
                             if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
                                 var caption = agentListResp.Result[resource][0].ResResource.ResourceName;
-                                $scope.agentStatusList[caption] = agentListResp.Result[resource];
+
+                                /*if(!$scope.agentStatusList[caption])
+                                {
+                                    $scope.agentStatusList[caption]=[];
+                                }*/
+
+                                /*$scope.agentStatusList[caption]=agentListResp.Result[resource];*/
+                                if(!$scope.agentStatusList[caption])
+                                {
+                                    $scope.agentStatusList[caption]=[];
+                                }
+
+                                agentListResp.Result[resource].forEach(function (item) {
+                                    $scope.agentStatusList[caption].push(item);
+                                })
+
+
                             }
 
                         }
@@ -1285,8 +1301,6 @@ mainApp.directive('statusgantt', function ($timeout) {
 
 
              ]*/
-
-
 
         },
 

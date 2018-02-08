@@ -5,7 +5,7 @@
  * Created by Pawan on 6/15/2016.
  */
 
-mainApp.controller("agentSummaryController", function ($scope, $filter, $state, $q, agentSummaryBackendService, loginService, $anchorScroll) {
+mainApp.controller("agentSummaryController", function ($scope, $filter, $state, $q, agentSummaryBackendService, loginService, $anchorScroll,uiGridConstants ) {
 
     $anchorScroll();
     $scope.startDate = moment().add(-1, 'd').format("YYYY-MM-DD");
@@ -82,7 +82,63 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
 
     };
 
-    $scope.dtOptions = {paging: false, searching: false, info: false, order: [2, 'asc']};
+    $scope.getTableHeight = function() {
+        var rowHeight = 30; // your row height
+        var headerHeight = 50; // your header height
+        return {
+            height: (($scope.gridQOptions.data.length+2) * rowHeight + headerHeight) + "px"
+        };
+    };
+
+    $scope.gridQOptions = {
+        enableSorting: true,
+        enableRowSelection: false,
+        enableRowHeaderSelection: false,
+        multiSelect: false,
+        modifierKeysToMultiSelect: false,
+        noUnselect: false,
+        columnDefs: [
+            {
+                width: '150',name: 'AgentName', field: 'AgentName', headerTooltip: 'Agent Name',  sort: {
+                direction: uiGridConstants.ASC
+            }
+            },
+            {width: '80',name: 'Date', field: 'Date', headerTooltip: 'Date',cellFilter: 'date:\'yyyy-MM-dd\'', cellClass: 'table-time'},
+            {width: '150',name: 'LoginTime', field: 'LoginTime', headerTooltip: 'LoginTime', cellClass: 'table-time'},
+            {width: '60',name: 'TotalCallsInbound', field: 'TotalCallsInbound', headerTooltip: 'TotalCallsInbound', cellClass: 'table-number'},
+            {width: '60',name : 'TotalCallsOutbound', field: 'TotalCallsOutbound', headerTooltip: 'TotalCallsOutbound', cellClass: 'table-number'},
+            {width: '60',name: 'TotalAnswered', field: 'TotalAnswered', headerTooltip: 'TotalAnswered', cellClass: 'table-number'},
+            {width: '60',name: 'TotalAnsweredOutbound', field: 'TotalAnsweredOutbound', headerTooltip: 'TotalAnsweredOutbound', cellClass: 'table-number'},
+            {width: '60',name : 'TotalHoldInbound', field: 'TotalHoldInbound', headerTooltip: 'TotalHoldInbound', cellClass: 'table-number'},
+            {width: '60',name : 'TotalHoldOutbound', field: 'TotalHoldOutbound', headerTooltip: 'TotalHoldOutbound', cellClass: 'table-number'},
+            {width: '80',name : 'StaffTime', field: 'StaffTime', headerTooltip: 'StaffTime', cellClass: 'table-time'},
+            {width: '80',name : 'InboundTime', field: 'InboundTime', headerTooltip: 'InboundTime', cellClass: 'table-time'},
+            {width: '80',name : 'OutboundTime', field: 'OutboundTime', headerTooltip: 'OutboundTime', cellClass: 'table-time'},
+            {width: '80',name : 'IdleTimeInbound', field: 'IdleTimeInbound', headerTooltip: 'IdleTimeInbound', cellClass: 'table-time'},
+            {width: '80',name : 'IdleTimeOutbound', field: 'IdleTimeOutbound', headerTooltip: 'IdleTimeOutbound', cellClass: 'table-time'},
+            {width: '80',name : 'IdleTimeOffline', field: 'IdleTimeOffline', headerTooltip: 'IdleTimeOffline', cellClass: 'table-time'},
+            {width: '80',name : 'TalkTimeInbound', field: 'TalkTimeInbound', headerTooltip: 'TalkTimeInbound', cellClass: 'table-time'},
+            {width: '80',name : 'TalkTimeOutbound', field: 'TalkTimeOutbound', headerTooltip: 'TalkTimeOutbound', cellClass: 'table-time'},
+            {width: '80',name : 'TotalHoldTimeInbound', field: 'TotalHoldTimeInbound', headerTooltip: 'TotalHoldTimeInbound', cellClass: 'table-time'},
+            {width: '80',name : 'TotalHoldTimeOutbound', field: 'TotalHoldTimeOutbound', headerTooltip: 'TotalHoldTimeOutbound', cellClass: 'table-time'},
+            {width: '80',name : 'AfterWorkTimeInbound', field: 'AfterWorkTimeInbound', headerTooltip: 'AfterWorkTimeInbound', cellClass: 'table-time'},
+            {width: '80',name : 'AfterWorkTimeOutbound', field: 'AfterWorkTimeOutbound', headerTooltip: 'AfterWorkTimeOutbound', cellClass: 'table-time'},
+            {width: '80',name : 'BreakTime', field: 'BreakTime', headerTooltip: 'BreakTime', cellClass: 'table-time'},
+            {width: '80',name : 'AverageHandlingTimeInbound', field: 'AverageHandlingTimeInbound', headerTooltip: 'AverageHandlingTimeInbound', cellClass: 'table-time'},
+            {width: '80',name : 'AverageHandlingTimeOutbound', field: 'AverageHandlingTimeOutbound', headerTooltip: 'AverageHandlingTimeOutbound', cellClass: 'table-time'},
+            {width: '80',name : 'AvgTalkTimeInbound', field: 'AvgTalkTimeInbound', headerTooltip: 'AvgTalkTimeInbound', cellClass: 'table-time'},
+            {width: '80',name : 'AvgTalkTimeOutbound', field: 'AvgTalkTimeOutbound', headerTooltip: 'AvgTalkTimeOutbound', cellClass: 'table-time'},
+            {width: '80',name : 'AvgHoldTimeInbound', field: 'AvgHoldTimeInbound', headerTooltip: 'AvgHoldTimeInbound', cellClass: 'table-time'},
+            {width: '80',name : 'AvgHoldTimeOutbound', field: 'AvgHoldTimeOutbound', headerTooltip: 'AvgHoldTimeOutbound', cellClass: 'table-time'}
+        ],
+        data: $scope.agentSummaryList,
+        onRegisterApi: function (gridApi) {
+            //$scope.grid1Api = gridApi;
+        }
+    };
+
+
+//    $scope.dtOptions = {paging: false, searching: false, info: false, order: [2, 'asc']};
 
 
     $scope.onDateChange = function () {
@@ -100,6 +156,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
     $scope.getAgentSummary = function () {
         $scope.isTableLoading = 0;
         $scope.agentSummaryList = [];
+        $scope.gridQOptions.data = [];
         var resId = null;
         if ($scope.agentFilter) {
             resId = $scope.agentFilter.ResourceId;
@@ -205,6 +262,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
 
 
                         $scope.agentSummaryList.push(summaryData[i].Summary[j]);
+
                     }
                 }
 
@@ -241,7 +299,7 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 $scope.total.OutboundCalls = totalCallsOut;
                 $scope.total.OutboundAnswered = totalOutboundAnswered;
                 $scope.AgentDetailsAssignToSummery();
-                console.log($scope.agentSummaryList);
+                //console.log($scope.agentSummaryList);
 
                 $scope.isTableLoading = 1;
             }
@@ -470,6 +528,8 @@ mainApp.controller("agentSummaryController", function ($scope, $filter, $state, 
                 }
             }
         }
+
+        $scope.gridQOptions.data = $scope.agentSummaryList;
     };
 
     var TimeFromatter = function (mins, timeFormat) {

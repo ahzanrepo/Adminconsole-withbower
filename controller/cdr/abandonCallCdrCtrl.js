@@ -5,7 +5,7 @@
 (function () {
     var app = angular.module("veeryConsoleApp");
 
-    var abandonCallCdrCtrl = function ($scope, $filter, $q, $timeout, cdrApiHandler, sipUserApiHandler, resourceService, loginService, baseUrls,$anchorScroll) {
+    var abandonCallCdrCtrl = function ($scope, $filter, $q, $timeout, ShareData, cdrApiHandler, sipUserApiHandler, resourceService, loginService, baseUrls,$anchorScroll) {
 
         $anchorScroll();
         $scope.enableSearchButton = true;
@@ -38,6 +38,8 @@
                 $scope.dateValid = false;
             }
         };
+
+        $scope.businessUnitEnabled = false;
 
         $scope.startTimeNow = '00:00';
         $scope.endTimeNow = '00:00';
@@ -310,7 +312,14 @@
                     endDate = $scope.endDate + ' 23:59:59' + momentTz;
                 }
 
-                cdrApiHandler.prepareDownloadCDRAbandonByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, null, null, $scope.custFilter, null, 'csv', momentTz).then(function (cdrResp)
+                var tempBUnit = null;
+
+                if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+                {
+                    tempBUnit = ShareData.BusinessUnit;
+                }
+
+                cdrApiHandler.prepareDownloadCDRAbandonByType(startDate, endDate, $scope.agentFilter, $scope.skillFilter, null, null, $scope.custFilter, null, 'csv', momentTz, tempBUnit).then(function (cdrResp)
                     //cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp)
                 {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
@@ -365,9 +374,16 @@
                     endDate = $scope.endDate + ' 23:59:59' + momentTz;
                 }
 
+                var tempBUnit = null;
+
+                if(ShareData.BusinessUnit != 'ALL' && ShareData.BusinessUnit != null)
+                {
+                    tempBUnit = ShareData.BusinessUnit;
+                }
+
 
                 var lim = parseInt($scope.recLimit);
-                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp) {
+                cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, 0, 0, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
                     if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                         if (!isEmpty(cdrResp.Result)) {
                             var count = 0;
@@ -597,12 +613,19 @@
 
                 $scope.isTableLoading = 0;
 
-                cdrApiHandler.getAbandonCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.directionFilter, $scope.recFilter, $scope.custFilter, $scope.didFilter).then(function(cdrCntRsp)
+                var tempBUnit = null;
+
+                if(!$scope.businessUnitEnabled)
+                {
+                    tempBUnit = ShareData.BusinessUnit;
+                }
+
+                cdrApiHandler.getAbandonCDRForTimeRangeCount(startDate, endDate, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function(cdrCntRsp)
                 {
                     if (cdrCntRsp && cdrCntRsp.IsSuccess)
                     {
                         $scope.pagination.totalItems = cdrCntRsp.Result;
-                        cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter).then(function (cdrResp) {
+                        cdrApiHandler.getAbandonCDRForTimeRange(startDate, endDate, lim, offset, $scope.agentFilter, $scope.skillFilter, $scope.custFilter, tempBUnit).then(function (cdrResp) {
                             if (!cdrResp.Exception && cdrResp.IsSuccess && cdrResp.Result) {
                                 if (!isEmpty(cdrResp.Result)) {
 
@@ -675,6 +698,7 @@
                                             cdrAppendObj.Uuid = curProcessingLeg.Uuid;
                                             cdrAppendObj.SipFromUser = curProcessingLeg.SipFromUser;
                                             cdrAppendObj.SipToUser = curProcessingLeg.SipToUser;
+                                            cdrAppendObj.BusinessUnit = curProcessingLeg.BusinessUnit;
                                             cdrAppendObj.IsAnswered = false;
 
                                             cdrAppendObj.HangupCause = curProcessingLeg.HangupCause;

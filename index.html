@@ -129,7 +129,7 @@
 
 <link rel="stylesheet" href="bower_components/ng-wizard/dist/ngWizard.css">
 
-<body class="nav-md">
+<body class="nav-md" ng-style="detailsDashboardState ? {'background':'#f7f7f7'} : null">
 <!--style="display: none;"-->
 <div id="introLoader" class="introLoading introLoader gifLoader theme-dark bubble">
     <div class="gifLoaderInner">
@@ -169,6 +169,9 @@
 <script src="assets/js/jquery-ui-1.9.2-min.js" type="text/javascript"></script>
 <script src="assets/js/jquery.jsPlumb-1.4.1-all-min.js"></script>
 
+
+
+
 <!-- animation plugin --->
 <script type="text/javascript" src="assets/dist/owl.carousel/dist/owl.carousel.js"></script>
 <script type="text/javascript" src="assets/dist/adv-news-ticker/jquery.newsTicker.js"></script>
@@ -182,6 +185,8 @@
 <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="bower_components/ngSlimscroll/src/js/ngSlimscroll.js"></script>
+<script type="text/javascript" src="bower_components/angular-ui-tab-scroll/angular-ui-tab-scroll.js"></script>
+<link type="text/css" href="bower_components/angular-ui-tab-scroll/angular-ui-tab-scroll.css" rel="stylesheet"/>
 
 
 <!-- bootstrap -->
@@ -347,7 +352,9 @@
 <script type="text/javascript" src="bower_components/angular-socket-io/socket.js"></script>
 <script type="text/javascript" src="bower_components/socket.io-client/dist/socket.io.js"></script>
 
+
 <!--- Angular Schema Form --->
+<script type="text/javascript" src="bower_components/angular-progress-arc/angular-progress-arc.js"></script>
 
 <script type="text/javascript" src="bower_components/tv4/tv4.js"></script>
 <script type="text/javascript" src="bower_components/objectpath/lib/ObjectPath.js"></script>
@@ -363,8 +370,8 @@
 
 <!-- controller -->
 <script type="text/javascript" src="controller/mainCtrl.js"></script>
-<script type="text/javascript" src="controller/dashboardCtrl-old.js"></script>
 <script type="text/javascript" src="controller/dashboardCtrl.js"></script>
+<script type="text/javascript" src="directives/dashboard/queueDetails.js"></script>
 <script type="text/javascript" src="controller/realTime/realTimeQueuedCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/cdrCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/callSummaryCtrl.js"></script>
@@ -374,6 +381,7 @@
 <script type="text/javascript" src="controller/cdr/agentStatusListCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/queueSummaryHourlyCtrl.js"></script>
 <script type="text/javascript" src="controller/cdr/cdrCampaignCtrl.js"></script>
+<script type="text/javascript" src="controller/cdr/campaignCallSummaryCtrl.js"></script>
 <script type="text/javascript" src="controller/auditTrail/auditTrailReportCtrl.js"></script>
 <script type="text/javascript" src="controller/sipuser/sipUserCtrl.js"></script>
 <script type="text/javascript" src="factory/userprofile/userProfileApiAccess.js"></script>
@@ -774,9 +782,6 @@
 <script type="text/javascript" src="directives/slabreakdown/dailySLABreakDownDirective.js"></script>
 
 
-<!-- test table check -->
-<script type="text/javascript" src="controller/testTable.js"></script>
-
 
 <!--google recaptcha js-->
 
@@ -866,6 +871,7 @@
 <script type="text/javascript" src="agent_dialer/scripts/controllers/agentDialerController.js"></script>
 <script type="text/javascript" src="agent_dialer/scripts/controllers/agentDialerSummaryController.js"></script>
 <script type="text/javascript" src="agent_dialer/scripts/controllers/agentDialerDetailsController.js"></script>
+<script type="text/javascript" src="agent_dialer/scripts/controllers/agentDialerAgentSummaryController.js"></script>
 <script type="text/javascript" src="agent_dialer/scripts/services/agentDialerService.js"></script>
 
 
@@ -886,7 +892,7 @@
 <script type="text/javascript" src="controller/agent-break-details/agentBreakDetailController.js"></script>
 
 <!--detailsdashboard-->
-<script type="text/javascript" src="detailsDashBoard/scripts/controllers/detailsDashboardController.js"></script>
+<script type="text/javascript" src="detailsDashBoard/scripts/controllers/detailsDashBoardController.js"></script>
 <script type="text/javascript" src="detailsDashBoard/scripts/service/contactService.js"></script>
 
 <!-- reportQueryFilter -->
@@ -920,6 +926,21 @@
 <link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt-plugins.css">
 <script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt-plugins.js"></script>
 
-<!--<script type="text/javascript" src="controller/gantt/ganttController.js"></script>-->
+<!--Kasun_Wijeratne_29_JAN_2017-->
+<script src="assets/js/ElementQueries/css-element-queries-1.0.0/ResizeSensor.js"></script>
+<script src="assets/js/ElementQueries/css-element-queries-1.0.0/ElementQueries.js"></script>
+<!--Kasun_Wijeratne_29_JAN_2017 - ENDS-->
+
+<script type="text/javascript" src="factory/ShareData.js"></script>
 <!--<link rel="stylesheet" href="assets/css/gantt/gantt.css"/>-->
+
+
+<script type="text/javascript" src="directives/companyConfig/businessUnitConfig.js"></script>
+<script type="text/javascript" src="directives/user/groupItem.js"></script>
+<script type="text/javascript" src="controller/invitation-config/invitationController.js"></script>
+<script type="text/javascript" src="factory/invitation-config/invitationApiAccess.js"></script>
+<script type="text/javascript" src="directives/invitation-config/editInvitation.js"></script>
+
+
+
 </html>

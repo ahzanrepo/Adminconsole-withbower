@@ -2,9 +2,16 @@
  * Created by Pawan on 7/29/2016.
  */
 
-mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, loginService,$anchorScroll) {
+mainApp.controller("companyConfigController", function ($scope, $state, companyConfigBackendService, jwtHelper, authService, loginService,$anchorScroll,userProfileApiAccess) {
 
     $anchorScroll();
+    $scope.scrlTabsApi = {};
+
+    $scope.reCalcScroll = function () {
+        if ($scope.scrlTabsApi.doRecalculate) {
+            $scope.scrlTabsApi.doRecalculate();
+        }
+    };
 
     $scope.isNewEndUser = false;
     $scope.isUserError = false;
@@ -581,17 +588,17 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 var errMsg = response.CustomMessage;
 
                 /*if(response.Exception)
-                {
-                    errMsg = response.Exception.Message;
-                }*/
+                 {
+                 errMsg = response.Exception.Message;
+                 }*/
                 $scope.showAlert('Custom Ticket Status', errMsg, 'error');
             }
         }, function(err){
             var errMsg = "Error occurred while add new ticket status";
             /*if(err.statusText)
-            {
-                errMsg = err.statusText;
-            }*/
+             {
+             errMsg = err.statusText;
+             }*/
             $scope.showAlert('Custom Ticket Status', errMsg, 'error');
         });
     };
@@ -700,9 +707,10 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     var getPhoneConfig = function () {
         companyConfigBackendService.getPhoneConfig().then(function (response) {
             $scope.phoneConfig = response;
-            $scope.phoneConfig.autoAnswerDelay = parseInt(response.autoAnswerDelay)/1000;
+
             if(response){
                 $scope.isPhoneConfiged =true;
+                $scope.phoneConfig.autoAnswerDelay = parseInt(response.autoAnswerDelay)/1000;
             }
         }, function(err){
             $scope.showAlert('Phone Config', "Fail To Get Phone Config.", 'error');
@@ -725,7 +733,7 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
                 }
             }
 
-            var patt = new RegExp("/^[a-zA-Z0-9-_\\s]+(Break|break)$/");
+            var patt = /^[a-zA-Z0-9-_\\s]+(Break|break)$/;
             if(!patt.test($scope.breakType.BreakType)){
                 $scope.breakType.BreakType = $scope.breakType.BreakType+'Break';
             }
@@ -1009,4 +1017,630 @@ mainApp.controller("companyConfigController", function ($scope, $state, companyC
     };
 
     $scope.getActiveDirectory();
+
+
+
+    //----------------------------Business Units------------------------------------------------------
+
+    $scope.newBUnit = {};
+    $scope.businessUnits = [];
+    $scope.headUsers=[];
+    $scope.bUnitGroups={};
+    $scope.userGroupList=[];
+
+
+
+    function createFilterFor(query) {
+        var lowercaseQuery = angular.lowercase(query);
+        return function filterFn(group) {
+            return (group.username.toLowerCase().indexOf(lowercaseQuery) != -1);
+            ;
+        };
+    }
+
+    /* $scope.querySearch = function(query) {
+     var results = query ? $scope.groups.filter(createFilterFor(query)) : [];
+     return results;
+     };*/
+
+
+    $scope.querySearch = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.headUsers) {
+                return $scope.headUsers;
+            }
+            else {
+                return [];
+            }
+
+        }
+        else {
+            var results = query ? $scope.headUsers.filter(createFilterFor(query)) : [];
+            return results;
+        }
+
+    };
+
+
+
+
+    $scope.saveNewBusinessUnit = function () {
+
+        if($scope.newBUnit && $scope.newBUnit.unitName)
+        {
+            /*var unitObj =
+             {
+             unitName:$scope.newBUnit.unitName,
+             description:$scope.newBUnit.description
+             }*/
+
+            userProfileApiAccess.saveBusinessUnit($scope.newBUnit).then(function (resSave) {
+
+                if(resSave.IsSuccess)
+                {
+                    $scope.showAlert('Business Unit', 'New Business Unit added successfully', 'success');
+
+                    if($scope.groupSofNewBUnit.length>0)
+                    {
+                        $scope.setBusinessUnitUserGroups ($scope.newBUnit.unitName);
+
+                    }
+                    else
+                    {
+                        $scope.getBusinessUnits();
+                        $scope.newBUnit = {};
+                    }
+
+
+                }
+                else
+                {
+                    $scope.showAlert('Business Unit', 'New Business Unit adding failed', 'error');
+                }
+
+            },function (errSave) {
+
+                $scope.showAlert('Business Unit', 'New Business Unit adding failed', 'error');
+                console.log(errSave);
+            });
+        }
+
+    }
+    $scope.getBusinessUnits = function () {
+
+        userProfileApiAccess.getBusinessUnitsWithGroups().then(function (resUnits) {
+
+            if(resUnits.IsSuccess)
+            {
+                $scope.businessUnits=resUnits.Result;
+            }
+            else
+            {
+                $scope.showAlert('Business Unit', 'No Business Units found', 'info');
+            }
+        },function (errUnits) {
+            $scope.showAlert('Business Unit', 'Error in searching Business Units', 'error');
+        });
+    };
+    $scope.getAdminUsers = function () {
+
+        userProfileApiAccess.getUsersByRole().then(function (resAdmins) {
+
+            if(resAdmins.IsSuccess)
+            {
+                $scope.headUsers=resAdmins.Result;
+            }
+            else
+            {
+                $scope.showAlert('Business Unit', 'No Business Units found', 'info');
+            }
+        },function (errAdmins) {
+            $scope.showAlert('Business Unit', 'Error in searching Business Units', 'error');
+        });
+    };
+    $scope.nonAlocatedGroups =[];
+
+    $scope.loadUserGroups = function () {
+        userProfileApiAccess.getUserGroups().then(function (data) {
+            if (data.IsSuccess) {
+                $scope.userGroupList = data.Result;
+                $scope.nonAlocatedGroups = $scope.userGroupList.filter(function (obj) {
+                    return !obj.businessUnit
+                });
+            }
+            else
+            {
+                var errMsg = data.CustomMessage;
+
+                if (data.Exception) {
+                    errMsg = data.Exception.Message;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+
+            }
+
+        }, function (err) {
+
+            var errMsg = "Error occurred while loading users";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            $scope.showAlert('Error', 'error', errMsg);
+        });
+    };
+
+
+
+    $scope.updateGroupsOfBUnit = function (groupId,unitName,item,isAdd) {
+
+
+        if(isAdd)
+        {
+            $scope.nonAlocatedGroups= $scope.nonAlocatedGroups.filter(function (obj) {
+
+                if(obj._id !=groupId)
+                {
+                    return obj;
+                };
+            });
+            $scope.businessUnits.forEach(function (unit) {
+
+                if(unit.unitName!=unitName && unit.groups)
+                {
+
+                    unit.groups = unit.groups.filter(function( obj ) {
+                        return obj._id != groupId;
+                    });
+
+                }
+            });
+        }
+        else
+        {
+            $scope.nonAlocatedGroups.push(item);
+        }
+
+
+
+    };
+
+
+
+
+    $scope.getBusinessUnits();
+    $scope.getAdminUsers();
+    $scope.loadUserGroups();
+
+
+    //----------------------------Accessible Fields ------------------------------------------------------
+
+    $scope.isConfigured =false;
+    $scope.accessFileds =[];
+    $scope.accessArray =[];
+    $scope.isDefault=false;
+    $scope.btnTitle="SAVE";
+    $scope.RequireFields=[];
+
+
+
+    $scope.querySearchGroups = function (query) {
+        if (query === "*" || query === "") {
+            if ($scope.nonAlocatedGroups) {
+                return $scope.nonAlocatedGroups;
+            }
+            else {
+                return [];
+            }
+
+        }
+        else {
+            var results = query ? $scope.nonAlocatedGroups.filter(createFilterForGroups(query)) : [];
+            return results;
+        }
+
+    };
+
+    $scope.getExternalUserFields = function ()
+    {
+        userProfileApiAccess.getExternalUserFields().then(function (resFileds) {
+
+            if(resFileds.IsSuccess)
+            {
+
+                var keysObj = Object.keys(resFileds.Result);
+
+                keysObj.forEach(function (item) {
+                    if(resFileds.Result[item].isRequired && resFileds.Result[item].path)
+                    {
+                        $scope.RequireFields.push(resFileds.Result[item].path) ;
+                    }
+                });
+
+
+            }
+            else
+            {
+                $scope.showAlert("Error","Error in loading External User Fields ","error");
+            }
+        },function (errFields) {
+            $scope.showAlert("Error","Error in loading External User Fields","error");
+        });
+    };
+    $scope.getExternalUserFields();
+
+    $scope.getDefaultAccessFieldConfigs = function () {
+
+
+
+        userProfileApiAccess.GetExternalUserDefaultAccessFields().then(function (resConfigs) {
+            if(resConfigs.IsSuccess)
+            {
+                $scope.accessFileds=[];
+                if(resConfigs.Result)
+                {
+
+                    resConfigs.Result.Keys.forEach(function (key) {
+                        if(!(key =="_id" || key =="created_at" || key =="updated_at" || key=="__v" || key=="company" ||key=="tenant" ) )
+                        {
+                            /*$scope.accessFileds[key] =
+                             {
+                             Key:key
+                             }*/
+                            var isRequired =false;
+                            var title="";
+
+                            if($scope.RequireFields.indexOf(key)!=-1)
+                            {
+                                isRequired=true;
+                            }
+
+
+
+
+                            if(key=="primary_contacts")
+                            {
+                                title="( Phone numbers & Email )";
+                                isRequired=true;
+                            }
+                            if(key=="secondary_contacts")
+                            {
+                                title="( Land Phone )";
+                            }
+
+
+
+
+
+                            var obj =
+                                {
+                                    Key:key,
+                                    title:title,
+                                    Sub_fileds:{
+                                        require:{},
+                                        view_enable:{},
+                                        editable:{}
+
+                                    },
+                                    isRequired:isRequired
+                                }
+
+                            resConfigs.Result.Sub_keys.forEach(function (field) {
+
+                                if(field!="_id")
+                                {
+                                    var sub_obj =
+                                        {
+                                            action:field,
+                                            value:true
+                                        }
+
+                                    obj.Sub_fileds[field]=sub_obj;
+                                }
+
+                            });
+
+                            $scope.accessFileds.push(obj);
+
+
+                        }
+                    });
+
+
+                }
+                else
+                {
+                    $scope.showAlert("Error","Error in loading Access configs","error");
+                }
+            }
+            else
+            {
+                $scope.showAlert("Error","Error in loading Access configs","error");
+            }
+        },function (errConfigs) {
+            $scope.showAlert("Error","Error in loading Access configs","error");
+        })
+    };
+    $scope.getAccessFieldConfigs = function () {
+
+        userProfileApiAccess.GetExternalUserConfig().then(function (resConfigs) {
+            if(resConfigs.IsSuccess)
+            {
+                $scope.accessFileds=[];
+                if(resConfigs.Result)
+                {
+                    $scope.isConfigured=true;
+                    $scope.btnTitle="UPDATE";
+
+                    for(key in resConfigs.Result)
+                    {
+                        if(!(key =="_id" || key =="created_at" || key =="updated_at" || key=="__v" || key=="company" ||key=="tenant" ) )
+                        {
+                            var isRequired =false;
+                            var title="";
+
+                            if($scope.RequireFields.indexOf(key)!=-1)
+                            {
+                                isRequired=true;
+
+                            }
+
+                            if(key=="primary_contacts")
+                            {
+                                title="( Phone number & Email )";
+                                isRequired=true;
+                            }
+                            if(key=="secondary_contacts")
+                            {
+                                title="( Land Phone )";
+                            }
+
+                            var obj =
+                                {
+                                    Key:key,
+                                    Sub_fileds:{
+                                        require:{},
+                                        view_enable:{},
+                                        editable:{}
+
+                                    },
+                                    title:title,
+                                    isRequired:isRequired
+                                }
+
+
+
+                            for(field in resConfigs.Result[key])
+                            {
+
+                                if(field!="_id")
+                                {
+                                    var sub_obj =
+                                        {
+                                            action:field,
+                                            value:resConfigs.Result[key][field]
+                                        }
+
+                                    obj.Sub_fileds[field]=sub_obj;
+                                }
+
+                            }
+
+                            $scope.accessFileds.push(obj);
+
+                        }
+
+                    }
+
+
+                }
+                else
+                {
+                    $scope.isConfigured=false;
+                    $scope.isDefault=true;
+                    $scope.getDefaultAccessFieldConfigs();
+                }
+            }
+            else
+            {
+                $scope.showAlert("Error","Error in loading Access configs","error");
+            }
+        },function (errConfigs) {
+            $scope.showAlert("Error","Error in loading Access configs","error");
+        });
+    };
+
+    $scope.checkDisable = function (sub,field) {
+        if((sub.action =='require' || sub.action =='editable') && field.isRequired)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    };
+
+
+    $scope.getAccessFieldConfigs();
+    //$scope.getDefaultAccessFieldConfigs();
+
+    $scope.checkValidation=function (action,filed,val) {
+
+
+
+        if((action=="require" || action=="editable") && $scope.RequireFields.indexOf(filed)==-1)
+
+        {
+            $scope.accessFileds.forEach(function (item) {
+
+                if(item.Key == filed)
+                {
+                    if(action=="editable" && !val)
+                    {
+                        item.Sub_fileds.require.value=val;
+                    }
+                    if(action=="require" && val)
+                    {
+                        item.Sub_fileds.editable.value=val;
+                    }
+
+
+
+                    /*
+                     item.Sub_fileds.forEach(function (sub) {
+
+                     if(((action=="require" && sub.action=="editable") || (action=="editable" && sub.action=="require" && val==false)))
+                     {
+
+                     sub.value=val;
+
+                     }
+
+
+                     });*/
+                }
+            });
+        }
+
+
+
+    };
+
+    $scope.addOrUpdateConfig = function () {
+        var saveObj= {};
+
+        $scope.accessFileds.forEach(function (item) {
+
+
+
+            Object.keys(item.Sub_fileds).forEach(function(sub, index) {
+                if(!saveObj[item.Key])
+                {
+                    saveObj[item.Key]={};
+                }
+                if(!saveObj[item.Key][sub])
+                {
+                    saveObj[item.Key][sub]="";
+                }
+                saveObj[item.Key][sub]=item.Sub_fileds[sub].value;
+            }, item.Sub_fileds);
+
+            /* item.Sub_fileds.forEach(function (sub) {
+
+             if(!saveObj[item.Key])
+             {
+             saveObj[item.Key]={};
+             }
+             if(!saveObj[item.Key][sub.action])
+             {
+             saveObj[item.Key][sub.action]="";
+             }
+             saveObj[item.Key][sub.action]=sub.value;
+
+             });*/
+
+
+
+
+        });
+
+        var dataObj=
+            {
+                fields:saveObj
+            }
+
+
+        if(!$scope.isDefault)
+        {
+            userProfileApiAccess.updateAccessFields(dataObj).then(function (resUpdate) {
+                if(resUpdate.IsSuccess)
+                {
+                    $scope.showAlert("Updated","Access Fields Updated","success");
+                }
+                else {
+                    $scope.showAlert("Error","Access Fields Updating failed","error");
+                }
+            },function (errUpdate) {
+                $scope.showAlert(" Error","Access Fields Updating failed","error");
+            });
+        }
+        else
+        {
+            userProfileApiAccess.addAccessFields(dataObj).then(function (resUpdate) {
+                if(resUpdate.IsSuccess)
+                {
+                    $scope.showAlert("New Access Config","Access Fields Added","success");
+                }
+                else {
+                    $scope.showAlert("New Access Config","Access Fields Adding failed","error");
+                }
+            },function (errUpdate) {
+                $scope.showAlert("New Access Config","Access Fields Adding failed","error");
+            });
+        }
+
+
+    };
+
+    $scope.showDefaultAceessFields = function () {
+        $scope.isConfigured =true;
+    }
+
+    $scope.groupSofNewBUnit=[];
+
+    $scope.onChipAddBGroup = function (group) {
+
+        $scope.groupSofNewBUnit.push(group._id);
+        $scope.updateGroupsOfBUnit(group._id,"",group,true);
+        /*scope.updateGroupBUnit(scope.unit.unitName,group,true);*/
+
+    };
+    $scope.onChipDeleteBGroup = function (group) {
+
+        /* var index = $scope.attributeGroups.indexOf(chip.GroupId);
+         console.log("index ", index);
+         if (index > -1) {
+         $scope.attributeGroups.splice(index, 1);
+         console.log("rem attGroup " + $scope.attributeGroups);
+         }*/
+        $scope.groupSofNewBUnit = $scope.groupSofNewBUnit.filter(function (item) {
+
+            return item !=group;
+        });
+
+        $scope.updateGroupsOfBUnit(group._id,"",group,false);
+
+
+    };
+
+
+
+    $scope.setBusinessUnitUserGroups = function (bUnit) {
+
+        var obj =
+            {
+                groups:$scope.groupSofNewBUnit
+            }
+
+
+        userProfileApiAccess.addGroupsToBUnit(bUnit,obj).then(function (resUpdate) {
+            if(resUpdate.IsSuccess)
+            {
+                $scope.showAlert("Business Unit","Update Groups of Business Unit successfully","success");
+                $scope.getBusinessUnits();
+                $scope.newBUnit = {};
+
+            }
+            else
+            {
+                $scope.showAlert("Business Unit","Error in updating Groups of Business Unit ","error");
+            }
+        },function (errUpdate) {
+            $scope.showAlert("Business Unit","Error in updating Groups of  Business Unit ","error");
+        });
+
+
+
+    }
+
 });

@@ -140,7 +140,7 @@
                                 </ul>
                             </li>
 
-                            <li ng-show="accessNavigation.PACKAGE_MANAGER || accessNavigation.CREDIT_MANAGER || accessNavigation.BILLING_HISTORY">
+                            <li ng-show="accessNavigation.PACKAGE_MANAGER || accessNavigation.CREDIT_MANAGER || accessNavigation.BILLING_HISTORY || accessNavigation.INVITATIONS">
                                 <a class="font-robot font-300 "><i class="fa fa-dollar"></i>Account <span
                                         class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -155,7 +155,7 @@
 
                                     <li ng-show="accessNavigation.BILLING_HISTORY"><a href="javascript:void(0);"
                                                                                       ng-click="clickDirective.goBillingHistory()">
-                                        Billing Histoty</a>
+                                        Billing History</a>
                                     </li>
 
                                     <li><a>configurations <span class="fa fa-chevron-down"></span></a>
@@ -176,7 +176,10 @@
                                         </ul>
 
                                     </li>
-
+                                    <li ng-show="accessNavigation.INVITATIONS"><a href="javascript:void(0);"
+                                                                                      ng-click="clickDirective.goInvitations()">
+                                       Invitations</a>
+                                    </li>
 
                                     <!--<li ng-show="accessNavigation.CONFERENCE_MONITOR"><a href="javascript:void(0);"
                                                                                  ng-click="clickDirective.goConferenceMonitor()">Conference Monitor</a>
@@ -295,7 +298,7 @@
                                 <ul class="nav child_menu">
                                     <li ng-show="accessNavigation.TICKET_FILTER"><a href="javascript:void(0);"
                                                                                     ng-click="clickDirective.goFilter()">
-                                        Create Filter</a></li>
+                                        Ticket Filter</a></li>
                                     <li ng-show="accessNavigation.TICKET_TRIGGER"><a href="javascript:void(0);"
                                                                                      ng-click="clickDirective.goTicketTrigger()">Ticket
                                         Trigger</a></li>
@@ -420,6 +423,10 @@
                                             href="javascript:void(0);"
                                             ng-click="clickDirective.goCampaignSummery();">Summery</a>
                                     </li>
+                                    <li ng-show="accessNavigation.CAMPAIGN_SUMMARY_REPORT"><a
+                                            href="javascript:void(0);"
+                                            ng-click="clickDirective.goCampaignCallSummery();">Call Summary</a>
+                                    </li>
                                     <li ng-show="accessNavigation.CAMPAIGN_DISPOSITION_REPORT"><a
                                             href="javascript:void(0);"
                                             ng-click="clickDirective.goCampaignDisposition();">Disposition</a>
@@ -439,6 +446,10 @@
 
                                     <li><a>Agent Dialer <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
+                                            <li ng-show="accessNavigation.AGENT_DIALER_SUMMARY_REPORT"><a
+                                                    href="javascript:void(0);"
+                                                    ng-click="clickDirective.goAgentDialerAgentWise();">Agent Wise Summery</a>
+                                            </li>
                                             <li ng-show="accessNavigation.AGENT_DIALER_SUMMARY_REPORT"><a
                                                     href="javascript:void(0);"
                                                     ng-click="clickDirective.goAgentDialerSummery();">Summery</a>
@@ -541,23 +552,19 @@
                                     <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a>Zoho<span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a
-                                                    href="javascript:void(0);"
-                                                    ng-click="clickDirective.goTicketSummary()">Ticket
-                                                Summery</a></li>
-                                            <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a
-                                                    href="javascript:void(0);"
-                                                    ng-click="clickDirective.goTicketTagSummary()">Tag
-                                                Wise Ticket
-                                                Summery</a></li>
-                                            <li ng-show="accessNavigation.TICKET_DETAIL_REPORT"><a
-                                                    href="javascript:void(0);"
-                                                    ng-click="clickDirective.goTicketDetailReport()">Ticket
-                                                Detail </a></li>
-                                        </ul>
-                                    </li>
+                                    <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a
+                                            href="javascript:void(0);"
+                                            ng-click="clickDirective.goTicketSummary()">Ticket
+                                        Summery</a></li>
+                                    <li ng-show="accessNavigation.TICKET_SUMMARY_REPORT"><a
+                                            href="javascript:void(0);"
+                                            ng-click="clickDirective.goTicketTagSummary()">Tag
+                                        Wise Ticket
+                                        Summery</a></li>
+                                    <li ng-show="accessNavigation.TICKET_DETAIL_REPORT"><a
+                                            href="javascript:void(0);"
+                                            ng-click="clickDirective.goTicketDetailReport()">Ticket
+                                        Detail </a></li>
                                 </ul>
                             </li>
 
@@ -905,14 +912,15 @@
                 </div>
             </div>
         </div>
-        <div class="top_nav">
+        <div class="top_nav" ng-style="!isNavHidden ? {'width': 'calc(100% - 230px)'} : {'width':'100%'}">
             <div class="nav_menu">
                 <nav class="" role="navigation">
                     <div class="nav toggle ">
-                        <a id="menu_toggle" nav-toggle><i class="fa fa-bars font-gry-150"></i></a>
+                        <a id="menu_toggle" nav-toggle ng-click="navToggleCheck()"><i class="fa fa-bars font-gry-150"></i></a>
                     </div>
 
                     <ul class="nav navbar-nav navbar-right">
+
                         <li class="">
                             <a href="javascript:void(0);" class="user-profile dropdown-toggle ubuntu-Light"
                                data-toggle="dropdown"
@@ -928,6 +936,20 @@
                                 <li ng-click="clickDirective.goLogout()">
                                     <a href="javascript:void(0)"><i
                                             class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="">
+                            <a href="javascript:void(0);" class="user-profile dropdown-toggle ubuntu-Light"
+                               data-toggle="dropdown"
+                               aria-expanded="false">
+                                    Business Unit :
+                                <span >{{BusinessUnit}}</span>
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <!--<li ng-click="clickDirective.SetBusinessUnit('default')"><a href="javascript:void(0)"> All Unit</a></li>-->
+                                <li ng-repeat="unit in BusinessUnits" ng-click="clickDirective.SetBusinessUnit(unit.unitName)"><a href="javascript:void(0)"> {{unit.unitName}}</a></li>
                             </ul>
                         </li>
 
@@ -1051,7 +1073,7 @@
                                 </button>
                                 <button class="btn bg-blue700 hvr-pop" ng-click="SwapUser()"
                                         ng-disabled="(CallStatus=='SWAPED' ||CallStatus==null || CallStatus=='LISTEN' || CallStatus=='THREEWAY' )"
-                                        title="Swap User">
+                                        title="Connect with caller">
                                     <span class="fa fa-user" aria-hidden="true"></span></button>
                                 <!--<button class="btn btn-round btn-default" ng-click="SwapUser2()" ng-disabled="!(CallStatus=='BARGED')"><span class="" aria-hidden="true">2</span></button>-->
                             </div>

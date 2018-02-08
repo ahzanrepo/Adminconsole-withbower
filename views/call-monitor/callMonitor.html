@@ -1,18 +1,17 @@
-<div class="row" >
+<div class="row" ng-controller="callmonitorcntrl">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="page-title">
-            <div class="title_left">
-                <h3 class="font-robot font-600 ">Call Monitor</h3>
-            </div>
-        </div>
+        <!--<div class="page-title">-->
+            <!--<div class="title_left">-->
+                <!--<h3 class="font-robot font-600 ">Call Monitor</h3>-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="x_panel">
-            <div class="x_title">
-                <h2 class="font-robot font-300 text-uppercase font-15">ongoing call viewer
-                </h2>
+            <div>
+                <h2 class="x_title_inner" style="display: inline-block">Ongoing Call <small>viewer</small></h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <button type="button" class="btn btn-success" ng-click="LoadCurrentCalls()">
-                            Refresh
+                        <button type="button" class="btn btn-success" ng-click="LoadCurrentCalls()" style="padding: 5px 10px;height: 35px">
+                            <i class="fa fa-refresh"></i>
                         </button>
                     </li>
                     <li>
@@ -20,9 +19,7 @@
                             Register
                         </button>
                     </li>
-
                 </ul>
-                <div class="clearfix"></div>
             </div>
 
             <div class="x_content">
@@ -46,22 +43,24 @@
 
                         <tbody>
                         <tr class="even pointer veery-tbl-body" ng-repeat="call in CallObj">
+                            <div ng-show="call.BusinessUnit==selectedBUnit || selectedBUnit.toLocaleLowerCase()=='all'">
+                                <td class="valAlgn">{{call.Direction}}</td>
+                                <td class="valAlgn">{{call.FromID}}</td>
+                                <td class="valAlgn">{{call.ToID}}</td>
+                                <td class="valAlgn">{{call.Receiver}}</td>
+                                <td class="valAlgn">{{call.Skill}}</td>
+                                <td class="valAlgn">{{call.CallDuration}}</td>
+                                <td class="valAlgn">{{call.LocalTime}}</td>
 
-                            <td class="valAlgn">{{call.Direction}}</td>
-                            <td class="valAlgn">{{call.FromID}}</td>
-                            <td class="valAlgn">{{call.ToID}}</td>
-                            <td class="valAlgn">{{call.Receiver}}</td>
-                            <td class="valAlgn">{{call.Skill}}</td>
-                            <td class="valAlgn">{{call.CallDuration}}</td>
-                            <td class="valAlgn">{{call.LocalTime}}</td>
+                                <td class="lstCol">
+                                    <button type="submit" class="btn btn-primary btn-sm"
+                                            ng-click="ListenCall(call)" ng-disabled="inCall"><span class="" aria-hidden="true"></span> Listen
+                                    </button>
+                                    <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->
+                                    <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->
+                                </td>
+                            </div>
 
-                            <td class="lstCol">
-                                <button type="submit" class="btn btn-primary btn-sm"
-                                        ng-click="ListenCall(call)" ng-disabled="inCall"><span class="" aria-hidden="true"></span> Listen
-                                </button>
-                                <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->
-                                <!--<button type="submit" class="btn btn-primary" ng-click="BargeCall(call.BargeID)"><span class="fa fa-phone" aria-hidden="true"></span> Barge</button>-->
-                            </td>
 
 
                         </tr>
