@@ -129,6 +129,27 @@
                 return resp.data;
             })
         };
+
+        var getBusinessUnits = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnits'
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
+        var getBusinessUnitsWithGroups = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnitsWithGroups'
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
         var getGroupMembers = function (groupID) {
 
             return $http({
@@ -228,6 +249,90 @@
             })
         };
 
+        var saveBusinessUnit = function (unitObj) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnit',
+                data: unitObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
+        var updateUserGroup = function (id,updtObj) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'UserGroup/'+id,
+                data: updtObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+        var updateBusinessUnit = function (name,updtObj) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnit/'+name,
+                data: updtObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
+        var GetExternalUserConfig = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig'
+            }).then(function (response) {
+                return response.data;
+            })
+        };
+        var GetExternalUserDefaultAccessFields = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig/DefaultKeys'
+            }).then(function (response) {
+                return response.data;
+            })
+        };
+        var getExternalUserFields = function () {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig/UserFields'
+            }).then(function (response) {
+                return response.data;
+            })
+        };
+        var updateAccessFields = function (updtObj) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig',
+                data: updtObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+        var addAccessFields = function (updtObj) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.UserServiceBaseUrl + 'ExternalUserConfig',
+                data: updtObj
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+        var addGroupsToBUnit = function (unitname,groupIds) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.UserServiceBaseUrl + 'BusinessUnit/'+unitname+'/Groups',
+                data: groupIds
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
 
 
 
@@ -252,7 +357,18 @@
             restrictFileCategoryToUser:restrictFileCategoryToUser,
             addUserFromAD:addUserFromAD,
             GetFileCatagories:GetFileCatagories,
-            ReactivateUser:reactivateUser
+            ReactivateUser:reactivateUser,
+            getBusinessUnits: getBusinessUnits,
+            saveBusinessUnit:saveBusinessUnit,
+            updateUserGroup:updateUserGroup,
+            updateBusinessUnit:updateBusinessUnit,
+            GetExternalUserConfig:GetExternalUserConfig,
+            GetExternalUserDefaultAccessFields:GetExternalUserDefaultAccessFields,
+            updateAccessFields:updateAccessFields,
+            addAccessFields:addAccessFields,
+            getBusinessUnitsWithGroups:getBusinessUnitsWithGroups,
+            getExternalUserFields:getExternalUserFields,
+            addGroupsToBUnit:addGroupsToBUnit
         };
     };
 

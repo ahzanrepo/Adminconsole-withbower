@@ -41,6 +41,14 @@
                                 </select>
                             </div>
 
+                            <div class="col-md-1 col-sm-1 col-xs-1 form-group" style="position: relative; top: 12px">
+                                <label>Agent</label>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-3 form-group">
+                                <input style="max-height: 200px;overflow-y: auto" type="text" ng-model="Resource"  uib-typeahead="resource.ResourceName as resource.ResourceName for resource in ResourceList | filter:$viewValue | orderBy: 'ResourceName'"  class="form-control" typeahead-show-hint="true" typeahead-min-length="0">
+                            </div>
+
 
                             <div class="col-md-2 col-sm-2 col-xs-12 form-group"  >
                                 <input type="number" min="0" class="form-control has-feedback-left"

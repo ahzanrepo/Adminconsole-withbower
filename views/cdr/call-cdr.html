@@ -1,7 +1,10 @@
 <div ng-controller="cdrCtrl">
     <div class="page-title">
-        <div class="title_left">
-            <h3 class="font-robot font-600 ">CDR Report</h3>
+        <div class="row">
+            <div class="col-md-10 col-sm-10 col-xs-10">
+                <h3 class="font-robot font-600 ">CDR Report</h3>
+            </div>
+
         </div>
     </div>
 
@@ -313,6 +316,10 @@
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
                                                 rowspan="1"
+                                                colspan="1" aria-label="Business Unit">Business Unit
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-responsive"
+                                                rowspan="1"
                                                 colspan="1" aria-label="Play File">Play File
                                             </th>
                                         </thead>
@@ -335,6 +342,7 @@
                                             <td>{{cdr.ObjCategory}}</td>
                                             <td>{{cdr.HangupParty}}</td>
                                             <td>{{cdr.TransferredParties}}</td>
+                                            <td>{{cdr.BusinessUnit}}</td>
                                             <td>
                             <span ng-show="cdr.ShowButton">
 

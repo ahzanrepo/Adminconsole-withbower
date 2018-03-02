@@ -17,6 +17,41 @@
             }
         };
 
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(group) {
+                return (group.username.toLowerCase().indexOf(lowercaseQuery) != -1);
+                ;
+            };
+        }
+
+
+
+
+        $scope.querySearch = function (query) {
+            if (query === "*" || query === "") {
+                if ($scope.adminUserList) {
+                    return $scope.adminUserList;
+                }
+                else {
+                    return [];
+                }
+
+            }
+            else {
+                var results = query ? $scope.adminUserList.filter(createFilterFor(query)) : [];
+                return results;
+            }
+
+        };
+
+        $scope.onChipAdd = function (chip) {
+
+            chip.isTemp=true;
+            console.log("add attGroup " + $scope.attributeGroups);
+
+        };
+
         $anchorScroll();
         $scope.showAlert = function (title, type, content) {
 
@@ -28,12 +63,15 @@
             });
         };
 
-
+        $scope.isEditing=false;
+        $scope.businessUnits=[];
         $scope.newUser = {};
         $scope.newUserGroup = {};
         $scope.newUser.title = 'mr';
         $scope.NewUserLabel = "+";
         $scope.newGroupUsers = [];
+        $scope.addMemRole="user";
+        $scope.isScrolled =false;
 
         $scope.searchCriteria = "";
 
@@ -96,6 +134,31 @@
                 $scope.showAlert('Error', 'error', errMsg);
             });
         };
+
+        var loadAdminUsers = function () {
+            userProfileApiAccess.getUsersByRole().then(function (data) {
+                if (data.IsSuccess) {
+                    $scope.adminUserList = data.Result;
+                }
+                else {
+                    var errMsg = data.CustomMessage;
+
+                    if (data.Exception) {
+                        errMsg = data.Exception.Message;
+                    }
+                    $scope.showAlert('Error', 'error', errMsg);
+
+                }
+            },function (err) {
+                var errMsg = "Error occurred while loading users";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                $scope.showAlert('Error', 'error', errMsg);
+            })
+        };
+
+
         var loadUserGroups = function () {
             userProfileApiAccess.getUserGroups().then(function (data) {
                 if (data.IsSuccess) {
@@ -160,6 +223,7 @@
 
         loadUsers();
         loadUserGroups();
+        loadAdminUsers();
 
 
         $scope.removeUser = function (user) {
@@ -191,49 +255,49 @@
                             history: false
                         }
                     }).get().on('pnotify.confirm', function () {
-                            userProfileApiAccess.ReactivateUser(user.username).then(function (data) {
-                                if (data.IsSuccess) {
-                                    $scope.showAlert('Success', 'info', 'User Reactivated');
-                                    $scope.safeApply(function () {
-                                        $scope.disableSwitch = false;
-                                    });
-                                }
-                                else {
-                                    var errMsg = "";
-                                    $scope.safeApply(function () {
-                                        user.Active = false;
-                                        $scope.disableSwitch = false;
-                                    });
-
-
-                                    if (data.Exception) {
-                                        errMsg = data.Exception.Message;
-                                    }
-
-                                    if (data.CustomMessage) {
-                                        errMsg = data.CustomMessage;
-                                    }
-                                    $scope.showAlert('Error', 'error', errMsg);
-                                }
-
-                            }, function (err) {
+                        userProfileApiAccess.ReactivateUser(user.username).then(function (data) {
+                            if (data.IsSuccess) {
+                                $scope.showAlert('Success', 'info', 'User Reactivated');
+                                $scope.safeApply(function () {
+                                    $scope.disableSwitch = false;
+                                });
+                            }
+                            else {
+                                var errMsg = "";
                                 $scope.safeApply(function () {
                                     user.Active = false;
                                     $scope.disableSwitch = false;
                                 });
-                                loginService.isCheckResponse(err);
-                                var errMsg = "Error occurred while deleting contact";
-                                if (err.statusText) {
-                                    errMsg = err.statusText;
+
+
+                                if (data.Exception) {
+                                    errMsg = data.Exception.Message;
+                                }
+
+                                if (data.CustomMessage) {
+                                    errMsg = data.CustomMessage;
                                 }
                                 $scope.showAlert('Error', 'error', errMsg);
-                            });
-                        }).on('pnotify.cancel', function () {
+                            }
+
+                        }, function (err) {
                             $scope.safeApply(function () {
                                 user.Active = false;
                                 $scope.disableSwitch = false;
                             });
+                            loginService.isCheckResponse(err);
+                            var errMsg = "Error occurred while deleting contact";
+                            if (err.statusText) {
+                                errMsg = err.statusText;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
                         });
+                    }).on('pnotify.cancel', function () {
+                        $scope.safeApply(function () {
+                            user.Active = false;
+                            $scope.disableSwitch = false;
+                        });
+                    });
                 }
 
             }else{
@@ -258,50 +322,102 @@
                             history: false
                         }
                     }).get().on('pnotify.confirm', function () {
-                            userProfileApiAccess.deleteUser(user.username).then(function (data) {
-                                if (data.IsSuccess) {
-                                    $scope.showAlert('Success', 'info', 'User Deleted');
-                                    $scope.safeApply(function () {
-                                        $scope.disableSwitch = false;
-                                    });
-                                }
-                                else {
-                                    var errMsg = "";
-                                    $scope.safeApply(function () {
-                                        user.Active = true;
-                                        $scope.disableSwitch = false;
-                                    });
-
-                                    if (data.Exception) {
-                                        errMsg = data.Exception.Message;
-                                    }
-
-                                    if (data.CustomMessage) {
-                                        errMsg = data.CustomMessage;
-                                    }
-                                    $scope.showAlert('Error', 'error', errMsg);
-                                }
-
-                            }, function (err) {
+                        userProfileApiAccess.deleteUser(user.username).then(function (data) {
+                            if (data.IsSuccess) {
+                                $scope.showAlert('Success', 'info', 'User Deleted');
+                                $scope.safeApply(function () {
+                                    $scope.disableSwitch = false;
+                                });
+                            }
+                            else {
+                                var errMsg = "";
                                 $scope.safeApply(function () {
                                     user.Active = true;
                                     $scope.disableSwitch = false;
                                 });
-                                loginService.isCheckResponse(err);
-                                var errMsg = "Error occurred while deleting contact";
-                                if (err.statusText) {
-                                    errMsg = err.statusText;
+
+                                if (data.Exception) {
+                                    errMsg = data.Exception.Message;
+                                }
+
+                                if (data.CustomMessage) {
+                                    errMsg = data.CustomMessage;
                                 }
                                 $scope.showAlert('Error', 'error', errMsg);
-                            });
-                        }).on('pnotify.cancel', function () {
+                            }
+
+                        }, function (err) {
                             $scope.safeApply(function () {
                                 user.Active = true;
                                 $scope.disableSwitch = false;
                             });
+                            loginService.isCheckResponse(err);
+                            var errMsg = "Error occurred while deleting contact";
+                            if (err.statusText) {
+                                errMsg = err.statusText;
+                            }
+                            $scope.showAlert('Error', 'error', errMsg);
                         });
+                    }).on('pnotify.cancel', function () {
+                        $scope.safeApply(function () {
+                            user.Active = true;
+                            $scope.disableSwitch = false;
+                        });
+                    });
                 }
             }
+
+        };
+
+        $scope.removeSupervisor = function (userId) {
+
+            new PNotify({
+                title: 'Confirmation Needed',
+                text: 'Do you want to remove Supervisor from this Group',
+                icon: 'glyphicon glyphicon-question-sign',
+                hide: false,
+                confirm: {
+                    confirm: true
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                },
+                addclass: 'stack-modal',
+            }).get().on('pnotify.confirm', function () {
+                $scope.selectedGroup.supervisors = $scope.selectedGroup.supervisors.filter(function (item) {
+
+                    return item._id != userId;
+                });
+
+                var updateObj =
+                    {
+                        supervisors:$scope.selectedGroup.supervisors
+                    };
+
+
+                userProfileApiAccess.updateUserGroup($scope.selectedGroup._id,updateObj).then(function (resUpdate) {
+                    if(resUpdate.IsSuccess)
+                    {
+                        $scope.showAlert("Success","success","Supervisor removed successfully");
+
+
+                    }
+                    else
+                    {
+                        $scope.showAlert("Error","error","Supervisor removing failed");
+                    }
+                },function (errUpdate) {
+                    $scope.showAlert("Error","error","Supervisor removing failed");
+                });
+            }).on('pnotify.cancel', function () {
+                console.log('fire event cancel');
+            });
+
+
 
         };
 
@@ -342,25 +458,31 @@
         };
 
         $scope.loadGroupMembers = function (group) {
-            $scope.groupMemberlist = [];
-            $scope.isLoadingUsers = true;
-            $scope.selectedGroup = group;
 
-            userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
-                if (response.IsSuccess) {
-                    $scope.groupMemberlist = response.Result;
-                    removeAllocatedAgents()
-                }
-                else {
-                    console.log("Error in loading Group member list");
+            if(!$scope.isEditing)
+            {
+                $scope.groupMemberlist = [];
+                $scope.isLoadingUsers = true;
+                $scope.selectedGroup = group;
+
+                userProfileApiAccess.getGroupMembers(group._id).then(function (response) {
+                    if (response.IsSuccess) {
+                        $scope.groupMemberlist = response.Result;
+                        removeAllocatedAgents()
+                    }
+                    else {
+                        console.log("Error in loading Group member list");
+                        //scope.showAlert("User removing from group", "error", "Error in removing user from group");
+                    }
+                    $scope.isLoadingUsers = false;
+                }, function (err) {
+                    console.log("Error in loading Group member list ", err);
                     //scope.showAlert("User removing from group", "error", "Error in removing user from group");
-                }
-                $scope.isLoadingUsers = false;
-            }, function (err) {
-                console.log("Error in loading Group member list ", err);
-                //scope.showAlert("User removing from group", "error", "Error in removing user from group");
-            });
+                });
+            }
+
         };
+
 
 
         //remove group member
@@ -418,16 +540,50 @@
             }, 300);
         };
 
-        $scope.addNewGroupMember = function () {
+
+        $scope.addNewGroupMember = function (memState) {
+            $anchorScroll();
+            $scope.isOpen=true;
             $('#crateNewGroupMemberWrapper').animate({
                 bottom: "-5"
-            }, 500);
+            }, 200);
+            $('#fixedCreateNew').animate({
+                opacity: 1,
+                "z-index": 1
+            }, 200);
+
+
+            if(memState.toLowerCase()=='member')
+            {
+                $scope.addingTitle = "Add Group Member";
+                $scope.addMemRole="member";
+            }
+            else
+            {
+                $scope.addingTitle = "Add Group Supervisor";
+                $scope.addMemRole="supervisor";
+            }
+
+
         };
+
         $scope.hiddenNewGroupMember = function () {
             $('#crateNewGroupMemberWrapper').animate({
                 bottom: "-95"
-            }, 300);
+            }, 200);
+
+            $('#fixedCreateNew').animate({
+                opacity: 0,
+                "z-index": -1
+            }, 200);
+
+            $scope.isOpen=false;
         };
+
+        $scope.showUnits=false;
+        $scope.showIt = function () {
+            $scope.showUnits=!$scope.showUnits
+        }
 
 
         //add user to group
@@ -470,7 +626,26 @@
 
             $scope.pwdBox = !$scope.pwdBox;
         };
+        // $scope.$watch(function () {
+        //
+        //     if($scope.isOpenAdd)
+        //     {
+        //         $scope.hiddenNewGroupMember();
+        //     }
+        //
+        // });
 
+
+
+        $(document).bind('scroll', function () {
+
+            if( $scope.isOpen)
+            {
+                $scope.hiddenNewGroupMember();
+            }
+
+
+        });
 
         //-------------------------Active Directory-------------------------------------
 
@@ -595,9 +770,62 @@
 
         $scope.userActiveCheck = false;
 
+        $scope.checkEditing = function () {
+            $scope.isEditing=!$scope.isEditing;
+        }
+
+        $scope.loadBusinessUnits = function () {
+            userProfileApiAccess.getBusinessUnits().then(function (resUnits) {
+                if(resUnits.IsSuccess)
+                {
+                    $scope.businessUnits=resUnits.Result;
+                }
+                else {
+                    $scope.showAlert("Business Unit","error","No Business Units found");
+                }
+            },function (errUnits) {
+                $scope.showAlert("Business Unit","error","Error in searching Business Units");
+            });
+        }
+        $scope.loadBusinessUnits();
+
+        $scope.addSupervisorsToGroup = function () {
+
+
+            var updateObj =
+                {
+                    supervisors:$scope.selectedGroup.supervisors
+
+                }
+
+
+            userProfileApiAccess.updateUserGroup($scope.selectedGroup._id,updateObj).then(function (resUpdate) {
+                if(resUpdate.IsSuccess)
+                {
+                    $scope.showAlert("Business Unit","success","Supervisors of Group updated successfully");
+                    $scope.selectedGroup.supervisors.forEach(function (item) {
+
+                        item.isTemp=false;
+                    });
+
+
+                }
+                else
+                {
+                    $scope.showAlert("Business Unit","error","Error in updating Supervisors of Group");
+                }
+            },function (errUpdate) {
+                $scope.showAlert("Business Unit","error","Error in updating Supervisors of Group");
+            });
+
+
+
+        }
 
 
     };
+
+
 
     app.controller("userListCtrl", userListCtrl);
 }());

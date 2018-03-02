@@ -1,7 +1,7 @@
 /**
  * Created by Rajinda on 9/1/2016.
  */
-mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout, $filter,
+mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout, $filter, ShareData, _,
                                                        dashboardService, moment, userImageList, $anchorScroll, subscribeServices, userProfileApiAccess, reportQueryFilterService) {
     $anchorScroll();
     //var getAllRealTime = function () {
@@ -57,7 +57,8 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         else {
             if ($scope.usrList) {
                 var filteredArrUsr = $scope.usrList.filter(function (item) {
-                    var regEx = "^(" + query + ")";
+                    //var regEx = "^(" + query + ")";
+                    var regEx = query;
 
                     if (item.username) {
                         return item.username.match(regEx);
@@ -112,13 +113,34 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
     /*--------------------------- Filter ------------------------------------------*/
     $scope.SaveReportQueryFilter = function () {
-        reportQueryFilterService.SaveReportQueryFilter("AgentProfileSummary", $scope.filter);
+        var reportQueryName = 'AgentProfileSummary';
+
+        if(ShareData.BusinessUnit)
+        {
+            reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+        }
+        reportQueryFilterService.SaveReportQueryFilter(reportQueryName, $scope.filter);
     };
 
     $scope.GetReportQueryFilter = function () {
-        reportQueryFilterService.GetReportQueryFilter("AgentProfileSummary").then(function (response) {
+        var reportQueryName = 'AgentProfileSummary';
+
+        if(ShareData.BusinessUnit)
+        {
+            reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+        }
+
+        reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
             if (response) {
                 $scope.filter = response;
+            }
+            else
+            {
+                $scope.filter = {
+                    filterType: 'ALL',
+                    agentFilter: [],
+                    groupFilter: []
+                };
             }
         }, function (error) {
             console.log(error);
@@ -130,11 +152,32 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
     /*--------------------------- Filter ------------------------------------------*/
 
     $scope.loadUserList = function () {
-        userProfileApiAccess.getUsers().then(function (usrList) {
+
+        var usrMapList = [];
+
+        ShareData.GetUserByBusinessUnit().then(function (response) {
+            if (response) {
+
+                angular.forEach(response, function(item)
+                {
+                    if(item&&item.resourceid){
+                        usrMapList.push({username: item.username});
+                    }
+                });
+
+            }
+            $scope.usrList = usrMapList;
+        }, function (error) {
+            $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list');
+        });
+
+        /*userProfileApiAccess.getUsers().then(function (usrList) {
             if (usrList && usrList.Result) {
                 var usrMapList = usrList.Result.map(function (usr) {
                     return {username: usr.username};
                 });
+
+
                 $scope.usrList = usrMapList;
             }
             else {
@@ -144,8 +187,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         }).catch(function (err) {
             $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list');
 
-        })
+        })*/
     };
+
+    $scope.originalGrpList = [];
 
     $scope.onSelectionChanged = function () {
         if ($scope.filter.filterType === 'ALL') {
@@ -162,19 +207,40 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
         $scope.SaveReportQueryFilter();
     };
 
+
+
     $scope.loadUserList();
 
     $scope.loadUserGroupList = function () {
         userProfileApiAccess.getUserGroups().then(function (grpList) {
-            if (grpList && grpList.Result) {
-                $scope.originalGrpList = grpList.Result;
-                var grpMapList = grpList.Result.map(function (grp) {
-                    return {name: grp.name};
-                });
+            if (grpList && grpList.Result && ShareData.BusinessUnit) {
+                if(ShareData.BusinessUnit === 'ALL')
+                {
+                    $scope.originalGrpList = grpList.Result;
+                    var grpMapList = grpList.Result.map(function (grp) {
+                        return {name: grp.name};
+                    });
 
-                $scope.grpList = grpMapList;
+                    $scope.grpList = grpMapList;
+                }
+                else
+                {
+                    var grpMapList = [];
+                    grpList.Result.forEach(function(tmpGrp)
+                    {
+                        if(tmpGrp.BusinessUnit === ShareData.BusinessUnit)
+                        {
+                            grpMapList.push(tmpGrp);
+                        }
+                    });
+
+                    $scope.grpList = grpMapList;
+                    angular.copy($scope.grpList, $scope.originalGrpList);
+                }
+
             }
             else {
+                $scope.originalGrpList = [];
                 $scope.grpList = [];
             }
 
@@ -187,6 +253,38 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
     $scope.loadUserGroupList();
 
+    $scope.$watch(function () {
+        return ShareData.BusinessUnit;
+    }, function (newValue, oldValue) {
+        if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+            var reportQueryName = 'AgentProfileSummary';
+
+            if(ShareData.BusinessUnit)
+            {
+                reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+            }
+
+            reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
+                if (response) {
+                    $scope.filter = response;
+                }
+                else
+                {
+                    $scope.filter = {
+                        filterType: 'ALL',
+                        agentFilter: [],
+                        groupFilter: []
+                    };
+                }
+
+                $scope.loadUserList();
+                $scope.loadUserGroupList();
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    });
+
     $scope.filterResList = function (res) {
         if ($scope.filter.filterType === 'USER') {
             if ($scope.filter.agentFilter && $scope.filter.agentFilter.length > 0) {
@@ -194,7 +292,16 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
                     return agent.username === res.resourceName;
                 });
 
-                return !!matchingRecord;
+                var bUnitMatchRec = null;
+
+                if(matchingRecord)
+                {
+                    bUnitMatchRec = $scope.usrList.find(function (usr) {
+                        return usr.username === res.resourceName;
+                    });
+                }
+
+                return !!matchingRecord && !!bUnitMatchRec;
             }
             else {
                 return false;
@@ -218,10 +325,19 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
 
                 if (tempUserArr && tempUserArr.length > 0) {
                     var matchingRecord = tempUserArr.find(function (agent) {
-                        return agent.username === res.resourceName;
+                        return agent.user === res.resourceName;
                     });
 
-                    return !!matchingRecord;
+                    var bUnitMatchRec = null;
+
+                    if(matchingRecord)
+                    {
+                        bUnitMatchRec = $scope.usrList.find(function (usr) {
+                            return usr.username === res.resourceName;
+                        });
+                    }
+
+                    return !!matchingRecord && !!bUnitMatchRec;
                 }
                 else {
                     return false;
@@ -232,7 +348,10 @@ mainApp.controller('AgentSummaryController', function ($scope, $state, $timeout,
             }
         }
         else {
-            return true;
+            var bUnitMatchRec = $scope.usrList.find(function (usr) {
+                return usr.username === res.resourceName;
+            });
+            return !!bUnitMatchRec;
         }
     };
 

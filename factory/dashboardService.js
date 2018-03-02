@@ -4,16 +4,19 @@
 
 'use strict';
 
-mainApp.factory("dashboardService", function ($http, baseUrls) {
+mainApp.factory("dashboardService", function ($http, baseUrls, ShareData) {
 
     var getAllCalls = function () {
-        //dashboard.app.veery.cloud
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/Calls/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/Calls/"+businessUnit+"/5"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -24,13 +27,16 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         });
     };
     var getAllQueued = function () {
-        //dashboard.app.veery.cloud
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/Queued/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/Queued/"+businessUnit+"/5"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -42,13 +48,16 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         });
     };
     var getAllBriged = function () {
-        //dashboard.app.veery.cloud
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/Bridge/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/Bridge/"+businessUnit+"/5"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -59,13 +68,16 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         });
     };
     var getAllChannels = function () {
-        //dashboard.app.veery.cloud
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/Channels/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/Channels/"+businessUnit+"/5"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -79,6 +91,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
 
     var getTotalCalls = function (param1, param2) {
+
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         var tempParam1 = '*';
 
@@ -94,7 +111,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/CALLS/" + tempParam1 + "/" + tempParam2
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/CALLS/" + tempParam1 + "/" + tempParam2
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -110,9 +127,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getNewTicketCountViaChenal = function (chenal) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/NEWTICKET/via_" + chenal + "/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/NEWTICKET/via_" + chenal + "/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -128,11 +150,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalQueued = function () {
-        //
-        //dashboard.app.veery.cloud
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/QUEUE/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/QUEUE/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -148,13 +173,16 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     };
     var getTotalQueueHit = function () {
-        //dashboard.app.veery.cloud
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/AllConcurrentQueued/5"
+            url: baseUrls.dashBordUrl + "DashboardGraph/AllConcurrentQueued/"+businessUnit+"/5"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -166,9 +194,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         });
     };
     var getTotalQueueAnswered = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/QUEUEANSWERED/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/QUEUEANSWERED/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -185,10 +218,13 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalQueueDropped = function () {
-
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/QUEUEDROPPED/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/QUEUEDROPPED/*/*"
 
         }).then(function (response) {
             if (response.data) {
@@ -212,9 +248,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getCurrentWaiting = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/QUEUE/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/"+businessUnit+"/QUEUE/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -229,9 +270,13 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalBriged = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/BRIDGE/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/BRIDGE/*/*"
         }).then(function (response) {
             if (response.data) {
 
@@ -254,9 +299,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getCurrentBridgedCalls = function (param) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/BRIDGE/*/" + param
+            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/"+businessUnit+"/BRIDGE/*/" + param
         }).then(function (response) {
             if (response.data) {
 
@@ -279,6 +329,10 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalOnGoing = function (callDirection) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         var url = baseUrls.monitorrestapi + "Calls/Count";
 
@@ -302,6 +356,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getProfileDetails = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+
         return $http({
             method: 'GET',
             url: baseUrls.ardsmonitoringBaseUrl + "MONITORING/resources"
@@ -319,8 +378,10 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
 
     var getCompanyTasks = function () {
-        //
-        //dashboard.app.veery.cloud
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
             url: baseUrls.resourceServiceBaseUrl + "Tasks"
@@ -338,9 +399,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     /*ticket*/
     var getTicketCount = function (status) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/" + status + "/total/total"
+            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/"+businessUnit+"/" + status + "/total/total"
         }).then(function (response) {
             if (response.status === 200) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -356,9 +422,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalTicketCount = function (status) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
+
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/" + status + "/total/total"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+businessUnit+"/" + status + "/total/total"
         }).then(function (response) {
             if (response.status === 200) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -374,9 +445,13 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalTicketAvg = function (status) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTime/" + status + "/total/total"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTime/"+businessUnit+"/" + status + "/total/total"
         }).then(function (response) {
             if (response.status === 200) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -426,12 +501,16 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
      };*/
 
     var getCreatedTicketSeries = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/NewTicket/30"
+            url: baseUrls.dashBordUrl + "DashboardGraph/NewTicket/"+businessUnit+"/30"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -446,12 +525,16 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
 
     var getResolvedTicketSeries = function (status) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedTicket/30"
+            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedTicket/"+businessUnit+"/30"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result &&response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -465,12 +548,16 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getDeferenceResolvedTicketSeries = function (status) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedVsOpenTicket/30"
+            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedVsOpenTicket/"+businessUnit+"/30"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result &&response.data.Result[0]&& response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -488,10 +575,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     //-----Call Center Performance------------
 
     var getTotalTalkTimeInbound = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/CONNECTED/*/CALLinbound"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/"+businessUnit+"/CONNECTED/*/CALLinbound"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -508,10 +599,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalTalkTimeOutbound = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/CONNECTED/*/CALLoutbound"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/"+businessUnit+"/CONNECTED/*/CALLoutbound"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -528,10 +623,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalBreakTime = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/BREAK/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/"+businessUnit+"/BREAK/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -548,10 +647,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalHoldTime = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/AGENTHOLD/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/"+businessUnit+"/AGENTHOLD/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -568,10 +671,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalStaffTime = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTimeWithCurrentSessions/LOGIN/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTimeWithCurrentSessions/"+businessUnit+"/LOGIN/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -588,10 +695,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalAcwTime = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/AFTERWORK/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalTime/"+businessUnit+"/AFTERWORK/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -608,10 +719,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getAverageStaffTime = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTimePerKeyWithCurrentSessions/LOGIN/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTimePerKeyWithCurrentSessions/"+businessUnit+"/LOGIN/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -628,10 +743,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getAverageAcwTime = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTime/AFTERWORK/*/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageTime/"+businessUnit+"/AFTERWORK/*/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -648,10 +767,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getAverageInboundCallsPerAgent = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageCountPerKey/count/CONNECTED/*/CALLinbound/key/CONNECTED/*/CALLinbound"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageCountPerKey/"+businessUnit+"/count/CONNECTED/*/CALLinbound/key/CONNECTED/*/CALLinbound"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -668,10 +791,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getAverageOutboundCallsPerAgent = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/AverageCountPerKey/count/CALLS/outbound/*/key/CONNECTED/*/CALLoutbound"
+            url: baseUrls.dashBordUrl + "DashboardEvent/AverageCountPerKey/"+businessUnit+"/count/CALLS/outbound/*/key/CONNECTED/*/CALLoutbound"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -688,6 +815,11 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getCallCenterPerformanceHistory = function (startDate, endDate, requestType) {
+
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
@@ -708,10 +840,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
     };
 
     var getTotalLoginAgentCount = function () {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/CountPerKey/LOGIN/*/Register"
+            url: baseUrls.dashBordUrl + "DashboardEvent/CountPerKey/"+businessUnit+"/LOGIN/*/Register"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -727,10 +863,14 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     };
     var getQueueRecordDetails = function (qID) {
+        var businessUnit = "*";
+        if (ShareData.BusinessUnit.toLowerCase() != "all") {
+            businessUnit = ShareData.BusinessUnit;
+        }
 
         return $http({
             method: 'GET',
-            url: baseUrls.resourceServiceBaseUrl + "/QueueSetting/"+qID
+            url: baseUrls.resourceServiceBaseUrl + "/QueueSetting/" + qID
         }).then(function (response) {
             return response
         });
@@ -738,11 +878,18 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
 
     };
 
-
-
-
-
-
+    var productivityByResourceId = function (id) {
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceServiceBaseUrl + id + "/Productivity"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return undefined;
+            }
+        });
+    };
     return {
         GetAll: getAllCalls,
         GetAllQueued: getAllQueued,
@@ -778,6 +925,7 @@ mainApp.factory("dashboardService", function ($http, baseUrls) {
         getCurrentBridgedCalls: getCurrentBridgedCalls,
         GetTotalBreakTime: getTotalBreakTime,
         GetTotalHoldTime: getTotalHoldTime,
-        getQueueRecordDetails:getQueueRecordDetails
+        getQueueRecordDetails: getQueueRecordDetails,
+        ProductivityByResourceId:productivityByResourceId
     }
 });

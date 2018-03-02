@@ -1,6 +1,6 @@
 mainApp.controller("agentStatusController", function ($scope, $state, $filter, $stateParams, $timeout, $log, $http,
                                                       $anchorScroll, agentStatusService, notifiSenderService,
-                                                      reportQueryFilterService, uiGridConstants, $interval) {
+                                                      reportQueryFilterService, ShareData, uiGridConstants, $interval) {
 
     $anchorScroll();
 
@@ -51,6 +51,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
             $scope.productivity = response;
             $scope.isLoading = true;
             calculateProductivity();
+            $scope.SaveReportQueryFilter();
         }, function (error) {
             $log.debug("productivity err");
             $scope.showAlert("Error", "error", "Fail To Get productivity.");
@@ -58,7 +59,30 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         });
     };
     $scope.GetProductivity();
+    /* $scope.loadAllAgents = function () {
+     angular.copy($scope.availableProfile, $scope.profile);
+     }
+     $scope.loadAllAgents();*/
     $scope.showCallDetails = false;
+    $scope.onSelectionChanged = function () {
+
+        if ($scope.filterType == "ALL" || $scope.profile.length == 0) {
+            angular.copy($scope.availableProfile, $scope.profile);
+        }
+        else {
+            $scope.profile = [];
+            $scope.ResourceRemoved(undefined);
+        }
+
+    };
+
+    $scope.getTableHeight = function () {
+        var rowHeight = 30; // your row height
+        var headerHeight = 50; // your header height
+        return {
+            height: (($scope.Productivitys.length + 2) * rowHeight + headerHeight) + "px"
+        };
+    };
 
 
     $scope.gridOptions = {
@@ -100,7 +124,8 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         {
             name: 'LoginTime',
             displayName: 'Login Time',
-            width: 100,
+            cellClass: 'table-time',
+            width: 100
 
         },
         {
@@ -111,63 +136,74 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         {
             name: 'slotStateTime',
             displayName: 'Slot State Time',
+            cellClass: 'table-number',
             width: 100
         },
         {
             name: 'AcwTime',
             displayName: 'ACW Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.AcwTime|secondsToDateTime| date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'BreakTime',
             displayName: 'Break Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.BreakTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'HoldTime',
             displayName: 'Hold Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.HoldTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'OnCallTime',
             displayName: 'OnCall Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.OnCallTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'IdleTime',
             displayName: 'Idle Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.IdleTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'StaffedTime',
             displayName: 'Staffed Time',
             width: 100,
+            cellClass: 'table-time',
             cellTemplate: "<div>{{row.entity.StaffedTime |secondsToDateTime | date:'HH:mm:ss'}}</div>"
         },
         {
             name: 'IncomingCallCount',
             displayName: 'Answered Call Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         },
         {
             name: 'OutgoingCallCount',
             displayName: 'Outgoing Call Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         },
         {
             name: 'MissCallCount',
             displayName: 'Missed Call Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         },
         {
             name: 'OutboundAnswerCount',
             displayName: 'Outgoing Answered Count',
-            width: 100
+            width: 100,
+            cellClass: 'table-number'
         }
 
     ];
@@ -190,7 +226,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     var TimeFormatter = function (seconds) {
 
-        var timeStr = '0:0:0';
+        var timeStr = '00:00:00';
         if (seconds > 0) {
             var durationObj = moment.duration(seconds * 1000);
 
@@ -208,10 +244,11 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
                 if (tempDays > 0) {
 
-                    timeStr = tempDays + 'd ' + durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                    timeStr = tempDays + 'd ' + ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
                 } else {
 
-                    timeStr = durationObj._data.hours + ':' + durationObj._data.minutes + ':' + durationObj._data.seconds;
+                    timeStr = ("00" + durationObj._data.hours).slice(-2) + ':' + ("00" + durationObj._data.minutes).slice(-2) + ':' + ("00" + durationObj._data.seconds).slice(-2);
+                    //(durationObj._data.hours<=9)?('0'+durationObj._data.hours):durationObj._data.hours + ':' + (durationObj._data.minutes<=9)?('0'+durationObj._data.minutes):durationObj._data.minutes  + ':' + (durationObj._data.seconds<=9)?('0'+durationObj._data.seconds):durationObj._data.seconds;
                 }
             }
         }
@@ -223,10 +260,6 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         $scope.Productivitys = [];
         $scope.showCallDetails = false;
         if ($scope.profile) {
-            /*if ($scope.profile.length == 0) {
-             angular.copy($scope.availableProfile, $scope.profile);
-             }*/
-
             angular.forEach($scope.profile, function (agentProfile) {
                 try {
                     var agent = null;
@@ -422,6 +455,12 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                             $scope.Productivitys.push(agentProductivity);
                             console.log($scope.Productivitys);
 
+                            /*for (var i=0; i<10; i++) {
+                             agentProductivity.profileName = agent.ResourceName+i;
+                             agentProductivity.ResourceName = i+ agent.ResourceName+i;
+                             agentProductivity.ResourceId = i + agent.ResourceId+(i*100);
+                             $scope.Productivitys.push(agentProductivity);
+                             }*/
                         }
 
                     }
@@ -442,18 +481,36 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
 
     /*--------------------------- Filter ------------------------------------------*/
     $scope.SaveReportQueryFilter = function () {
+
+        var reportQueryName = 'AgentStatus';
+
+        if(ShareData.BusinessUnit)
+        {
+            reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+        }
         var data = {
             agentMode: $scope.agentMode,
-            profile: $scope.profile
+            profile: $scope.profile,
+            filterType: $scope.filterType
         };
-        reportQueryFilterService.SaveReportQueryFilter("AgentStatus", data);
+        reportQueryFilterService.SaveReportQueryFilter(reportQueryName, data);
     };
 
     $scope.GetReportQueryFilter = function () {
-        reportQueryFilterService.GetReportQueryFilter("AgentStatus").then(function (response) {
+        var reportQueryName = 'AgentStatus';
+
+        if(ShareData.BusinessUnit)
+        {
+            reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+        }
+        reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (response) {
             if (response) {
                 $scope.agentMode = response.agentMode;
                 $scope.profile = response.profile;
+                $scope.filterType = response.filterType;
+                if (!$scope.filterType) {
+                    $scope.filterType = "ALL";
+                }
             }
         }, function (error) {
             console.log(error);
@@ -514,7 +571,34 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
     $scope.GetAvailableProfile = function () {
-        agentStatusService.GetAvailableProfile().then(function (response) {
+        $scope.availableProfile = [];
+
+        ShareData.GetUserByBusinessUnit().then(function (response) {
+            if (response) {
+
+                if(response)
+                {
+                    angular.forEach(response, function(item)
+                    {
+                        if(item.resourceid)
+                        {
+                            var obj = {
+                                ResourceName: item.username,
+                                ResourceId: item.resourceid
+                            };
+                            $scope.availableProfile.push(obj);
+                        }
+                    });
+                }
+            }
+        }, function (error) {
+            $log.debug("GetUserByBusinessUnit err");
+            $scope.showError("Error", "Error", "ok", "There is an error ");
+        });
+
+
+
+        /*agentStatusService.GetAvailableProfile().then(function (response) {
 
             if (response) {
                 $scope.availableProfile = response.map(function (item) {
@@ -525,10 +609,93 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
                 });
             }
 
-        });
+        });*/
     };
+
+    $scope.$watch(function () {
+        return ShareData.BusinessUnit;
+    }, function (newValue, oldValue) {
+        if (newValue.toString().toLowerCase() != oldValue.toString().toLowerCase()) {
+            $scope.isLoading = true;
+            $scope.availableProfile = [];
+
+            ShareData.GetUserByBusinessUnit().then(function (response) {
+                if (response) {
+
+                    if(response && response.length > 0)
+                    {
+                        angular.forEach(response, function(item)
+                        {
+                            if(item.resourceid)
+                            {
+                                var obj = {
+                                    ResourceName: item.username,
+                                    ResourceId: item.resourceid
+                                };
+                                $scope.availableProfile.push(obj);
+                            }
+                        });
+
+                        var reportQueryName = 'AgentStatus';
+
+                        if(ShareData.BusinessUnit)
+                        {
+                            reportQueryName = reportQueryName + ':' + ShareData.BusinessUnit;
+                        }
+                        reportQueryFilterService.GetReportQueryFilter(reportQueryName).then(function (resp) {
+                            if (resp) {
+
+                                $scope.profile = [];
+
+                                angular.forEach(resp.profile, function(prof)
+                                {
+                                    for(i = 0; i < $scope.availableProfile.length; i++)
+                                    {
+                                        if($scope.availableProfile[i].ResourceId === prof.ResourceId)
+                                        {
+                                            $scope.profile.push($scope.availableProfile[i]);
+                                            break;
+                                        }
+
+                                    }
+                                });
+
+                                $scope.agentMode = resp.agentMode;
+                                $scope.filterType = resp.filterType;
+                                if (!$scope.filterType) {
+                                    $scope.filterType = "ALL";
+                                }
+
+                                $scope.GetProductivity();
+                            }
+                            else
+                            {
+                                $scope.isLoading = false;
+                            }
+                        }, function (error) {
+                            console.log(error);
+                            $scope.isLoading = false;
+                        });
+                    }
+                    else
+                    {
+                        $scope.isLoading = false;
+                    }
+                }
+                else
+                {
+                    $scope.isLoading = false;
+                }
+            }, function (error) {
+                $log.debug("GetUserByBusinessUnit err");
+                $scope.showError("Error", "Error", "ok", "There is an error ");
+            });
+
+        }
+    });
     $scope.GetAvailableProfile();
 
+    var getAllRealTimeTimer = null;
     var getAllRealTime = function () {
         $scope.getProfileDetails();
         $scope.GetAllActiveCalls();
@@ -537,7 +704,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
     };
 
     getAllRealTime();
-    var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
+    //var getAllRealTimeTimer = $timeout(getAllRealTime, $scope.refreshTime);
 
 
     $scope.$on("$destroy", function () {
@@ -610,10 +777,9 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         else {
             if ($scope.availableProfile) {
                 var filteredArr = $scope.availableProfile.filter(function (item) {
-                    var regEx = "^(" + query + ")";
 
                     if (item.ResourceName) {
-                        return item.ResourceName.match(regEx);
+                        return item.ResourceName.match(query);
                     }
                     else {
                         return false;
@@ -680,6 +846,7 @@ mainApp.controller("agentStatusController", function ($scope, $state, $filter, $
         if (index > -1) {
             $scope.profile.splice(index, 1);
         }
+        $scope.filterType = "USER";
         $scope.SaveReportQueryFilter();
     };
 

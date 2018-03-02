@@ -25,26 +25,6 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-xs-12">
-                    <div id="frmExtensions"
-                         class="form-group cam-form-grp"
-                         ng-class="{ 'has-error' : campaignFrmStep1.Extensions.$invalid && !campaignFrmStep1.Extensions.$pristine }">
-                        <label for="Extensions" class="cam-label">Extension *</label>
-                        <select class="form-control cam-textbox"
-                                id="Extensions"
-                                ng-model="campaign.Extensions"
-                                name="Extensions"
-                                ng-options="opt as opt for opt in extensions track by opt" required>
-                            <!--<option disabled value='' selected>Select Extensions</option>-->
-                            <option disabled value='' selected></option>
-                        </select>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class="col-lg-12 col-md-12 col-xs-12">
-                <div class="col-lg-6 col-md-6 col-xs-12">
                     <div class="form-group cam-form-grp">
                         <label for="exampleInputEmail1" class="cam-label">Channels *</label>
                         <div class="camp-channel-wrp">
@@ -75,7 +55,29 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 col-md-6 col-xs-12" ng-show="campaign.CampaignChannel=='CALL'">
+
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-xs-12" ng-show="campaign.CampaignChannel=='CALL'">
+
+                <div class="col-lg-6 col-md-6 col-xs-12">
+                    <div id="frmExtensions"
+                         class="form-group cam-form-grp"
+                         ng-class="{ 'has-error' : campaignFrmStep1.Extensions.$invalid && !campaignFrmStep1.Extensions.$pristine }">
+                        <label for="Extensions" class="cam-label">Extension *</label>
+                        <select class="form-control cam-textbox"
+                                id="Extensions"
+                                ng-model="campaign.Extensions"
+                                name="Extensions"
+                                ng-options="opt as opt for opt in extensions track by opt" required>
+                            <!--<option disabled value='' selected>Select Extensions</option>-->
+                            <option disabled value='' selected></option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6 col-md-6 col-xs-12">
                     <div id="frmCampaignMode"
                          class="form-group cam-form-grp"
                          ng-class="{ 'has-error' : campaignFrmStep1.CampaignMode.$invalid &&

@@ -1,17 +1,7 @@
 <section ng-controller="campaignWizardController">
     <section class="cam-wizard-wrapper cam-wizard-wrap-height animated fadeIn">
 
-        <div id="uploadLoaindWizard"
-             class="upload-campaign-status display-none">
-            <div class="upload-status">
-                <h5>Uploading...</h5>
-                <uib-progressbar animate="false"
-                                 class="progress-camp-upload"
-                                 value="numberProgress"
-                                 type="success"><b>{{numberProgress}}%</b>
-                </uib-progressbar>
-            </div>
-        </div>
+
 
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
             <div class="row">
@@ -57,16 +47,30 @@
                                 <div id="numberFour" class="t-line wizard-count active">
                                     4
                                 </div>
+
+                                <div class="number-upload-animation-wrapper">
+                                    <progress-arc
+                                            size="{{ size }}"
+                                            stroke="{{ stroke }}"
+                                            stroke-width="{{ strokeWidth }}"
+                                            complete="numberProgress/100"
+                                            background="{{ background }}"
+                                            counter-clockwise="{{ counterClockwise }}">
+                                    </progress-arc>
+                                </div>
                                 <div class="t-line wizard-desc">
                                     Number <br/> Upload
                                 </div>
                             </li>
                         </ul>
 
+
                     </div>
 
 
                     <div class="wizard-btn-wrapper">
+
+
                         <!-- campaign create -->
                         <ul class="customer-inline" ng-show="step==1">
                             <li>
@@ -203,13 +207,23 @@
 
                         <!-- number upload -->
                         <ul class="customer-inline" ng-show="step=='4'">
-                            <li>
+                            <li ng-show="!uploadButtonValue">
                                 <button class="btn btn-wizard"
+                                        ng-show="OperationalStatus!='start'"
                                         ng-click="wizardBackMove('4')">
                                     <i class="ti-angle-left"></i>
                                     Back
                                 </button>
+
+                                <button class="btn btn-wizard"
+                                        disabled
+                                        ng-show="OperationalStatus=='start'">
+                                    <i class="ti-angle-left"></i>
+                                    Back
+                                </button>
                             </li>
+
+
                             <li>
                                 <button ng-show="!uploadButtonValue"
                                         class="btn btn-wizard"
@@ -217,9 +231,11 @@
                                     Done
 
                                 </button>
+
+
                                 <button class="btn btn-wizard"
                                         ng-show="uploadButtonValue">
-                                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                                    {{numberProgress}}%
                                 </button>
                             </li>
                         </ul>
@@ -238,6 +254,8 @@
                      ng-include="'campaignManager/template/new-campaign/step3.html'"></div>
                 <div ng-if="step==4"
                      ng-include="'campaignManager/template/new-campaign/step4.html'">
+
+
                 </div>
             </div>
 

@@ -8,6 +8,8 @@
     function Service($http, localStorageService, jwtHelper, $auth, baseUrls, $location, $state) {
         var service = {};
         service.mynavigations = mynavigations;
+        service.LoadBusinessUnits = loadBusinessUnits;
+        service.LoadUserByBusinessUnit = loadUserByBusinessUnit;
         service.Login = Login;
         service.clearCookie = clearCookie;
         service.getToken = getToken;
@@ -194,7 +196,6 @@
             });
         }
 
-
         //get my packages
         //http://userservice.app.veery.cloud
         //http://192.168.5.103:3636
@@ -239,6 +240,8 @@
                 callback(false, data.Result);
             });
         }
+
+
 
         //user login in to console
         //get current user navigation
@@ -287,6 +290,33 @@
                     }
                 }
             }
+        };
+
+        function loadBusinessUnits(id) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + "Supervisor/"+id+"/BusinessUnits"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                }
+                return [];
+            });
+
+
+        };
+        function loadUserByBusinessUnit(id) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.UserServiceBaseUrl + "BusinessUnit/"+id+"/Users"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                }
+                return [];
+            });
+
+
         };
     }
 })();

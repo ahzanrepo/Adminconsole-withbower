@@ -1,3 +1,413 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-align-left"></i> Agent Summary
+                    <small>Report</small>
+                </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+
+                    <div class="x_panel">
+
+                        <div class="x_title bottom-gray-200 m-bottom20">
+                            <h4 class="font-robot font-300 text-uppercase font-15">Search option
+                            </h4>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label>Start Date</label>
+                            <input id="startDate" type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()"
+                                   name="startDate"
+                                   datepicker>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>End Date</label>
+                            <input id="endDate" type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
+                                   datepicker>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>Agent</label>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="agentFilter" data-min-length="1" data-html="1"
+                                       data-limit="1000" data-auto-select="true" data-animation="am-flip-x"
+                                       bs-options="agt as agt.ResourceName for agt in querySearch($viewValue)"
+                                       placeholder="Assignee" bs-typeahead>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="x_content btn-wrap-header">
+                                <button type="button" style="position: relative; top: 10px;" class="btn btn-success"
+                                        ng-click="getAgentSummary()" ng-disabled="isTableLoading==0 || !dateValid" >
+                                    Search
+                                </button>
+                                <!--<button type="button" class="btn btn-primary">Reset</button>-->
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div style="position: relative; top: 25px;">
+                                <button ng-disabled="disableDownload" type="button" class="btn"
+                                        style="background-color: #a3d100; color: #000000; font-weight: 500 position: relative; top: 5px;"
+                                        csv-header="['Agent ID', 'Date', 'LoginTime', 'Total Calls(inbound)', 'Total Calls(outbound)'
+                                , 'Total Answered', 'Total Outbound Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Staff Time', 'Inbound Time', 'Outbound Time'
+                                , 'Idle Time(inbound)', 'Idle Time(outbound)', 'Idle Time(offline)', 'Talk Time(inbound)', 'Talk Time(outbound)'
+                                , 'Hold Time(inbound)', 'Hold Time(outbound)', 'After Work Time(inbound)', 'After Work Time(outbound)', 'Break Time'
+                                , 'Average Handling Time(inbound)', 'Average Handling Time(outbound)', 'Average Talk Time(inbound)', 'Average Talk Time(outbound)'
+                                , 'Average Hold Time(inbound)', 'Average Hold Time(outbound)']"
+                                        csv-column-order="['AgentName', 'Date', 'LoginTime', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalAnsweredOutbound', 'TotalHoldInbound'
+                                , 'TotalHoldOutbound', 'StaffTime', 'InboundTime', 'OutboundTime', 'IdleTimeInbound', 'IdleTimeOutbound', 'IdleTimeOffline'
+                                , 'TalkTimeInbound', 'TalkTimeOutbound', 'TotalHoldTimeInbound', 'TotalHoldTimeOutbound', 'AfterWorkTimeInbound', 'AfterWorkTimeOutbound'
+                                , 'BreakTime', 'AverageHandlingTimeInbound', 'AverageHandlingTimeOutbound', 'AvgTalkTimeInbound', 'AvgTalkTimeOutbound', 'AvgHoldTimeInbound'
+                                , 'AvgHoldTimeOutbound']"
+                                        ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv">
+                                    CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-if="isTableLoading==0">
+                        <div class="data-state-wrap">
+                            Please Wait...
+                        </div>
+
+                    </div>
+
+                    <div class="x_panel" ng-if="isTableLoading==1">
+
+                        <div class="x_title bottom-gray-200 m-bottom20">
+                            <h4 class="font-robot font-300 text-uppercase font-15">Agent Productivity Total
+                            </h4>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="widget-dyn">
+                            <div class="widget-dy-wrp " id="stafftime">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Staff Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.StaffTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="idleInbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Inbound Idle Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.InboundIdleTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="idleOutbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Outbound Idle Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.OutboundIdleTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="idleOffline">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Offline Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.OfflineIdleTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="acwInbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Inbound ACW Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.InboundAfterWorkTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="acwOutbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Outbound ACW Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.OutboundAfterWorkTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="avghandletimeInbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Inbound Avg Handling Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.InboundAverageHandlingTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="avghandletimeOutbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Outbound Avg Handling Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.OutboundAverageHandlingTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="talktimeInbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Inbound Talk Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.InboundTalkTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="talktimeOutbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Outbound Talk Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.OutboundTalkTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="holdtimeInbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Inbound Hold Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.InboundHoldTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-dy-wrp " id="holdtimeOutbound">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Outbound Hold Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.OutboundHoldTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="breaktime">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Break Time
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.BreakTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="answered">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Answered Calls
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.Answered}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="outanswered">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Outbound Answered Calls
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.OutboundAnswered}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="inbcalls">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Inbound Calls
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.InboundCalls}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-dy-wrp " id="outcalls">
+                                <div class="active-card">
+                                    <div class="selected-group">
+                                        <i class="ti-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 ">
+                                    <div class="row">
+                                        <div class="w-bg-text text-center ">
+                                            Outbound Calls
+                                        </div>
+                                        <div class="w-bg-text-bg text-center txt-color-b-500 ">
+                                            {{total.OutboundCalls}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!--<div ui-grid="gridQOptions" class="qgrid" ui-grid-move-columns ui-grid-resize-columns ui-grid-pinning></div>-->
+
+                    <div class="x_panel" ng-if="isTableLoading==1" >
+
+                        <div ui-if="gridQOptions.data.length>0" id="grid1" ui-grid="gridQOptions" class="grid" ui-grid-auto-resize ng-style="getTableHeight()"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--
+
+
 <div>
     <div class="page-title">
         <div class="title_left">
@@ -42,7 +452,7 @@
                                 ng-click="getAgentSummary()" ng-disabled="!dateValid">
                             Search
                         </button>
-                        <!--<button type="button" class="btn btn-primary">Reset</button>-->
+                        &lt;!&ndash;<button type="button" class="btn btn-primary">Reset</button>&ndash;&gt;
                     </div>
                 </div>
                 <div class="col-sm-1">
@@ -70,15 +480,7 @@
 
                 <div  ng-if="isTableLoading==1">
                     <div class="x_content">
-                        <!--<div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
-                            <div class="input-group">
-                                <input type="text" ng-model="searchCriteria" class="form-control"
-                                       placeholder="Search for...">
-                                    <span class="input-group-btn">
-                                      <button class="btn btn-default" type="button">Go!</button>
-                                    </span>
-                            </div>
-                        </div>-->
+
 
                         <div class="col-sm-12">
 
@@ -98,10 +500,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Staff Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.StaffTime}}
                                             </div>
                                         </div>
@@ -115,10 +517,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Inbound Idle Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.InboundIdleTime}}
                                             </div>
                                         </div>
@@ -132,10 +534,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Outbound Idle Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.OutboundIdleTime}}
                                             </div>
                                         </div>
@@ -149,10 +551,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Offline Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.OfflineIdleTime}}
                                             </div>
                                         </div>
@@ -166,10 +568,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Inbound ACW Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.InboundAfterWorkTime}}
                                             </div>
                                         </div>
@@ -183,10 +585,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Outbound ACW Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.OutboundAfterWorkTime}}
                                             </div>
                                         </div>
@@ -200,10 +602,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Inbound Avg Handling Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.InboundAverageHandlingTime}}
                                             </div>
                                         </div>
@@ -217,10 +619,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Outbound Avg Handling Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.OutboundAverageHandlingTime}}
                                             </div>
                                         </div>
@@ -234,10 +636,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Inbound Talk Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.InboundTalkTime}}
                                             </div>
                                         </div>
@@ -252,10 +654,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Outbound Talk Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.OutboundTalkTime}}
                                             </div>
                                         </div>
@@ -269,10 +671,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Inbound Hold Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.InboundHoldTime}}
                                             </div>
                                         </div>
@@ -286,10 +688,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Outbound Hold Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.OutboundHoldTime}}
                                             </div>
                                         </div>
@@ -304,10 +706,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Break Time
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.BreakTime}}
                                             </div>
                                         </div>
@@ -322,10 +724,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Answered Calls
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.Answered}}
                                             </div>
                                         </div>
@@ -340,10 +742,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Outbound Answered Calls
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.OutboundAnswered}}
                                             </div>
                                         </div>
@@ -358,10 +760,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Inbound Calls
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.InboundCalls}}
                                             </div>
                                         </div>
@@ -376,10 +778,10 @@
                                     </div>
                                     <div class="col-xs-12 ">
                                         <div class="row">
-                                            <div class="w-bg-text text-left ">
+                                            <div class="w-bg-text text-center ">
                                                 Outbound Calls
                                             </div>
-                                            <div class="w-bg-text-bg text-left txt-color-b-500 ">
+                                            <div class="w-bg-text-bg text-center txt-color-b-500 ">
                                                 {{total.OutboundCalls}}
                                             </div>
                                         </div>
@@ -391,7 +793,7 @@
 
                         <br><br><br>
 
-                        <div id="datatable-responsive_wrapper"
+                        &lt;!&ndash;<div id="datatable-responsive_wrapper"
                              class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -563,8 +965,9 @@
                             </div>
 
 
-                        </div>
+                        </div>&ndash;&gt;
 
+                        <div ui-grid="gridQOptions" class="qgrid" ui-grid-move-columns ui-grid-resize-columns ui-grid-pinning></div>
 
                     </div>
                 </div>
@@ -595,5 +998,6 @@
 <div class="row" >
 
 </div>
+-->
 
 

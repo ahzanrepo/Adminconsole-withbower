@@ -40,6 +40,7 @@
                         <form class="form-horizontal form-label-left input_mask"  name="queueedit">
 
                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                <label class="form-control-static">Queue Name</label>
                                 <input type="text" class="form-control has-feedback-left"
                                        placeholder="Queue Name"
                                        ng-model="setting.QueueName" required>
@@ -47,6 +48,7 @@
                             </div>
 
                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                <label class="form-control-static">Max Wait Time</label>
                                 <input type="number" class="form-control has-feedback-left"
                                        placeholder="Max Wait Time"
                                        ng-model="setting.MaxWaitTime" required min="0">
@@ -54,16 +56,18 @@
                             </div>
 
                             <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                <label class="form-control-static">Call Abandoned Threshold</label>
                                 <input type="number" class="form-control has-feedback-left"
                                        placeholder="Call Abandoned Threshold"
                                        ng-model="setting.CallAbandonedThreshold" required min="0">
                                 <span class="form-control-feedback left" aria-hidden="true">sec</span>
                             </div>
-                            <div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback">
-                                <h5>Publish Position</h5>
-                            </div>
-                            <div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback">
+                            <!--<div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback">
 
+
+                            </div>-->
+                            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                                <label class="form-control-static">Publish Position</label>
                                 <div style="padding-top: 5px">
                                     <switch id="enabled" name="enabled" ng-model="setting.PublishPosition" class="green pull-left"  disabled="disableSwitch"></switch>
                                 </div>
@@ -71,7 +75,7 @@
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
 
-
+                                <label class="form-control-static">Combinations</label>
                                 <tags-input ng-model="assignedAttributes" display-property="Attribute"
                                             add-from-autocomplete-only="true" on-tag-added="onChipAdd($tag)"
                                             on-tag-removed="onChipDelete($tag)" ng-disabled="true" min-length="1" required>
