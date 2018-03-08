@@ -1,0 +1,40 @@
+{
+  "name": "angucomplete-jwl",
+  "version": "0.0.13",
+  "homepage": "http://julianwielga.github.io/angucomplete-jwl",
+  "authors": [
+    "Julian Wielga"
+  ],
+  "description": "Awesome Autocompleteness for AngularJS",
+  "keywords": [
+    "autocomplete",
+    "typeahead",
+    "angularjs"
+  ],
+  "license": "MIT",
+  "main": "./angucomplete-alt.js",
+  "ignore": [
+    "example",
+    "bower_components",
+    "node_modules",
+    "**/.*",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": ">=1.2.0"
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.2.0",
+    "jquery": "~2.1.0"
+  },
+  "_release": "0.0.13",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.13",
+    "commit": "b67afec31f1ff43dfe36be6e79c0066f04bc9bf2"
+  },
+  "_source": "https://github.com/JulianWielga/angucomplete-jwl.git",
+  "_target": "^0.0.13",
+  "_originalSource": "angucomplete-jwl"
+}
